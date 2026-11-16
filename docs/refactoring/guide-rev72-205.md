@@ -67,3 +67,19 @@ F3 finale: 1.201 file; 987 differenze non ammesse, tutte nella Wiki, nessuna fuo
 Restano fuori dalla selezione le tre prove infrastrutturali ElasticPile.Checks, BridgeValidationCurrent ed ElasticPile.Performance, oltre alla prova opzionale baseline/banco-ca senza CheckerFixtures. Nessuna di queste era fra le 67 suite Rev71 conservate. Straus7Native.Checks ha percorso il ramo senza campioni: zero controlli nativi; nessun nativo Straus7/MIDAS eseguito.
 
 Integrità finale: 1.887 file protetti invariati; 16 originali Rev71 con hash verificati; articolo Rev01 invariato. Per mantenere il clone sotto 5 GB, gli artefatti completi della prima CI sono conservati in `CX/retained/205/ci/20261116-002050-guide-rev72-205`; riepiloghi e rinvio restano nella posizione originale. Le prime bozze Rev72 sono conservate in `CX/retained/205/pre-lint`. Nessuna evidenza eliminata. La copia CI specifica del compito viene conservata fuori dal repository dopo l’esecuzione; differisce dal runner solo per i due argomenti di build prescritti. Nessun push, tag, pubblicazione o installer.
+
+## Compito 207 — chiarimenti sul copriferro, 16 novembre 2026
+
+Recepite R1/R2 della rilettura G209 sulla base documentale `99b715ae`, senza modificare il comportamento 1.19.1. Il controllo sceglie tutte le schede Materiali del primo livello che ne contiene, dal progetto verso il foglio; l’esito positivo non copre automaticamente requisiti locali più severi. Una scheda senza dati non abilita la ricerca in basso: il ciclo prosegue solo sul gruppo scelto. Nessuna anticipazione dell’avviso P10 e nessuna modifica numerica.
+
+- Pratica: 140 → 140 pagine; 1407 frammenti e 9 formule modificabili verificati. Pagine fisiche con immagine diversa: 2–3, 18–27; testo R1/R2 alla pagina 18.
+- Teorica: 214 → 214 pagine; 2556 frammenti e 1579 formule modificabili verificati. Pagine fisiche con immagine diversa: 2–3, 27–43; testo R1/R2 alla pagina 27.
+- Corsa mirata: 2 build e 4 suite PASS; unico NEW-FAIL `ui/f3-equivalence`, interamente Wiki: 993 differenze non ammesse, 567 nuove voci e 426 precedenti superate. Nessuna differenza non ammessa fuori dalla Wiki.
+
+Rigenerazione con la pipeline ITEC invariata, aggiornamento campi Word, audit, VerifyFinal e rendering Poppler. Cinque sezioni e 26 parti del modello preservate per guida. Controllate visivamente tutte le pagine con immagini diverse; le altre coincidono con quelle verificate nel 205. Tutti i 1.887 file protetti, i 16 originali Rev71, le figure e l’articolo Rev01 sono invariati.
+
+Verificati Wiki.Tests, indice, manuale e Wiki offscreen; F3 è eseguito solo per misurare il delta. La proposta aggiornata e il confronto con quella del 205 sono in `chatgpt-compiti/evidenze-207`, non applicati al registro congelato. `Get-InstallerGuides` valida Rev72 e i quattro PDF: la suite completa `installer/guides` non è eseguita perché crea, installa e disinstalla un eseguibile di prova, incompatibile con i vincoli «nessun installer, nessuna copia» del 207. Non viene dichiarata PASS.
+
+Consegna, SHA e testo futuro P10 nella sezione Compito 207 di `chatgpt-compiti/guide-rev72-205.md`. Un solo commit documentale; nessun push, tag o rilascio.
+
+Anomalia dell’indice Git: alle 02:18:56 è cambiato il file `.git/index`, nella fascia vietata. Il timestamp coincide con il controllo `git diff --stat` / `--check` lanciato con `GIT_OPTIONAL_LOCKS=0`; un refresh automatico è la causa probabile, senza tracciamento indipendente del processo scrivente. Le 5.980 voci dell’indice hanno tutti gli stessi identificatori oggetto e modi di HEAD: nessun contenuto in stage, HEAD, riferimenti, log e configurazione invariati. Il controllo preliminare ha fermato il commit prima dello stage; verificata la natura della variazione, il commit è stato eseguito dopo le 02:45. L’aggiornamento dell’indice resta registrato come eccezione al vincolo, non come sua piena osservanza. Evidenza: `chatgpt-compiti/evidenze-207/git-index-refresh-exception.json`.

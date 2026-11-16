@@ -1,5 +1,11 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Guide Rev72 — compito 207, 16 novembre 2026
+
+- [x] R1/R2 sul controllo del copriferro recepite in pratica, teoria, Word/PDF e Wiki; nessun avviso P10 anticipato.
+- [x] Pipeline ITEC, audit e revisione visiva ripetuti; controlli mirati completati. [Esiti](guide-rev72-205.md#compito-207--chiarimenti-sul-copriferro-16-novembre-2026).
+- [ ] Transizioni F3 aggiornate ancora da approvare: 567 nuove voci e 426 precedenti superate; riferimenti congelati invariati.
+
 ## Guide Rev72 — compito 205, 15–16 novembre 2026
 
 Base 191b `3120a64d`, ANTHEA 1.19.1 sul set AW; ramo `codex/205-guide-rev72`. [Verbale e riscontri](guide-rev72-205.md).

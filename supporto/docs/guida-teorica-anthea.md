@@ -339,6 +339,8 @@ Il ramo NTC utilizza tre livelli di severità. Il valore tabellare di base è (1
 
 Come esempio del ramo NTC, XF2, fck = 30 MPa, elemento non a piastra, vita 50 anni, barra 16 mm, aggregato 20 mm e Δcdev = 10 mm danno 45 mm nominali senza riduzione di qualità. Se si passa a vita 100 anni, lo stesso caso dà 55 mm. I valori sono esempi riproducibili del codice NtcCover, utili per controllare l'input.
 
+Il controllo di progetto del copriferro applica questi requisiti alle schede Materiali del primo livello che ne contiene, percorrendo la gerarchia dal progetto alla sezione del foglio. La selezione riguarda l'intero gruppo, prima della validazione dei dati; non combina i requisiti dei livelli successivi. Un esito **RISPETTATO** riguarda il riferimento selezionato e le barre effettive controllate, non eventuali condizioni locali più severe, da verificare separatamente. Un Materiali senza dati produce **non verificabile**; il controllo continua sulle altre schede del gruppo scelto, senza passare a un livello inferiore.
+
 ## Palo verticale
 
 ### Geometria e tensioni geostatiche

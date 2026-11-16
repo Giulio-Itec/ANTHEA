@@ -187,7 +187,9 @@ Quando si confermano o si salvano modifiche a un riferimento, le proprietà comp
 
 Prima di produrre un report di progetto aprire il riepilogo Controlli e Dati comuni. Un avviso sul copriferro o un conflitto non è necessariamente un errore numerico, ma richiede una decisione esplicita. La condivisione non deve essere confusa con una sincronizzazione universale di ogni campo: gli adattatori dei moduli preservano unità, forme ammesse e significato delle proprietà.
 
-Una scheda Materiali vuota non blocca l'apertura o i controlli della copertina: il controllo del copriferro riporta **non verificabile** per quella scheda e continua con le altre schede Materiali applicabili. Si usano le schede del livello di competenza, eventualmente ereditate dai livelli superiori secondo le regole del progetto; la scheda vuota non viene completata né considerata verificata.
+Nel controllo del copriferro ANTHEA cerca dal progetto verso la sezione del foglio e usa tutte le schede Materiali del primo livello che ne contiene, senza includere quelle dei livelli inferiori. **RISPETTATO** vale per il Materiali indicato nel messaggio e le barre effettive considerate: non garantisce il rispetto di un requisito locale più severo. Controllare il riferimento usato e la sua posizione nel progetto; se le condizioni locali differiscono, confrontare anche il copriferro adottato con il minimo richiesto per quelle condizioni.
+
+Se una scheda del livello selezionato è vuota o priva dei dati necessari, il controllo del copriferro riporta **non verificabile** e prosegue con le altre schede Materiali dello stesso livello. Non cerca un riferimento valido nei livelli inferiori: completare la scheda e ricontrollare.
 
 ### Spostare duplicare e annullare
 
