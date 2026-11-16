@@ -96,7 +96,7 @@ public static class ProjectValidation
             var input = wall ? RetainingWall.MaterialSectionInput(data) : data[sheet.S("modulo_id") == "str_palo" ? "input" : "sezione"]?.DeepClone() as JsonObject
                 ?? throw new ArgumentException("dati della sezione mancanti o non validi");
             if (sheet.S("modulo_id") == PaloOrizzontale.Module)
-            { input["shape"] = "Circolare"; input["diameter_mm"] = data["generali"].D("diametro") * 1000; }
+            { input["shape"] = "Circolare"; input["diameter_mm"] = sheet["dati"]!["generali"].D("diametro") * 1000; }
             ConcreteCoverResult check;
             if (wall)
             {
