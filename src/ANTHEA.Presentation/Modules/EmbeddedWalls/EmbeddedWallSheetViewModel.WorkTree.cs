@@ -103,7 +103,7 @@ public sealed partial class EmbeddedWallSheetViewModel
                 represented.Add(row);
                 var node = Node(row, title,
                     string.Join(Environment.NewLine, table.Columns.Where(f => !string.IsNullOrWhiteSpace(row[f.Key]))
-                        .Select(f => f.Label + ": " + (f.Choices is null ? row[f.Key] : EmbeddedWallDisplay.Choice(f.Key, row[f.Key])) + (string.IsNullOrEmpty(f.Unit) ? "" : " " + f.Unit))));
+                        .Select(f => f.Label + ": " + EmbeddedWallDisplay.Field(f, row[f.Key]) + (string.IsNullOrEmpty(f.Unit) ? "" : " " + f.Unit))));
                 node.TableKey = table.Key; node.Row = row;
                 if (EmbeddedWallDocument.HistoryTables.Contains(table.Key))
                 {

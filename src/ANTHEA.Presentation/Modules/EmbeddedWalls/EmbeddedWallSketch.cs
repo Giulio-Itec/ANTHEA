@@ -167,8 +167,7 @@ public sealed record EmbeddedWallSketch(
     /// <summary>The data of a row as its table shows them: title of the table, then every assigned field with its unit (contract C7). The numbers
     /// as typed; a choice written in English with its Italian label (the row keeps the value).</summary>
     public static string Detail(EmbeddedWallTable table, EmbeddedWallRow row) => "«" + table.Title + "»" + Environment.NewLine + string.Join(Environment.NewLine,
-        table.Columns.Where(f => !string.IsNullOrWhiteSpace(row[f.Key])).Select(f => f.Label + ": "
-            + (f.Bool ? (row[f.Key] == "true" ? "sì" : row[f.Key] == "false" ? "no" : row[f.Key]) : f.Choices is null ? row[f.Key] : EmbeddedWallDisplay.Choice(f.Key, row[f.Key]))
+        table.Columns.Where(f => !string.IsNullOrWhiteSpace(row[f.Key])).Select(f => f.Label + ": " + EmbeddedWallDisplay.Field(f, row[f.Key])
             + (string.IsNullOrEmpty(f.Unit) ? "" : " " + f.Unit)));
 
     /// <summary>A length of «Sfilamento dei tiranti», null when missing or not a number (the checks report their own data).</summary>

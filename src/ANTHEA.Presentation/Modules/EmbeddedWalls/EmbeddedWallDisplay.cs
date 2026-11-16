@@ -8,7 +8,8 @@ namespace Anthea.Presentation.Modules.EmbeddedWalls;
 /// <para>Numbers: the rule of <see cref="Forms.NumericDisplay"/> of ANTHEA (fixed point, at most a few decimals, no negative zero, the
 /// culture of the application, that is the decimal separator chosen in «Aspetto»), with the decimals of the quantity instead of the two of
 /// every field: quotes in m 3 (mm), displacements in mm 2, rotations in rad 5, forces, moments, pressures and loads 2, MPa 3, angles 2,
-/// pure numbers (utilisations, factors, gradients) 3, flows in L/s/m 4, filtration velocities in m/s 10. A value that rounds to zero at
+/// pure numbers (utilisations, factors, gradients) 3, flows in L/s/m 4; permeabilities and velocities in m/s as a power of ten (1,5·10⁻⁷);
+/// in the tables of the results fixed decimals with the final zeros (approved on 16/11). A value that rounds to zero at
 /// that precision (the noise of the solver, 4,25E-10 kNm) shows 0, never «-0»; no exponential notation. Missing values show «—».</para>
 /// <para>Terms: the values of the results and the choices of the forms written in English (Below, Anchor, PermanentStructural…) show an
 /// Italian label; the value kept stays the same.</para>
@@ -32,15 +33,57 @@ public static class EmbeddedWallDisplay
         _ => 3
     };
 
-    /// <summary>A number with the decimals of its unit (<see cref="Decimals"/>).</summary>
-    public static string Number(double? value, string? unit) => value is double v ? Number(v, Decimals(unit)) : Missing;
+    /// <summary>
+    /// A number with the decimals of its unit (<see cref="Decimals"/>). In the tables of the results (<paramref name="table"/>, approved on 16/11)
+    /// the decimals are fixed, with the final zeros (110,90 next to 111,09); elsewhere the rule of ANTHEA drops them. A velocity or permeability in
+    /// m/s shows as a power of ten (<see cref="Scientific"/>).
+    /// </summary>
+    public static string Number(double? value, string? unit, bool table = false) =>
+        value is not double v ? Missing : (unit ?? "").Trim() == "m/s" ? Scientific(v) : Number(v, Decimals(unit), table);
 
-    /// <summary>A number with at most <paramref name="decimals"/> decimals in the culture of the application; zero when it rounds to zero.</summary>
-    public static string Number(double value, int decimals)
+    /// <summary>A number with at most (or, in a table, exactly) <paramref name="decimals"/> decimals in the culture of the application; zero when
+    /// it rounds to zero, never «-0».</summary>
+    public static string Number(double value, int decimals, bool table = false)
     {
         if (!double.IsFinite(value)) return Missing;
-        double rounded = Math.Round(value, Math.Clamp(decimals, 0, 15), MidpointRounding.AwayFromZero);
-        return rounded == 0 ? "0" : rounded.ToString(decimals <= 0 ? "0" : "0." + new string('#', decimals), CultureInfo.CurrentCulture);
+        int places = Math.Clamp(decimals, 0, 15);
+        double rounded = Math.Round(value, places, MidpointRounding.AwayFromZero);
+        string format = places == 0 ? "0" : "0." + new string(table ? '0' : '#', places);
+        return rounded == 0 ? (table ? 0d.ToString(format, CultureInfo.CurrentCulture) : "0") : rounded.ToString(format, CultureInfo.CurrentCulture);
+    }
+
+    /// <summary>
+    /// A value in m/s (permeability, filtration velocity) as a power of ten: mantissa with two significant digits, «·10» and the exponent in
+    /// superscript, the decimal separator of the application (1,5·10⁻⁷, approved on 16/11). Zero shows 0, a missing value «—».
+    /// </summary>
+    public static string Scientific(double? value)
+    {
+        if (value is not double v || !double.IsFinite(v)) return Missing;
+        if (v == 0) return "0";
+        string text = v.ToString("0.0E+0", CultureInfo.InvariantCulture);
+        int mark = text.IndexOf('E');
+        string mantissa = text[..mark].Replace(".", CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, StringComparison.Ordinal);
+        string exponent = text[(mark + 1)..].TrimStart('+');
+        return exponent == "0" ? mantissa : mantissa + "·10" + new string(exponent.Select(c => Superscript(c)).ToArray());
+    }
+
+    private static char Superscript(char c) => c switch
+    {
+        '-' => '⁻', '0' => '⁰', '1' => '¹', '2' => '²', '3' => '³', '4' => '⁴', '5' => '⁵', '6' => '⁶', '7' => '⁷', '8' => '⁸', '9' => '⁹', _ => c
+    };
+
+    /// <summary>
+    /// The value of a field of a form as the hints, the tree and the table «Dati e fasi» show it: a boolean as sì/no, a choice with its Italian
+    /// label, a number in m/s (the permeabilities) as a power of ten; any other text as typed. The document keeps the value.
+    /// </summary>
+    public static string Field(Forms.FieldSpec field, string value)
+    {
+        ArgumentNullException.ThrowIfNull(field);
+        if (field.Bool) return value == "true" ? "sì" : value == "false" ? "no" : value;
+        if (field.Choices is not null) return Choice(field.Key, value);
+        if (field.Unit == "m/s" && double.TryParse(value.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double number))
+            return Scientific(number);
+        return value;
     }
 
     /// <summary>The unit of a quantity of the diagrams («Momento [kNm]» → kNm), empty without brackets.</summary>

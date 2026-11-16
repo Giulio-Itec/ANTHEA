@@ -28,7 +28,7 @@ internal static partial class EmbeddedWallChecks
                 [
                     (4.25419E-10, "kNm", "0"), (-5.55112E-17, "kN/m", "0"), (-3.13861E-05, "m", "0"), (-0.017358, "m", "-0" + s + "017"),
                     (111.089, "mm", "111" + s + "09"), (0.000903893, "kN", "0"), (0.0117187, "kN", "0" + s + "01"), (-153.58, "kNm", "-153" + s + "58"),
-                    (1631.474, "kN", "1631" + s + "47"), (0.00123456, "rad", "0" + s + "00123"), (1.5E-07, "m/s", "0" + s + "00000015"),
+                    (1631.474, "kN", "1631" + s + "47"), (0.00123456, "rad", "0" + s + "00123"), (1.5E-07, "m/s", "1" + s + "5·10⁻⁷"),
                     (0.61534, "-", "0" + s + "615"), (0.61534, "", "0" + s + "615"), (1.25, "MPa", "1" + s + "25"), (0.01534, "L/s/m", "0" + s + "0153"),
                     (32.0, "°", "32"), (18.5, "kN/m³", "18" + s + "5"), (null, "m", EmbeddedWallDisplay.Missing), (double.NaN, "kN", EmbeddedWallDisplay.Missing),
                     (-0.004, "mm", "0"), (1E+21, "kN", "1000000000000000000000"),
@@ -41,6 +41,31 @@ internal static partial class EmbeddedWallChecks
                 }
                 e.That(EmbeddedWallSketch.Format(-4.25, "m") == "-4" + s + "25" && EmbeddedWallSketch.Format(15, "kPa") == "15",
                     "Cifre: il disegno non usa la regola del modulo o il separatore scelto.");
+                // Approved on 16/11: tables with fixed decimals and the final zeros; m/s as a power of ten (1,5·10⁻⁷) everywhere.
+                (double? Value, string Unit, string Text)[] table =
+                [
+                    (110.9, "mm", "110" + s + "90"), (111.089, "mm", "111" + s + "09"), (0d, "kN", "0" + s + "00"), (-0.004, "mm", "0" + s + "00"),
+                    (-4.25419E-10, "kNm", "0" + s + "00"), (0.6, "-", "0" + s + "600"), (-3.0, "m", "-3" + s + "000"), (null, "m", EmbeddedWallDisplay.Missing),
+                    (1.5E-07, "m/s", "1" + s + "5·10⁻⁷"), (0d, "m/s", "0"),
+                ];
+                foreach (var (value, unit, text) in table)
+                {
+                    string shown = EmbeddedWallDisplay.Number(value, unit, table: true);
+                    e.That(shown == text, $"Cifre in tabella ({choice}): {value?.ToString("R", CultureInfo.InvariantCulture)} {unit} mostrato «{shown}» invece di «{text}».");
+                }
+                (double? Value, string Text)[] powers =
+                [
+                    (1E-05, "1" + s + "0·10⁻⁵"), (-2.345E-06, "-2" + s + "3·10⁻⁶"), (9.96E-08, "1" + s + "0·10⁻⁷"), (3.2, "3" + s + "2"),
+                    (1200d, "1" + s + "2·10³"), (0d, "0"), (null, EmbeddedWallDisplay.Missing), (double.PositiveInfinity, EmbeddedWallDisplay.Missing),
+                ];
+                foreach (var (value, text) in powers)
+                    e.That(EmbeddedWallDisplay.Scientific(value) == text, $"Cifre ({choice}): potenza di dieci di {value} «{EmbeddedWallDisplay.Scientific(value)}» invece di «{text}».");
+                var kxx = EmbeddedWallFields.Columns("hydraulic_left").Single(f => f.Key == "kxx");
+                var permanent = EmbeddedWallFields.Columns("anchor_checks").Single(f => f.Key == "permanent");
+                var kind = EmbeddedWallFields.Columns("supports").Single(f => f.Key == "kind");
+                e.That(EmbeddedWallDisplay.Field(kxx, "1E-05") == "1" + s + "0·10⁻⁵" && EmbeddedWallDisplay.Field(kxx, "0,00002") == "2" + s + "0·10⁻⁵"
+                    && EmbeddedWallDisplay.Field(kxx, "da definire") == "da definire" && EmbeddedWallDisplay.Field(permanent, "true") == "sì"
+                    && EmbeddedWallDisplay.Field(kind, "Anchor") == "Tirante", "Cifre: valori dei campi nei riquadri e nella tabella dei dati errati.");
             }
             CultureInfo.CurrentCulture = NumberSeparators.Culture(DecimalSeparatorChoice.Comma, CultureInfo.GetCultureInfo("it-IT"));
             e.That(EmbeddedWallDisplay.UnitOf("Momento [kNm]") == "kNm" && EmbeddedWallDisplay.UnitOf("Rotazione [rad]") == "rad" && EmbeddedWallDisplay.UnitOf("Senza") == "",

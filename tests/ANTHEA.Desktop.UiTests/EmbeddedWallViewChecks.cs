@@ -164,6 +164,8 @@ internal static partial class EmbeddedWallViewChecks
             Check(ReferenceEquals(field.Field, sheet.SelectedHydraulicStage), "Campo idraulico non associato al risultato corrente.");
             sheet.HydraulicDiagram = "Pressione interstiziale [kPa]"; Appearance.Set(AppAppearance.Dark, false); await Settle(); Capture("pressioni-scuro");
             Appearance.Set(AppAppearance.Light, false);
+            // Cifre significative, after the approval of 16/11: nodes with fixed decimals, velocities and permeabilities as a power of ten.
+            await CheckSeepageDigits(editor.View, sheet, Settle, Check, Capture);
             Show(EmbeddedWallDocuments.HydraulicChecks); await Settle(); Capture("upl-hyd");
             Check(sheet.HydraulicChecks.Count == 2 && sheet.HydraulicChecks[0].Demand == 16.5 && sheet.HydraulicChecks[0].Capacity == 18,
                 "Bilancio UPL non mostrato nella vista.");

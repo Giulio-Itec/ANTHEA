@@ -11,10 +11,13 @@ namespace X.Desktop.Views.EmbeddedWalls;
 /// </summary>
 internal sealed class EmbeddedWallNumberConverter : IValueConverter, IMultiValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => EmbeddedWallDisplay.Number(Value(value), parameter as string);
+    /// <summary>A column of a table of the results: fixed decimals with the final zeros (approved on 16/11).</summary>
+    public bool Table { get; set; }
+
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => EmbeddedWallDisplay.Number(Value(value), parameter as string, Table);
 
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture) =>
-        EmbeddedWallDisplay.Number(values.Length > 0 ? Value(values[0]) : null, values.Length > 1 ? values[1] as string : parameter as string);
+        EmbeddedWallDisplay.Number(values.Length > 0 ? Value(values[0]) : null, values.Length > 1 ? values[1] as string : parameter as string, Table);
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 
@@ -39,10 +42,11 @@ internal sealed class EmbeddedWallTermConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
 
-/// <summary>The label of the value of a choice field in the cells of the table «Dati e fasi» (<see cref="EmbeddedWallDisplay.Choice"/>).</summary>
-internal sealed class EmbeddedWallChoiceConverter(string key) : IValueConverter
+/// <summary>The value of a field in the cells of the table «Dati e fasi» (<see cref="EmbeddedWallDisplay.Field"/>): the label of a choice,
+/// a permeability in m/s as a power of ten; other texts as typed.</summary>
+internal sealed class EmbeddedWallFieldConverter(Anthea.Presentation.Forms.FieldSpec field) : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => EmbeddedWallDisplay.Choice(key, value as string ?? "");
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture) => EmbeddedWallDisplay.Field(field, value as string ?? "");
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => Binding.DoNothing;
 }
