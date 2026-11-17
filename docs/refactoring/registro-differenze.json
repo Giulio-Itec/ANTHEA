@@ -15513,6 +15513,31 @@
       "wiki": "Indice della Wiki rigenerato con le guide Rev72; nessuna guida autonoma nuova."
     },
     {
+      "id": "GUIDE-REV73-20261117",
+      "data": "2026-11-17",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.2)",
+      "titolo": "Guide Rev73 della 1.19.2: transizioni editoriali della pagina Wiki dei Modelli",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide Rev73: capitolo «Modelli e importazione da MIDAS» della guida pratica per i rilievi R1–R10 del modulo Modelli, riga dell'edizione «ANTHEA 1.19.2» ed esempio di Annulla con il nome neutro «Esempio». La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) sulla candidata 829f852b dava 260 differenze non ammesse, tutte nei due file della pagina modelli-importazione-midas; la ricerca è invariata. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«Sì, approvo» (OK alle transizioni F3 della pagina Wiki dei Modelli).",
+        "esito": "138 transizioni editoriali esatte aggiunte (riga-aggiunta 132, testo 6) e 122 precedenti superate; registro 3480 → 3496 voci; numero degli articoli invariato (94)."
+      },
+      "effetto_quantificato": "Guide: pratica 142 pagine, teorica 214. Wiki: 94 capitoli. F3: 260 → 0 differenze non ammesse dopo l'applicazione.",
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev73 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261117-084353-candidata-1192-829f852b/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/gpc-f6-claude/INT/rapporti/modelli-guida-20261117.md",
+        "Repository/gpc-f6-claude/INT/rapporti/guide-1192-edizioni-20261117.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev73; nessuna guida autonoma nuova."
+    },
+    {
       "id": "UI-STRATIGRAFIA-TABELLA-20261116",
       "data": "2026-11-16",
       "famiglia": "Stratigrafia standalone e anteprima importazione",
