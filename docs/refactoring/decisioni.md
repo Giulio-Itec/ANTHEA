@@ -1,10 +1,38 @@
 # Refactoring di ANTHEA: decisioni
 
+## 17 novembre (sera) — scheda del 16/11 e separatore decimale, per la 1.19.4
+
+L'utente il 17/11 alle 20:50: «ok per tutte le voci» di `gpc-f6-claude/INT/decisioni-aperte-20261117.md` (fuori dal repository), con il
+dettaglio delle scelte senza consiglio nel piano di passaggio del coordinatore. Per ANTHEA valgono i blocchi D2 (voce 7, scheda delle
+decisioni del 16/11) e D3 (voce 12h, separatore decimale e report delle paratie):
+
+- **Stratificato del palo orizzontale: A + C.** Broms resta predefinito; quando lo Stratificato governa un palo corto o intermedio in
+  terreno granulare, foglio e relazione mostrano accanto Hu di Broms e il rapporto (registro `PO-BROMS-01`, GPCChecker.Geotechnics 0.30).
+- **R16, torsione nel profilo danese:** variante (b2), ogni termine con il suo fattore, e limite ν ≥ 2/√fck del DK NA:2024 (p. 30),
+  che alza la resistenza a torsione (C90 +20,5 %). GPCChecker.Concrete 0.39; nessun effetto su ANTHEA, che fa la torsione solo con NTC
+  (registro `R16`, «seguito_20261117»).
+- **R16, foro ad anello e fori eccentrici:** un foro con almeno tanti vertici quanti il contorno è un anello (i cerchi cavi di ANTHEA a
+  12 lati restano anelli, bit per bit); i fori non concentrici sono rifiutati e un foro poligonale con meno di 16 lati è «non supportato».
+  GPCChecker.Concrete 0.39; nessuna cattura di ANTHEA cambia.
+- **R17:** riscontrato sul testo il 1/11, OK.
+- **Acciaio V1:** l'esclusione automatica delle ali con c/t ≤ 14ε (criterio GPC, automatica dal 28/10) è ratificata. ANTHEA non
+  distribuisce GPCModelChecker: nessun effetto.
+- **Paratie:** A2 (conferma della storia di progetto, `PARATIE-22`), A3 (quote e falda copiate, `PARATIE-23`), A4 (avviso della prima fase
+  non geostatica, `PARATIE-24`) e S3 (passo della faccia tesa, con GPC.Design 0.47 del set AZ). Esempio 06 confermato come 04 e 05,
+  conferma dello sfilamento dei tiranti separata, provenienza degli esempi 04–06 nel catalogo (B6). S3 sui muri di sostegno più avanti.
+- **R9:** a dicembre.
+- **Voce 12h, domande 1–7:** 1, i due attesi di Presentation.Tests «-0,98» e «3,20» approvati; 3, N/mm³ come potenza di dieci (γw
+  «9,8·10⁻⁶»); 5, i numeri salvati come numeri JSON mostrati nei campi con il separatore scelto, senza arrotondare e senza cambiare il
+  dato; 6, nei «Dati assegnati» del report delle paratie tutte le cifre degli ingressi con la virgola, m/s come potenza di dieci; 7, mm² e
+  mm⁴ senza decimali. Le domande 2 (caselle del visore dei modelli) e 4 (separatore scelto nei disegni e nelle presentazioni a schermo)
+  sono passi a parte.
+- Le spunte della sezione «15 novembre» sono approvate con la scheda.
+
 ## 15 novembre — Hansen chiuso e voci del piano superate (scheda del 16/11)
 
 Annotazioni preparate il 15/11 sera dalla scheda delle decisioni di lunedì 16/11 (`gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md`,
-fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Sono **in attesa dell'ok dell'utente**:
-se lunedì una voce non va bene, la spunta si toglie.
+fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Approvate dall'utente il 17/11 («ok per
+tutte le voci», sezione «17 novembre (sera)»).
 
 - **Hansen con carico inclinato** (29/10 mattina, punto 2): chiuso il 5/11. Q1 attuato in Checker `f424383b` (Geotechnics 0.28.0.0,
   direzione di L′ solo con H_L > 0); Q2 e Q3 restano come nel manuale. Del punto 2 resta aperto solo il confronto dello Stratificato
