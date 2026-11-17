@@ -46,7 +46,8 @@
         <WrapPanel><Button Content="Tutti" Command="{Binding SelectAllImportCasesCommand}"/><Button Content="Nessuno" Command="{Binding ClearImportCasesCommand}" Margin="4,0,0,0"/></WrapPanel>
         <ListBox ItemsSource="{Binding ImportCases}" MaxHeight="160" MinHeight="45" Margin="0,4,0,8" Background="{DynamicResource AppearanceSurface}" Foreground="{DynamicResource AppearanceInk}" BorderBrush="{DynamicResource AppearanceBorder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Casi statici da importare">
           <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/><Setter Property="Background" Value="Transparent"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="5,3"/></Style></ListBox.ItemContainerStyle>
-          <ListBox.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ListBox.ItemTemplate>
+          <!-- 17/11/2026: the names of the source as they are, «Q_A» and not «QA» (a TextBlock, not the AccessText of the CheckBox template), here and in the stages below. -->
+          <ListBox.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Name}"/></CheckBox></DataTemplate></ListBox.ItemTemplate>
         </ListBox>
         <Expander Header="Fasi costruttive · stage" Visibility="{Binding HasImportStages, Converter={StaticResource Visible}}" IsExpanded="True" Margin="0,5,0,10">
           <StackPanel Margin="0,8,0,0">
@@ -57,14 +58,14 @@
                 <ItemsControl ItemsSource="{Binding ImportStages}"><ItemsControl.ItemTemplate><DataTemplate>
                   <Border BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1" Padding="0,4,0,7">
                     <StackPanel>
-                      <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanRead}"/>
+                      <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanRead}"><TextBlock Text="{Binding Label}"/></CheckBox>
                       <TextBox Text="{Binding StepsText, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsSelected}" Margin="20,4,0,0" AutomationProperties.Name="Passi stage da importare" ToolTip="Etichette dei passi separate da ;"/>
                     </StackPanel>
                   </Border>
                 </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
               </ScrollViewer>
               <TextBlock Text="Casi di risultato degli stage" FontWeight="SemiBold" Margin="0,8,0,4"/>
-              <ItemsControl ItemsSource="{Binding ImportStageCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+              <ItemsControl ItemsSource="{Binding ImportStageCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Name}"/></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
               <TextBlock Text="Riferimento degli spostamenti" Margin="0,8,0,4"/>
               <ComboBox ItemsSource="{Binding StageDisplacementReferences}" SelectedItem="{Binding ImportDisplacementReference}" IsEnabled="{Binding ImportDisplacements}" AutomationProperties.Name="Riferimento spostamenti stage"/>
               <TextBlock Text="{Binding ImportStageReferenceHelp}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,4,0,7"/>

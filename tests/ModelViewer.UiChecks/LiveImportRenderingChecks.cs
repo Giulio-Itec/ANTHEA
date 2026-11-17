@@ -72,6 +72,7 @@ static partial class Program
         Check(Children<TextBox>(panel).Any(t=>AutomationProperties.GetName(t)=="Modello Straus ST7" && t.IsVisible) && !vm.ImportCommand.CanExecute(null), "Straus preparation displays native file settings with import explicitly unavailable");
         CapturePage(host,Path.Combine(output,"importazione-straus-predisposizione.png"));
         host.Close(); state.SelectedImportSource = 0; SetAppearance("Light");
+        SourceNameRenderingChecks();
         var staged = Sample.Model(); staged.Version = 2;
         var sourceResult = staged.Results[0];
         staged.Results = new[] { "Getto", "Completamento" }.Select((phase, index) => {
