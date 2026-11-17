@@ -15806,6 +15806,22 @@
         "Nativo sul file Straus7 dell'utente con due freedom case (copia in sola lettura fuori dal repository): 15 casi su 15 selezionabili, 31 combinazioni con nomi unici, reazioni presenti"
       ],
       "evidenze": []
+    },
+    {
+      "id": "MOD-FC-REV-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Revisione di MOD-FC-AY-20261117: riepilogo dei freedom case secondo il catalogo, nomi con «_» interi nelle caselle, casi del catalogo Straus7 costruiti in ModelWorkspace",
+      "famiglia": "modelli/straus7/interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Rilievi P2–P4 e note N1–N4 della revisione indipendente del 17/11 sul ramo dei freedom case. P2: il riepilogo del controllo Straus7 tiene sempre la riga dei freedom case del modello (con i casi di carico che l'analisi statica lineare risolve sotto ciascuno), e il resto segue il catalogo: la frase su «· FC n» solo se un caso ha il freedom case (altrimenti che i nomi del file non lo indicano), reazioni del solutore e controllo di equilibrio di GPC solo per risultati statici lineari con casi selezionabili, per un .nla che i casi sono per fase e incremento senza controllo di equilibrio, senza file dei risultati niente su casi e reazioni, vincoli e molle conservati solo con l'avviso Straus7FreedomCasesPreserved. Prima il testo descriveva sempre una soluzione lineare con più freedom case e attribuiva il controllo di equilibrio al solutore. P4 (in main dalla 1.19.2 sul nome del caso, qui sull'etichetta): le caselle che mostrano un nome del modello o della sorgente (casi, fasi e casi degli stage del pannello di importazione; casi e viste salvate del report) hanno un TextBlock come contenuto, quindi il primo «_» non è più preso come tasto di scelta rapida («Q_A» si vedeva «QA», e Alt+A spuntava la casella); il modello della CheckBox non cambia. P3: la costruzione dei casi del catalogo passa dal worker a Strand7Snapshot.LinearCases, con lo stesso codice. N1: l'accoppiamento con l'elenco del convertitore controlla anche il numero di ogni caso. N2: un motivo sconosciuto del convertitore non prende un secondo punto. N3: numeri sintetici nella prova del catalogo. N4: commento superato di UnmappedResultCases. P1: il ramo è ricomposto sopra main con messaggi neutri (1.19.3). Restano D1–D3.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs (FreedomCasesSummary, elenco dei casi esclusi), src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml, ModelReportView.xaml, ModelViewerStyles.xaml (commento), src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs (LinearCases), Strand7ImportSetup.cs (Strand7LinearCases), src/ANTHEA.Strand7Worker/Program.cs (Inspect)",
+      "test": [
+        "ModelWorkspace.Checks: FreedomCaseCatalogChecks (riepilogo per soluzione lineare con due freedom case, .nla, nessun file dei risultati, un solo freedom case risolto, solo casi esclusi; numero del caso di risultato diverso da quello del caso di carico; un solo punto dopo un motivo sconosciuto)",
+        "ModelWorkspace.Checks: FreedomCaseConverterChecks (Strand7Snapshot.LinearCases sul vero Straus7LinearStaticResults.Cases di GPC.Converter 2.24, senza Straus7: Model GPC sintetico con i dati dei freedom case, sei motivi del convertitore tradotti, stessa mappa di CaseMap, caso 3 chiesto al worker per «2: Q · FC 2»)",
+        "ModelViewer.LiveImport.UiChecks: SourceNameRenderingChecks («Q_A», «E_L+», «Fase_1», «Stage_A» e «SLE_QP» si vedono interi; una casella con un testo come contenuto mostra ancora «QA»)"
+      ],
+      "evidenze": []
     }
   ]
 }
