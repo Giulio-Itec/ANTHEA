@@ -49,14 +49,6 @@
       "steel_diagramma": "Elastoplastico",
       "gettato_sottile": "No",
       "staffe_presenti": "Sì",
-      "second_top_enabled": false,
-      "second_top_count": "2",
-      "second_top_diameter": "20",
-      "second_top_gap": "25",
-      "second_bottom_enabled": false,
-      "second_bottom_count": "2",
-      "second_bottom_diameter": "20",
-      "second_bottom_gap": "25",
       "second_inner_enabled": false,
       "second_inner_count": "8",
       "second_inner_diameter": "20",
@@ -66,7 +58,7 @@
     "combinazioni": {
       "SLU": [
         {
-          "id": "97a118a6f4214ded94375b2d0b0b8f08",
+          "id": "99284fdee1b949aabf875e4fa4ee97b5",
           "nome": "Sollecitazione SLU",
           "azioni": [
             "-1500",
@@ -83,7 +75,7 @@
       "SLV": [],
       "SLE": [
         {
-          "id": "82285cb15eec4bd8b84db133dc94555d",
+          "id": "3e2145b4713f422db3c96195f44d6dbd",
           "nome": "Metodo n",
           "azioni": [
             "-1100",
@@ -392,7 +384,21 @@
       "titolo": "Palo Ø800 · metodo n",
       "metodo": "Metodo n",
       "flessione": "Retta",
-      "grafico": "Momento–curvatura"
+      "grafico": "Momento–curvatura",
+      "strati": [
+        {
+          "posizione": "Sopra",
+          "d": "",
+          "n": "4",
+          "phi": "20"
+        },
+        {
+          "posizione": "Sotto",
+          "d": "",
+          "n": "6",
+          "phi": "24"
+        }
+      ]
     }
   }
 }

@@ -7,9 +7,11 @@
 <UserControl x:Class="X.Desktop.Views.QuickSection.QuickSectionSheetView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation"
+ xmlns:concrete="clr-namespace:X.Desktop.Views.ConcreteSection"
  Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}">
  <UserControl.Resources>
   <BooleanToVisibilityConverter x:Key="Visibility"/>
+  <concrete:PresentShownConverter x:Key="Present"/>
   <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
   <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
    <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="HorizontalAlignment" Value="Center"/>
@@ -87,17 +89,61 @@
   <!-- Data of the section. -->
   <StackPanel Grid.Row="1">
    <GroupBox Header="Geometria" Style="{StaticResource Box}">
-    <ItemsControl ItemsSource="{Binding GeometryForm.Fields}" ItemTemplate="{StaticResource Cell}" Focusable="False">
-     <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-    </ItemsControl>
+    <StackPanel Orientation="Horizontal">
+     <ItemsControl ItemsSource="{Binding GeometryForm.Fields}" ItemTemplate="{StaticResource Cell}" Focusable="False">
+      <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+     </ItemsControl>
+     <Button Content="?" Command="{Binding CoverHelpCommand}" Width="20" Height="20" Padding="0" Margin="0,14,0,0" VerticalAlignment="Top"
+      FontWeight="SemiBold" ToolTip="Che cosa misura il copriferro c" AutomationProperties.Name="Spiegazione del copriferro c"/>
+    </StackPanel>
    </GroupBox>
-   <GroupBox Header="Armature" Style="{StaticResource Box}" ToolTip="Barre disposte dal motore della sezione in c.a., con copriferro e staffe">
+   <GroupBox Header="Armature" Style="{StaticResource Box}">
     <StackPanel>
-     <Grid>
+     <StackPanel Orientation="Horizontal">
+      <TextBlock Text="Staffe Ø [mm]" FontWeight="Normal" Margin="0,0,8,0" ToolTip="Diametro delle staffe"/>
+      <ContentControl Content="{Binding StirrupField}" Style="{StaticResource Editor}" Width="60"/>
+     </StackPanel>
+     <!-- Layers of bars: rectangular and flanged sections. -->
+     <StackPanel>
+      <StackPanel.Style>
+       <Style TargetType="StackPanel"><Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
+      </StackPanel.Style>
+      <Grid Margin="0,4,0,0">
+       <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="104"/><ColumnDefinition Width="64"/><ColumnDefinition Width="52"/><ColumnDefinition Width="58"/><ColumnDefinition Width="26"/></Grid.ColumnDefinitions>
+       <TextBlock Grid.Column="1" Text="Posizione" Style="{StaticResource Caption}" FontWeight="Normal"/>
+       <TextBlock Grid.Column="2" Text="d [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza dell'asse delle barre dal bordo superiore (solo «Da sopra»)"/>
+       <TextBlock Grid.Column="3" Text="n" Style="{StaticResource Caption}" FontWeight="Normal"/>
+       <TextBlock Grid.Column="4" Text="Ø [mm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
+      </Grid>
+      <ItemsControl ItemsSource="{Binding LayerRows}" Focusable="False">
+       <ItemsControl.ItemTemplate>
+        <DataTemplate>
+         <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="104"/><ColumnDefinition Width="64"/><ColumnDefinition Width="52"/><ColumnDefinition Width="58"/><ColumnDefinition Width="26"/></Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Title}" FontWeight="Normal"/>
+          <ComboBox Grid.Column="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding Position}" IsEnabled="{Binding CanEdit}" Margin="1" FontWeight="Normal"
+           ToolTip="Sopra e Sotto: a copriferro + staffa dal bordo; Da sopra: alla distanza d dal bordo superiore"/>
+          <TextBox Grid.Column="2" Text="{Binding Distance}" IsEnabled="{Binding UsesDistance}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
+           Background="{DynamicResource Token.Field.Background}" ToolTip="Distanza dell'asse delle barre dal bordo superiore"/>
+          <TextBox Grid.Column="3" Text="{Binding Count}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
+           Background="{DynamicResource Token.Field.Background}" ToolTip="Numero delle barre dello strato"/>
+          <TextBox Grid.Column="4" Text="{Binding Diameter}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
+           Background="{DynamicResource Token.Field.Background}" ToolTip="Diametro delle barre dello strato"/>
+          <Button Grid.Column="5" Content="✕" Command="{Binding RemoveCommand}" Margin="2,1,0,1" Padding="0" FontWeight="Normal" ToolTip="Togli lo strato"
+           AutomationProperties.Name="Togli lo strato"/>
+         </Grid>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <Button Content="+ Aggiungi strato" Command="{Binding AddLayerCommand}" HorizontalAlignment="Left" Margin="0,4,0,0" Padding="8,1" FontWeight="Normal"/>
+     </StackPanel>
+     <!-- Rings of the circular section. -->
+     <StackPanel Visibility="{Binding IsCircular, Converter={StaticResource Visibility}}">
+     <Grid Margin="0,4,0,0">
       <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
       <TextBlock Grid.Column="2" Text="n" Style="{StaticResource Caption}" FontWeight="Normal"/>
       <TextBlock Grid.Column="3" Text="Ø [mm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
-      <TextBlock Grid.Column="4" Text="s [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza libera dalla prima fila"/>
+      <TextBlock Grid.Column="4" Text="s [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza libera dal primo anello"/>
      </Grid>
      <ItemsControl ItemsSource="{Binding BarRows}" Focusable="False">
       <ItemsControl.ItemTemplate>
@@ -113,6 +159,7 @@
        </DataTemplate>
       </ItemsControl.ItemTemplate>
      </ItemsControl>
+     </StackPanel>
     </StackPanel>
    </GroupBox>
    <GroupBox Header="Sollecitazioni" Style="{StaticResource Box}" ToolTip="N negativo a compressione">
@@ -151,7 +198,17 @@
        <DataTemplate><ContentControl Content="{Binding}" Style="{StaticResource Editor}" Margin="0,0,10,3"/></DataTemplate>
       </ItemsControl.ItemTemplate>
      </ItemsControl>
-     <ItemsControl ItemsSource="{Binding MaterialValues}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
+     <!-- The values of the engine in a compact line: «fcd 19,83 MPa · fyd 391,30 MPa · …». -->
+     <ItemsControl ItemsSource="{Binding MaterialValues}" Focusable="False" Margin="0,2,0,0">
+      <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <TextBlock FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" Margin="0,0,10,1">
+         <Run Text="{Binding Label, Mode=OneWay}"/> <Run Text="{Binding Value, Mode=OneWay}" Foreground="{DynamicResource Token.Ink}"/> <Run Text="{Binding Unit, Mode=OneWay}"/>
+        </TextBlock>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
     </StackPanel>
    </GroupBox>
   </StackPanel>
@@ -162,14 +219,43 @@
    <GroupBox Header="Calcolo" Style="{StaticResource Box}">
     <Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-     <TextBlock Text="Metodo" FontWeight="Normal" Margin="0,0,6,0"/>
-     <ComboBox Grid.Column="1" ItemsSource="{Binding Methods}" SelectedItem="{Binding Method}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" ToolTip="SLU con momento positivo o negativo, oppure tensioni con il metodo n"/>
-     <TextBlock Grid.Column="2" Text="Flessione" FontWeight="Normal" Margin="12,0,6,0"/>
-     <ComboBox Grid.Column="3" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" ToolTip="Retta: My non è usato"/>
+     <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+     <TextBlock Text="Verifica" FontWeight="Normal" Margin="0,0,6,3"/>
+     <ComboBox Grid.Column="1" ItemsSource="{Binding Methods}" SelectedItem="{Binding Method}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" Margin="0,0,0,3"
+      ToolTip="SLU a momento positivo o negativo, oppure tensioni con il metodo n"/>
+     <TextBlock Grid.Column="2" Text="Modello" FontWeight="Normal" Margin="12,0,6,3"/>
+     <ComboBox Grid.Column="3" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" Margin="0,0,0,3"
+      ToolTip="Verifica SLU plastica o elastica: il modello resistente della sezione in c.a."/>
+     <TextBlock Grid.Row="1" Text="Flessione" FontWeight="Normal" Margin="0,0,6,0"/>
+     <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" ToolTip="Retta: My non è usato"/>
     </Grid>
    </GroupBox>
    <GroupBox Grid.Row="1" Header="Risultati" Style="{StaticResource Box}">
     <StackPanel>
+     <!-- The main outcome in evidence: the design resisting moment (or the stresses of the method n), η and the outcome, the behaviour. -->
+     <Border BorderBrush="{DynamicResource Token.Accent}" BorderThickness="1" CornerRadius="4" Padding="8,4" Margin="0,0,0,4" Visibility="{Binding Summary, Converter={StaticResource Present}}">
+      <StackPanel>
+       <TextBlock Text="{Binding Summary.Title}" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" TextWrapping="Wrap"/>
+       <TextBlock Text="{Binding Summary.Value}" FontSize="20" FontWeight="SemiBold" TextWrapping="Wrap"/>
+       <TextBlock Text="{Binding Summary.Detail}" FontWeight="Normal" TextWrapping="Wrap"/>
+       <Border Padding="6,1" Margin="0,3,0,0" CornerRadius="3" HorizontalAlignment="Left" Visibility="{Binding IsDuctile, Converter={StaticResource Present}}">
+        <Border.Style>
+         <Style TargetType="Border">
+          <Setter Property="Background" Value="{DynamicResource Token.Warning.Background}"/>
+          <Style.Triggers><DataTrigger Binding="{Binding IsDuctile}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Badge.Ok}"/></DataTrigger></Style.Triggers>
+         </Style>
+        </Border.Style>
+        <TextBlock Text="{Binding Summary.Behaviour}" TextWrapping="Wrap">
+         <TextBlock.Style>
+          <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+           <Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/>
+           <Style.Triggers><DataTrigger Binding="{Binding IsDuctile}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger></Style.Triggers>
+          </Style>
+         </TextBlock.Style>
+        </TextBlock>
+       </Border>
+      </StackPanel>
+     </Border>
      <TextBlock Text="{Binding Status}" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" TextWrapping="Wrap" Margin="0,0,0,2"/>
      <ItemsControl ItemsSource="{Binding ResultValues}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
      <ItemsControl ItemsSource="{Binding Errors}" Focusable="False">

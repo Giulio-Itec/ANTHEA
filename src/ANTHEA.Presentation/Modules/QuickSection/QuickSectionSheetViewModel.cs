@@ -5,31 +5,70 @@ using Anthea.Application.Modules;
 using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Mvvm;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.QuickSection;
 
-/// <summary>A row of the table of the bars of the quick section: the switch of a second layer, number, diameter and clear distance (null when the row has none).</summary>
+/// <summary>A row of the table of the rings of the circular section: the switch of the second ring, number, diameter and clear distance (null when the row has none).</summary>
 public sealed record QuickBarRow(string Title, FieldViewModel? Enabled, FieldViewModel Count, FieldViewModel Diameter, FieldViewModel? Gap);
 
 /// <summary>A row of the table of the actions of the quick section: N, Mx and My.</summary>
 public sealed record QuickActionRow(string Title, FieldViewModel N, FieldViewModel Mx, FieldViewModel My);
+
+/// <summary>
+/// A layer of bars of the quick section (rectangular and flanged sections): position (top, bottom, at a distance from the top), distance d, number
+/// and diameter, as texts of the document. Every change is an edit of the sheet; the bars are arranged by <see cref="ConcreteQuickSection.ApplyLayers"/>.
+/// </summary>
+public sealed class QuickLayerRow : ObservableObject
+{
+    private readonly QuickSectionSheetViewModel owner;
+    private readonly JsonObject layer;
+
+    internal QuickLayerRow(QuickSectionSheetViewModel owner, int index, JsonObject layer, bool canEdit, IRelayCommand remove)
+    {
+        this.owner = owner; this.layer = layer; Index = index; CanEdit = canEdit; RemoveCommand = remove;
+    }
+
+    public int Index { get; }
+    public string Title => (Index + 1).ToString(System.Globalization.CultureInfo.CurrentCulture);
+    public bool CanEdit { get; }
+    public bool IsReadOnly => !CanEdit;
+    public IReadOnlyList<string> Positions => ConcreteQuickSection.LayerPositions;
+    public string Position { get => layer.S("posizione"); set => Write("posizione", value); }
+    public string Distance { get => layer.S("d"); set => Write("d", value); }
+    public string Count { get => layer.S("n"); set => Write("n", value); }
+    public string Diameter { get => layer.S("phi"); set => Write("phi", value); }
+    /// <summary>The distance d is used only by the layer «Da sopra».</summary>
+    public bool UsesDistance => Position == ConcreteQuickSection.LayerPositions[2];
+    public IRelayCommand RemoveCommand { get; }
+
+    private void Write(string key, string? value, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
+    {
+        if (value is not null && value != layer.S(key)) owner.EditLayer(Index, key, value);
+        OnPropertyChanged(property);
+        if (key == "posizione") OnPropertyChanged(nameof(UsesDistance));
+    }
+}
 
 /// <summary>The quick RC section (17/11/2026): a simplified interface on the engine of the RC section, without a report of its own.</summary>
 public sealed class QuickSectionSheetModule : ISheetModule
 {
     public ModuleInfo Info => ModuleDirectory.Get(ConcreteQuickSection.Module);
     public ModuleHelp Help => ModuleHelp.For(Info.Id);
-    /// <summary>The choices of the view (title, method, bending, chart) are data of the sheet, in <see cref="ConcreteQuickSection.ViewKey"/>.</summary>
+    /// <summary>The choices of the view (title, method, bending, chart, layers) are data of the sheet, in <see cref="ConcreteQuickSection.ViewKey"/>.</summary>
     public ModulePersistence Persistence { get; } = new([ConcreteQuickSection.ViewKey]);
     public ModuleReportCapabilities Reports { get; } = new(false);
     public ISheetViewModel CreateSheet(SheetContext context) => new QuickSectionSheetViewModel(context);
 }
 
 /// <summary>
-/// The sheet of the quick RC section, on one page: shape and dimensions, bars, materials, the ultimate action and the action of the method n, the
-/// method (SLU+, SLU−, method n), the bending (straight or biaxial) and the chart (domain or moment–curvature). The data have the format of the RC
-/// section; the calculation is the service of the module (<see cref="ConcreteQuickSectionService"/>), which calls the engine of the RC section after
-/// every edit, with the delay of the other sheets. The ViewModel computes nothing: the values come from <see cref="ConcreteQuickSection"/>.
+/// The sheet of the quick RC section, on one page: shape and dimensions, layers of bars (rings for the circular section) with the links, materials, the
+/// ultimate action and the action of the method n, the check (positive or negative moment, method n), the resistance model (plastic, elastic), the
+/// bending (straight or biaxial) and the drawing area (section, domain or moment–curvature). The data have the format of the RC section; the
+/// calculation is the service of the module (<see cref="ConcreteQuickSectionService"/>), which calls the engine of the RC section after every edit,
+/// with the delay of the other sheets. The ViewModel computes nothing: the values come from <see cref="ConcreteQuickSection"/>.
 /// </summary>
 public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 {
@@ -40,11 +79,14 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     private bool building;
     private ConcreteGeometry? section;
     private string drawingMessage = "";
+    private bool showSection = true;
 
     public QuickSectionSheetViewModel(SheetContext context) : base(ConcreteQuickSection.Module, context, RecalculationDelay)
     {
         ConcreteQuickSection.Validate(Data);
         Report = new NoReport();
+        AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
+        CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
         BuildForms();
         RefreshDrawing();
         // As Spectra: the sheet calculates at opening, without modifying the document; after an edit the automatic recalculation follows.
@@ -59,7 +101,10 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     // ---------------------------------------------------------------- choices
 
     public IReadOnlyList<string> Shapes => ConcreteQuickSection.Shapes;
-    public IReadOnlyList<string> Methods => ConcreteQuickSection.Methods;
+    /// <summary>The checks on screen: positive moment, negative moment (the SLU), method n.</summary>
+    public IReadOnlyList<string> Methods => ConcreteQuickSection.MethodLabels;
+    /// <summary>The resistance models on screen: plastic, elastic.</summary>
+    public IReadOnlyList<string> Models => ConcreteQuickSection.ModelLabels;
     public IReadOnlyList<string> Bendings => ConcreteQuickSection.Bendings;
     public IReadOnlyList<string> Charts => ConcreteQuickSection.Charts;
 
@@ -69,13 +114,32 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         get => Input.S("shape");
         set
         {
-            if (value is null || value == Shape || !Shapes.Contains(value) || !Edit(d => d["input"]!["shape"] = value)) { OnPropertyChanged(); return; }
-            BuildForms(); RefreshDrawing(); OnPropertyChanged();
+            if (value is null || value == Shape || !Shapes.Contains(value)
+                || !Edit(d => { d["input"]!["shape"] = value; ConcreteQuickSection.ApplyLayers(d); })) { OnPropertyChanged(); return; }
+            BuildForms(); RefreshDrawing(); AddLayerCommand.NotifyCanExecuteChanged(); OnPropertyChanged();
         }
     }
 
-    /// <summary>SLU+, SLU− or method n.</summary>
-    public string Method { get => View.S("metodo"); set => Choose("metodo", value, Methods); }
+    public bool IsCircular => Shape == ConcreteQuickSection.Shapes[2];
+
+    /// <summary>The check: «Momento positivo», «Momento negativo» or «Metodo n» (codes SLU+, SLU−, Metodo n in the document).</summary>
+    public string Method
+    {
+        get => ConcreteQuickSection.MethodLabel(View.S("metodo"));
+        set => Choose("metodo", ConcreteQuickSection.Methods.ElementAtOrDefault(ConcreteQuickSection.MethodLabels.IndexOf(value)), ConcreteQuickSection.Methods);
+    }
+
+    /// <summary>The resistance model of the ultimate check: «Plastica» or «Elastica», written where the RC section reads it.</summary>
+    public string Model
+    {
+        get => ConcreteQuickSection.ModelLabel(ConcreteQuickSection.Model(Data));
+        set
+        {
+            string? model = ConcreteQuickSection.Models.ElementAtOrDefault(ConcreteQuickSection.ModelLabels.IndexOf(value));
+            if (model is not null && model != ConcreteQuickSection.Model(Data)) Edit(d => ConcreteQuickSection.WriteModel(d, model));
+            OnPropertyChanged();
+        }
+    }
 
     /// <summary>Straight or biaxial bending: with the straight one My is not used.</summary>
     public string Bending
@@ -84,7 +148,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         set { if (Choose("flessione", value, Bendings)) BuildForms(); }
     }
 
-    /// <summary>The chart under the results: the 2D domain or the moment–curvature.</summary>
+    /// <summary>The chart of the drawing area: the 2D domain or the moment–curvature.</summary>
     public string Chart { get => View.S("grafico"); set => Choose("grafico", value, Charts); }
 
     /// <summary>The title of the sheet.</summary>
@@ -116,10 +180,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>True when the drawing area shows the section.</summary>
     public bool ShowsSection => showSection;
 
-    private bool showSection = true;
-
     public bool IsStraight => Bending == ConcreteQuickSection.Bendings[0];
-    public bool IsServiceMethod => Method == ConcreteQuickSection.Methods[2];
+    public bool IsServiceMethod => View.S("metodo") == ConcreteQuickSection.Methods[2];
     public bool ShowsDomain => Chart == ConcreteQuickSection.Charts[0];
 
     private bool Choose(string key, string? value, IReadOnlyList<string> choices, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
@@ -137,13 +199,26 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     public FormViewModel GeometryForm { get; private set; } = null!;
     public FormViewModel BarsForm { get; private set; } = null!;
+    public FormViewModel StirrupForm { get; private set; } = null!;
     public FormViewModel MaterialsForm { get; private set; } = null!;
     public FormViewModel UltimateForm { get; private set; } = null!;
     public FormViewModel ServiceForm { get; private set; } = null!;
-    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, MaterialsForm, UltimateForm, ServiceForm }.Where(f => f is not null);
+    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, UltimateForm, ServiceForm }.Where(f => f is not null);
 
-    /// <summary>The rows of the table of the bars: title, switch of the layer (second layers), number, diameter, clear distance from the first layer.</summary>
+    /// <summary>The diameter of the links, with the bars.</summary>
+    public FieldViewModel StirrupField => StirrupForm["transverse_bar_diameter_mm"];
+
+    /// <summary>The rings of the circular section (ring, second ring).</summary>
     public IReadOnlyList<QuickBarRow> BarRows { get; private set; } = [];
+
+    /// <summary>The layers of bars of the rectangular and flanged sections.</summary>
+    public IReadOnlyList<QuickLayerRow> LayerRows { get; private set; } = [];
+
+    /// <summary>«+»: a new layer of bars.</summary>
+    public IRelayCommand AddLayerCommand { get; }
+
+    /// <summary>«?» of the cover: the window that explains what c measures.</summary>
+    public IRelayCommand CoverHelpCommand { get; }
 
     /// <summary>The rows of the table of the actions: the ultimate action and the action of the method n.</summary>
     public IReadOnlyList<QuickActionRow> ActionRows { get; private set; } = [];
@@ -163,42 +238,27 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         try
         {
             string shape = Shape;
-            var cover = new[] { T("cover_mm", "c", "mm", "Copriferro"), T("transverse_bar_diameter_mm", "Ø st.", "mm", "Diametro delle staffe") };
+            var cover = T("cover_mm", "c", "mm", "Copriferro netto della staffa: dal bordo alla faccia esterna della staffa");
             GeometryForm = Form(Input, shape switch
             {
-                "Circolare" => new[] { T("diameter_mm", "D", "mm", "Diametro della sezione") }.Concat(cover),
-                "A T" => new[] { T("flange_width_mm", "B ala", "mm", "Larghezza dell'ala"), T("flange_thickness_mm", "s ala", "mm", "Spessore dell'ala"),
-                    T("web_width_mm", "b anima", "mm", "Larghezza dell'anima"), T("height_mm", "h", "mm", "Altezza totale") }.Concat(cover),
-                _ => new[] { T("width_mm", "b", "mm", "Base"), T("height_mm", "h", "mm", "Altezza") }.Concat(cover)
+                "Circolare" => [T("diameter_mm", "D", "mm", "Diametro della sezione"), cover],
+                "A T" => [T("flange_width_mm", "B ala", "mm", "Larghezza dell'ala"), T("flange_thickness_mm", "s ala", "mm", "Spessore dell'ala"),
+                    T("web_width_mm", "b anima", "mm", "Larghezza dell'anima"), T("height_mm", "h", "mm", "Altezza totale"), cover],
+                _ => new[] { T("width_mm", "b", "mm", "Base"), T("height_mm", "h", "mm", "Altezza"), cover }
             }, InputEdited);
+            StirrupForm = Form(Input, [T("transverse_bar_diameter_mm", "Ø staffe", "mm", "Diametro delle staffe")], InputEdited);
             FieldSpec BarCount(string key, string tip) => T(key, "n", "", tip);
             FieldSpec BarDiameter(string key, string tip) => T(key, "Ø", "mm", tip);
-            FieldSpec BarGap(string key, string tip) => T(key, "s", "mm", tip);
-            BarsForm = Form(Input, shape switch
-            {
-                "Circolare" => [BarCount("longitudinal_bar_count", "Barre sull'anello"), BarDiameter("longitudinal_bar_diameter_mm", "Diametro delle barre"),
+            BarsForm = Form(Input, shape == ConcreteQuickSection.Shapes[2]
+                ? [BarCount("longitudinal_bar_count", "Barre sull'anello"), BarDiameter("longitudinal_bar_diameter_mm", "Diametro delle barre"),
                     B("second_inner_enabled", "Secondo anello"), BarCount("second_inner_count", "Barre del secondo anello"), BarDiameter("second_inner_diameter", "Diametro del secondo anello"),
-                    BarGap("second_inner_gap", "Distanza libera fra gli anelli")],
-                "A T" => [BarCount("top_bar_count", "Barre superiori"), BarDiameter("top_bar_diameter_mm", "Diametro superiori"), BarCount("bottom_bar_count", "Barre inferiori"),
-                    BarDiameter("bottom_bar_diameter_mm", "Diametro inferiori"), BarCount("side_bar_count_per_side", "Barre laterali per lato"), BarDiameter("side_bar_diameter_mm", "Diametro laterali")],
-                _ => [BarCount("top_bar_count", "Barre superiori"), BarDiameter("top_bar_diameter_mm", "Diametro superiori"), B("second_top_enabled", "Seconda fila superiore"),
-                    BarCount("second_top_count", "Barre della seconda fila superiore"), BarDiameter("second_top_diameter", "Diametro della seconda fila superiore"), BarGap("second_top_gap", "Distanza libera dalla prima fila superiore"),
-                    BarCount("bottom_bar_count", "Barre inferiori"), BarDiameter("bottom_bar_diameter_mm", "Diametro inferiori"), B("second_bottom_enabled", "Seconda fila inferiore"),
-                    BarCount("second_bottom_count", "Barre della seconda fila inferiore"), BarDiameter("second_bottom_diameter", "Diametro della seconda fila inferiore"), BarGap("second_bottom_gap", "Distanza libera dalla prima fila inferiore"),
-                    BarCount("side_bar_count_per_side", "Barre laterali per lato"), BarDiameter("side_bar_diameter_mm", "Diametro laterali")]
-            }, InputEdited);
-            QuickBarRow Bar(string title, string? enabled, string count, string diameter, string? gap) =>
-                new(title, enabled is null ? null : BarsForm[enabled], BarsForm[count], BarsForm[diameter], gap is null ? null : BarsForm[gap]);
-            BarRows = shape switch
-            {
-                "Circolare" => [Bar("Anello", null, "longitudinal_bar_count", "longitudinal_bar_diameter_mm", null),
-                    Bar("2° anello", "second_inner_enabled", "second_inner_count", "second_inner_diameter", "second_inner_gap")],
-                "A T" => [Bar("Superiori", null, "top_bar_count", "top_bar_diameter_mm", null), Bar("Inferiori", null, "bottom_bar_count", "bottom_bar_diameter_mm", null),
-                    Bar("Laterali / lato", null, "side_bar_count_per_side", "side_bar_diameter_mm", null)],
-                _ => [Bar("Superiori", null, "top_bar_count", "top_bar_diameter_mm", null), Bar("2ª fila sup.", "second_top_enabled", "second_top_count", "second_top_diameter", "second_top_gap"),
-                    Bar("Inferiori", null, "bottom_bar_count", "bottom_bar_diameter_mm", null), Bar("2ª fila inf.", "second_bottom_enabled", "second_bottom_count", "second_bottom_diameter", "second_bottom_gap"),
-                    Bar("Laterali / lato", null, "side_bar_count_per_side", "side_bar_diameter_mm", null)]
-            };
+                    T("second_inner_gap", "s", "mm", "Distanza libera fra gli anelli")]
+                : [], InputEdited);
+            BarRows = shape == ConcreteQuickSection.Shapes[2]
+                ? [new("Anello", null, BarsForm["longitudinal_bar_count"], BarsForm["longitudinal_bar_diameter_mm"], null),
+                    new("2° anello", BarsForm["second_inner_enabled"], BarsForm["second_inner_count"], BarsForm["second_inner_diameter"], BarsForm["second_inner_gap"])]
+                : [];
+            BuildLayers();
             MaterialsForm = Form(Input, [new("classe_cls", "Calcestruzzo", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_cls"), ToolTip: "Classe del calcestruzzo"),
                 new("classe_acciaio", "Acciaio", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre")], InputEdited);
             ultimate = ConcreteQuickSection.ActionValues(Data, "SLU");
@@ -212,9 +272,35 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
             PhiField = ServiceForm.Fields.FirstOrDefault(f => f.Key == "phi");
         }
         finally { building = false; }
-        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(MaterialsForm), nameof(UltimateForm), nameof(ServiceForm), nameof(BarRows), nameof(ActionRows), nameof(PhiField),
-            nameof(Shape), nameof(Method), nameof(Bending), nameof(Chart), nameof(Title), nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
+        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(UltimateForm), nameof(ServiceForm),
+            nameof(BarRows), nameof(ActionRows), nameof(PhiField), nameof(Shape), nameof(IsCircular), nameof(Method), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
+            nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
+    }
+
+    private void BuildLayers()
+    {
+        var layers = IsCircular ? [] : ConcreteQuickSection.Layers(Data).OfType<JsonObject>().ToArray();
+        LayerRows = layers.Select((layer, index) => new QuickLayerRow(this, index, layer, CanEdit,
+            GuardedCommands.Create(Guard, () => RemoveLayer(index), () => CanEdit))).ToArray();
+        OnPropertyChanged(nameof(LayerRows));
+    }
+
+    private void AddLayer()
+    {
+        if (Edit(d => { ConcreteQuickSection.AddLayer(d); ConcreteQuickSection.ApplyLayers(d); })) { BuildLayers(); RefreshDrawing(); }
+    }
+
+    private void RemoveLayer(int index)
+    {
+        if (Edit(d => { ConcreteQuickSection.RemoveLayer(d, index); ConcreteQuickSection.ApplyLayers(d); })) { BuildLayers(); RefreshDrawing(); }
+    }
+
+    /// <summary>A field of a layer changed (<see cref="QuickLayerRow"/>): an edit of the sheet, with the bars arranged again.</summary>
+    internal void EditLayer(int index, string key, string value)
+    {
+        if (building || IsDisposed) return;
+        if (Edit(d => { ConcreteQuickSection.WriteLayer(d, index, key, value); ConcreteQuickSection.ApplyLayers(d); })) RefreshDrawing();
     }
 
     private FieldSpec[] ActionFields(string suffix) =>
@@ -227,6 +313,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     {
         if (building || IsDisposed) return;
         if (key is "classe_cls" or "classe_acciaio") ConcreteQuickSection.ApplyMaterial(Data, key);
+        // The bars of the layers depend on the dimensions, the cover and the links.
+        ConcreteQuickSection.ApplyLayers(Data);
         Changed();
         RefreshDrawing();
     }
@@ -263,6 +351,12 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The outcome of the engine for the current data, or null.</summary>
     public ConcreteQuickResult? Current => PublishedCalculation?.Native as ConcreteQuickResult;
 
+    /// <summary>The main outcome in evidence: the design resisting moment (or the stresses of the method n), η with the outcome, the behaviour.</summary>
+    public ConcreteQuickSummary? Summary => ConcreteQuickSection.Summary(Current);
+
+    /// <summary>True when the behaviour is ductile, false when brittle, null when not given (method n, no result).</summary>
+    public bool? IsDuctile => Summary?.Ductile;
+
     public IReadOnlyList<ConcreteQuickValue> MaterialValues => ConcreteQuickSection.MaterialValues(Data, Current);
     public IReadOnlyList<ConcreteQuickValue> ResultValues => ConcreteQuickSection.ResultValues(Current);
     public IReadOnlyList<string> Errors => Current?.Errors ?? [];
@@ -283,15 +377,20 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     private void RefreshResults()
     {
-        foreach (string p in new[] { nameof(Current), nameof(MaterialValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry), nameof(DomainActions),
-            nameof(CurvaturePoints), nameof(SectionStress), nameof(Status) })
+        foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
+            nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(Status) })
             OnPropertyChanged(p);
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(CanEdit)) foreach (var form in Forms) form.IsReadOnly = !CanEdit;
+        if (e.PropertyName == nameof(CanEdit))
+        {
+            foreach (var form in Forms) form.IsReadOnly = !CanEdit;
+            if (!building && LayerRows.Count > 0) BuildLayers();
+            AddLayerCommand?.NotifyCanExecuteChanged();
+        }
         if (e.PropertyName is nameof(Revision) or nameof(Result)) RefreshResults();
         if (e.PropertyName is nameof(CalculationState) or nameof(CalculationMessage)) OnPropertyChanged(nameof(Status));
     }

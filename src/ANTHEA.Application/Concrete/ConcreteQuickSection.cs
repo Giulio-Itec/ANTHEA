@@ -27,7 +27,15 @@ public sealed record ConcreteQuickResult(
     DomainChartGeometry DomainGeometry,
     DomainChartActions DomainActions,
     ConcreteResults.CurvatureResult? Curvature,
-    IReadOnlyList<string> Errors);
+    IReadOnlyList<string> Errors,
+    string Model,
+    double? YieldStrain);
+
+/// <summary>
+/// The main outcome of the quick RC section, shown in evidence: the design resisting moment (or the stresses of the method n), the ratio with the
+/// outcome, and the behaviour at the resistant point (ductile when the tension steel yields, brittle otherwise; null for the method n).
+/// </summary>
+public sealed record ConcreteQuickSummary(string Title, string Value, string Detail, string Behaviour, bool? Ductile);
 
 /// <summary>
 /// The quick RC section (17/11/2026): a simplified interface on the engine of the RC section (<c>str_palo</c>). The document has the format of the
@@ -58,6 +66,28 @@ public static class ConcreteQuickSection
     public static ImmutableArray<string> Bendings { get; } = ["Retta", "Deviata"];
     public static ImmutableArray<string> Charts { get; } = ["Dominio", "Momento–curvatura"];
 
+    /// <summary>The names on screen of <see cref="Methods"/>, in the same order.</summary>
+    public static ImmutableArray<string> MethodLabels { get; } = ["Momento positivo", "Momento negativo", "Metodo n"];
+
+    /// <summary>The resistance models of the RC section for the ultimate check (<c>workspace_ca.modello_resistente.SLU</c>).</summary>
+    public static ImmutableArray<string> Models { get; } = ["Plastico", "Elastico"];
+
+    /// <summary>The names on screen of <see cref="Models"/>, in the same order.</summary>
+    public static ImmutableArray<string> ModelLabels { get; } = ["Plastica", "Elastica"];
+
+    /// <summary>Where a layer of bars stands: under the top cover, over the bottom cover, at a distance from the top edge.</summary>
+    public static ImmutableArray<string> LayerPositions { get; } = ["Sopra", "Sotto", "Da sopra"];
+
+    /// <summary>The key of the layers of bars in the choices of the view.</summary>
+    public const string LayersKey = "strati";
+
+    /// <summary>The explanation of the cover, for its «?».</summary>
+    public const string CoverHelpTitle = "Copriferro c";
+    public const string CoverHelp = "c è il copriferro netto della staffa: la distanza dal bordo della sezione alla faccia esterna della staffa.\n\n"
+        + "Gli strati «Sopra» e «Sotto» hanno l'asse delle barre a c + Ø staffa + Ø barra / 2 dal bordo; lo strato «Da sopra» ha l'asse alla distanza d "
+        + "indicata, misurata dal bordo superiore. In larghezza le barre di uno strato sono distribuite in modo uniforme fra le facce interne delle staffe.\n\n"
+        + "Nella sezione circolare l'anello delle barre ha l'asse a c + Ø staffa + Ø barra / 2 dal bordo.";
+
     /// <summary>The components of an action that the sheet edits.</summary>
     public static ImmutableArray<string> ActionComponents { get; } = ["N", "Mx", "My"];
 
@@ -66,28 +96,35 @@ public static class ConcreteQuickSection
         "SLU, metodo n, dominio M–N e M–χ con il motore della sezione in c.a.", "Sezione c.a. rapida", "Sezione in c.a. · verifica rapida", "Verifica rapida della sezione");
 
     /// <summary>
-    /// A new sheet: the default document of the RC section (its catalogue, prepared with unified actions), the second layers off, one ultimate
-    /// action and one action of the method n, the choices of the view.
+    /// A new sheet: the default document of the RC section (its catalogue, prepared with unified actions), the second ring off, the ultimate action
+    /// and the action of the method n at zero, two layers of bars (top and bottom, as the default bars of the RC section), the plastic model, the
+    /// choices of the view.
     /// </summary>
     public static JsonObject Create()
     {
         var data = ModuleDirectory.CreateData(SourceModule);
         var input = data["input"]!.AsObject();
-        foreach (string layer in new[] { "top", "bottom", "inner" })
+        input["second_inner_enabled"] = false; input["second_inner_count"] = "8"; input["second_inner_diameter"] = "20"; input["second_inner_gap"] = "25";
+        SectionActionInputs.Replace(data, [Row("SLU", UltimateName), Row("SLE", ServiceName)]);
+        WriteModel(data, Models[0]);
+        data[ViewKey] = new JsonObject
         {
-            input["second_" + layer + "_enabled"] = false;
-            input["second_" + layer + "_count"] = layer == "inner" ? "8" : "2";
-            input["second_" + layer + "_diameter"] = "20";
-            input["second_" + layer + "_gap"] = "25";
-        }
-        SectionActionInputs.Replace(data, [Row("SLU", UltimateName, "-1000", "400"), Row("SLE", ServiceName, "-800", "250")]);
-        data[ViewKey] = new JsonObject { ["titolo"] = "", ["metodo"] = Methods[0], ["flessione"] = Bendings[0], ["grafico"] = Charts[0] };
+            ["titolo"] = "", ["metodo"] = Methods[0], ["flessione"] = Bendings[0], ["grafico"] = Charts[0],
+            [LayersKey] = new JsonArray(Layer(LayerPositions[0], input.S("top_bar_count"), input.S("top_bar_diameter_mm")),
+                Layer(LayerPositions[1], input.S("bottom_bar_count"), input.S("bottom_bar_diameter_mm")))
+        };
+        ApplyLayers(data);
         return data;
     }
 
-    private static JsonObject Row(string state, string name, string n, string mx) => new()
+    private static JsonObject Row(string state, string name) => new()
     {
-        ["stato"] = state, ["nome"] = name, ["elemento"] = "", ["N"] = n, ["Mx"] = mx, ["My"] = "0", ["Vx"] = "0", ["Vy"] = "0", ["T"] = "0"
+        ["stato"] = state, ["nome"] = name, ["elemento"] = "", ["N"] = "0", ["Mx"] = "0", ["My"] = "0", ["Vx"] = "0", ["Vy"] = "0", ["T"] = "0"
+    };
+
+    private static JsonObject Layer(string position, string count, string diameter, string distance = "") => new()
+    {
+        ["posizione"] = position, ["d"] = distance, ["n"] = count, ["phi"] = diameter
     };
 
     /// <summary>The checks of the RC section, then the choices of the view.</summary>
@@ -103,6 +140,8 @@ public static class ConcreteQuickSection
         Choice("metodo", Methods); Choice("flessione", Bendings); Choice("grafico", Charts);
         if (view["titolo"] is not null && (view["titolo"] is not JsonValue title || !title.TryGetValue<string>(out _)))
             throw new ArgumentException("Titolo della verifica rapida non valido.");
+        if (view[LayersKey] is { } layers && (layers is not JsonArray list || list.Any(l => l is not JsonObject layer || !LayerPositions.Contains(layer.S("posizione")))))
+            throw new ArgumentException("Strati di armatura della verifica rapida non validi.");
     }
 
     /// <summary>The choices of the view of <paramref name="data"/>.</summary>
@@ -142,6 +181,113 @@ public static class ConcreteQuickSection
         components[index] = value;
     }
 
+    // ---------------------------------------------------------------- resistance model
+
+    /// <summary>The resistance model of the ultimate check: <c>workspace_ca.modello_resistente.SLU</c>, plastic by default as in the RC section.</summary>
+    public static string Model(JsonObject data) => data["workspace_ca"]?["modello_resistente"] is JsonObject models && Models.Contains(models.S("SLU")) ? models.S("SLU") : Models[0];
+
+    /// <summary>Writes the resistance model of the ultimate check, where the RC section reads it.</summary>
+    public static void WriteModel(JsonObject data, string model)
+    {
+        if (!Models.Contains(model)) throw new ArgumentException("Modello resistente non valido: " + model);
+        if (data["workspace_ca"] is not JsonObject settings) data["workspace_ca"] = settings = new JsonObject();
+        if (settings["modello_resistente"] is not JsonObject models) settings["modello_resistente"] = models = new JsonObject { ["SLV"] = "Elastico" };
+        models["SLU"] = model;
+    }
+
+    // ---------------------------------------------------------------- layers of bars
+
+    /// <summary>The layers of bars of the sheet (posizione, d, n, phi as texts); created empty when missing.</summary>
+    public static JsonArray Layers(JsonObject data)
+    {
+        var view = View(data);
+        if (view[LayersKey] is not JsonArray layers) view[LayersKey] = layers = new JsonArray();
+        return layers;
+    }
+
+    /// <summary>Adds a layer at the bottom of the list: at a distance from the top, with the diameter of the last layer.</summary>
+    public static void AddLayer(JsonObject data)
+    {
+        var layers = Layers(data);
+        string diameter = layers.LastOrDefault()?.S("phi") is { Length: > 0 } last ? last : "16";
+        layers.Add(Layer(LayerPositions[2], "2", diameter, ""));
+    }
+
+    /// <summary>Removes the layer at <paramref name="index"/>.</summary>
+    public static void RemoveLayer(JsonObject data, int index)
+    {
+        var layers = Layers(data);
+        if (index >= 0 && index < layers.Count) layers.RemoveAt(index);
+    }
+
+    /// <summary>Writes a field (posizione, d, n, phi) of the layer at <paramref name="index"/>.</summary>
+    public static void WriteLayer(JsonObject data, int index, string key, string value)
+    {
+        if (key is not ("posizione" or "d" or "n" or "phi")) throw new ArgumentException("Campo dello strato non valido: " + key);
+        if (key == "posizione" && !LayerPositions.Contains(value)) throw new ArgumentException("Posizione dello strato non valida: " + value);
+        var layers = Layers(data);
+        if (index < 0 || index >= layers.Count || layers[index] is not JsonObject layer) throw new ArgumentException("Strato inesistente.");
+        layer[key] = value;
+    }
+
+    /// <summary>
+    /// The bars of the layers written where the RC section reads the bars placed by hand (<c>input.barre_manuali</c>: x, y, Ø in the coordinates of
+    /// its outline); for the circular section the ring of the RC section, without bars by hand. Each layer is a row of bars spread evenly between the
+    /// inner faces of the links: «Sopra» and «Sotto» with the axis at c + Ø of the link + Ø / 2 from the edge, «Da sopra» at the distance d from the
+    /// top edge; in the section with a flange the width is that of the flange or of the web at the height of the layer. A geometric arrangement of
+    /// the data: no material law or check. Invalid layers leave no bars, so that the engine refuses the section, and the reason is returned.
+    /// </summary>
+    public static string? ApplyLayers(JsonObject data)
+    {
+        var input = data["input"]!.AsObject();
+        if (input.S("shape") == Shapes[2]) { input.Remove("barre_manuali"); return null; }
+        try { input["barre_manuali"] = LayerBars(input, Layers(data)); return null; }
+        catch (ArgumentException failure) { input["barre_manuali"] = new JsonArray(); return failure.Message; }
+    }
+
+    private static JsonArray LayerBars(JsonObject input, JsonArray layers)
+    {
+        if (layers.Count == 0) throw new ArgumentException("Aggiungere almeno uno strato di barre.");
+        double Positive(string text, string label)
+        {
+            double value = SectionWorkspace.Number(text, label);
+            if (value <= 0) throw new ArgumentException(label + ": inserire un numero maggiore di zero.");
+            return value;
+        }
+        bool tee = input.S("shape") == Shapes[1];
+        double height = Positive(input.S("height_mm"), "h"), cover = SectionWorkspace.Number(input.S("cover_mm"), "Copriferro c");
+        double link = input.S("staffe_presenti", "Sì") == "No" ? 0 : SectionWorkspace.Number(input.S("transverse_bar_diameter_mm"), "Ø staffe");
+        double top = tee ? Positive(input.S("flange_width_mm"), "B ala") : Positive(input.S("width_mm"), "b");
+        double web = tee ? Positive(input.S("web_width_mm"), "b anima") : top, flange = tee ? Positive(input.S("flange_thickness_mm"), "s ala") : height;
+        if (cover < 0 || link < 0) throw new ArgumentException("Copriferro e Ø staffe non possono essere negativi.");
+        // The edges in the coordinates of the outline of the RC section (with a flange the origin is the centroid): the outline of the engine.
+        var probe = (JsonObject)input.DeepClone();
+        probe["barre_manuali"] = new JsonArray(new JsonObject { ["x"] = 0, ["y"] = 0, ["phi"] = 1 });
+        var outline = ConcretePreview.PrepareGeometry(probe).Outline;
+        double upper = outline.Max(p => p[1]);
+        var bars = new JsonArray();
+        for (int i = 0; i < layers.Count; i++)
+        {
+            var layer = layers[i]!.AsObject();
+            string name = "Strato " + (i + 1);
+            double count = Positive(layer.S("n"), name + " · n"), diameter = Positive(layer.S("phi"), name + " · Ø");
+            if (count != (int)count) throw new ArgumentException(name + " · n: inserire un numero intero.");
+            double edge = cover + link + diameter / 2;
+            string position = layer.S("posizione");
+            double depth = position == LayerPositions[0] ? edge : position == LayerPositions[1] ? height - edge : Positive(layer.S("d"), name + " · d");
+            if (depth < edge || depth > height - edge) throw new ArgumentException(name + ": la distanza dal bordo superiore deve lasciare copriferro e staffe.");
+            double width = depth <= flange ? top : web, half = width / 2 - edge;
+            if (half < 0 || count > 1 && half <= 0) throw new ArgumentException(name + ": le barre non entrano nella larghezza della sezione.");
+            double y = upper - depth;
+            for (int k = 0; k < (int)count; k++)
+            {
+                double x = count == 1 ? 0 : -half + 2 * half * k / (count - 1);
+                bars.Add(new JsonObject { ["x"] = x, ["y"] = y, ["phi"] = diameter });
+            }
+        }
+        return bars;
+    }
+
     // ---------------------------------------------------------------- materials
 
     private static string Standard(JsonObject data) => data["workspace_ca"].S("normativa");
@@ -170,7 +316,12 @@ public static class ConcreteQuickSection
     /// <summary>The geometry of the section for the drawing, or the reason why it cannot be drawn.</summary>
     public static (ConcreteGeometry? Geometry, string Message) Geometry(JsonObject data)
     {
-        try { return (ConcretePreview.PrepareGeometry(data["input"]!.AsObject()), ""); }
+        try
+        {
+            var copy = (JsonObject)data.DeepClone();
+            if (ApplyLayers(copy) is { } error) return (null, error);
+            return (ConcretePreview.PrepareGeometry(copy["input"]!.AsObject()), "");
+        }
         catch (ArgumentException failure) { return (null, failure.Message); }
     }
 
@@ -192,12 +343,17 @@ public static class ConcreteQuickSection
     {
         Validate(source);
         var data = (JsonObject)source.DeepClone();
+        if (ApplyLayers(data) is { } layerError) throw new ArgumentException(layerError);
+        string model = Model(data);
         var settings = SectionWorkspace.Prepare(data);
         var input = data["input"]!.AsObject();
         var view = View(data);
         string method = view.S("metodo");
         bool straight = view.S("flessione") == Bendings[0], ultimate = method != Methods[2], curvatureChart = view.S("grafico") == Charts[1];
+        bool elastic = model == Models[1];
         var preview = ConcretePreview.Read(input, settings);
+        double? yieldStrain = null;
+        try { yieldStrain = RebarMaterial.Evaluate(input).EpsilonYd; } catch (ArgumentException) { }
         token.ThrowIfCancellationRequested();
         var errors = new List<string>();
         var session = new ConcreteAnalysisSession();
@@ -234,11 +390,13 @@ public static class ConcreteQuickSection
         if (ultimateAction is { } force && ultimateRow is not null)
         {
             checkOptions["N"] = ultimateRow.S("N");
+            // A null action has no line of action: no check (the engine has no resistance to give), only the resistances and the domain.
+            bool nullAction = force.N == 0 && force.Mx == 0 && force.My == 0;
             try
             {
-                var result = session.Domain(input, settings, checkOptions, "SLU", false, [ultimateRow], token);
+                var result = session.Domain(input, settings, checkOptions, "SLU", false, nullAction ? [] : [ultimateRow], token);
                 domain = result.Two;
-                check = result.Checks.GetValueOrDefault(ultimateRow.S("id"));
+                check = nullAction ? null : result.Checks.GetValueOrDefault(ultimateRow.S("id"));
                 if (check?.Utilization is null && check is not null) errors.Add("Verifica SLU: " + check.Status);
                 limit = check?.LimitState?.Value;
             }
@@ -253,7 +411,7 @@ public static class ConcreteQuickSection
             token.ThrowIfCancellationRequested();
             if (ultimate)
             {
-                try { resistances = StructuralQueries.ConcreteQuickResistance(input, settings, force.N, false, token); }
+                try { resistances = StructuralQueries.ConcreteQuickResistance(input, settings, force.N, elastic, token); }
                 catch (Exception failure) when (failure is not OperationCanceledException) { errors.Add("Resistenze a N costante: " + failure.Message); }
             }
             token.ThrowIfCancellationRequested();
@@ -283,7 +441,7 @@ public static class ConcreteQuickSection
         var checks = check is null || ultimateRow is null ? null : new Dictionary<string, ConcreteResults.Check> { [ultimateRow.S("id")] = check };
         return new(method, straight, preview, ultimateAction, check, limit, resistances, serviceAction, service, ratio, serviceStatus,
             ConcreteDomainChart.Geometry("SLU", options, domain, domainError), ConcreteDomainChart.Actions(options, domain, rows, ultimateRow?.S("id"), checks),
-            curvature, errors);
+            curvature, errors, model, yieldStrain);
     }
 
     /// <summary>
@@ -293,17 +451,68 @@ public static class ConcreteQuickSection
     public static JsonObject Values(ConcreteQuickResult result)
     {
         bool ultimate = result.Method != Methods[2];
-        bool missing = ultimate ? result.UltimateCheck?.Utilization is null : result.ServiceState is null;
+        bool missing = ultimate ? result.UltimateCheck is null && result.Resistances.All(r => r.Moment is null) : result.ServiceState is null;
+        var summary = Summary(result);
         return new JsonObject
         {
             ["errore"] = missing ? (result.Errors.FirstOrDefault() ?? "Verifica non disponibile.") : "",
             ["avvisi"] = new JsonArray(result.Errors.Select(e => (JsonNode?)JsonValue.Create(e)).ToArray()),
             ["motore"] = "GPC Engine · sezione in c.a.",
             ["metodo"] = result.Method,
+            ["modello"] = result.Model,
             ["flessione"] = result.Straight ? Bendings[0] : Bendings[1],
             ["sfruttamento"] = ultimate ? result.UltimateCheck?.Utilization : result.ServiceRatio,
-            ["esito"] = ultimate ? result.UltimateCheck?.Status ?? "" : result.ServiceStatus
+            ["esito"] = ultimate ? result.UltimateCheck?.Status ?? "" : result.ServiceStatus,
+            ["risultato"] = summary?.Value ?? "",
+            ["comportamento"] = summary?.Behaviour ?? ""
         };
+    }
+
+    /// <summary>The label on screen of the code of a method, or of a resistance model.</summary>
+    public static string MethodLabel(string method) => Methods.IndexOf(method) is int i and >= 0 ? MethodLabels[i] : method;
+    public static string ModelLabel(string model) => Models.IndexOf(model) is int i and >= 0 ? ModelLabels[i] : model;
+
+    /// <summary>
+    /// The main outcome in evidence. For the ultimate check: the design resisting moment at the N of the action (the moment of the chosen sign with
+    /// the straight bending, Mx,Rd and My,Rd of the resistant point with the biaxial one), η with the outcome, and the behaviour at the resistant point:
+    /// ductile when the strain of the tension steel reaches εyd of the steel of the engine, brittle otherwise. For the method n: the stresses.
+    /// </summary>
+    public static ConcreteQuickSummary? Summary(ConcreteQuickResult? result)
+    {
+        if (result is null) return null;
+        if (result.Method == Methods[2])
+        {
+            string title = "Tensioni con il metodo n";
+            return result.ServiceState is { } s
+                ? new(title, $"σc = {Number(s.sigma_cls)} MPa · σs = {Number(s.sigma_acciaio)} MPa", $"Rapporto {Number(result.ServiceRatio)} · {result.ServiceStatus}", "", null)
+                : new(title, "—", result.ServiceStatus, "", null);
+        }
+        string direction = result.Method == Methods[0] ? "Mx+" : "Mx−";
+        string heading = $"Momento resistente di calcolo · {MethodLabel(result.Method).ToLowerInvariant()} · verifica {ModelLabel(result.Model).ToLowerInvariant()}";
+        string value; ConcreteResults.SectionState? state;
+        if (result.Straight)
+        {
+            var resistance = result.Resistances.FirstOrDefault(r => r.Direction == direction);
+            value = resistance?.Moment is double moment ? $"MRd = {Number(moment)} kNm" : resistance?.Status ?? "—";
+            state = resistance?.Section;
+        }
+        else
+        {
+            value = result.UltimateCheck?.Resistance is { } point ? $"Mx,Rd = {Number(point.Mx)} kNm · My,Rd = {Number(point.My)} kNm" : "—";
+            state = result.UltimateCheck?.Response;
+        }
+        string detail = result.UltimateCheck is { } check ? $"η = {Number(check.Utilization)} · {check.Status}"
+            : result.UltimateAction is { N: 0, Mx: 0, My: 0 } ? "Sollecitazioni nulle: inserire NEd e MEd per la verifica." : "";
+        var (behaviour, ductile) = Behaviour(state?.EsMax, result.YieldStrain);
+        return new(heading, value, detail, behaviour, ductile);
+    }
+
+    private static (string Text, bool? Ductile) Behaviour(double? steel, double? yield)
+    {
+        if (steel is not double strain || yield is not double limit) return ("Comportamento non determinato: deformazione dell'acciaio non disponibile.", null);
+        return strain >= limit
+            ? ($"Comportamento duttile · εs = {Number(strain)} ‰ ≥ εyd = {Number(limit)} ‰", true)
+            : ($"Comportamento fragile · εs = {Number(strain)} ‰ < εyd = {Number(limit)} ‰", false);
     }
 
     // ---------------------------------------------------------------- presentation
@@ -320,7 +529,7 @@ public static class ConcreteQuickSection
             new("fck", input.S("fck_mpa"), "MPa"), new("fcd", Number(preview?.Fcd), "MPa"), new("Ecm", Number(preview?.Ecm), "MPa"),
             new("εc2", Number(preview?.Ec2), "‰"), new("εcu", Number(preview?.Ecu), "‰"),
             new("fyk", input.S("fyk_mpa"), "MPa"), new("fyd", Number(preview?.Fyd), "MPa"), new("Es", input.S("steel_modulus_mpa"), "MPa"),
-            new("εsu", input.S("steel_eps_u"), "‰"), new("n = Es / Ecm", Number(preview?.N))
+            new("εyd", Number(result?.YieldStrain), "‰"), new("εsu", input.S("steel_eps_u"), "‰"), new("n = Es / Ecm", Number(preview?.N))
         ];
     }
 
@@ -346,24 +555,10 @@ public static class ConcreteQuickSection
                 if (!result.Straight) values.Add(new("My,Ed", Number(a.My), "kNm"));
             }
             string direction = result.Method == Methods[0] ? "Mx+" : "Mx−";
-            if (result.Straight)
-            {
-                var resistance = result.Resistances.FirstOrDefault(r => r.Direction == direction);
-                if (resistance is not null)
-                    values.Add(resistance.Moment is double moment ? new("Mx,Rd (" + direction + ")", Number(moment), "kNm") : new("Mx,Rd (" + direction + ")", resistance.Status));
-            }
-            else
+            // MRd, η and the outcome are in the summary; with the biaxial bending the four principal resistances at the N of the action.
+            if (!result.Straight)
                 foreach (var resistance in result.Resistances)
                     values.Add(resistance.Moment is double moment ? new(resistance.Direction + ",Rd", Number(moment), "kNm") : new(resistance.Direction + ",Rd", resistance.Status));
-            if (result.UltimateCheck is { } check)
-            {
-                if (!result.Straight && check.Resistance is { } r)
-                {
-                    values.Add(new("Mx,Rd punto resist.", Number(r.Mx), "kNm")); values.Add(new("My,Rd punto resist.", Number(r.My), "kNm"));
-                }
-                values.Add(new("η", Number(check.Utilization)));
-                values.Add(new("Esito", check.Status));
-            }
             var state = result.Straight ? result.Resistances.FirstOrDefault(r => r.Direction == direction)?.Section : result.UltimateCheck?.Response;
             values.AddRange(State(state));
             return values;
