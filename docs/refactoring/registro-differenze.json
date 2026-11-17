@@ -15538,6 +15538,29 @@
       "wiki": "Indice della Wiki rigenerato con le guide Rev73; nessuna guida autonoma nuova."
     },
     {
+      "id": "GUIDE-REV74-20261117",
+      "data": "2026-11-17",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.3)",
+      "titolo": "Guide Rev74 della 1.19.3: transizioni editoriali delle pagine Wiki dei Modelli e dell'architettura del calcolo",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide Rev74: importazione Straus7 dei modelli con più freedom case (GPC.Converter 2.25, set AY) nel capitolo «Modelli e importazione da MIDAS» della pratica e in «Architettura del calcolo e convenzioni» della teorica, riga dell'edizione «ANTHEA 1.19.3». La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) sulla candidata dava 248 differenze non ammesse, tutte nei file delle due pagine; la ricerca è invariata. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«Sì, approvo» (16:33, dopo l'elenco f3-candidata-1193-95531fa6-elenco.md)",
+        "esito": "127 transizioni editoriali esatte aggiunte (riga-aggiunta 125, testo 2) e 121 precedenti superate; registro 3496 → 3502 voci; numero degli articoli invariato (94)."
+      },
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev74 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261117-143817-1193-full-95531fa6/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1193-candidata-20261117.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev74; nessuna guida autonoma nuova."
+    },
+    {
       "id": "UI-STRATIGRAFIA-TABELLA-20261116",
       "data": "2026-11-16",
       "famiglia": "Stratigrafia standalone e anteprima importazione",

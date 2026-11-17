@@ -9109,14 +9109,6 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 56 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1160-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 58 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -20741,23 +20733,7 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 81 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 83 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 92 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -23773,90 +23749,10 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 50 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le reazioni vincolari della copia sono la forza e il momento che il vincolo, o la molla a terra, esercita sulla struttura, in assi globali, in kN e kN·m, con lo stesso segno per tutte le sorgenti. Per ogni caso statico lineare non per fasi la copia controlla che la risultante dei carichi applicati e…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 51 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 52 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```math",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 53 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "\\sum F_{carichi} + \\sum R = 0",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 54 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "\\sum M_{carichi} + \\sum M_R = 0",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 55 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 57 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "I carichi comprendono forze e momenti nodali, carichi delle aste, pressioni e trazioni delle piastre e, nei casi di gravità, il peso delle aste, delle piastre e delle masse nodali e non strutturali secondo le opzioni di massa del caso, $W = m\\,g$ con $m$ in t e $g$ in m/s², quindi in kN. Un caso non…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 59 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le aste reticolari e i cavi trasmettono solo sforzo normale: nelle combinazioni ricostruite il loro sforzo normale è la somma lineare di quelli dei casi, con taglio, torsione e momenti nulli per formulazione. In un'analisi statica lineare i cavi si comportano come aste reticolari; le aste a sola tra…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 61 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Un'analisi statica lineare con una fase attiva è l'analisi lineare della configurazione di quella fase: i suoi casi si combinano fra loro. Un'analisi statica non lineare per fasi, dai file .nla, dà lo stato alla fine di ogni incremento, con tutti i carichi applicati fino a quel punto e gli spostamen…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 63 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le masse sono in t, cioè kN·s²/m, le masse distribuite in t/m e t/m², le inerzie rotazionali in t·m²; le temperature in °C e i gradienti termici in °C/m, lungo gli assi principali 1 e 2 per le aste e lungo l'asse z locale per le piastre.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 65 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Alternative delle combinazioni e calcolo per termini",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23869,74 +23765,10 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 67 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Una combinazione lineare è la somma pesata dei suoi termini; un inviluppo è l'insieme delle sue alternative, ciascuna uno stato simultaneo, di cui si cercano gli estremi. Lo stesso caso può comparire in un inviluppo con coefficienti opposti, per esempio $Q$ e $-Q$: sono due alternative distinte. Il …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 68 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 69 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```math",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 70 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "n_{caso} = 1",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 71 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "n_{inviluppo} = \\sum_i n_i",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 72 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "n_{lineare} = \\prod_i n_i",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 73 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 74 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 75 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Fino a $n = 4096$ la libreria GPC elenca gli stati e ne prende gli estremi componente per componente, con lo stato governante e lo stato concomitante completo. Oltre questo limite la combinazione si calcola per termini, senza elencare gli stati. Le alternative di termini diversi di una somma lineare…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23949,66 +23781,10 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 77 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```math",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 78 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "r^{max}\\left(\\sum_i c_i T_i\\right) = \\sum_{c_i \\ge 0} c_i\\, r^{max}(T_i) + \\sum_{c_i < 0} c_i\\, r^{min}(T_i)",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 79 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "r^{max}\\left(\\mathrm{inv}(T_1;\\ \\ldots;\\ T_m)\\right) = \\max_j\\ r^{max}(T_j)",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 80 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 82 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il minimo $r^{min}$ si ottiene scambiando massimi e minimi. Lo stato governante è la scelta, in ogni inviluppo, dell'alternativa che dà l'estremo; il suo stato concomitante è la somma di quelle scelte, quindi tutte le componenti riportate sono simultanee. Sotto il limite il calcolo per termini dareb…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 84 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Componenti principali dei plate nelle combinazioni",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 85 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 86 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Per ogni stato combinato le componenti principali dei plate sono i valori principali dei tensori dei momenti e delle forze di membrana, in kN·m/m e kN/m, nella convenzione della copia:",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -24021,62 +23797,6 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 88 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```math",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 89 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "M_{max,min} = \\frac{M_{xx}+M_{yy}}{2} \\pm \\sqrt{\\left(\\frac{M_{xx}-M_{yy}}{2}\\right)^2 + M_{xy}^2}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 90 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "F_{max,min} = \\frac{N_{xx}+N_{yy}}{2} \\pm \\sqrt{\\left(\\frac{N_{xx}-N_{yy}}{2}\\right)^2 + N_{xy}^2}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 91 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 93 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "I valori non dipendono dalla rotazione degli assi locali nel piano. Nella libreria GPC i momenti dei plate hanno il segno opposto a quello della copia, quindi $M_{max}$ della copia è $-M_{min}$ della libreria. In una combinazione lineare le principali sono quelle dello stato locale combinato. In un …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 95 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Generazione delle combinazioni NTC 2018 del modello",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 97 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il generatore del modulo Modelli usa il motore delle combinazioni automatiche dei muri, con le righe di NTC 2018 §2.5.3: SLE rara, frequente e quasi permanente, SLU con l'insieme A1 della Tab. 6.2.I (G1 1/1,3; G2 0,8/1,5; variabili 0/1,5), sismiche ed eccezionali, con i coefficienti $\\psi$ della Tab…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 98 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -24085,66 +23805,10 @@
     },
     {
       "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 99 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Nelle righe sismiche $E + G_1 + G_2 + \\psi_{21} Q_{k1} + \\psi_{22} Q_{k2} + \\ldots$ un caso sismico senza direzione entra da solo con i due segni. I casi con direzione seguono la regola di NTC 2018 §7.3.5: la direzione principale con coefficiente 1,00 e le altre con 0,30, permutando la direzione pri…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
       "percorso": "riga 100 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 101 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```math",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 102 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "E = \\pm 1{,}00\\,E_X \\pm 0{,}30\\,E_Y \\pm 0{,}30\\,E_Z",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 103 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "n_E = d \\cdot 2^{d} \\cdot \\prod_{k=1}^{d} n_k",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 104 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "```",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 105 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
-      "percorso": "riga 106 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Qui $d$ è il numero delle direzioni presenti e $n_k$ il numero dei casi della direzione $k$: con un caso per ciascuna delle tre direzioni le varianti sono 24; con una sola direzione la regola si riduce a $\\pm 1$ di ogni caso. La componente verticale entra solo se un caso ha la direzione Z: la sua ne…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -24185,430 +23849,6 @@
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Le combinazioni della sorgente sono conservate come definizioni, cioè casi e coefficienti; quelle dei file .lsa non sono lette come risultati del solutore. Per calcolarne gli effetti la libreria GPC ricostruisce il proprio modello dalla copia, con posizioni, terne, casi e valori riportati nell…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 55 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le reazioni vincolari della copia sono la forza e il momento che il vincolo, o la molla a terra, esercita sulla struttura, in assi globali, in kN e kN·m, con lo stesso segno per tutte le sorgenti. Per ogni caso statico lineare non per fasi la copia controlla che la risultante dei carichi appli…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 56 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: 10^{-6}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 57 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: \\sum F_{carichi} + \\sum R = 0",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 58 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: \\sum M_{carichi} + \\sum M_R = 0",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 59 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Copia LaTeX",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 60 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: I carichi comprendono forze e momenti nodali, carichi delle aste, pressioni e trazioni delle piastre e, nei casi di gravità, il peso delle aste, delle piastre e delle masse nodali e non strutturali secondo le opzioni di massa del caso,   con   in t e   in m/s², quindi in kN. Un caso non in equ…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 61 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: W = m\\,g",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 62 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: m",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 63 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: g",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 64 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le aste reticolari e i cavi trasmettono solo sforzo normale: nelle combinazioni ricostruite il loro sforzo normale è la somma lineare di quelli dei casi, con taglio, torsione e momenti nulli per formulazione. In un'analisi statica lineare i cavi si comportano come aste reticolari; le aste a so…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 65 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Un'analisi statica lineare con una fase attiva è l'analisi lineare della configurazione di quella fase: i suoi casi si combinano fra loro. Un'analisi statica non lineare per fasi, dai file .nla, dà lo stato alla fine di ogni incremento, con tutti i carichi applicati fino a quel punto e gli spo…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 66 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le masse sono in t, cioè kN·s²/m, le masse distribuite in t/m e t/m², le inerzie rotazionali in t·m²; le temperature in °C e i gradienti termici in °C/m, lungo gli assi principali 1 e 2 per le aste e lungo l'asse z locale per le piastre.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 67 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: alternative-delle-combinazioni-e-calcolo-per-termini",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 68 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Una combinazione lineare è la somma pesata dei suoi termini; un inviluppo è l'insieme delle sue alternative, ciascuna uno stato simultaneo, di cui si cercano gli estremi. Lo stesso caso può comparire in un inviluppo con coefficienti opposti, per esempio   e  : sono due alternative distinte. Il…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 69 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: Q",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 70 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: -Q",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 71 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 72 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n_{caso} = 1",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 73 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n_{inviluppo} = \\sum_i n_i",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 74 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n_{lineare} = \\prod_i n_i",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 75 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Copia LaTeX",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 76 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Fino a   la libreria GPC elenca gli stati e ne prende gli estremi componente per componente, con lo stato governante e lo stato concomitante completo. Oltre questo limite la combinazione si calcola per termini, senza elencare gli stati. Le alternative di termini diversi di una somma lineare so…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 77 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n = 4096",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 78 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 79 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r^{max}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 80 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r^{min}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 81 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r^{max}\\left(\\sum_i c_i T_i\\right) = \\sum_{c_i \\ge 0} c_i\\, r^{max}(T_i) + \\sum_{c_i < 0} c_i\\, r^{min}(T_i)",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 82 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r^{max}\\left(\\mathrm{inv}(T_1;\\,\\ldots;\\,T_m)\\right) = \\max_j\\,r^{max}(T_j)",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 83 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Copia LaTeX",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 84 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il minimo   si ottiene scambiando massimi e minimi. Lo stato governante è la scelta, in ogni inviluppo, dell'alternativa che dà l'estremo; il suo stato concomitante è la somma di quelle scelte, quindi tutte le componenti riportate sono simultanee. Sotto il limite il calcolo per termini darebbe…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 85 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: r^{min}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 86 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: componenti-principali-dei-plate-nelle-combinazioni",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 87 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Per ogni stato combinato le componenti principali dei plate sono i valori principali dei tensori dei momenti e delle forze di membrana, in kN·m/m e kN/m, nella convenzione della copia:",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 88 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: M_{max,min} = \\frac{M_{xx}+M_{yy}}{2} \\pm \\sqrt{\\left(\\frac{M_{xx}-M_{yy}}{2}\\right)^2 + M_{xy}^2}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 89 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: F_{max,min} = \\frac{N_{xx}+N_{yy}}{2} \\pm \\sqrt{\\left(\\frac{N_{xx}-N_{yy}}{2}\\right)^2 + N_{xy}^2}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 90 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Copia LaTeX",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 91 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: I valori non dipendono dalla rotazione degli assi locali nel piano. Nella libreria GPC i momenti dei plate hanno il segno opposto a quello della copia, quindi   della copia è   della libreria. In una combinazione lineare le principali sono quelle dello stato locale combinato. In un inviluppo s…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 92 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: M_{max}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 93 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: -M_{min}",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 94 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: generazione-delle-combinazioni-ntc-2018-del-modello",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 95 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il generatore del modulo Modelli usa il motore delle combinazioni automatiche dei muri, con le righe di NTC 2018 §2.5.3: SLE rara, frequente e quasi permanente, SLU con l'insieme A1 della Tab. 6.2.I (G1 1/1,3; G2 0,8/1,5; variabili 0/1,5), sismiche ed eccezionali, con i coefficienti   della Ta…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 96 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: \\psi",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 97 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Nelle righe sismiche   un caso sismico senza direzione entra da solo con i due segni. I casi con direzione seguono la regola di NTC 2018 §7.3.5: la direzione principale con coefficiente 1,00 e le altre con 0,30, permutando la direzione principale fra quelle presenti e con tutte le combinazioni…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 98 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: E + G_1 + G_2 + \\psi_{21} Q_{k1} + \\psi_{22} Q_{k2} + \\ldots",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 99 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: E = \\pm 1{,}00\\,E_X \\pm 0{,}30\\,E_Y \\pm 0{,}30\\,E_Z",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 100 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n_E = d \\cdot 2^{d} \\cdot \\prod_{k=1}^{d} n_k",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 101 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Copia LaTeX",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 102 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Qui   è il numero delle direzioni presenti e   il numero dei casi della direzione  : con un caso per ciascuna delle tre direzioni le varianti sono 24; con una sola direzione la regola si riduce a   di ogni caso. La componente verticale entra solo se un caso ha la direzione Z: la sua necessità …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 103 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: d",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 104 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: n_k",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 105 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: k",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 106 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: \\pm 1",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
-      "percorso": "riga 107 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "formula: 2^g",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -26869,14 +26109,6 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 3",
-      "classe": "testo",
-      "a": "Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
-      "b": "Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.2. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 11 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -27341,26 +26573,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 174 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento,…",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 175 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 176 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dat…",
       "voce": "GUIDE-REV73-20261117"
     },
     {
@@ -27373,82 +26589,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 178 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera…",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 179 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 189 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 190 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 191 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 192 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 193 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| Nessun caso di risultato da importare | Leggi il motivo nel riepilogo del controllo e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarla. |",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 200 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 201 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modell…",
-      "voce": "GUIDE-REV73-20261117"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 1",
-      "classe": "testo",
-      "a": "text: Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
-      "b": "text: Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.2. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
       "voce": "GUIDE-REV73-20261117"
     },
     {
@@ -27860,117 +27004,1021 @@
       "voce": "GUIDE-REV73-20261117"
     },
     {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 3",
+      "classe": "testo",
+      "a": "Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.3. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Modelli con più casi di vincolo (freedom case).** Il riepilogo del controllo elenca i freedom case del modello, ciascuno con i casi di carico che l'analisi statica lineare risolve sotto di esso. Ogni caso di risultato è un caso di carico sotto il suo freedom case: nell'elenco dei casi il nome è se…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento,…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dat…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 180 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 181 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 194 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 195 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Nessun caso di risultato da importare | Leggi il motivo nel riepilogo del controllo, l'elenco dei casi di risultato esclusi e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarl…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 202 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 203 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modell…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 1",
+      "classe": "testo",
+      "a": "text: Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "text: Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.3. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 93 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incre…",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Modelli con più casi di vincolo (freedom case). Il riepilogo del controllo elenca i freedom case del modello, ciascuno con i casi di carico che l'analisi statica lineare risolve sotto di esso. Ogni caso di risultato è un caso di carico sotto il suo freedom case: nell'elenco dei casi il nome è …",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 94 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Il pulsante Tabella offre anche Reazioni vincolari del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, Masse, Temperature e Fasi, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello:…",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incre…",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 95 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a ce…",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Il pulsante Tabella offre anche Reazioni vincolari del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, Masse, Temperature e Fasi, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello:…",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 109 (b)",
+      "percorso": "riga 96 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: File MIDAS non importato o modello rifiutato dal convertitore GPC",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a ce…",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 110 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta.",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: File MIDAS non importato o modello rifiutato dal convertitore GPC",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 111 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Processo di lettura Straus7 non trovato",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta.",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 112 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe.",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Processo di lettura Straus7 non trovato",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 113 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: API Straus7 non disponibile",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe.",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 114 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi.",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: API Straus7 non disponibile",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 115 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: File del modello o dei risultati non disponibili o cambiati",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi.",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 116 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi.",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: File del modello o dei risultati non disponibili o cambiati",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 117 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Nessun caso di risultato da importare",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi.",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 118 (b)",
       "classe": "riga-aggiunta",
       "a": null,
-      "b": "text: Leggi il motivo nel riepilogo del controllo e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarla.",
-      "voce": "GUIDE-REV73-20261117"
+      "b": "text: Nessun caso di risultato da importare",
+      "voce": "GUIDE-REV74-20261117"
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 122 (b)",
+      "percorso": "riga 119 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Leggi il motivo nel riepilogo del controllo, l'elenco dei casi di risultato esclusi e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarla.",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 123 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "text: Per aprire una copia già acquisita scegli File · .antheamodel, MIDAS .mct/.mgt o copia acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDA…",
-      "voce": "GUIDE-REV73-20261117"
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "In un modello con più insiemi di vincoli (freedom case) l'analisi statica lineare risolve ogni caso di carico sotto uno o più freedom case, e ogni caso di risultato è la soluzione di un caso di carico con i vincoli e le molle di un freedom case. La copia conserva i risultati di un caso di carico, no…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le reazioni vincolari della copia sono la forza e il momento che il vincolo, o la molla a terra, esercita sulla struttura, in assi globali, in kN e kN·m, con lo stesso segno per tutte le sorgenti. Per ogni caso statico lineare non per fasi la copia controlla che la risultante dei carichi applicati e…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 54 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\sum F_{carichi} + \\sum R = 0",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 56 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "\\sum M_{carichi} + \\sum M_R = 0",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 57 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I carichi comprendono forze e momenti nodali, carichi delle aste, pressioni e trazioni delle piastre e, nei casi di gravità, il peso delle aste, delle piastre e delle masse nodali e non strutturali secondo le opzioni di massa del caso, $W = m\\,g$ con $m$ in t e $g$ in m/s², quindi in kN. Un caso non…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le aste reticolari e i cavi trasmettono solo sforzo normale: nelle combinazioni ricostruite il loro sforzo normale è la somma lineare di quelli dei casi, con taglio, torsione e momenti nulli per formulazione. In un'analisi statica lineare i cavi si comportano come aste reticolari; le aste a sola tra…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 63 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un'analisi statica lineare con una fase attiva è l'analisi lineare della configurazione di quella fase: i suoi casi si combinano fra loro. Un'analisi statica non lineare per fasi, dai file .nla, dà lo stato alla fine di ogni incremento, con tutti i carichi applicati fino a quel punto e gli spostamen…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 65 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le masse sono in t, cioè kN·s²/m, le masse distribuite in t/m e t/m², le inerzie rotazionali in t·m²; le temperature in °C e i gradienti termici in °C/m, lungo gli assi principali 1 e 2 per le aste e lungo l'asse z locale per le piastre.",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 67 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Alternative delle combinazioni e calcolo per termini",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 69 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Una combinazione lineare è la somma pesata dei suoi termini; un inviluppo è l'insieme delle sue alternative, ciascuna uno stato simultaneo, di cui si cercano gli estremi. Lo stesso caso può comparire in un inviluppo con coefficienti opposti, per esempio $Q$ e $-Q$: sono due alternative distinte. Il …",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 70 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 71 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 72 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "n_{caso} = 1",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 73 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "n_{inviluppo} = \\sum_i n_i",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 74 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "n_{lineare} = \\prod_i n_i",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 75 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Fino a $n = 4096$ la libreria GPC elenca gli stati e ne prende gli estremi componente per componente, con lo stato governante e lo stato concomitante completo. Oltre questo limite la combinazione si calcola per termini, senza elencare gli stati. Le alternative di termini diversi di una somma lineare…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 79 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "r^{max}\\left(\\sum_i c_i T_i\\right) = \\sum_{c_i \\ge 0} c_i\\, r^{max}(T_i) + \\sum_{c_i < 0} c_i\\, r^{min}(T_i)",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 81 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "r^{max}\\left(\\mathrm{inv}(T_1;\\ \\ldots;\\ T_m)\\right) = \\max_j\\ r^{max}(T_j)",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il minimo $r^{min}$ si ottiene scambiando massimi e minimi. Lo stato governante è la scelta, in ogni inviluppo, dell'alternativa che dà l'estremo; il suo stato concomitante è la somma di quelle scelte, quindi tutte le componenti riportate sono simultanee. Sotto il limite il calcolo per termini dareb…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 86 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Componenti principali dei plate nelle combinazioni",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per ogni stato combinato le componenti principali dei plate sono i valori principali dei tensori dei momenti e delle forze di membrana, in kN·m/m e kN/m, nella convenzione della copia:",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "M_{max,min} = \\frac{M_{xx}+M_{yy}}{2} \\pm \\sqrt{\\left(\\frac{M_{xx}-M_{yy}}{2}\\right)^2 + M_{xy}^2}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "F_{max,min} = \\frac{N_{xx}+N_{yy}}{2} \\pm \\sqrt{\\left(\\frac{N_{xx}-N_{yy}}{2}\\right)^2 + N_{xy}^2}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 93 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 95 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I valori non dipendono dalla rotazione degli assi locali nel piano. Nella libreria GPC i momenti dei plate hanno il segno opposto a quello della copia, quindi $M_{max}$ della copia è $-M_{min}$ della libreria. In una combinazione lineare le principali sono quelle dello stato locale combinato. In un …",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Generazione delle combinazioni NTC 2018 del modello",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 99 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il generatore del modulo Modelli usa il motore delle combinazioni automatiche dei muri, con le righe di NTC 2018 §2.5.3: SLE rara, frequente e quasi permanente, SLU con l'insieme A1 della Tab. 6.2.I (G1 1/1,3; G2 0,8/1,5; variabili 0/1,5), sismiche ed eccezionali, con i coefficienti $\\psi$ della Tab…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 101 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nelle righe sismiche $E + G_1 + G_2 + \\psi_{21} Q_{k1} + \\psi_{22} Q_{k2} + \\ldots$ un caso sismico senza direzione entra da solo con i due segni. I casi con direzione seguono la regola di NTC 2018 §7.3.5: la direzione principale con coefficiente 1,00 e le altre con 0,30, permutando la direzione pri…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 102 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 103 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```math",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "E = \\pm 1{,}00\\,E_X \\pm 0{,}30\\,E_Y \\pm 0{,}30\\,E_Z",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 105 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "n_E = d \\cdot 2^{d} \\cdot \\prod_{k=1}^{d} n_k",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "```",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 107 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.md",
+      "percorso": "riga 108 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Qui $d$ è il numero delle direzioni presenti e $n_k$ il numero dei casi della direzione $k$: con un caso per ciascuna delle tre direzioni le varianti sono 24; con una sola direzione la regola si riduce a $\\pm 1$ di ogni caso. La componente verticale entra solo se un caso ha la direzione Z: la sua ne…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: In un modello con più insiemi di vincoli (freedom case) l'analisi statica lineare risolve ogni caso di carico sotto uno o più freedom case, e ogni caso di risultato è la soluzione di un caso di carico con i vincoli e le molle di un freedom case. La copia conserva i risultati di un caso di cari…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 56 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le reazioni vincolari della copia sono la forza e il momento che il vincolo, o la molla a terra, esercita sulla struttura, in assi globali, in kN e kN·m, con lo stesso segno per tutte le sorgenti. Per ogni caso statico lineare non per fasi la copia controlla che la risultante dei carichi appli…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 57 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 10^{-6}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 58 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\sum F_{carichi} + \\sum R = 0",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\sum M_{carichi} + \\sum M_R = 0",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I carichi comprendono forze e momenti nodali, carichi delle aste, pressioni e trazioni delle piastre e, nei casi di gravità, il peso delle aste, delle piastre e delle masse nodali e non strutturali secondo le opzioni di massa del caso,   con   in t e   in m/s², quindi in kN. Un caso non in equ…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 62 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: W = m\\,g",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 63 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: m",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 64 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: g",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 65 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le aste reticolari e i cavi trasmettono solo sforzo normale: nelle combinazioni ricostruite il loro sforzo normale è la somma lineare di quelli dei casi, con taglio, torsione e momenti nulli per formulazione. In un'analisi statica lineare i cavi si comportano come aste reticolari; le aste a so…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 66 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un'analisi statica lineare con una fase attiva è l'analisi lineare della configurazione di quella fase: i suoi casi si combinano fra loro. Un'analisi statica non lineare per fasi, dai file .nla, dà lo stato alla fine di ogni incremento, con tutti i carichi applicati fino a quel punto e gli spo…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 67 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le masse sono in t, cioè kN·s²/m, le masse distribuite in t/m e t/m², le inerzie rotazionali in t·m²; le temperature in °C e i gradienti termici in °C/m, lungo gli assi principali 1 e 2 per le aste e lungo l'asse z locale per le piastre.",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 68 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: alternative-delle-combinazioni-e-calcolo-per-termini",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 69 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Una combinazione lineare è la somma pesata dei suoi termini; un inviluppo è l'insieme delle sue alternative, ciascuna uno stato simultaneo, di cui si cercano gli estremi. Lo stesso caso può comparire in un inviluppo con coefficienti opposti, per esempio   e  : sono due alternative distinte. Il…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 70 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: Q",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 71 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: -Q",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 72 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 73 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n_{caso} = 1",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 74 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n_{inviluppo} = \\sum_i n_i",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 75 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n_{lineare} = \\prod_i n_i",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Fino a   la libreria GPC elenca gli stati e ne prende gli estremi componente per componente, con lo stato governante e lo stato concomitante completo. Oltre questo limite la combinazione si calcola per termini, senza elencare gli stati. Le alternative di termini diversi di una somma lineare so…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n = 4096",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 79 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r^{max}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 81 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r^{min}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r^{max}\\left(\\sum_i c_i T_i\\right) = \\sum_{c_i \\ge 0} c_i\\, r^{max}(T_i) + \\sum_{c_i < 0} c_i\\, r^{min}(T_i)",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 83 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r^{max}\\left(\\mathrm{inv}(T_1;\\,\\ldots;\\,T_m)\\right) = \\max_j\\,r^{max}(T_j)",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 85 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il minimo   si ottiene scambiando massimi e minimi. Lo stato governante è la scelta, in ogni inviluppo, dell'alternativa che dà l'estremo; il suo stato concomitante è la somma di quelle scelte, quindi tutte le componenti riportate sono simultanee. Sotto il limite il calcolo per termini darebbe…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 86 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: r^{min}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 87 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: componenti-principali-dei-plate-nelle-combinazioni",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per ogni stato combinato le componenti principali dei plate sono i valori principali dei tensori dei momenti e delle forze di membrana, in kN·m/m e kN/m, nella convenzione della copia:",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{max,min} = \\frac{M_{xx}+M_{yy}}{2} \\pm \\sqrt{\\left(\\frac{M_{xx}-M_{yy}}{2}\\right)^2 + M_{xy}^2}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: F_{max,min} = \\frac{N_{xx}+N_{yy}}{2} \\pm \\sqrt{\\left(\\frac{N_{xx}-N_{yy}}{2}\\right)^2 + N_{xy}^2}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I valori non dipendono dalla rotazione degli assi locali nel piano. Nella libreria GPC i momenti dei plate hanno il segno opposto a quello della copia, quindi   della copia è   della libreria. In una combinazione lineare le principali sono quelle dello stato locale combinato. In un inviluppo s…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 93 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: M_{max}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 94 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: -M_{min}",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 95 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: generazione-delle-combinazioni-ntc-2018-del-modello",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 96 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il generatore del modulo Modelli usa il motore delle combinazioni automatiche dei muri, con le righe di NTC 2018 §2.5.3: SLE rara, frequente e quasi permanente, SLU con l'insieme A1 della Tab. 6.2.I (G1 1/1,3; G2 0,8/1,5; variabili 0/1,5), sismiche ed eccezionali, con i coefficienti   della Ta…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 97 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\psi",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 98 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nelle righe sismiche   un caso sismico senza direzione entra da solo con i due segni. I casi con direzione seguono la regola di NTC 2018 §7.3.5: la direzione principale con coefficiente 1,00 e le altre con 0,30, permutando la direzione principale fra quelle presenti e con tutte le combinazioni…",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 99 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: E + G_1 + G_2 + \\psi_{21} Q_{k1} + \\psi_{22} Q_{k2} + \\ldots",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 100 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: E = \\pm 1{,}00\\,E_X \\pm 0{,}30\\,E_Y \\pm 0{,}30\\,E_Z",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 101 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n_E = d \\cdot 2^{d} \\cdot \\prod_{k=1}^{d} n_k",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 102 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Copia LaTeX",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 103 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Qui   è il numero delle direzioni presenti e   il numero dei casi della direzione  : con un caso per ciascuna delle tre direzioni le varianti sono 24; con una sola direzione la regola si riduce a   di ogni caso. La componente verticale entra solo se un caso ha la direzione Z: la sua necessità …",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: d",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 105 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: n_k",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: k",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 107 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: \\pm 1",
+      "voce": "GUIDE-REV74-20261117"
+    },
+    {
+      "file": "wiki/_wiki_manuale_calcestruzzo-armato_architettura-del-calcolo-e-convenzioni.txt",
+      "percorso": "riga 108 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "formula: 2^g",
+      "voce": "GUIDE-REV74-20261117"
     }
   ],
-  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato. Rev73 (1.19.2): capitolo «Modelli e importazione da MIDAS» aggiornato per i rilievi R1–R10 del modulo Modelli: 138 transizioni nuove (riga-aggiunta 132, testo 6), 122 superate tolte, tutte nei due file della pagina; ricerca invariata. Voce GUIDE-REV73-20261117; nessun atteso ingegneristico modificato."
+  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato. Rev73 (1.19.2): capitolo «Modelli e importazione da MIDAS» aggiornato per i rilievi R1–R10 del modulo Modelli: 138 transizioni nuove (riga-aggiunta 132, testo 6), 122 superate tolte, tutte nei due file della pagina; ricerca invariata. Voce GUIDE-REV73-20261117; nessun atteso ingegneristico modificato. Rev74 (1.19.3): Straus7 con più freedom case nel capitolo «Modelli e importazione da MIDAS» della pratica e in «Architettura del calcolo e convenzioni» della teorica: 127 transizioni nuove (riga-aggiunta 125, testo 2), 121 superate tolte, tutte nei file delle due pagine; ricerca invariata. Voce GUIDE-REV74-20261117; nessun atteso ingegneristico modificato."
 }
