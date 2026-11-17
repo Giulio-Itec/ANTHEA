@@ -19,6 +19,20 @@ try
         string rheologyMessage = $"PASS {count} controlli foglio Reologia";
         File.WriteAllText(Path.Combine(target, "esito.txt"), rheologyMessage); Console.WriteLine(rheologyMessage); return 0;
     }
+    // 17/11/2026: --sezione-rapida runs only the checks of the quick RC section; --sezione-rapida-esempi <cartella> writes its examples.
+    if (args.Contains("--sezione-rapida-esempi"))
+    {
+        string target = args.First(a => a != "--sezione-rapida-esempi");
+        foreach (string path in QuickSectionSheetChecks.WriteExamples(target)) Console.WriteLine(path);
+        return 0;
+    }
+    if (args.Contains("--sezione-rapida"))
+    {
+        string target = args.FirstOrDefault(a => a != "--sezione-rapida") ?? Path.Combine(root, "supporto/artefatti/sezione-rapida/presentation"); Directory.CreateDirectory(target);
+        int count = QuickSectionSheetChecks.Run(root, target);
+        string quickMessage = $"PASS {count} controlli della verifica rapida della sezione in c.a.";
+        File.WriteAllText(Path.Combine(target, "esito.txt"), quickMessage); Console.WriteLine(quickMessage); return 0;
+    }
     if(args.Contains("--spettri")){
         string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
         int count=SpectraSheetChecks.Run(root,target);string spectraMessage=$"PASS {count} controlli Spettri";File.WriteAllText(Path.Combine(target,"esito.txt"),spectraMessage);Console.WriteLine(spectraMessage);return 0;
@@ -127,6 +141,7 @@ try
     checks += ElasticPileSheetChecks.Run(root, output);
     checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
     checks += SectionActionsEditorChecks.Run();
+    checks += QuickSectionSheetChecks.Run(root, output);
     checks += CompositeSectionSheetChecks.Run(root, output);
     // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.
     checks += BridgePricesChecks.Run();

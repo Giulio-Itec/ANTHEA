@@ -1,0 +1,203 @@
+<!--
+  View of QuickSectionSheetViewModel: a compact sheet on one page (about 900 × 620), as a small calculation window. Left: the data of the section
+  (geometry, bars, actions, materials). Right: method and bending, the results of the engine, one drawing area that shows the section, the domain
+  or the moment–curvature. The fields are those of the FormViewModels of the sheet, drawn as small cells and tables (the editors are wired in the
+  code-behind as in FieldForm). Colours are theme tokens.
+-->
+<UserControl x:Class="X.Desktop.Views.QuickSection.QuickSectionSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation"
+ Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visibility"/>
+  <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+  <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="HorizontalAlignment" Value="Center"/>
+  </Style>
+  <Style TargetType="ComboBox"><Setter Property="MinHeight" Value="22"/></Style>
+  <!-- A framed group with its title, as the boxes of a small calculation window. -->
+  <Style x:Key="Box" TargetType="GroupBox">
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="FontWeight" Value="SemiBold"/><Setter Property="Padding" Value="4,2,4,4"/><Setter Property="Margin" Value="0,0,0,6"/>
+  </Style>
+
+  <!-- The editors of a field: text box, choice and check box (the same bindings as FieldForm). -->
+  <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" MinHeight="21" Margin="1" FontWeight="Normal"
+    Background="{DynamicResource Token.Field.Background}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" ToolTip="{Binding LabelToolTip}"
+    AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}" IsKeyboardFocusWithinChanged="Editor_FocusChanged"/>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" Margin="1" FontWeight="Normal"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
+   <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <Style x:Key="Editor" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Choice"><Setter Property="ContentTemplate" Value="{StaticResource ChoiceEditor}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Bool"><Setter Property="ContentTemplate" Value="{StaticResource BoolEditor}"/></DataTrigger>
+    <Trigger Property="Content" Value="{x:Null}"><Setter Property="ContentTemplate" Value="{x:Null}"/></Trigger>
+   </Style.Triggers>
+  </Style>
+
+  <!-- A field as a small cell: label and unit above, editor below. -->
+  <DataTemplate x:Key="Cell" DataType="{x:Type forms:FieldViewModel}">
+   <StackPanel Width="66" Margin="0,0,3,0">
+    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" ToolTip="{Binding LabelToolTip}">
+     <TextBlock Text="{Binding Label}" Style="{StaticResource Caption}" FontWeight="Normal"/>
+     <TextBlock Text="{Binding Unit, StringFormat=' [{0}]'}" Style="{StaticResource Caption}" FontWeight="Normal" Visibility="{Binding HasUnit, Converter={StaticResource Visibility}}"/>
+    </StackPanel>
+    <ContentControl Content="{Binding}" Style="{StaticResource Editor}"/>
+   </StackPanel>
+  </DataTemplate>
+
+  <!-- A value of the engine: label, value, unit. -->
+  <DataTemplate x:Key="ValueRow">
+   <Grid Margin="0,0,10,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+    <TextBlock Text="{Binding Label}" FontWeight="Normal" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+    <TextBlock Grid.Column="1" Text="{Binding Value}" TextAlignment="Right" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" MaxWidth="130" ToolTip="{Binding Value}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="3,0,0,0" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}"/>
+   </Grid>
+  </DataTemplate>
+  <ItemsPanelTemplate x:Key="TwoColumns"><UniformGrid Columns="2"/></ItemsPanelTemplate>
+ </UserControl.Resources>
+
+ <Grid Margin="8,6,8,6">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="400"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*" MinWidth="420"/></Grid.ColumnDefinitions>
+
+  <!-- Title and shape. -->
+  <Grid Grid.ColumnSpan="3" Margin="0,0,0,6">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions>
+   <TextBlock Text="Titolo" FontWeight="SemiBold" Margin="0,0,6,0"/>
+   <TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
+   <TextBlock Grid.Column="2" Text="Sezione" FontWeight="SemiBold" Margin="12,0,6,0"/>
+   <ComboBox Grid.Column="3" ItemsSource="{Binding Shapes}" SelectedItem="{Binding Shape}" IsEnabled="{Binding CanEdit}" ToolTip="Forma della sezione"/>
+  </Grid>
+
+  <!-- Data of the section. -->
+  <StackPanel Grid.Row="1">
+   <GroupBox Header="Geometria" Style="{StaticResource Box}">
+    <ItemsControl ItemsSource="{Binding GeometryForm.Fields}" ItemTemplate="{StaticResource Cell}" Focusable="False">
+     <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+    </ItemsControl>
+   </GroupBox>
+   <GroupBox Header="Armature" Style="{StaticResource Box}" ToolTip="Barre disposte dal motore della sezione in c.a., con copriferro e staffe">
+    <StackPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="2" Text="n" Style="{StaticResource Caption}" FontWeight="Normal"/>
+      <TextBlock Grid.Column="3" Text="Ø [mm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
+      <TextBlock Grid.Column="4" Text="s [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza libera dalla prima fila"/>
+     </Grid>
+     <ItemsControl ItemsSource="{Binding BarRows}" Focusable="False">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <Grid>
+         <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+         <TextBlock Text="{Binding Title}" FontWeight="Normal"/>
+         <ContentControl Grid.Column="1" Content="{Binding Enabled}" Style="{StaticResource Editor}"/>
+         <ContentControl Grid.Column="2" Content="{Binding Count}" Style="{StaticResource Editor}"/>
+         <ContentControl Grid.Column="3" Content="{Binding Diameter}" Style="{StaticResource Editor}"/>
+         <ContentControl Grid.Column="4" Content="{Binding Gap}" Style="{StaticResource Editor}"/>
+        </Grid>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </StackPanel>
+   </GroupBox>
+   <GroupBox Header="Sollecitazioni" Style="{StaticResource Box}" ToolTip="N negativo a compressione">
+    <StackPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="80"/><ColumnDefinition Width="80"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="1" Text="N [kN]" Style="{StaticResource Caption}" FontWeight="Normal"/>
+      <TextBlock Grid.Column="2" Text="Mx [kNm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
+      <TextBlock Grid.Column="3" Text="My [kNm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
+     </Grid>
+     <ItemsControl ItemsSource="{Binding ActionRows}" Focusable="False">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <Grid>
+         <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="80"/><ColumnDefinition Width="80"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+         <TextBlock Text="{Binding Title}" FontWeight="Normal"/>
+         <ContentControl Grid.Column="1" Content="{Binding N}" Style="{StaticResource Editor}"/>
+         <ContentControl Grid.Column="2" Content="{Binding Mx}" Style="{StaticResource Editor}"/>
+         <ContentControl Grid.Column="3" Content="{Binding My}" Style="{StaticResource Editor}"/>
+        </Grid>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="80"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+      <TextBlock Text="φ (metodo n)" FontWeight="Normal" ToolTip="{Binding PhiField.LabelToolTip}"/>
+      <ContentControl Grid.Column="1" Content="{Binding PhiField}" Style="{StaticResource Editor}"/>
+      <TextBlock Grid.Column="2" Text="N &lt; 0 compressione" Style="{StaticResource Caption}" FontWeight="Normal" Margin="6,0,0,0" HorizontalAlignment="Left"/>
+     </Grid>
+    </StackPanel>
+   </GroupBox>
+   <GroupBox Header="Materiali" Style="{StaticResource Box}" ToolTip="NTC 2018 · coefficienti e diagrammi della sezione in c.a.">
+    <StackPanel>
+     <ItemsControl ItemsSource="{Binding MaterialsForm.Fields}" ItemsPanel="{StaticResource TwoColumns}" Focusable="False">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate><ContentControl Content="{Binding}" Style="{StaticResource Editor}" Margin="0,0,10,3"/></DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <ItemsControl ItemsSource="{Binding MaterialValues}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
+    </StackPanel>
+   </GroupBox>
+  </StackPanel>
+
+  <!-- Method, results and the drawing area. -->
+  <Grid Grid.Row="1" Grid.Column="2">
+   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*" MinHeight="260"/></Grid.RowDefinitions>
+   <GroupBox Header="Calcolo" Style="{StaticResource Box}">
+    <Grid>
+     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <TextBlock Text="Metodo" FontWeight="Normal" Margin="0,0,6,0"/>
+     <ComboBox Grid.Column="1" ItemsSource="{Binding Methods}" SelectedItem="{Binding Method}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" ToolTip="SLU con momento positivo o negativo, oppure tensioni con il metodo n"/>
+     <TextBlock Grid.Column="2" Text="Flessione" FontWeight="Normal" Margin="12,0,6,0"/>
+     <ComboBox Grid.Column="3" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" FontWeight="Normal" ToolTip="Retta: My non è usato"/>
+    </Grid>
+   </GroupBox>
+   <GroupBox Grid.Row="1" Header="Risultati" Style="{StaticResource Box}">
+    <StackPanel>
+     <TextBlock Text="{Binding Status}" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" TextWrapping="Wrap" Margin="0,0,0,2"/>
+     <ItemsControl ItemsSource="{Binding ResultValues}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
+     <ItemsControl ItemsSource="{Binding Errors}" Focusable="False">
+      <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" FontWeight="Normal" Foreground="{DynamicResource Token.Warning.Foreground}" TextWrapping="Wrap"/></DataTemplate></ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </StackPanel>
+   </GroupBox>
+   <DockPanel Grid.Row="2">
+    <Grid DockPanel.Dock="Top" Margin="0,0,0,3">
+     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="180"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <TextBlock Text="Mostra" FontWeight="SemiBold" Margin="0,0,6,0"/>
+     <ComboBox Grid.Column="1" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x"/>
+    </Grid>
+    <Grid>
+     <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}">
+      <ContentControl x:Name="DrawingHost" Focusable="False"/>
+     </Border>
+     <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="1">
+      <Border.Style>
+       <Style TargetType="Border">
+        <Setter Property="Visibility" Value="Collapsed"/>
+        <Style.Triggers><DataTrigger Binding="{Binding ShowsSection}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+       </Style>
+      </Border.Style>
+      <ContentControl x:Name="ChartHost" Focusable="False"/>
+     </Border>
+    </Grid>
+   </DockPanel>
+  </Grid>
+ </Grid>
+</UserControl>

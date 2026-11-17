@@ -855,6 +855,33 @@
       "kind": "calcolo",
       "sha256": "ca64d046f85da9c595ae458a40eaf38a6634a793597f36a0d4d9385e88543aa1",
       "origin": "Esempio originale ANTHEA, 02/11/2026; riferimento numerico indipendente in ConcreteTimeEffects.Checks"
+    },
+    {
+      "path": "str_sezione_ca_rapida/trave-flessione-retta.anthea",
+      "module": "str_sezione_ca_rapida",
+      "title": "Trave 30×50 · flessione retta",
+      "description": "Verifica rapida SLU+: momento resistente a N nullo, sfruttamento e dominio N–M; C25/30, 2Ø14 superiori e 4Ø20 inferiori.",
+      "kind": "calcolo",
+      "sha256": "e4f12ae300deec60cd75f730316532a66793f164089b3a39b90667a3d8fe10a8",
+      "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
+    },
+    {
+      "path": "str_sezione_ca_rapida/pilastro-flessione-deviata.anthea",
+      "module": "str_sezione_ca_rapida",
+      "title": "Pilastro 40×40 · flessione deviata",
+      "description": "Verifica rapida SLU+ in pressoflessione deviata: resistenze principali, sfruttamento e dominio Mx–My a N assegnato.",
+      "kind": "calcolo",
+      "sha256": "dc81f1e6e853716562d9f86763fe6067e63225f7842ee9fa3fa3e7164cd14b26",
+      "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
+    },
+    {
+      "path": "str_sezione_ca_rapida/palo-circolare-metodo-n.anthea",
+      "module": "str_sezione_ca_rapida",
+      "title": "Palo Ø800 · metodo n",
+      "description": "Tensioni nel calcestruzzo e nelle barre con il metodo n e curva momento–curvatura a N assegnato.",
+      "kind": "calcolo",
+      "sha256": "76698bd8dba506f2d769a5f858a18bbd514e0cc58043110d611ae53b7294c14d",
+      "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
     }
   ]
 }

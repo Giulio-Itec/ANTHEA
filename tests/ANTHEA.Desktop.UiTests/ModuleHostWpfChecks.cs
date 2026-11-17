@@ -51,7 +51,7 @@ internal static class ModuleHostWpfChecks
     /// switched on 23/10 (passaggi della Release: materials, vertical and horizontal pile and micropile, stratigraphy, shallow foundations,
     /// composite bridge section, Bridge Design, RC section, retaining walls).
     /// </summary>
-    private static readonly string[] ReleaseMvvm = new string[] {"mat_reologia", SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule }.Concat(Anthea.Application.Actions.ClimateDocument.Modules.Select(m=>m.Id)).Order(StringComparer.Ordinal).ToArray();
+    private static readonly string[] ReleaseMvvm = new string[] {"mat_reologia", "str_sezione_ca_rapida",SpectraModule, PileGroupModule, "geo_fondazioni_superficiali", HorizontalMicropileModule, "geo_micropalo_verticale", RetainingWallModule, HorizontalPileModule, "geo_palo_verticale", EmbeddedWallModule, "geo_stratigrafia", ProbeModule, ConcreteModule, BridgeDesignModule, CompositeSectionModule, ConcreteSectionModule }.Concat(Anthea.Application.Actions.ClimateDocument.Modules.Select(m=>m.Id)).Order(StringComparer.Ordinal).ToArray();
     /// <summary>The RC section, MVVM in the Release since the switch of 23/10/2026 (F5.10).</summary>
     private const string ConcreteSectionModule = "str_palo";
 
@@ -96,7 +96,7 @@ internal static class ModuleHostWpfChecks
         var composition = new DesktopComposition(() => null);
         Check(composition.Modules.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
             && composition.Modules.SheetModuleIds.SequenceEqual(ModuleDirectory.All.Select(m => m.Id)
-                .Where(m => m is "mat_reologia" or "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
+                .Where(m => m is "mat_reologia" or "str_sezione_ca_rapida" or "geo_efficienza_orizzontale" or "geo_palo_verticale" or "geo_micropalo_verticale" or "mat_calcestruzzo" or "mat_acciaio_armatura"
                     or "geo_fondazioni_superficiali" or "geo_palo_orizzontale" or "geo_micropalo_orizzontale" or "geo_stratigrafia" or "geo_muri_sostegno"
                     or "str_palo" or SpectraModule or EmbeddedWallModule
                     or "str_mista_ponte"
@@ -123,6 +123,35 @@ internal static class ModuleHostWpfChecks
                 Check(rheology.View.ActualWidth > 1000 && !string.IsNullOrEmpty(sheet.Model.InfinityText), "DataTemplate del foglio Reologia risolto");
                 rheology.InspectRevision();
                 Check(!sheet.Model.CanEdit, "Reologia: la consultazione delle revisioni protegge gli ingressi");
+            }
+            finally { window.Close(); }
+        }
+        // 17/11/2026: the quick RC section opens with its MVVM view, calculates by itself and draws section, results and chart (PNG in the folder).
+        using (var quick = composition.SheetEditors.Open("str_sezione_ca_rapida", ModuleDirectory.CreateData("str_sezione_ca_rapida")))
+        {
+            Check(quick is MvvmSheetEditor { Sheet: Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel },
+                "Radice di composizione: la Release apre la verifica rapida della sezione c.a. con la vista MVVM");
+            var sheet = (Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)((MvvmSheetEditor)quick).Sheet;
+            var window = new Window { Content = quick.View, Width = 920, Height = 660, Left = -10000, Top = -10000, ShowActivated = false, ShowInTaskbar = false };
+            try
+            {
+                window.Show();
+                await sheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                window.UpdateLayout();
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                Check(quick.View.ActualWidth > 800 && sheet.HasResults && sheet.ResultValues.Count > 0, "DataTemplate della verifica rapida risolto, con i risultati del motore");
+                void Png(string name)
+                {
+                    var bitmap = new RenderTargetBitmap((int)window.ActualWidth, (int)window.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+                    bitmap.Render((Visual)window.Content);
+                    var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                    using var stream = File.Create(Path.Combine(directory, name)); encoder.Save(stream);
+                }
+                Png("verifica-rapida-sezione-ca.png");
+                sheet.Display = "Dominio";
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); window.UpdateLayout();
+                Check(!sheet.ShowsSection && sheet.ShowsDomain, "Verifica rapida: l'area di disegno mostra il dominio");
+                Png("verifica-rapida-sezione-ca-dominio.png");
             }
             finally { window.Close(); }
         }

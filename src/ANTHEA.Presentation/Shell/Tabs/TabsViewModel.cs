@@ -115,6 +115,9 @@ public sealed class TabHostViewModel : ViewModelBase
 
     public bool IsMain { get; }
 
+    /// <summary>The size the window opens with (a module with its own window, <see cref="SheetLayout.OwnWindow"/>); null: the default size.</summary>
+    public (double Width, double Height)? PreferredSize { get; internal set; }
+
     public ObservableCollection<ShellTabViewModel> Tabs { get; } = [];
 
     /// <summary>The tab shown; null when the window has no tab (the main window then shows the pages).</summary>
@@ -263,10 +266,12 @@ public sealed class ShellWindowsViewModel : ViewModelBase
     }
 
     /// <summary>«Sposta in una nuova finestra»: the same ViewModel in a new window, selected.</summary>
-    public TabHostViewModel MoveToNewWindow(ShellTabViewModel tab)
+    public TabHostViewModel MoveToNewWindow(ShellTabViewModel tab) => MoveToNewWindow(tab, null);
+
+    private TabHostViewModel MoveToNewWindow(ShellTabViewModel tab, (double Width, double Height)? size)
     {
         ArgumentNullException.ThrowIfNull(tab);
-        var host = new TabHostViewModel(false);
+        var host = new TabHostViewModel(false) { PreferredSize = size };
         Detached.Add(host);
         Move(tab, host);
         windows.Open(host);
@@ -376,7 +381,12 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         }
     }
 
-    private void OnSheetOpened(object? sender, SheetSession sheet) => Add(sheet);
+    // A module with its own window (17/11/2026, the quick RC section) opens its new sheet detached, in a window of its size.
+    private void OnSheetOpened(object? sender, SheetSession sheet)
+    {
+        Add(sheet);
+        if (SheetLayout.OwnWindow(sheet.Module) is { } size) MoveToNewWindow(sheets[sheet], size);
+    }
 
     private void OnSheetClosed(object? sender, SheetClosedEventArgs e)
     {

@@ -70,6 +70,16 @@ internal static class ShellPartEChecks
         var renamed = project.Find(second.S("id"))!;
         project.Rename(renamed, "Sezione rinominata");
         expect.That(ReferenceEquals(shell.Tree.Selected?.Node, renamed), "Cambio della struttura: il nodo cambiato selezionato");
+
+        // 17/11/2026: a sheet of the quick RC section opens by itself in its own window, with its size, which has the focus; closing it brings the tab back.
+        int before = shell.Windows.Detached.Count;
+        var quick = workspace.OpenSheet(project.AddSheet(SheetLayout.QuickSectionModule, section)!);
+        var quickTab = shell.Windows.TabOf(quick)!;
+        expect.That(quickTab.IsDetached && quickTab.Host!.PreferredSize == SheetLayout.OwnWindow(SheetLayout.QuickSectionModule) && shell.Windows.Detached.Count == before + 1
+            && ReferenceEquals(shell.Windows.ActiveHost, quickTab.Host) && ReferenceEquals(quickTab.Host.Selected, quickTab) && ReferenceEquals(workspace.Active, quick),
+            "Verifica rapida della sezione c.a.: finestra propria con la sua dimensione, con il fuoco");
+        shell.Windows.WindowClosed(quickTab.Host);
+        expect.That(!quickTab.IsDetached && shell.Windows.Detached.Count == before, "Chiusa la finestra propria, la scheda torna nella principale");
         StatusAfterCommit(expect);
         return expect.Count;
     }

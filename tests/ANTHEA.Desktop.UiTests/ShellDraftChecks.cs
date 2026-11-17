@@ -185,6 +185,22 @@ internal static class ShellDraftChecks
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
 
+                // 17/11/2026: a new quick RC section opens by itself in its own window, with the size of SheetLayout.OwnWindow.
+                int windowsBefore = detached.Count;
+                var quick = workspace.NewCalculation(SheetLayout.QuickSectionModule)!;
+                await Idle(main);
+                Check(detached.Count == windowsBefore + 1 && tracker.Hosts.Count == 1 && shell.Windows.TabOf(quick) is { IsDetached: true }, "Verifica rapida: finestra propria aperta da sola");
+                var quickWindow = detached[^1];
+                var size = SheetLayout.OwnWindow(SheetLayout.QuickSectionModule)!.Value;
+                Check(quickWindow.Window.Width == size.Width && quickWindow.Window.Height == size.Height, "Verifica rapida: la finestra ha la sua dimensione (" + quickWindow.Window.Width + " × " + quickWindow.Window.Height + ")");
+                if (quick.ViewModel is Anthea.Presentation.Modules.SheetViewModelBase quickSheet) await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
+                quickWindow.Window.Close();
+                await Idle(main);
+                Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");
+                workspace.CloseSheet(quick);
+                await Idle(main);
+
                 // After the checkpoint of 22/10: the menu of a sheet of the tree offers the new window and the full page.
                 var node = (DataTemplate)main.FindResource(new DataTemplateKey(typeof(ProjectNodeViewModel)));
                 var menu = ((FrameworkElement)node.LoadContent()).ContextMenu!;
@@ -227,8 +243,9 @@ internal static class ShellDraftChecks
                 shell.Tree.Find(project.Find(strata.S("id"))!)!.OpenInNewWindowCommand.Execute(null);
                 var strataSheet = workspace.SheetOf(project.Find(strata.S("id"))!)!;
                 var strataTab = shell.Windows.TabOf(strataSheet)!;
-                Check(detached.Count == 2 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
-                var fromTree = detached[1];
+                // Three windows created in all: the pile group, the quick RC section (17/11/2026), this one.
+                Check(detached.Count == 3 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
+                var fromTree = detached[2];
                 var treeHost = tracker.Hosts.Single();
                 Check(treeHost.Tabs.Count == 1 && ReferenceEquals(treeHost.Tabs[0], strataTab) && !shell.Windows.Main.Tabs.Contains(strataTab)
                     && ReferenceEquals(tracker.WindowOf(treeHost), fromTree) && fromTree.Activations == 1 && fromTree.IsActive && ReferenceEquals(workspace.Active, strataSheet),

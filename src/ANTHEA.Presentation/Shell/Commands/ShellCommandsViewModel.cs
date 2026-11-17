@@ -199,6 +199,8 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         var sheet = workspace.Active;
         string? module = sheet?.Module;
         if (brief && (module is null || !PileFamilyReport.Supports(module))) return;
+        // 17/11/2026: the quick RC section has no report in its first version.
+        if (module == Anthea.Application.Concrete.ConcreteQuickSection.Module) { services.Messages.Inform("", Anthea.Application.Concrete.ConcreteQuickSection.NoReport); return; }
         if (module is "geo_stratigrafia" or "geo_fondazioni_superficiali" or "mat_calcestruzzo" or "mat_acciaio_armatura")
         {
             workspace.CommitActive();
