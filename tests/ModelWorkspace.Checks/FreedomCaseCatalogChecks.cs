@@ -1,32 +1,45 @@
 using ANTHEA.ModelWorkspace;
 using ANTHEA.ModelViewer.Presentation;
+using Code = GPC.Converter.Straus7.Straus7CaseExclusionReason;
 
 /// <summary>
 /// 17/11/2026, set AY candidate (GPC.Converter 2.24, registro MOD-FC-AY-20261117): a Straus7 catalogue of a model with several freedom cases
 /// shows each result case with its freedom case («5: G1 · FC 2»), the freedom cases of the model and the cases left out with the reason of the
-/// converter in Italian; the names of the cases in the copy do not change.
+/// converter in Italian; the names of the cases in the copy do not change. Since GPC.Converter 2.25 (set AY) the Italian reason comes from the
+/// code of the converter (Straus7LinearStaticCase.ReasonCode), not from its English text.
 /// </summary>
 static partial class Program
 {
     static async Task FreedomCaseCatalogChecks(string output)
     {
-        const string Shared = "The linear static settings solve load case 2 under FC 1, FC 2: GPC.Model keeps the results of a load case, not of each freedom case.";
         const string OneCasePerLoadCase = "il modello GPC tiene i risultati di un caso di carico, non di ogni freedom case";
+        const string Shared = "l’analisi statica lineare risolve il caso di carico 2 sotto FC 1, FC 2: " + OneCasePerLoadCase;
         const long JsonLimit = 1048576;
-        // The reasons of Straus7LinearStaticResults.Cases (GPC.Converter 2.24) as the converter writes them.
-        Check(Strand7Snapshot.ExclusionReason("No load case of the Model has the number and the name of the result case.") == "nessun caso di carico del modello ha il numero e il nome di questo caso di risultato" &&
-              Strand7Snapshot.ExclusionReason("The model has no freedom case 3.") == "il modello non ha il freedom case 3" &&
-              Strand7Snapshot.ExclusionReason("Freedom case 2 of the model is named 'A', not 'B'.") == "il freedom case 2 del modello si chiama «A», non «B»" &&
-              Strand7Snapshot.ExclusionReason("The linear static settings of the imported model solve load case 4 under no freedom case, not under FC 2.") ==
-                  "l’analisi statica lineare del modello risolve il caso di carico 4 sotto nessun freedom case, non sotto FC 2" &&
-              Strand7Snapshot.ExclusionReason("The linear static settings of the imported model solve load case 4 under FC 1, FC 3, not under FC 2.") ==
-                  "l’analisi statica lineare del modello risolve il caso di carico 4 sotto FC 1, FC 3, non sotto FC 2" &&
-              Strand7Snapshot.ExclusionReason(Shared) == "l’analisi statica lineare risolve il caso di carico 2 sotto FC 1, FC 2: " + OneCasePerLoadCase &&
-              Strand7Snapshot.ExclusionReason("The result file solves load case 2 under 1, 2 (freedom cases): GPC.Model keeps the results of a load case, not of each freedom case.") ==
-                  "il file dei risultati risolve il caso di carico 2 sotto i freedom case 1, 2: " + OneCasePerLoadCase &&
-              Strand7Snapshot.ExclusionReason("A reason of a later converter.") == "motivo del convertitore GPC: A reason of a later converter." &&
-              Strand7Snapshot.ExclusionReason(null).Length > 0,
-            "AY: the reasons of the converter for a result case left out, in Italian; another text kept after «motivo del convertitore GPC:»");
+        // GPC.Converter 2.25 (decision of the user of 17/11/2026): the Italian reason comes from the code of the converter
+        // (Straus7LinearStaticCase.ReasonCode) and the numbers of the case, whatever its English text; the freedom case data of an import with
+        // freedom cases 1 and 2 named «A» and 3 named «C», load case 2 solved under FC 1 and FC 2, load case 4 under FC 1 and FC 3.
+        var settings = new GPC.Converter.Straus7.Straus7FreedomCaseData
+        {
+            FreedomCases = [new() { Number = 1, Name = "A" }, new() { Number = 2, Name = "A" }, new() { Number = 3, Name = "C" }],
+            LinearCases = [new() { LoadCase = 2, FreedomCase = 1 }, new() { LoadCase = 2, FreedomCase = 2 }, new() { LoadCase = 4, FreedomCase = 1 }, new() { LoadCase = 4, FreedomCase = 3 }]
+        };
+        static string Reason(Code code, int? load, int? freedom, string? name = null, string? text = "Any English sentence.", GPC.Converter.Straus7.Straus7FreedomCaseData? data = null,
+            int[]? listed = null) => Strand7Snapshot.ExclusionReason(code, load, freedom, name, text, data, listed ?? []);
+        Check(Reason(Code.NoMatchingLoadCase, null, null) == "nessun caso di carico del modello ha il numero e il nome di questo caso di risultato" &&
+              Reason(Code.FreedomCaseMissing, 1, 9, "X", data: settings) == "il modello non ha il freedom case 9" &&
+              Reason(Code.FreedomCaseRenamed, 4, 3, "B", data: settings) == "il freedom case 3 del modello si chiama «C», non «B»" &&
+              Reason(Code.NotSolvedUnderFreedomCase, 5, 2, "A", data: settings) == "l’analisi statica lineare del modello risolve il caso di carico 5 sotto nessun freedom case, non sotto FC 2" &&
+              Reason(Code.NotSolvedUnderFreedomCase, 4, 2, "A", data: settings) == "l’analisi statica lineare del modello risolve il caso di carico 4 sotto FC 1, FC 3, non sotto FC 2" &&
+              Reason(Code.SolvedUnderSeveralFreedomCases, 2, 1, "A", data: settings) == Shared &&
+              Reason(Code.ListedUnderSeveralFreedomCases, 2, 2, "B", listed: [1, 2]) == "il file dei risultati risolve il caso di carico 2 sotto i freedom case 1, 2: " + OneCasePerLoadCase,
+            "AY: the reasons of the converter for a result case left out, in Italian from the code and the numbers of the case, not from its English text");
+        Check(Reason((Code)99, 2, 2, text: "A reason of a later converter.") == "motivo del convertitore GPC: A reason of a later converter." &&
+              Reason(Code.NotSolvedUnderFreedomCase, 4, 2, text: "Without the freedom case data.") == "motivo del convertitore GPC: Without the freedom case data." &&
+              Reason((Code)99, null, null, text: null).Length > 0,
+            "AY: a code this version does not translate, or one without the numbers it needs, keeps the English text after «motivo del convertitore GPC:»");
+        // Every code of the converter but None has its Italian text: a code added by a later GPC.Converter fails here until it is translated.
+        Check(Enum.GetValues<Code>().Where(c => c != Code.None).All(c => !Reason(c, 2, 3, "B", data: settings, listed: [1, 2]).StartsWith("motivo del convertitore GPC", StringComparison.Ordinal)),
+            "AY: every reason code of GPC.Converter has its Italian text");
 
         // A catalogue of a model with two freedom cases with the same name, with one load case solved under both (synthetic numbers, note N3).
         string folder = Path.Combine(output, "freedom-case-ay"); Directory.CreateDirectory(folder);
@@ -42,7 +55,7 @@ static partial class Program
             Beams = 30, Plates = 180, Combinations = 4, LoadCases = ["1: G1", "2: Q", "5: G1"],
             FreedomCases = ["FC 1 «Freedom Case 1»: casi di carico 1, 2", "FC 2 «Freedom Case 1»: casi di carico 2, 5"],
             Warnings = ["Straus7FreedomCasesPreserved: vincoli e molle di più freedom case conservati.", "Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + excluded + "."],
-            UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Strand7Snapshot.ExclusionReason(Shared))]
+            UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Shared)]
         };
         using var vm = new ModelViewerViewModel(null, [], false, services, _ => { }, (_, _, _, _) => { });
         vm.SelectedImportSource = 2;
@@ -112,7 +125,7 @@ static partial class Program
         // Linear static results with no selectable case: no sentence on the reactions of cases that are not imported.
         string excludedOnly = await Summary(new Strand7ModelCatalog(4, 2, [], "S/R")
         {
-            LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases, UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Strand7Snapshot.ExclusionReason(Shared))]
+            LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases, UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Shared)]
         }, "modello.lsa");
         Check(excludedOnly.Contains(FreedomLine, StringComparison.Ordinal) && !excludedOnly.Contains(Reactions, StringComparison.Ordinal) && !excludedOnly.Contains(Labels, StringComparison.Ordinal),
             "P2: without selectable cases the summary names neither labels nor reactions");
@@ -122,7 +135,7 @@ static partial class Program
         {
             strand7Model = File("modello.st7"), strand7Results = File("modello.lsa"), strand7Api = api,
             Catalog = new Strand7ModelCatalog(4, 2, [new(1, "1: G1")], "S/R")
-            { LoadCases = ["1: G1"], UnmappedResultCases = ["2: X"], ExcludedResultCases = [new(2, "2: X", Strand7Snapshot.ExclusionReason("A reason of a later converter."))] }
+            { LoadCases = ["1: G1"], UnmappedResultCases = ["2: X"], ExcludedResultCases = [new(2, "2: X", Reason((Code)99, null, null, text: "A reason of a later converter."))] }
         };
         using (var laterView = new ModelViewerViewModel(null, [], false, later, _ => { }, (_, _, _, _) => { }))
         {

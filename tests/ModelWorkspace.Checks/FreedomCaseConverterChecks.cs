@@ -74,16 +74,26 @@ static partial class Program
         Check(linear.Excluded.Select(c => c.Number).SequenceEqual([1, 4, 5, 6, 7, 8]) && linear.Excluded.Select(c => c.Name).SequenceEqual(listed.Where(c => c.Number is 1 or >= 4).Select(c => c.Name)) &&
               linear.Excluded.Select(c => c.Reason).SequenceEqual(reasons),
             "P3: the cases left out keep their native name, each with the reason of the converter in Italian");
-        // No reason left in English (a sentence of the converter that Strand7Snapshot.ExclusionReason no longer recognizes).
+        // No reason left in English (a code of the converter that Strand7Snapshot.ExclusionReason does not translate).
         var english = new Regex(@"\b(The|the|under|not|solve[sd]?|named|has|keeps|Model)\b", RegexOptions.CultureInvariant);
         Check(linear.Excluded.All(c => !c.Reason.StartsWith("motivo del convertitore GPC", StringComparison.Ordinal) && !english.IsMatch(c.Reason)),
             "P3: every reason of the converter for these cases is translated");
+        // GPC.Converter 2.25 (decision of the user of 17/11/2026): each case left out has the code of its reason, which the Italian text is
+        // built from, instead of the English sentence.
+        var codes = Straus7LinearStaticResults.Cases(model, listed).Where(c => c.ModelCase == null).Select(c => c.ReasonCode).ToArray();
+        Check(codes.SequenceEqual([Straus7CaseExclusionReason.NotSolvedUnderFreedomCase, Straus7CaseExclusionReason.SolvedUnderSeveralFreedomCases,
+                  Straus7CaseExclusionReason.FreedomCaseRenamed, Straus7CaseExclusionReason.FreedomCaseMissing, Straus7CaseExclusionReason.NotSolvedUnderFreedomCase,
+                  Straus7CaseExclusionReason.NoMatchingLoadCase]) &&
+              Straus7LinearStaticResults.Cases(model, listed).Where(c => c.ModelCase != null).All(c => c.ReasonCode == Straus7CaseExclusionReason.None),
+            "2.25: the converter gives the code of the reason of each case left out, None for a mapped case");
 
         // Without the freedom case data (an older import) the listing decides: a load case under two freedom cases of the file is left out.
         var bare = Model("senza dati dei freedom case", (2, "Q"), (4, "W"));
         var file = Strand7Snapshot.LinearCases(bare, [Listed(1, "1: [2: Q] [1: A]"), Listed(2, "2: [2: Q] [2: B]"), Listed(3, "3: [4: W] [2: B]")]);
         Check(file is not null && file.Cases.Select(c => (c.Number, c.Name, c.Label)).SequenceEqual([(3, "4: W", "4: W · FC 2")]) &&
               file.Excluded.Select(c => c.Number).SequenceEqual([1, 2]) &&
+              Straus7LinearStaticResults.Cases(bare, [Listed(1, "1: [2: Q] [1: A]"), Listed(2, "2: [2: Q] [2: B]"), Listed(3, "3: [4: W] [2: B]")])
+                  .Where(c => c.ModelCase == null).All(c => c.ReasonCode == Straus7CaseExclusionReason.ListedUnderSeveralFreedomCases) &&
               file.Excluded.All(c => c.Reason == "il file dei risultati risolve il caso di carico 2 sotto i freedom case 1, 2: il modello GPC tiene i risultati di un caso di carico, non di ogni freedom case"),
             "P3: without freedom case data a load case solved under two freedom cases of the file is left out, with the reason in Italian");
         // A solution of one freedom case: «n: nome», numbered over the solved load cases; no label, the name of the case as before.
