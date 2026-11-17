@@ -49,10 +49,14 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     private string? displayName;
     public void SetDisplayName(string name) { displayName = name; Title = name; }
 
+    /// <param name="combinations">P2 of the review of 17/11/2026: the GPC service of the host (the tab of the model), whose base cases prepared
+    /// in the background survive this viewer (a change of tab or page creates the viewer again); null for a service of this viewer only.</param>
     public ModelViewerViewModel(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
-        IModelViewerServices services, Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked)
+        IModelViewerServices services, Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked,
+        GpcModelCombinationService? combinations = null)
     {
         this.services = services; this.imported = imported; this.linked = linked; IsReadOnly = readOnly;
+        combinationService = combinations ?? new(); ownsCombinationService = combinations is null;
         selectedCombinationLimit = SavedCombinationLimit();
         Sheets = sheets; selectedSheet = sheets.FirstOrDefault();
         if (snapshot != null) SetSnapshot(snapshot);
@@ -174,7 +178,19 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     {
         // R7 (16/11/2026): the preparation of the previous copy stops; this one is prepared when its scene is ready (SceneReady).
         ResetPreparation();
-        combinationService.ClearCache();
+        settingSnapshot = true;
+        try { SetSnapshotCore(snapshot, validated); }
+        finally { settingSnapshot = false; }
+        // P1 of the review of 17/11/2026: the catalogue of this copy is ready now (RefreshScene comes before RefreshCombinations).
+        TryStartPreparation();
+    }
+
+    private void SetSnapshotCore(ModelSnapshot snapshot, bool validated)
+    {
+        // P2 of the review of 17/11/2026: the service of the tab keeps what it prepared for this same copy (a viewer created again on it); a
+        // read-only preview of a revision leaves it alone. The service of this viewer only is emptied, as before.
+        if (ownsCombinationService) combinationService.ClearCache();
+        else if (!IsReadOnly) combinationService.KeepOnlyFor(snapshot);
         if (!validated) snapshot.Validate();
         // Decision of 1/11/2026 (a revision for each definition): the derived results of an older revision are not shown as valid.
         snapshot = ModelCombinations.WithCurrentResults(snapshot);
@@ -262,7 +278,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
 
     public void Dispose()
     {
-        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); combinationService.ClearCache(); MidasApiKey=""; SceneChanged = null;
+        // P2 of the review of 17/11/2026: the service of the tab keeps the base cases, and their preparation in progress, for the next viewer.
+        if (disposed) return; disposed = true; lifetime.Cancel(); lifetime.Dispose(); if (ownsCombinationService) { preparation?.Cancel(); combinationService.ClearCache(); } MidasApiKey=""; SceneChanged = null;
         foreach(var chapter in ReportChapters) chapter.PropertyChanged -= ChapterChanged;
         Comparison?.Dispose(); Comparison=null; FocusSelectionRequested=null;PreviousCameraRequested=null;HoverChanged=null;
         ViewSettingsChanged = null; CameraPresetRequested = null;

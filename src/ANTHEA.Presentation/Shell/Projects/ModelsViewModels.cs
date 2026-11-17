@@ -188,8 +188,16 @@ public sealed class ModelTabViewModel : ViewModelBase
         NewModelCommand = GuardedCommands.Create(guard, () => NewModelRequested?.Invoke(this, Container), () => !IsReadOnly);
         SaveCommand = GuardedCommands.Create(guard, () => SaveRequested?.Invoke(this, EventArgs.Empty));
         RenameCommand = GuardedCommands.Create(guard, () => Rename(RenameText));
-        RestoreCopyCommand = GuardedCommands.Create(guard, () => RestoreCopy(SelectedPreviousCopy?.Revision ?? ""), () => !IsReadOnly && SelectedPreviousCopy is not null);
+        // P3 of the review of 17/11/2026: not while the copy is read on another thread (the reading would then put the older copy back).
+        RestoreCopyCommand = GuardedCommands.Create(guard, () => RestoreCopy(SelectedPreviousCopy?.Revision ?? ""), () => !IsReadOnly && !IsLoading && SelectedPreviousCopy is not null);
     }
+
+    /// <summary>
+    /// P2 of the review of 17/11/2026: the GPC service of the model of this tab, given to each viewer the view creates (a change of tab or of
+    /// page, «Annulla» and «Ripristina» create it again): the base cases prepared in the background stay with the tab instead of being prepared
+    /// again by every viewer. Closed with the tab. One for each tab, never shared between tabs (rule P3).
+    /// </summary>
+    public GpcModelCombinationService Combinations { get; } = new();
 
     /// <summary>The section of the model.</summary>
     public JsonObject Container { get; private set; }
@@ -229,7 +237,7 @@ public sealed class ModelTabViewModel : ViewModelBase
     private ModelSnapshot? Load(JsonObject container, string? modelId)
     {
         loading?.Cancel(); loading = null; int generation = ++loadGeneration;
-        isLoading = false; loadFailure = null;
+        isLoading = false; loadFailure = null; RestoreCopyCommand?.NotifyCanExecuteChanged();
         shownRevision = modelId is null ? null : ProjectModelStore.Models(container).SingleOrDefault(m => m.S("id") == modelId)?["revisione"]?.GetValue<string>();
         if (modelId is null || ProjectModelStore.Capture(container, modelId, project.Results) is not { } reader) return null;
         if (reader.ResultBytes < project.ModelReadThreshold) return reader.Read();
@@ -243,6 +251,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         loading = cancellation;
         isLoading = true; loadingPercent = 0; loadingText = LoadingMessage(reader.ResultBytes, 0);
         OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadingText)); OnPropertyChanged(nameof(LoadingPercent)); OnPropertyChanged(nameof(LoadFailure));
+        RestoreCopyCommand?.NotifyCanExecuteChanged();
         var progress = new Progress<double>(share =>
         {
             if (generation != loadGeneration || IsDisposed) return;
@@ -256,21 +265,24 @@ public sealed class ModelTabViewModel : ViewModelBase
                 var read = reader.Read(progress, cancellation.Token);
                 // What the viewer does first with the copy (ModelViewerViewModel.SetSnapshot), done here: the checks of the results and the
                 // revisions of the definitions, kept by the copy, so that the thread of the interface finds them done.
+                // N5 of the review of 17/11/2026: an abandoned reading stops here, before the checks and the return of the memory.
+                cancellation.Token.ThrowIfCancellationRequested();
                 read.Validate(); _ = ModelCombinations.WithCurrentResults(read);
+                cancellation.Token.ThrowIfCancellationRequested();
                 // R8: the JSON inflated to read the sets goes back to Windows before the copy is shown.
                 SystemMemory.Release();
                 return read;
             }, cancellation.Token);
             if (generation != loadGeneration || IsDisposed) return;
             Snapshot = snapshot; isLoading = false;
-            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(Snapshot));
+            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(Snapshot)); RestoreCopyCommand.NotifyCanExecuteChanged();
         }
         catch (OperationCanceledException) when (cancellation.IsCancellationRequested) { }
         catch (Exception error)
         {
             if (generation != loadGeneration || IsDisposed) return;
             isLoading = false; loadFailure = "Modello non leggibile: " + error.Message;
-            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadFailure)); OnPropertyChanged(nameof(Snapshot));
+            OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadFailure)); OnPropertyChanged(nameof(Snapshot)); RestoreCopyCommand.NotifyCanExecuteChanged();
             messages.ReportFailure(LoadFailureTitle, error);
         }
         finally
@@ -280,7 +292,19 @@ public sealed class ModelTabViewModel : ViewModelBase
         }
     }
 
-    protected override void OnDisposed() { loading?.Cancel(); loading = null; }
+    protected override void OnDisposed() { loading?.Cancel(); loading = null; Combinations.Close(); }
+
+    /// <summary>
+    /// P3 of the review of 17/11/2026: a copy entered the tab (an import, «Ripristina», a combination) while the previous one was read on
+    /// another thread: that reading is abandoned, otherwise at its end it would put the older copy back on screen over the one of the document.
+    /// </summary>
+    private void AbandonLoading()
+    {
+        if (!isLoading && loading is null) return;
+        loading?.Cancel(); loading = null; ++loadGeneration;
+        isLoading = false; loadFailure = null;
+        OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadFailure)); RestoreCopyCommand.NotifyCanExecuteChanged();
+    }
 
     /// <summary>The sheets of the section and of the sections below it, with the state of their link to a model.</summary>
     public IReadOnlyList<SheetTarget> Targets { get; private set; }
@@ -352,6 +376,7 @@ public sealed class ModelTabViewModel : ViewModelBase
         // R4 (16/11/2026): the change has its name in the history («↶ Annulla: Libera i risultati di 73 combinazioni»), not «Modifica dei dati dei fogli».
         string label = prepared.ChangeLabel ?? (id is null ? "Importazione del modello" : "Modifica del modello «" + Title + "»");
         if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container, label)) return;
+        AbandonLoading();
         ModelId = id;
         Snapshot = prepared.Snapshot; shownRevision = prepared.Revision;
         Title = RenameText = ProjectModelStore.Models(Container).Single(m => m.S("id") == id).S("nome");
@@ -399,12 +424,14 @@ public sealed class ModelTabViewModel : ViewModelBase
         // R5 (16/11/2026): the copy on screen when the restored entry carries its revision (an undo of another change of the project), read
         // again only when it changed, and on another thread when its results are large.
         string? revision = ModelId is null ? null : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId)["revisione"]?.GetValue<string>();
-        bool same = ModelId is not null && Snapshot is not null && !isLoading && revision is not null && revision == shownRevision;
+        // R4 of the review of 17/11/2026: also while that copy is read on another thread (its bytes are taken already): the reading goes on.
+        bool same = ModelId is not null && (Snapshot is not null || isLoading) && revision is not null && revision == shownRevision;
         if (!same) Snapshot = Load(container, ModelId);
         Targets = ReadTargets(container);
         RefreshHistory();
         Title = RenameText = ModelId is null ? NewModelTitle : ProjectModelStore.Models(container).Single(m => m.S("id") == ModelId).S("nome");
-        OnPropertyChanged(nameof(Container)); if (!same) { OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(IsLoading)); } OnPropertyChanged(nameof(Targets));
+        // R5 of the review of 17/11/2026: the text of a reading failed before goes away with the copy read again.
+        OnPropertyChanged(nameof(Container)); if (!same) { OnPropertyChanged(nameof(Snapshot)); OnPropertyChanged(nameof(IsLoading)); OnPropertyChanged(nameof(LoadFailure)); } OnPropertyChanged(nameof(Targets));
         RaiseState();
         return true;
     }

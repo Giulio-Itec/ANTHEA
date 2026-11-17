@@ -28,6 +28,31 @@ public sealed partial class GpcModelCombinationService
     }
     public void ClearCache()=>prepared=null;
 
+    // P2 of the review of 17/11/2026: the service may outlive the viewer that uses it (the tab of the model owns it, so that the base cases
+    // prepared in the background survive a change of tab or page). The owner closes it; a preparation of another copy in progress stops.
+    readonly CancellationTokenSource lifetime=new();
+    readonly object preparing=new();
+    (string Revision,CancellationTokenSource Cancellation)? running;
+
+    /// <summary>True when the base cases of <paramref name="snapshot"/> are prepared, known without computing the revision of the copy
+    /// (<see cref="ModelCombinations.KnownPreparationRevision"/>): a new viewer on the same copy finds them and does not prepare again.</summary>
+    public bool IsPreparedFor(ModelSnapshot snapshot)=>prepared is {} current&&ModelCombinations.KnownPreparationRevision(snapshot)==current.Revision;
+
+    /// <summary>
+    /// A copy comes on screen (P2 of the review of 17/11/2026): what is prepared, or being prepared, for another copy is dropped, so that two
+    /// preparations are never kept together. The revision is the one the copy already knows; a copy that does not know it is taken as another
+    /// copy (the preparation is made again, as before 17/11/2026, never kept for a different copy).
+    /// </summary>
+    public void KeepOnlyFor(ModelSnapshot snapshot)
+    {
+        string? revision=ModelCombinations.KnownPreparationRevision(snapshot);
+        if(prepared is {} current&&current.Revision!=revision)prepared=null;
+        lock(preparing)if(running is {} work&&work.Revision!=revision)work.Cancellation.Cancel();
+    }
+
+    /// <summary>The owner closes (the tab of the model): a preparation in progress stops and nothing prepared is kept.</summary>
+    public void Close(){lifetime.Cancel();prepared=null;}
+
     /// <summary>
     /// Request of the user of 2/11/2026 («spacchettando delle parti comuni»): the combinations within the limit of the expansion are evaluated
     /// by the matrix of GPC (CombinationMatrix, GPCModel 5.38), which gives the values, governing roles and principal components of the samples
@@ -55,7 +80,9 @@ public sealed partial class GpcModelCombinationService
     {
         try
         {
-            await calculationGate.WaitAsync(token).ConfigureAwait(false);
+            using var work=CancellationTokenSource.CreateLinkedTokenSource(token,lifetime.Token);
+            var cancel=work.Token;
+            await calculationGate.WaitAsync(cancel).ConfigureAwait(false);
             try
             {
                 return await Task.Run(()=>
@@ -63,16 +90,22 @@ public sealed partial class GpcModelCombinationService
                     if(!GpcSnapshotModel.CanRebuild(snapshot))return false;
                     string revision=ModelCombinations.PreparationRevision(snapshot);
                     if(prepared?.Revision==revision)return true; // already prepared: the catalogue opened again
+                    lock(preparing)running=(revision,work);
                     var thread=Thread.CurrentThread;var priority=thread.Priority;
                     if(lowPriority)thread.Priority=ThreadPriority.BelowNormal;
                     try
                     {
-                        snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
-                        if(UseMatrix)prepared.Matrix=CombinationMatrix.Prepare(prepared.Model,Dataset,prepared.Model.AllElements,token);
+                        // P2 of the review of 17/11/2026: the preparation of another copy leaves before this one is made (never two together).
+                        prepared=null;
+                        snapshot.Validate();var made=Prepare(snapshot,revision,null,cancel);
+                        if(UseMatrix)made.Matrix=CombinationMatrix.Prepare(made.Model,Dataset,made.Model.AllElements,cancel);
+                        cancel.ThrowIfCancellationRequested();prepared=made;
+                        // A viewer closed (or the tab) while the result was stored: it cancels before emptying, so nothing stays.
+                        if(cancel.IsCancellationRequested){prepared=null;return false;}
                         return true;
                     }
-                    finally {thread.Priority=priority;}
-                },token).ConfigureAwait(false);
+                    finally {thread.Priority=priority;lock(preparing)running=null;}
+                },cancel).ConfigureAwait(false);
             }
             finally {calculationGate.Release();}
         }
@@ -112,6 +145,8 @@ public sealed partial class GpcModelCombinationService
         string revision=ModelCombinations.DefinitionRevision(snapshot,definitionId);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
         bool reused=prepared?.Revision==preparationRevision;
+        // P2 of the review of 17/11/2026: the preparation of another copy leaves before this one is made (never two together).
+        if(!reused)prepared=null;
         var context=reused?prepared!:Prepare(snapshot,preparationRevision,progress,token);
         token.ThrowIfCancellationRequested();prepared=context;
         var model=context.Model;

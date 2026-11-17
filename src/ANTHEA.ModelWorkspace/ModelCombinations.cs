@@ -284,6 +284,17 @@ public static class ModelCombinations
     internal static string PreparationRevision(ModelSnapshot snapshot)=>Preparation(snapshot).Hash;
 
     /// <summary>
+    /// P2 of the review of 17/11/2026: the revision of the preparation when the copy already knows it (computed for this copy, or for a copy
+    /// of it with the same parts and base cases), null otherwise. Never computed here: cheap on the thread of the interface.
+    /// </summary>
+    public static string? KnownPreparationRevision(ModelSnapshot snapshot)
+    {
+        ArgumentNullException.ThrowIfNull(snapshot);
+        var known=snapshot.CombinationRevisions;
+        return known!=null&&known.SameBase(snapshot,Revisions.BasisOf(snapshot))?known.Preparation:null;
+    }
+
+    /// <summary>
     /// Decision of the user of 1/11/2026 («Revisione per singola definizione»): the revision of the inputs of one definition, the SHA-256 of
     /// a format label, the revision of the preparation (geometry, static cases and every source table: <see cref="PreparationRevision"/>) and
     /// the canonical JSON of the definitions it reads, itself and the nested ones at any depth, in the order of their identifiers. Saving or
