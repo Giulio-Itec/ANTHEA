@@ -79,18 +79,18 @@ public static class ConcreteQuickSection
 
     /// <summary>
     /// The checks on screen with the biaxial bending: the sign of the moment comes from Mx and My of each combination, so the ultimate check is one
-    /// («SLU», the codes SLU+ and SLU− give the same check), then the method n.
+    /// («Capacità», the codes SLU+ and SLU− give the same check), then the method n.
     /// </summary>
-    public static ImmutableArray<string> BiaxialMethodLabels { get; } = ["SLU", "Metodo n"];
+    public static ImmutableArray<string> BiaxialMethodLabels { get; } = ["Capacità", "Metodo n"];
 
     /// <summary>The checks on screen for the bending: <see cref="MethodLabels"/> with the straight one, <see cref="BiaxialMethodLabels"/> with the biaxial one.</summary>
     public static ImmutableArray<string> MethodChoices(bool straight) => straight ? MethodLabels : BiaxialMethodLabels;
 
-    /// <summary>The label on screen of a method for the bending: with the biaxial one SLU+ and SLU− are «SLU».</summary>
+    /// <summary>The label on screen of a method for the bending: with the biaxial one SLU+ and SLU− are «Capacità».</summary>
     public static string MethodLabel(string method, bool straight) => !straight && method != Methods[2] && Methods.Contains(method) ? BiaxialMethodLabels[0] : MethodLabel(method);
 
     /// <summary>
-    /// The code of a method chosen on screen: «SLU» (biaxial bending) keeps SLU+ or SLU− when one of them is the current code, otherwise SLU+.
+    /// The code of a method chosen on screen: «Capacità» (biaxial bending) keeps SLU+ or SLU− when one of them is the current code, otherwise SLU+.
     /// </summary>
     public static string? MethodCode(string? label, string current) => label == BiaxialMethodLabels[0]
         ? (current == Methods[2] ? Methods[0] : current)
@@ -233,6 +233,34 @@ public static class ConcreteQuickSection
         CopyToService(data);
         SelectCombination(data, id);
         return id;
+    }
+
+    /// <summary>
+    /// Replaces the combinations with <paramref name="rows"/> (name, N, Mx, My; the other components at zero), the first one selected: the
+    /// combinations read from Excel (<see cref="ConcreteQuickActionsExcel"/>). At least one row; nothing changes when the rows are not valid.
+    /// </summary>
+    public static void ReplaceCombinations(JsonObject data, IReadOnlyList<ConcreteQuickActionsExcel.Row> rows)
+    {
+        ArgumentNullException.ThrowIfNull(rows);
+        if (rows.Count == 0) throw new ArgumentException("Nessuna combinazione da importare: nessuna modifica.");
+        if (rows.Count > ConcreteQuickActionsExcel.MaximumRows) throw new ArgumentException("Massimo 10.000 combinazioni.");
+        if (rows.Any(r => string.IsNullOrWhiteSpace(r.Name))) throw new ArgumentException("Nome combinazione mancante.");
+        if (rows.Any(r => !double.IsFinite(r.N) || !double.IsFinite(r.Mx) || !double.IsFinite(r.My))) throw new ArgumentException("Sollecitazione non finita.");
+        static string Text(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+        var stored = new JsonArray(rows.Select(r =>
+        {
+            var values = new Dictionary<string, string> { ["N"] = Text(r.N), ["Mx"] = Text(r.Mx), ["My"] = Text(r.My) };
+            return (JsonNode?)new JsonObject
+            {
+                ["id"] = Guid.NewGuid().ToString("N"), ["nome"] = r.Name.Trim(),
+                ["azioni"] = new JsonArray(SectionActionInputs.Components.Select(c => (JsonNode?)JsonValue.Create(values.GetValueOrDefault(c, "0"))).ToArray()),
+                ["visible"] = true, ["elemento"] = ""
+            };
+        }).ToArray());
+        Stored(data);
+        data["combinazioni"]!["SLU"] = stored;
+        CopyToService(data);
+        SelectCombination(data, stored[0]!.S("id"));
     }
 
     /// <summary>Removes the combination <paramref name="id"/>; the last one stays. The selection moves to the first combination when it was removed.</summary>

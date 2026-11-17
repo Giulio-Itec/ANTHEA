@@ -207,11 +207,11 @@ internal static class ShellDraftChecks
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
                 if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel biaxial)
                 {
-                    // The biaxial bending: the check is «SLU» or «Metodo n», without the sign of the moment.
+                    // The biaxial bending: the check is «Capacità» or «Metodo n», without the sign of the moment.
                     biaxial.Bending = "Deviata"; biaxial.CombinationRows[0].My = "150";
                     await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);
-                    Check(biaxial.Methods.SequenceEqual(["SLU", "Metodo n"]) && biaxial.Method == "SLU", "Verifica rapida, flessione deviata: verifica SLU o metodo n");
+                    Check(biaxial.Methods.SequenceEqual(["Capacità", "Metodo n"]) && biaxial.Method == "Capacità", "Verifica rapida, flessione deviata: verifica di capacità o metodo n");
                     await Capture(quickWindow.Window, output, "08c-verifica-rapida-deviata.png", bindings);
                 }
                 quickWindow.Window.Close();

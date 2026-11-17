@@ -6,6 +6,7 @@ using Anthea.Calculations;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Forms;
 using Anthea.Presentation.Mvvm;
+using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -130,6 +131,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
         AddCombinationCommand = GuardedCommands.Create(Guard, AddCombination, () => CanEdit);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
+        ExportExcelCommand = GuardedCommands.Create(Guard, ExportExcel);
+        ImportExcelCommand = GuardedCommands.Create(Guard, ImportExcel, () => CanEdit);
         BuildForms();
         RefreshDrawing();
         // As Spectra: the sheet calculates at opening, without modifying the document; after an edit the automatic recalculation follows.
@@ -191,7 +194,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         set { if (value is not null && StraightMethods.Contains(value)) Method = value; else OnPropertyChanged(); }
     }
 
-    /// <summary>The check with the biaxial bending: «SLU» or «Metodo n»; a value of the other list is ignored.</summary>
+    /// <summary>The check with the biaxial bending: «Capacità» or «Metodo n»; a value of the other list is ignored.</summary>
     public string? BiaxialMethod
     {
         get => ConcreteQuickSection.MethodLabel(View.S("metodo"), false);
@@ -392,6 +395,87 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     private void AddCombination()
     {
         if (Edit(d => ConcreteQuickSection.AddCombination(d))) BuildCombinations();
+    }
+
+    // ---------------------------------------------------------------- Excel
+
+    /// <summary>The title of the messages of the Excel buttons.</summary>
+    public const string ExcelTitle = "Sollecitazioni in Excel";
+
+    /// <summary>
+    /// «Esporta in Excel»: the combinations written in a workbook of the work folder (<see cref="ExcelFolder"/>), without a save window, and
+    /// opened with the program of the xlsx files. The same file is written again at the next export; a new one when Excel holds it.
+    /// </summary>
+    public IRelayCommand ExportExcelCommand { get; }
+
+    /// <summary>
+    /// «Importa da Excel»: the workbook of the last export read again (after Ctrl+S in Excel), without an open window; the combinations of the sheet
+    /// replaced by its rows. Without an export in this session the workbook is chosen in the open window.
+    /// </summary>
+    public IRelayCommand ImportExcelCommand { get; }
+
+    /// <summary>The work folder of the workbooks of the combinations: %LocalAppData%\ANTHEA\Sollecitazioni (the checks point it to their folder).</summary>
+    public string ExcelFolder { get; set; } = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "ANTHEA", "Sollecitazioni");
+
+    /// <summary>The workbook of the last export, read again by «Importa da Excel»; null before the first export.</summary>
+    public string? ExcelPath { get; private set; }
+
+    private static FileFilter ExcelFilter { get; } = new("Cartella Excel", "*.xlsx");
+
+    private string NewExcelPath()
+    {
+        string title = string.Concat(Title.Trim().Select(c => Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
+        string name = "Sollecitazioni " + (title.Length == 0 ? "sezione c.a." : title) + " " + DateTime.Now.ToString("yyyyMMdd-HHmmss", System.Globalization.CultureInfo.InvariantCulture);
+        string folder = Path.GetFullPath(ExcelFolder);
+        string path = Path.Combine(folder, name + ".xlsx");
+        for (int k = 2; File.Exists(path); k++) path = Path.Combine(folder, name + " (" + k + ").xlsx");
+        return path;
+    }
+
+    private void ExportExcel()
+    {
+        byte[] bytes;
+        try { bytes = ConcreteQuickActionsExcel.Export(Data); }
+        catch (ArgumentException error) { Context.Services.Messages.Inform(ExcelTitle, error.Message); return; }
+        Directory.CreateDirectory(ExcelFolder);
+        string path = ExcelPath ?? NewExcelPath();
+        try { X.Core.Archivio.ScriviAtomico(path, bytes); }
+        catch (Exception error) when (error is IOException or UnauthorizedAccessException)
+        {
+            // The workbook of the last export is open in Excel: a new one.
+            path = NewExcelPath();
+            X.Core.Archivio.ScriviAtomico(path, bytes);
+        }
+        ExcelPath = path;
+        OnPropertyChanged(nameof(ExcelPath));
+        Context.Services.Links.Open(new Uri(path));
+    }
+
+    private void ImportExcel()
+    {
+        string? path = ExcelPath is { } last && File.Exists(last) ? last
+            : Context.Services.Files.OpenFile(new OpenFileRequest([ExcelFilter], null, "Importa le sollecitazioni da Excel"));
+        if (path is null) return;
+        IReadOnlyList<ConcreteQuickActionsExcel.Row> rows;
+        try
+        {
+            // Excel keeps the workbook open while the user works on it: read it without excluding it.
+            using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+            using var buffer = new MemoryStream();
+            stream.CopyTo(buffer);
+            rows = ConcreteQuickActionsExcel.Read(buffer.ToArray());
+        }
+        catch (Exception error) when (error is ArgumentException or IOException or InvalidDataException or UnauthorizedAccessException)
+        {
+            Context.Services.Messages.Inform(ExcelTitle, error.Message + "\n\nFile: " + path);
+            return;
+        }
+        if (Edit(d => ConcreteQuickSection.ReplaceCombinations(d, rows)))
+        {
+            ExcelPath = path;
+            OnPropertyChanged(nameof(ExcelPath));
+            BuildCombinations();
+        }
     }
 
     private void RemoveCombination(string id)

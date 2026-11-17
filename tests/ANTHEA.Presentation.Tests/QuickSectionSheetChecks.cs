@@ -203,14 +203,14 @@ internal static class QuickSectionSheetChecks
         sheet.Model = "Plastica"; sheet.Method = "Momento positivo"; await sheet.PendingCalculation;
         sheet.Bending = ConcreteQuickSection.Bendings[1];
         expect.That(!sheet.CombinationRows[0].MyReadOnly && !sheet.IsStraight, "Flessione deviata: My modificabile");
-        expect.That(sheet.Methods.SequenceEqual(["SLU", "Metodo n"]) && sheet.Method == "SLU" && ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+",
-            "Flessione deviata: verifica «SLU» senza segno del momento (codice SLU+ invariato)");
+        expect.That(sheet.Methods.SequenceEqual(["Capacità", "Metodo n"]) && sheet.Method == "Capacità" && ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+",
+            "Flessione deviata: verifica «Capacità» senza segno del momento (codice SLU+ invariato)");
         sheet.CombinationRows[0].My = "60"; await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "My,Ed") && sheet.ResultValues.Count(v => v.Label.EndsWith(",Rd", StringComparison.Ordinal)) == 4
             && sheet.Summary?.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal) == true && sheet.Summary.Title.Contains("flessione deviata", StringComparison.Ordinal),
             "Flessione deviata: My,Ed, le quattro resistenze principali, il punto resistente in evidenza");
-        sheet.Method = "Metodo n"; sheet.Method = "SLU";
-        expect.That(ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+" && sheet.Method == "SLU", "Flessione deviata: dal metodo n di nuovo «SLU» (codice SLU+)");
+        sheet.Method = "Metodo n"; sheet.Method = "Capacità";
+        expect.That(ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+" && sheet.Method == "Capacità", "Flessione deviata: dal metodo n di nuovo «Capacità» (codice SLU+)");
         await sheet.PendingCalculation;
         sheet.Method = "Metodo n"; await sheet.PendingCalculation;
         expect.That(sheet.IsServiceMethod && sheet.ResultValues.Any(v => v.Label == "σc") && sheet.SectionStress is not null && sheet.IsDuctile is null, "Metodo n: tensioni del motore");
@@ -254,6 +254,56 @@ internal static class QuickSectionSheetChecks
         expect.That(sheet.Status.StartsWith("Verifica non disponibile", StringComparison.Ordinal) && sheet.CalculationMessage.Length > 0, "Dati non validi: motivo nello stato: " + sheet.Status);
         sheet.Reload(saved); await sheet.PendingCalculation;
         expect.That(sheet.HasResults && JsonNode.DeepEquals(sheet.Data, saved) && sheet.GeometryForm.Fields.Any(f => f.Key == "diameter_mm"), "Ricarica ripristina dati e risultati");
+
+        // Excel (17/11/2026): the combinations in a work file, opened without a save window, read again after Ctrl+S in Excel.
+        ConcreteQuickActionsExcel.Row[] written = [new("SLU 1", -1200, 350, 0), new("SLU 2", -800.5, -120, 40)];
+        var workbook = ConcreteQuickActionsExcel.Write(written);
+        expect.That(ConcreteQuickActionsExcel.Read(workbook).SequenceEqual(written), "Excel: combinazioni scritte e rilette esatte");
+        var excelData = ConcreteQuickSection.Create();
+        expect.That(ConcreteQuickActionsExcel.Import(excelData, workbook) == 2 && ConcreteQuickSection.Combinations(excelData).Select(r => r.S("nome")).SequenceEqual(["SLU 1", "SLU 2"])
+            && ConcreteQuickSection.Combinations(excelData)[1].S("N") == "-800.5" && ConcreteQuickSection.Combinations(excelData)[1].S("My") == "40"
+            && ConcreteSheetPreparation.ReadActions(excelData)["SLE"].Length == 2 && ConcreteQuickSection.SelectedCombination(excelData) == ConcreteQuickSection.Combinations(excelData)[0].S("id"),
+            "Excel: combinazioni sostituite, copiate nelle righe SLE, la prima selezionata");
+        ModuleDirectory.ValidateData(ConcreteQuickSection.Module, excelData);
+        expect.Throws<ArgumentException>(() => ConcreteQuickActionsExcel.Read(System.Text.Encoding.UTF8.GetBytes("x")) , "Excel: file non valido rifiutato");
+        var links = new RecordingLinks();
+        var excelServices = new Anthea.Presentation.Services.PresentationServices(messages, new ScriptedConfirmations(), new ScriptedFileDialogs(), new ScriptedDialogs(),
+            new RecordingClipboard(), links, new RecordingWiki());
+        using (var excelSheet = new QuickSectionSheetViewModel(new(ConcreteQuickSection.Create(), false, new Host(), excelServices, ModuleServices.Get(ConcreteQuickSection.Module),
+            new CalculationLimiter(1))) { ExcelFolder = Path.Combine(folder, "excel") })
+        {
+            if (Directory.Exists(excelSheet.ExcelFolder)) Directory.Delete(excelSheet.ExcelFolder, true);
+            await excelSheet.PendingCalculation;
+            excelSheet.CombinationRows[0].N = "-900"; excelSheet.CombinationRows[0].Mx = "250";
+            excelSheet.ExportExcelCommand.Execute(null);
+            string exported = excelSheet.ExcelPath ?? "";
+            expect.That(File.Exists(exported) && Path.GetDirectoryName(exported) == Path.GetFullPath(excelSheet.ExcelFolder) && links.Opened.LastOrDefault()?.LocalPath == exported
+                && ConcreteQuickActionsExcel.Read(File.ReadAllBytes(exported)).SequenceEqual([new ConcreteQuickActionsExcel.Row("Combo 1", -900, 250, 0)]),
+                "Esporta in Excel: file nella cartella di lavoro, senza finestra Salva, aperto con Excel");
+            // The user fills the workbook in Excel and saves it (Ctrl+S).
+            File.WriteAllBytes(exported, ConcreteQuickActionsExcel.Write([new("A", -1000, 300, 0), new("B", -500, 500, 0), new("C", 0, 100, 0)]));
+            excelSheet.ImportExcelCommand.Execute(null); await excelSheet.PendingCalculation;
+            expect.That(excelSheet.CombinationRows.Select(r => r.Name).SequenceEqual(["A", "B", "C"]) && excelSheet.CombinationRows[0].IsSelected && excelSheet.HasResults
+                && excelSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Importa da Excel: lo stesso file riletto senza finestra, combinazioni sostituite e calcolate");
+            excelSheet.ExportExcelCommand.Execute(null);
+            expect.That(excelSheet.ExcelPath == exported && ConcreteQuickActionsExcel.Read(File.ReadAllBytes(exported)).Count == 3, "Esporta di nuovo: lo stesso file, aggiornato");
+            int shownBefore = messages.Shown.Count;
+            using (new FileStream(exported, FileMode.Open, FileAccess.ReadWrite, FileShare.Read))
+            {
+                excelSheet.CombinationRows[2].Mx = "150";
+                excelSheet.ImportExcelCommand.Execute(null);
+                bool readWhileOpen = excelSheet.CombinationRows.Count == 3 && excelSheet.CombinationRows[2].Mx == "100" && messages.Shown.Count == shownBefore;
+                excelSheet.ExportExcelCommand.Execute(null);
+                expect.That(readWhileOpen && excelSheet.ExcelPath != exported && File.Exists(excelSheet.ExcelPath), "File tenuto aperto da Excel: riletto; la nuova esportazione va in un altro file");
+            }
+            await excelSheet.PendingCalculation;
+            File.WriteAllText(excelSheet.ExcelPath!, "non è una cartella Excel");
+            excelSheet.ImportExcelCommand.Execute(null);
+            expect.That(messages.Shown.Count == shownBefore + 1 && messages.Shown[^1].Title == QuickSectionSheetViewModel.ExcelTitle && excelSheet.CombinationRows.Count == 3,
+                "File Excel non valido: il motivo, combinazioni invariate");
+            excelSheet.IsReadOnly = true;
+            expect.That(!excelSheet.ImportExcelCommand.CanExecute(null) && excelSheet.ExportExcelCommand.CanExecute(null), "Sola lettura: si esporta, non si importa");
+        }
 
         // No report in this version.
         expect.Throws<InvalidOperationException>(() => sheet.Report.BuildReport("Sezione", new HashSet<string>()), "Relazione non disponibile segnalata");

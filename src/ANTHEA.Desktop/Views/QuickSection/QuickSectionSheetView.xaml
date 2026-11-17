@@ -42,6 +42,28 @@
     </Setter.Value>
    </Setter>
   </Style>
+  <!-- A small Excel button: the green sheet with its «X» and an arrow (the content: ↑ export, ↓ import). -->
+  <Style x:Key="ExcelButton" TargetType="Button">
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Margin" Value="2,0,0,0"/><Setter Property="Focusable" Value="False"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border x:Name="B" Background="Transparent" CornerRadius="4" Padding="3,1">
+       <StackPanel Orientation="Horizontal">
+        <Border Width="15" Height="15" CornerRadius="2" Background="{DynamicResource Token.Status.Ok}">
+         <TextBlock Text="X" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource Token.Badge.Ok}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Text="{TemplateBinding Content}" Margin="2,0,0,0" FontWeight="Bold" Foreground="{DynamicResource Token.Status.Ok}"/>
+       </StackPanel>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="B" Property="Opacity" Value="0.4"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
   <!-- Segmented buttons: a list of choices, the selected one in evidence. -->
   <Style x:Key="Segmented" TargetType="ListBox">
    <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/><Setter Property="BorderThickness" Value="1"/>
@@ -276,6 +298,10 @@
      <DockPanel Margin="0,0,0,3">
       <Button DockPanel.Dock="Right" Content="+ combinazione" Style="{StaticResource Link}" Command="{Binding AddCombinationCommand}" ToolTip="Aggiungi una combinazione"/>
       <TextBlock Text="3 · Sollecitazioni" Style="{StaticResource CardTitle}"/>
+      <Button Content="↑" Style="{StaticResource ExcelButton}" Margin="8,0,0,0" Command="{Binding ExportExcelCommand}" AutomationProperties.Name="Esporta in Excel"
+       ToolTip="Esporta in Excel: apre in Excel le combinazioni da compilare, una riga per combinazione. Dopo Ctrl+S in Excel premere «Importa da Excel»."/>
+      <Button Content="↓" Style="{StaticResource ExcelButton}" Command="{Binding ImportExcelCommand}" AutomationProperties.Name="Importa da Excel"
+       ToolTip="Importa da Excel: rilegge il file esportato (salvato con Ctrl+S) e sostituisce le combinazioni." HorizontalAlignment="Left"/>
      </DockPanel>
      <Grid>
       <Grid.ColumnDefinitions><ColumnDefinition Width="22"/><ColumnDefinition Width="80"/><ColumnDefinition Width="68"/><ColumnDefinition Width="68"/><ColumnDefinition Width="62"/><ColumnDefinition Width="54"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
@@ -384,7 +410,7 @@
       IsEnabled="{Binding CanEdit}" Visibility="{Binding IsStraight, Converter={StaticResource Visibility}}"
       ToolTip="SLU a momento positivo o negativo, oppure tensioni con il metodo n" AutomationProperties.Name="Verifica"/>
      <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding BiaxialMethods}" SelectedItem="{Binding BiaxialMethod}" IsEnabled="{Binding CanEdit}"
-      ToolTip="SLU (il segno viene da Mx e My di ogni combinazione), oppure tensioni con il metodo n" AutomationProperties.Name="Verifica">
+      ToolTip="Capacità allo SLU (il segno viene da Mx e My di ogni combinazione), oppure tensioni con il metodo n" AutomationProperties.Name="Verifica">
       <ListBox.Style>
        <Style TargetType="ListBox" BasedOn="{StaticResource Segmented}">
         <Style.Triggers><DataTrigger Binding="{Binding IsStraight}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
