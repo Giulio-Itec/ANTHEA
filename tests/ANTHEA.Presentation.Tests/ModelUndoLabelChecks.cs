@@ -1,4 +1,5 @@
 using ANTHEA.ModelWorkspace;
+using Anthea.Calculations;
 using Anthea.Presentation.Shell;
 using Anthea.Presentation.Shell.Commands;
 using Anthea.Presentation.Shell.Projects;
@@ -57,6 +58,15 @@ internal static class ModelUndoLabelChecks
             "R1 (revisione): «↶ Annulla Libera» di un modello non annulla la «Libera» con lo stesso nome di un altro modello");
         expect.That(other.UndoChange(label) && other.Snapshot?.Name == "C" && model.Snapshot?.Name == "B",
             "R1 (revisione): la scheda dell'ultima «Libera» la annulla");
+
+        // R6 of the review of 17/11/2026: a sheet taken away by an undo while the copy stays on screen; «Collega» answers in Italian.
+        var sheet = project.AddSheet("mat_calcestruzzo", section)!;
+        string sheetId = sheet.S("id");
+        expect.That(project.Restore(false) && !model.Targets.Any(t => t.Id == sheetId), "R6 (revisione): il foglio tolto da «↶ Annulla» non è più fra i fogli della scheda");
+        string message = "";
+        try { model.Linked(sheetId, 1, "Caso B", "Myy"); }
+        catch (InvalidOperationException error) { message = error.Message; }
+        expect.That(message == ModelTabViewModel.SheetGone, "R6 (revisione): «Collega» a un foglio che non c'è più lo dice in italiano");
         return expect.Count;
     }
 }

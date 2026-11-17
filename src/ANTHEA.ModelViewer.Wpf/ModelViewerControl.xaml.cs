@@ -15,6 +15,8 @@ public partial class ModelViewerControl : UserControl, IDisposable
     private ModelSnapshot? renderedSnapshot;
     private bool disposed;
     public void SetDisplayName(string name) => viewModel.SetDisplayName(name);
+    /// <summary>R6 of the review of 17/11/2026: the sheets of the section changed while the copy stays on screen.</summary>
+    public void SetSheets(IReadOnlyList<SheetTarget> sheets) => viewModel.SetSheets(sheets);
 
     public ModelViewerControl(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
         Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked, ModelViewPresetStore? viewStore=null,

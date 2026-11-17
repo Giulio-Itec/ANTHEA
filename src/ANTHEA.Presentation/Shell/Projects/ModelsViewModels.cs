@@ -145,6 +145,9 @@ public sealed class ModelTabViewModel : ViewModelBase
     public const string HistoryHeader = "Copie precedenti";
     public const string RestoreLabel = "Ripristina";
 
+    /// <summary>R6 of the review of 17/11/2026: «Collega» to a sheet that is not in the section any more.</summary>
+    public const string SheetGone = "Il foglio scelto non è più nella sezione (forse tolto da «Annulla»): scegli un altro foglio.";
+
     /// <summary>Title of the message when the copy read in the background is not readable.</summary>
     public const string LoadFailureTitle = "Modello non leggibile";
 
@@ -411,7 +414,9 @@ public sealed class ModelTabViewModel : ViewModelBase
     public void Linked(string sheetId, int element, string result, string component)
     {
         if (ModelId is not { } id) throw new InvalidOperationException(ImportFirst);
-        var sheet = ProjectModelStore.DescendantSheets(Container).Single(s => s.S("id") == sheetId);
+        // R6 of the review of 17/11/2026: a sheet removed by an undo while the viewer stayed on screen: an Italian message, not the one of .NET.
+        var sheet = ProjectModelStore.DescendantSheets(Container).SingleOrDefault(s => s.S("id") == sheetId)
+            ?? throw new InvalidOperationException(SheetGone);
         if (!project.ChangeData(() => { ProjectModelStore.Link(Container, sheet, id, element, result, component, project.Results); return true; }, sheet)) return;
         Targets = ReadTargets(Container);
         OnPropertyChanged(nameof(Targets));

@@ -65,7 +65,20 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
     public event EventHandler? SceneChanged;
     public ModelSnapshot? Snapshot { get; private set; }
     public bool IsReadOnly { get; }
-    public IReadOnlyList<SheetTarget> Sheets { get; }
+    public IReadOnlyList<SheetTarget> Sheets { get; private set; }
+
+    /// <summary>
+    /// R6 of the review of 17/11/2026: the sheets of the section changed while the copy stays on screen (an undo of another change keeps the
+    /// viewer since 16/11/2026): «Collega» offers the sheets of the project, with their state, and keeps the chosen one when it is still there.
+    /// </summary>
+    public void SetSheets(IReadOnlyList<SheetTarget> sheets)
+    {
+        ArgumentNullException.ThrowIfNull(sheets);
+        string? chosen = SelectedSheet?.Id;
+        Sheets = sheets; OnPropertyChanged(nameof(Sheets));
+        SelectedSheet = sheets.FirstOrDefault(s => s.Id == chosen) ?? sheets.FirstOrDefault();
+        LinkCommand.NotifyCanExecuteChanged();
+    }
     public IReadOnlyList<string> RepresentationLabels { get; } = ["Geometria", "Volumi e offset"];
     public IReadOnlyList<string> QualityLabels { get; } = ["Normale", "Alta", "Massima"];
     public int Subdivisions => new[] { 1, 4, 8 }[Math.Clamp(SelectedQuality, 0, 2)];

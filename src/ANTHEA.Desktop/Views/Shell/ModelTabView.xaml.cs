@@ -52,5 +52,7 @@ public partial class ModelTabView : UserControl
     {
         if (e.PropertyName is nameof(ModelTabViewModel.Snapshot) or nameof(ModelTabViewModel.IsReadOnly)) CreateViewer();
         else if (e.PropertyName == nameof(ModelTabViewModel.Title) && model is not null) viewer?.SetDisplayName(model.Title);
+        // R6 of the review of 17/11/2026: an undo that keeps the copy on screen keeps the viewer; its sheets follow the project.
+        else if (e.PropertyName == nameof(ModelTabViewModel.Targets) && model is not null) viewer?.SetSheets(model.Targets);
     }
 }
