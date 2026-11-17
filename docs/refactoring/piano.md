@@ -62,6 +62,19 @@ Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del
 - [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
 - [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
 
+## Separatore decimale in tutte le viste e report delle paratie (voce 12h) — 17 novembre 2026
+
+Decisioni del 16/11 (punti d ed e) e del 17/11 (domande 1–7, «sì alle 7 domande»); ramo `claude/numeri-separatore` portato nella
+candidata 1.19.4; registro `NUMERI-SEPARATORE-20261116`.
+
+- [x] (d) Binding delle viste con il separatore scelto; caselle del visore dei modelli invariate.
+- [x] (e) Report delle paratie con i decimali per unità, senza esponenti né «-0»; domande 1 (attesi approvati), 3 (N/mm³), 6 (Dati
+  assegnati) e 7 (mm² e mm⁴).
+- [x] Domanda 5: numeri salvati come numeri mostrati nei campi con il separatore scelto, senza cambiare il dato.
+- [ ] Domanda 2: caselle del visore con la regola di ANTHEA (virgola o punto): passo a parte.
+- [ ] Domanda 4: separatore scelto anche nei disegni e nelle presentazioni a schermo, report sempre in it-IT: passo a parte.
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+
 ## Palo orizzontale: Hu di Broms accanto allo Stratificato — 17 novembre 2026
 
 Punto 7 della scheda delle decisioni del 16/11, opzioni A + C, approvato dall'utente il 17/11; candidata 1.19.4, registro `PO-BROMS-01`.

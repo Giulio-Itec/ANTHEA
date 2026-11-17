@@ -28,7 +28,41 @@ internal static class FormViewModelChecks
         SetSequence(expect);
         RowsAndGroups(expect);
         LayoutAndHelp(expect);
+        StoredNumbers(expect);
         return expect.Count;
+    }
+
+    /// <summary>
+    /// Item 12h of 17/11/2026, question 5: a number saved as a JSON number is shown with the decimal comma of the application, without rounding,
+    /// with and without focus; the document does not change until the user types, and a typed text is shown as typed. Texts saved as texts
+    /// («0.6» typed in a file), a point separator and the other kinds of field are as before; a module that sets the same value writes nothing.
+    /// </summary>
+    static void StoredNumbers(Expect expect)
+    {
+        var saved = CultureInfo.CurrentCulture;
+        try
+        {
+            CultureInfo.CurrentCulture = Shell.Commands.NumberSeparators.Culture(Shell.Commands.DecimalSeparatorChoice.Comma, CultureInfo.GetCultureInfo("it-IT"));
+            var values = new JsonObject { ["spessore"] = 0.6, ["k"] = 1.23456789e-5, ["testo"] = "0.6", ["intero"] = 12, ["scelta"] = "A" };
+            string before = Text(values); var calls = new List<string>();
+            var form = new FormViewModel(values, [new("spessore", "Spessore", "m"), new("k", "Permeabilità", "m/s", Write: FieldWriteRule.NumberOrText),
+                new("testo", "Testo"), new("intero", "Intero"), new("scelta", "Scelta", Choices: ["A", "B"])], calls.Add);
+            expect.That(form["spessore"].EditText == "0,6" && form["spessore"].Display == "0,6" && form["k"].EditText == "1,23456789E-05"
+                && form["testo"].EditText == "0.6" && form["intero"].EditText == "12", "Numeri salvati con la virgola, senza arrotondare: " + form["k"].EditText);
+            form["spessore"].IsFocused = true;
+            expect.That(form["spessore"].EditText == "0,6" && form.Get("spessore") == "0.6", "Con il fuoco: virgola nell'editore, testo grezzo invariato");
+            form["spessore"].EditText = "0,6"; form["spessore"].IsFocused = false;
+            expect.That(Text(values) == before && calls.Count == 0, "Il numero mostrato con la virgola ha cambiato il documento");
+            form.Set("spessore", "0.6"); form.Set("k", "1.23456789E-05", display: true);
+            expect.That(Text(values) == before && calls.Count == 0, "Il modulo che ripete il valore salvato scrive nel documento");
+            form["k"].EditText = "2.5e-5";
+            expect.That(values["k"]!.GetValue<double>() == 2.5e-5 && form["k"].EditText == "2.5e-5" && calls.SequenceEqual(["k"]),
+                "Il testo scritto non resta com'è o non va nel documento");
+            CultureInfo.CurrentCulture = Shell.Commands.NumberSeparators.Culture(Shell.Commands.DecimalSeparatorChoice.Point, CultureInfo.GetCultureInfo("it-IT"));
+            var point = new FormViewModel(new JsonObject { ["spessore"] = 0.6 }, [new("spessore", "Spessore", "m")]);
+            expect.That(point["spessore"].EditText == "0.6", "Con «Punto» il numero salvato resta col punto");
+        }
+        finally { CultureInfo.CurrentCulture = saved; }
     }
 
     static string Text(JsonObject values) => values.ToJsonString(J.Options);

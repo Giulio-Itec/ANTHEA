@@ -10,9 +10,10 @@ namespace Anthea.Calculations;
 /// <list type="bullet">
 /// <item>m 3; mm 2; rad 5;</item>
 /// <item>kN, kN/m, kNm, kNm/m, kPa, kN/m², kN/m³, °, N, Nmm, kNm², kNm²/m 2;</item>
-/// <item>MPa 3; pure numbers and unknown units 3; L/s/m and mm²/s 4; % 1;</item>
+/// <item>MPa 3; pure numbers and unknown units 3; L/s/m and mm²/s 4; % 1; mm² and mm⁴ 0 (17/11/2026, item 12h, question 7);</item>
 /// <item>m/s (permeabilities, filtration velocities) and N/mm³ as a power of ten with two significant digits (<see cref="PowerOfTen"/>).</item>
 /// </list>
+/// The assigned data of a report keep every digit of the input (<see cref="Input"/>, question 6).
 /// Presentation only: documents, results and CSV files keep their values.
 /// </summary>
 public static class UnitNumberFormat
@@ -28,6 +29,8 @@ public static class UnitNumberFormat
         "rad" => 5,
         "kN" or "kN/m" or "kNm" or "kNm/m" or "kPa" or "kN/m²" or "kN/m³" or "N" or "Nmm" or "kNm²" or "kNm²/m" or "°" => 2,
         "MPa" => 3,
+        // Item 12h, question 7, decided on 17/11/2026: areas and second moments of area of the sections (tubes, piles) without decimals.
+        "mm²" or "mm⁴" => 0,
         "L/s/m" or "mm²/s" => 4,
         "m/s" => 10,
         "%" => 1,
@@ -35,7 +38,7 @@ public static class UnitNumberFormat
     };
 
     /// <summary>Units shown as a power of ten (<see cref="PowerOfTen"/>): m/s (approved on 16/11) and N/mm³ (unit weight of the water in the
-    /// coefficients of UPL/HYD, about 10⁻⁵: with three decimals it would show 0; to be approved).</summary>
+    /// coefficients of UPL/HYD, about 10⁻⁵: with three decimals it would show 0; approved on 17/11/2026, item 12h, question 3).</summary>
     public static bool IsPowerOfTen(string? unit) => (unit ?? "").Trim() is "m/s" or "N/mm³";
 
     /// <summary>
@@ -68,6 +71,33 @@ public static class UnitNumberFormat
         int mark = text.IndexOf('E');
         string mantissa = text[..mark].Replace(".", NumberFormatInfo.GetInstance(culture).NumberDecimalSeparator, StringComparison.Ordinal);
         string exponent = text[(mark + 1)..].TrimStart('+');
+        return exponent == "0" ? mantissa : mantissa + "·10" + new string(exponent.Select(Superscript).ToArray());
+    }
+
+    /// <summary>
+    /// An input as assigned, for the «Dati assegnati» of a report (item 12h, question 6, decided on 17/11/2026): a number keeps every digit
+    /// of the input, without rounding, with the decimal separator of <paramref name="culture"/> (0.6 → 0,6); the units of
+    /// <see cref="IsPowerOfTen"/>, and a number that would need an exponent, as a power of ten with the whole mantissa (1E-05 → 1·10⁻⁵,
+    /// 1.25E-07 → 1,25·10⁻⁷). A text that is not a number (an identifier, a choice, true/false) stays as it is. Presentation only.
+    /// </summary>
+    public static string Input(string? text, string? unit, IFormatProvider culture)
+    {
+        if (string.IsNullOrWhiteSpace(text) || !double.TryParse(text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out double v)
+            || !double.IsFinite(v)) return text ?? "";
+        string shortest = v.ToString("R", CultureInfo.InvariantCulture);
+        if (IsPowerOfTen(unit) || shortest.Contains('E')) return ExactPowerOfTen(v, culture);
+        return shortest.Replace(".", NumberFormatInfo.GetInstance(culture).NumberDecimalSeparator, StringComparison.Ordinal);
+    }
+
+    /// <summary>A value as a power of ten with all its significant digits (up to 15, as typed), not the two of <see cref="PowerOfTen"/>.</summary>
+    public static string ExactPowerOfTen(double value, IFormatProvider culture)
+    {
+        if (!double.IsFinite(value)) return Missing;
+        if (value == 0) return "0";
+        string text = value.ToString("E14", CultureInfo.InvariantCulture);
+        int mark = text.IndexOf('E');
+        string mantissa = text[..mark].TrimEnd('0').TrimEnd('.').Replace(".", NumberFormatInfo.GetInstance(culture).NumberDecimalSeparator, StringComparison.Ordinal);
+        string exponent = int.Parse(text[(mark + 1)..], NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture).ToString(CultureInfo.InvariantCulture);
         return exponent == "0" ? mantissa : mantissa + "·10" + new string(exponent.Select(Superscript).ToArray());
     }
 

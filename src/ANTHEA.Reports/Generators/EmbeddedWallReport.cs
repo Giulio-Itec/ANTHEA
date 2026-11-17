@@ -80,13 +80,15 @@ public static partial class EmbeddedWallReport
             var input = JsonNode.Parse(currentResult.InputJson)!.AsObject();
             // Document keys are shown with their explicit unit contract, without recomputing derived data.
             string Label(string key) => Labels.GetValueOrDefault(key, key);
+            // Item 12h, question 6 (17/11/2026): the inputs keep every digit, with the decimal comma; m/s as a power of ten (Kxx 1·10⁻⁵).
+            string Assigned(string key, JsonNode? value) => value is null ? "non assegnato" : UnitNumberFormat.Input(value.ToString(), UnitNumberFormat.UnitOf(Label(key)), Italian);
             Table(["Dato", "Valore"], input.Where(p => p.Value is not JsonArray && p.Value is not JsonObject && p.Key != "schema")
-                .Select(p => new[] { Label(p.Key), p.Value?.ToString() ?? "non assegnato" }));
+                .Select(p => new[] { Label(p.Key), Assigned(p.Key, p.Value) }));
             foreach (var entry in input.Where(p => p.Value is JsonArray))
             {
                 var rows = entry.Value!.AsArray().OfType<JsonObject>().ToArray(); if (rows.Length == 0) continue;
                 P(Label(entry.Key), true);
-                for (int i = 0; i < rows.Length; i++) P((i + 1) + ". " + string.Join("; ", rows[i].Select(p => Label(p.Key) + ": " + (p.Value?.ToString() ?? "non assegnato"))));
+                for (int i = 0; i < rows.Length; i++) P((i + 1) + ". " + string.Join("; ", rows[i].Select(p => Label(p.Key) + ": " + Assigned(p.Key, p.Value))));
             }
             foreach (var hydraulic in currentResult.Hydraulics ?? [])
             {

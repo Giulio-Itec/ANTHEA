@@ -15997,6 +15997,44 @@
         "Presentation (HorizontalPileBromsChecks), attesi in forma chiusa della figura 2 dell'articolo (sabbia asciutta φ′ 30°, γ 18 kN/m³, D 0,6 m, L 4 m, testa libera): e = 1 m Stratificato 153,234 kN, Broms 0,5 γ D L³ Kp/(L + e) = 207,36 kN, rapporto 0,738976; e = 0 202,115 / 259,2 kN = 0,779763; nessun confronto con Broms, con il palo lungo e con la verticale coesiva; sintesi, dettagli della verticale e relazione"
       ],
       "evidenze": []
+    },
+    {
+      "id": "NUMERI-SEPARATORE-20261116",
+      "data": "2026-11-17",
+      "fase": "ANTHEA 1.19.4 / interfaccia e paratie",
+      "titolo": "Separatore decimale in tutte le viste, numeri salvati nei campi e cifre del report delle paratie",
+      "famiglia": "interfaccia/numeri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Voce 12h (decisione del 16/11, punti d ed e; domande del 17/11). (d) Nessuna vista impostava la lingua: WPF formattava ogni binding numerico in en-US, con il punto, accanto ai testi del ViewModel nella cultura dell'applicazione. ViewNumberCulture (en-US salvo i numeri, presi a ogni uso dalla cultura del thread) è la cultura di tutti i binding, installata da WpfNumberSeparatorService.InstallViewNumbers; le otto caselle double del visore dei modelli restano fissate a en-US (domanda 2, passo a parte). (e) Report delle paratie con i decimali per unità (UnitNumberFormat: m 3; mm 2; rad 5; kN, kNm, kPa e simili 2; MPa 3; numeri puri 3; L/s/m e mm²/s 4; % 1), it-IT, senza «E» né «-0», rumore = 0, tabelle con gli zeri finali; CSV invariati. Domande del 17/11: 1, due attesi letterali di Presentation.Tests approvati («-0,98», «3,20»); 3, N/mm³ come potenza di dieci (γw 9,8·10⁻⁶); 5, un numero salvato come numero JSON si mostra nei campi (FieldViewModel.Shown) con la virgola quando è il separatore dell'applicazione, senza arrotondare e senza scrivere il documento finché l'utente non scrive; 6, «Dati assegnati» del report delle paratie con tutte le cifre degli ingressi e la virgola, m/s, N/mm³ e i numeri con esponente come potenze di dieci con tutta la mantissa (UnitNumberFormat.Input); 7, mm² e mm⁴ senza decimali. Disegni e presentazioni che fissano it-IT restano (strada «a» del 24/10; domanda 4, passo a parte).",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/Commands/NumberSeparators.cs",
+        "src/ANTHEA.Desktop/Services/WpfNumberSeparatorService.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewToolsView.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelMemberDiagramView.xaml",
+        "src/ANTHEA.ModelViewer.Wpf/ModelResultsView.xaml",
+        "src/ANTHEA.Serialization/UnitNumberFormat.cs",
+        "src/ANTHEA.Presentation/Forms/NumericDisplay.cs",
+        "src/ANTHEA.Presentation/Forms/FieldViewModel.cs",
+        "src/ANTHEA.Presentation/Forms/FormViewModel.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallAnchorReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEmbedmentReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEnvelopeReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallRcPileReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallTubeReport.cs"
+      ],
+      "segno": "solo presentazione: documenti, risultati, calcoli e CSV non cambiano. Cambiano i testi delle viste con «Virgola» o con la virgola di Windows (32 catture su 46 della vista delle paratie e le altre elencate nella candidata) e le righe dei report delle paratie; due attesi letterali di Presentation.Tests approvati.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«Sì, tutti i consigli» (16/11, voce 12f d ed e) e «ok per tutte le voci» (17/11/2026, 20:50, decisioni-aperte-20261117.md, §D3: «sì alle 7 domande»)",
+        "esito": "attuato nella candidata 1.19.4 (ramo claude/1194-candidata) dal ramo claude/numeri-separatore (1695cb28, 1978f451) con le domande 1, 3, 5, 6 e 7; domande 2 e 4 come passi a parte"
+      },
+      "test": [
+        "Presentation.Tests: NumberSeparatorChecks (cultura delle viste), UnitNumberFormatChecks (regola per unità, mm² e mm⁴, Dati assegnati con Kxx 1·10⁻⁵ e kh 1·10⁻³, report della mensola senza «E» e senza «-0»), FormViewModelChecks.StoredNumbers (numero salvato con la virgola, documento invariato, testo scritto come scritto, «Punto»); attesi approvati di EmbeddedWallDistributedChecks e EmbeddedWallEmbedmentChecks",
+        "ui/check-climate-view (ViewNumberChecks: binding reali con «Virgola», «Punto» e un separatore personalizzato, caselle del visore invariate)"
+      ],
+      "evidenze": []
     }
   ]
 }
