@@ -60,7 +60,14 @@ internal static class QuickSectionSheetChecks
         ConcreteQuickSection.AddLayer(layered); ConcreteQuickSection.WriteLayer(layered, 2, "d", "400"); ConcreteQuickSection.WriteLayer(layered, 2, "phi", "16");
         expect.That(ConcreteQuickSection.ApplyLayers(layered) is null && layered["input"]!["barre_manuali"]!.AsArray().Skip(10).All(p => J.Number(p!["y"]) == h / 2 - 400),
             "Strato «Da sopra» alla distanza d dal bordo superiore");
-        ConcreteQuickSection.WriteLayer(layered, 2, "d", "20");
+        ConcreteQuickSection.WriteLayer(layered, 2, "posizione", "Da sotto"); ConcreteQuickSection.WriteLayer(layered, 2, "d", "100");
+        expect.That(ConcreteQuickSection.ApplyLayers(layered) is null && layered["input"]!["barre_manuali"]!.AsArray().Skip(10).All(p => J.Number(p!["y"]) == 100 - h / 2),
+            "Strato «Da sotto» alla distanza d dal bordo inferiore");
+        var old = ConcreteQuickSection.Create(); ConcreteQuickSection.Layers(old)[0]!["posizione"] = "Sopra"; ConcreteQuickSection.Layers(old)[1]!["posizione"] = "Sotto";
+        ConcreteQuickSection.Validate(old);
+        expect.That(ConcreteQuickSection.ApplyLayers(old) is null && JsonNode.DeepEquals(old["input"]!["barre_manuali"], ConcreteQuickSection.Create()["input"]!["barre_manuali"])
+            && ConcreteQuickSection.LayerPosition("Sopra") == "Superiore", "Nomi della prima versione («Sopra», «Sotto») letti come Superiore e Inferiore");
+        ConcreteQuickSection.WriteLayer(layered, 2, "posizione", "Da sopra"); ConcreteQuickSection.WriteLayer(layered, 2, "d", "20");
         expect.That(ConcreteQuickSection.ApplyLayers(layered) is { } tooHigh && tooHigh.StartsWith("Strato 3", StringComparison.Ordinal) && layered["input"]!["barre_manuali"] is JsonArray { Count: 0 },
             "Strato fuori dal copriferro rifiutato con il suo nome");
         expect.Throws<ArgumentException>(() => ConcreteQuickSection.Calculate(layered), "Calcolo rifiutato con uno strato non valido");
@@ -132,7 +139,21 @@ internal static class QuickSectionSheetChecks
         sheet.LayerRows[2].RemoveCommand.Execute(null); await sheet.PendingCalculation;
         expect.That(sheet.LayerRows.Count == 2 && sheet.Section?.Bars.Count == 10 && sheet.HasResults, "«✕»: strato tolto");
         sheet.MaterialsForm.Set("classe_cls", "C25/30");
-        expect.That(sheet.Data["input"].S("classe_cls") == "C25/30" && J.Number(sheet.Data["input"]!["fck_mpa"]) == 25, "Classe del calcestruzzo applicata dal catalogo");
+        expect.That(sheet.Data["input"].S("classe_cls") == "C25/30" && J.Number(sheet.Data["input"]!["fck_mpa"]) == 25 && sheet.MaterialsForm["fck_mpa"].Text == "25",
+            "Classe del calcestruzzo applicata dal catalogo e mostrata");
+        await sheet.PendingCalculation;
+        sheet.MaterialsForm.Set("fck_mpa", "28");
+        expect.That(sheet.Data["input"].S("classe_cls") == "Personalizzato" && sheet.MaterialsForm["classe_cls"].SelectedChoice == "Personalizzato", "fck scritto a mano: calcestruzzo «Personalizzato»");
+        sheet.MaterialsForm.Set("fyk_mpa", "500");
+        expect.That(sheet.Data["input"].S("classe_acciaio") == "Personalizzato" && sheet.MaterialsForm["classe_acciaio"].SelectedChoice == "Personalizzato", "fyk scritto a mano: acciaio «Personalizzato»");
+        await sheet.PendingCalculation;
+        expect.That(sheet.HasResults && sheet.ConcreteValues.Any(v => v.Label == "fcd") && sheet.SteelValues.Any(v => v.Label == "fyd" && v.Value.StartsWith("434", StringComparison.Ordinal)),
+            "Valori del motore con i materiali personalizzati (fyd = 500 / 1,15)");
+        sheet.MaterialsForm.Set("classe_cls", "C25/30"); sheet.MaterialsForm.Set("classe_acciaio", "B450C");
+        expect.That(J.Number(sheet.Data["input"]!["fck_mpa"]) == 25 && J.Number(sheet.Data["input"]!["fyk_mpa"]) == 450 && sheet.MaterialsForm["fyk_mpa"].Text == "450",
+            "Classe scelta di nuovo: valori del catalogo");
+        sheet.PhiHelpCommand.Execute(null);
+        expect.That(messages.Shown.LastOrDefault().Title == ConcreteQuickSection.PhiHelpTitle, "«?» della viscosità φ: la spiegazione");
         await sheet.PendingCalculation;
 
         // The choices: negative moment, elastic model, biaxial bending, method n, moment–curvature.
@@ -230,7 +251,7 @@ internal static class QuickSectionSheetChecks
         {
             Set(d, ("shape", "Rettangolare"), ("width_mm", "300"), ("height_mm", "500"), ("cover_mm", "30"), ("transverse_bar_diameter_mm", "8"),
                 ("classe_cls", "C25/30"), ("classe_acciaio", "B450C"));
-            Layers(d, ("Sopra", "", "2", "14"), ("Sotto", "", "4", "20"));
+            Layers(d, ("Superiore", "", "2", "14"), ("Inferiore", "", "4", "20"));
             Act(d, "SLU", "0", "150"); Act(d, "SLE", "0", "100");
             ConcreteQuickSection.View(d)["titolo"] = "Trave 30×50 · flessione retta";
         });
@@ -238,7 +259,7 @@ internal static class QuickSectionSheetChecks
         {
             Set(d, ("shape", "Rettangolare"), ("width_mm", "400"), ("height_mm", "400"), ("cover_mm", "35"), ("transverse_bar_diameter_mm", "8"),
                 ("classe_cls", "C30/37"), ("classe_acciaio", "B450C"));
-            Layers(d, ("Sopra", "", "3", "20"), ("Da sopra", "200", "2", "20"), ("Sotto", "", "3", "20"));
+            Layers(d, ("Superiore", "", "3", "20"), ("Da sopra", "200", "2", "20"), ("Inferiore", "", "3", "20"));
             Act(d, "SLU", "-1200", "120", "80"); Act(d, "SLE", "-900", "80", "50");
             var view = ConcreteQuickSection.View(d); view["titolo"] = "Pilastro 40×40 · flessione deviata"; view["flessione"] = ConcreteQuickSection.Bendings[1];
         });

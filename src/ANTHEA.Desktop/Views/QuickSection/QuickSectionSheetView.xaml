@@ -71,6 +71,15 @@
    </Grid>
   </DataTemplate>
   <ItemsPanelTemplate x:Key="TwoColumns"><UniformGrid Columns="2"/></ItemsPanelTemplate>
+  <!-- A field of a material in the table: label, editor (the class is a choice), unit. -->
+  <DataTemplate x:Key="MaterialRow" DataType="{x:Type forms:FieldViewModel}">
+   <Grid Margin="0,0,0,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+    <TextBlock Text="{Binding Label}" FontWeight="Normal" TextTrimming="CharacterEllipsis" ToolTip="{Binding LabelToolTip}"/>
+    <ContentControl Grid.Column="1" Content="{Binding}" Style="{StaticResource Editor}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="3,0,0,0" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}"/>
+   </Grid>
+  </DataTemplate>
  </UserControl.Resources>
 
  <Grid Margin="8,6,8,6">
@@ -111,7 +120,7 @@
       <Grid Margin="0,4,0,0">
        <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="104"/><ColumnDefinition Width="64"/><ColumnDefinition Width="52"/><ColumnDefinition Width="58"/><ColumnDefinition Width="26"/></Grid.ColumnDefinitions>
        <TextBlock Grid.Column="1" Text="Posizione" Style="{StaticResource Caption}" FontWeight="Normal"/>
-       <TextBlock Grid.Column="2" Text="d [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza dell'asse delle barre dal bordo superiore (solo «Da sopra»)"/>
+       <TextBlock Grid.Column="2" Text="d [mm]" Style="{StaticResource Caption}" FontWeight="Normal" ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
        <TextBlock Grid.Column="3" Text="n" Style="{StaticResource Caption}" FontWeight="Normal"/>
        <TextBlock Grid.Column="4" Text="Ø [mm]" Style="{StaticResource Caption}" FontWeight="Normal"/>
       </Grid>
@@ -122,9 +131,9 @@
           <Grid.ColumnDefinitions><ColumnDefinition Width="24"/><ColumnDefinition Width="104"/><ColumnDefinition Width="64"/><ColumnDefinition Width="52"/><ColumnDefinition Width="58"/><ColumnDefinition Width="26"/></Grid.ColumnDefinitions>
           <TextBlock Text="{Binding Title}" FontWeight="Normal"/>
           <ComboBox Grid.Column="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding Position}" IsEnabled="{Binding CanEdit}" Margin="1" FontWeight="Normal"
-           ToolTip="Sopra e Sotto: a copriferro + staffa dal bordo; Da sopra: alla distanza d dal bordo superiore"/>
+           ToolTip="Superiore e Inferiore: a copriferro + staffa dal bordo; Da sopra e Da sotto: alla distanza d dal bordo superiore o inferiore"/>
           <TextBox Grid.Column="2" Text="{Binding Distance}" IsEnabled="{Binding UsesDistance}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
-           Background="{DynamicResource Token.Field.Background}" ToolTip="Distanza dell'asse delle barre dal bordo superiore"/>
+           Background="{DynamicResource Token.Field.Background}" ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
           <TextBox Grid.Column="3" Text="{Binding Count}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
            Background="{DynamicResource Token.Field.Background}" ToolTip="Numero delle barre dello strato"/>
           <TextBox Grid.Column="4" Text="{Binding Diameter}" IsReadOnly="{Binding IsReadOnly}" TextAlignment="Right" Margin="1" MinHeight="21" FontWeight="Normal"
@@ -185,31 +194,32 @@
      </ItemsControl>
      <Grid>
       <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="80"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-      <TextBlock Text="φ (metodo n)" FontWeight="Normal" ToolTip="{Binding PhiField.LabelToolTip}"/>
+      <StackPanel Orientation="Horizontal">
+       <TextBlock Text="Viscosità φ" FontWeight="Normal" ToolTip="{Binding PhiField.LabelToolTip}"/>
+       <Button Content="?" Command="{Binding PhiHelpCommand}" Width="18" Height="18" Padding="0" Margin="4,0,0,0" FontWeight="SemiBold"
+        ToolTip="Che cosa è la viscosità φ del metodo n" AutomationProperties.Name="Spiegazione della viscosità φ"/>
+      </StackPanel>
       <ContentControl Grid.Column="1" Content="{Binding PhiField}" Style="{StaticResource Editor}"/>
       <TextBlock Grid.Column="2" Text="N &lt; 0 compressione" Style="{StaticResource Caption}" FontWeight="Normal" Margin="6,0,0,0" HorizontalAlignment="Left"/>
      </Grid>
     </StackPanel>
    </GroupBox>
    <GroupBox Header="Materiali" Style="{StaticResource Box}" ToolTip="NTC 2018 · coefficienti e diagrammi della sezione in c.a.">
-    <StackPanel>
-     <ItemsControl ItemsSource="{Binding MaterialsForm.Fields}" ItemsPanel="{StaticResource TwoColumns}" Focusable="False">
-      <ItemsControl.ItemTemplate>
-       <DataTemplate><ContentControl Content="{Binding}" Style="{StaticResource Editor}" Margin="0,0,10,3"/></DataTemplate>
-      </ItemsControl.ItemTemplate>
-     </ItemsControl>
-     <!-- The values of the engine in a compact line: «fcd 19,83 MPa · fyd 391,30 MPa · …». -->
-     <ItemsControl ItemsSource="{Binding MaterialValues}" Focusable="False" Margin="0,2,0,0">
-      <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
-      <ItemsControl.ItemTemplate>
-       <DataTemplate>
-        <TextBlock FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" Margin="0,0,10,1">
-         <Run Text="{Binding Label, Mode=OneWay}"/> <Run Text="{Binding Value, Mode=OneWay}" Foreground="{DynamicResource Token.Ink}"/> <Run Text="{Binding Unit, Mode=OneWay}"/>
-        </TextBlock>
-       </DataTemplate>
-      </ItemsControl.ItemTemplate>
-     </ItemsControl>
-    </StackPanel>
+    <Grid>
+     <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="12"/><ColumnDefinition/></Grid.ColumnDefinitions>
+     <!-- Concrete: class, fck by hand (the class becomes «Personalizzato»), the values of the engine. -->
+     <StackPanel>
+      <TextBlock Text="Calcestruzzo" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" Margin="0,0,0,2"/>
+      <ItemsControl ItemsSource="{Binding ConcreteFields}" ItemTemplate="{StaticResource MaterialRow}" Focusable="False"/>
+      <ItemsControl ItemsSource="{Binding ConcreteValues}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
+     </StackPanel>
+     <!-- Steel: class, fyk, Es, fu, εsu by hand, the values of the engine. -->
+     <StackPanel Grid.Column="2">
+      <TextBlock Text="Acciaio" FontWeight="Normal" Foreground="{DynamicResource Token.Muted}" Margin="0,0,0,2"/>
+      <ItemsControl ItemsSource="{Binding SteelFields}" ItemTemplate="{StaticResource MaterialRow}" Focusable="False"/>
+      <ItemsControl ItemsSource="{Binding SteelValues}" ItemTemplate="{StaticResource ValueRow}" Focusable="False"/>
+     </StackPanel>
+    </Grid>
    </GroupBox>
   </StackPanel>
 

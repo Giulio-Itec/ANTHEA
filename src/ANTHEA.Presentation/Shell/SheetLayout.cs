@@ -52,5 +52,5 @@ public static class SheetLayout
     /// The size of the own window of a module whose sheets open detached, as a small calculation window (17/11/2026: the quick RC section, its
     /// compact view with the strip of the tab and the frame); null for the modules that open in a tab of the window with the focus.
     /// </summary>
-    public static (double Width, double Height)? OwnWindow(string module) => module == QuickSectionModule ? (900, 700) : null;
+    public static (double Width, double Height)? OwnWindow(string module) => module == QuickSectionModule ? (900, 740) : null;
 }

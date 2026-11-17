@@ -75,8 +75,13 @@ public static class ConcreteQuickSection
     /// <summary>The names on screen of <see cref="Models"/>, in the same order.</summary>
     public static ImmutableArray<string> ModelLabels { get; } = ["Plastica", "Elastica"];
 
-    /// <summary>Where a layer of bars stands: under the top cover, over the bottom cover, at a distance from the top edge.</summary>
-    public static ImmutableArray<string> LayerPositions { get; } = ["Sopra", "Sotto", "Da sopra"];
+    /// <summary>
+    /// Where a layer of bars stands: under the top cover, over the bottom cover, at a distance from the top edge, at a distance from the bottom edge.
+    /// </summary>
+    public static ImmutableArray<string> LayerPositions { get; } = ["Superiore", "Inferiore", "Da sopra", "Da sotto"];
+
+    /// <summary>The position of a layer, with the names of the first version («Sopra», «Sotto»: 17/11/2026) read as «Superiore» and «Inferiore».</summary>
+    public static string LayerPosition(string text) => text switch { "Sopra" => LayerPositions[0], "Sotto" => LayerPositions[1], _ => text };
 
     /// <summary>The key of the layers of bars in the choices of the view.</summary>
     public const string LayersKey = "strati";
@@ -84,9 +89,18 @@ public static class ConcreteQuickSection
     /// <summary>The explanation of the cover, for its «?».</summary>
     public const string CoverHelpTitle = "Copriferro c";
     public const string CoverHelp = "c è il copriferro netto della staffa: la distanza dal bordo della sezione alla faccia esterna della staffa.\n\n"
-        + "Gli strati «Sopra» e «Sotto» hanno l'asse delle barre a c + Ø staffa + Ø barra / 2 dal bordo; lo strato «Da sopra» ha l'asse alla distanza d "
-        + "indicata, misurata dal bordo superiore. In larghezza le barre di uno strato sono distribuite in modo uniforme fra le facce interne delle staffe.\n\n"
+        + "Gli strati «Superiore» e «Inferiore» hanno l'asse delle barre a c + Ø staffa + Ø barra / 2 dal bordo; gli strati «Da sopra» e «Da sotto» hanno "
+        + "l'asse alla distanza d indicata, misurata dal bordo superiore o da quello inferiore. In larghezza le barre di uno strato sono distribuite in modo "
+        + "uniforme fra le facce interne delle staffe.\n\n"
         + "Nella sezione circolare l'anello delle barre ha l'asse a c + Ø staffa + Ø barra / 2 dal bordo.";
+
+    /// <summary>The explanation of the creep coefficient of the method n, for its «?».</summary>
+    public const string PhiHelpTitle = "Viscosità φ (metodo n)";
+    public const string PhiHelp = "φ è il coefficiente di viscosità del calcestruzzo usato dal motore della sezione in c.a. nel calcolo delle tensioni con il "
+        + "metodo n (sezione fessurata, comportamento lineare). È lo stesso dato «Viscosità φ armature» delle tensioni SLE del modulo «Sezione in c.a.».\n\n"
+        + "Con φ = 0 il calcolo è a breve termine: il coefficiente di omogeneizzazione è n = Es / Ecm, mostrato fra i materiali. Con φ maggiore di zero il "
+        + "calcestruzzo si deforma nel tempo: il coefficiente di omogeneizzazione cresce, le tensioni nel calcestruzzo compresso diminuiscono e quelle "
+        + "nelle barre aumentano.\n\nφ non interviene nelle verifiche SLU.";
 
     /// <summary>The components of an action that the sheet edits.</summary>
     public static ImmutableArray<string> ActionComponents { get; } = ["N", "Mx", "My"];
@@ -140,7 +154,7 @@ public static class ConcreteQuickSection
         Choice("metodo", Methods); Choice("flessione", Bendings); Choice("grafico", Charts);
         if (view["titolo"] is not null && (view["titolo"] is not JsonValue title || !title.TryGetValue<string>(out _)))
             throw new ArgumentException("Titolo della verifica rapida non valido.");
-        if (view[LayersKey] is { } layers && (layers is not JsonArray list || list.Any(l => l is not JsonObject layer || !LayerPositions.Contains(layer.S("posizione")))))
+        if (view[LayersKey] is { } layers && (layers is not JsonArray list || list.Any(l => l is not JsonObject layer || !LayerPositions.Contains(LayerPosition(layer.S("posizione"))))))
             throw new ArgumentException("Strati di armatura della verifica rapida non validi.");
     }
 
@@ -233,8 +247,8 @@ public static class ConcreteQuickSection
     /// <summary>
     /// The bars of the layers written where the RC section reads the bars placed by hand (<c>input.barre_manuali</c>: x, y, Ø in the coordinates of
     /// its outline); for the circular section the ring of the RC section, without bars by hand. Each layer is a row of bars spread evenly between the
-    /// inner faces of the links: «Sopra» and «Sotto» with the axis at c + Ø of the link + Ø / 2 from the edge, «Da sopra» at the distance d from the
-    /// top edge; in the section with a flange the width is that of the flange or of the web at the height of the layer. A geometric arrangement of
+    /// inner faces of the links: «Superiore» and «Inferiore» with the axis at c + Ø of the link + Ø / 2 from the edge, «Da sopra» and «Da sotto» at
+    /// the distance d from the top or bottom edge; in the section with a flange the width is that of the flange or of the web at the height of the layer. A geometric arrangement of
     /// the data: no material law or check. Invalid layers leave no bars, so that the engine refuses the section, and the reason is returned.
     /// </summary>
     public static string? ApplyLayers(JsonObject data)
@@ -273,9 +287,10 @@ public static class ConcreteQuickSection
             double count = Positive(layer.S("n"), name + " · n"), diameter = Positive(layer.S("phi"), name + " · Ø");
             if (count != (int)count) throw new ArgumentException(name + " · n: inserire un numero intero.");
             double edge = cover + link + diameter / 2;
-            string position = layer.S("posizione");
-            double depth = position == LayerPositions[0] ? edge : position == LayerPositions[1] ? height - edge : Positive(layer.S("d"), name + " · d");
-            if (depth < edge || depth > height - edge) throw new ArgumentException(name + ": la distanza dal bordo superiore deve lasciare copriferro e staffe.");
+            string position = LayerPosition(layer.S("posizione"));
+            double depth = position == LayerPositions[0] ? edge : position == LayerPositions[1] ? height - edge
+                : position == LayerPositions[3] ? height - Positive(layer.S("d"), name + " · d") : Positive(layer.S("d"), name + " · d");
+            if (depth < edge || depth > height - edge) throw new ArgumentException(name + ": la distanza d deve lasciare copriferro e staffe dal bordo.");
             double width = depth <= flange ? top : web, half = width / 2 - edge;
             if (half < 0 || count > 1 && half <= 0) throw new ArgumentException(name + ": le barre non entrano nella larghezza della sezione.");
             double y = upper - depth;
@@ -519,19 +534,42 @@ public static class ConcreteQuickSection
 
     private static string Number(double? value) => EngineeringFormat.Number(value);
 
-    /// <summary>The materials of the sheet: the values of the input and those the engine derives from them.</summary>
-    public static IReadOnlyList<ConcreteQuickValue> MaterialValues(JsonObject data, ConcreteQuickResult? result)
+    /// <summary>The properties of the concrete typed by hand: the class becomes «Personalizzato», as in the RC section.</summary>
+    public static ImmutableArray<string> ConcreteInputs { get; } = ["fck_mpa"];
+
+    /// <summary>The properties of the steel typed by hand (those of the RC section that make the steel «Personalizzato»).</summary>
+    public static ImmutableArray<string> SteelInputs => ConcreteInputPresentation.SteelProperties;
+
+    /// <summary>A property of a material typed by hand: its class becomes «Personalizzato», as in the RC section; returns the key of the class, or null.</summary>
+    public static string? MarkCustomMaterial(JsonObject data, string key)
     {
-        var input = data["input"];
-        var preview = result?.Preview;
-        return
-        [
-            new("fck", input.S("fck_mpa"), "MPa"), new("fcd", Number(preview?.Fcd), "MPa"), new("Ecm", Number(preview?.Ecm), "MPa"),
-            new("εc2", Number(preview?.Ec2), "‰"), new("εcu", Number(preview?.Ecu), "‰"),
-            new("fyk", input.S("fyk_mpa"), "MPa"), new("fyd", Number(preview?.Fyd), "MPa"), new("Es", input.S("steel_modulus_mpa"), "MPa"),
-            new("εyd", Number(result?.YieldStrain), "‰"), new("εsu", input.S("steel_eps_u"), "‰"), new("n = Es / Ecm", Number(preview?.N))
-        ];
+        var input = data["input"]!.AsObject();
+        if (ConcreteInputs.Contains(key)) { ConcreteInputPresentation.CustomConcrete(input); return "classe_cls"; }
+        if (SteelInputs.Contains(key)) { ConcreteInputPresentation.CustomSteel(input); return "classe_acciaio"; }
+        return null;
     }
+
+    /// <summary>The keys of the input written by the class <paramref name="key"/> of the catalogue (to show them again after the choice).</summary>
+    public static IReadOnlyList<string> MaterialKeys(JsonObject data, string key) =>
+        Catalog(data, key).FirstOrDefault(m => m.S("nome") == data["input"].S(key)) is { } material
+            ? ConcreteInputPresentation.StandardMaterialValues(material).Select(p => p.Key).ToArray() : [];
+
+    /// <summary>The values of the concrete that the engine derives from the input.</summary>
+    public static IReadOnlyList<ConcreteQuickValue> ConcreteValues(ConcreteQuickResult? result)
+    {
+        var preview = result?.Preview;
+        return [new("fcd", Number(preview?.Fcd), "MPa"), new("Ecm", Number(preview?.Ecm), "MPa"), new("εc2", Number(preview?.Ec2), "‰"), new("εcu", Number(preview?.Ecu), "‰")];
+    }
+
+    /// <summary>The values of the steel that the engine derives from the input.</summary>
+    public static IReadOnlyList<ConcreteQuickValue> SteelValues(ConcreteQuickResult? result)
+    {
+        var preview = result?.Preview;
+        return [new("fyd", Number(preview?.Fyd), "MPa"), new("εyd", Number(result?.YieldStrain), "‰"), new("n = Es / Ecm", Number(preview?.N))];
+    }
+
+    /// <summary>All the values of the materials that the engine derives from the input.</summary>
+    public static IReadOnlyList<ConcreteQuickValue> MaterialValues(JsonObject data, ConcreteQuickResult? result) => [.. ConcreteValues(result), .. SteelValues(result)];
 
     private static IEnumerable<ConcreteQuickValue> State(ConcreteResults.SectionState? state)
     {

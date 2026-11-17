@@ -100,7 +100,7 @@
     "combinazioni": {
       "SLU": [
         {
-          "id": "09ef717344f3420ea327cb7d35f19487",
+          "id": "c912eac5966a4c88b0fb7e40b60649b7",
           "nome": "Sollecitazione SLU",
           "azioni": [
             "-1200",
@@ -117,7 +117,7 @@
       "SLV": [],
       "SLE": [
         {
-          "id": "8480910a399649a0a161bb18528952c9",
+          "id": "c61165f5ea1447c8b0338fec65efb20b",
           "nome": "Metodo n",
           "azioni": [
             "-900",
@@ -429,7 +429,7 @@
       "grafico": "Dominio",
       "strati": [
         {
-          "posizione": "Sopra",
+          "posizione": "Superiore",
           "d": "",
           "n": "3",
           "phi": "20"
@@ -441,7 +441,7 @@
           "phi": "20"
         },
         {
-          "posizione": "Sotto",
+          "posizione": "Inferiore",
           "d": "",
           "n": "3",
           "phi": "20"

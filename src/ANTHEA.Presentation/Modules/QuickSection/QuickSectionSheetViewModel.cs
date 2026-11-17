@@ -36,17 +36,18 @@ public sealed class QuickLayerRow : ObservableObject
     public bool CanEdit { get; }
     public bool IsReadOnly => !CanEdit;
     public IReadOnlyList<string> Positions => ConcreteQuickSection.LayerPositions;
-    public string Position { get => layer.S("posizione"); set => Write("posizione", value); }
+    public string Position { get => ConcreteQuickSection.LayerPosition(layer.S("posizione")); set => Write("posizione", value); }
     public string Distance { get => layer.S("d"); set => Write("d", value); }
     public string Count { get => layer.S("n"); set => Write("n", value); }
     public string Diameter { get => layer.S("phi"); set => Write("phi", value); }
-    /// <summary>The distance d is used only by the layer «Da sopra».</summary>
-    public bool UsesDistance => Position == ConcreteQuickSection.LayerPositions[2];
+    /// <summary>The distance d is used only by the layers «Da sopra» and «Da sotto».</summary>
+    public bool UsesDistance => Position == ConcreteQuickSection.LayerPositions[2] || Position == ConcreteQuickSection.LayerPositions[3];
     public IRelayCommand RemoveCommand { get; }
 
     private void Write(string key, string? value, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
     {
-        if (value is not null && value != layer.S(key)) owner.EditLayer(Index, key, value);
+        string current = key == "posizione" ? Position : layer.S(key);
+        if (value is not null && value != current) owner.EditLayer(Index, key, value);
         OnPropertyChanged(property);
         if (key == "posizione") OnPropertyChanged(nameof(UsesDistance));
     }
@@ -87,6 +88,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         Report = new NoReport();
         AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
+        PhiHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.PhiHelpTitle, ConcreteQuickSection.PhiHelp));
         BuildForms();
         RefreshDrawing();
         // As Spectra: the sheet calculates at opening, without modifying the document; after an edit the automatic recalculation follows.
@@ -220,6 +222,15 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>«?» of the cover: the window that explains what c measures.</summary>
     public IRelayCommand CoverHelpCommand { get; }
 
+    /// <summary>«?» of φ: the window that explains the creep coefficient of the method n.</summary>
+    public IRelayCommand PhiHelpCommand { get; }
+
+    /// <summary>The fields of the concrete: the class and its properties typed by hand.</summary>
+    public IReadOnlyList<FieldViewModel> ConcreteFields => MaterialsForm.Fields.Where(f => f.Key is "classe_cls" || ConcreteQuickSection.ConcreteInputs.Contains(f.Key)).ToArray();
+
+    /// <summary>The fields of the steel: the class and its properties typed by hand.</summary>
+    public IReadOnlyList<FieldViewModel> SteelFields => MaterialsForm.Fields.Where(f => f.Key is "classe_acciaio" || ConcreteQuickSection.SteelInputs.Contains(f.Key)).ToArray();
+
     /// <summary>The rows of the table of the actions: the ultimate action and the action of the method n.</summary>
     public IReadOnlyList<QuickActionRow> ActionRows { get; private set; } = [];
 
@@ -259,8 +270,11 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                     new("2° anello", BarsForm["second_inner_enabled"], BarsForm["second_inner_count"], BarsForm["second_inner_diameter"], BarsForm["second_inner_gap"])]
                 : [];
             BuildLayers();
-            MaterialsForm = Form(Input, [new("classe_cls", "Calcestruzzo", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_cls"), ToolTip: "Classe del calcestruzzo"),
-                new("classe_acciaio", "Acciaio", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre")], InputEdited);
+            MaterialsForm = Form(Input, [new("classe_cls", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_cls"), ToolTip: "Classe del calcestruzzo"),
+                T("fck_mpa", "fck", "MPa", "Resistenza caratteristica cilindrica: scritta a mano rende la classe «Personalizzato»"),
+                new("classe_acciaio", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre"),
+                T("fyk_mpa", "fyk", "MPa", "Tensione caratteristica di snervamento"), T("steel_modulus_mpa", "Es", "MPa", "Modulo elastico dell'acciaio"),
+                T("steel_fu_mpa", "fu", "MPa", "Tensione di rottura"), T("steel_eps_u", "εsu", "‰", "Deformazione ultima dell'acciaio")], InputEdited);
             ultimate = ConcreteQuickSection.ActionValues(Data, "SLU");
             service = ConcreteQuickSection.ActionValues(Data, "SLE");
             UltimateForm = Form(ultimate, ActionFields("Ed"), key => ActionEdited("SLU", ultimate, key));
@@ -272,7 +286,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
             PhiField = ServiceForm.Fields.FirstOrDefault(f => f.Key == "phi");
         }
         finally { building = false; }
-        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(UltimateForm), nameof(ServiceForm),
+        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(ConcreteFields), nameof(SteelFields),
+            nameof(UltimateForm), nameof(ServiceForm),
             nameof(BarRows), nameof(ActionRows), nameof(PhiField), nameof(Shape), nameof(IsCircular), nameof(Method), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
@@ -312,7 +327,13 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     private void InputEdited(string key)
     {
         if (building || IsDisposed) return;
-        if (key is "classe_cls" or "classe_acciaio") ConcreteQuickSection.ApplyMaterial(Data, key);
+        if (key is "classe_cls" or "classe_acciaio")
+        {
+            // The class of the catalogue: its values written and shown again, as the RC section does.
+            ConcreteQuickSection.ApplyMaterial(Data, key);
+            foreach (string value in ConcreteQuickSection.MaterialKeys(Data, key)) MaterialsForm.Set(value, Input.S(value), true);
+        }
+        else if (ConcreteQuickSection.MarkCustomMaterial(Data, key) is { } classKey) MaterialsForm.Set(classKey, Input.S(classKey), true);
         // The bars of the layers depend on the dimensions, the cover and the links.
         ConcreteQuickSection.ApplyLayers(Data);
         Changed();
@@ -358,6 +379,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public bool? IsDuctile => Summary?.Ductile;
 
     public IReadOnlyList<ConcreteQuickValue> MaterialValues => ConcreteQuickSection.MaterialValues(Data, Current);
+    public IReadOnlyList<ConcreteQuickValue> ConcreteValues => ConcreteQuickSection.ConcreteValues(Current);
+    public IReadOnlyList<ConcreteQuickValue> SteelValues => ConcreteQuickSection.SteelValues(Current);
     public IReadOnlyList<ConcreteQuickValue> ResultValues => ConcreteQuickSection.ResultValues(Current);
     public IReadOnlyList<string> Errors => Current?.Errors ?? [];
     public DomainChartGeometry? DomainGeometry => Current?.DomainGeometry;
@@ -377,7 +400,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     private void RefreshResults()
     {
-        foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
+        foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ConcreteValues), nameof(SteelValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
             nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(Status) })
             OnPropertyChanged(p);
     }

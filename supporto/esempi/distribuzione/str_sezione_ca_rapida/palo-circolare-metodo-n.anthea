@@ -58,7 +58,7 @@
     "combinazioni": {
       "SLU": [
         {
-          "id": "99284fdee1b949aabf875e4fa4ee97b5",
+          "id": "73e09a31761b41bd86bc090859e6f20f",
           "nome": "Sollecitazione SLU",
           "azioni": [
             "-1500",
@@ -75,7 +75,7 @@
       "SLV": [],
       "SLE": [
         {
-          "id": "3e2145b4713f422db3c96195f44d6dbd",
+          "id": "7089436f14df4b35aac1af84daaa52f3",
           "nome": "Metodo n",
           "azioni": [
             "-1100",
@@ -387,13 +387,13 @@
       "grafico": "Momento–curvatura",
       "strati": [
         {
-          "posizione": "Sopra",
+          "posizione": "Superiore",
           "d": "",
           "n": "4",
           "phi": "20"
         },
         {
-          "posizione": "Sotto",
+          "posizione": "Inferiore",
           "d": "",
           "n": "6",
           "phi": "24"
