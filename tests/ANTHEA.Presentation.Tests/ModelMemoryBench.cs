@@ -180,11 +180,13 @@ internal static class ModelMemoryBench
             // As ModelTabView.CreateViewer: no viewer while the copy is read on another thread (R5, R8).
             viewer?.Dispose(); viewer = null;
             if (model.IsLoading || model.LoadFailure is not null) return;
-            viewer = new ModelViewerViewModel(model.Snapshot, model.Targets, model.IsReadOnly, services, model.Imported, model.Linked)
+            // P2 of the review of 17/11/2026: the GPC service of the tab, as ModelTabView gives it.
+            viewer = new ModelViewerViewModel(model.Snapshot, model.Targets, model.IsReadOnly, services, model.Imported, model.Linked, model.Combinations)
                 { CombinationArchive = true, UndoProjectChange = model.UndoChange };
             viewer.SetDisplayName(model.Title);
-            // As ModelViewerControl after its first render (R7).
-            if (sceneReady) viewer.SceneReady();
+            // As ModelViewerControl (R7; P1 of the review of 17/11/2026): SceneReady after every scene drawn (UpdateScene on SceneChanged, also
+            // during an import) and after its first render (Loaded). Never called by the phases.
+            if (sceneReady) { var current = viewer; current.SceneChanged += (_, _) => current.SceneReady(); current.SceneReady(); }
         }
         void Bind(ModelTabViewModel model)
         {
@@ -224,13 +226,21 @@ internal static class ModelMemoryBench
             }, t => $"{t.Tab.Snapshot?.Results.Length} insiemi di risultati · {t.Viewer.CombinationSummary}");
             tab = opened.Tab;
         }
-        // R7: the scene of the copy is on screen; the base cases are prepared in the background (the time the window stays free meanwhile).
+        // R7: the scene of the copy is on screen; the base cases are prepared in the background (the time the window stays free meanwhile). The
+        // preparation started by itself, as in the window (P1 of the review of 17/11/2026: nothing is called here); the phase waits for it.
         if (sceneReady)
             await Measure("preparazione dei casi base in background (R7)", async () =>
             {
-                viewer!.SceneReady();
+                bool started = viewer!.IsPreparingCombinations || viewer.CombinationPreparationText.Length > 0;
                 while (viewer.IsPreparingCombinations) await Task.Delay(100);
-                return viewer.CombinationPreparationText;
+                return (started ? "partita da sola" : "non partita") + " · " + viewer.CombinationPreparationText;
+            }, s => s);
+        // P2 of the review of 17/11/2026: a change of tab or page creates the viewer again on the same copy of the tab.
+        if (phases.Contains("scheda"))
+            await Measure("cambio di scheda: visore creato di nuovo (P2)", () =>
+            {
+                Create(tab);
+                return Task.FromResult((viewer!.IsPreparingCombinations ? "prepara di nuovo" : "non prepara di nuovo") + " · " + viewer.CombinationPreparationText);
             }, s => s);
         notes.Add($"Modello: {viewer!.Summary}; {viewer.CombinationSummary}; limite {ModelCombinations.CopyLimit(viewer.CombinationCopyBytes)}.");
 
