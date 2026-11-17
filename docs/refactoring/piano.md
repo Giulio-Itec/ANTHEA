@@ -9,7 +9,7 @@ Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pub
 - [x] Motivi dei casi esclusi dal codice del convertitore, non dal testo inglese (`MOD-FC-CODICE-20261117`).
 - [x] Guide Rev74: testo Straus7 della pratica e della teorica; Wiki rigenerata.
 - [x] Versione 1.19.3 e README dell'installer; README 1.19.2 conservato in SUPERATI.
-- [ ] Edizioni Word e PDF Rev74 delle guide, README delle guide e indice dell'installer alla Rev74, PDF dei README e delle note: coordinatore.
+- [x] Edizioni Word e PDF Rev74 delle guide con la pipeline ITEC (pratica 143 pagine, teorica 214), Rev73 in `supporto/SUPERATI/guide-rev74-20261117/` con manifest; README delle guide (edizione 9), indice e README dell'installer e README di supporto alla Rev74; PDF dei README, dell'indice e delle note 1.19.3.
 - [ ] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente.
 - [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
 - [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.

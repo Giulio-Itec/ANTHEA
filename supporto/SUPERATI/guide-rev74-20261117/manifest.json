@@ -1,0 +1,107 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/docs/guida-pratica-anthea.md",
+    "sha256": "ef730971fc21b9f0e308c846ee53aae1244f781ed57711b6eafe7b61f9419ce9",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/docs/guida-teorica-anthea.md",
+    "sha256": "39cc1c183ab9062173ff4b16eb841b68c05d5aa8770975b0b1aee62b14ec2bb3",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/docs/guida-pratica-anthea.pdf",
+    "sha256": "087576cb1250bbeb0c4c1574db503214a0ca328f61187faca415afd78b922368",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/docs/guida-teorica-anthea.pdf",
+    "sha256": "6686035579f3524d00a9ff6306e84b3040c9e2478970a9dbb662511af7db1039",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/README.md",
+    "sha256": "9a4760db0b6c1bf4af56ad56b9ebf830f33a1671527f9764d898d6b0fa36b4e0",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/README.pdf",
+    "sha256": "5ccf11958f6f7e93edef0688078c1675a771111edcecef5ca7765dd2927828fc",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/installer/Indice-guide.md",
+    "sha256": "17b14ab1b366fbdd24df9e748a4d90506777881107cd497cf2992ab3428bdd8e",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/installer/Indice-guide.pdf",
+    "sha256": "c276fbae2428d28583b2bf366b8f28403921b8b2c7a8852ad8a10a52d8be9873",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/installer/README.md",
+    "sha256": "fa287e9be72166dd661341f2d9a43d63f963bec1c201aad2c5eeadbb5a1e6d54",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "ff9ddc003c7e008dfbb1c0e13f4f637d834e40e913f3cbdb395f8299ec9cce18",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "5ce4690ad0d5829595374eefde571cb36e8998d0ddf52f4e98f29d75429513dd",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.docx",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.docx",
+    "sha256": "ebe490e3d6c9f692e9037fcba1437ec6bbab0fe2d363930aa39b2d8a15668d78",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.pdf",
+    "sha256": "087576cb1250bbeb0c4c1574db503214a0ca328f61187faca415afd78b922368",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.docx",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.docx",
+    "sha256": "2946a089c3ad253a74c360facb93a61c7fdbed961ff80d055c74e30b5118f08b",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev74-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.pdf",
+    "sha256": "6686035579f3524d00a9ff6306e84b3040c9e2478970a9dbb662511af7db1039",
+    "motivo": "Revisione superata dalla Rev74: Straus7 con più freedom case / ANTHEA 1.19.3, set AY",
+    "sostituzione": "Guide Rev74, ramo claude/1193-candidata"
+  }
+]
