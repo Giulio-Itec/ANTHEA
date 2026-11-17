@@ -59,6 +59,8 @@ public sealed partial class ModelViewerViewModel : ObservableObject, IDisposable
         combinationService = combinations ?? new(); ownsCombinationService = combinations is null;
         selectedCombinationLimit = SavedCombinationLimit();
         Sheets = sheets; selectedSheet = sheets.FirstOrDefault();
+        // R2 of the review of 17/11/2026: the warning before an update that would take the results away follows the command «Importa».
+        ImportCommand.CanExecuteChanged += (_, _) => NotifyImportWarning();
         if (snapshot != null) SetSnapshot(snapshot);
     }
 

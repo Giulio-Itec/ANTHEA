@@ -72,8 +72,38 @@ public sealed partial class ModelViewerViewModel
     /// catalogue offers no result case (a Straus7 file whose result cases the converter does not match, or without a results file; a MIDAS
     /// model without static or stage cases) imports geometry, attributes and loads, without results, instead of staying disabled.
     /// </summary>
-    public bool ImportsWithoutResults => SelectedUpdateScope == (int)ModelUpdateScope.Everything &&
+    /// <remarks>R2 of the review of 17/11/2026: not when the copy on screen has results (an «Aggiorna modello…»): «Tutto» would take them away
+    /// without the user choosing it; <see cref="ResultsLossWarning"/> says so before the import and «Importa» stays disabled, the explicit choice
+    /// being «Geometria + attributi + carichi».</remarks>
+    public bool ImportsWithoutResults => SourceWithoutResults && !HasCurrentResults;
+
+    /// <summary>«Tutto» from a source whose catalogue offers no result case (the rule of R10).</summary>
+    bool SourceWithoutResults => SelectedUpdateScope == (int)ModelUpdateScope.Everything &&
         (IsStrand7Import && strand7Catalog is { Cases.Count: 0 } || IsMidasImport && liveCatalog is { StaticCases.Count: 0, StageCases.Count: 0 });
+
+    bool HasCurrentResults => Snapshot is { Results.Length: > 0 };
+
+    /// <summary>
+    /// R2 of the review of 17/11/2026 (the prudent choice, annotated in the report): «Aggiorna modello…» with «Tutto» from a source without
+    /// result cases on a copy that has results says, before the import, which results would go, and «Importa» stays disabled; empty otherwise.
+    /// </summary>
+    public string ResultsLossWarning
+    {
+        get
+        {
+            if (!SourceWithoutResults || Snapshot is not { Results.Length: > 0 } current) return "";
+            int cases = current.Results.Count(r => r.Combination == null);
+            int combinations = current.Results.Select(r => r.Combination?.DefinitionId).OfType<string>().Distinct(StringComparer.Ordinal).Count();
+            return $"La copia attuale ha risultati ({cases} casi, {combinations} combinazioni calcolate) e la sorgente non ha casi di risultato da importare ({NoResultsReason}): " +
+                "con «Tutto» sarebbero tolti, quindi «Importa» resta disattivato. Per aggiornare geometria, attributi e carichi togliendo i risultati scegli «Geometria + attributi + carichi»; per tenerli non aggiornare la copia.";
+        }
+    }
+
+    /// <summary>The panel shows <see cref="ResultsLossWarning"/>.</summary>
+    public bool HasResultsLossWarning => ResultsLossWarning.Length > 0;
+
+    /// <summary>The warning follows everything that changes the command «Importa» (source, catalogue, scope, copy, busy state).</summary>
+    void NotifyImportWarning() { OnPropertyChanged(nameof(ResultsLossWarning)); OnPropertyChanged(nameof(HasResultsLossWarning)); }
 
     /// <summary>The scope the import asks the source for: «Geometria + attributi + carichi» for <see cref="ImportsWithoutResults"/>.</summary>
     ModelUpdateScope EffectiveImportScope => ImportsWithoutResults ? ModelUpdateScope.ModelWithoutResults : (ModelUpdateScope)SelectedUpdateScope;
@@ -97,7 +127,9 @@ public sealed partial class ModelViewerViewModel
             token.ThrowIfCancellationRequested(); if (disposed) return;
             liveCatalog = catalog; PopulateImportStages(catalog);
             foreach (string name in catalog.StaticCases) ImportCases.Add(new(name, ImportCaseSelectionChanged));
-            ConnectionSummary = catalog.Summary + " · " + string.Join(", ", catalog.ElementFamilies);
+            ConnectionSummary = catalog.Summary + " · " + string.Join(", ", catalog.ElementFamilies) +
+                // R2 of the review of 17/11/2026: why there is nothing to import, before the import, as for Straus7 (R9).
+                (catalog is { StaticCases.Count: 0, StageCases.Count: 0 } ? "\nNessun caso di risultato da importare: " + NoResultsReason + "." : "");
             ImportProgressMessage = "Connessione pronta. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;
             OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary));
         }
