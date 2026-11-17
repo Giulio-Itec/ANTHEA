@@ -70,12 +70,12 @@ public static partial class Strand7Snapshot
     /// <see cref="Straus7LinearStaticResults.Cases"/>, the same mapping as <see cref="Straus7LinearStaticResults.CaseMap"/>. A selectable case keeps
     /// its result case number (the one the worker reads) and the name of its load case in the copy («2: Q»), with its freedom case in a solution of
     /// several freedom cases («2: Q · FC 2»); a case left out keeps its native name, with the reason of the converter in Italian. Null when the
-    /// converter does not describe each listed case once.
+    /// converter does not describe each listed case once, in the order of the listing (note N1 of the revision: the numbers, not only the count).
     /// </summary>
     public static Strand7LinearCases? LinearCases(GPC.Model.Models.Model model, IReadOnlyList<Straus7ResultCase> listed)
     {
         var described = Straus7LinearStaticResults.Cases(model, listed);
-        if (described.Count != listed.Count) return null;
+        if (described.Count != listed.Count || described.Where((d, i) => d.Number != listed[i].Number).Any()) return null;
         var pairs = listed.Zip(described, (c, d) => (Case: c, Described: d)).ToArray();
         var cases = pairs.Where(p => p.Described.ModelCase != null)
             .Select(p => new Strand7ResultCase(p.Case.Number, CaseName(p.Described.ModelCase))

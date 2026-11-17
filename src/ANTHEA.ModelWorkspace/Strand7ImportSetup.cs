@@ -51,8 +51,9 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
     public IReadOnlyList<string> LoadCases { get; init; } = [];
     public string ApiVersion { get; init; } = "";
     public IReadOnlyList<string> Warnings { get; init; } = [];
-    /// <summary>Rilievo R9 (16/11/2026): the result cases of the file that the GPC converter did not match to a load case (for instance the load
-    /// case × freedom case pairs of a model with several freedom cases), so not selectable.</summary>
+    /// <summary>Rilievo R9 (16/11/2026): the result cases of the file that the GPC converter did not match to a load case (since GPC.Converter
+    /// 2.24, for a solution with several freedom cases, a pair whose load case the settings solve under more than one freedom case or under
+    /// another one; <see cref="ExcludedResultCases"/> gives each reason), so not selectable.</summary>
     public IReadOnlyList<string> UnmappedResultCases { get; init; } = [];
     /// <summary>17/11/2026 (GPC.Converter 2.24): the result cases of <see cref="UnmappedResultCases"/> with the reason of the converter, in Italian.</summary>
     public IReadOnlyList<Strand7ExcludedResultCase> ExcludedResultCases { get; init; } = [];

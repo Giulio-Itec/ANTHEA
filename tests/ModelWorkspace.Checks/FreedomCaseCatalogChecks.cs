@@ -28,7 +28,7 @@ static partial class Program
               Strand7Snapshot.ExclusionReason(null).Length > 0,
             "AY: the reasons of the converter for a result case left out, in Italian; another text kept after «motivo del convertitore GPC:»");
 
-        // A catalogue like the one of the Straus7 file of the user (two freedom cases with the same name), with one load case solved under both.
+        // A catalogue of a model with two freedom cases with the same name, with one load case solved under both (synthetic numbers, note N3).
         string folder = Path.Combine(output, "freedom-case-ay"); Directory.CreateDirectory(folder);
         string File(string name) { string path = Path.Combine(folder, name); System.IO.File.WriteAllBytes(path, [1, 2, 3]); return path; }
         string api = Path.Combine(folder, "St7api.dll");
@@ -36,10 +36,10 @@ static partial class Program
         System.IO.File.Copy(Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "coreclr.dll"), api, true);
         var services = new NoResultServices { strand7Model = File("modello.st7"), strand7Results = File("modello.lsa"), strand7Api = api };
         string excluded = "2: [2: Q] [1: Freedom Case 1]";
-        services.Catalog = new Strand7ModelCatalog(2563, 5238, [new(1, "1: G1") { FreedomCaseLabel = "1: G1 · FC 1" }, new(6, "5: G1") { FreedomCaseLabel = "5: G1 · FC 2" }],
+        services.Catalog = new Strand7ModelCatalog(120, 210, [new(1, "1: G1") { FreedomCaseLabel = "1: G1 · FC 1" }, new(6, "5: G1") { FreedomCaseLabel = "5: G1 · FC 2" }],
             "SYNTHETICGEOMETRY/SYNTHETICRESULTS")
         {
-            Beams = 96, Plates = 5142, Combinations = 31, LoadCases = ["1: G1", "2: Q", "5: G1"],
+            Beams = 30, Plates = 180, Combinations = 4, LoadCases = ["1: G1", "2: Q", "5: G1"],
             FreedomCases = ["FC 1 «Freedom Case 1»: casi di carico 1, 2", "FC 2 «Freedom Case 1»: casi di carico 2, 5"],
             Warnings = ["Straus7FreedomCasesPreserved: vincoli e molle di più freedom case conservati.", "Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + excluded + "."],
             UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Strand7Snapshot.ExclusionReason(Shared))]
@@ -116,6 +116,21 @@ static partial class Program
         }, "modello.lsa");
         Check(excludedOnly.Contains(FreedomLine, StringComparison.Ordinal) && !excludedOnly.Contains(Reactions, StringComparison.Ordinal) && !excludedOnly.Contains(Labels, StringComparison.Ordinal),
             "P2: without selectable cases the summary names neither labels nor reactions");
+
+        // Note N2: a reason the converter writes in another way is kept as it is, with its own full stop and not a second one.
+        var later = new NoResultServices
+        {
+            strand7Model = File("modello.st7"), strand7Results = File("modello.lsa"), strand7Api = api,
+            Catalog = new Strand7ModelCatalog(4, 2, [new(1, "1: G1")], "S/R")
+            { LoadCases = ["1: G1"], UnmappedResultCases = ["2: X"], ExcludedResultCases = [new(2, "2: X", Strand7Snapshot.ExclusionReason("A reason of a later converter."))] }
+        };
+        using (var laterView = new ModelViewerViewModel(null, [], false, later, _ => { }, (_, _, _, _) => { }))
+        {
+            laterView.SelectedImportSource = 2;
+            laterView.ChooseStrand7ModelCommand.Execute(null); laterView.ChooseStrand7ResultsCommand.Execute(null); laterView.ChooseStrand7ApiCommand.Execute(null);
+            await laterView.CheckStrand7SetupCommand.ExecuteAsync(null);
+            Check(laterView.Strand7ExcludedCases == "• 2: X: motivo del convertitore GPC: A reason of a later converter.", "N2: an unknown reason of the converter ends with one full stop");
+        }
 
         // The worker protocol keeps labels, excluded cases and freedom cases (the record goes from the worker process to the interface as JSON).
         string json = Path.Combine(folder, "catalogo.json");

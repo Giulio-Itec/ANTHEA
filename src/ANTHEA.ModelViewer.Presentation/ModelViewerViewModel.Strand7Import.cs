@@ -71,7 +71,8 @@ public sealed partial class ModelViewerViewModel
                     : ". Con «Tutto» si importano geometria, attributi e carichi, senza risultati.")) +
                 (reason is null && catalog.ExcludedResultCases.Count > 0 ? "\nCasi di risultato esclusi: " + catalog.ExcludedResultCases.Count + ", elencati qui sotto con il motivo." : "") +
                 (catalog.Warnings.Count > 0 ? "\nAvvisi del convertitore GPC: " + catalog.Warnings.Count + ", elencati qui sotto e conservati nei messaggi di acquisizione della copia." : "");
-            Strand7ExcludedCases = string.Join("\n", catalog.ExcludedResultCases.Select(c => "• " + c.Name + ": " + c.Reason + "."));
+            // Note N2 of the revision: a reason of the converter kept as it is already ends with a full stop.
+            Strand7ExcludedCases = string.Join("\n", catalog.ExcludedResultCases.Select(c => "• " + c.Name + ": " + c.Reason + (c.Reason.EndsWith('.') ? "" : ".")));
             Strand7Warnings = string.Join("\n", catalog.Warnings.Select(w => "• " + w));
             ImportProgressMessage = "File pronti. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;
             OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); OnPropertyChanged(nameof(HasStrand7Catalog));

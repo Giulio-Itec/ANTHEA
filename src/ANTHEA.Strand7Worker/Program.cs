@@ -108,7 +108,7 @@ static class Strand7Worker
             // 17/11/2026 (GPC.Converter 2.24): every result case with its load case and, in a solution with several freedom cases, its freedom
             // case («5: G1 · FC 2»); the same mapping as session.Map (CaseMap), with the reason of each case left out. Built by
             // Strand7Snapshot.LinearCases (revision P3), checked without Straus7 by ModelWorkspace.Checks on the converter itself.
-            var linear = Strand7Snapshot.LinearCases(model, listed) ?? throw new Failure(Unexpected, "Elenco dei casi di risultato del convertitore GPC incompleto.");
+            var linear = Strand7Snapshot.LinearCases(model, listed) ?? throw new Failure(Unexpected, "Elenco dei casi di risultato del convertitore GPC incompleto o in un altro ordine.");
             cases = [.. linear.Cases];
             // R9 (16/11/2026): the cases left out, also as a list of the catalogue, so that the panel can say why there is no result to import.
             excluded = [.. linear.Excluded];
