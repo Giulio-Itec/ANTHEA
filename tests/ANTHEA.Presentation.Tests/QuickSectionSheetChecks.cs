@@ -19,9 +19,11 @@ internal static class QuickSectionSheetChecks
     /// <summary>The folder of the examples of the module in the distribution.</summary>
     internal static string ExampleFolder(string root) => Path.Combine(root, "supporto/esempi/distribuzione", ConcreteQuickSection.Module);
 
-    private static void Act(JsonObject data, string state, string n, string mx, string my = "0")
+    /// <summary>Writes N, Mx and My of the combination <paramref name="index"/> (the first by default).</summary>
+    private static void Act(JsonObject data, string n, string mx, string my = "0", int index = 0)
     {
-        ConcreteQuickSection.WriteAction(data, state, "N", n); ConcreteQuickSection.WriteAction(data, state, "Mx", mx); ConcreteQuickSection.WriteAction(data, state, "My", my);
+        string id = ConcreteQuickSection.Combinations(data)[index].S("id");
+        ConcreteQuickSection.WriteCombination(data, id, "N", n); ConcreteQuickSection.WriteCombination(data, id, "Mx", mx); ConcreteQuickSection.WriteCombination(data, id, "My", my);
     }
 
     internal static int Run(string root, string output) => SingleThreadContext.Run(async _ =>
@@ -40,10 +42,21 @@ internal static class QuickSectionSheetChecks
         var created = ModuleDirectory.CreateData(ConcreteQuickSection.Module);
         ModuleDirectory.ValidateData(ConcreteQuickSection.Module, created);
         ModuleCatalog.ValidateData(ConcreteQuickSection.SourceModule, created);
-        expect.That(created["input"] is JsonObject && created["workspace_ca"] is JsonObject && ConcreteQuickSection.Action(created, "SLU") is not null
-            && ConcreteQuickSection.Action(created, "SLE") is not null, "Documento nel formato della sezione in c.a. con le due sollecitazioni");
+        var firstCombination = ConcreteQuickSection.Combinations(created).Single();
+        expect.That(created["input"] is JsonObject && created["workspace_ca"] is JsonObject && firstCombination.S("nome") == "Combo 1"
+            && ConcreteQuickSection.Action(created, "SLE")?.S("id") == firstCombination.S("id") + "-n" && ConcreteQuickSection.SelectedCombination(created) == firstCombination.S("id"),
+            "Documento nel formato della sezione in c.a.: una combinazione, selezionata, copiata nelle righe SLE");
         expect.That(new[] { "SLU", "SLE" }.All(s => ConcreteQuickSection.ActionComponents.All(c => J.Number(JsonValue.Create(ConcreteQuickSection.Action(created, s)!.S(c))) == 0)),
             "Foglio nuovo: tutte le sollecitazioni a zero");
+        var combos = ConcreteQuickSection.Create();
+        string second = ConcreteQuickSection.AddCombination(combos);
+        expect.That(ConcreteQuickSection.Combinations(combos).Count == 2 && ConcreteQuickSection.Combinations(combos)[1].S("nome") == "Combo 2"
+            && ConcreteQuickSection.SelectedCombination(combos) == second && ConcreteQuickSection.Combinations(combos).Count == ConcreteSheetPreparation.ReadActions(combos)["SLE"].Length,
+            "«+»: Combo 2 aggiunta, selezionata e copiata nelle righe SLE");
+        ConcreteQuickSection.RemoveCombination(combos, second);
+        ConcreteQuickSection.RemoveCombination(combos, ConcreteQuickSection.Combinations(combos)[0].S("id"));
+        expect.That(ConcreteQuickSection.Combinations(combos).Count == 1 && ConcreteQuickSection.SelectedCombination(combos) == ConcreteQuickSection.Combinations(combos)[0].S("id"),
+            "«✕»: combinazione tolta, l'ultima resta, la selezione torna sulla prima");
         expect.That(ConcreteQuickSection.Layers(created).Count == 2 && created["input"]!["barre_manuali"] is JsonArray { Count: 10 } && ConcreteQuickSection.Model(created) == "Plastico",
             "Foglio nuovo: due strati (4 + 6 barre) scritti come barre del motore, modello plastico");
         var wrong = ConcreteQuickSection.Create(); ConcreteQuickSection.View(wrong)["metodo"] = "Tensioni ammissibili";
@@ -76,14 +89,20 @@ internal static class QuickSectionSheetChecks
 
         // The same engine: the sheet and the headless calculation of the RC section on the same data give the same numbers.
         var same = ConcreteQuickSection.Create();
-        Act(same, "SLU", "-1000", "400"); Act(same, "SLE", "-800", "250");
-        var reference = (JsonObject)same.DeepClone();
-        string ultimateId = ConcreteQuickSection.Action(same, "SLU")!.S("id"), serviceId = ConcreteQuickSection.Action(same, "SLE")!.S("id");
-        reference["workspace_ca"]!["dominio2d"]!["tipo"] = "Mx–My"; reference["workspace_ca"]!["dominio2d"]!["N"] = "-1000";
-        var headless = ConcreteAnalysis.Calculate(reference);
+        Act(same, "-1000", "400");
+        string otherId = ConcreteQuickSection.AddCombination(same); Act(same, "-2500", "700", index: 1);
+        string ultimateId = ConcreteQuickSection.Combinations(same)[0].S("id"), serviceId = ultimateId + "-n";
+        ConcreteQuickSection.SelectCombination(same, ultimateId);
+        var headless = ConcreteAnalysis.Calculate((JsonObject)same.DeepClone());
         var quick = ConcreteQuickSection.Calculate(same);
-        double? headlessRatio = J.Number(headless["domini"]?["2D:SLU"]?[ultimateId]?["Utilization"]);
+        double? headlessRatio = J.Number(headless["domini"]?["3D:SLU"]?[ultimateId]?["Utilization"]);
         expect.That(quick.UltimateCheck?.Utilization is double ratio && headlessRatio == ratio, $"η come il calcolo della sezione in c.a.: {quick.UltimateCheck?.Utilization} / {headlessRatio}");
+        expect.That(quick.Combinations.Count == 2 && quick.Combinations.All(c => c.Ratio is double r && J.Number(headless["domini"]?["3D:SLU"]?[c.Id]?["Utilization"]) == r)
+            && quick.SelectedId == ultimateId, "η di ogni combinazione come il calcolo della sezione in c.a.");
+        var otherSelected = (JsonObject)same.DeepClone(); ConcreteQuickSection.SelectCombination(otherSelected, otherId);
+        var other = ConcreteQuickSection.Calculate(otherSelected);
+        expect.That(other.UltimateAction?.N == -2500 && other.UltimateCheck?.Utilization == quick.Combinations[1].Ratio && other.Resistances[0].Moment != quick.Resistances[0].Moment,
+            "Combinazione selezionata: azione, verifica e resistenze a N costante della combinazione scelta");
         double mxPlus = quick.Resistances.First(r => r.Direction == "Mx+").Moment!.Value;
         expect.That(Math.Abs(quick.UltimateCheck!.Utilization!.Value - quick.UltimateAction!.Value.Mx / mxPlus) < 0.02,
             $"Flessione retta: η a N costante coerente con MEd / MRd ({quick.UltimateCheck.Utilization} / {quick.UltimateAction.Value.Mx / mxPlus})");
@@ -97,6 +116,9 @@ internal static class QuickSectionSheetChecks
         expect.That(service.ServiceState?.sigma_cls is double sigma && headlessSigma == sigma, $"σc come il calcolo della sezione in c.a.: {service.ServiceState?.sigma_cls} / {headlessSigma}");
         double? headlessSteel = J.Number(headless["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
         expect.That(service.ServiceState?.sigma_acciaio == headlessSteel && ConcreteQuickSection.Summary(service)?.Ductile is null, "σs come il calcolo della sezione in c.a.; nessun comportamento con il metodo n");
+        var creep = (JsonObject)serviceView.DeepClone(); creep["workspace_ca"]!["sle_comuni"]!["phi"] = "2";
+        expect.That(ConcreteQuickSection.Calculate(creep).ServiceState?.sigma_cls == service.ServiceState?.sigma_cls && creep["workspace_ca"]!["sle_comuni"]!["phi"]!.ToString() == "2",
+            "Metodo n a breve termine: φ del documento ignorato, documento invariato");
         var prepared = (JsonObject)same.DeepClone(); var preparedSettings = SectionWorkspace.Prepare(prepared);
         var resistances = StructuralQueries.ConcreteQuickResistance(prepared["input"]!.AsObject(), preparedSettings, quick.UltimateAction!.Value.N, false);
         expect.That(resistances.Select(r => r.Moment).SequenceEqual(quick.Resistances.Select(r => r.Moment)) && quick.Resistances.Count == 4,
@@ -125,11 +147,22 @@ internal static class QuickSectionSheetChecks
         expect.That(messages.Shown.LastOrDefault() is { Title: ConcreteQuickSection.CoverHelpTitle } shown && shown.Message.Contains("netto", StringComparison.Ordinal), "«?» del copriferro: la spiegazione");
 
         // Edits of the actions, of the layers and of the materials.
-        sheet.UltimateForm.Set("N", "-1000"); sheet.UltimateForm.Set("Mx", "400");
-        expect.That(ConcreteQuickSection.Action(sheet.Data, "SLU")!.S("Mx") == "400" && modified == 2 && !sheet.HasResults, "Modifica delle sollecitazioni nel documento");
+        sheet.CombinationRows[0].N = "-1000"; sheet.CombinationRows[0].Mx = "400";
+        expect.That(ConcreteQuickSection.Action(sheet.Data, "SLU")!.S("Mx") == "400" && ConcreteQuickSection.Action(sheet.Data, "SLE")!.S("Mx") == "400" && modified == 2 && !sheet.HasResults,
+            "Modifica della combinazione nel documento (righe SLU e SLE)");
         await sheet.PendingCalculation;
-        expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("400", StringComparison.Ordinal)) && sheet.IsDuctile == true,
-            "Ricalcolo automatico dopo la modifica, comportamento duttile");
+        expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("400", StringComparison.Ordinal)) && sheet.IsDuctile == true
+            && sheet.CombinationRows[0].Ratio.Length > 0 && sheet.CombinationRows[0].Passed == true, "Ricalcolo automatico dopo la modifica: η nella riga, comportamento duttile");
+        sheet.AddCombinationCommand.Execute(null);
+        expect.That(sheet.CombinationRows.Count == 2 && sheet.CombinationRows[1].IsSelected && !sheet.CombinationRows[0].IsSelected, "«+ Aggiungi combinazione»: Combo 2 selezionata");
+        sheet.CombinationRows[1].N = "-500"; sheet.CombinationRows[1].Mx = "900"; await sheet.PendingCalculation;
+        expect.That(sheet.HasResults && sheet.Summary?.Detail.StartsWith("η = ", StringComparison.Ordinal) == true && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("900", StringComparison.Ordinal))
+            && sheet.CombinationRows.All(r => r.Ratio.Length > 0), "Risultati della combinazione selezionata, η di tutte le righe");
+        sheet.CombinationRows[0].IsSelected = true; await sheet.PendingCalculation;
+        expect.That(sheet.SelectedCombinationId == sheet.CombinationRows[0].Id && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("400", StringComparison.Ordinal)),
+            "Selezione della prima riga: i suoi risultati");
+        sheet.CombinationRows[1].RemoveCommand.Execute(null); await sheet.PendingCalculation;
+        expect.That(sheet.CombinationRows.Count == 1 && !sheet.CombinationRows[0].RemoveCommand.CanExecute(null), "«✕»: combinazione tolta, l'ultima non si toglie");
         sheet.AddLayerCommand.Execute(null);
         expect.That(sheet.LayerRows.Count == 3 && sheet.LayerRows[2].Position == "Da sopra" && sheet.LayerRows[2].UsesDistance, "«+»: nuovo strato «Da sopra»");
         sheet.LayerRows[2].Distance = "400"; await sheet.PendingCalculation;
@@ -152,8 +185,6 @@ internal static class QuickSectionSheetChecks
         sheet.MaterialsForm.Set("classe_cls", "C25/30"); sheet.MaterialsForm.Set("classe_acciaio", "B450C");
         expect.That(J.Number(sheet.Data["input"]!["fck_mpa"]) == 25 && J.Number(sheet.Data["input"]!["fyk_mpa"]) == 450 && sheet.MaterialsForm["fyk_mpa"].Text == "450",
             "Classe scelta di nuovo: valori del catalogo");
-        sheet.PhiHelpCommand.Execute(null);
-        expect.That(messages.Shown.LastOrDefault().Title == ConcreteQuickSection.PhiHelpTitle, "«?» della viscosità φ: la spiegazione");
         await sheet.PendingCalculation;
 
         // The choices: negative moment, elastic model, biaxial bending, method n, moment–curvature.
@@ -163,8 +194,8 @@ internal static class QuickSectionSheetChecks
         expect.That(ConcreteQuickSection.Model(sheet.Data) == "Elastico" && sheet.Summary?.Title.Contains("elastica", StringComparison.Ordinal) == true, "Verifica elastica scelta");
         sheet.Model = "Plastica"; sheet.Method = "Momento positivo"; await sheet.PendingCalculation;
         sheet.Bending = ConcreteQuickSection.Bendings[1];
-        expect.That(!sheet.UltimateForm.Fields.Single(f => f.Key == "My").IsReadOnly && !sheet.IsStraight, "Flessione deviata: My modificabile");
-        sheet.UltimateForm.Set("My", "60"); await sheet.PendingCalculation;
+        expect.That(!sheet.CombinationRows[0].MyReadOnly && !sheet.IsStraight, "Flessione deviata: My modificabile");
+        sheet.CombinationRows[0].My = "60"; await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "My,Ed") && sheet.ResultValues.Count(v => v.Label.EndsWith(",Rd", StringComparison.Ordinal)) == 4
             && sheet.Summary?.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal) == true, "Flessione deviata: My,Ed, le quattro resistenze principali, il punto resistente in evidenza");
         sheet.Method = "Metodo n"; await sheet.PendingCalculation;
@@ -197,7 +228,7 @@ internal static class QuickSectionSheetChecks
         // Read-only revision.
         sheet.IsReadOnly = true; int before = modified;
         sheet.Shape = "Rettangolare"; sheet.Method = "Momento positivo"; sheet.Model = "Elastica"; sheet.Title = "Altro";
-        expect.That(JsonNode.DeepEquals(sheet.Data, saved) && modified == before && sheet.Shape == "Circolare" && sheet.UltimateForm.IsReadOnly && !sheet.AddLayerCommand.CanExecute(null),
+        expect.That(JsonNode.DeepEquals(sheet.Data, saved) && modified == before && sheet.Shape == "Circolare" && sheet.CombinationRows[0].IsReadOnly && !sheet.AddCombinationCommand.CanExecute(null),
             "Revisione in sola lettura protegge i dati");
         sheet.IsReadOnly = false;
 
@@ -252,7 +283,8 @@ internal static class QuickSectionSheetChecks
             Set(d, ("shape", "Rettangolare"), ("width_mm", "300"), ("height_mm", "500"), ("cover_mm", "30"), ("transverse_bar_diameter_mm", "8"),
                 ("classe_cls", "C25/30"), ("classe_acciaio", "B450C"));
             Layers(d, ("Superiore", "", "2", "14"), ("Inferiore", "", "4", "20"));
-            Act(d, "SLU", "0", "150"); Act(d, "SLE", "0", "100");
+            Act(d, "0", "150"); ConcreteQuickSection.AddCombination(d); Act(d, "0", "-60", index: 1);
+            ConcreteQuickSection.SelectCombination(d, ConcreteQuickSection.Combinations(d)[0].S("id"));
             ConcreteQuickSection.View(d)["titolo"] = "Trave 30×50 · flessione retta";
         });
         Example("pilastro-flessione-deviata", d =>
@@ -260,14 +292,15 @@ internal static class QuickSectionSheetChecks
             Set(d, ("shape", "Rettangolare"), ("width_mm", "400"), ("height_mm", "400"), ("cover_mm", "35"), ("transverse_bar_diameter_mm", "8"),
                 ("classe_cls", "C30/37"), ("classe_acciaio", "B450C"));
             Layers(d, ("Superiore", "", "3", "20"), ("Da sopra", "200", "2", "20"), ("Inferiore", "", "3", "20"));
-            Act(d, "SLU", "-1200", "120", "80"); Act(d, "SLE", "-900", "80", "50");
+            Act(d, "-1200", "120", "80"); ConcreteQuickSection.AddCombination(d); Act(d, "-600", "150", "40", index: 1);
+            ConcreteQuickSection.SelectCombination(d, ConcreteQuickSection.Combinations(d)[0].S("id"));
             var view = ConcreteQuickSection.View(d); view["titolo"] = "Pilastro 40×40 · flessione deviata"; view["flessione"] = ConcreteQuickSection.Bendings[1];
         });
         Example("palo-circolare-metodo-n", d =>
         {
             Set(d, ("shape", "Circolare"), ("diameter_mm", "800"), ("cover_mm", "60"), ("transverse_bar_diameter_mm", "10"),
                 ("longitudinal_bar_count", "14"), ("longitudinal_bar_diameter_mm", "22"), ("classe_cls", "C25/30"), ("classe_acciaio", "B450C"));
-            Act(d, "SLU", "-1500", "450"); Act(d, "SLE", "-1100", "300");
+            Act(d, "-1100", "300");
             var view = ConcreteQuickSection.View(d); view["titolo"] = "Palo Ø800 · metodo n"; view["metodo"] = ConcreteQuickSection.Methods[2]; view["grafico"] = ConcreteQuickSection.Charts[1];
         });
         return written;

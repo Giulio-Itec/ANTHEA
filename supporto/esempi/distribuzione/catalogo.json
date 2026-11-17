@@ -862,7 +862,7 @@
       "title": "Trave 30×50 · flessione retta",
       "description": "Verifica rapida SLU+: momento resistente a N nullo, sfruttamento e dominio N–M; C25/30, 2Ø14 superiori e 4Ø20 inferiori.",
       "kind": "calcolo",
-      "sha256": "adaf41b4ef0b66ab69c97936ea095812b526fa5b41b6d2ac69c003cad15701a6",
+      "sha256": "e844eee5d001fe83837806e22def969bae21c2951dcb4055998b3df5ed5afbda",
       "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
     },
     {
@@ -871,7 +871,7 @@
       "title": "Pilastro 40×40 · flessione deviata",
       "description": "Verifica rapida SLU+ in pressoflessione deviata: resistenze principali, sfruttamento e dominio Mx–My a N assegnato.",
       "kind": "calcolo",
-      "sha256": "3226a7203132b10a43af93a3f94e6abb72ef2bb71925a7babacaef3bcf798cc0",
+      "sha256": "849df622912dd92a59b406ebafeac63bab3685da6899ef22a70fbb2a0522e9a4",
       "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
     },
     {
@@ -880,7 +880,7 @@
       "title": "Palo Ø800 · metodo n",
       "description": "Tensioni nel calcestruzzo e nelle barre con il metodo n e curva momento–curvatura a N assegnato.",
       "kind": "calcolo",
-      "sha256": "c24e3ab2a8ad33df8428d3ec820980933bd939fb13aa2540a2ed6c231ba51b13",
+      "sha256": "be9d11f5b19d4a93ccee3a1b8c36a4c0c0c05dbaee328469db720b10f9b2e942",
       "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
     }
   ]

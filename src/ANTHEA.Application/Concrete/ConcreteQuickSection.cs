@@ -29,13 +29,21 @@ public sealed record ConcreteQuickResult(
     ConcreteResults.CurvatureResult? Curvature,
     IReadOnlyList<string> Errors,
     string Model,
-    double? YieldStrain);
+    double? YieldStrain,
+    IReadOnlyList<ConcreteQuickCombination> Combinations,
+    string? SelectedId);
+
+/// <summary>
+/// The outcome of a combination of the quick section: η of the ultimate check (or the ratio of the stresses with the method n) and the status of
+/// the engine; <see cref="Passed"/> true when the ratio is within 1, null without a ratio.
+/// </summary>
+public sealed record ConcreteQuickCombination(string Id, string Name, double? Ratio, string Status, bool? Passed);
 
 /// <summary>
 /// The main outcome of the quick RC section, shown in evidence: the design resisting moment (or the stresses of the method n), the ratio with the
 /// outcome, and the behaviour at the resistant point (ductile when the tension steel yields, brittle otherwise; null for the method n).
 /// </summary>
-public sealed record ConcreteQuickSummary(string Title, string Value, string Detail, string Behaviour, bool? Ductile);
+public sealed record ConcreteQuickSummary(string Title, string Value, string Detail, string Behaviour, bool? Ductile, double? Ratio, bool? Passed);
 
 /// <summary>
 /// The quick RC section (17/11/2026): a simplified interface on the engine of the RC section (<c>str_palo</c>). The document has the format of the
@@ -94,13 +102,6 @@ public static class ConcreteQuickSection
         + "uniforme fra le facce interne delle staffe.\n\n"
         + "Nella sezione circolare l'anello delle barre ha l'asse a c + Ø staffa + Ø barra / 2 dal bordo.";
 
-    /// <summary>The explanation of the creep coefficient of the method n, for its «?».</summary>
-    public const string PhiHelpTitle = "Viscosità φ (metodo n)";
-    public const string PhiHelp = "φ è il coefficiente di viscosità del calcestruzzo usato dal motore della sezione in c.a. nel calcolo delle tensioni con il "
-        + "metodo n (sezione fessurata, comportamento lineare). È lo stesso dato «Viscosità φ armature» delle tensioni SLE del modulo «Sezione in c.a.».\n\n"
-        + "Con φ = 0 il calcolo è a breve termine: il coefficiente di omogeneizzazione è n = Es / Ecm, mostrato fra i materiali. Con φ maggiore di zero il "
-        + "calcestruzzo si deforma nel tempo: il coefficiente di omogeneizzazione cresce, le tensioni nel calcestruzzo compresso diminuiscono e quelle "
-        + "nelle barre aumentano.\n\nφ non interviene nelle verifiche SLU.";
 
     /// <summary>The components of an action that the sheet edits.</summary>
     public static ImmutableArray<string> ActionComponents { get; } = ["N", "Mx", "My"];
@@ -119,7 +120,8 @@ public static class ConcreteQuickSection
         var data = ModuleDirectory.CreateData(SourceModule);
         var input = data["input"]!.AsObject();
         input["second_inner_enabled"] = false; input["second_inner_count"] = "8"; input["second_inner_diameter"] = "20"; input["second_inner_gap"] = "25";
-        SectionActionInputs.Replace(data, [Row("SLU", UltimateName), Row("SLE", ServiceName)]);
+        SectionActionInputs.Replace(data, [Row("SLU", "Combo 1")]);
+        CopyToService(data);
         WriteModel(data, Models[0]);
         data[ViewKey] = new JsonObject
         {
@@ -127,6 +129,7 @@ public static class ConcreteQuickSection
             [LayersKey] = new JsonArray(Layer(LayerPositions[0], input.S("top_bar_count"), input.S("top_bar_diameter_mm")),
                 Layer(LayerPositions[1], input.S("bottom_bar_count"), input.S("bottom_bar_diameter_mm")))
         };
+        View(data)[SelectedKey] = Combinations(data)[0].S("id");
         ApplyLayers(data);
         return data;
     }
@@ -166,13 +169,91 @@ public static class ConcreteQuickSection
     /// <summary>The first action of <paramref name="state"/> (SLU or SLE) as the RC section reads it, or null.</summary>
     public static JsonObject? Action(JsonObject data, string state) => ConcreteSheetPreparation.ReadActions(data)[state].FirstOrDefault();
 
-    /// <summary>N, Mx and My of the first action of <paramref name="state"/>, as texts (empty without an action).</summary>
-    public static JsonObject ActionValues(JsonObject data, string state)
+    // ---------------------------------------------------------------- combinations
+
+    /// <summary>The key of the selected combination in the choices of the view.</summary>
+    public const string SelectedKey = "combinazione";
+
+    /// <summary>
+    /// The combinations of the sheet (17/11/2026): one table for every method, the SLU rows of the RC section (id, nome, N, Mx, My as the RC section
+    /// reads them). The SLE rows are their copy (<see cref="CopyToService"/>), so that the document says the same to the RC section.
+    /// </summary>
+    public static IReadOnlyList<JsonObject> Combinations(JsonObject data) => ConcreteSheetPreparation.ReadActions(data)["SLU"];
+
+    /// <summary>The selected combination: the saved one when it exists, otherwise the first; null without combinations.</summary>
+    public static string? SelectedCombination(JsonObject data)
     {
-        var row = Action(data, state);
-        var values = new JsonObject();
-        foreach (string key in ActionComponents) values[key] = row?.S(key) ?? "";
-        return values;
+        var rows = Combinations(data);
+        string id = data[ViewKey].S(SelectedKey);
+        return rows.FirstOrDefault(r => r.S("id") == id)?.S("id") ?? rows.FirstOrDefault()?.S("id");
+    }
+
+    /// <summary>Selects the combination <paramref name="id"/>.</summary>
+    public static void SelectCombination(JsonObject data, string id) => View(data)[SelectedKey] = id;
+
+    private static JsonArray Stored(JsonObject data)
+    {
+        if (data["combinazioni"] is not JsonObject sets) data["combinazioni"] = sets = new JsonObject();
+        if (sets["SLU"] is not JsonArray rows) sets["SLU"] = rows = new JsonArray();
+        return rows;
+    }
+
+    /// <summary>A new combination at zero, «Combo k» with the first free k, selected; returns its identifier.</summary>
+    public static string AddCombination(JsonObject data)
+    {
+        var rows = Stored(data);
+        var names = rows.Select(r => r.S("nome")).ToHashSet();
+        int k = rows.Count + 1;
+        while (names.Contains("Combo " + k)) k++;
+        string id = Guid.NewGuid().ToString("N");
+        rows.Add(new JsonObject
+        {
+            ["id"] = id, ["nome"] = "Combo " + k,
+            ["azioni"] = new JsonArray(SectionActionInputs.Components.Select(_ => (JsonNode?)JsonValue.Create("0")).ToArray()), ["visible"] = true, ["elemento"] = ""
+        });
+        CopyToService(data);
+        SelectCombination(data, id);
+        return id;
+    }
+
+    /// <summary>Removes the combination <paramref name="id"/>; the last one stays. The selection moves to the first combination when it was removed.</summary>
+    public static void RemoveCombination(JsonObject data, string id)
+    {
+        var rows = Stored(data);
+        if (rows.Count <= 1) return;
+        var row = rows.FirstOrDefault(r => r.S("id") == id);
+        if (row is null) return;
+        rows.Remove(row);
+        CopyToService(data);
+        if (data[ViewKey].S(SelectedKey) == id) SelectCombination(data, rows[0].S("id"));
+    }
+
+    /// <summary>Writes the name or a component (N, Mx, My) of the combination <paramref name="id"/>.</summary>
+    public static void WriteCombination(JsonObject data, string id, string key, string value)
+    {
+        var row = Stored(data).OfType<JsonObject>().FirstOrDefault(r => r.S("id") == id) ?? throw new ArgumentException("Combinazione inesistente.");
+        if (key == "nome") row["nome"] = value;
+        else
+        {
+            int index = SectionActionInputs.Components.IndexOf(key);
+            if (index < 0) throw new ArgumentException("Componente della sollecitazione non valida: " + key);
+            if (row["azioni"] is not JsonArray components) row["azioni"] = components = new JsonArray();
+            while (components.Count < SectionActionInputs.Components.Length) components.Add(JsonValue.Create("0"));
+            components[index] = value;
+        }
+        CopyToService(data);
+    }
+
+    /// <summary>The SLE rows as a copy of the combinations (identifiers with «-n», distinct from those of the SLU rows).</summary>
+    public static void CopyToService(JsonObject data)
+    {
+        var copy = new JsonArray(Stored(data).Select(r =>
+        {
+            var row = (JsonObject)r!.DeepClone();
+            row["id"] = row.S("id") + "-n";
+            return (JsonNode?)row;
+        }).ToArray());
+        data["combinazioni"]!["SLE"] = copy;
     }
 
     /// <summary>Writes a component of the first action of <paramref name="state"/>; the action is created when missing.</summary>
@@ -361,6 +442,8 @@ public static class ConcreteQuickSection
         if (ApplyLayers(data) is { } layerError) throw new ArgumentException(layerError);
         string model = Model(data);
         var settings = SectionWorkspace.Prepare(data);
+        // The method n of the quick section is at short term (n = Es / Ecm): no creep, whatever φ the document has from the RC section (on this copy).
+        foreach (string set in SectionWorkspace.Sets.Skip(2)) if (settings["sle"]?[set] is JsonObject sle) sle["phi"] = "0";
         var input = data["input"]!.AsObject();
         var view = View(data);
         string method = view.S("metodo");
@@ -372,58 +455,67 @@ public static class ConcreteQuickSection
         token.ThrowIfCancellationRequested();
         var errors = new List<string>();
         var session = new ConcreteAnalysisSession();
-        JsonObject? Read(string state, string label)
-        {
-            var row = Action(data, state);
-            if (row is null) { errors.Add(label + ": sollecitazione mancante."); return null; }
-            if (straight) row["My"] = "0";
-            if (row.S("nome").Length == 0) row["nome"] = label;
-            return row;
-        }
 
-        ConcreteResults.Action? ultimateAction = null; ConcreteResults.Check? check = null; ConcreteResults.StressState? limit = null;
+        // The combinations (17/11/2026): one table for every method. With the straight bending the moments My are ignored.
+        var rows = ConcreteSheetPreparation.ReadActions(data)["SLU"].Select((row, i) =>
+        {
+            if (straight) row["My"] = "0";
+            if (row.S("nome").Length == 0) row["nome"] = "Combo " + (i + 1);
+            return row;
+        }).ToArray();
+        if (rows.Length == 0) errors.Add("Nessuna combinazione: aggiungerne una.");
+        string? selectedId = SelectedCombination(data);
+        var selectedRow = rows.FirstOrDefault(r => r.S("id") == selectedId) ?? rows.FirstOrDefault();
+        selectedId = selectedRow?.S("id");
+        var forces = new Dictionary<string, ConcreteResults.Action>();
+        var statuses = new Dictionary<string, string>();
+        foreach (var row in rows)
+        {
+            try { forces[row.S("id")] = ConcreteDomainChart.ReadNamedAction(row); }
+            catch (ArgumentException failure) { statuses[row.S("id")] = failure.Message; errors.Add(row.S("nome") + ": " + failure.Message); }
+        }
+        // A null action has no line of action: no check (the engine has no resistance to give), only the resistances and the domain.
+        static bool Null(ConcreteResults.Action a) => a.N == 0 && a.Mx == 0 && a.My == 0;
+        var valid = rows.Where(r => forces.ContainsKey(r.S("id"))).ToArray();
+        var active = valid.Where(r => !Null(forces[r.S("id")])).ToArray();
+        foreach (var row in valid.Except(active)) statuses[row.S("id")] = "Azione nulla";
+        ConcreteResults.Action? selectedForce = selectedId is not null && forces.TryGetValue(selectedId, out var chosen) ? chosen : null;
+
+        ConcreteResults.Check? check = null; ConcreteResults.StressState? limit = null;
+        IReadOnlyDictionary<string, ConcreteResults.Check>? checks = null;
         IReadOnlyList<ConcreteResults.PrincipalResistance> resistances = [];
-        // The check: the section Mx–My of the domain at the N of the action (the check at constant N, as the 2D panel of the RC section); the
-        // chart: the section N–M at θ = 0 with the straight bending, the same section Mx–My with the biaxial one.
-        JsonObject Options(string type)
-        {
-            var options = (JsonObject)settings["dominio2d"]!.DeepClone();
-            options["stato"] = "SLU"; options["tipo"] = type; options["theta"] = "0"; options["filtro"] = "Tutte";
-            options["solo_selezionata"] = false; options["tutte_rd"] = true;
-            return options;
-        }
-        var checkOptions = Options("Mx–My");
-        var options = straight ? Options("N–M") : checkOptions;
-        ConcreteResults.Domain2D? domain = null; string? domainError = null;
         ConcreteResults.CurvatureResult? curvature = null;
-        var ultimateRow = Read("SLU", UltimateName);
-        if (ultimateRow is not null)
+        // The checks of all the combinations: the 3D domain of the RC section at constant N (as its 3D panel); for each combination the same η as
+        // the section Mx–My of the domain at its N.
+        if (ultimate && active.Length > 0)
         {
-            try { ultimateAction = ConcreteDomainChart.ReadNamedAction(ultimateRow); }
-            catch (ArgumentException failure) { errors.Add(UltimateName + ": " + failure.Message); }
-        }
-        if (ultimateAction is { } force && ultimateRow is not null)
-        {
-            checkOptions["N"] = ultimateRow.S("N");
-            // A null action has no line of action: no check (the engine has no resistance to give), only the resistances and the domain.
-            bool nullAction = force.N == 0 && force.Mx == 0 && force.My == 0;
+            var options3D = (JsonObject)settings["dominio3d"]!.DeepClone();
+            options3D["stato"] = "SLU"; options3D["criterio"] = "N costante";
             try
             {
-                var result = session.Domain(input, settings, checkOptions, "SLU", false, nullAction ? [] : [ultimateRow], token);
-                domain = result.Two;
-                check = nullAction ? null : result.Checks.GetValueOrDefault(ultimateRow.S("id"));
-                if (check?.Utilization is null && check is not null) errors.Add("Verifica SLU: " + check.Status);
+                checks = session.Domain(input, settings, options3D, "SLU", true, active, token).Checks;
+                foreach (var row in active)
+                    if (checks.GetValueOrDefault(row.S("id")) is { Utilization: null } failed) errors.Add(row.S("nome") + ": " + failed.Status);
+                check = selectedId is null ? null : checks.GetValueOrDefault(selectedId);
                 limit = check?.LimitState?.Value;
             }
-            catch (Exception failure) when (failure is not OperationCanceledException) { domainError = failure.Message; errors.Add("Verifica SLU: " + failure.Message); }
-            token.ThrowIfCancellationRequested();
-            if (straight)
-            {
-                domain = null;
-                try { domain = session.Domain(input, settings, options, "SLU", false, [], token).Two; }
-                catch (Exception failure) when (failure is not OperationCanceledException) { domainError = failure.Message; errors.Add("Dominio N–M: " + failure.Message); }
-            }
-            token.ThrowIfCancellationRequested();
+            catch (Exception failure) when (failure is not OperationCanceledException) { errors.Add("Verifica SLU: " + failure.Message); }
+        }
+        token.ThrowIfCancellationRequested();
+        // The chart: the section N–M at θ = 0 with the straight bending, the section Mx–My at the N of the selected combination with the biaxial one.
+        var options = (JsonObject)settings["dominio2d"]!.DeepClone();
+        options["stato"] = "SLU"; options["tipo"] = straight ? "N–M" : "Mx–My"; options["theta"] = "0"; options["filtro"] = "Tutte";
+        options["solo_selezionata"] = false; options["tutte_rd"] = true;
+        options["N"] = selectedRow?.S("N") ?? "0";
+        ConcreteResults.Domain2D? domain = null; string? domainError = null;
+        if (selectedForce is not null)
+        {
+            try { domain = session.Domain(input, settings, options, "SLU", false, [], token).Two; }
+            catch (Exception failure) when (failure is not OperationCanceledException) { domainError = failure.Message; errors.Add("Dominio: " + failure.Message); }
+        }
+        token.ThrowIfCancellationRequested();
+        if (selectedForce is { } force && selectedRow is not null)
+        {
             if (ultimate)
             {
                 try { resistances = StructuralQueries.ConcreteQuickResistance(input, settings, force.N, elastic, token); }
@@ -433,30 +525,42 @@ public static class ConcreteQuickSection
             if (curvatureChart)
             {
                 var curvatureOptions = (JsonObject)settings["momento_curvatura"]!.DeepClone();
-                curvatureOptions["N"] = ultimateRow.S("N"); curvatureOptions["theta"] = "0";
+                curvatureOptions["N"] = selectedRow.S("N"); curvatureOptions["theta"] = "0";
                 try { curvature = StructuralQueries.ConcreteCurvature(input, settings, curvatureOptions, token); }
                 catch (Exception failure) when (failure is not OperationCanceledException) { errors.Add("Momento–curvatura: " + failure.Message); }
             }
         }
 
-        ConcreteResults.Action? serviceAction = null; ConcreteResults.StressState? service = null; double? ratio = null; string serviceStatus = "";
-        if (!ultimate && Read("SLE", ServiceName) is { } serviceRow)
+        // The method n: the stresses of all the combinations, the details of the selected one.
+        ConcreteResults.StressState? service = null; double? ratio = null; string serviceStatus = "";
+        IReadOnlyDictionary<string, StressOutcome>? stresses = null;
+        if (!ultimate && valid.Length > 0)
         {
             try
             {
-                serviceAction = ConcreteDomainChart.ReadNamedAction(serviceRow);
-                var outcome = session.Stress(input, settings, settings["sle"]!["SLE"]!.AsObject(), "SLE", [serviceRow], token).GetValueOrDefault(serviceRow.S("id"));
+                stresses = session.Stress(input, settings, settings["sle"]!["SLE"]!.AsObject(), "SLE", valid, token);
+                foreach (var row in valid)
+                    if (stresses.GetValueOrDefault(row.S("id")) is { State: null } failed) errors.Add(row.S("nome") + ": " + failed.Status);
+                var outcome = selectedId is null ? null : stresses.GetValueOrDefault(selectedId);
                 service = outcome?.State; ratio = outcome?.Ratio; serviceStatus = outcome?.Status ?? "";
-                if (service is null) errors.Add(ServiceName + ": " + serviceStatus);
             }
             catch (Exception failure) when (failure is not OperationCanceledException) { errors.Add(ServiceName + ": " + failure.Message); }
         }
         token.ThrowIfCancellationRequested();
-        var rows = ultimateRow is null ? Array.Empty<JsonObject>() : [ultimateRow];
-        var checks = check is null || ultimateRow is null ? null : new Dictionary<string, ConcreteResults.Check> { [ultimateRow.S("id")] = check };
-        return new(method, straight, preview, ultimateAction, check, limit, resistances, serviceAction, service, ratio, serviceStatus,
-            ConcreteDomainChart.Geometry("SLU", options, domain, domainError), ConcreteDomainChart.Actions(options, domain, rows, ultimateRow?.S("id"), checks),
-            curvature, errors, model, yieldStrain);
+
+        var combinations = rows.Select(row =>
+        {
+            string id = row.S("id");
+            if (statuses.TryGetValue(id, out var status)) return new ConcreteQuickCombination(id, row.S("nome"), null, status, null);
+            if (ultimate)
+                return checks?.GetValueOrDefault(id) is { } c ? new ConcreteQuickCombination(id, row.S("nome"), c.Utilization, c.Status, c.Utilization is double u ? u <= 1 : null)
+                    : new ConcreteQuickCombination(id, row.S("nome"), null, "Da calcolare", null);
+            return stresses?.GetValueOrDefault(id) is { } s ? new ConcreteQuickCombination(id, row.S("nome"), s.Ratio, s.Status, s.Ratio is double r ? r <= 1 : null)
+                : new ConcreteQuickCombination(id, row.S("nome"), null, "Da calcolare", null);
+        }).ToArray();
+        return new(method, straight, preview, selectedForce, check, limit, resistances, ultimate ? null : selectedForce, service, ratio, serviceStatus,
+            ConcreteDomainChart.Geometry("SLU", options, domain, domainError), ConcreteDomainChart.Actions(options, domain, valid, selectedId, checks),
+            curvature, errors, model, yieldStrain, combinations, selectedId);
     }
 
     /// <summary>
@@ -479,7 +583,12 @@ public static class ConcreteQuickSection
             ["sfruttamento"] = ultimate ? result.UltimateCheck?.Utilization : result.ServiceRatio,
             ["esito"] = ultimate ? result.UltimateCheck?.Status ?? "" : result.ServiceStatus,
             ["risultato"] = summary?.Value ?? "",
-            ["comportamento"] = summary?.Behaviour ?? ""
+            ["comportamento"] = summary?.Behaviour ?? "",
+            ["combinazione"] = result.SelectedId ?? "",
+            ["combinazioni"] = new JsonArray(result.Combinations.Select(c => (JsonNode?)new JsonObject
+            {
+                ["id"] = c.Id, ["nome"] = c.Name, ["rapporto"] = c.Ratio, ["esito"] = c.Status
+            }).ToArray())
         };
     }
 
@@ -495,15 +604,18 @@ public static class ConcreteQuickSection
     public static ConcreteQuickSummary? Summary(ConcreteQuickResult? result)
     {
         if (result is null) return null;
+        // The name of the selected combination, first in the heading.
+        string combination = result.Combinations.FirstOrDefault(c => c.Id == result.SelectedId)?.Name is { Length: > 0 } name ? name + " · " : "";
         if (result.Method == Methods[2])
         {
-            string title = "Tensioni con il metodo n";
+            string title = combination + "tensioni con il metodo n";
             return result.ServiceState is { } s
-                ? new(title, $"σc = {Number(s.sigma_cls)} MPa · σs = {Number(s.sigma_acciaio)} MPa", $"Rapporto {Number(result.ServiceRatio)} · {result.ServiceStatus}", "", null)
-                : new(title, "—", result.ServiceStatus, "", null);
+                ? new(title, $"σc = {Number(s.sigma_cls)} MPa · σs = {Number(s.sigma_acciaio)} MPa", $"Rapporto {Number(result.ServiceRatio)} · {result.ServiceStatus}", "", null,
+                    result.ServiceRatio, result.ServiceRatio is double r ? r <= 1 : null)
+                : new(title, "—", result.ServiceStatus, "", null, null, null);
         }
         string direction = result.Method == Methods[0] ? "Mx+" : "Mx−";
-        string heading = $"Momento resistente di calcolo · {MethodLabel(result.Method).ToLowerInvariant()} · verifica {ModelLabel(result.Model).ToLowerInvariant()}";
+        string heading = $"{combination}momento resistente di calcolo · {MethodLabel(result.Method).ToLowerInvariant()} · verifica {ModelLabel(result.Model).ToLowerInvariant()}";
         string value; ConcreteResults.SectionState? state;
         if (result.Straight)
         {
@@ -519,7 +631,8 @@ public static class ConcreteQuickSection
         string detail = result.UltimateCheck is { } check ? $"η = {Number(check.Utilization)} · {check.Status}"
             : result.UltimateAction is { N: 0, Mx: 0, My: 0 } ? "Sollecitazioni nulle: inserire NEd e MEd per la verifica." : "";
         var (behaviour, ductile) = Behaviour(state?.EsMax, result.YieldStrain);
-        return new(heading, value, detail, behaviour, ductile);
+        double? utilization = result.UltimateCheck?.Utilization;
+        return new(heading, value, detail, behaviour, ductile, utilization, utilization is double u ? u <= 1 : null);
     }
 
     private static (string Text, bool? Ductile) Behaviour(double? steel, double? yield)
@@ -565,7 +678,7 @@ public static class ConcreteQuickSection
     public static IReadOnlyList<ConcreteQuickValue> SteelValues(ConcreteQuickResult? result)
     {
         var preview = result?.Preview;
-        return [new("fyd", Number(preview?.Fyd), "MPa"), new("εyd", Number(result?.YieldStrain), "‰"), new("n = Es / Ecm", Number(preview?.N))];
+        return [new("fyd", Number(preview?.Fyd), "MPa"), new("εyd", Number(result?.YieldStrain), "‰"), new("n", Number(preview?.N), "Es/Ecm")];
     }
 
     /// <summary>All the values of the materials that the engine derives from the input.</summary>

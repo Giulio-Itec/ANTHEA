@@ -90,11 +90,25 @@
     "combinazioni": {
       "SLU": [
         {
-          "id": "1eb3cdccd926470c977a70103ad39f89",
-          "nome": "Sollecitazione SLU",
+          "id": "233d5685ffd847dd9985e4f4d08965fc",
+          "nome": "Combo 1",
           "azioni": [
             "0",
             "150",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "visible": true,
+          "elemento": ""
+        },
+        {
+          "id": "9c717a1816d64153b9f87f344772c548",
+          "nome": "Combo 2",
+          "azioni": [
+            "0",
+            "-60",
             "0",
             "0",
             "0",
@@ -107,11 +121,25 @@
       "SLV": [],
       "SLE": [
         {
-          "id": "42aa2af748c841d9882ffcce9b531080",
-          "nome": "Metodo n",
+          "id": "233d5685ffd847dd9985e4f4d08965fc-n",
+          "nome": "Combo 1",
           "azioni": [
             "0",
-            "100",
+            "150",
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "visible": true,
+          "elemento": ""
+        },
+        {
+          "id": "9c717a1816d64153b9f87f344772c548-n",
+          "nome": "Combo 2",
+          "azioni": [
+            "0",
+            "-60",
             "0",
             "0",
             "0",
@@ -430,7 +458,8 @@
           "n": "4",
           "phi": "20"
         }
-      ]
+      ],
+      "combinazione": "233d5685ffd847dd9985e4f4d08965fc"
     }
   }
 }

@@ -58,11 +58,11 @@
     "combinazioni": {
       "SLU": [
         {
-          "id": "73e09a31761b41bd86bc090859e6f20f",
-          "nome": "Sollecitazione SLU",
+          "id": "7b24c048efde45c6bf75a2e7a7c96cbd",
+          "nome": "Combo 1",
           "azioni": [
-            "-1500",
-            "450",
+            "-1100",
+            "300",
             "0",
             "0",
             "0",
@@ -75,8 +75,8 @@
       "SLV": [],
       "SLE": [
         {
-          "id": "7089436f14df4b35aac1af84daaa52f3",
-          "nome": "Metodo n",
+          "id": "7b24c048efde45c6bf75a2e7a7c96cbd-n",
+          "nome": "Combo 1",
           "azioni": [
             "-1100",
             "300",
@@ -398,7 +398,8 @@
           "n": "6",
           "phi": "24"
         }
-      ]
+      ],
+      "combinazione": "7b24c048efde45c6bf75a2e7a7c96cbd"
     }
   }
 }

@@ -14,8 +14,50 @@ namespace Anthea.Presentation.Modules.QuickSection;
 /// <summary>A row of the table of the rings of the circular section: the switch of the second ring, number, diameter and clear distance (null when the row has none).</summary>
 public sealed record QuickBarRow(string Title, FieldViewModel? Enabled, FieldViewModel Count, FieldViewModel Diameter, FieldViewModel? Gap);
 
-/// <summary>A row of the table of the actions of the quick section: N, Mx and My.</summary>
-public sealed record QuickActionRow(string Title, FieldViewModel N, FieldViewModel Mx, FieldViewModel My);
+/// <summary>
+/// A combination of the quick section (17/11/2026): name, N, Mx, My as texts of the document, the ratio of the engine for the method chosen (η, or
+/// the ratio of the stresses), the selection (the results in evidence are those of the selected combination). Every change is an edit of the sheet.
+/// </summary>
+public sealed class QuickCombinationRow : ObservableObject
+{
+    private readonly QuickSectionSheetViewModel owner;
+    private readonly JsonObject row;
+
+    internal QuickCombinationRow(QuickSectionSheetViewModel owner, JsonObject row, bool canEdit, bool myEditable, IRelayCommand remove, IRelayCommand select)
+    {
+        this.owner = owner; this.row = row; CanEdit = canEdit; MyEditable = myEditable; RemoveCommand = remove; SelectCommand = select;
+    }
+
+    public string Id => row.S("id");
+    public bool CanEdit { get; }
+    public bool IsReadOnly => !CanEdit;
+    /// <summary>My is used only with the biaxial bending.</summary>
+    public bool MyEditable { get; }
+    public bool MyReadOnly => IsReadOnly || !MyEditable;
+    public string Name { get => row.S("nome"); set => Write("nome", value); }
+    public string N { get => row.S("N"); set => Write("N", value); }
+    public string Mx { get => row.S("Mx"); set => Write("Mx", value); }
+    public string My { get => row.S("My"); set => Write("My", value); }
+    public bool IsSelected { get => owner.SelectedCombinationId == Id; set { if (value) owner.SelectCombination(Id); OnPropertyChanged(); } }
+    /// <summary>The ratio of the engine for this combination, or its status when there is none.</summary>
+    public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c ? (c.Ratio is double r ? EngineeringFormat.Number(r) : "—") : "";
+    public string RatioToolTip => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Status ?? "";
+    /// <summary>True within 1, false beyond, null without a ratio.</summary>
+    public bool? Passed => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Passed;
+    public IRelayCommand RemoveCommand { get; }
+    public IRelayCommand SelectCommand { get; }
+
+    internal void Refresh()
+    {
+        foreach (string p in new[] { nameof(IsSelected), nameof(Ratio), nameof(RatioToolTip), nameof(Passed) }) OnPropertyChanged(p);
+    }
+
+    private void Write(string key, string? value, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
+    {
+        if (value is not null && value != row.S(key) && owner.EditCombination(Id, key, value)) row[key] = value;
+        OnPropertyChanged(property);
+    }
+}
 
 /// <summary>
 /// A layer of bars of the quick section (rectangular and flanged sections): position (top, bottom, at a distance from the top), distance d, number
@@ -76,7 +118,6 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The delay of the automatic recalculation after an edit.</summary>
     public static TimeSpan RecalculationDelay { get; } = TimeSpan.FromMilliseconds(450);
 
-    private JsonObject ultimate = new(), service = new();
     private bool building;
     private ConcreteGeometry? section;
     private string drawingMessage = "";
@@ -87,8 +128,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.Validate(Data);
         Report = new NoReport();
         AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
+        AddCombinationCommand = GuardedCommands.Create(Guard, AddCombination, () => CanEdit);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
-        PhiHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.PhiHelpTitle, ConcreteQuickSection.PhiHelp));
         BuildForms();
         RefreshDrawing();
         // As Spectra: the sheet calculates at opening, without modifying the document; after an edit the automatic recalculation follows.
@@ -193,7 +234,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
             OnPropertyChanged(property); return false;
         }
         OnPropertyChanged(property);
-        foreach (string p in new[] { nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) }) OnPropertyChanged(p);
+        foreach (string p in new[] { nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain), nameof(RatioHeader) }) OnPropertyChanged(p);
         return true;
     }
 
@@ -203,9 +244,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public FormViewModel BarsForm { get; private set; } = null!;
     public FormViewModel StirrupForm { get; private set; } = null!;
     public FormViewModel MaterialsForm { get; private set; } = null!;
-    public FormViewModel UltimateForm { get; private set; } = null!;
-    public FormViewModel ServiceForm { get; private set; } = null!;
-    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, UltimateForm, ServiceForm }.Where(f => f is not null);
+    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm }.Where(f => f is not null);
 
     /// <summary>The diameter of the links, with the bars.</summary>
     public FieldViewModel StirrupField => StirrupForm["transverse_bar_diameter_mm"];
@@ -222,20 +261,23 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>«?» of the cover: the window that explains what c measures.</summary>
     public IRelayCommand CoverHelpCommand { get; }
 
-    /// <summary>«?» of φ: the window that explains the creep coefficient of the method n.</summary>
-    public IRelayCommand PhiHelpCommand { get; }
-
     /// <summary>The fields of the concrete: the class and its properties typed by hand.</summary>
     public IReadOnlyList<FieldViewModel> ConcreteFields => MaterialsForm.Fields.Where(f => f.Key is "classe_cls" || ConcreteQuickSection.ConcreteInputs.Contains(f.Key)).ToArray();
 
     /// <summary>The fields of the steel: the class and its properties typed by hand.</summary>
     public IReadOnlyList<FieldViewModel> SteelFields => MaterialsForm.Fields.Where(f => f.Key is "classe_acciaio" || ConcreteQuickSection.SteelInputs.Contains(f.Key)).ToArray();
 
-    /// <summary>The rows of the table of the actions: the ultimate action and the action of the method n.</summary>
-    public IReadOnlyList<QuickActionRow> ActionRows { get; private set; } = [];
+    /// <summary>The combinations: one table for every method, the results in evidence for the selected one.</summary>
+    public IReadOnlyList<QuickCombinationRow> CombinationRows { get; private set; } = [];
 
-    /// <summary>The creep coefficient of the serviceability checks of the RC section (method n), when the data have it.</summary>
-    public FieldViewModel? PhiField { get; private set; }
+    /// <summary>«+»: a new combination at zero, selected.</summary>
+    public IRelayCommand AddCombinationCommand { get; private set; } = null!;
+
+    /// <summary>The identifier of the selected combination.</summary>
+    public string? SelectedCombinationId => ConcreteQuickSection.SelectedCombination(Data);
+
+    /// <summary>The head of the column of the ratios: η for the ultimate check, the ratio of the stresses for the method n.</summary>
+    public string RatioHeader => IsServiceMethod ? "σ/σlim" : "η";
 
     private static FieldSpec T(string key, string label, string unit, string tip) => new(key, label, unit, ToolTip: tip);
     private static FieldSpec B(string key, string tip) => new(key, "", Bool: true, ToolTip: tip);
@@ -275,20 +317,11 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                 new("classe_acciaio", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre"),
                 T("fyk_mpa", "fyk", "MPa", "Tensione caratteristica di snervamento"), T("steel_modulus_mpa", "Es", "MPa", "Modulo elastico dell'acciaio"),
                 T("steel_fu_mpa", "fu", "MPa", "Tensione di rottura"), T("steel_eps_u", "εsu", "‰", "Deformazione ultima dell'acciaio")], InputEdited);
-            ultimate = ConcreteQuickSection.ActionValues(Data, "SLU");
-            service = ConcreteQuickSection.ActionValues(Data, "SLE");
-            UltimateForm = Form(ultimate, ActionFields("Ed"), key => ActionEdited("SLU", ultimate, key));
-            var common = Data["workspace_ca"]?["sle_comuni"] as JsonObject;
-            var serviceFields = ActionFields("");
-            if (common is not null) serviceFields = [.. serviceFields, new("phi", "φ", ToolTip: "Coefficiente di viscosità delle verifiche SLE della sezione in c.a. (metodo n)", Source: common)];
-            ServiceForm = Form(service, serviceFields, key => { if (key == "phi") InputEdited(key); else ActionEdited("SLE", service, key); });
-            ActionRows = [new("SLU", UltimateForm["N"], UltimateForm["Mx"], UltimateForm["My"]), new("Metodo n", ServiceForm["N"], ServiceForm["Mx"], ServiceForm["My"])];
-            PhiField = ServiceForm.Fields.FirstOrDefault(f => f.Key == "phi");
+            BuildCombinations();
         }
         finally { building = false; }
         foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(ConcreteFields), nameof(SteelFields),
-            nameof(UltimateForm), nameof(ServiceForm),
-            nameof(BarRows), nameof(ActionRows), nameof(PhiField), nameof(Shape), nameof(IsCircular), nameof(Method), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
+            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Method), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
     }
@@ -318,11 +351,45 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         if (Edit(d => { ConcreteQuickSection.WriteLayer(d, index, key, value); ConcreteQuickSection.ApplyLayers(d); })) RefreshDrawing();
     }
 
-    private FieldSpec[] ActionFields(string suffix) =>
-    [
-        T("N", "N" + suffix, "kN", "N" + suffix + " (negativo a compressione)"), T("Mx", "Mx" + suffix, "kNm", "Mx" + suffix),
-        new("My", "My" + suffix, "kNm", ReadOnly: IsStraight, ToolTip: IsStraight ? "Flessione retta: My non è usato" : "My" + suffix)
-    ];
+    private void BuildCombinations()
+    {
+        CombinationRows = ConcreteQuickSection.Combinations(Data).Select(row =>
+        {
+            string id = row.S("id");
+            return new QuickCombinationRow(this, row, CanEdit, !IsStraight,
+                GuardedCommands.Create(Guard, () => RemoveCombination(id), () => CanEdit && CombinationRows.Count > 1),
+                GuardedCommands.Create(Guard, () => SelectCombination(id)));
+        }).ToArray();
+        OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId));
+    }
+
+    private void AddCombination()
+    {
+        if (Edit(d => ConcreteQuickSection.AddCombination(d))) BuildCombinations();
+    }
+
+    private void RemoveCombination(string id)
+    {
+        if (Edit(d => ConcreteQuickSection.RemoveCombination(d, id))) BuildCombinations();
+    }
+
+    /// <summary>Selects a combination: the results in evidence and the resistances at its N (an edit of the sheet: the selection is saved).</summary>
+    internal void SelectCombination(string id)
+    {
+        if (building || IsDisposed || id == SelectedCombinationId) return;
+        if (Edit(d => ConcreteQuickSection.SelectCombination(d, id)))
+        {
+            OnPropertyChanged(nameof(SelectedCombinationId));
+            foreach (var row in CombinationRows) row.Refresh();
+        }
+    }
+
+    /// <summary>A field of a combination changed (<see cref="QuickCombinationRow"/>): an edit of the sheet; false when refused.</summary>
+    internal bool EditCombination(string id, string key, string value)
+    {
+        if (building || IsDisposed) return false;
+        return Edit(d => ConcreteQuickSection.WriteCombination(d, id, key, value));
+    }
 
     private void InputEdited(string key)
     {
@@ -338,13 +405,6 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.ApplyLayers(Data);
         Changed();
         RefreshDrawing();
-    }
-
-    private void ActionEdited(string state, JsonObject values, string key)
-    {
-        if (building || IsDisposed || !CanEdit) return;
-        ConcreteQuickSection.WriteAction(Data, state, key, values.S(key));
-        Changed();
     }
 
     // ---------------------------------------------------------------- drawing
@@ -403,6 +463,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ConcreteValues), nameof(SteelValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
             nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(Status) })
             OnPropertyChanged(p);
+        foreach (var row in CombinationRows) row.Refresh();
     }
 
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
@@ -412,7 +473,9 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         {
             foreach (var form in Forms) form.IsReadOnly = !CanEdit;
             if (!building && LayerRows.Count > 0) BuildLayers();
+            if (!building && CombinationRows.Count > 0) BuildCombinations();
             AddLayerCommand?.NotifyCanExecuteChanged();
+            AddCombinationCommand?.NotifyCanExecuteChanged();
         }
         if (e.PropertyName is nameof(Revision) or nameof(Result)) RefreshResults();
         if (e.PropertyName is nameof(CalculationState) or nameof(CalculationMessage)) OnPropertyChanged(nameof(Status));

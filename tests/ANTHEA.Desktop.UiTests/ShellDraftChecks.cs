@@ -193,7 +193,17 @@ internal static class ShellDraftChecks
                 var quickWindow = detached[^1];
                 var size = SheetLayout.OwnWindow(SheetLayout.QuickSectionModule)!.Value;
                 Check(quickWindow.Window.Width == size.Width && quickWindow.Window.Height == size.Height, "Verifica rapida: la finestra ha la sua dimensione (" + quickWindow.Window.Width + " × " + quickWindow.Window.Height + ")");
-                if (quick.ViewModel is Anthea.Presentation.Modules.SheetViewModelBase quickSheet) await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel quickSheet)
+                {
+                    // Two combinations with values, the first selected, for the picture of the table.
+                    quickSheet.CombinationRows[0].N = "-1000"; quickSheet.CombinationRows[0].Mx = "400";
+                    quickSheet.AddCombinationCommand.Execute(null);
+                    quickSheet.CombinationRows[1].N = "-300"; quickSheet.CombinationRows[1].Mx = "-750";
+                    quickSheet.CombinationRows[0].IsSelected = true;
+                    await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(quickSheet.CombinationRows.Count == 2 && quickSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Verifica rapida: due combinazioni con η");
+                }
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
                 quickWindow.Window.Close();
                 await Idle(main);
