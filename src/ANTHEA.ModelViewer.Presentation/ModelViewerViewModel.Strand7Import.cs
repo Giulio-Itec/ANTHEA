@@ -62,7 +62,10 @@ public sealed partial class ModelViewerViewModel
             // their number, with a reference to an import report that did not exist yet).
             string? reason = catalog.NoResultsReason(!string.IsNullOrWhiteSpace(Strand7ResultsPath));
             Strand7PreparationSummary = "Catalogo letto · " + catalog.Summary + (catalog.ApiVersion.Length > 0 ? " · API " + catalog.ApiVersion : "") +
-                (reason is null ? "" : "\nNessun caso di risultato da importare: " + reason + ". Con «Tutto» si importano geometria, attributi e carichi, senza risultati.") +
+                // R2 of the review of 17/11/2026: on a copy with results «Tutto» stays disabled (ResultsLossWarning says why).
+                (reason is null ? "" : "\nNessun caso di risultato da importare: " + reason + (HasCurrentResults
+                    ? ". La copia attuale ha risultati: leggi l'avviso sotto «Contenuto da acquisire»."
+                    : ". Con «Tutto» si importano geometria, attributi e carichi, senza risultati.")) +
                 (catalog.Warnings.Count > 0 ? "\nAvvisi del convertitore GPC: " + catalog.Warnings.Count + ", elencati qui sotto e conservati nei messaggi di acquisizione della copia." : "");
             Strand7Warnings = string.Join("\n", catalog.Warnings.Select(w => "• " + w));
             ImportProgressMessage = "File pronti. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;

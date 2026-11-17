@@ -123,7 +123,8 @@ public sealed class ProjectSession : DocumentSession
     public long ModelReadThreshold { get; set; } = DefaultModelReadThreshold;
 
     /// <summary>The default of <see cref="ModelReadThreshold"/>: 64 MiB, the size from which «Salva» goes to the background (WorkspaceSession.BackgroundSaveBytes).</summary>
-    public const long DefaultModelReadThreshold = 67_108_864;
+    // N7 of the review of 17/11/2026: the same constant, not a copy of its value.
+    public const long DefaultModelReadThreshold = WorkspaceSession.BackgroundSaveBytes;
 
     public bool CanUndo => History.CanUndo(readOnly);
 
@@ -146,6 +147,27 @@ public sealed class ProjectSession : DocumentSession
 
     /// <summary>The name of the change «Annulla» takes back (step 3b): the edit of a sheet not recorded yet, otherwise the last change.</summary>
     public string? UndoLabel => readOnly ? null : editLabel ?? History.UndoLabel;
+
+    /// <summary>
+    /// R1 of the review of 17/11/2026: the change «Annulla» takes back, as an identity (<see cref="ProjectHistory.UndoStep"/>); null while
+    /// read-only, without changes, or with the edit of a sheet not recorded yet. The tab of a model keeps it after its own change.
+    /// </summary>
+    public object? UndoStep => readOnly || editLabel is not null ? null : History.UndoStep;
+
+    /// <summary>
+    /// R1 of the review of 17/11/2026: «↶ Annulla» of the change <paramref name="step"/> only. The open sheet is confirmed first, as by
+    /// <see cref="Restore(bool)"/>; when it records a change, or when another change came after <paramref name="step"/> (of another model, of a
+    /// sheet), nothing is undone and the result is false. Until 17/11 «↶ Annulla Libera» compared only the name of the last change: with two
+    /// models it could take back the «Libera» of the other one, or the edit of the open sheet confirmed by the undo itself.
+    /// </summary>
+    public bool UndoOnly(object step)
+    {
+        ArgumentNullException.ThrowIfNull(step);
+        if (readOnly) return false;
+        commitOpenSheet(); Begin();
+        if (editLabel is not null || !ReferenceEquals(History.UndoStep, step)) return false;
+        return Restore(false);
+    }
 
     /// <summary>The name of the change «Ripristina» makes again.</summary>
     public string? RedoLabel => readOnly ? null : History.RedoLabel;

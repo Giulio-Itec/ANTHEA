@@ -20,7 +20,9 @@ public sealed partial class CombinationTermEditor:ObservableObject
 
 public sealed partial class ModelViewerViewModel
 {
-    readonly GpcModelCombinationService combinationService=new();
+    readonly GpcModelCombinationService combinationService;
+    // P2 of the review of 17/11/2026: false when the service is the one of the tab of the model (it outlives this viewer).
+    readonly bool ownsCombinationService;
     bool loadingCombination;
     int combinationOperation;
     string? editingCombinationId;
@@ -114,7 +116,9 @@ public sealed partial class ModelViewerViewModel
         NewCombinationCommand.NotifyCanExecuteChanged();DuplicateCombinationCommand.NotifyCanExecuteChanged();SaveCombinationCommand.NotifyCanExecuteChanged();
         DeleteCombinationCommand.NotifyCanExecuteChanged();RestoreImportedCombinationsCommand.NotifyCanExecuteChanged();
         AddCombinationTermCommand.NotifyCanExecuteChanged();RemoveCombinationTermCommand.NotifyCanExecuteChanged();CalculateCombinationCommand.NotifyCanExecuteChanged();
-        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();NotifyGeneratorCommands();NotifyCombinationBatch();
+        DiscardCombinationEditsCommand.NotifyCanExecuteChanged();NotifyGeneratorCommands();NotifyCombinationBatch();NotifyUndoFree();
+        // P1 of the review of 17/11/2026: an import, a verification, a report or a revision just ended: the preparation waiting for it starts.
+        TryStartPreparation();
     }
     [RelayCommand] void OpenCombinationManager()
     {

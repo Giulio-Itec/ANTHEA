@@ -35,6 +35,9 @@
     <TextBlock Text="Contenuto da acquisire" Margin="0,0,0,5"/>
     <ComboBox ItemsSource="{Binding UpdateScopeLabels}" SelectedIndex="{Binding SelectedUpdateScope}" IsEnabled="{Binding CanChooseUpdateScope}" AutomationProperties.Name="Modalità di aggiornamento"/>
     <TextBlock Text="{Binding UpdateScopeDescription}" TextWrapping="Wrap" FontSize="11" Margin="0,7,0,8"/>
+    <!-- R2 of the review of 17/11/2026: «Tutto» from a source without result cases on a copy with results: what would go, before the import. -->
+    <TextBlock Text="{Binding ResultsLossWarning}" Visibility="{Binding HasResultsLossWarning, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,8"
+     AutomationProperties.Name="Avviso sui risultati della copia"/>
     <StackPanel Visibility="{Binding IsLiveImport, Converter={StaticResource Visible}}">
       <StackPanel Visibility="{Binding ImportIncludesResults, Converter={StaticResource Visible}}" IsEnabled="{Binding CanEditImport}">
         <CheckBox Content="Sollecitazioni locali · beam e plate" IsChecked="{Binding ImportForces}"/>

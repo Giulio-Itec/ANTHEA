@@ -1,4 +1,5 @@
 using ANTHEA.ModelWorkspace;
+using Anthea.Calculations;
 using Anthea.Presentation.Shell;
 using Anthea.Presentation.Shell.Commands;
 using Anthea.Presentation.Shell.Projects;
@@ -46,6 +47,26 @@ internal static class ModelUndoLabelChecks
             "R4: «Libera» ha il suo nome nello storico e nel suggerimento di «↶ Annulla»");
         expect.That(!model.UndoChange("Altra modifica") && model.Snapshot?.Name == "B", "R4: un nome diverso dall'ultima modifica non annulla nulla");
         expect.That(model.UndoChange(label) && model.Snapshot?.Name == "A2", "R4: «↶ Annulla Libera» annulla la modifica «Libera» del progetto");
+
+        // R1 of the review of 17/11/2026: two models with a «Libera» of the same name; each tab undoes only its own change.
+        var otherSection = project.AddSection(shell.Tree.AddProject()!)!;
+        var other = shell.ShowModel(otherSection, null)!;
+        other.Imported(Copy("C"));
+        model.Imported(Labelled(Copy("B"), label));
+        other.Imported(Labelled(Copy("D"), label));
+        expect.That(!model.IsDisposed && !other.IsDisposed && project.UndoLabel == label && !model.UndoChange(label) && model.Snapshot?.Name == "B" && other.Snapshot?.Name == "D",
+            "R1 (revisione): «↶ Annulla Libera» di un modello non annulla la «Libera» con lo stesso nome di un altro modello");
+        expect.That(other.UndoChange(label) && other.Snapshot?.Name == "C" && model.Snapshot?.Name == "B",
+            "R1 (revisione): la scheda dell'ultima «Libera» la annulla");
+
+        // R6 of the review of 17/11/2026: a sheet taken away by an undo while the copy stays on screen; «Collega» answers in Italian.
+        var sheet = project.AddSheet("mat_calcestruzzo", section)!;
+        string sheetId = sheet.S("id");
+        expect.That(project.Restore(false) && !model.Targets.Any(t => t.Id == sheetId), "R6 (revisione): il foglio tolto da «↶ Annulla» non è più fra i fogli della scheda");
+        string message = "";
+        try { model.Linked(sheetId, 1, "Caso B", "Myy"); }
+        catch (InvalidOperationException error) { message = error.Message; }
+        expect.That(message == ModelTabViewModel.SheetGone, "R6 (revisione): «Collega» a un foglio che non c'è più lo dice in italiano");
         return expect.Count;
     }
 }
