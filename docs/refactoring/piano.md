@@ -2,17 +2,17 @@
 
 ## Preparazione ANTHEA 1.19.2 - 17 novembre 2026
 
-Candidata nel ramo `claude/1192-candidata`, che va pubblicato dal coordinatore dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.2.md).
+Ramo `claude/1192-candidata`, pubblicato il 17/11/2026 dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.2.md).
 
 - [x] Modulo Modelli, rilievi R1–R10 della prova MIDAS del 16/11 e correzioni della revisione (`claude/modelli-rilievi` 865868b0).
 - [x] Stratigrafia: griglia degli strati in sola lettura nelle revisioni precedenti (eb248595, sopra d202c46f di main).
 - [x] Nomi con «_» nelle caselle del pannello di importazione e del report (P4 della revisione del ramo Straus7, adattato ai nomi del ramo dei Modelli).
 - [x] Guide Rev73 con «ANTHEA 1.19.2» ed esempio con un nome neutro; Wiki rigenerata.
 - [x] Versione 1.19.2 e README dell'installer; README 1.19.1 conservato in SUPERATI.
-- [ ] Edizioni Word e PDF delle guide e PDF dei README.
-- [ ] Full sulla candidata e transizioni F3 della pagina Modelli approvate dall'utente.
-- [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
-- [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.
+- [x] Edizioni Word e PDF delle guide e PDF dei README (7426f226).
+- [x] Full sulla candidata (108 + 23 PASS) e transizioni F3 della pagina Modelli approvate dall'utente (a27bee25, F3 PASS).
+- [x] Setup locale (74.831.765 byte, C081CF35…), Audit-Installer e collaudi PASS; prova dell'utente sulla build della candidata: «Prova OK». [Verbale](installer-1.19.2.md).
+- [x] origin/main ancora a323af43: tag v1.19.2 su a27bee25, push in avanti veloce e copia sulla condivisione a cura del coordinatore.
 
 
 ## Guide Rev72 — compito 207, 16 novembre 2026
