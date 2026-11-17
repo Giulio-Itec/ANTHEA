@@ -15689,6 +15689,82 @@
         "Nativo sul file Straus7 dell'utente (sola lettura, worker del ramo): Inspect 0 casi selezionabili, 15 casi di carico, 15 casi non associati, 10 avvisi; Read come «Geometria + attributi + carichi» 2563 nodi, 5238 elementi, 0 risultati"
       ],
       "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-P1P2-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Casi base in background (R7): avvio dopo «Importa/Aggiorna modello…» e servizio GPC della scheda",
+      "famiglia": "modelli/combinazioni/prestazioni",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. P1: SceneReady consumava l'attesa della copia prima di controllare il visore libero e il catalogo: durante l'importazione (visore occupato, catalogo ancora della copia precedente) la preparazione non partiva mai; la misura 23,8 → 0,6 s di MOD-RIL-R7 chiamava SceneReady a mano. Ora TryStartPreparation parte con la scena sullo schermo, la copia in attesa, il visore libero e il catalogo della copia; si riprova alla fine di SetSnapshot e quando un'importazione, una verifica, un report o una revisione finiscono (NotifyCombinationCommands); l'attesa si consuma solo all'avvio o per una rinuncia definitiva (sola lettura, niente da calcolare, poca memoria, già pronti). P2: un GpcModelCombinationService per visore, svuotato a ogni ricreazione (cambio di scheda o di pagina, Annulla): la preparazione ripartiva da zero e due semafori potevano lavorare insieme. Ora il servizio è della scheda del modello (ModelTabViewModel.Combinations, uno per scheda, chiuso con la scheda), passato a ogni visore; un visore nuovo sulla stessa copia trova i casi base pronti o la loro preparazione in corso (la chiusura del visore non la ferma); una copia diversa toglie ciò che era preparato o in preparazione per la precedente (KeepOnlyFor, revisione della preparazione già nota alla copia, mai calcolata sul thread dell'interfaccia); prima di una preparazione nuova quella vecchia esce (mai due insieme). N1: un errore della preparazione automatica è detto nel catalogo invece di perdersi.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Preparation.cs (TryStartPreparation), ModelViewerViewModel.cs (costruttore, SetSnapshot, Dispose), ModelViewerViewModel.Combinations.cs, src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs (IsPreparedFor, KeepOnlyFor, Close), src/ANTHEA.ModelWorkspace/ModelCombinations.cs (KnownPreparationRevision), src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml.cs, src/ANTHEA.Desktop/Views/Shell/ModelTabView.xaml.cs, src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (Combinations)",
+      "effetto_quantificato": "Banco sul modello vero (73 combinazioni, 48 casi) con la scena collegata come nel controllo e nessuna chiamata a mano: dopo «Importa modello…» la preparazione parte da sola e dura 28,7 s in background (blocco più lungo dell'interfaccia 4,9 s, raccolte della memoria); prima combinazione 0,7 s (prima della correzione, sul percorso vero, la preparazione non partiva e la prima combinazione aspettava i circa 24 s della preparazione); visore ricreato sulla stessa copia (cambio di scheda) 0,7 s, senza preparare di nuovo. Risultati delle combinazioni invariati.",
+      "test": [
+        "ModelWorkspace.Checks: BackgroundPreparationChecks (importazione con la scena collegata come nel controllo, visore ricreato sullo stesso servizio, chiusura durante la preparazione, copia diversa, chiusura della scheda)",
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs con --scena: SceneReady collegato a SceneChanged come nel controllo, mai chiamato dalle fasi; fase «scheda»"
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/r7-percorso-vero"
+      ]
+    },
+    {
+      "id": "MOD-RIL-REV-P3-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Lettura della copia in background: «Ripristina» non sovrascritto, Annulla che non la ricomincia, testo d'errore che se ne va",
+      "famiglia": "modelli/progetti/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. P3: «Ripristina» (Copie precedenti) durante la lettura in background metteva la copia ripristinata nel documento, poi la fine della lettura rimetteva sullo schermo la copia vecchia, e una combinazione calcolata dopo la pubblicava sopra quella ripristinata. Ora una copia che entra nella scheda (importazione, Ripristina, combinazione) abbandona la lettura in corso (AbandonLoading) e «Ripristina» è disattivato durante la lettura. R4 della revisione: un Annulla di un'altra modifica durante la lettura, con la stessa revisione, la lascia proseguire invece di ricominciarla. R5 della revisione: il testo di una lettura non riuscita se ne va quando la copia si rilegge sul thread dell'interfaccia. N5: una lettura abbandonata si ferma prima dei controlli e della restituzione della memoria.",
+      "codice": "src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (AbandonLoading, Imported, Load, LoadAsync, Rebind, RestoreCopyCommand)",
+      "test": [
+        "Presentation.Tests: ModelTabLoadingChecks (RestoreDuringReading, FailedReading)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R1-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«↶ Annulla Libera» annulla solo la propria modifica",
+      "famiglia": "modelli/combinazioni/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Il controllo confrontava solo il nome dell'ultima modifica del progetto: con due modelli e due «Libera» con lo stesso nome la scheda di uno annullava la «Libera» dell'altro, e con un foglio aperto non confermato l'annullamento si prendeva quella modifica. Ora la scheda tiene l'identità della propria ultima modifica (ProjectHistory.UndoStep, ProjectSession.UndoStep) e ProjectSession.UndoOnly conferma il foglio aperto, poi annulla solo se l'ultima modifica è ancora quella; altrimenti il visore dice perché. N8: il pulsante non è offerto durante una verifica, un report o una revisione.",
+      "codice": "src/ANTHEA.Projects/ProjectHistory.cs (UndoStep), src/ANTHEA.Presentation/Shell/ProjectSession.cs (UndoStep, UndoOnly), src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (UndoChange), src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CombinationSpace.cs",
+      "test": [
+        "Presentation.Tests: ModelUndoLabelChecks (due modelli con «Libera» dello stesso nome)",
+        "ModelWorkspace.Checks: UndoFreeChecks"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R2-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«Aggiorna modello…» con «Tutto» e sorgente senza casi su una copia con risultati: avviso prima e «Importa» disattivato",
+      "famiglia": "modelli/importazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Con R10 «Tutto» da una sorgente senza casi di risultato (Straus7 senza .lsa o con casi non associati, MIDAS senza casi statici) toglieva senza avviso i casi e le combinazioni calcolate di una copia che ne aveva. Scelta prudente dell'agente, delegata dal coordinatore (17/11, 00:20): su una copia con risultati «Importa» resta disattivato con «Tutto» e il pannello dice prima quanti casi e combinazioni sarebbero tolti e che la scelta esplicita è «Geometria + attributi + carichi»; su una copia senza risultati R10 resta com'è. Per MIDAS il motivo compare ora già nel controllo della connessione.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs (ImportsWithoutResults, ResultsLossWarning), ModelViewerViewModel.Strand7Import.cs, src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml",
+      "test": [
+        "ModelWorkspace.Checks: NoResultCasesChecks (Straus7 e MIDAS su una copia con risultati)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R6-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Fogli del visore dopo un Annulla che conserva la copia",
+      "famiglia": "modelli/progetti/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Da R5 un Annulla di un'altra modifica non ricrea il visore, che prendeva i fogli solo nel costruttore: un foglio tolto da Annulla restava offerto da «Collega», che rispondeva con un testo inglese di .NET. Ora la vista passa al visore i fogli nuovi (SetSheets, scelta conservata se il foglio c'è ancora) e «Collega» a un foglio che non c'è più lo dice in italiano.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.cs (SetSheets), src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml.cs, src/ANTHEA.Desktop/Views/Shell/ModelTabView.xaml.cs, src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (Linked, SheetGone)",
+      "test": [
+        "ModelWorkspace.Checks: UndoFreeChecks (SetSheets)",
+        "Presentation.Tests: ModelUndoLabelChecks (foglio tolto da Annulla)"
+      ],
+      "evidenze": []
     }
   ]
 }
