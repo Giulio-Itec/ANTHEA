@@ -123,7 +123,8 @@ public sealed class ProjectSession : DocumentSession
     public long ModelReadThreshold { get; set; } = DefaultModelReadThreshold;
 
     /// <summary>The default of <see cref="ModelReadThreshold"/>: 64 MiB, the size from which «Salva» goes to the background (WorkspaceSession.BackgroundSaveBytes).</summary>
-    public const long DefaultModelReadThreshold = 67_108_864;
+    // N7 of the review of 17/11/2026: the same constant, not a copy of its value.
+    public const long DefaultModelReadThreshold = WorkspaceSession.BackgroundSaveBytes;
 
     public bool CanUndo => History.CanUndo(readOnly);
 

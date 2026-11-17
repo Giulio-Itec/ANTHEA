@@ -232,7 +232,7 @@ public sealed class ModelTabViewModel : ViewModelBase
 
     /// <summary>The text of <see cref="LoadingText"/> for <paramref name="bytes"/> bytes of JSON of results and a share read.</summary>
     public static string LoadingMessage(long bytes, double share) =>
-        $"Lettura del modello e dei risultati salvati ({ModelCombinations.CopyLimit(bytes)} di dati)… {share * 100:0} %. La finestra resta utilizzabile; il modello si apre al termine.";
+        $"Lettura del modello e dei risultati salvati ({ModelCombinations.CopyLimit(bytes)} di dati)… {share * 100:0} %. La finestra resta utilizzabile, con qualche breve pausa per la memoria; il modello si apre al termine.";
 
     /// <summary>
     /// The copy of <paramref name="modelId"/>: read here when its results are small, as before; otherwise null and read on another thread

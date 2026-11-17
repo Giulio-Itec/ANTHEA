@@ -132,6 +132,13 @@ internal static class ModelTabLoadingChecks
         expect.That(opened.Snapshot?.Name == "A" && opened.Snapshot.Fingerprint() == revision && !opened.IsLoading && opened.LoadFailure is null && bench.Messages.Failures.Count == 0,
             "P3 (revisione): la lettura abbandonata non rimette la copia precedente; sullo schermo resta quella del documento");
         shell.Windows.Close(shell.Windows.Pages.Single());
+
+        // R7 of the review: closing the tab during the reading really stops it (until 17/11 only IsDisposed was checked).
+        // The section of the document on screen (the undo above replaced the document).
+        var reading = shell.ShowModel(opened.Container, id)!;
+        var cancellation = (CancellationTokenSource?)typeof(ModelTabViewModel).GetField("loading", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(reading);
+        shell.Windows.Close(shell.Windows.Pages.Single());
+        expect.That(cancellation is { IsCancellationRequested: true } && reading.IsDisposed, "R7 (revisione): la chiusura della scheda ferma la lettura in corso");
     }
 
     /// <summary>R5 of the review of 17/11/2026: the text of a reading failed in the background goes away when the copy is read again.</summary>
