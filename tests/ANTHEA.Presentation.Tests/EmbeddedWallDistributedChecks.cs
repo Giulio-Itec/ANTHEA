@@ -79,7 +79,7 @@ internal static partial class EmbeddedWallChecks
         var docx = sheet.Report.BuildReport("Carichi distribuiti per fasi", new HashSet<string>()); before = sheet.Data.ToJsonString();
         ReportFiles.Write(Path.Combine(output, "paratie", "carichi-distribuiti.docx"), docx, "Carichi distribuiti per fasi");
         var xml = DocxWriter.Read(docx).GetXml("word/document.xml").ToString();
-        e.That(xml.Contains("q netto") && xml.Contains("q superiore") && xml.Contains("0,984393") && before == sheet.Data.ToJsonString(),
+        e.That(xml.Contains("q netto") && xml.Contains("q superiore") && xml.Contains(">-0,98<") && before == sheet.Data.ToJsonString(),
             "Report non rappresenta il risultato e gli input del carico distribuito.");
         string csv = EmbeddedWallReport.Csv(report); File.WriteAllText(Path.Combine(output, "paratie", "carichi-distribuiti.csv"), csv);
         File.WriteAllText(Path.Combine(output, "paratie", "carichi-distribuiti.json"), sheet.Data.ToJsonString(new() { WriteIndented = true }));

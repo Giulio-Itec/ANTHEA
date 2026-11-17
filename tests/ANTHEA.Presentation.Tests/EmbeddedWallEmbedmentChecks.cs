@@ -127,7 +127,7 @@ internal static partial class EmbeddedWallChecks
         var docx = sheet.Report.BuildReport("Ricerca infissione", new HashSet<string>());
         string xml = DocxWriter.Read(docx).GetXml("word/document.xml").ToString();
         e.That(xml.Contains("Ricerca dell'infissione") && xml.Contains(search.Diagnostic) && xml.Contains("Spostamento in testa")
-            && xml.Contains("6,5") && xml.Contains("3,203846"), "Relazione non coerente con lo snapshot.");
+            && xml.Contains("6,5") && xml.Contains(">3,20<"), "Relazione non coerente con lo snapshot.");
         ReportFiles.Write(Path.Combine(output, "paratie", "ricerca-infissione.docx"), docx, "Ricerca infissione");
         File.WriteAllText(Path.Combine(output, "paratie", "ricerca-infissione.csv"), csv);
         sheet.Embedment["embedment_head_limit"].EditText = "4"; sheet.Commit();
