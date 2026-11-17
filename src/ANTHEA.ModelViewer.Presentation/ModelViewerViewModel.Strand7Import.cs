@@ -20,7 +20,7 @@ public sealed partial class ModelViewerViewModel
     partial void OnStrand7ApiPathChanged(string value) => ResetStrand7Preparation();
     void ResetStrand7Preparation()
     {
-        Strand7PreparationSummary = "File da controllare. Nessun dato Straus/Strand7 è stato letto.";
+        Strand7PreparationSummary = "File da controllare. Nessun dato Straus/Strand7 è stato letto."; Strand7ExcludedCases = "";
         if (strand7Catalog == null) return;
         strand7Catalog = null; strand7CaseNumbers.Clear(); Strand7Warnings = "";
         if (IsStrand7Import) { ImportCases.Clear(); OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); }
@@ -45,7 +45,7 @@ public sealed partial class ModelViewerViewModel
         var scope = (ModelUpdateScope)SelectedUpdateScope;
         if (scope == ModelUpdateScope.Everything && string.IsNullOrWhiteSpace(Strand7ResultsPath)) scope = ModelUpdateScope.ModelWithoutResults;
         var request = Strand7Request(scope);
-        Strand7Warnings = "";
+        Strand7Warnings = ""; Strand7ExcludedCases = "";
         IsBusy = true; ImportFailure = null;
         ++importOperation; ImportProgressMessage="Controllo dei file Straus / Strand7…";ImportProgressIndeterminate=true;ImportPercent=0;
         try
@@ -57,16 +57,20 @@ public sealed partial class ModelViewerViewModel
             var catalog = await services.InspectStrand7Async(request with { CaseNumbers = [] }, BeginImportProgress("Avvio del processo di lettura Straus7…"), token);
             token.ThrowIfCancellationRequested(); if (disposed) return;
             strand7Catalog = catalog; strand7CaseNumbers.Clear(); ImportCases.Clear();
-            foreach (var item in catalog.Cases) { strand7CaseNumbers[item.Name] = item.Number; ImportCases.Add(new(item.Name, ImportCaseSelectionChanged)); }
+            // 17/11/2026 (GPC.Converter 2.24): a case of several freedom cases shows its freedom case («5: G1 · FC 2»); the name stays the key.
+            foreach (var item in catalog.Cases) { strand7CaseNumbers[item.Name] = item.Number; ImportCases.Add(new(item.Name, ImportCaseSelectionChanged, item.Label)); }
             // R9 (16/11/2026): why there is no result to import, and the warnings of the converter here, before the import (until 1.19.1 only
             // their number, with a reference to an import report that did not exist yet).
             string? reason = catalog.NoResultsReason(!string.IsNullOrWhiteSpace(Strand7ResultsPath));
             Strand7PreparationSummary = "Catalogo letto · " + catalog.Summary + (catalog.ApiVersion.Length > 0 ? " · API " + catalog.ApiVersion : "") +
+                FreedomCasesSummary(catalog) +
                 // R2 of the review of 17/11/2026: on a copy with results «Tutto» stays disabled (ResultsLossWarning says why).
                 (reason is null ? "" : "\nNessun caso di risultato da importare: " + reason + (HasCurrentResults
                     ? ". La copia attuale ha risultati: leggi l'avviso sotto «Contenuto da acquisire»."
                     : ". Con «Tutto» si importano geometria, attributi e carichi, senza risultati.")) +
+                (reason is null && catalog.ExcludedResultCases.Count > 0 ? "\nCasi di risultato esclusi: " + catalog.ExcludedResultCases.Count + ", elencati qui sotto con il motivo." : "") +
                 (catalog.Warnings.Count > 0 ? "\nAvvisi del convertitore GPC: " + catalog.Warnings.Count + ", elencati qui sotto e conservati nei messaggi di acquisizione della copia." : "");
+            Strand7ExcludedCases = string.Join("\n", catalog.ExcludedResultCases.Select(c => "• " + c.Name + ": " + c.Reason + "."));
             Strand7Warnings = string.Join("\n", catalog.Warnings.Select(w => "• " + w));
             ImportProgressMessage = "File pronti. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;
             OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); OnPropertyChanged(nameof(HasStrand7Catalog));
@@ -80,6 +84,19 @@ public sealed partial class ModelViewerViewModel
 
     /// <summary>R9 (16/11/2026): the warnings of the GPC converter of the catalogue, one per line, shown before the import; empty without them.</summary>
     [ObservableProperty] string strand7Warnings = "";
+
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the result cases of the file left out of the catalogue, one per line with the reason of the
+    /// converter in Italian; empty when every case is selectable.</summary>
+    [ObservableProperty] string strand7ExcludedCases = "";
+    public bool HasStrand7ExcludedCases => Strand7ExcludedCases.Length > 0;
+    partial void OnStrand7ExcludedCasesChanged(string value) => OnPropertyChanged(nameof(HasStrand7ExcludedCases));
+
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model with several of them, for the summary of the catalogue; empty with one.</summary>
+    static string FreedomCasesSummary(Strand7ModelCatalog catalog) => catalog.FreedomCases.Count == 0 ? "" :
+        "\nPiù casi di vincolo (freedom case): " + string.Join("; ", catalog.FreedomCases) + ". Ogni caso di risultato è un caso di carico sotto il suo freedom case " +
+        "(«· FC n» nell’elenco dei casi). Vincoli e molle dei freedom case restano conservati dal convertitore come dati della sorgente " +
+        "(avviso Straus7FreedomCasesPreserved), non come vincoli del modello GPC; reazioni e controllo di equilibrio di ogni caso sono quelli del " +
+        "solutore nel suo freedom case.";
 
     // R10 (16/11/2026, requirement of the user: «il file deve essere importato anche senza casi di carico»): with «Tutto» and a catalogue without
     // result cases the import takes geometry, attributes and loads; with result cases at least one case and one type of result, as before.

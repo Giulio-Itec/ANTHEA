@@ -1837,3 +1837,12 @@ Prova dell'utente del 16/11 (73 combinazioni LCOM, 48 casi, progetto salvato con
 - [x] Guide Rev73 (ramo `claude/modelli-guida`, rapporto `INT/rapporti/modelli-guida-20261117.md`): i testi proposti controllati sul codice di ff514607 e corretti dove non corrispondevano, poi allineati alle correzioni della revisione (865868b0: preparazione anche dopo un'importazione e legata alla scheda, avviso di «Tutto» su una copia con risultati, «↶ Annulla Libera» solo della propria modifica, testo della lettura); capitolo «Modelli e importazione da MIDAS» della pratica, riga dell'edizione nelle due guide; Word e PDF con la pipeline ITEC, Rev72 in `supporto/SUPERATI/guide-rev73-20261117/` con manifest.
 - [ ] Wiki: transizioni F3 della pagina «Modelli e importazione da MIDAS» da approvare dall'utente; testo Straus7 con più freedom case da rivedere quando entra il convertitore di `claude/st7-freedom-cases`.
 - [ ] Libreria: mappatura dei risultati e dei vincoli con più freedom case (GPC.Converter, ramo `claude/st7-freedom-cases`); stati solo governanti da `CombinationMatrix.Evaluate` (GPCModel).
+
+## Straus7 con più freedom case (GPC.Converter 2.24, set AY) — 17 novembre 2026
+
+Ramo `claude/st7-freedom-cases-anthea` (dal ramo dei Modelli, provato sul set candidato AY), riportato sopra main nel ramo `claude/1193-candidata` per la 1.19.3; voce `MOD-FC-AY-20261117` nel registro. Prova nativa sul file Straus7 dell'utente con due freedom case, in una copia in sola lettura fuori dal repository.
+
+- [x] Pannello di importazione Straus7: etichette dei casi con il freedom case («5: G1 · FC 2»), freedom case nel riepilogo, casi esclusi con il motivo del convertitore in italiano.
+- [x] Tolto il testo di R9 secondo cui il convertitore non associa ancora i risultati dei modelli con più freedom case.
+- [ ] `lib/Checker` dal set AY ufficiale (master pubblicati di Model e Checker) con `Update-Snapshot.ps1 -ReleaseSet …`, poi profilo `full`.
+- [ ] Libreria: vincoli e molle per freedom case in GPC.Model; equilibrio con pressioni su piastre non piane entro la regola di planarità dell'import.

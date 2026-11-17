@@ -13,6 +13,12 @@
       </StackPanel>
       <WrapPanel><Button Content="Controlla file e casi" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
       <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
+      <!-- 17/11/2026 (GPC.Converter 2.24): the result cases left out of the catalogue, each with the reason of the converter. -->
+      <StackPanel Visibility="{Binding HasStrand7ExcludedCases, Converter={StaticResource Visible}}" Margin="0,6,0,0">
+        <TextBlock Text="Casi di risultato esclusi" FontSize="11" FontWeight="SemiBold"/>
+        <TextBox Text="{Binding Strand7ExcludedCases, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" FontSize="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,3,0,0"
+          BorderThickness="0" Background="Transparent" AutomationProperties.Name="Casi di risultato esclusi"/>
+      </StackPanel>
       <!-- R9 (16/11/2026): the warnings of the GPC converter before the import, not only their number. -->
       <TextBox Text="{Binding Strand7Warnings, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" FontSize="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,6,0,0"
         BorderThickness="0" Background="Transparent" AutomationProperties.Name="Avvisi del convertitore GPC"/>
@@ -47,7 +53,7 @@
         <ListBox ItemsSource="{Binding ImportCases}" MaxHeight="160" MinHeight="45" Margin="0,4,0,8" Background="{DynamicResource AppearanceSurface}" Foreground="{DynamicResource AppearanceInk}" BorderBrush="{DynamicResource AppearanceBorder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Casi statici da importare">
           <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/><Setter Property="Background" Value="Transparent"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="5,3"/></Style></ListBox.ItemContainerStyle>
           <!-- 17/11/2026: the names of the source as they are, «Q_A» and not «QA» (a TextBlock, not the AccessText of the CheckBox template), here and in the stages below. -->
-          <ListBox.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Name}"/></CheckBox></DataTemplate></ListBox.ItemTemplate>
+          <ListBox.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Label}"/></CheckBox></DataTemplate></ListBox.ItemTemplate>
         </ListBox>
         <Expander Header="Fasi costruttive · stage" Visibility="{Binding HasImportStages, Converter={StaticResource Visible}}" IsExpanded="True" Margin="0,5,0,10">
           <StackPanel Margin="0,8,0,0">

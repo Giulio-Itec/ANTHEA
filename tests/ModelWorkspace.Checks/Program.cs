@@ -120,6 +120,7 @@ static partial class Program
             await UndoFreeChecks();
             await BackgroundPreparationChecks();
             await NoResultCasesChecks(output);
+            await FreedomCaseCatalogChecks(output);
 
             if (args.Length > 1)
             {

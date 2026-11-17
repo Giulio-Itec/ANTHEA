@@ -15790,6 +15790,22 @@
         "Presentation.Tests: ModelUndoLabelChecks (foglio tolto da Annulla)"
       ],
       "evidenze": []
+    },
+    {
+      "id": "MOD-FC-AY-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Straus7 con più freedom case: casi di risultato associati con il loro freedom case, casi esclusi con il motivo (GPC.Converter 2.24, set AY)",
+      "famiglia": "modelli/straus7/interfaccia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "GPC.Converter 2.24 (set AY del 17/11/2026; il ramo è stato provato prima sul set candidato). Con più freedom case il convertitore associa ogni caso di risultato al suo caso di carico sotto il suo freedom case (Straus7LinearStaticResults.Cases) e mappa le combinazioni LSA secondo le coppie delle impostazioni; vincoli e molle di più freedom case restano conservati come prima (Straus7FreedomCasesPreserved). ANTHEA: il worker mette nel catalogo l'etichetta del caso («5: G1 · FC 2», FreedomCaseLabel), i freedom case con i loro casi di carico e i casi esclusi con il motivo del convertitore in italiano (Strand7Snapshot.ExclusionReason; un testo sconosciuto resta dopo «motivo del convertitore GPC:»); il pannello mostra le etichette nell'elenco dei casi, i freedom case nel riepilogo e i casi esclusi in un elenco a parte; il messaggio d'equilibrio di un caso di più freedom case porta l'etichetta. Il nome del caso nella copia («5: G1») non cambia, quindi nemmeno l'impronta della copia dei modelli con un solo freedom case. Tolto il testo di R9 secondo cui il convertitore non associa ancora i risultati dei modelli con più freedom case. Le caselle dei casi del pannello mostrano l'etichetta in un TextBlock, come i nomi con «_» della 1.19.2 (la prova SourceNameRenderingChecks confronta l'etichetta). Con un solo freedom case: etichetta nulla, nessun freedom case, stessi casi; in più, se dei nomi dei casi di risultato non corrispondono a un caso di carico, l'elenco «Casi di risultato esclusi» li mostra con il motivo.",
+      "codice": "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs (Strand7ResultCase.FreedomCaseLabel, Strand7ExcludedResultCase, ExcludedResultCases, FreedomCases, NoResultsReason), src/ANTHEA.ModelWorkspace/Strand7Snapshot.cs (ExclusionReason, FreedomCases), src/ANTHEA.Strand7Worker/Program.cs (Inspect, Read), src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs, ModelViewerViewModel.LiveImport.cs (ImportCaseOption.Label), src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml",
+      "test": [
+        "ModelWorkspace.Checks: FreedomCaseCatalogChecks (motivi del convertitore in italiano, etichette e nomi, riepilogo dei freedom case, casi esclusi, numero del caso chiesto al worker, protocollo JSON)",
+        "ModelViewer.LiveImport.UiChecks: SourceNameRenderingChecks sull'etichetta dei casi (ImportCaseOption.Label)",
+        "Nativo sul file Straus7 dell'utente con due freedom case (copia in sola lettura fuori dal repository): 15 casi su 15 selezionabili, 31 combinazioni con nomi unici, reazioni presenti"
+      ],
+      "evidenze": []
     }
   ]
 }

@@ -5,9 +5,12 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace ANTHEA.ModelViewer.Presentation;
 
-public sealed partial class ImportCaseOption(string name, Action changed) : ObservableObject
+public sealed partial class ImportCaseOption(string name, Action changed, string? label = null) : ObservableObject
 {
     public string Name { get; } = name;
+    /// <summary>17/11/2026: the text of the case in the list, <see cref="Name"/> unless the source gives another one (a Straus7 result case of
+    /// several freedom cases: «5: G1 · FC 2»).</summary>
+    public string Label { get; } = label ?? name;
     [ObservableProperty] bool isSelected = true;
     partial void OnIsSelectedChanged(bool value) => changed();
 }

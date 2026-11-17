@@ -30,6 +30,54 @@ public static partial class Strand7Snapshot
     /// <summary>Name of a staged nonlinear result case in the catalog: "NLA · phase · increment".</summary>
     public static string NonlinearCaseName(string phase, string step) => "NLA · " + phase + " · " + step;
 
+    // 17/11/2026: the reasons of GPC.Converter 2.24 (Straus7LinearStaticResults.Cases) for a result case it does not map, as it writes them.
+    const string NoMatchingLoadCase = "No load case of the Model has the number and the name of the result case.";
+    [GeneratedRegex(@"^The model has no freedom case (\d+)\.$", RegexOptions.CultureInvariant)]
+    private static partial Regex MissingFreedomCase();
+    [GeneratedRegex(@"^Freedom case (\d+) of the model is named '(.*)', not '(.*)'\.$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
+    private static partial Regex RenamedFreedomCase();
+    [GeneratedRegex(@"^The linear static settings of the imported model solve load case (\d+) under (.+), not under (FC \d+)\.$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
+    private static partial Regex OtherFreedomCase();
+    [GeneratedRegex(@"^The linear static settings solve load case (\d+) under (.+): GPC\.Model keeps the results of a load case, not of each freedom case\.$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
+    private static partial Regex SharedLoadCase();
+    [GeneratedRegex(@"^The result file solves load case (\d+) under (.+) \(freedom cases\): GPC\.Model keeps the results of a load case, not of each freedom case\.$", RegexOptions.CultureInvariant | RegexOptions.Singleline)]
+    private static partial Regex SharedInFile();
+
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the reason why the converter does not map a result case to a load case, in Italian for the
+    /// import panel; a reason the converter writes in another way is kept as it is, after «motivo del convertitore GPC:».</summary>
+    public static string ExclusionReason(string? reason)
+    {
+        const string OneCasePerLoadCase = "il modello GPC tiene i risultati di un caso di carico, non di ogni freedom case";
+        string text = (reason ?? "").Trim();
+        if (text.Length == 0) return "il convertitore GPC non lo associa a un caso di carico del modello";
+        if (text == NoMatchingLoadCase) return "nessun caso di carico del modello ha il numero e il nome di questo caso di risultato";
+        if (MissingFreedomCase().Match(text) is { Success: true } missing) return "il modello non ha il freedom case " + missing.Groups[1].Value;
+        if (RenamedFreedomCase().Match(text) is { Success: true } renamed)
+            return "il freedom case " + renamed.Groups[1].Value + " del modello si chiama «" + renamed.Groups[2].Value + "», non «" + renamed.Groups[3].Value + "»";
+        if (OtherFreedomCase().Match(text) is { Success: true } other)
+            return "l’analisi statica lineare del modello risolve il caso di carico " + other.Groups[1].Value +
+                (other.Groups[2].Value == "no freedom case" ? " sotto nessun freedom case" : " sotto " + other.Groups[2].Value) + ", non sotto " + other.Groups[3].Value;
+        if (SharedLoadCase().Match(text) is { Success: true } shared)
+            return "l’analisi statica lineare risolve il caso di carico " + shared.Groups[1].Value + " sotto " + shared.Groups[2].Value + ": " + OneCasePerLoadCase;
+        if (SharedInFile().Match(text) is { Success: true } listing)
+            return "il file dei risultati risolve il caso di carico " + listing.Groups[1].Value + " sotto i freedom case " + listing.Groups[2].Value + ": " + OneCasePerLoadCase;
+        return "motivo del convertitore GPC: " + text;
+    }
+
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model imported with several of them (<see cref="Straus7FreedomCaseData"/>)
+    /// and the load cases the linear static settings solve under each one, «FC 2 «Freedom Case 1»: casi di carico 5, 6»; empty otherwise.</summary>
+    public static IReadOnlyList<string> FreedomCases(GPC.Model.Models.Model model)
+    {
+        var data = Straus7FreedomCaseData.Read(model);
+        if (data is null) return [];
+        return data.FreedomCases.Select(f =>
+        {
+            var loads = data.LinearCases.Where(p => p.FreedomCase == f.Number).Select(p => p.LoadCase).Distinct().Order().ToArray();
+            return Straus7FreedomCaseData.Label(f.Number) + " «" + f.Name + "»: " +
+                (loads.Length == 0 ? "nessun caso di carico" : "casi di carico " + string.Join(", ", loads.Select(l => l.ToString(CultureInfo.InvariantCulture))));
+        }).ToArray();
+    }
+
     /// <summary>"1: name", the label of a Straus7 stage in the copy (phase of the stage results, stage definitions).</summary>
     public static string StageLabel(int number, string? name) => number.ToString(CultureInfo.InvariantCulture) + ": " + (string.IsNullOrWhiteSpace(name) ? "fase" : name.Trim());
 

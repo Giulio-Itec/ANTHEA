@@ -97,7 +97,7 @@ static class Strand7Worker
         var listed = session.Listing?.Cases ?? [];
         var phases = data.Stages.ToDictionary(s => s.Number, s => Strand7Snapshot.StageLabel(s.Number, s.Name));
         var warnings = session.Geometry.Diagnostics.Concat(session.Listing?.Diagnostics ?? []).Where(d => d.Severity == DiagnosticSeverity.Warning).Select(d => d.Code + ": " + d.Message).ToList();
-        Strand7ResultCase[] cases; string[] unmapped = [];
+        Strand7ResultCase[] cases; string[] unmapped = []; Strand7ExcludedResultCase[] excluded = [];
         if (session.Nonlinear)
         {
             if (listed.Any(c => !phases.ContainsKey(c.Stage))) throw new Failure(Rejected, "Casi di risultato non lineari di fasi assenti dal modello.");
@@ -105,10 +105,18 @@ static class Strand7Worker
         }
         else
         {
-            cases = listed.Where(c => session.Map!.ContainsKey(c.Number))
-                .Select(c => new Strand7ResultCase(c.Number, Strand7Snapshot.CaseName(session.Map![c.Number])) { StageNumber = c.Stage == 0 ? null : c.Stage }).ToArray();
+            // 17/11/2026 (GPC.Converter 2.24): every result case with its load case and, in a solution with several freedom cases, its freedom
+            // case («5: G1 · FC 2»); the same mapping as session.Map (CaseMap), with the reason of each case left out. One entry per listed case.
+            var described = Straus7LinearStaticResults.Cases(model, listed);
+            if (described.Count != listed.Count) throw new Failure(Unexpected, "Elenco dei casi di risultato del convertitore GPC incompleto.");
+            var pairs = listed.Zip(described, (c, d) => (Case: c, Described: d)).ToArray();
+            cases = pairs.Where(p => p.Described.ModelCase != null)
+                .Select(p => new Strand7ResultCase(p.Case.Number, Strand7Snapshot.CaseName(p.Described.ModelCase))
+                { StageNumber = p.Case.Stage == 0 ? null : p.Case.Stage, FreedomCaseLabel = p.Described.FreedomCase is null ? null : p.Described.Label }).ToArray();
             // R9 (16/11/2026): the cases left out, also as a list of the catalogue, so that the panel can say why there is no result to import.
-            unmapped = listed.Where(c => !session.Map!.ContainsKey(c.Number)).Select(c => c.Name).ToArray();
+            excluded = pairs.Where(p => p.Described.ModelCase == null)
+                .Select(p => new Strand7ExcludedResultCase(p.Case.Number, p.Case.Name, Strand7Snapshot.ExclusionReason(p.Described.Reason))).ToArray();
+            unmapped = excluded.Select(c => c.Name).ToArray();
             if (cases.Length < listed.Count) warnings.Add("Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + string.Join(", ", unmapped) + ".");
             if (listed.FirstOrDefault(c => c.Stage != 0) is { } staged)
                 warnings.Add("Risultati statici lineari della fase attiva " + (phases.TryGetValue(staged.Stage, out var phase) ? phase : staged.Stage.ToString(System.Globalization.CultureInfo.InvariantCulture)) +
@@ -121,7 +129,8 @@ static class Strand7Worker
             LoadCases = model.LoadCases.Values.Where(c => c is not GPC.Model.Stages.StageResultCase).Select(c => Strand7Snapshot.CaseName(c.Name)).ToArray(),
             ApiVersion = model.AnalysisSource?.SolverVersion ?? "",
             Phases = data.Stages.Select(s => new ModelConstructionPhase(s.Number, phases[s.Number], null, null, s.EnabledGroups?.Length ?? 0)).ToArray(),
-            StageResultsAvailable = listed.Any(c => c.Stage != 0), NonlinearStages = session.Nonlinear, Warnings = warnings, UnmappedResultCases = unmapped
+            StageResultsAvailable = listed.Any(c => c.Stage != 0), NonlinearStages = session.Nonlinear, Warnings = warnings, UnmappedResultCases = unmapped,
+            ExcludedResultCases = excluded, FreedomCases = Strand7Snapshot.FreedomCases(model)
         };
     }
 
@@ -162,13 +171,17 @@ static class Strand7Worker
             var imported = session.Nonlinear ? Straus7StageResults.Import(model, native, dataset) : Straus7LinearStaticResults.Import(model, native, dataset);
             if (imported.Status is ImportStatus.Rejected or ImportStatus.Cancelled) throw Rejection("Risultati Straus7 non normalizzati", imported.Diagnostics);
             messages.AddRange(Strand7Snapshot.Diagnostics(native.Diagnostics.Where(d => d.Code == "Straus7InactiveElementsSkipped").Concat(imported.Diagnostics)));
+            // 17/11/2026 (GPC.Converter 2.24): the equilibrium message of a case of several freedom cases names its freedom case («5: G1 · FC 2»).
+            var freedomLabels = session.Nonlinear ? new Dictionary<int, string>()
+                : Straus7LinearStaticResults.Cases(model, native.Cases).Where(c => c.ModelCase != null && c.FreedomCase != null).ToDictionary(c => c.Number, c => c.Label);
             if (!session.Nonlinear)
                 foreach (var c in native.Cases)
                 {
-                    // Applied loads against the solver reactions (GPC Equilibrium.Check), for every unstaged linear static case.
+                    // Applied loads against the solver reactions (GPC Equilibrium.Check), for every unstaged linear static case; the reactions of a
+                    // case of several freedom cases are those of its freedom case (all the nodes are read, Straus7FreedomCasesPreserved above).
                     string name = session.Map![c.Number]; var balance = Straus7Equilibrium.Check(model, name, dataset);
                     var check = Strand7Snapshot.Equilibrium(balance); equilibria[name] = check;
-                    messages.Add(new("STRAUS7-EQUILIBRIUM", balance.Balanced == false ? "Warning" : "info", Strand7Snapshot.CaseName(name),
+                    messages.Add(new("STRAUS7-EQUILIBRIUM", balance.Balanced == false ? "Warning" : "info", freedomLabels.TryGetValue(c.Number, out var label) ? label : Strand7Snapshot.CaseName(name),
                         check.Note + (balance.Balanced.HasValue ? FormattableString.Invariant($" Risultante dei carichi Z {check.AppliedForce[2]:G6} kN, delle reazioni Z {check.ReactionForce[2]:G6} kN.") : "")));
                 }
         }
