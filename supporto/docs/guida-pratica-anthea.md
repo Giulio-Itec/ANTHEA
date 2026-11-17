@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 17 novembre 2026 · revisione documentale 73 · comportamento ANTHEA successivo alla 1.19.1 (set AW)
+Edizione 17 novembre 2026 · revisione documentale 73 · comportamento ANTHEA 1.19.2 (set AW)
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -1488,7 +1488,7 @@ Una risultante esterna alla base o azioni oltre il dominio resistente del metodo
 
 ## Modelli e importazione da MIDAS
 
-Questa procedura riguarda il modulo Modelli in prova, nella versione successiva ad ANTHEA 1.19.1. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.
+Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.2. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.
 
 ### Entrare nel modulo
 
@@ -1587,7 +1587,7 @@ Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro **SPAZIO DEL
 
 Dopo **Libera selezionate** o **Libera tutte** ANTHEA restituisce a Windows la memoria dei risultati liberati; con un modello grande la finestra può non rispondere per qualche secondo. Accanto ai due comandi compare poi **↶ Annulla Libera**, che riporta i risultati liberati. Lo stesso fa **↶ Annulla** del progetto (Ctrl+Z), nella barra in alto della finestra principale, il cui suggerimento dice «Annulla: Libera i risultati di N combinazioni». **↶ Annulla Libera** scompare quando la copia del modello cambia di nuovo, per esempio con un calcolo, e non è disponibile durante un calcolo, una verifica, un report o una revisione. Il comando riporta solo la propria modifica: se dopo **Libera** il progetto è cambiato (questo modello, un altro modello o un foglio, comprese le modifiche ancora da confermare del foglio aperto), non annulla nulla e il messaggio rimanda a **↶ Annulla** della finestra principale, che torna indietro una modifica alla volta. Con un modello grande i risultati riportati si rileggono dall'archivio in background: la scheda mostra l'avanzamento e la finestra resta utilizzabile, con qualche breve pausa per la memoria.
 
-Anche le altre modifiche della copia hanno un nome nei suggerimenti di **↶ Annulla** e **↷ Ripristina**: per esempio «Calcolo di «SLU 03»», «Calcolo delle combinazioni in serie», «Importazione del modello» e «Modifica del modello «Ponte»».
+Anche le altre modifiche della copia hanno un nome nei suggerimenti di **↶ Annulla** e **↷ Ripristina**: per esempio «Calcolo di «SLU 03»», «Calcolo delle combinazioni in serie», «Importazione del modello» e «Modifica del modello «Esempio»».
 
 ### Generare le combinazioni NTC 2018
 

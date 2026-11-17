@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione teorica del 17 novembre 2026 · revisione documentale 73 · comportamento ANTHEA successivo alla 1.19.1 (set AW)
+Edizione teorica del 17 novembre 2026 · revisione documentale 73 · comportamento ANTHEA 1.19.2 (set AW)
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
