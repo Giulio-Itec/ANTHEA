@@ -1,11 +1,15 @@
+using System.Text.Json.Serialization;
+
 namespace Anthea.Reports;
 
 /// <summary>Frozen display values from the GPC envelope. No result combination or engineering calculation.</summary>
 public sealed record EmbeddedWallEnvelopeData(bool Complete, string Diagnostic, double Top, double Bottom,
     double TributaryWidth, int Subdivisions, IReadOnlyList<EmbeddedWallEnvelopeHistoryData> Histories,
     IReadOnlyList<EmbeddedWallEnvelopeSeriesData> Series);
+/// <summary>One history of the envelope. <c>Warnings</c>: those of its analysis (A4), null when there are none.</summary>
 public sealed record EmbeddedWallEnvelopeHistoryData(string CaseId, bool Complete, string? FailedStage,
-    IReadOnlyList<string> IncludedStages, string Diagnostic);
+    IReadOnlyList<string> IncludedStages, string Diagnostic,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<string>? Warnings = null);
 public sealed record EmbeddedWallEnvelopeSeriesData(string Quantity, string Label, string Unit, string Diagram,
     IReadOnlyList<EmbeddedWallEnvelopeStationData> Stations, EmbeddedWallEnvelopeObservationData Minimum,
     EmbeddedWallEnvelopeObservationData Maximum);

@@ -124,6 +124,7 @@ internal static partial class EmbeddedWallChecks
         await PrestressAsync(e, output);
         DesignHistoryChecks(e);
         await DesignHistoryProjectReportAsync(e);
+        await FirstStageWarningAsync(e, output);
         return e.Count;
     }
     internal static JsonObject HydraulicExample()

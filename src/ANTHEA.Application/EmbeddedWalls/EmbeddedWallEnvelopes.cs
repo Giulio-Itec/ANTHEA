@@ -17,7 +17,7 @@ public sealed partial class EmbeddedWallModule
         return new(native.IsComplete, native.Diagnostic, native.Top / SoilUnits.Metre, native.Bottom / SoilUnits.Metre,
             native.TributaryWidth / SoilUnits.Metre, native.Subdivisions,
             Array.AsReadOnly(native.Histories.Select(h => new EmbeddedWallEnvelopeHistoryData(h.CaseId, h.Complete,
-                h.FailedStage, h.IncludedStages, h.Diagnostic)).ToArray()),
+                h.FailedStage, h.IncludedStages, h.Diagnostic, AnalysisWarnings(h.Warnings))).ToArray()),
             Array.AsReadOnly(native.Series.Select(s =>
             {
                 var (label, unit, factor) = s.Quantity switch

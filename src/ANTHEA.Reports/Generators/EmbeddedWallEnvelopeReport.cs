@@ -15,7 +15,8 @@ public static partial class EmbeddedWallReport
             + "Non costituiscono una nuova combinazione; le verifiche sono quelle delle singole fasi. Il CSV conserva tutte le stazioni e i due lati delle discontinuità.", false);
         foreach (var history in envelope.Histories)
             paragraph("Caso " + history.CaseId + "; fasi incluse: " + string.Join(", ", history.IncludedStages)
-                + (history.Complete ? ". Storia completa." : ". Storia incompleta; fase interrotta: " + history.FailedStage + ". " + history.Diagnostic), false);
+                + (history.Complete ? ". Storia completa." : ". Storia incompleta; fase interrotta: " + history.FailedStage + ". " + history.Diagnostic)
+                + string.Concat((history.Warnings ?? []).Select(w => " Avviso: " + w)), false);
         foreach (var series in envelope.Series)
         {
             paragraph(series.Label, true);

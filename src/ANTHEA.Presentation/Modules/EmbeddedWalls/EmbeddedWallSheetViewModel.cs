@@ -124,9 +124,21 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public IReadOnlyList<EmbeddedWallSupportData> Supports => selectedStage?.Supports ?? [];
     public IReadOnlyList<EmbeddedWallCheckData> Checks => DisplayedCase?.Checks.Where(c => c.Stage == selectedStage?.Id).ToArray() ?? [];
     public string ResultStatus => current is null ? "Risultati assenti o superati: eseguire il calcolo sui dati correnti."
-        : current.EmbedmentSearch is not null ? EmbedmentStatus
+        : (current.EmbedmentSearch is not null ? EmbedmentStatus
         : current.Cases is not null ? current.Diagnostic + " Consultare gli esiti del caso selezionato."
-        : current.Complete ? "Analisi convergente. Verifiche dell'opera: consultare ambito ed esiti." : "Analisi incompleta: sono visibili soltanto le fasi concluse.";
+        : current.Complete ? "Analisi convergente. Verifiche dell'opera: consultare ambito ed esiti." : "Analisi incompleta: sono visibili soltanto le fasi concluse.") + ResultWarnings;
+    /// <summary>A4 (sheet of 16/11/2026): the warnings of the analysis of the case shown, one per line under the status, and the other cases that
+    /// have some; empty without warnings, so that the status is the one of before.</summary>
+    public string ResultWarnings
+    {
+        get
+        {
+            var lines = (DisplayedCase?.Warnings ?? []).Select(w => "Avviso: " + w).ToList();
+            var others = (current?.Cases ?? []).Where(c => !ReferenceEquals(c, DisplayedCase) && c.Warnings is { Count: > 0 }).Select(c => c.CaseId).ToArray();
+            if (others.Length > 0) lines.Add((others.Length == 1 ? "Avvisi anche nel caso " : "Avvisi anche nei casi ") + string.Join(", ", others) + ": vedere il caso.");
+            return lines.Count == 0 ? "" : Environment.NewLine + string.Join(Environment.NewLine, lines);
+        }
+    }
     public string Scope => current is null ? "Incremento in sviluppo: trave su molle, fasi, sostegni assiali metallici, sfilamento tiranti, sezioni tubolari CHS, filtrazione 2D, UPL/HYD e stabilità globale per pareti continue senza sostegni esterni. Campi di applicazione e verifiche residue sono indicati nei risultati."
         : string.Join(Environment.NewLine, DisplayedCase?.Scope ?? current.Scope);
     private void Rebuild()

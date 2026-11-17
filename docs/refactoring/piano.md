@@ -62,6 +62,16 @@ Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del
 - [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
 - [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
 
+## Paratie: avviso della prima fase non geostatica (A4) — 17 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A4, approvato dall'utente il 17/11 («ok per tutte le voci»); candidata
+1.19.4, registro `PARATIE-24`.
+
+- [x] L'avviso della libreria (GPCChecker.Geotechnics 0.30, set AZ) sotto lo stato del foglio, negli inviluppi e nella relazione; numeri
+  con la virgola della relazione. Senza avvisi il risultato salvato non cambia.
+- [x] Presentation `--paratie` (prove `EmbeddedWallFirstStageWarningChecks`, scarto calcolato a mano).
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+
 ## Paratie: fase nuova con quote e falda della precedente (A3) — 15 novembre 2026
 
 Punto 12 della scheda delle decisioni del 16/11; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente di lunedì 16/11**;

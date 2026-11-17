@@ -71,6 +71,8 @@ public static partial class EmbeddedWallReport
             P(PartialFactorsWarning(string.IsNullOrWhiteSpace(currentResult.InputJson) ? new JsonObject() : JsonNode.Parse(currentResult.InputJson)!.AsObject()));
             P(currentResult.Complete ? "Storia completata. La convergenza non attesta tutte le verifiche dell'opera." : "ANALISI INCOMPLETA — sono riportate soltanto le fasi concluse.", true);
             if (!currentResult.Complete) P(currentResult.Diagnostic);
+            // A4 (sheet of 16/11/2026): the warnings of the analysis, before the scope; none in the reports of before.
+            foreach (string warning in currentResult.Warnings ?? []) P("Avviso: " + warning);
             foreach (string note in currentResult.Scope) P(note);
             RenderEmbedment(currentResult, (text, heading) => P(text, heading), Table);
             RenderEnvelope(currentResult, (text, heading) => P(text, heading), Table);

@@ -92,7 +92,7 @@ public sealed partial class EmbeddedWallModule
             + "Ogni storia è ricalcolata da uno stato iniziale indipendente; nessuna somma di risultati non lineari.";
         var root = reports[0] with { Fingerprint = EmbeddedWallDocument.Fingerprint(data), InputJson = data.ToJsonString(new() { WriteIndented = true }),
             Complete = complete, Status = complete ? "HistoriesConverged" : "HistoriesIncomplete", Diagnostic = diagnostic,
-            Cases = reports.AsReadOnly(), Envelope = envelope,
+            Cases = reports.AsReadOnly(), Envelope = envelope, Warnings = null, // the warnings (A4) stay with their case
             Scope = Array.AsReadOnly(new[] { diagnostic, "Geometria, materiali, sezioni e parametri del terreno condivisi. Fasi, carichi, falde e verifiche appartengono al caso dichiarato. Le azioni sono già combinate dall'utente: nessun coefficiente è applicato implicitamente." }) };
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(root), root);

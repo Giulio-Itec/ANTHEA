@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-15",
+  "aggiornato": "2026-11-18",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -15921,6 +15921,38 @@
       "test": [
         "ModelWorkspace.Checks: FreedomCaseCatalogChecks (i sei codici in italiano con un testo inglese qualsiasi; codice sconosciuto o senza dati dei freedom case con il testo inglese; ogni valore dell'enum tranne None ha il suo testo italiano)",
         "ModelWorkspace.Checks: FreedomCaseConverterChecks (codici del vero Straus7LinearStaticResults.Cases di GPC.Converter 2.25: sei motivi, None per i casi associati, ListedUnderSeveralFreedomCases senza dati dei freedom case; testi italiani invariati)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "PARATIE-24",
+      "data": "2026-11-17",
+      "fase": "ANTHEA 1.19.4 / paratie",
+      "titolo": "Avviso della prima fase non geostatica nel foglio, negli inviluppi e nella relazione",
+      "famiglia": "interfaccia/paratie",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto A4 della revisione delle paratie (21-22/10), opzione (a) della scheda delle decisioni del 16/11 (punto 12). L'analisi GPC parte dallo stato a riposo della prima fase e applica per incrementi solo i suoi carichi e sostegni: se le spinte a riposo e l'acqua dei due lati della prima fase non si equilibrano (scavo, falda, sovraccarico o terreni diversi fra i lati), lo squilibrio entra tutto al primo passo. Dal set AZ (GPCChecker.Geotechnics 0.30) la libreria lo dice in WallAnalysisResult.Warnings e WallEnvelopeHistory.Warnings, con lo scarto massimo ai punti di integrazione e la sua quota. ANTHEA ora lo mostra: sotto lo stato del foglio («Avviso: …», anche per gli altri casi della storia), nello stato degli inviluppi, nella relazione dopo l'esito della storia e nella riga della storia degli inviluppi. I numeri dello scarto e della quota, scritti dalla libreria con il punto, prendono la virgola come il resto della relazione (it-IT); il resto del testo è quello della libreria. Gli avvisi stanno in EmbeddedWallReportData.Warnings e EmbeddedWallEnvelopeHistoryData.Warnings, nulli senza avvisi: senza avvisi il risultato salvato e la relazione sono scritti come prima.",
+      "codice": [
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallModule.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallEnvelopes.cs",
+        "src/ANTHEA.Application/EmbeddedWalls/EmbeddedWallHistories.cs",
+        "src/ANTHEA.Reports/Models/EmbeddedWallReportData.cs",
+        "src/ANTHEA.Reports/Models/EmbeddedWallEnvelopeData.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs",
+        "src/ANTHEA.Reports/Generators/EmbeddedWallEnvelopeReport.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallSheetViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallEnvelopeViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/EmbeddedWalls/EmbeddedWallHistoryViewModel.cs"
+      ],
+      "segno": "solo un avviso: risultati, stato e diagnostica dell'analisi non cambiano. Senza avvisi nessun campo nuovo nel risultato salvato.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«ok per tutte le voci» (17/11/2026, 20:50, decisioni-aperte-20261117.md, §D2: paratie A2, A3, A4 e S3)",
+        "esito": "attuato nella candidata 1.19.4 (ramo claude/1194-candidata), sulle librerie candidate del set AZ"
+      },
+      "test": [
+        "Presentation --paratie (EmbeddedWallFirstStageWarningChecks): K0 0,6 contro 0,5, γ 18 kN/m³, 12 m, elementi di 0,5 m: «scarto massimo ai punti di integrazione 21,538 kPa a quota -11,965 m», calcolato a mano 0,1 · 18 · (11,5 + 0,5 · 0,93057) = 21,5375 kPa (caso A7 della revisione G-207); avviso nel risultato, nell'inviluppo, nel risultato salvato e riaperto, nello stato del foglio e degli inviluppi e nella relazione; prima fase geostatica e mensola senza terreno senza avvisi e senza il campo «Warnings»; separatore dei numeri dell'avviso"
       ],
       "evidenze": []
     }

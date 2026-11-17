@@ -3,14 +3,17 @@ using System.Text.Json.Serialization;
 
 namespace Anthea.Reports;
 
-/// <summary>Immutable presentation/report snapshot. Display units: m, mm, kN, kNm, kPa. No calculation methods.</summary>
+/// <summary>Immutable presentation/report snapshot. Display units: m, mm, kN, kNm, kPa. No calculation methods.
+/// <c>Warnings</c>: the warnings of the analysis of this history (A4, first stage not geostatic), null when there are none, so that a
+/// snapshot without warnings is written as before.</summary>
 public sealed record EmbeddedWallReportData(string Name, string Fingerprint, string CaseId, string ActionBasis,
     string Status, bool Complete, string Diagnostic, string InputJson, IReadOnlyList<EmbeddedWallStageData> Stages,
     IReadOnlyList<EmbeddedWallCheckData> Checks, IReadOnlyList<string> Scope, IReadOnlyList<EmbeddedWallHydraulicData>? Hydraulics = null,
     IReadOnlyList<EmbeddedWallHydraulicCheckData>? HydraulicChecks = null, IReadOnlyList<EmbeddedWallGlobalData>? GlobalChecks = null,
     IReadOnlyList<EmbeddedWallSteelData>? SteelSupports = null, IReadOnlyList<EmbeddedWallAnchorData>? AnchorChecks = null,
     IReadOnlyList<EmbeddedWallTubeData>? SteelTubes = null, IReadOnlyList<EmbeddedWallRcPileData>? RcPiles = null,
-    EmbeddedWallEmbedmentData? EmbedmentSearch = null, EmbeddedWallEnvelopeData? Envelope = null, IReadOnlyList<EmbeddedWallReportData>? Cases = null);
+    EmbeddedWallEmbedmentData? EmbedmentSearch = null, EmbeddedWallEnvelopeData? Envelope = null, IReadOnlyList<EmbeddedWallReportData>? Cases = null,
+    [property: JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)] IReadOnlyList<string>? Warnings = null);
 public sealed record EmbeddedWallStageData(string Id, int Increments, int Iterations, double ForceResidualN, double MomentResidualNmm,
     IReadOnlyList<EmbeddedWallPointData> Points, IReadOnlyList<EmbeddedWallSupportData> Supports);
 public sealed record EmbeddedWallPointData(double Elevation, string Side, string Section, double Displacement, double Rotation,

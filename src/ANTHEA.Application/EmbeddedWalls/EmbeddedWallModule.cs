@@ -92,10 +92,21 @@ public sealed partial class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors, tubes, rcPiles, Envelope: Envelopes(analysis, cancellation));
+            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors, tubes, rcPiles, Envelope: Envelopes(analysis, cancellation),
+            Warnings: AnalysisWarnings(analysis.Warnings));
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }
+    /// <summary>
+    /// A4 of the embedded-wall review (sheet of 16/11/2026, decided on 17/11/2026): the warnings of the GPC analysis of one history, today the first
+    /// stage that is not geostatic, for the sheet and the report; null without warnings, so that the snapshot stays as before. The library writes
+    /// the gap and its elevation with the invariant point: here they get the decimal comma of the report (it-IT), like every other number of the
+    /// report. Nothing else of the text changes.
+    /// </summary>
+    public static IReadOnlyList<string>? AnalysisWarnings(IReadOnlyList<string>? warnings) => warnings is { Count: > 0 }
+        ? Array.AsReadOnly(warnings.Select(w => ItalianDecimals().Replace(w, ",")).ToArray()) : null;
+    [System.Text.RegularExpressions.GeneratedRegex(@"(?<=\d)\.(?=\d+ (?:kPa|m)\b)")]
+    private static partial System.Text.RegularExpressions.Regex ItalianDecimals();
     private sealed class ProgressRelay(Action<WallAnalysisProgress> report) : IProgress<WallAnalysisProgress>
     { public void Report(WallAnalysisProgress value) => report(value); }
 }
