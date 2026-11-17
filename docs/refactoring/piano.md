@@ -1,5 +1,24 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.4 (parte 1) - 18 novembre 2026
+
+Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pubblicata), su decisione dell'utente del 17/11 alle 20:50
+(«ok per tutte le voci», [decisioni](decisioni.md), «17 novembre (sera)»). [Note di rilascio provvisorie](note-rilascio-1.19.4.md).
+
+- [x] Voce 7: i dodici commit della scheda del 16/11 (A2, A3, documenti, esempi 04–06 con la provenienza), approvati.
+- [x] Voce 7: Hu di Broms accanto allo Stratificato (`PO-BROMS-01`), avviso A4 (`PARATIE-24`), R16 (b2) con il limite ν ≥ 2/√fck nel
+  registro e nella guida teorica; S3 arriva con GPC.Design 0.47.
+- [x] Voce 12h: ramo `claude/numeri-separatore` e domande 1, 3, 5, 6 e 7 (`NUMERI-SEPARATORE-20261116`); domande 2 e 4 a parte.
+- [x] Guide Rev75 in Markdown e Wiki rigenerata.
+- [x] Versione 1.19.4, note provvisorie e README dell'installer; README 1.19.3 conservato in SUPERATI.
+- [x] Full con le librerie candidate del set AZ (`-GpcLibDir`): esito e differenze nel rapporto della candidata.
+- [ ] `lib/Checker` dal set ufficiale AZ e registrazione F4: coordinatore, dopo il set.
+- [ ] Parte 2: vincoli e molle per freedom case di GPC.Model (coordinatore).
+- [ ] OK dell'utente alle differenze delle catture, dei report delle paratie e alle transizioni F3, poi la loro registrazione.
+- [ ] Edizioni Word e PDF Rev75 delle guide, README delle guide e indice dell'installer alla Rev75, PDF delle note e dei README.
+- [ ] Setup locale e Audit-Installer; prova dell'utente; fetch e merge di origin/main, tag, push e copia sulla condivisione: coordinatore.
+
+
 ## Preparazione ANTHEA 1.19.3 - 17 novembre 2026
 
 Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pubblicata), che va pubblicato dal coordinatore dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.3.md).
@@ -10,9 +29,9 @@ Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pub
 - [x] Guide Rev74: testo Straus7 della pratica e della teorica; Wiki rigenerata.
 - [x] Versione 1.19.3 e README dell'installer; README 1.19.2 conservato in SUPERATI.
 - [x] Edizioni Word e PDF Rev74 delle guide con la pipeline ITEC (pratica 143 pagine, teorica 214), Rev73 in `supporto/SUPERATI/guide-rev74-20261117/` con manifest; README delle guide (edizione 9), indice e README dell'installer e README di supporto alla Rev74; PDF dei README, dell'indice e delle note 1.19.3.
-- [ ] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente.
-- [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
-- [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.
+- [x] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente (76f76fb7).
+- [x] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata: «prova OK». [Verbale](installer-1.19.3.md).
+- [x] Tag v1.19.3 su 76f76fb7, push in avanti veloce di main (38d8fbfa) e copia sulla condivisione, a cura del coordinatore.
 
 
 ## Preparazione ANTHEA 1.19.2 - 17 novembre 2026

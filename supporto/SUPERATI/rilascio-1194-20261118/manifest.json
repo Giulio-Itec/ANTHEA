@@ -1,0 +1,9 @@
+{
+  "sourceCommit": "38d8fbfa",
+  "reason": "README installer 1.19.3 sostituito dalla preparazione 1.19.4.",
+  "replacedBy": "supporto/installer/README.md e README.pdf",
+  "files": {
+    "supporto/installer/README.md": "83ab86cc5438f3d151588f06019d3eeee57acde64422eb3e168ccf64b26a4b69",
+    "supporto/installer/README.pdf": "97095ac2fefe52eb6764bdf5acafada1384d2d2e4e2ee2c107d20a3fc60ec65c"
+  }
+}
