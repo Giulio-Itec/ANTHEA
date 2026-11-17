@@ -15955,6 +15955,31 @@
         "Presentation --paratie (EmbeddedWallFirstStageWarningChecks): K0 0,6 contro 0,5, γ 18 kN/m³, 12 m, elementi di 0,5 m: «scarto massimo ai punti di integrazione 21,538 kPa a quota -11,965 m», calcolato a mano 0,1 · 18 · (11,5 + 0,5 · 0,93057) = 21,5375 kPa (caso A7 della revisione G-207); avviso nel risultato, nell'inviluppo, nel risultato salvato e riaperto, nello stato del foglio e degli inviluppi e nella relazione; prima fase geostatica e mensola senza terreno senza avvisi e senza il campo «Warnings»; separatore dei numeri dell'avviso"
       ],
       "evidenze": []
+    },
+    {
+      "id": "PO-BROMS-01",
+      "data": "2026-11-17",
+      "fase": "ANTHEA 1.19.4 / palo orizzontale",
+      "titolo": "Stratificato: Hu di Broms e rapporto accanto alla capacità stratificata",
+      "famiglia": "interfaccia/palo-orizzontale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Punto 7 della scheda delle decisioni del 16/11, opzioni A + C. Broms resta il metodo predefinito e lo Stratificato resta facoltativo con l'avviso del modello sperimentale (A). Dove le due chiusure possono differire, cioè con lo Stratificato su una verticale interamente granulare il cui meccanismo è corto o intermedio, la libreria (GPCChecker.Geotechnics 0.30, set AZ) dà anche Hu di Broms per lo stesso palo e la stessa verticale, il suo meccanismo e il rapporto Stratificato/Broms (C). ANTHEA li scrive nel risultato (capacita_broms_kn, meccanismo_broms, rapporto_broms, per ogni verticale e per la governante) e li mostra nella sintesi del foglio, nei dettagli della verticale e nella relazione («Confronto con Broms»). La capacità, Rk, Rd e l'esito restano quelli dello Stratificato. Negli altri casi (Broms, palo lungo, verticali coesive o miste) il risultato non ha chiavi nuove e foglio e relazione sono quelli di prima.",
+      "codice": [
+        "X.Calculations/PaloOrizzontale.cs",
+        "src/ANTHEA.Application/Presentation/HorizontalPilePresentation.cs",
+        "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs"
+      ],
+      "segno": "solo uscite in più: le formule, la capacità adottata e la verifica non cambiano. Le fixture F3 dello Stratificato (verticali miste) non cambiano.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«ok per tutte le voci» (17/11/2026, 20:50, decisioni-aperte-20261117.md, §D2: «Stratificato. A + C, con la Hu di Broms accanto»)",
+        "esito": "attuato nella candidata 1.19.4 (ramo claude/1194-candidata), sulle librerie candidate del set AZ"
+      },
+      "test": [
+        "Presentation (HorizontalPileBromsChecks), attesi in forma chiusa della figura 2 dell'articolo (sabbia asciutta φ′ 30°, γ 18 kN/m³, D 0,6 m, L 4 m, testa libera): e = 1 m Stratificato 153,234 kN, Broms 0,5 γ D L³ Kp/(L + e) = 207,36 kN, rapporto 0,738976; e = 0 202,115 / 259,2 kN = 0,779763; nessun confronto con Broms, con il palo lungo e con la verticale coesiva; sintesi, dettagli della verticale e relazione"
+      ],
+      "evidenze": []
     }
   ]
 }

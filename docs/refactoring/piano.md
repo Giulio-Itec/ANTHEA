@@ -62,6 +62,16 @@ Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del
 - [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
 - [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
 
+## Palo orizzontale: Hu di Broms accanto allo Stratificato — 17 novembre 2026
+
+Punto 7 della scheda delle decisioni del 16/11, opzioni A + C, approvato dall'utente il 17/11; candidata 1.19.4, registro `PO-BROMS-01`.
+
+- [x] Broms resta predefinito; con lo Stratificato su un palo corto o intermedio in terreno granulare il risultato, la sintesi del
+  foglio, i dettagli della verticale e la relazione mostrano Hu di Broms e il rapporto (GPCChecker.Geotechnics 0.30, set AZ).
+- [x] Presentation (prove `HorizontalPileBromsChecks`, attesi in forma chiusa della figura 2 dell'articolo).
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+- [ ] Fixture F3 di un palo corto granulare con lo Stratificato: da aggiungere solo con l'OK dell'utente (riferimento nuovo).
+
 ## Paratie: avviso della prima fase non geostatica (A4) — 17 novembre 2026
 
 Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A4, approvato dall'utente il 17/11 («ok per tutte le voci»); candidata

@@ -117,6 +117,7 @@ try
     checks += VerticalPileSheetChecks.Run(root, output);
     checks += ShallowFoundationSheetChecks.Run(root, output);
     checks += HorizontalPileSheetChecks.Run(root, output);
+    checks += HorizontalPileBromsChecks.Run(output);
     checks += StratigraphySheetChecks.Run(root, output);
     checks += RetainingWallSheetChecks.Run(root, output);
     checks += ElasticPileSheetChecks.Run(root, output);
