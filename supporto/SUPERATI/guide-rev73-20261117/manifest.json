@@ -1,0 +1,114 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/docs/guida-pratica-anthea.md",
+    "sha256": "e7d564103553a7da5de9337dff16edcaf91b241047b4de6c47994a3acf4a52fd",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/docs/guida-teorica-anthea.md",
+    "sha256": "6a552d6198871c534358df5c1dccf4b33831797f780b4059d5795e2886e53b31",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/docs/guida-pratica-anthea.pdf",
+    "sha256": "aabe42ee0175ec2a8ca9bde94ed3cf5799e55f521e4d1c5503488436ff0fd951",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/docs/guida-teorica-anthea.pdf",
+    "sha256": "a49a7e67b2ac8536d317a5eb4c4066ee950d7200f78a8d74f8c621cb85378e00",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/README.md",
+    "sha256": "4e16f8aac82775c88ecc822f8c049f2ae389a117aed8c9cf3a94167a7a14a591",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/README.pdf",
+    "sha256": "2193d405d6df7a1d91f62073cae4955c54adedcf1109df1e0f6cd12e244a5b9c",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/installer/Indice-guide.md",
+    "sha256": "add769c4312cfe8b2e190678340286f83ae77b3a824894c60f0f2c4afa7230f1",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/installer/Indice-guide.pdf",
+    "sha256": "5f846a0ba364a1330edecca26ea9ae2ac38c1b25debe93e8cbf8e4d09cbd7dfa",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/installer/README.md",
+    "sha256": "60b052b4343ad2854a23e6e5db9f999337dd32aed9d7cbd6d04a58ecfed37408",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/installer/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/installer/README.pdf",
+    "sha256": "6afaa8252e17e179c58933510dd47779b63621aac7226677c19b626b57827714",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "15620734d3b39b8e79feaeb4ac0e8503dc0b61e29af0c763f466c51ea966d181",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "264f815c3d90fe2d6c0cf451a349eb9090368b2882c803c87a5ec5e78b97506a",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.docx",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.docx",
+    "sha256": "276755b339f04c060f223e9196941bca967a175afaa0b88aea4920a31f151a10",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.pdf",
+    "sha256": "aabe42ee0175ec2a8ca9bde94ed3cf5799e55f521e4d1c5503488436ff0fd951",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.docx",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.docx",
+    "sha256": "1d59ccea982ab6bcf3ddb4ad62882f432ed967befb538a70096b625c11254592",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev73-20261117/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.pdf",
+    "sha256": "a49a7e67b2ac8536d317a5eb4c4066ee950d7200f78a8d74f8c621cb85378e00",
+    "motivo": "Revisione superata dalla Rev73: modulo Modelli dopo la 1.19.1 (rilievi R1–R10) / set AW",
+    "sostituzione": "Guide Rev73, ramo claude/modelli-guida"
+  }
+]

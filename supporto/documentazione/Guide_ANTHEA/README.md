@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 7, 15 novembre 2026. Guide pratica e teorica Rev72, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 8, 17 novembre 2026. Guide pratica e teorica Rev73, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev72.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev72.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev72.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev72.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev73.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev73.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev73.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev73.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev73 aggiorna il modulo Modelli della guida pratica dopo la 1.19.1, sempre sul set AW: casi base GPC preparati in background quando il modello è sullo schermo, memoria restituita a fine serie e dopo «Libera», il comando «Annulla Libera» e nomi delle modifiche del modello nello storico, lettura in background delle copie con risultati grandi, riga «Valore dell'elemento» del campione, file di modello scelti con «Apri…», motivo e avvisi del convertitore quando un modello Straus7 non ha casi di risultato selezionabili e importazione con «Tutto» senza risultati. La guida teorica cambia soltanto nella riga dell'edizione. Le Rev72 e i loro indici sono conservati con manifest in `supporto/SUPERATI/guide-rev73-20261117/`.
 
 La Rev72 allinea i testi al comportamento della 1.19.1 sul set AW: normalizzazione MIDAS, limiti delle combinazioni, salvataggio e recupero, schede incomplete, formato delle lunghezze e scelta della direzione Hansen con H_L = 0. La Rev71 e i suoi indici sono conservati con manifest in `supporto/SUPERATI/guide-rev72-20261115/`.
 

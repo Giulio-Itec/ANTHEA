@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 72 · 15 novembre 2026
+ITEC Engineering · Revisione 73 · 17 novembre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev72](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.docx) · [PDF Rev72](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev72.pdf)
+[Word Rev73](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.docx) · [PDF Rev73](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev73.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -42,7 +42,7 @@ ITEC Engineering · Revisione 72 · 15 novembre 2026
 
 ## Guida teorica ANTHEA
 
-[Word Rev72](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.docx) · [PDF Rev72](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev72.pdf)
+[Word Rev73](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.docx) · [PDF Rev73](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev73.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
