@@ -1,5 +1,20 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.3 - 17 novembre 2026
+
+Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pubblicata), che va pubblicato dal coordinatore dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.3.md).
+
+- [x] Straus7 con più freedom case: i rami `claude/st7-freedom-cases-anthea` e `claude/st7-fc-revisione` riportati sopra main con messaggi neutri, senza il commit del set candidato (sezione «Straus7 con più freedom case» in fondo al piano).
+- [x] `lib/Checker` dal set ufficiale AY (`gpc-release-20261117-ay`, GPC.Converter 2.25.0.0) e registrazione F4.
+- [x] Motivi dei casi esclusi dal codice del convertitore, non dal testo inglese (`MOD-FC-CODICE-20261117`).
+- [x] Guide Rev74: testo Straus7 della pratica e della teorica; Wiki rigenerata.
+- [x] Versione 1.19.3 e README dell'installer; README 1.19.2 conservato in SUPERATI.
+- [ ] Edizioni Word e PDF Rev74 delle guide, README delle guide e indice dell'installer alla Rev74, PDF dei README e delle note: coordinatore.
+- [ ] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente.
+- [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
+- [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.
+
+
 ## Preparazione ANTHEA 1.19.2 - 17 novembre 2026
 
 Ramo `claude/1192-candidata`, pubblicato il 17/11/2026 dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.2.md).
