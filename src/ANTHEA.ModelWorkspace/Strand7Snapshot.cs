@@ -64,6 +64,27 @@ public static partial class Strand7Snapshot
         return "motivo del convertitore GPC: " + text;
     }
 
+    /// <summary>
+    /// 17/11/2026 (GPC.Converter 2.24; revision P3: built here, not in the worker, so that a check without Straus7 can run it on a GPC Model):
+    /// the result cases of a linear static listing (St7GetResultCaseName, <paramref name="listed"/>) for the catalogue, from
+    /// <see cref="Straus7LinearStaticResults.Cases"/>, the same mapping as <see cref="Straus7LinearStaticResults.CaseMap"/>. A selectable case keeps
+    /// its result case number (the one the worker reads) and the name of its load case in the copy («2: Q»), with its freedom case in a solution of
+    /// several freedom cases («2: Q · FC 2»); a case left out keeps its native name, with the reason of the converter in Italian. Null when the
+    /// converter does not describe each listed case once.
+    /// </summary>
+    public static Strand7LinearCases? LinearCases(GPC.Model.Models.Model model, IReadOnlyList<Straus7ResultCase> listed)
+    {
+        var described = Straus7LinearStaticResults.Cases(model, listed);
+        if (described.Count != listed.Count) return null;
+        var pairs = listed.Zip(described, (c, d) => (Case: c, Described: d)).ToArray();
+        var cases = pairs.Where(p => p.Described.ModelCase != null)
+            .Select(p => new Strand7ResultCase(p.Case.Number, CaseName(p.Described.ModelCase))
+            { StageNumber = p.Case.Stage == 0 ? null : p.Case.Stage, FreedomCaseLabel = p.Described.FreedomCase is null ? null : p.Described.Label }).ToArray();
+        var excluded = pairs.Where(p => p.Described.ModelCase == null)
+            .Select(p => new Strand7ExcludedResultCase(p.Case.Number, p.Case.Name, ExclusionReason(p.Described.Reason))).ToArray();
+        return new(cases, excluded);
+    }
+
     /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model imported with several of them (<see cref="Straus7FreedomCaseData"/>)
     /// and the load cases the linear static settings solve under each one, «FC 2 «Freedom Case 1»: casi di carico 5, 6»; empty otherwise.</summary>
     public static IReadOnlyList<string> FreedomCases(GPC.Model.Models.Model model)

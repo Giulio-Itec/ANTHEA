@@ -106,16 +106,12 @@ static class Strand7Worker
         else
         {
             // 17/11/2026 (GPC.Converter 2.24): every result case with its load case and, in a solution with several freedom cases, its freedom
-            // case («5: G1 · FC 2»); the same mapping as session.Map (CaseMap), with the reason of each case left out. One entry per listed case.
-            var described = Straus7LinearStaticResults.Cases(model, listed);
-            if (described.Count != listed.Count) throw new Failure(Unexpected, "Elenco dei casi di risultato del convertitore GPC incompleto.");
-            var pairs = listed.Zip(described, (c, d) => (Case: c, Described: d)).ToArray();
-            cases = pairs.Where(p => p.Described.ModelCase != null)
-                .Select(p => new Strand7ResultCase(p.Case.Number, Strand7Snapshot.CaseName(p.Described.ModelCase))
-                { StageNumber = p.Case.Stage == 0 ? null : p.Case.Stage, FreedomCaseLabel = p.Described.FreedomCase is null ? null : p.Described.Label }).ToArray();
+            // case («5: G1 · FC 2»); the same mapping as session.Map (CaseMap), with the reason of each case left out. Built by
+            // Strand7Snapshot.LinearCases (revision P3), checked without Straus7 by ModelWorkspace.Checks on the converter itself.
+            var linear = Strand7Snapshot.LinearCases(model, listed) ?? throw new Failure(Unexpected, "Elenco dei casi di risultato del convertitore GPC incompleto.");
+            cases = [.. linear.Cases];
             // R9 (16/11/2026): the cases left out, also as a list of the catalogue, so that the panel can say why there is no result to import.
-            excluded = pairs.Where(p => p.Described.ModelCase == null)
-                .Select(p => new Strand7ExcludedResultCase(p.Case.Number, p.Case.Name, Strand7Snapshot.ExclusionReason(p.Described.Reason))).ToArray();
+            excluded = [.. linear.Excluded];
             unmapped = excluded.Select(c => c.Name).ToArray();
             if (cases.Length < listed.Count) warnings.Add("Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + string.Join(", ", unmapped) + ".");
             if (listed.FirstOrDefault(c => c.Stage != 0) is { } staged)

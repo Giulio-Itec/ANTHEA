@@ -34,6 +34,10 @@ public sealed record Strand7ResultCase(int Number, string Name)
 /// <summary>17/11/2026: a result case of the file that the GPC converter does not map to a load case of the model, with its reason in Italian
 /// (<see cref="Strand7Snapshot.ExclusionReason"/>).</summary>
 public sealed record Strand7ExcludedResultCase(int Number, string Name, string Reason);
+
+/// <summary>17/11/2026 (revision P3): the result cases of a linear static listing for the catalogue, the selectable ones and those left out
+/// (<see cref="Strand7Snapshot.LinearCases"/>).</summary>
+public sealed record Strand7LinearCases(IReadOnlyList<Strand7ResultCase> Cases, IReadOnlyList<Strand7ExcludedResultCase> Excluded);
 public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<Strand7ResultCase> Cases, string SourceSignature)
 {
     public IReadOnlyList<ModelConstructionPhase> Phases { get; init; } = [];

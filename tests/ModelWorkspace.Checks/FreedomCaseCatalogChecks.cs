@@ -36,7 +36,7 @@ static partial class Program
         System.IO.File.Copy(Path.Combine(System.Runtime.InteropServices.RuntimeEnvironment.GetRuntimeDirectory(), "coreclr.dll"), api, true);
         var services = new NoResultServices { strand7Model = File("modello.st7"), strand7Results = File("modello.lsa"), strand7Api = api };
         string excluded = "2: [2: Q] [1: Freedom Case 1]";
-        services.Catalog = new Strand7ModelCatalog(2563, 5238, [new(1, "1: G1") { FreedomCaseLabel = "1: G1 · FC 1" }, new(5, "5: G1") { FreedomCaseLabel = "5: G1 · FC 2" }],
+        services.Catalog = new Strand7ModelCatalog(2563, 5238, [new(1, "1: G1") { FreedomCaseLabel = "1: G1 · FC 1" }, new(6, "5: G1") { FreedomCaseLabel = "5: G1 · FC 2" }],
             "SYNTHETICGEOMETRY/SYNTHETICRESULTS")
         {
             Beams = 96, Plates = 5142, Combinations = 31, LoadCases = ["1: G1", "2: Q", "5: G1"],
@@ -63,7 +63,8 @@ static partial class Program
         vm.ImportCases[0].IsSelected = false;
         Check(vm.ImportCommand.CanExecute(null), "AY: one selected case of a freedom case can be imported");
         await vm.ImportCommand.ExecuteAsync(null);
-        Check(services.Read is { } read && read.CaseNumbers.SequenceEqual([5]), "AY: the import asks the worker for the result case number of the selected case");
+        // Revision P3: result case 6 is load case 5 under FC 2, so a code that sent the number of the load case would fail here.
+        Check(services.Read is { } read && read.CaseNumbers.SequenceEqual([6]), "AY: the import asks the worker for the result case number of the selected case, not the load case number");
         vm.Strand7ResultsPath = "";
         Check(!vm.HasStrand7ExcludedCases && vm.Strand7ExcludedCases.Length == 0, "AY: other files clear the list of the excluded cases");
 
