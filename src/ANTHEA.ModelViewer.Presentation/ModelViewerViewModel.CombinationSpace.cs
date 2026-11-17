@@ -84,6 +84,10 @@ public sealed partial class ModelViewerViewModel
                 :"Per riaverli usa «↶ Annulla Libera» qui sotto, o «↶ Annulla» del progetto (Ctrl+Z) nella barra in alto della finestra principale, finché non fai altre modifiche.");
     }
 
+    /// <summary>R1 of the review of 17/11/2026: «↶ Annulla Libera» refused, because another change of the project came after «Libera» (of this
+    /// model, of another model, of a sheet: the open sheet is confirmed by the undo, as by «↶ Annulla»).</summary>
+    public const string UndoFreeRefused="Non annullato: dopo «Libera» il progetto è cambiato (questo modello, un altro modello o un foglio). Usa «↶ Annulla» della finestra principale (Ctrl+Z) per tornare indietro una modifica alla volta.";
+
     /// <summary>The name of «Libera» in the history of the project.</summary>
     public static string FreeLabel(int count)=>count==1?"Libera i risultati di una combinazione":$"Libera i risultati di {count} combinazioni";
 
@@ -94,14 +98,16 @@ public sealed partial class ModelViewerViewModel
     public Func<string,bool>? UndoProjectChange {get;init;}
     string? freedLabel;
     /// <summary>«↶ Annulla Libera» is offered: right after «Libera», until another change of the copy.</summary>
-    public bool CanUndoFree=>UndoProjectChange!=null&&freedLabel!=null&&!IsCombinationBusy&&!IsBusy&&!disposed;
+    // N8 of the review of 17/11/2026: not during a verification, a report or a revision (the undo creates the viewer again and would stop them).
+    public bool CanUndoFree=>UndoProjectChange!=null&&freedLabel!=null&&!IsCombinationBusy&&CanManageCombinations;
     void NotifyUndoFree(){OnPropertyChanged(nameof(CanUndoFree));UndoFreeCommand.NotifyCanExecuteChanged();}
     /// <summary>«↶ Annulla Libera»: the project goes back to before «Libera»; the tab reads the copy with its results again.</summary>
     [RelayCommand(CanExecute=nameof(CanUndoFree))]
     void UndoFree()
     {
-        string label=freedLabel!;freedLabel=null;NotifyUndoFree();
-        if(!UndoProjectChange!(label)&&!disposed)
-            CombinationMessage="Non annullato: dopo «Libera» il progetto è cambiato. Usa «↶ Annulla» della finestra principale (Ctrl+Z) per tornare indietro una modifica alla volta.";
+        if(freedLabel is not {} label||UndoProjectChange is null)return;
+        freedLabel=null;NotifyUndoFree();
+        if(!UndoProjectChange(label)&&!disposed)
+            CombinationMessage=UndoFreeRefused;
     }
 }

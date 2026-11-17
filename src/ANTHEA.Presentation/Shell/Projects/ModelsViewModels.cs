@@ -162,6 +162,8 @@ public sealed class ModelTabViewModel : ViewModelBase
     private double loadingPercent;
     private string? loadFailure;
     private string? shownRevision;
+    // R1 of the review of 17/11/2026: the last change this tab made to the project (ProjectSession.UndoStep), for «↶ Annulla Libera».
+    private object? lastChange;
 
     /// <param name="project">The open project.</param>
     /// <param name="container">The section of the model, in the document on screen.</param>
@@ -376,6 +378,8 @@ public sealed class ModelTabViewModel : ViewModelBase
         // R4 (16/11/2026): the change has its name in the history («↶ Annulla: Libera i risultati di 73 combinazioni»), not «Modifica dei dati dei fogli».
         string label = prepared.ChangeLabel ?? (id is null ? "Importazione del modello" : "Modifica del modello «" + Title + "»");
         if (!project.ChangeData(() => { id = ProjectModelStore.Set(Container, prepared, id, project.Results); return true; }, Container, label)) return;
+        // R1 of the review of 17/11/2026: this change, as an identity, for «↶ Annulla Libera» (null when the history did not record it).
+        lastChange = project.UndoLabel == label ? project.UndoStep : null;
         AbandonLoading();
         ModelId = id;
         Snapshot = prepared.Snapshot; shownRevision = prepared.Revision;
@@ -389,7 +393,9 @@ public sealed class ModelTabViewModel : ViewModelBase
     /// Rilievo R4 (16/11/2026): «↶ Annulla Libera» of the viewer, the undo of the project when its last change is still the one named
     /// <paramref name="label"/> (the viewer made it); false otherwise, nothing undone. The tab then reads the restored copy (Rebind).
     /// </summary>
-    public bool UndoChange(string label) => !IsDisposed && project.UndoLabel == label && project.Restore(false);
+    /// <remarks>R1 of the review of 17/11/2026: the change must also be the last one this tab made, as an identity (ProjectSession.UndoOnly):
+    /// the same name of a change of another model, or the edit of the open sheet confirmed by the undo, is not taken back.</remarks>
+    public bool UndoChange(string label) => !IsDisposed && lastChange is { } change && project.UndoLabel == label && project.UndoOnly(change);
 
     /// <summary>«Ripristina» in «Copie precedenti» (2/11/2026): the copy saved before, read from the results archive, becomes the model of the
     /// tab (the current copy enters the history when it was saved; «Annulla» brings it back); the view shows it.</summary>
