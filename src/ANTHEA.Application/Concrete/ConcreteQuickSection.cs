@@ -77,6 +77,25 @@ public static class ConcreteQuickSection
     /// <summary>The names on screen of <see cref="Methods"/>, in the same order.</summary>
     public static ImmutableArray<string> MethodLabels { get; } = ["Momento positivo", "Momento negativo", "Metodo n"];
 
+    /// <summary>
+    /// The checks on screen with the biaxial bending: the sign of the moment comes from Mx and My of each combination, so the ultimate check is one
+    /// («SLU», the codes SLU+ and SLU− give the same check), then the method n.
+    /// </summary>
+    public static ImmutableArray<string> BiaxialMethodLabels { get; } = ["SLU", "Metodo n"];
+
+    /// <summary>The checks on screen for the bending: <see cref="MethodLabels"/> with the straight one, <see cref="BiaxialMethodLabels"/> with the biaxial one.</summary>
+    public static ImmutableArray<string> MethodChoices(bool straight) => straight ? MethodLabels : BiaxialMethodLabels;
+
+    /// <summary>The label on screen of a method for the bending: with the biaxial one SLU+ and SLU− are «SLU».</summary>
+    public static string MethodLabel(string method, bool straight) => !straight && method != Methods[2] && Methods.Contains(method) ? BiaxialMethodLabels[0] : MethodLabel(method);
+
+    /// <summary>
+    /// The code of a method chosen on screen: «SLU» (biaxial bending) keeps SLU+ or SLU− when one of them is the current code, otherwise SLU+.
+    /// </summary>
+    public static string? MethodCode(string? label, string current) => label == BiaxialMethodLabels[0]
+        ? (current == Methods[2] ? Methods[0] : current)
+        : Methods.ElementAtOrDefault(MethodLabels.IndexOf(label ?? ""));
+
     /// <summary>The resistance models of the RC section for the ultimate check (<c>workspace_ca.modello_resistente.SLU</c>).</summary>
     public static ImmutableArray<string> Models { get; } = ["Plastico", "Elastico"];
 
@@ -615,7 +634,8 @@ public static class ConcreteQuickSection
                 : new(title, "—", result.ServiceStatus, "", null, null, null);
         }
         string direction = result.Method == Methods[0] ? "Mx+" : "Mx−";
-        string heading = $"{combination}momento resistente di calcolo · {MethodLabel(result.Method).ToLowerInvariant()} · verifica {ModelLabel(result.Model).ToLowerInvariant()}";
+        string kind = result.Straight ? MethodLabel(result.Method).ToLowerInvariant() : "flessione deviata";
+        string heading = $"{combination}momento resistente di calcolo · {kind} · verifica {ModelLabel(result.Model).ToLowerInvariant()}";
         string value; ConcreteResults.SectionState? state;
         if (result.Straight)
         {
@@ -623,13 +643,23 @@ public static class ConcreteQuickSection
             value = resistance?.Moment is double moment ? $"MRd = {Number(moment)} kNm" : resistance?.Status ?? "—";
             state = resistance?.Section;
         }
+        else if (result.UltimateCheck?.Resistance is { } point)
+        {
+            value = $"Mx,Rd = {Number(point.Mx)} kNm" + "\n" + $"My,Rd = {Number(point.My)} kNm";
+            state = result.UltimateCheck.Response;
+        }
         else
         {
-            value = result.UltimateCheck?.Resistance is { } point ? $"Mx,Rd = {Number(point.Mx)} kNm · My,Rd = {Number(point.My)} kNm" : "—";
-            state = result.UltimateCheck?.Response;
+            // No line of action (a null action): the principal resistances at the N of the combination, with the sign of the chosen check.
+            string sign = result.Method == Methods[1] ? "−" : "+";
+            var mx = result.Resistances.FirstOrDefault(r => r.Direction == "Mx" + sign);
+            var my = result.Resistances.FirstOrDefault(r => r.Direction == "My" + sign);
+            value = mx?.Moment is double x && my?.Moment is double y ? $"Mx,Rd = {Number(x)} kNm" + "\n" + $"My,Rd = {Number(y)} kNm" : "—";
+            state = mx?.Section;
         }
         string detail = result.UltimateCheck is { } check ? $"η = {Number(check.Utilization)} · {check.Status}"
-            : result.UltimateAction is { N: 0, Mx: 0, My: 0 } ? "Sollecitazioni nulle: inserire NEd e MEd per la verifica." : "";
+            : result.UltimateAction is { N: 0, Mx: 0, My: 0 } ? (result.Straight ? "Sollecitazioni nulle: inserire NEd e MEd per la verifica."
+                : "Sollecitazioni nulle: resistenze principali a N = 0; inserire NEd, Mx,Ed e My,Ed per la verifica.") : "";
         var (behaviour, ductile) = Behaviour(state?.EsMax, result.YieldStrain);
         double? utilization = result.UltimateCheck?.Utilization;
         return new(heading, value, detail, behaviour, ductile, utilization, utilization is double u ? u <= 1 : null);

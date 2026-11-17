@@ -152,7 +152,7 @@
   <!-- A field of a material: label, editor (the class is a choice), unit. -->
   <DataTemplate x:Key="MaterialRow" DataType="{x:Type forms:FieldViewModel}">
    <Grid Margin="0,0,0,1">
-    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="40"/></Grid.ColumnDefinitions>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
     <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding LabelToolTip}"/>
     <ContentControl Grid.Column="1" Content="{Binding}" Style="{StaticResource Editor}"/>
     <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="4,0,0,0" Style="{StaticResource Muted}"/>
@@ -161,7 +161,7 @@
   <!-- A value of a material calculated by the engine: read-only, on the background of the calculated fields. -->
   <DataTemplate x:Key="CalculatedRow">
    <Grid Margin="0,0,0,1">
-    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="40"/></Grid.ColumnDefinitions>
+    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
     <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
     <Border Grid.Column="1" Background="{DynamicResource Token.Calculated}" CornerRadius="4" Margin="1" Padding="4,2" ToolTip="Calcolato dal motore">
      <TextBlock Text="{Binding Value}" TextAlignment="Right" HorizontalAlignment="Stretch"/>
@@ -372,15 +372,25 @@
     <Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
      <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
-     <TextBlock Text="Verifica" Style="{StaticResource Muted}" Margin="0,0,8,4"/>
-     <ListBox Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource Segmented}" ItemsSource="{Binding Methods}" SelectedItem="{Binding Method}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
-      ToolTip="SLU a momento positivo o negativo, oppure tensioni con il metodo n" AutomationProperties.Name="Verifica"/>
-     <TextBlock Grid.Row="1" Text="Modello" Style="{StaticResource Muted}" Margin="0,0,8,0"/>
-     <ListBox Grid.Row="1" Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}"
+     <TextBlock Text="Modello" Style="{StaticResource Muted}" Margin="0,0,8,4"/>
+     <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
       ToolTip="Verifica SLU plastica o elastica: il modello resistente della sezione in c.a." AutomationProperties.Name="Modello"/>
-     <TextBlock Grid.Row="1" Grid.Column="2" Text="Flessione" Style="{StaticResource Muted}" Margin="14,0,8,0"/>
-     <ListBox Grid.Row="1" Grid.Column="3" Style="{StaticResource Segmented}" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}"
+     <TextBlock Grid.Column="2" Text="Flessione" Style="{StaticResource Muted}" Margin="14,0,8,4"/>
+     <ListBox Grid.Column="3" Style="{StaticResource Segmented}" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
       ToolTip="Retta: My non è usato" AutomationProperties.Name="Flessione"/>
+     <TextBlock Grid.Row="1" Text="Verifica" Style="{StaticResource Muted}" Margin="0,0,8,0"/>
+     <!-- The check: one list for each bending, the one of the bending shown. -->
+     <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource Segmented}" ItemsSource="{Binding StraightMethods}" SelectedItem="{Binding StraightMethod}"
+      IsEnabled="{Binding CanEdit}" Visibility="{Binding IsStraight, Converter={StaticResource Visibility}}"
+      ToolTip="SLU a momento positivo o negativo, oppure tensioni con il metodo n" AutomationProperties.Name="Verifica"/>
+     <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding BiaxialMethods}" SelectedItem="{Binding BiaxialMethod}" IsEnabled="{Binding CanEdit}"
+      ToolTip="SLU (il segno viene da Mx e My di ogni combinazione), oppure tensioni con il metodo n" AutomationProperties.Name="Verifica">
+      <ListBox.Style>
+       <Style TargetType="ListBox" BasedOn="{StaticResource Segmented}">
+        <Style.Triggers><DataTrigger Binding="{Binding IsStraight}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+       </Style>
+      </ListBox.Style>
+     </ListBox>
     </Grid>
    </Border>
 

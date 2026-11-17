@@ -205,6 +205,15 @@ internal static class ShellDraftChecks
                     Check(quickSheet.CombinationRows.Count == 2 && quickSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Verifica rapida: due combinazioni con η");
                 }
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
+                if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel biaxial)
+                {
+                    // The biaxial bending: the check is «SLU» or «Metodo n», without the sign of the moment.
+                    biaxial.Bending = "Deviata"; biaxial.CombinationRows[0].My = "150";
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.Methods.SequenceEqual(["SLU", "Metodo n"]) && biaxial.Method == "SLU", "Verifica rapida, flessione deviata: verifica SLU o metodo n");
+                    await Capture(quickWindow.Window, output, "08c-verifica-rapida-deviata.png", bindings);
+                }
                 quickWindow.Window.Close();
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");

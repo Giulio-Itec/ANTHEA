@@ -87,6 +87,14 @@ internal static class QuickSectionSheetChecks
         ConcreteQuickSection.RemoveLayer(layered, 2);
         expect.That(ConcreteQuickSection.ApplyLayers(layered) is null && ConcreteQuickSection.Layers(layered).Count == 2, "Strato tolto");
 
+        // Null actions: the resisting moments all the same (straight: MRd at N = 0; biaxial: the principal resistances Mx,Rd and My,Rd at N = 0).
+        var straightNull = ConcreteQuickSection.Summary(ConcreteQuickSection.Calculate(ConcreteQuickSection.Create()))!;
+        var biaxialNull = ConcreteQuickSection.Create(); ConcreteQuickSection.View(biaxialNull)["flessione"] = "Deviata";
+        var biaxialNullSummary = ConcreteQuickSection.Summary(ConcreteQuickSection.Calculate(biaxialNull))!;
+        expect.That(straightNull.Value.StartsWith("MRd = ", StringComparison.Ordinal) && biaxialNullSummary.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal)
+            && biaxialNullSummary.Value.Contains("My,Rd = ", StringComparison.Ordinal) && biaxialNullSummary.Detail.StartsWith("Sollecitazioni nulle", StringComparison.Ordinal)
+            && biaxialNullSummary.Ductile is not null, "Sollecitazioni nulle: momenti resistenti anche in flessione deviata (" + biaxialNullSummary.Value + ")");
+
         // The same engine: the sheet and the headless calculation of the RC section on the same data give the same numbers.
         var same = ConcreteQuickSection.Create();
         Act(same, "-1000", "400");
@@ -195,9 +203,15 @@ internal static class QuickSectionSheetChecks
         sheet.Model = "Plastica"; sheet.Method = "Momento positivo"; await sheet.PendingCalculation;
         sheet.Bending = ConcreteQuickSection.Bendings[1];
         expect.That(!sheet.CombinationRows[0].MyReadOnly && !sheet.IsStraight, "Flessione deviata: My modificabile");
+        expect.That(sheet.Methods.SequenceEqual(["SLU", "Metodo n"]) && sheet.Method == "SLU" && ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+",
+            "Flessione deviata: verifica «SLU» senza segno del momento (codice SLU+ invariato)");
         sheet.CombinationRows[0].My = "60"; await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "My,Ed") && sheet.ResultValues.Count(v => v.Label.EndsWith(",Rd", StringComparison.Ordinal)) == 4
-            && sheet.Summary?.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal) == true, "Flessione deviata: My,Ed, le quattro resistenze principali, il punto resistente in evidenza");
+            && sheet.Summary?.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal) == true && sheet.Summary.Title.Contains("flessione deviata", StringComparison.Ordinal),
+            "Flessione deviata: My,Ed, le quattro resistenze principali, il punto resistente in evidenza");
+        sheet.Method = "Metodo n"; sheet.Method = "SLU";
+        expect.That(ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+" && sheet.Method == "SLU", "Flessione deviata: dal metodo n di nuovo «SLU» (codice SLU+)");
+        await sheet.PendingCalculation;
         sheet.Method = "Metodo n"; await sheet.PendingCalculation;
         expect.That(sheet.IsServiceMethod && sheet.ResultValues.Any(v => v.Label == "σc") && sheet.SectionStress is not null && sheet.IsDuctile is null, "Metodo n: tensioni del motore");
         int edits = modified;

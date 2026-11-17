@@ -145,7 +145,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     public IReadOnlyList<string> Shapes => ConcreteQuickSection.Shapes;
     /// <summary>The checks on screen: positive moment, negative moment (the SLU), method n.</summary>
-    public IReadOnlyList<string> Methods => ConcreteQuickSection.MethodLabels;
+    public IReadOnlyList<string> Methods => ConcreteQuickSection.MethodChoices(IsStraight);
     /// <summary>The resistance models on screen: plastic, elastic.</summary>
     public IReadOnlyList<string> Models => ConcreteQuickSection.ModelLabels;
     public IReadOnlyList<string> Bendings => ConcreteQuickSection.Bendings;
@@ -168,8 +168,34 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The check: «Momento positivo», «Momento negativo» or «Metodo n» (codes SLU+, SLU−, Metodo n in the document).</summary>
     public string Method
     {
+        get => ConcreteQuickSection.MethodLabel(View.S("metodo"), IsStraight);
+        set
+        {
+            if (value is null) { OnPropertyChanged(); return; }
+            Choose("metodo", ConcreteQuickSection.MethodCode(value, View.S("metodo")), ConcreteQuickSection.Methods);
+            OnPropertyChanged(nameof(StraightMethod)); OnPropertyChanged(nameof(BiaxialMethod));
+        }
+    }
+
+    /// <summary>
+    /// The choices of the check for each bending, with fixed lists (the view shows the one of the bending): a list that changed under a selected
+    /// choice would lose the selection.
+    /// </summary>
+    public IReadOnlyList<string> StraightMethods => ConcreteQuickSection.MethodLabels;
+    public IReadOnlyList<string> BiaxialMethods => ConcreteQuickSection.BiaxialMethodLabels;
+
+    /// <summary>The check with the straight bending: «Momento positivo», «Momento negativo», «Metodo n»; a value of the other list is ignored.</summary>
+    public string? StraightMethod
+    {
         get => ConcreteQuickSection.MethodLabel(View.S("metodo"));
-        set => Choose("metodo", ConcreteQuickSection.Methods.ElementAtOrDefault(ConcreteQuickSection.MethodLabels.IndexOf(value)), ConcreteQuickSection.Methods);
+        set { if (value is not null && StraightMethods.Contains(value)) Method = value; else OnPropertyChanged(); }
+    }
+
+    /// <summary>The check with the biaxial bending: «SLU» or «Metodo n»; a value of the other list is ignored.</summary>
+    public string? BiaxialMethod
+    {
+        get => ConcreteQuickSection.MethodLabel(View.S("metodo"), false);
+        set { if (value is not null && BiaxialMethods.Contains(value)) Method = value; else OnPropertyChanged(); }
     }
 
     /// <summary>The resistance model of the ultimate check: «Plastica» or «Elastica», written where the RC section reads it.</summary>
@@ -321,7 +347,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         }
         finally { building = false; }
         foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(ConcreteFields), nameof(SteelFields),
-            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Method), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
+            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
     }
