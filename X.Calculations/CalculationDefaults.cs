@@ -4,7 +4,11 @@ public static class CalculationDefaults
 {
     public static JsonObject Vertical(bool micro)
     {
-        var g=J.Obj(("tipo_palo","Trivellato"),("sottotipo_palo_battuto","Profilato d'acciaio"),("diametro",micro?"0.25":"1"),("lunghezza",""),("peso_specifico_palo","25"),("azione_compressione",""),("azione_trazione",""),("presenza_falda",false),("considera_sottospinta",false),("profondita_falda",""),("verticali_indagate","1"),("sicurezza_laterale_compressione","1.15"),("sicurezza_laterale_trazione","1.25"),("sicurezza_base","1.35"),("peso_palo_sfavorevole","1.30"),("peso_palo_favorevole","1.00"),("metodo_nq","Parametrizzata"));
+        // TODO LIB-PALI-PESO-PONTI-20261117: gammaG del peso proprio per ponti A1, concordati con l'utente:
+        // 1,35 sfavorevole e 1,00 favorevole. Questi predefiniti dei nuovi fogli sono gia corretti;
+        // recepire il profilo ponti in GPC Model/Checker e allineare PileResistanceFactors.FromStandard
+        // e i valori di riserva, preservando i coefficienti espliciti degli archivi. Vedi docs/refactoring/piano.md.
+        var g=J.Obj(("tipo_palo","Trivellato"),("sottotipo_palo_battuto","Profilato d'acciaio"),("diametro",micro?"0.25":"1"),("lunghezza",""),("peso_specifico_palo","25"),("azione_compressione",""),("azione_trazione",""),("presenza_falda",false),("considera_sottospinta",false),("profondita_falda",""),("verticali_indagate","1"),("sicurezza_laterale_compressione","1.15"),("sicurezza_laterale_trazione","1.25"),("sicurezza_base","1.35"),("peso_palo_sfavorevole","1.35"),("peso_palo_favorevole","1.00"),("metodo_nq","Parametrizzata"));
         if(micro)
         {
             g["diametro"]="0.24";

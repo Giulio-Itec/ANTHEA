@@ -36,8 +36,9 @@ try
         string materialsMessage = $"PASS {count} controlli materiali barre e trefoli";
         File.WriteAllText(Path.Combine(target, "esito.txt"), materialsMessage); Console.WriteLine(materialsMessage); return 0;
     }
-    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit");
-    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit")).ToArray();
+    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit"),
+        stratigraphyOnly = args.Contains("--stratigrafia");
+    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit" or "--stratigrafia")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     int checks = 0;
@@ -70,6 +71,13 @@ try
         checks = ShellChecks.Run(output);
         string shell = $"PASS {checks} controlli della shell (F5.13) senza WPF";
         File.WriteAllText(Path.Combine(output, "esito.txt"), shell, new UTF8Encoding(false)); Console.WriteLine(shell); return 0;
+    }
+    // 17/11/2026: --stratigrafia runs only the checks of the stratigraphy sheet, traces and F3 included (to work on the module).
+    if (stratigraphyOnly)
+    {
+        checks = StratigraphySheetChecks.Run(root, output);
+        string stratigraphy = $"PASS {checks} controlli della stratigrafia senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), stratigraphy, new UTF8Encoding(false)); Console.WriteLine(stratigraphy); return 0;
     }
     // F5.13 (d): --paralleli runs only the exit test of the parallel calculations (proposal 4.6): the same sheets in series and in parallel.
     if (args.Contains("--paralleli"))

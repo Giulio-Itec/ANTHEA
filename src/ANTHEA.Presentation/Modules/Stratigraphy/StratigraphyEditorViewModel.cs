@@ -2,6 +2,7 @@ using System.Text.Json.Nodes;
 using System.Collections.ObjectModel;
 using Anthea.Application.Stratigraphy;
 using Anthea.Presentation.Forms;
+using Anthea.Presentation.Modules.VerticalPile;
 using Anthea.Presentation.Mvvm;
 using Anthea.Presentation.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,9 +18,12 @@ namespace Anthea.Presentation.Modules.Stratigraphy;
 /// </summary>
 public sealed class StratigraphyEditorViewModel : ObservableObject
 {
+    private const double ProfileRowPixels = 132, ProfilePaddingPixels = 110;
     private readonly PresentationServices services;
     private readonly Action changed;
-    private readonly FormViewModel general;
+    private FormViewModel general;
+    private int selectedProfile;
+    private bool rebuildingProfiles;
     private bool readOnly, infinite, hasMinimum, canToggleInfinite, rebuilding;
     private int selected = -1;
     private FormViewModel? identity, description, thickness, means, minima, notes;
@@ -37,7 +41,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
         ArgumentNullException.ThrowIfNull(data);
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(changed);
-        Data = data; this.services = services; this.changed = changed; ImportVisible = importVisible; this.readOnly = readOnly;
+        RootData = data; this.services = services; this.changed = changed; ImportVisible = importVisible; this.readOnly = readOnly;
         var guard = new CommandGuard(services.Messages);
         AddLayerCommand = GuardedCommands.Create(guard, AddLayer, () => CanEdit);
         DuplicateLayerCommand = GuardedCommands.Create(guard, DuplicateLayer, () => CanEdit);
@@ -46,12 +50,125 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
         MoveLayerDownCommand = GuardedCommands.Create(guard, MoveLayerDown, () => CanEdit);
         ToggleInfiniteCommand = GuardedCommands.Create(guard, ToggleInfinite, () => CanToggleInfinite);
         ToggleMinimumCommand = GuardedCommands.Create(guard, ToggleMinimum, () => CanEdit);
-        general = Form(data, StratigraphyFields.General(), _ => Edited());
+        AddProfileCommand = GuardedCommands.Create(guard, () => ChangeProfiles(() => StratigraphyProfiles.Add(RootData)), () => CanEdit);
+        DuplicateProfileCommand = GuardedCommands.Create(guard, () => ChangeProfiles(() => StratigraphyProfiles.Add(RootData, selectedProfile)), () => CanEdit);
+        RemoveProfileCommand = GuardedCommands.Create(guard, RemoveProfile, () => CanEdit && Profiles.Count > 1);
+        CopyProfileIntoCommand = GuardedCommands.CreateAsync(guard, _ => ChooseProfileCopyAsync(copyInto: true), CancellationToken.None, () => CanEdit);
+        CopyProfileFromCommand = GuardedCommands.CreateAsync(guard, _ => ChooseProfileCopyAsync(copyInto: false), CancellationToken.None, () => CanEdit);
+        general = General();
+        RefreshProfiles(0);
         Rebuild(0);
     }
 
     /// <summary>The document.</summary>
-    public JsonObject Data { get; }
+    public JsonObject RootData { get; }
+    public JsonObject Data => StratigraphyProfiles.All(RootData)[selectedProfile];
+    public JsonRowCollection Profiles { get; } = [];
+    public int SelectedProfileIndex
+    {
+        get => selectedProfile;
+        set
+        {
+            if (rebuildingProfiles || value < 0 || value >= Profiles.Count || value == selectedProfile) return;
+            selectedProfile = value;
+            OnPropertyChanged(); OnPropertyChanged(nameof(Data));
+            general = General();
+            OnPropertyChanged(nameof(GeneralForm)); OnPropertyChanged(nameof(CompactGeneralFields));
+            Rebuild(0);
+        }
+    }
+    public IEnumerable<FieldViewModel> CompactGeneralFields => general.Fields.Where(f => f.Key is not ("scenario" or "description"));
+    public double ProfileHeight => Math.Max(420, TableRows.Count * ProfileRowPixels + ProfilePaddingPixels);
+    public IRelayCommand AddProfileCommand { get; }
+    public IRelayCommand DuplicateProfileCommand { get; }
+    public IRelayCommand RemoveProfileCommand { get; }
+
+    /// <summary>«Copia in…»: copies the selected stratigraphy into the one chosen in the dialog (or into a new one).</summary>
+    public IAsyncRelayCommand CopyProfileIntoCommand { get; }
+
+    /// <summary>«Copia da…»: replaces the selected stratigraphy with a copy of the one chosen in the dialog.</summary>
+    public IAsyncRelayCommand CopyProfileFromCommand { get; }
+
+    /// <summary>
+    /// Copies the stratigraphy <paramref name="source"/> into <paramref name="destination"/> (−1: a new stratigraphy). An existing
+    /// destination keeps its name and is replaced after the confirmation of the user; the destination is selected. False when nothing was copied.
+    /// </summary>
+    public bool CopyProfile(int source, int destination)
+    {
+        if (!CanEdit || source < 0 || source >= Profiles.Count || destination < -1 || destination >= Profiles.Count || source == destination) return false;
+        if (destination == -1)
+        {
+            ChangeProfiles(() => StratigraphyProfiles.Add(RootData, source));
+            return true;
+        }
+        if (!services.Confirmations.ConfirmDelete("Copia stratigrafia", "Sostituire dati generali e strati della stratigrafia «" + ProfileName(destination)
+            + "» con una copia di «" + ProfileName(source) + "»?")) return false;
+        ChangeProfiles(() => { StratigraphyProfiles.CopyInto(RootData, source, destination); return destination; });
+        return true;
+    }
+
+    private async Task ChooseProfileCopyAsync(bool copyInto)
+    {
+        if (!CanEdit) return;
+        int current = selectedProfile;
+        var choices = Enumerable.Range(0, Profiles.Count).Where(i => i != current).Select(i => new SurveyCopyChoice(i, ProfileName(i))).ToList();
+        if (copyInto) choices.Add(new(-1, "Nuova stratigrafia"));
+        if (choices.Count == 0) { services.Messages.Inform(StratigraphyPresentation.Caption, "Non ci sono altre stratigrafie da cui copiare."); return; }
+        var dialog = new SurveyCopyDialogViewModel(copyInto ? "Copia stratigrafia in…" : "Copia stratigrafia da…",
+            copyInto ? "Copia la stratigrafia «" + ProfileName(current) + "» in:"
+                     : "Sostituisci dati generali e strati della stratigrafia «" + ProfileName(current) + "» copiando da:", choices);
+        var chosen = await services.Dialogs.ShowDialogAsync(dialog);
+        if (chosen is null) return;
+        CopyProfile(copyInto ? current : chosen.Survey, copyInto ? chosen.Survey : current);
+    }
+
+    private string ProfileName(int index)
+    {
+        string? name = StratigraphyProfiles.All(RootData)[index]["name"]?.ToString();
+        return string.IsNullOrWhiteSpace(name) ? "Stratigrafia " + (index + 1) : name;
+    }
+
+    private FormViewModel General() => Form(Data, StratigraphyFields.General(), _ =>
+    {
+        if (Profiles.Count > selectedProfile) Profiles[selectedProfile].Refresh();
+        Edited();
+    });
+
+    private void RefreshProfiles(int index)
+    {
+        rebuildingProfiles = true;
+        using (Profiles.DeferRefresh())
+        {
+            Profiles.Clear();
+            foreach (var item in StratigraphyProfiles.All(RootData)) Profiles.Add(new(item));
+        }
+        rebuildingProfiles = false;
+        selectedProfile = index;
+        OnPropertyChanged(nameof(SelectedProfileIndex)); OnPropertyChanged(nameof(Data));
+        general = General();
+        OnPropertyChanged(nameof(GeneralForm)); OnPropertyChanged(nameof(CompactGeneralFields));
+        RemoveProfileCommand.NotifyCanExecuteChanged();
+    }
+
+    private void ChangeProfiles(Func<int> action)
+    {
+        if (readOnly) return;
+        RefreshProfiles(action());
+        Rebuild(0);
+        changed();
+    }
+
+    private void RemoveProfile()
+    {
+        if (!CanEdit || Profiles.Count <= 1 || !services.Confirmations.ConfirmDelete("Elimina stratigrafia",
+            "Eliminare la stratigrafia «" + Data["name"] + "» e tutti i suoi strati?")) return;
+        ChangeProfiles(() =>
+        {
+            int next = Math.Max(0, selectedProfile - 1);
+            StratigraphyProfiles.Remove(RootData, selectedProfile);
+            return next;
+        });
+    }
 
     /// <summary>The import button is part of the editor (the sheet), not of the preview of a draft.</summary>
     public bool ImportVisible { get; }
@@ -236,13 +353,14 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
                     var values = layer!.AsObject();
                     var item = new JsonRowViewModel(values);
                     Layers.Add(item);
-                    TableRows.Add(new(values, services, () => { item.Refresh(); Edited(); }, readOnly));
+                    TableRows.Add(new(values, services, () => { item.Refresh(); Edited(); }, readOnly, TableRows.Count));
                 }
             }
         }
         finally { rebuilding = false; }
         selected = Math.Clamp(selection, 0, Layers.Count - 1);
         OnPropertyChanged(nameof(SelectedLayerIndex));
+        OnPropertyChanged(nameof(ProfileHeight));
         ShowLayer();
         Refresh();
     }
@@ -299,7 +417,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
     /// <summary>Refresh of the view: status, profile and its selection.</summary>
     private void Refresh()
     {
-        var current = StratigraphyPresentation.Status(Data);
+        var current = StratigraphyPresentation.Status(StratigraphyProfiles.CopyProfile(Data));
         Status = current.Text;
         profile = current.Drawn ? Data : null;
         OnPropertyChanged(nameof(Profile));
@@ -308,7 +426,7 @@ public sealed class StratigraphyEditorViewModel : ObservableObject
 
     private void NotifyCommands()
     {
-        foreach (var command in new[] { AddLayerCommand, DuplicateLayerCommand, RemoveLayerCommand, MoveLayerUpCommand, MoveLayerDownCommand, ToggleInfiniteCommand, ToggleMinimumCommand })
+        foreach (var command in new[] { AddLayerCommand, DuplicateLayerCommand, RemoveLayerCommand, MoveLayerUpCommand, MoveLayerDownCommand, ToggleInfiniteCommand, ToggleMinimumCommand, AddProfileCommand, DuplicateProfileCommand, RemoveProfileCommand, CopyProfileIntoCommand, CopyProfileFromCommand })
             command.NotifyCanExecuteChanged();
     }
 

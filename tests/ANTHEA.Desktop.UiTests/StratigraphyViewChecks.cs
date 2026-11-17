@@ -63,7 +63,7 @@ namespace X.Desktop;
 /// «?» label). The shared soil dialog is still compared with the window SoilTransferDialog, which the other historic modules use.
 /// Writes dettaglio.txt and esito.txt («PASS n controlli …»).
 /// </summary>
-internal static class StratigraphyViewChecks
+internal static partial class StratigraphyViewChecks
 {
     private const string Module = StratigraphyScenarios.Module;
 
@@ -112,6 +112,7 @@ internal static class StratigraphyViewChecks
         CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = culture;
         try
         {
+            await EditingFeatures(root, output);
             await Traces(root, output);
             await FixturesAndExports(root, output);
             await Screenshots(root, Path.Combine(output, "schermate"));
@@ -436,7 +437,8 @@ internal static class StratigraphyViewChecks
             state.Actions = ActionLabels.Select(label => Visual(view.Actions).OfType<Button>().Single(b => Equals(b.Content, label))).Select(b => ((string)b.Content, Usable(b))).ToList();
             var list = view.LayerList;
             state.Layers = Enumerable.Range(0, list.Items.Count).Select(i =>
-                FieldBox(list.ItemContainerGenerator.ContainerFromIndex(i), "Denominazione").Text).ToList();
+                Name(Visual(list.ItemContainerGenerator.ContainerFromIndex(i)).OfType<TextBlock>()
+                    .Single(t => AutomationProperties.GetAutomationId(t) == "StratigraphyLayerLabel"))).ToList();
             state.Selected = list.SelectedIndex;
             if (view.LayerFields.Visibility == Visibility.Visible)
             {
@@ -597,14 +599,22 @@ internal static class StratigraphyViewChecks
             string stored = Path.Combine(StratigraphyScenarios.Reference(root), scenario.File);
             // The approved bridge default is unrelated to this layout: compare 1.35 as the historic 1.30,
             // without rewriting frozen fixtures or the captured trace (other values still fail).
-            string? difference = File.Exists(stored) ? StratigraphyTrace.FirstDifference(StratigraphyTrace.Read(stored),
+            string? difference = File.Exists(stored) ? StratigraphyTrace.FirstDifference(StratigraphyTrace.Read(stored).Where(line => !line.StartsWith("  scelta scenario ", StringComparison.Ordinal) &&
+                    !line.StartsWith("  testo description \"Descrizione / ubicazione\"", StringComparison.Ordinal)).ToArray(),
                 trace.Select(line => line.Replace("\"peso_palo_sfavorevole\":\"1.35\"", "\"peso_palo_sfavorevole\":\"1.30\"", StringComparison.Ordinal)).ToArray()) : "traccia di riferimento assente";
+            // These four workflows deliberately changed: compact general fields, distinct new colours and linked saturated weights.
+            // They are still driven and recorded here; EditingFeatures asserts their new outcomes independently.
+            if (scenario.Name is "modifiche-generali" or "azioni-strati" or "azioni-indefinito" or "minimi")
+            {
+                Check(!trace.Any(l => l.StartsWith("errore della prova", StringComparison.Ordinal)), scenario.Name + ": percorso UI eseguito; nuovi risultati verificati da EditingFeatures");
+                difference = null;
+            }
             if (difference is not null) differences.Add(scenario.File + ": " + difference);
             scenarios++; lines += trace.Count;
         }
         if (differences.Count > 0) File.WriteAllLines(Path.Combine(folder, "differenze.txt"), differences, new UTF8Encoding(false));
         Check(mvvm, "Tracce sul foglio MVVM con la vista XAML (banco --module-impl)");
-        Check(differences.Count == 0 && scenarios == 15, $"Tracce della vista XAML uguali a quelle della vista storica: {scenarios} scenari, {lines} righe" + (differences.Count == 0 ? "" : " — " + differences[0]));
+        Check(differences.Count == 0 && scenarios == 15, $"Tracce UI: 11 compatibili e 4 flussi aggiornati coperti da EditingFeatures: {scenarios} scenari, {lines} righe" + (differences.Count == 0 ? "" : " — " + differences[0]));
     }
 
     // ---------------------------------------------------------------- 2. visit and exports
@@ -760,7 +770,12 @@ internal static class StratigraphyViewChecks
         {
             await wide.Settle();
             File.WriteAllBytes(Path.Combine(folder, "vista-profilo-medi-falda-larga.png"), wide.Png());
-            Check(!wide.View.Advanced.IsExpanded && wide.View.LayerList.Columns.Count == 8, "Dettagli avanzati chiusi; otto colonne della tabella");
+            File.WriteAllBytes(Path.Combine(folder, "profilo-informazioni.png"), Png(wide.View.ProfileHost));
+            wide.Sheet.Editor.DuplicateProfileCommand.Execute(null);
+            wide.Sheet.Editor.GeneralForm["name"].EditText = "Sondaggio S2";
+            await wide.Settle();
+            File.WriteAllBytes(Path.Combine(folder, "vista-profili-multipli.png"), wide.Png());
+            Check(!wide.View.Advanced.IsExpanded && wide.View.LayerList.Columns.Count == 9, "Dettagli avanzati chiusi; nove colonne con l'addensamento, senza descrizione");
             double expected = wide.View.Viewport.ViewportWidth - 32;
             Check(Math.Abs(wide.View.Columns.ActualWidth - expected) < 1 && wide.View.Viewport.ExtentWidth <= wide.View.Viewport.ViewportWidth + 1,
                 "Area larga: tabella e profilo occupano tutta la larghezza meno i margini, senza scorrimento (" + wide.View.Columns.ActualWidth.ToString("0", CultureInfo.InvariantCulture) + ")");
@@ -820,7 +835,7 @@ internal static class StratigraphyViewChecks
             using var host = new Hosted(editors.Open(Module, data));
             await host.Settle();
             host.View.Advanced.IsExpanded = true; host.Layout();
-            var before = HistoricAutomationNames[id].ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
+            var before = HistoricAutomationNames[id].Where(n => n is not ("Parametri da usare nelle verifiche" or "Descrizione / ubicazione")).ToHashSet(StringComparer.Ordinal); var after = Names(host.Root);
             var missing = before.Except(after).Order(StringComparer.Ordinal).ToArray();
             Log.Add($"   nomi nuovi ({id}): " + string.Join(", ", after.Except(before).Order(StringComparer.Ordinal)));
             Check(missing.Length == 0, $"{id}: nomi di automazione della vista storica conservati ({before.Count})" + (missing.Length == 0 ? "" : "; mancanti: " + string.Join(", ", missing)));
@@ -832,8 +847,8 @@ internal static class StratigraphyViewChecks
         sheet.View.LayerList.SelectedIndex = 2;
         await sheet.Settle();
         var nodes = Visual(sheet.Root).ToList();
-        Check(nodes.OfType<TextBlock>().Any(t => t.Text == "Stratigrafia del terreno") && nodes.OfType<TextBlock>().Any(t => t.Text == "Valori minimi · opzionali")
-            && nodes.OfType<DataGrid>().Single().Items.Count == 3 && nodes.OfType<ComboBox>().Any(c => c.SelectedItem as string == "Entrambi")
+        Check(nodes.OfType<TextBlock>().Any(t => t.Text == "Stratigrafie") && nodes.OfType<TextBlock>().Any(t => t.Text == "Valori minimi · opzionali")
+            && nodes.OfType<DataGrid>().Single().Items.Count == 3 && !nodes.OfType<ComboBox>().Any(c => Name(c) == "Parametri da usare nelle verifiche")
             && nodes.OfType<CheckBox>().Single(c => c.Content as string == "Ultimo strato esteso indefinitamente").IsChecked == true
             && nodes.OfType<TextBox>().Count(b => Name(b) == "Nome della stratigrafia") == 1,
             "Testi, elenco, scelta, casella e nome letti da Stratigraphy.UiChecks presenti nella vista");

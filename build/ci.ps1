@@ -155,6 +155,8 @@ Add-Suite @{ Name = 'ModelViewer.CombinationBench.Checks'; Stage = 'fast'; Kind 
 Add-Suite @{ Name = 'Architecture.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Architecture.Tests\ANTHEA.Architecture.Tests.csproj'; Args = @('{out}') + $(if ($GpcLibDir) { @('--gpc-snapshot', [IO.Path]::GetFullPath($GpcLibDir)) }); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' }; Builds = @(@{ Project = $Desktop; Configuration = 'Release' }) }
 Add-Suite @{ Name = 'Reports.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Reports.Tests\ANTHEA.Reports.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Application.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'Stratigraphy.EditChecks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Application.Tests\ANTHEA.Application.Tests.csproj'; Args = @('{out}', '--stratigraphy'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+
 Add-Suite @{ Name = 'Examples.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Examples.Tests\ANTHEA.Examples.Tests.csproj'; Args = @('{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Wiki.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Wiki.Tests\ANTHEA.Wiki.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'GuideRev72.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\GuideRev72.Checks\GuideRev72.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -385,6 +387,7 @@ Add-Suite @{ Name = 'ui/check-materials-view'; Stage = 'ui'; Kind = 'check'; Arg
 # ui/check-palo-verticale-historic are archived in supporto/SUPERATI/ui-storica/palo-verticale since the Release switch (Q11); ui/f3-figures and
 # ui/f3-scheduling read the MVVM view, so their duplicates -palo-verticale-mvvm went too.
 Add-Suite @{ Name = 'ui/check-palo-verticale-view'; Stage = 'ui'; Kind = 'check'; Args = @('--check-palo-verticale-view', '{root}', '{out}\vista'); Timeout = 900; Proof = @{ File = '{out}\vista\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ui/check-itec-pile-report'; Stage = 'ui'; Kind = 'check'; Args = @('--check-itec-pile-report', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.9b: the XAML view of the shallow foundations hosted by MvvmSheetEditor off screen: traces through its controls equal to those frozen in
 # tests/fixtures/f5-fondazioni, visit without writes, drawings and exports (PDF of MigraDoc, T8) as the historic view gave them, screenshots, help,
 # identifiers of FoundationWorkspace.UiChecks, automation names, read-only, soil transfer. The historic view and its suite

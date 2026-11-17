@@ -1,0 +1,18 @@
+{
+  "data": "2026-11-16",
+  "origine": "C:/Users/g.sciarpa/Desktop/Reports",
+  "motivo": "Risultati della capacità e dati della sezione organizzati in due tabelle; controlli numerici separati nei dettagli",
+  "revisione": "supporto/artefatti/risultati-orizzontali-ordinati-2026-11-16/documenti",
+  "documenti": [
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\03 Palo orizzontale.docx",
+      "sha256": "6F77115AB0343AB1AC9CF4E92757EDBA93787E84E45605CBACDB1DFE06D41FDE",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\risultati-ordinati-2026-11-16\\03 Palo orizzontale.docx"
+    },
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\04 Micropalo orizzontale.docx",
+      "sha256": "593473889554C12DEA81C5AAD71A6389476102481EEFBDDED81127686A913C10",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\risultati-ordinati-2026-11-16\\04 Micropalo orizzontale.docx"
+    }
+  ]
+}

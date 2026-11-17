@@ -1,0 +1,18 @@
+{
+  "data": "2026-11-16",
+  "origine": "C:/Users/g.sciarpa/Desktop/Reports",
+  "motivo": "Sostituiti dagli esempi con schema geometrico e profilo stratigrafico",
+  "revisione": "supporto/artefatti/figure-report-orizzontali-2026-11-16/documenti",
+  "documenti": [
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\03 Palo orizzontale.docx",
+      "sha256": "5E77F9D713281CBD3574473D72D8B9A903AD40572CA3D9FEB6A7AAA27EDC5138",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\figure-orizzontali-2026-11-16\\03 Palo orizzontale.docx"
+    },
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\04 Micropalo orizzontale.docx",
+      "sha256": "179CA2E29FEC1629416DC6A673D04DD6D5083DC6DF1367BB416E8A32C7F65832",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\figure-orizzontali-2026-11-16\\04 Micropalo orizzontale.docx"
+    }
+  ]
+}

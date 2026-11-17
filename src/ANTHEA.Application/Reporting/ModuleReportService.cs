@@ -112,6 +112,8 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (!request.ProjectReport && c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module && request.Options.Contains(Anthea.Reports.PileReportContents.Version))
+            return Anthea.Reports.PileFamilyReport.Create(request.Title, c.ModuleId, c.Data, c.Values, request.Options, figures.Select(f => f.Image()).ToArray());
         if (c.ModuleId == Materials.RheologyDocument.Module) return RheologyReport.Create(request.Title, c.Data, c.Values);
         if(Actions.ClimateDocument.Supports(c.ModuleId))return ClimateReport.Create(request.Title,c.Data,c.Values,Actions.ClimateDocument.ReportInputs(c.ModuleId,c.Data));
         if(c.ModuleId==Actions.SpectraDocument.Module)return SpectraReport.Create(request.Title,c.Data,c.Values);

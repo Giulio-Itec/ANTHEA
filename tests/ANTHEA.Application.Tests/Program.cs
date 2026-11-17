@@ -18,6 +18,14 @@ try
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/application") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    if (args.Contains("--stratigraphy"))
+    {
+        checks += StratigraphyChecks.Run(output);
+        string focused = $"PASS {checks} controlli documento stratigrafia";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), focused);
+        Console.WriteLine(focused);
+        return 0;
+    }
     checks += ProjectValidationChecks.Run(root);
     // P10 (16/11/2026): the notice of the Materiali of a nearer level that the check of the cover ignores.
     checks += await CoverMaterialLevelChecks.Run(output);

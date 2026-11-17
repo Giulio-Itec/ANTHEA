@@ -32,13 +32,14 @@ public sealed record SoilTransferChoice(JsonObject Data, string? Module = null, 
 /// The soil transfer dialog on <see cref="IDialogService"/> (decision T5): <see cref="SoilTransferDialogViewModel"/> with the file
 /// dialogs and the questions of the services; its view is a DataTemplate of the desktop (src/ANTHEA.Desktop/Views/Shared).
 /// </summary>
-public sealed class SoilTransferDialogService(PresentationServices services) : ISoilTransferDialog
+public sealed class SoilTransferDialogService(PresentationServices services, int initialSurvey = 0) : ISoilTransferDialog
 {
     private readonly PresentationServices services = services ?? throw new ArgumentNullException(nameof(services));
 
     public async Task<SoilTransferChoice?> ShowAsync(string module, JsonObject data, IReadOnlyList<SoilSource> sources)
     {
         var dialog = new SoilTransferDialogViewModel(module, data, sources, services.Files, services.Confirmations);
+        if (initialSurvey >= 0 && initialSurvey < dialog.Surveys.Count) dialog.SelectedSurveyIndex = initialSurvey;
         return await services.Dialogs.ShowDialogAsync(dialog);
     }
 }

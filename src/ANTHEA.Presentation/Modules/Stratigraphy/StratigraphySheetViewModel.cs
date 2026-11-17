@@ -87,7 +87,9 @@ public sealed class StratigraphySheetViewModel : SheetViewModelBase
 
     private void ReplaceEditor()
     {
+        int selection = editor.SelectedProfileIndex;
         editor = NewEditor();
+        editor.SelectedProfileIndex = Math.Min(selection, editor.Profiles.Count - 1);
         OnPropertyChanged(nameof(Editor));
     }
 
@@ -103,7 +105,7 @@ public sealed class StratigraphySheetViewModel : SheetViewModelBase
         using var dialog = new StratigraphyImportDialogViewModel(options.Drafts, options.Defaults(), Context.Services, cancellation);
         var result = await Context.Services.Dialogs.ShowDialogAsync(dialog);
         if (result is null || !CanEdit) return;
-        StratigraphyImport.Replace(Data, result);
+        StratigraphyProfiles.Replace(Data, Editor.SelectedProfileIndex, result);
         ReplaceEditor();
         Changed();
     }
@@ -112,7 +114,7 @@ public sealed class StratigraphySheetViewModel : SheetViewModelBase
     {
         if (!CanEdit) return;
         Commit();
-        var transfer = options.Transfer ?? new SoilTransferDialogService(Context.Services);
+        var transfer = options.Transfer ?? new SoilTransferDialogService(Context.Services, Editor.SelectedProfileIndex);
         var choice = await transfer.ShowAsync(ModuleId, Data, Context.Host.SoilSources());
         if (choice is null || IsDisposed) return;
         if (choice.Module is null) Context.Host.ReplaceSoil(choice.Data);

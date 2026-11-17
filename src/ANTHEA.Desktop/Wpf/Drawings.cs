@@ -12,6 +12,7 @@ namespace X.Desktop;
 
 internal abstract class DrawingView : FrameworkElement
 {
+    protected bool ReportDrawing { get; private set; }
     protected DrawingView() { ClipToBounds = true; SnapsToDevicePixels = true; }
     protected override void OnRender(DrawingContext dc) => Render(dc, new Size(ActualWidth, ActualHeight));
     protected abstract void Render(DrawingContext dc, Size size);
@@ -37,6 +38,23 @@ internal abstract class DrawingView : FrameworkElement
         var bitmap = new RenderTargetBitmap(width, height, 96, 96, PixelFormats.Pbgra32); bitmap.Render(visual);
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using var stream = new MemoryStream(); encoder.Save(stream); return stream.ToArray();
     }
+    // Lay out at the physical report size, then rasterize at 192 dpi. Increasing pixels alone shrinks the printed text.
+    internal byte[] ReportPng(int logicalWidth = 640, int logicalHeight = 480)
+    {
+        using var document = Appearance.Document();
+        bool original = ReportDrawing;
+        try
+        {
+            ReportDrawing = true;
+            var visual = new DrawingVisual();
+            using (var dc = visual.RenderOpen()) Render(dc, new Size(logicalWidth, logicalHeight));
+            var bitmap = new RenderTargetBitmap(logicalWidth * 2, logicalHeight * 2, 192, 192, PixelFormats.Pbgra32);
+            bitmap.Render(visual);
+            var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
+            using var stream = new MemoryStream(); encoder.Save(stream); return stream.ToArray();
+        }
+        finally { ReportDrawing = original; }
+    }
 }
 
 internal sealed record Serie(string Name, List<double[]> Points, Brush Color, bool Dashed = false, bool Highlighted = false, DashStyle? DashPattern = null);
@@ -44,6 +62,7 @@ internal sealed record PlotMarker(double X, double Y, string Label, Brush Color,
 
 internal sealed class Plot : DrawingView
 {
+    const double ReportAxisReserve = 85, ReportMarkerRow = 24, ReportMarkerInset = 12, ReportMarkerOffset = 47;
     internal bool VerticalLegend { get; set; }
     internal double FitPadding { get; set; }
     internal bool NegateAxisLabels { get; set; }
@@ -75,6 +94,7 @@ internal sealed class Plot : DrawingView
     internal string Note { get; set; } = "";
     internal bool InvertY { get; set; } = true;
     internal bool Capacity { get; set; }
+    internal bool ShowCapacityLegend { get; set; }
     internal double CapacityDepth { get; set; }
     internal double? XMinimum { get; set; }
     internal double? XMaximum { get; set; }
@@ -98,7 +118,7 @@ internal sealed class Plot : DrawingView
         Brush Background() => FollowAppearance ? Appearance.Paper : Brushes.White;
         Brush Ink(Brush brush) => FollowAppearance ? Appearance.Foreground(brush) : brush;
         void Text(DrawingContext context, string value, double x, double y, double size = 12, Brush? brush = null, double width = double.PositiveInfinity, bool bold = false)
-            => DrawingView.Text(context, value, x, y, size, Ink(brush ?? Ui.Muted), width, bold);
+            => DrawingView.Text(context, value, x, y, ReportDrawing ? Math.Max(13, size) : size, Ink(brush ?? Ui.Muted), width, bold);
         dc.DrawRectangle(Background(), null, new Rect(size));
         if (size.Width < 100 || size.Height < 100) return;
         Text(dc, Title, 12, 7, 14, Ui.Navy, size.Width - 24, true);
@@ -120,9 +140,12 @@ internal sealed class Plot : DrawingView
             ymax = NiceHalfRange(Math.Max(Math.Abs(ymin), Math.Abs(ymax)) * 1.05) / (zoom * Math.Clamp(ScaleY, .25, 4)); ymin = -ymax;
             AxisHalfRange = (xmax, ymax); offset = default;
         }
-        int legendColumns = VerticalLegend ? 1 : Math.Max(1, (int)((size.Width - 24) / 170));
-        double legendHeight = !Capacity && Series.Count > 1 ? Math.Ceiling(Series.Count / (double)legendColumns) * 18 : 0;
-        var area = new Rect(58, 47, Math.Max(20, size.Width - 77), Math.Max(20, size.Height - (Note == "" ? 105 : 130) - legendHeight));
+        int legendColumns = VerticalLegend ? 1 : Math.Max(1, (int)((size.Width - 24) / (ReportDrawing ? 280 : 170)));
+        double legendRow = ReportDrawing ? 36 : 18;
+        double legendHeight = (!Capacity || ShowCapacityLegend) && Series.Count > 1 ? Math.Ceiling(Series.Count / (double)legendColumns) * legendRow : 0;
+        var reportMarkers = ReportDrawing ? Markers.Where(m => m.ProjectToAxes && double.IsFinite(m.X) && double.IsFinite(m.Y)).ToArray() : [];
+        double markerHeight = reportMarkers.Length * ReportMarkerRow;
+        var area = new Rect(58, ReportDrawing ? 54 : 47, Math.Max(20, size.Width - (ReportDrawing ? ReportAxisReserve : 77)), Math.Max(20, size.Height - (ReportDrawing ? (Note == "" ? 115 : 145) : (Note == "" ? 105 : 130)) - legendHeight - markerHeight));
         double viewZoom = CenteredAxes ? 1 : zoom;
         Point P(double x, double y) => new(area.Left + (x - xmin) / (xmax - xmin) * area.Width * viewZoom + offset.X,
             area.Top + (InvertY ? (y - ymin) / (ymax - ymin) : (ymax - y) / (ymax - ymin)) * area.Height * viewZoom + offset.Y);
@@ -185,6 +208,7 @@ internal sealed class Plot : DrawingView
         foreach (var m in Markers.Where(m => m.ProjectToAxes))
         {
             var p = P(m.X, m.Y); if (!area.Contains(p)) continue;
+            if (ReportDrawing) continue;
             double labelX = Math.Clamp(p.X - 28, area.Left, Math.Max(area.Left, area.Right - 66));
             dc.DrawRectangle(Background(), null, new Rect(labelX, area.Bottom + 2, 66, 18));
             Text(dc, m.XCaption ?? $"φ={m.X:0.#}°", labelX, area.Bottom + 3, 11, m.Color, 66, true);
@@ -195,10 +219,21 @@ internal sealed class Plot : DrawingView
         {
             for (int i = 0; i < Series.Count; i++)
             {
-                double x = 12 + i % legendColumns * (size.Width - 24) / legendColumns, y = area.Bottom + 47 + i / legendColumns * 18;
-                var s = Series[i]; dc.DrawLine(new Pen(s.Color, s.Highlighted ? 3 : 2), new Point(x, y + 6), new Point(x + 16, y + 6));
+                double x = 12 + i % legendColumns * (size.Width - 24) / legendColumns, y = area.Bottom + 47 + i / legendColumns * legendRow;
+                var s = Series[i]; var legendPen = new Pen(s.Color, s.Highlighted ? 3 : 2);
+                if (Capacity) legendPen.DashStyle = s.DashPattern ?? (s.Dashed ? DashStyles.Dash : DashStyles.Solid);
+                dc.DrawLine(legendPen, new Point(x, y + 6), new Point(x + 16, y + 6));
                 Text(dc, s.Name, x + 21, y, 10, width: (size.Width - 24) / legendColumns - 25);
             }
+        }
+        // Report annotations have their own line below the legend: never paint a label over the curves or the grid.
+        for (int i = 0; i < reportMarkers.Length; i++)
+        {
+            var marker = reportMarkers[i];
+            string caption = "Punto di calcolo: " + (marker.XCaption ?? $"φ={marker.X:0.#}°") + " · "
+                + (marker.YCaption ?? $"Nq={marker.Y:0.#}").Replace('\n', '=');
+            Text(dc, caption, ReportMarkerInset, area.Bottom + ReportMarkerOffset + legendHeight + i * ReportMarkerRow,
+                13, marker.Color, size.Width - ReportMarkerInset * 2, true);
         }
         if (Note != "") Text(dc, Note, 8, size.Height - 33, 10, width: size.Width - 16);
     }
@@ -253,14 +288,19 @@ internal sealed class SectionDrawing : DrawingView
 
 internal sealed partial class StratigraphyDrawing : DrawingView
 {
+    const double ReportWaterLineStart = .6;
+    const double WaterLabelOffset = 3;
     internal static readonly string[] LayerColors = ["#F4C95D", "#DFA06E", "#A8C686", "#8FB8DE", "#C6A0D5", "#C9B79C"];
     internal JsonObject? Data { get; set; }
     internal bool Micro { get; set; }
+    internal string? ElementLabel { get; set; }
     internal int SelectedIndex { get; set; }
     internal bool ShowAll { get; set; } = true;
     internal int[] VisibleIndices => Data is null ? [] : Enumerable.Range(0, Data.Array("stratigrafie").Count).Where(i => ShowAll || i == SelectedIndex).ToArray();
     protected override void Render(DrawingContext dc, Size size)
     {
+        void Text(DrawingContext context, string value, double x, double y, double size = 12, Brush? brush = null, double width = double.PositiveInfinity, bool bold = false)
+            => DrawingView.Text(context, value, x, y, ReportDrawing ? Math.Max(14, size) : size, brush, width, bold);
         dc.DrawRectangle(Brushes.White, null, new Rect(size)); if (Data is null || size.Width < 80 || size.Height < 110) return;
         var indices = VisibleIndices; var g = Data["generali"]!; var sets = Data.Array("stratigrafie");
         double length = g.D("lunghezza"), angle = Micro ? g.D("inclinazione") * Math.PI / 180 : 0;
@@ -298,7 +338,7 @@ internal sealed partial class StratigraphyDrawing : DrawingView
             {
                 double px = x + width - pileWidth - 7;
                 dc.DrawRectangle(Ui.Brush("#96999D"), new Pen(Ui.Brush("#62666B"), 1), new Rect(px, top + head * scale, pileWidth, length * scale));
-                Text(dc, "Palo", px - 4, top - 18, 10, Ui.Navy, pileWidth + 16);
+                Text(dc, ElementLabel ?? "Palo", px - 4, top - 18, 10, Ui.Navy, ElementLabel is null ? pileWidth + 16 : 85);
             }
             if (Micro && length > 0)
             {
@@ -310,8 +350,14 @@ internal sealed partial class StratigraphyDrawing : DrawingView
             }
             if (!Micro && g.B("presenza_falda"))
             {
-                double y = top + g.D("profondita_falda") * scale;
-                if (y <= top + z * scale) { dc.DrawLine(new Pen(Brushes.DodgerBlue, 2) { DashStyle = DashStyles.Dash }, new Point(x, y), new Point(x + width, y)); Text(dc, "Falda", x + 3, y - 17, 11, Brushes.DodgerBlue); }
+                double waterDepth = g.D("profondita_falda");
+                double y = top + waterDepth * scale;
+                if (y <= top + z * scale)
+                {
+                    double start = ReportDrawing ? x + width * ReportWaterLineStart : x;
+                    dc.DrawLine(new Pen(Brushes.DodgerBlue, 2) { DashStyle = DashStyles.Dash }, new Point(start, y), new Point(x + width, y));
+                    Text(dc, ReportDrawing ? $"Falda {waterDepth:0.##} m" : "Falda", start + WaterLabelOffset, y - (ReportDrawing ? 22 : 17), 11, Brushes.DodgerBlue);
+                }
             }
             // Le quote dei risultati orizzontali partono dalla testa.
             if (HorizontalForces) DrawHorizontalForces(dc, index, x + width - pileWidth / 2 - 7,

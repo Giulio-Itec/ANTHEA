@@ -26,7 +26,9 @@ internal static class PdfChecks
         void Compare(string name, DocxDocument docx)
         {
             var expected = Words(docx); var actual = DocxPdfText.Lines(DocxPdf.Translate(docx, name)).SelectMany(Split).ToArray();
-            int mismatch = Enumerable.Range(0, Math.Min(expected.Length, actual.Length)).FirstOrDefault(i => expected[i] != actual[i], -1);
+            // ITEC headings use capitals/small capitals through Word styles; compare their semantic text without case.
+            var comparison = docx.Contains("anthea/layout.xml") ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal;
+            int mismatch = Enumerable.Range(0, Math.Min(expected.Length, actual.Length)).FirstOrDefault(i => !string.Equals(expected[i], actual[i], comparison), -1);
             Check(expected.Length == actual.Length && mismatch < 0, $"{name}: testo del PDF diverso dal DOCX ({expected.Length} contro {actual.Length} parole; prima differenza alla parola {mismatch}: " +
                 $"«{(mismatch >= 0 ? expected[mismatch] : "")}» / «{(mismatch >= 0 ? actual[mismatch] : "")}»)");
             var pdf = DocxPdf.Render(docx, name);
@@ -57,6 +59,14 @@ internal static class PdfChecks
     static string[] Words(DocxDocument docx)
     {
         var body = docx.GetXml("word/document.xml").Root!.Element(W + "body")!;
+        // The static cover is an independently verified vector PDF page; this comparison concerns generated content.
+        if (docx.Contains("anthea/layout.xml"))
+        {
+            int count = (int)docx.GetXml("anthea/layout.xml").Root!.Attribute("coverBlocks")!;
+            body.Elements().Take(count).Remove();
+        }
+        // Word's cached page references are evaluated separately by each paginator, not report text.
+        body.Descendants(W + "fldSimple").Where(f => ((string?)f.Attribute(W + "instr"))?.TrimStart().StartsWith("PAGEREF ", StringComparison.OrdinalIgnoreCase) == true).Remove();
         var text = new System.Text.StringBuilder();
         foreach (var node in body.Descendants())
         {

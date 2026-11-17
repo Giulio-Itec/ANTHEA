@@ -1,0 +1,18 @@
+{
+  "data": "2026-11-16",
+  "origine": "C:/Users/g.sciarpa/Desktop/Reports",
+  "motivo": "Riepilogo tabellare della verifica; eliminata la dicitura generica incompleta. Esempio palo aggiornato ai dati di Calcolo.programma",
+  "revisione": "supporto/artefatti/verifica-tabellare-orizzontali-2026-11-16/documenti",
+  "documenti": [
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\03 Palo orizzontale.docx",
+      "sha256": "6611811722BBAB2FF553F071D2FAF8487C9E3A6CCC190E6314239946CD358DE3",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\verifica-tabellare-2026-11-16\\03 Palo orizzontale.docx"
+    },
+    {
+      "file": "C:\\Users\\g.sciarpa\\Desktop\\Reports\\04 Micropalo orizzontale.docx",
+      "sha256": "EAB8BB5671572FDA19BD4A1FD21C573455A931867F081451B1F5A32D78DDBCC2",
+      "precedente": "C:\\Users\\g.sciarpa\\Desktop\\ANTHEA\\supporto\\SUPERATI\\Desktop\\Reports\\verifica-tabellare-2026-11-16\\04 Micropalo orizzontale.docx"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ namespace X.Desktop;
 /// </summary>
 internal sealed class HorizontalPileFigureRenderer : IHorizontalPileFigureRenderer
 {
+    public IReadOnlyList<ReportOrizzontale.Figure> RenderReport(JsonObject result, bool brief) => HorizontalPileReportFigures.Figures(result, brief).Select(f => new ReportOrizzontale.Figure(f.Index ?? 0, f.Caption, f.Png, f.AspectRatio, f.Category)).ToArray();
     public IReadOnlyList<ReportOrizzontale.Figure> Render(JsonObject result)
     {
         ArgumentNullException.ThrowIfNull(result);

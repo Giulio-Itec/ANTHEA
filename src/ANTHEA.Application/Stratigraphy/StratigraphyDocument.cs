@@ -14,6 +14,10 @@ public static class StratigraphyDocument
     public static readonly string[] WaterStates = ["Non nota", "Non considerata", "Assegnata"];
     public static readonly string[] Qualifications = ["Non qualificato", "Misurato", "Interpretato", "Caratteristico"];
     public static readonly string[] Scenarios = ["Medi", "Minimi", "Entrambi"];
+    /// <summary>State of density of a layer (optional key «density», missing = «Da definire»): the two states of the vertical pile.</summary>
+    public static readonly string[] Densities = ["Da definire", "Sciolto", "Denso"];
+    /// <summary>The state of density of the layer for the vertical pile: «Sciolto», «Denso» or "" when not defined.</summary>
+    public static string PileDensity(JsonObject layer) => layer["density"]?.ToString() is "Sciolto" or "Denso" ? layer["density"]!.ToString() : "";
     // Descriptive families for graphic identification only, not a granulometric classification or material catalogue.
     public static readonly string[] SoilTypes = ["Non classificato", "Riporto", "Ghiaia", "Sabbia", "Limo", "Argilla", "Terreno organico", "Roccia", "Altro"];
     public static string SoilType(JsonObject layer) => layer["soil_type"]?.ToString() ?? "Non classificato";
@@ -25,7 +29,7 @@ public static class StratigraphyDocument
     public static JsonObject NewLayer() => new()
     {
         ["id"] = Guid.NewGuid().ToString("N"), ["name"] = "Nuovo strato", ["description"] = "",
-        ["color"] = "#D5BE92", ["soil_type"] = "Non classificato", ["behavior"] = "Da definire", ["thickness"] = 1.0, ["infinite"] = false,
+        ["color"] = "#F4C95D", ["soil_type"] = "Non classificato", ["behavior"] = "Da definire", ["thickness"] = 1.0, ["infinite"] = false,
         ["gamma"] = null, ["gamma_sat"] = null, ["phi"] = null, ["c"] = null, ["cu"] = null,
         ["source"] = "", ["qualification"] = "Non qualificato", ["notes"] = "", ["minimum"] = null
     };
@@ -51,6 +55,7 @@ public static class StratigraphyDocument
         ? text : throw new ArgumentException("Testo mancante o non valido: " + key);
     public static void Validate(JsonObject data)
     {
+        StratigraphyProfiles.ValidateAdditional(data);
         if (Number(data["schema"], "Versione") is not (1 or 2)) throw new ArgumentException("Versione della stratigrafia non supportata.");
         if (!Scenarios.Contains(Scenario(data))) throw new ArgumentException("Scelta dei parametri non valida.");
         if (!Guid.TryParse(Text(data, "id"), out _)) throw new ArgumentException("Identificativo della stratigrafia non valido.");
@@ -72,6 +77,8 @@ public static class StratigraphyDocument
             if (!SoilTypes.Contains(SoilType(layer))) throw new ArgumentException($"Strato {i + 1}: famiglia di terreno non valida.");
             if (layer["behavior"] is not null && layer["behavior"]!.ToString() is not ("Da definire" or "Granulare" or "Coesivo"))
                 throw new ArgumentException($"Strato {i + 1}: comportamento per il trasferimento non valido.");
+            if (layer["density"] is not null && !Densities.Contains(layer["density"]!.ToString()))
+                throw new ArgumentException($"Strato {i + 1}: stato di addensamento non valido.");
             foreach (string key in new[] { "description", "source", "notes" }) Text(layer, key);
             if (!Qualifications.Contains(Text(layer, "qualification"))) throw new ArgumentException("Qualificazione dei dati non valida.");
             string color = Text(layer, "color");
@@ -151,7 +158,9 @@ public static class StratigraphyDocument
         var layers = Layers(data);
         if (layers.Count >= 100) throw new ArgumentException("Massimo 100 strati.");
         int index = layers.Count > 0 && Infinite(layers[^1]!.AsObject()) ? layers.Count - 1 : layers.Count;
-        layers.Insert(index, NewLayer());
+        var layer = NewLayer();
+        layer["color"] = StratigraphyEditing.NewColor(layers.OfType<JsonObject>());
+        layers.Insert(index, layer);
     }
     public static void Duplicate(JsonObject data, int index)
     {
@@ -160,6 +169,7 @@ public static class StratigraphyDocument
         var copy = layers[index]!.DeepClone().AsObject();
         if (Infinite(copy)) throw new ArgumentException("Rendere finito lo strato prima di duplicarlo.");
         copy["id"] = Guid.NewGuid().ToString("N"); copy["name"] = copy["name"] + " (copia)";
+        copy["color"] = StratigraphyEditing.NewColor(layers.OfType<JsonObject>());
         layers.Insert(index + 1, copy);
     }
     public static void Remove(JsonObject data, int index)

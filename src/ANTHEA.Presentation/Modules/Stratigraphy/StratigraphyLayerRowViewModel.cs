@@ -13,20 +13,22 @@ public sealed class StratigraphyLayerRowViewModel : ObservableObject
     private readonly PresentationServices services;
     private bool readOnly;
 
-    public StratigraphyLayerRowViewModel(JsonObject data, PresentationServices services, Action changed, bool readOnly)
+    public StratigraphyLayerRowViewModel(JsonObject data, PresentationServices services, Action changed, bool readOnly, int index = 0)
     {
+        Label = StratigraphyEditing.LayerLabel(index);
         Data = data; this.services = services; this.changed = changed; this.readOnly = readOnly;
         var fields = StratigraphyFields.Layer();
-        Identity = Form(data, fields[..3]);
-        Identity.ShowField("name", false); // The name is edited in the table.
+        Identity = Form(data, fields[..4]);
         Identity.ShowField("behavior", false);
-        Description = Form(data, fields[3..]);
+        Identity.ShowField("density", false);
+        Description = Form(data, fields[4..]);
         Means = Form(data, StratigraphyFields.Means());
         foreach (var parameter in StratigraphyFields.Parameters()) Means.ShowField(parameter.Key, false);
         Notes = Form(data, StratigraphyFields.Notes());
         RefreshOptions();
     }
 
+    public string Label { get; }
     public JsonObject Data { get; }
     public FormViewModel Identity { get; }
     public FormViewModel Description { get; }
@@ -51,9 +53,16 @@ public sealed class StratigraphyLayerRowViewModel : ObservableObject
         OnPropertyChanged(nameof(Thickness)); OnPropertyChanged(nameof(Minima)); OnPropertyChanged(nameof(IsInfinite));
     }
 
-    private FormViewModel Form(JsonObject values, FieldSpec[] fields) => new(values, fields, key =>
+    private FormViewModel Form(JsonObject values, FieldSpec[] fields)
     {
-        if (key == "color") OnPropertyChanged(nameof(Color));
-        changed();
-    }, compact: true) { IsReadOnly = readOnly, WikiNavigator = services.Wiki };
+        FormViewModel? form = null;
+        form = new(values, fields, key =>
+        {
+            if (StratigraphyEditing.ParameterEdited(values, key))
+                form!.Set("gamma_sat", values["gamma_sat"]?.ToString() ?? "", display: true);
+            if (key == "color") OnPropertyChanged(nameof(Color));
+            changed();
+        }, compact: true) { IsReadOnly = readOnly, WikiNavigator = services.Wiki };
+        return form;
+    }
 }

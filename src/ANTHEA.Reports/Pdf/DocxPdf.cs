@@ -26,6 +26,14 @@ public static class DocxPdf
         PdfFonts.Ensure();
         var renderer = new PdfDocumentRenderer { Document = Translate(docx, title) };
         renderer.RenderDocument();
+        // The reusable ITEC cover is a static, vector page. Its editable Word counterpart remains in the DOCX.
+        // Only the cover is imported: every result, table and figure below is rendered from this report's XML.
+        if (docx.Contains("anthea/cover.pdf") && (int?)docx.GetXml("anthea/layout.xml").Root?.Attribute("coverBlocks") > 0)
+        {
+            using var coverBytes = new MemoryStream(docx.GetBytes("anthea/cover.pdf"));
+            using var cover = PdfSharp.Pdf.IO.PdfReader.Open(coverBytes, PdfSharp.Pdf.IO.PdfDocumentOpenMode.Import);
+            renderer.PdfDocument.Pages.Insert(0, cover.Pages[0]);
+        }
         int pages = renderer.PdfDocument.PageCount; // read before saving: a saved document cannot be queried any more
         using var output = new MemoryStream();
         renderer.PdfDocument.Save(output, false);
@@ -59,6 +67,7 @@ public static class DocxPdf
         static readonly XNamespace A = "http://schemas.openxmlformats.org/drawingml/2006/main";
         static readonly XNamespace WP = "http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing";
         static readonly XNamespace Rel = "http://schemas.openxmlformats.org/package/2006/relationships";
+        static readonly XNamespace M = "http://schemas.openxmlformats.org/officeDocument/2006/math";
         // Units of WordprocessingML: twips (1/20 pt), half points, eighths of a point (borders), EMU (1/12700 pt)
         const double TwipsPerPoint = 20, HalfPointsPerPoint = 2, EighthsPerPoint = 8, EmuPerPoint = 12700;
         // Word values when the document does not state them: A4, margins of 1 inch, cell margins of 0,19 cm, 10 pt
@@ -71,7 +80,7 @@ public static class DocxPdf
         RunProps defaultRun = new(PdfFonts.DefaultFamily, DefaultSize);
         ParaProps defaultPara = new(0, 0);
         string? defaultStyle;
-        XElement? footer;
+        string? headerPart, footerPart;
         double contentWidth;
 
         public Document Run(string title)
@@ -84,7 +93,8 @@ public static class DocxPdf
             normal.ParagraphFormat.SpaceBefore = 0; normal.ParagraphFormat.SpaceAfter = 0;
             var body = docx.GetXml("word/document.xml").Root!.Element(W + "body") ?? throw new InvalidDataException("Documento Word senza corpo.");
             var blocks = new List<XElement>(); XElement? last = null;
-            foreach (var child in body.Elements())
+            int coverBlocks = docx.Contains("anthea/layout.xml") ? (int?)docx.GetXml("anthea/layout.xml").Root?.Attribute("coverBlocks") ?? 0 : 0;
+            foreach (var child in body.Elements().Skip(coverBlocks))
             {
                 if (child.Name == W + "sectPr") { last = child; continue; }
                 blocks.Add(child);
@@ -101,18 +111,33 @@ public static class DocxPdf
             var size = properties?.Element(W + "pgSz"); var margins = properties?.Element(W + "pgMar");
             double width = Twips(size, "w") ?? PageWidthTwips, height = Twips(size, "h") ?? PageHeightTwips;
             var setup = section.PageSetup;
+            if (document.Sections.Count == 1 && docx.Contains("anthea/cover.pdf")) setup.StartingNumber = 2;
             if (width > height) { setup.Orientation = Orientation.Landscape; setup.PageWidth = Pt(height); setup.PageHeight = Pt(width); }
             else { setup.Orientation = Orientation.Portrait; setup.PageWidth = Pt(width); setup.PageHeight = Pt(height); }
             double left = Twips(margins, "left") ?? MarginTwips, right = Twips(margins, "right") ?? MarginTwips;
             setup.TopMargin = Pt(Twips(margins, "top") ?? MarginTwips); setup.BottomMargin = Pt(Twips(margins, "bottom") ?? MarginTwips);
             setup.LeftMargin = Pt(left); setup.RightMargin = Pt(right);
             if (Twips(margins, "footer") is double footerDistance) setup.FooterDistance = Pt(footerDistance);
+            if (Twips(margins, "header") is double headerDistance) setup.HeaderDistance = Pt(headerDistance);
             contentWidth = width - left - right;
             // Word links a section without its own footer to the previous one
             if (properties?.Elements(W + "footerReference").FirstOrDefault(f => (string?)f.Attribute(W + "type") is null or "default") is XElement reference
                 && relations.TryGetValue((string?)reference.Attribute(R + "id") ?? "", out var target) && docx.Contains("word/" + target))
-                footer = docx.GetXml("word/" + target).Root;
-            if (footer is not null) foreach (var p in footer.Elements(W + "p")) Paragraph(section.Footers.Primary, p);
+                footerPart = "word/" + target;
+            if (properties?.Elements(W + "headerReference").FirstOrDefault(f => (string?)f.Attribute(W + "type") is null or "default") is XElement headerReference
+                && relations.TryGetValue((string?)headerReference.Attribute(R + "id") ?? "", out var headerTarget) && docx.Contains("word/" + headerTarget))
+                headerPart = "word/" + headerTarget;
+            void HeaderFooterContent(string? part, HeaderFooter container)
+            {
+                if (part is null) return;
+                var saved = new Dictionary<string, string>(relations);
+                string local = "word/_rels/" + Path.GetFileName(part) + ".rels";
+                if (docx.Contains(local)) ReadRelations(local, relations);
+                foreach (var p in docx.GetXml(part).Root!.Elements(W + "p")) Paragraph(container, p);
+                relations.Clear(); foreach (var pair in saved) relations.Add(pair.Key, pair.Value);
+            }
+            HeaderFooterContent(headerPart, section.Headers.Primary);
+            HeaderFooterContent(footerPart, section.Footers.Primary);
             foreach (var block in blocks) Block(section, block);
         }
 
@@ -138,6 +163,11 @@ public static class DocxPdf
             var (para, run) = Style((string?)pPr?.Element(W + "pStyle")?.Attribute(W + "val"));
             para = para.Over(ReadPara(pPr));
             var paragraph = Add(container); Format(paragraph, para, run);
+            foreach (var tab in pPr?.Element(W + "tabs")?.Elements(W + "tab") ?? [])
+                if (Twips(tab, "pos") is double position)
+                    paragraph.Format.TabStops.AddTabStop(Pt(position), (string?)tab.Attribute(W + "val") == "right" ? TabAlignment.Right : TabAlignment.Left,
+                        (string?)tab.Attribute(W + "leader") == "dot" ? TabLeader.Dots : TabLeader.Spaces);
+            if (pPr?.Element(W + "pBdr")?.Element(W + "top") is XElement topBorder) Border(paragraph.Format.Borders.Top, topBorder);
             bool content = false;
             foreach (var node in p.Elements()) content |= Inline(container, ref paragraph, node, run, para);
             if (!content) paragraph.AddText(" ");
@@ -145,6 +175,25 @@ public static class DocxPdf
 
         bool Inline(DocumentObject container, ref Paragraph paragraph, XElement node, RunProps run, ParaProps para)
         {
+            if (node.Name == M + "oMathPara" || node.Name == M + "oMath")
+            {
+                if (docx.Contains("anthea/equations.xml"))
+                {
+                    string text = string.Concat(node.Descendants(M + "t").Select(t => t.Value));
+                    var equation = docx.GetXml("anthea/equations.xml").Root!.Elements().FirstOrDefault(e =>
+                        string.Concat(e.Descendants(M + "t").Select(t => t.Value)) == text);
+                    if (equation is not null)
+                    {
+                        string part = "anthea/equation-" + (string?)equation.Attribute("id") + ".png";
+                        double width = (double)equation.Attribute("widthPt")!, height = (double)equation.Attribute("heightPt")!;
+                        double scale = Math.Min(1, contentWidth / TwipsPerPoint / width);
+                        var picture = paragraph.AddImage("base64:" + Convert.ToBase64String(docx.GetBytes(part)));
+                        picture.Width = Unit.FromPoint(width * scale); picture.Height = Unit.FromPoint(height * scale);
+                        return true;
+                    }
+                }
+                throw new InvalidDataException("Formula priva della rappresentazione PDF verificata.");
+            }
             if (node.Name == W + "r") return Run(container, ref paragraph, node, run, para, null);
             if (node.Name == W + "hyperlink")
             {
@@ -158,6 +207,8 @@ public static class DocxPdf
             if (node.Name == W + "fldSimple")
             {
                 string instruction = ((string?)node.Attribute(W + "instr") ?? "").Trim();
+                if (instruction.StartsWith("PAGEREF ", StringComparison.OrdinalIgnoreCase))
+                { paragraph.AddPageRefField(instruction.Split(' ', StringSplitOptions.RemoveEmptyEntries)[1]); return true; }
                 if (instruction.StartsWith("PAGE", StringComparison.OrdinalIgnoreCase)) { paragraph.AddPageField(); return true; }
                 if (instruction.StartsWith("NUMPAGES", StringComparison.OrdinalIgnoreCase)) { paragraph.AddNumPagesField(); return true; }
                 bool any = false;

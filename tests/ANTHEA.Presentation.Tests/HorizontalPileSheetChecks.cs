@@ -533,7 +533,7 @@ internal static class HorizontalPileSheetChecks
         expect.That(missing.Outcome == "Verifica non eseguita: Rd non determinata" && missing.Kind == HorizontalVerificationOutcome.Muted, "Verifica senza Rd");
         expect.That(HorizontalPilePresentation.LayerName(0) == "A" && HorizontalPilePresentation.LayerName(25) == "Z" && HorizontalPilePresentation.LayerName(27) == "B", "Nome dello strato");
         expect.That(HorizontalPilePresentation.Summary(new JsonObject { ["meccanismo"] = "Lungo", ["sondaggio_governante"] = 2, ["momento_resistente_knm"] = 1088.11, ["rapporto_meccanico"] = 0.16672, ["sperimentale"] = true })
-            == "Lungo · stratigrafia 2\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE", "Sintesi");
+            == "Lungo · stratigrafia 2\nMy = 1.088,1 kNm\nHEd / Hu = 16,7%\nVerifica non eseguibile.\nModello di calcolo per terreno stratificato", "Sintesi");
         var ca = HorizontalPilePresentation.SectionMoment(new JsonObject { ["momento_knm"] = 1353.08, ["n_kn"] = 800, ["lati_contorno"] = 32, ["residuo_n_kn"] = 0.000123, ["tolleranza_n_kn"] = 0.01, ["modello"] = "Checker" }, false);
         expect.That(ca.Text == "MRd = 1.353,1 kNm · N = 800,0 kN\nChecker · 32 lati · residuo N = 0,000123 kN (tol. 0,01)\nNormativa del risultato non disponibile" && ca.ToolTip == "Checker", "Momento della sezione c.a.");
         var chs = HorizontalPilePresentation.SectionMoment(new JsonObject { ["momento_knm"] = 77.267, ["n_kn"] = 150, ["classe"] = 1 }, true);

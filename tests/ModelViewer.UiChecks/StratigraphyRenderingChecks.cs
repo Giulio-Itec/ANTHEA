@@ -39,11 +39,11 @@ static partial class Program
         try
         {
             host.Show(); Wait(150);
-            Check(Children<TextBlock>(editor).Any(t => t.Text == "Stratigrafia del terreno"), "Standalone stratigraphy editor opened");
+            Check(Children<TextBlock>(editor).Any(t => t.Text == "Stratigrafie"), "Standalone stratigraphy editor opened");
             Children<Expander>(editor).Single(e => e.Name == "Advanced").IsExpanded = true; Wait(50);
             var list = Children<DataGrid>(editor).Single();
             Check(list.Items.Count == 2, "Two soil layers shown");
-            Check(Children<ComboBox>(editor).Any(c => c.SelectedItem?.ToString() == "Entrambi"), "Scenario selection shown");
+            Check(!Children<TextBlock>(editor).Any(t => t.Text == "Parametri da usare nelle verifiche"), "Compact general block without scenario selection");
             Check(Children<TextBlock>(editor).Any(t => t.Text == "Valori minimi · opzionali"), "Minimum fields shown");
             CapturePage(editor, Path.Combine(output, "stratigrafia-1280.png"));
             var scroll = Children<ScrollViewer>(editor).First(s => s.VerticalScrollBarVisibility == ScrollBarVisibility.Auto);

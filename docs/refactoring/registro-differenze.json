@@ -32,6 +32,42 @@
   "nota_chiusura_f5_15": "Chiusura di F5.15 (26/10/2026): stato nuovo «rinviato» per le voci che la revisione F5.15 non ha potuto attuare perché servono testi normativi, una decisione o un lavoro grande (R4, R5, R6, R7, R8, R9, R11, R14, R16, R17, R18, R20). Restano aperte nella coda dopo il refactoring (piano.md); ogni voce ha il campo rinvio_26_10 con ciò che serve per riprenderla. Decisione dell'utente: «Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
   "voci": [
     {
+      "id": "STRATIGRAFIA-ADDENSAMENTO-COPIA-20261117",
+      "data": "2026-11-17",
+      "titolo": "Stratigrafia: stato di addensamento dello strato e pulsanti «Copia da…» / «Copia in…»",
+      "famiglia": "stratigrafia/interfaccia",
+      "modulo": "geo_stratigrafia",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Su richiesta dell’utente del 17/11/2026. (1) Chiave facoltativa «density» dello strato (Da definire, Sciolto, Denso), colonna «Addensamento» nella tabella degli strati; scritta solo quando scelta, quindi i documenti esistenti restano validi e invariati; un valore fuori elenco è rifiutato. Trasferita come «addensamento» al solo palo verticale (verso e da), mai agli altri moduli; se non definita lo strato del palo resta con addensamento vuoto come prima. (2) «Copia da…» e «Copia in…» accanto a «Duplica stratigrafia», con il dialogo dei pali: la destinazione esistente è sostituita dopo conferma (dati generali e strati), conserva nome e identificativo, strati con identificativi nuovi; «Nuova stratigrafia» equivale a «Duplica stratigrafia». Nessun calcolo.",
+      "decisione": "Richieste dell’utente del 17/11/2026 in chat. Il campo «density» non esisteva nella vista storica: è escluso dalle tracce congelate di tests/fixtures/f5-stratigrafia/storica (filtro in StratigraphySheetChecks.Controls) e verificato a parte.",
+      "codice": ["src/ANTHEA.Application/Stratigraphy/StratigraphyDocument.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyTransfer.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyProfiles.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyPresentation.cs", "src/ANTHEA.Application/Projects/SoilProfileTransfer.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyFields.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyLayerRowViewModel.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyEditorViewModel.cs", "src/ANTHEA.Desktop/Views/Stratigraphy/StratigraphyEditorView.xaml"],
+      "test": ["tests/ANTHEA.Presentation.Tests/StratigraphySheetChecks.cs (ProfileCopyAsync, Density, Forms)"],
+      "effetto_quantificato": "Nessun effetto sui calcoli. Tracce della vista storica confrontate prima e dopo ignorando i colori: nessuna differenza dovuta a questa modifica. Restano tre differenze preesistenti non dovute a questa voce: colore dei nuovi strati, peso proprio sfavorevole 1,35 (voce REPORT-PALO-ITEC-20261116, peso_ponti), γsat minimo collegato al γ (chiave gamma_sat_auto)."
+    },
+    {
+      "id": "REPORT-PALO-ITEC-20261116",
+      "ordine_stratigrafia_orizzontali": "16/11/2026: nella tabella comune a palo e micropalo orizzontale, campi fisici e di resistenza (spessore, pesi, angolo di attrito, coesioni) prima dell’editor della reazione laterale e di nh. Solo ordine visivo e di tabulazione; dati e calcolo invariati.",
+      "oggetto_orizzontali": "16/11/2026: apertura discorsiva per palo e micropalo orizzontali, distinta fra capacità portante e risposta elastica. Rimossi i due titoli tecnici ripetuti dall’oggetto; metodo, ipotesi e limiti restano nei capitoli dedicati. Verticali invariati.",
+      "revisione_micropalo_e_accesso_breve": "16/11/2026: W dedicata ai capitoli del completo, breve solo dal pulsante W breve. Oggetto del micropalo verticale riscritto; eliminati timestamp e doppio titolo. Coefficienti numerici soltanto nella sezione dedicata, efficienza in una tabella con dati pertinenti e valori effettivamente adottati; nessuna modifica al calcolo.",
+      "pulizia_oggetto": "16/11/2026: tolti nome della scheda e nota sugli arrotondamenti, anche nei report degli altri moduli dei pali.",
+      "peso_ponti": "Su richiesta del 16/11/2026, predefinito peso proprio sfavorevole dei nuovi fogli verticali (pali e micropali) da 1,30 a 1,35; favorevole confermato 1,00. Nessuna migrazione dei valori espliciti salvati né modifica delle formule. Verifica delle azioni contro la statica del peso in verifiche/pile-factors.",
+      "pulsante_breve": "16/11/2026: pulsante W breve accanto a W, visibile nei quattro moduli dei pali. Esporta direttamente il breve con i controlli e il dialogo di salvataggio esistenti; nessuna modifica ai documenti generati.",
+      "estensione_pali": "16/11/2026, richiesta esplicita: stile ITEC e scelta completo/breve estesi a micropalo verticale, palo orizzontale e micropalo orizzontale. I due orizzontali seguono il risultato della scheda attiva, capacità o risposta elastica. Selettore gerarchico comune, primi cinque capitoli selezionati; intestazione, indice, avvisi e dettagli facoltativi. Tabelle grigie e diagrammi disegnati alla dimensione fisica di stampa. Solo Word; nessuna modifica ai motori. Le chiamate legacy e i capitoli di progetto mantengono il percorso precedente. Nuovi controlli in supporto/test/PileFamilyReportChecks.cs nella suite ui/check-itec-pile-report: numero delle suite WPF invariato (74).",
+      "report_breve": "16/11/2026: anteprima Word di due pagine approvata dall’utente e integrata in C#. Scelta Report breve nella finestra dei contenuti, Word senza PDF. Dati e risultati del foglio, grafico delle resistenze di progetto e azioni, limiti Nq ed esiti non determinabili conservati. Più verticali o più di tre strati: sintesi dichiarata degli intervalli per terreno e stato laterale, senza ridurre i caratteri. La modalità completa conserva le proprie selezioni. Il breve disegna solo il grafico incluso; nessuna dipendenza da Python in produzione.",
+      "correzione_etichetta_nq": "16/11/2026: l’etichetta del punto di calcolo nel grafico esportato copriva curve e griglia con un riquadro bianco. I valori sono spostati su una riga riservata sotto la legenda, fuori dall’area del diagramma. Valori, curve e grafico a video invariati; verifica visiva della figura e del report Word, ui/check-itec-pile-report e Architecture.Tests.",
+      "titolo": "Report Word del palo verticale su modello ITEC con contenuti selezionabili",
+      "famiglia": "palo-verticale/report",
+      "modulo": "geo_palo_verticale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Su richiesta dell’utente la relazione autonoma usa il modello ITEC, formule e tabelle Word native, indice interno facoltativo, capitoli e sottocapitoli selezionabili. La successiva richiesta del 16/11 seleziona inizialmente tutti i primi cinque capitoli con sottocapitoli e tabelle; intestazione, indice, avvisi e i due capitoli di dettaglio restano esclusi. Gli sfondi delle tabelle sono grigio chiaro. I dettagli sono capitoli ordinari. Rimossi il testo esteso Nq e l’esportazione PDF di questo modulo. Corretto l’ordine Open XML e rimossi i riferimenti alle note mancanti e l’aggiornamento automatico dei campi. Figure disegnate alla scala fisica del report con testo leggibile. Nessuna modifica a calcoli, coefficienti o librerie.",
+      "decisione": "Richieste dell’utente del 16/11/2026 in questa chat, compresa l’eccezione esplicita al PDF.",
+      "codice": ["src/ANTHEA.Reports/Generators/ItecPileReport.cs", "src/ANTHEA.Reports/PileReportContents.cs", "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs", "src/ANTHEA.Desktop/Wpf/Drawings.cs"],
+      "test": ["supporto/test/ItecPileReportChecks.cs", "supporto/test/DocxValidation", "tests/ANTHEA.Presentation.Tests/VerticalPileSheetChecks.cs"],
+      "effetto_quantificato": "485 errori Open XML nella prima prova, zero dopo le correzioni. I soli report.txt e report-structure.json del palo passano da confronto testuale F3 a controlli della struttura ITEC e delle Rd finali rispetto ai risultati catturati; gli attesi F3 originali restano intatti, come tutti i confronti di dati, risultati, esportazione e riapertura. Il micropalo conserva il confronto integrale F3. Le 74 suite UI sono conservate."
+    },
+    {
       "id": "GPC-F3-01",
       "data": "2026-11-03",
       "fase": "F3 comune BridGHe/Arachne",
@@ -15513,6 +15549,128 @@
       "wiki": "Indice della Wiki rigenerato con le guide Rev72; nessuna guida autonoma nuova."
     },
     {
+      "id": "REPORT-BROMS-ORIZZONTALI-20261116",
+      "data": "2026-11-16",
+      "fase": "Report pali",
+      "famiglia": "pali orizzontali / Word",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Teoria dei report ITEC di palo e micropalo orizzontale con equazioni OMML native, selezionate per vincolo in testa e terreni effettivamente attraversati. Formule omogenee di Broms o formulazione integrale adattata al profilo reale, con distinzione fra chiusura distribuita e concentrata. Sostituita la dicitura sperimentale nei report completi, brevi e nei messaggi UI con la descrizione del modello per terreno stratificato. Input, risultati, flag e DLL GPC invariati.",
+      "decisione": {
+        "data": "2026-11-16",
+        "utente": "Riscrivere le formule Broms pertinenti al caso considerato, sostituire la parte sperimentale e aggiornare anche il programma.",
+        "esito": "Release in app/; esempi orizzontali in Desktop/Reports, senza risultati tabellari e senza PDF come richiesto."
+      },
+      "test": [
+        "ui/check-itec-pile-report: 149 controlli famiglia, inclusi otto casi omogenei (due moduli, due vincoli, due terreni), oltre al palo verticale",
+        "Reports.Tests PASS 515; Application.Tests PASS 3715; Architecture.Tests PASS 626",
+        "Open XML: zero errori nei due esempi e nei quattro casi Broms del palo; apertura ordinaria Word e resa PNG",
+        "qa/no-test-code PASS sulla Release distribuita"
+      ],
+      "limiti_verifica": "La suite estesa Presentation.Tests si ferma sul confronto congelato del palo verticale (coefficiente storico 1,30 contro il predefinito 1,35 richiesto dall’utente). Tentativo di conservare il vecchio input esplicito annullato: i riferimenti storici e il test sono lasciati intatti. Il fallimento non è stato dichiarato noto né trasformato in PASS.",
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-154028-formule-broms-finale",
+        "supporto/artefatti/ci/20261116-152842-formule-broms-librerie",
+        "supporto/artefatti/ci/20261116-153153-formule-broms-architettura",
+        "supporto/artefatti/formule-broms-report-2026-11-16"
+      ]
+    },
+    {
+      "id": "REPORT-FORMULE-CENTRATE-20261116",
+      "data": "2026-11-16",
+      "famiglia": "Report pali",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Formule dei quattro report ITEC centrate sia nel paragrafo Word sia nel blocco OMML, con un unico helper. Centrate anche le righe di formule nei brevi, separate dal testo descrittivo. Testi, dati e formule dei quattro esempi conservati; modifica di solo allineamento.",
+      "decisione": {
+        "utente": "centra le formule in tutti i reports",
+        "esito": "Programma aggiornato in app e quattro esempi aggiornati in Desktop/Reports; precedenti conservati."
+      },
+      "test": [
+        "ui/check-itec-pile-report PASS; 148 formule centrate nei 29 documenti generati",
+        "Quattro esempi Open XML: zero errori; apertura ordinaria in Word, 7/7/7/8 pagine",
+        "Breve verticale e breve orizzontale verificati in Word: due pagine ciascuno",
+        "Release senza codice di test; nessun PDF prodotto per gli esempi"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-154830-formule-centrate",
+        "supporto/artefatti/formule-centrate-2026-11-16"
+      ]
+    },
+    {
+      "id": "REPORT-FIGURE-ORIZZONTALI-20261116",
+      "data": "2026-11-16",
+      "famiglia": "Report pali orizzontali",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Nei report completi di capacità portante di palo e micropalo orizzontale aggiunti schema geometrico con vincolo, azioni e caratteristiche adottate e un profilo stratigrafico per sondaggio. Lo schema del micropalo mostra il tubolare CHS effettivamente adottato. Figure collegate ai sottocapitoli geometria e profili; nessuna duplicazione nei diagrammi dei risultati. Aggiornati sia il renderer generale sia il percorso del pulsante W. Calcoli, risultati, report brevi e risposta elastica invariati.",
+      "decisione": {
+        "utente": "Aggiungere immagine della stratigrafia come nei report verticali e immagine della geometria del palo con le caratteristiche.",
+        "esito": "Release aggiornata in app; due esempi Word aggiornati in Desktop/Reports senza risultati tabellari e senza PDF, con precedenti conservati."
+      },
+      "test": [
+        "ui/check-itec-pile-report PASS: 159 controlli famiglia, inclusi selezione indipendente delle figure, assenza di duplicati e percorso export W; suite WPF invariate (74)",
+        "Architecture.Tests PASS; nessuna aggiunta alla baseline F4",
+        "Due DOCX Open XML: zero errori; apertura Word ordinaria e verifica PNG di tutte le pagine, 8 e 9 pagine",
+        "Release qa/no-test-code PASS; copie consegnate verificate con SHA256"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-163718-figure-orizzontali-finali",
+        "supporto/artefatti/ci/20261116-163718-figure-orizzontali-finali-architettura",
+        "supporto/artefatti/figure-report-orizzontali-2026-11-16"
+      ]
+    },
+    {
+      "id": "REPORT-VERIFICA-ORIZZONTALE-TABELLA-20261116",
+      "data": "2026-11-16",
+      "famiglia": "Palo e micropalo orizzontale / report",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Eliminata dalla presentazione la dicitura fissa Verifica normativa: Incompleta. Completi e brevi riportano Rk, Rd, HEd, rapporto HEd/Rd ed esito del motore in una tabella condivisa. Nel completo introdotti spiegazione del confronto e formula Word centrata; intestazione del sottocapitolo esplicita. Anche il riepilogo UI mostra l’esito effettivo. Dati mancanti restano riconoscibili con verifica non eseguibile. Nessun calcolo o risultato grezzo modificato.",
+      "decisione": {
+        "utente": "Togliere la scritta e riscrivere la verifica a capacità portante orizzontale in forma tabellare, per entrambi i moduli.",
+        "esito": "Programma aggiornato in app e due Word in Desktop/Reports. Palo ricavato da Desktop/Calcolo.programma; micropalo dal precedente esempio. Conservate le versioni sostituite."
+      },
+      "test": [
+        "ui/check-itec-pile-report PASS, 171 controlli famiglia; verifica completa/breve/legacy e capitolo singolo concordi, resistenza assente e mancata verifica conservate",
+        "Reports.Tests PASS 515; Architecture.Tests PASS 627; baseline F4 ridotta di cinque letture numeriche eliminate, nessuna eccezione aggiunta",
+        "Due Word completi Open XML senza errori e apertura ordinaria in Word, 9/10 pagine; brevi entrambi 2 pagine, resa PNG controllata",
+        "Release qa/no-test-code PASS; consegna verificata SHA256; nessun PDF degli esempi"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-164941-verifica-tabellare-orizzontali",
+        "supporto/artefatti/ci/20261116-164941-verifica-tabellare-librerie/Reports.Tests",
+        "supporto/artefatti/ci/20261116-165142-verifica-tabellare-architettura",
+        "supporto/artefatti/verifica-tabellare-orizzontali-2026-11-16"
+      ]
+    },
+    {
+      "id": "REPORT-RISULTATI-ORIZZONTALI-ORDINATI-20261116",
+      "data": "2026-11-16",
+      "famiglia": "Report palo e micropalo orizzontale",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Sezione Resistenze e meccanismi organizzata in due tabelle: capacità ultima, sondaggio, meccanismo e My; dati della sezione resistente. Spiegazione del criterio resistente in prosa tecnica, senza riferimenti interni al motore. Nel c.a. conservati il minore momento nei due versi e la nota sulla duttilità; residuo, tolleranza, contorno e motore nel capitolo facoltativo dei dettagli. Analoga presentazione del CHS, mantenendo ipotesi e limiti. Nel breve c.a. la descrizione del motore è sostituita dal criterio tecnico. Nessun calcolo modificato.",
+      "decisione": {
+        "utente": "Ordinare meglio il blocco Hu, sondaggio, meccanismo, My e i dati della sezione in calcestruzzo armato.",
+        "esito": "Release aggiornata in app; due Word in Desktop/Reports con precedenti conservati. Palo basato su Calcolo.programma."
+      },
+      "test": [
+        "ui/check-itec-pile-report PASS, 182 controlli famiglia: capacità manuale, CHS e c.a.; separazione dei dettagli e conservazione dei dati",
+        "Reports.Tests PASS 515; Architecture.Tests PASS 628. Baseline F4 ridotta di 12 occorrenze eliminate, nessuna aggiunta",
+        "Due DOCX Open XML: zero errori; apertura ordinaria e controllo visuale Word, 9/10 pagine, nessun PDF degli esempi",
+        "Confronto dei JSON di input e risultato con la revisione precedente: identici per entrambi i moduli",
+        "Release qa/no-test-code PASS e copie consegnate SHA256"
+      ],
+      "nota_compilazione": "Una pubblicazione concorrente con la ricompilazione della UI ha invalidato risorse WPF intermedie. Ripristinato con clean del solo progetto Desktop e pubblicazione sequenziale riuscita; controllo architettura finale superato.",
+      "evidenze": [
+        "supporto/artefatti/ci/20261116-170133-risultati-orizzontali-ordinati",
+        "supporto/artefatti/ci/20261116-170133-risultati-ordinati-librerie/Reports.Tests",
+        "supporto/artefatti/ci/20261116-170422-risultati-ordinati-architettura-finale",
+        "supporto/artefatti/risultati-orizzontali-ordinati-2026-11-16"
+      ]
+    },
+    {
       "id": "UI-STRATIGRAFIA-TABELLA-20261116",
       "data": "2026-11-16",
       "famiglia": "Stratigrafia standalone e anteprima importazione",
@@ -15535,6 +15693,79 @@
         "supporto/artefatti/ci/20261116-174327-stratigrafia-validata",
         "supporto/artefatti/stratigrafia-tabella-2026-11-16"
       ]
+    },
+    {
+      "id": "UI-STRATIGRAFIA-PROFILI-20261117",
+      "data": "2026-11-17",
+      "famiglia": "Stratigrafia standalone, scambio terreno e report",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Blocco generale compatto senza scelta dei parametri per la verifica né descrizione ubicazione; dati preesistenti conservati. Strati identificati A, B, ... AA, con descrizione separata e colori distinti per nuovi strati e duplicati. Peso saturo collegato al naturale finché non viene assegnato manualmente; svuotarlo ripristina il collegamento, persistente al salvataggio e separato per medi/minimi. Profilo sotto la tabella con lettere, descrizione, comportamento, litologia, profondità, spessori, pesi, resistenze, minimi eventuali, quota p.c. e falda. Schede per più stratigrafie indipendenti con aggiunta, duplicazione, rinomina ed eliminazione confermata; almeno una resta presente. Scambio terreno e importazione operano sulla scheda scelta; report comprende tutte le stratigrafie.",
+      "decisione": {
+        "utente": "Procedere con il modulo compatto come nei pali e aggiungere più stratigrafie, con possibilità di copiarle tra loro.",
+        "esito": "Versione Release verificata e installata in app; copia precedente conservata negli artefatti. Nessun motore di calcolo o libreria GPC modificato da questa attività."
+      },
+      "compatibilita": "Primo profilo conservato alla radice del documento; ulteriori profili nella proprietà facoltativa additional_profiles. Copie con identificativi nuovi, falda e strati indipendenti. Nessuna scrittura all’apertura dei documenti esistenti. Nel trasferimento resta il numero del profilo di origine.",
+      "confronto": "Cattura iniziale riuscita il 17/11 alle 09:17. Undici tracce storiche conservate al netto dei due campi rimossi e del precedente default ponti già autorizzato. Quattro percorsi modificati rieseguiti e coperti da attesi indipendenti in StratigraphyEditingChecks: modifiche-generali differisce per description/scenario non più editabili nella vista; azioni-strati e azioni-indefinito solo per i colori; minimi per gamma_sat e il flag gamma_sat_auto. Differenze JSON per ciascun passo salvate negli artefatti; fixture congelate e attesi precedenti non riscritti.",
+      "test": [
+        "ui/check-stratigrafia-view PASS 219: UI reale, pesi collegati e override, profili indipendenti, salvataggio/riapertura, cancellazione, readonly, scambio, provenienza e report multiprofilo",
+        "Stratigraphy.UiChecks PASS 26; Stratigraphy.EditChecks PASS 125",
+        "Reports.Tests PASS 515; Architecture.Tests PASS 630; nessuna eccezione F4/F5 aggiunta",
+        "Suite UI prima e dopo: 74. Schermate controllate a larghezze 700/1400/1700 DIP; profilo completo e schede multiple",
+        "Publish Release sequenziale; Assert-NoTestCode PASS sulle 12 DLL ANTHEA; hash SHA256 installati registrati; git diff --check senza errori"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261117-091748-stratigrafia-compatta-prima-2",
+        "supporto/artefatti/ci/20261117-093518-stratigrafia-profili-finale/Reports.Tests",
+        "supporto/artefatti/ci/20261117-094630-stratigrafia-profili-conclusiva",
+        "supporto/artefatti/ci/20261117-095030-stratigrafia-profili-architettura",
+        "supporto/artefatti/stratigrafie-multiple-2026-11-17"
+      ]
+    },
+    {
+      "id": "UI-STRATIGRAFIA-PULIZIA-20261117",
+      "data": "2026-11-17",
+      "famiglia": "Stratigrafia standalone",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Rimossa la colonna Descrizione dalla tabella; resta bloccata durante lo scorrimento soltanto la colonna con lettera e colore. Denominazioni già archiviate conservate nel documento, nel suggerimento della lettera e nei dettagli avanzati. Eliminato il richiamo inclinato tra strato e legenda; aggiunto un quadratino dello stesso colore per identificare lo strato. Nessuna modifica a parametri o calcoli.",
+      "decisione": {
+        "utente": "La colonna Descrizione non serve; precedente osservazione sulla linea grigia inclinata.",
+        "esito": "Rimosse entrambe dalla vista e installata la Release aggiornata in app."
+      },
+      "test": [
+        "ui/check-stratigrafia-view PASS 219; Architecture.Tests PASS 630, nessuna nuova eccezione",
+        "Conteggio suite UI invariato: 74 prima e dopo; attesi e fixture storici non riscritti",
+        "Schermata con profili multipli controllata; nome storico accessibile dai dettagli avanzati e dalla proprietà di accessibilità della lettera",
+        "Pubblicazione della Release già compilata; qa/no-test-code PASS, git diff --check senza errori; precedente e hash installati conservati"
+      ],
+      "evidenze": [
+        "supporto/artefatti/stratigrafia-pulizia-2026-11-17",
+        "supporto/artefatti/ci/20261117-100904-stratigrafia-pulizia-finale"
+      ]
+    },
+    {
+      "id": "LIB-PALI-PESO-PONTI-20261117",
+      "data": "2026-11-17",
+      "famiglia": "Palo e micropalo verticale / coefficienti peso proprio ponti",
+      "categoria": "intenzionale",
+      "stato": "aperto",
+      "descrizione": "Promemoria: portare nella libreria GPC il profilo ponti A1 concordato per il peso proprio, gammaG sfavorevole 1,35 e favorevole 1,00. I predefiniti dei nuovi fogli ANTHEA sono già allineati; resta da recepire il profilo in Model/Checker e nei valori di riserva per campi assenti. Distinto dal coefficiente gammaB della resistenza di base.",
+      "codice": [
+        "X.Calculations/CalculationDefaults.cs: Vertical(bool micro)",
+        "X.Calculations/Calcolo.cs: PileResistanceFactors.FromStandard e WeightUnfavourable/WeightFavourable",
+        "src/ANTHEA.Reports/Generators/ReportWord.cs: fallback peso proprio 1,30/1,00"
+      ],
+      "decisione": {
+        "utente": "Mettere una nota perché la correzione 1,35 e 1,00 andrà poi modificata nella libreria di calcolo.",
+        "esito": "Aggiunti TODO nei due punti del codice e attività aperta nella coda del piano. Nessuna modifica al comportamento o alle DLL GPC in questa attività."
+      },
+      "criteri_chiusura": [
+        "Profilo ponti esplicito in Model/Checker, coerente con i coefficienti concordati",
+        "Allineamento dei fallback di calcolo e report; valori espliciti salvati conservati",
+        "Verifiche di nuovi fogli, campi assenti e override per palo e micropalo; attesi indipendenti e rilascio coerente delle librerie secondo AGENTS.md"
+      ],
+      "verifica_nota": "JSON del registro validato; diff controllato. Solo commenti e documentazione, nessuna ricompilazione necessaria."
     }
   ]
 }

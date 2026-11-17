@@ -105,16 +105,22 @@ internal static class CommandsChecks
         dialogs.Then(d =>
         {
             var choice = (ReportSectionsDialogViewModel)d;
-            expect.That(choice.Title == "Contenuti del report Word" && choice.Note is null && choice.Sections.Select(s => s.Key).SequenceEqual(ReportWord.Sezioni.Select(s => s.Key))
-                && choice.Sections.All(s => s.IsChecked == !s.Key.StartsWith("grafico", StringComparison.Ordinal)) && choice.CanExport, "Contenuti del report del palo");
-            foreach (var section in choice.Sections) section.IsChecked = section.Key == "dettagli";
+            expect.That(choice.Title == "Contenuti del report Word" && choice.Note is null
+                && choice.Sections.Select(s => s.Key).SequenceEqual(new[] { "intestazione", "indice", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "avvisi" })
+                && choice.Sections.Skip(2).Take(5).SelectMany(s => s.Descendants()).All(s => s.IsChecked)
+                && choice.Sections.Where(s => s.Key is "intestazione" or "indice" or "c6" or "c7" or "avvisi").SelectMany(s => s.Descendants()).All(s => !s.IsChecked)
+                && choice.CanExport, "Contenuti del report del palo");
+            foreach (var section in choice.Sections) section.IsChecked = section.Key == "indice";
             expect.That(!choice.CanExport && !choice.ExportCommand.CanExecute(null), "Report con le sole opzioni");
-            choice.Sections[0].IsChecked = true;
+            choice.Sections[1].IsChecked = false;
+            choice.Sections[2].Children.Single(c => c.Key == "oggetto").IsChecked = true;
             choice.ExportCommand.Execute(null);
         });
         files.Then(Path.Combine(folder, "Relazione.docx"));
         await commands.ReportCommand.ExecuteAsync(null);
-        expect.That(exports.Calls.Last() == "report geo_palo_verticale Relazione.docx «" + pile.Heading + "» dettagli,generali" && ((SaveFileRequest)files.Requests.Last()).FileName == "Relazione.docx", "Report del palo: " + exports.Calls.Last());
+        expect.That(exports.Calls.Last() == "report geo_palo_verticale Relazione.docx «" + pile.Heading + "» oggetto,palo_contenuti_v2"
+            && ((SaveFileRequest)files.Requests.Last()).FileName == "Relazione.docx"
+            && FileFilter.Join(((SaveFileRequest)files.Requests.Last()).Filters) == "Documento Word|*.docx", "Report del palo: " + exports.Calls.Last());
         dialogs.Then(d => ((ReportSectionsDialogViewModel)d).CancelCommand.Execute(null));
         int calls = exports.Calls.Count;
         await commands.ReportCommand.ExecuteAsync(null);

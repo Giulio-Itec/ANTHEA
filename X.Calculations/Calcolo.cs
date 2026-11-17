@@ -337,6 +337,8 @@ public static class Calcolo
                 strata.Add(list);
             }
             if(strata.Count==0)throw new ArgumentException("Aggiungere almeno una stratigrafia.");
+            // TODO LIB-PALI-PESO-PONTI-20261117: recepire in GPC il profilo ponti del peso proprio
+            // (gammaG 1,35 sfavorevole / 1,00 favorevole), anche per i campi assenti; non alterare gli override salvati.
             var normativeFactors=PileResistanceFactors.FromStandard(new StandardNTC2018Geotechnics{PileExecution=Esecuzione(g,micro)},Profili(g.S("verticali_indagate","1")));
             double gammaB=SicurezzaBase(dati,micro);
             // Validate has already rejected invalid explicit values; only absent keys use the typed standard.

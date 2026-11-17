@@ -315,6 +315,7 @@ internal static class VerticalPileSheetChecks
         var transitions = Transition.Load(Path.Combine(root, "tests", "fixtures", "f3", "transitions-f4.json"))
             .Where(t => fixtures.Any(f => t.File.StartsWith("sheets/" + f.Module + "/" + f.Id + "/", StringComparison.Ordinal))).ToList();
         var withTransitions = transitions.Select(t => t.File).ToHashSet(StringComparer.Ordinal);
+        var revisedReports = new HashSet<string>(StringComparer.Ordinal);
         string reference = Path.Combine(capture, "..", "palo-verticale-f3-riferimento");
         string candidate = Path.Combine(capture, "..", "palo-verticale-f3-transizioni");
         foreach (var (module, id) in fixtures)
@@ -328,6 +329,29 @@ internal static class VerticalPileSheetChecks
                 string file = relative + "/" + name;
                 string a = File.ReadAllText(Path.Combine(expected, file), Encoding.UTF8).Replace("\r\n", "\n");
                 string b = File.ReadAllText(Path.Combine(capture, file), Encoding.UTF8).Replace("\r\n", "\n");
+                // REPORT-PALO-ITEC-20261116: the user replaced the standalone document layout.
+                // Keep the F3 references and every input/result comparison; check the new report against its source results.
+                if (module == "geo_palo_verticale" && name is "report.txt" or "report-structure.json")
+                {
+                    revisedReports.Add(file);
+                    if (name == "report-structure.json")
+                    {
+                        var structure = JsonNode.Parse(b)!;
+                        expect.That(structure["tables"]!.GetValue<int>() > 0 && structure["styles"]!.AsArray().Any(s => s?.ToString() == "Titolo1")
+                            && structure["styles"]!.AsArray().Any(s => s?.ToString() == "Titolo2"), file + ": struttura ITEC assente");
+                    }
+                    else
+                    {
+                        expect.That(b.Contains("Oggetto e dati generali") && b.Contains("Riepilogo delle verifiche") && !b.Contains("cubiche raccordate"), file + ": contenuti ITEC errati");
+                        var source = JsonNode.Parse(File.ReadAllText(Path.Combine(capture, relative, "result.json")))!;
+                        foreach (var curve in source["curve"]!.AsObject())
+                        {
+                            double resistance = curve.Value!["progetto"]!.AsArray()[^1]![1]!.GetValue<double>();
+                            expect.That(b.Contains(resistance.ToString("0.##", CultureInfo.GetCultureInfo("it-IT"))), file + ": Rd finale diverso dal risultato " + curve.Key);
+                        }
+                    }
+                    continue;
+                }
                 if (!withTransitions.Contains(file)) { expect.That(a == b, file + " diverso dal riferimento F3 della vista storica"); continue; }
                 foreach (var (folder, text) in new[] { (reference, a), (candidate, b) })
                 {
@@ -337,7 +361,7 @@ internal static class VerticalPileSheetChecks
             }
         }
         var comparer = new BaselineComparer(Tolerances.Load(Path.Combine(root, "tests", "ANTHEA.Testing", "tolerances.json")));
-        comparer.Admit(transitions);
+        comparer.Admit(transitions.Where(t => !revisedReports.Contains(t.File)).ToList());
         var report = comparer.Compare(reference, candidate);
         File.WriteAllText(Path.Combine(capture, "..", "palo-verticale-f3-confronto.json"), report.ToJsonString(J.Options));
         // Four historical transitions and 39 warning paragraphs now included in the seven vertical-pile reports (6/11/2026).

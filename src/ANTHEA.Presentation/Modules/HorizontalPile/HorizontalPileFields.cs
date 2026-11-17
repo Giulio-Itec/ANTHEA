@@ -136,7 +136,7 @@ public static class HorizontalPileFields
         new("Acciaio", ["fy_chs_mpa", "modulo_chs_mpa", "gamma_m0", "__fyd"], true),
         new("Proprietà della sezione", ["__diametro_mm", "__spessore_mm", "__area_mm2", "__inerzia_mm4", "__wel_mm3", "__wpl_mm3", "__massa_kg_m", "__classe", "__npl_kn", "__mpl_knm"], true)];
 
-    /// <summary>The columns of the table of the layers of a stratigraphy (the soil editor is a column of its own, after the second).</summary>
+    /// <summary>The columns of the table of the layers of a stratigraphy (the soil editor is a column of its own, after the physical and strength parameters).</summary>
     public static FieldSpec[] Layers() => [new("tipologia", "Terreno", Choices: ["Granulare", "Coesivo"]),
         new("__kp", "Kp [−]", ReadOnly: true),
         new("spessore", "Spessore [m]"), new("peso_specifico", "γ [kN/m³]"), new("peso_specifico_saturo", "γsat [kN/m³]"),
@@ -163,5 +163,5 @@ public static class HorizontalPileFields
         "Testa libera: confronto corto/lungo. Testa impedita: corto/intermedio/lungo. La scelta non dipende dal solo rapporto L/D.\n\n" +
         "Rk = min(Hu,media/ξ3; Hu,min/ξ4).\nRd = η · Rk/1,3. Verifica soddisfatta se HEd ≤ Rd.\n\n" +
         "In Opzioni avanzate, Stratificato abilita anche alternanze coesivo/granulare con equilibrio globale e reazioni distribuite. Nei granulari corti/intermedi differisce dalla chiusura concentrata di Broms.\n\n" +
-        "Diagrammi e dettagli mostra tensioni verticali, pressioni laterali, reazioni, taglio, momento e risultante limite su tutta la profondità. Il tratto sotto la cerniera interna è tratteggiato perché idealizzato; l'anteprima compatta mostra solo il ramo superiore. Riferimenti: Viggiani, Broms, Wood/NZGS (Broms Modified) e FHWA GEC 9, consultabili nei risultati. I grafici sono alla capacità Hu, senza spostamenti o rotazioni; l’estensione stratificata resta sperimentale.";
+        "Diagrammi e dettagli mostra tensioni verticali, pressioni laterali, reazioni, taglio, momento e risultante limite su tutta la profondità. Il tratto sotto la cerniera interna è tratteggiato perché idealizzato; l'anteprima compatta mostra solo il ramo superiore. Riferimenti: Viggiani, Broms, Wood/NZGS (Broms Modified) e FHWA GEC 9, consultabili nei risultati. I grafici sono alla capacità Hu, senza spostamenti o rotazioni. Le formule sono state riadattate per tenere conto della presenza di più strati, valutando le reazioni con le proprietà di ciascuno strato.";
 }
