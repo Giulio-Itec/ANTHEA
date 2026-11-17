@@ -50,7 +50,12 @@ static partial class Program
         await vm.CheckStrand7SetupCommand.ExecuteAsync(null);
         Check(vm.ImportCases.Select(c => c.Label).SequenceEqual(["1: G1 · FC 1", "5: G1 · FC 2"]) && vm.ImportCases.Select(c => c.Name).SequenceEqual(["1: G1", "5: G1"]),
             "AY: the result cases show their freedom case; the names of the cases in the copy stay");
-        Check(vm.Strand7PreparationSummary.Contains("Più casi di vincolo (freedom case): FC 1 «Freedom Case 1»: casi di carico 1, 2; FC 2", StringComparison.Ordinal) &&
+        Check(vm.Strand7PreparationSummary.Contains("Più casi di vincolo (freedom case) nel modello, con i casi di carico che l’analisi statica lineare del modello risolve sotto ciascuno: " +
+                  "FC 1 «Freedom Case 1»: casi di carico 1, 2; FC 2", StringComparison.Ordinal) &&
+              vm.Strand7PreparationSummary.Contains("Ogni caso di risultato è un caso di carico sotto il suo freedom case («· FC n» nell’elenco dei casi).", StringComparison.Ordinal) &&
+              vm.Strand7PreparationSummary.Contains("il controllo di equilibrio lo fa GPC con queste reazioni", StringComparison.Ordinal) &&
+              !vm.Strand7PreparationSummary.Contains("sono quelli del solutore", StringComparison.Ordinal) &&
+              vm.Strand7PreparationSummary.Contains("(avviso Straus7FreedomCasesPreserved)", StringComparison.Ordinal) &&
               vm.Strand7PreparationSummary.Contains("Casi di risultato esclusi: 1", StringComparison.Ordinal) &&
               !vm.Strand7PreparationSummary.Contains("non associa ancora", StringComparison.Ordinal) && vm.HasStrand7ExcludedCases &&
               vm.Strand7ExcludedCases == "• " + excluded + ": l’analisi statica lineare risolve il caso di carico 2 sotto FC 1, FC 2: " + OneCasePerLoadCase + ".",
@@ -67,6 +72,49 @@ static partial class Program
         string? reason = none.NoResultsReason(true);
         Check(reason is not null && reason.Contains("freedom case", StringComparison.Ordinal) && reason.Contains("motivo di ogni caso escluso", StringComparison.Ordinal) &&
               !reason.Contains("non associa ancora", StringComparison.Ordinal) && none.SeveralFreedomCases, "AY: without selectable cases of several freedom cases the reason points to the excluded cases");
+
+        // Revision P2: the summary of the freedom cases follows the catalogue, not the case of a linear solution of two freedom cases. The line of
+        // the freedom cases is a fact of the model (the converter writes the freedom case data for every model with several of them).
+        async Task<string> Summary(Strand7ModelCatalog catalog, string? results)
+        {
+            var source = new NoResultServices { strand7Model = File("modello.st7"), strand7Results = results is null ? "" : File(results), strand7Api = api, Catalog = catalog };
+            using var view = new ModelViewerViewModel(null, [], false, source, _ => { }, (_, _, _, _) => { });
+            view.SelectedImportSource = 2;
+            view.ChooseStrand7ModelCommand.Execute(null); view.ChooseStrand7ResultsCommand.Execute(null); view.ChooseStrand7ApiCommand.Execute(null);
+            await view.CheckStrand7SetupCommand.ExecuteAsync(null);
+            return view.Strand7PreparationSummary;
+        }
+        const string FreedomLine = "Più casi di vincolo (freedom case) nel modello, con i casi di carico che l’analisi statica lineare del modello risolve sotto ciascuno: FC 1 «A»: casi di carico 1; FC 2 «B»: casi di carico 2.";
+        const string Labels = "«· FC n» nell’elenco dei casi", Reactions = "il controllo di equilibrio lo fa GPC con queste reazioni", Preserved = "Straus7FreedomCasesPreserved";
+        string[] twoFreedomCases = ["FC 1 «A»: casi di carico 1", "FC 2 «B»: casi di carico 2"];
+        // A staged nonlinear solution of a model with a freedom case per stage (.nla): cases by phase and increment, no equilibrium check.
+        string staged = await Summary(new Strand7ModelCatalog(4, 2, [new(1, Strand7Snapshot.NonlinearCaseName("1: Getto", "1")) { StageNumber = 1 }], "S/R")
+        {
+            NonlinearStages = true, StageResultsAvailable = true, LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases,
+            Phases = [new(1, "1: Getto", null, null, 1)], Warnings = [Preserved + ": vincoli di più freedom case conservati."]
+        }, "modello.nla");
+        Check(staged.Contains(FreedomLine, StringComparison.Ordinal) && staged.Contains("analisi statica non lineare per fasi (.nla)", StringComparison.Ordinal) &&
+              staged.Contains("il controllo di equilibrio di GPC non si fa per queste soluzioni", StringComparison.Ordinal) &&
+              !staged.Contains(Labels, StringComparison.Ordinal) && !staged.Contains(Reactions, StringComparison.Ordinal) && staged.Contains("(avviso " + Preserved + ")", StringComparison.Ordinal),
+            "P2: a staged nonlinear solution of several freedom cases names no «· FC n» and no equilibrium check");
+        // «Controlla file e casi» without a results file: no list of the cases to speak of.
+        string geometry = await Summary(new Strand7ModelCatalog(4, 2, [], "S") { LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases }, null);
+        Check(geometry.Contains(FreedomLine, StringComparison.Ordinal) && geometry.Contains("Senza file dei risultati i freedom case restano dati del modello.", StringComparison.Ordinal) &&
+              !geometry.Contains(Labels, StringComparison.Ordinal) && !geometry.Contains(Reactions, StringComparison.Ordinal) && !geometry.Contains(Preserved, StringComparison.Ordinal),
+            "P2: without a results file the summary keeps the freedom cases of the model and says nothing of result cases, reactions or preserved restraints");
+        // A model with two freedom cases solved under the first one only: «n: nome», no label; no restraint or spring, so no warning.
+        string single = await Summary(new Strand7ModelCatalog(4, 2, [new(1, "1: G1"), new(2, "2: G2")], "S/R") { LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases }, "modello.lsa");
+        Check(single.Contains(FreedomLine, StringComparison.Ordinal) && !single.Contains(Labels, StringComparison.Ordinal) &&
+              single.Contains("I nomi dei casi del file non indicano un freedom case", StringComparison.Ordinal) && single.Contains(Reactions, StringComparison.Ordinal) &&
+              !single.Contains(Preserved, StringComparison.Ordinal),
+            "P2: a solution of one freedom case of a model with two has no «· FC n» sentence, and the preserved restraints only with the warning");
+        // Linear static results with no selectable case: no sentence on the reactions of cases that are not imported.
+        string excludedOnly = await Summary(new Strand7ModelCatalog(4, 2, [], "S/R")
+        {
+            LoadCases = ["1: G1", "2: G2"], FreedomCases = twoFreedomCases, UnmappedResultCases = [excluded], ExcludedResultCases = [new(2, excluded, Strand7Snapshot.ExclusionReason(Shared))]
+        }, "modello.lsa");
+        Check(excludedOnly.Contains(FreedomLine, StringComparison.Ordinal) && !excludedOnly.Contains(Reactions, StringComparison.Ordinal) && !excludedOnly.Contains(Labels, StringComparison.Ordinal),
+            "P2: without selectable cases the summary names neither labels nor reactions");
 
         // The worker protocol keeps labels, excluded cases and freedom cases (the record goes from the worker process to the interface as JSON).
         string json = Path.Combine(folder, "catalogo.json");

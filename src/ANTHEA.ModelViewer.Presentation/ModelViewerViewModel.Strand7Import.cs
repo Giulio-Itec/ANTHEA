@@ -61,9 +61,10 @@ public sealed partial class ModelViewerViewModel
             foreach (var item in catalog.Cases) { strand7CaseNumbers[item.Name] = item.Number; ImportCases.Add(new(item.Name, ImportCaseSelectionChanged, item.Label)); }
             // R9 (16/11/2026): why there is no result to import, and the warnings of the converter here, before the import (until 1.19.1 only
             // their number, with a reference to an import report that did not exist yet).
-            string? reason = catalog.NoResultsReason(!string.IsNullOrWhiteSpace(Strand7ResultsPath));
+            bool resultsFile = !string.IsNullOrWhiteSpace(Strand7ResultsPath);
+            string? reason = catalog.NoResultsReason(resultsFile);
             Strand7PreparationSummary = "Catalogo letto · " + catalog.Summary + (catalog.ApiVersion.Length > 0 ? " · API " + catalog.ApiVersion : "") +
-                FreedomCasesSummary(catalog) +
+                FreedomCasesSummary(catalog, resultsFile) +
                 // R2 of the review of 17/11/2026: on a copy with results «Tutto» stays disabled (ResultsLossWarning says why).
                 (reason is null ? "" : "\nNessun caso di risultato da importare: " + reason + (HasCurrentResults
                     ? ". La copia attuale ha risultati: leggi l'avviso sotto «Contenuto da acquisire»."
@@ -91,12 +92,33 @@ public sealed partial class ModelViewerViewModel
     public bool HasStrand7ExcludedCases => Strand7ExcludedCases.Length > 0;
     partial void OnStrand7ExcludedCasesChanged(string value) => OnPropertyChanged(nameof(HasStrand7ExcludedCases));
 
-    /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model with several of them, for the summary of the catalogue; empty with one.</summary>
-    static string FreedomCasesSummary(Strand7ModelCatalog catalog) => catalog.FreedomCases.Count == 0 ? "" :
-        "\nPiù casi di vincolo (freedom case): " + string.Join("; ", catalog.FreedomCases) + ". Ogni caso di risultato è un caso di carico sotto il suo freedom case " +
-        "(«· FC n» nell’elenco dei casi). Vincoli e molle dei freedom case restano conservati dal convertitore come dati della sorgente " +
-        "(avviso Straus7FreedomCasesPreserved), non come vincoli del modello GPC; reazioni e controllo di equilibrio di ogni caso sono quelli del " +
-        "solutore nel suo freedom case.";
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model with several of them, for the summary of the catalogue; empty with one.
+    /// Revision P2: the freedom cases and the load cases solved under each one are a fact of the model (its linear static settings), so that
+    /// line is always there; what the summary says of the result cases follows the catalogue: «· FC n» only when a case has a freedom case,
+    /// reactions and equilibrium only for linear static results with selectable cases (the reactions are those of the solver, the check is
+    /// the one of GPC), nothing of them for a staged nonlinear solution (.nla: no freedom case in the names, no equilibrium check) or without
+    /// a results file, and the preserved restraints and springs only with the warning of the converter.</summary>
+    static string FreedomCasesSummary(Strand7ModelCatalog catalog, bool resultsFile)
+    {
+        if (catalog.FreedomCases.Count == 0) return "";
+        var text = new System.Text.StringBuilder("\nPiù casi di vincolo (freedom case) nel modello, con i casi di carico che l’analisi statica lineare del modello risolve sotto ciascuno: ")
+            .Append(string.Join("; ", catalog.FreedomCases)).Append('.');
+        if (!resultsFile) text.Append(" Senza file dei risultati i freedom case restano dati del modello.");
+        else if (catalog.NonlinearStages)
+            text.Append(" I risultati sono di un’analisi statica non lineare per fasi (.nla): i casi sono elencati per fase e incremento, senza freedom case, " +
+                "il controllo di equilibrio di GPC non si fa per queste soluzioni e le impostazioni dell’analisi statica lineare qui sopra non le riguardano.");
+        else if (catalog.Cases.Count > 0)
+        {
+            text.Append(catalog.Cases.Any(c => c.FreedomCaseLabel != null)
+                ? " Ogni caso di risultato è un caso di carico sotto il suo freedom case («· FC n» nell’elenco dei casi)."
+                : " I nomi dei casi del file non indicano un freedom case («n: nome», come in una soluzione con un solo freedom case).");
+            text.Append(" Le reazioni di ogni caso sono quelle del solutore nel freedom case con cui è risolto; il controllo di equilibrio lo fa GPC con queste reazioni.");
+        }
+        if (catalog.Warnings.Any(w => w.StartsWith("Straus7FreedomCasesPreserved", StringComparison.Ordinal)))
+            text.Append(" Vincoli e molle dei freedom case restano conservati dal convertitore come dati della sorgente, non come vincoli del modello GPC " +
+                "(avviso Straus7FreedomCasesPreserved).");
+        return text.ToString();
+    }
 
     // R10 (16/11/2026, requirement of the user: «il file deve essere importato anche senza casi di carico»): with «Tutto» and a catalogue without
     // result cases the import takes geometry, attributes and loads; with result cases at least one case and one type of result, as before.
