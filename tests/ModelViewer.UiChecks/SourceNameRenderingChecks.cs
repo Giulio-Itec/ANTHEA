@@ -33,10 +33,14 @@ static partial class Program
         Check(vm.ImportCases.Select(c => c.Name).SequenceEqual(SourceNameServices.CaseNames) && vm.ImportStages.Count == 1 && vm.ImportStageCases.Count == 1,
             "source names: the panel has the cases, the phase and the stage case of the source");
 
-        // The reason of the template: a CheckBox of the viewer with a text content still takes «_» as the mark of an access key.
+        // The reason of the TextBlock: a CheckBox of the viewer with a text content still draws it with an AccessText, which takes the «_» as
+        // the mark of the access key A (the mark is not drawn).
         var plain = new CheckBox { Content = "Q_A" };
-        ((Panel)panel.Content).Children.Add(plain); Wait(40);
-        Check(Shown(plain) == "QA" && Children<AccessText>(plain).Any(), "source names: a text content of the viewer CheckBox loses its «_» (access key), the reason of the TextBlock");
+        ((Panel)panel.Content).Children.Add(plain); Wait(60); plain.UpdateLayout();
+        var marks = Children<AccessText>(plain).ToArray();
+        Check(marks.Length == 1 && marks[0].Text == "Q_A" && marks[0].AccessKey == 'A',
+            "source names: a text content of the viewer CheckBox makes «_A» an access key, the reason of the TextBlock (AccessText: " +
+            string.Join(" | ", marks.Select(m => m.Text + " → " + m.AccessKey)) + ")");
         ((Panel)panel.Content).Children.Remove(plain);
 
         var cases = Children<CheckBox>(Children<ListBox>(panel).Single()).Where(c => c.DataContext is ImportCaseOption).ToArray();
