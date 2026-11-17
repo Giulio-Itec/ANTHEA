@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Anthea.Application.Presentation;
 using Anthea.Calculations;
+using Anthea.Reports;
 using X.Core;
 
 namespace Anthea.Presentation.Tests;
