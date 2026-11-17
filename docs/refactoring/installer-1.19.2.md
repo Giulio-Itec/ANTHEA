@@ -55,7 +55,7 @@ Il primo passaggio di Crea-Installer è fallito solo nel `Get-FileHash` finale, 
 
 ## Prova dell'utente
 
-L'utente ha provato la build `F11-anthea-candidata-1192`, che ha lo stesso codice dell'applicazione del setup (`829f852b`; dopo cambiano solo documenti, PDF e dati di prova). Il 17/11 ha risposto «Prova OK» agli 11 punti del LEGGIMI: Modelli sul suo progetto MIDAS, nomi con «_», File › Apri, P118 senza risultati, stratigrafia storica e Wiki.
+L'utente ha provato la build `F11-anthea-candidata-1192`, che ha lo stesso codice dell'applicazione del setup (`829f852b`; dopo cambiano solo documenti, PDF e dati di prova). Il 17/11 ha risposto «Prova OK» agli 11 punti del LEGGIMI: Modelli sul suo progetto MIDAS, nomi con «_», File › Apri, file Straus7 con due freedom case senza risultati, stratigrafia storica e Wiki.
 
 ## Pubblicazione
 
