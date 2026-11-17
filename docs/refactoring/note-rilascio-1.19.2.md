@@ -22,7 +22,7 @@ Misure su un modello MIDAS reale con 48 casi e 73 combinazioni (PC di prova con 
 - **Calcola tutte.** Prima, la serie accumulava i risultati di ogni combinazione e non restituiva la memoria: picco di 26,5 GB, con 26 GB ancora occupati alla fine. Ora il picco è di 21,7 GB e alla fine ne restano circa 14 GB. Alla fine della serie la finestra può fermarsi 4–5 s mentre la memoria torna a Windows.
 - **Libera e Annulla.**
   - Dopo «Libera tutte» la memoria scende verso 7 GB; prima ne restavano 25.
-  - Accanto a «Libera» c'è «↶ Annulla Libera». Questo comando e ↶ Annulla del progetto riportano i risultati senza fermare a lungo la finestra; prima serviva fino a 90 s.
+  - Accanto a «Libera» c'è «Annulla Libera». Questo comando e «Annulla» del progetto riportano i risultati senza fermare a lungo la finestra; prima serviva fino a 90 s.
 - **Riapertura.** La copia di un modello grande si legge in un altro thread, all'apertura del progetto e dopo «Annulla». La scheda del modello mostra «Lettura del modello e dei risultati salvati… N %» e la finestra resta utilizzabile; prima restava ferma circa 64 s.
 - **Casi base.** Appena il modello è sullo schermo, e dopo un'importazione, ANTHEA prepara in background i casi base. Così la prima combinazione parte subito; prima aspettava circa 24 s. Con meno di 8 GiB liberi la preparazione non parte da sola.
   - Il passaggio ad altre schede non la ripete.
