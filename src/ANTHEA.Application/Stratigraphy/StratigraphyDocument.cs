@@ -15,7 +15,7 @@ public static class StratigraphyDocument
     public static readonly string[] Qualifications = ["Non qualificato", "Misurato", "Interpretato", "Caratteristico"];
     public static readonly string[] Scenarios = ["Medi", "Minimi", "Entrambi"];
     /// <summary>State of density of a layer (optional key «density», missing = «Da definire»): the two states of the vertical pile.</summary>
-    public static readonly string[] Densities = ["Da definire", "Sciolto", "Denso"];
+    public static IReadOnlyList<string> Densities { get; } = ["Da definire", "Sciolto", "Denso"];
     /// <summary>The state of density of the layer for the vertical pile: «Sciolto», «Denso» or "" when not defined.</summary>
     public static string PileDensity(JsonObject layer) => layer["density"]?.ToString() is "Sciolto" or "Denso" ? layer["density"]!.ToString() : "";
     // Descriptive families for graphic identification only, not a granulometric classification or material catalogue.
