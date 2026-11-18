@@ -208,7 +208,7 @@ public static class HorizontalChecks
             Assert(PaloOrizzontale.Csv(sr).Contains("p_kN_m"), "CSV mancante");
             string report = Path.Combine(temp, "report.docx"); ReportOrizzontale.Write(report, "Test", sr);
             using var zip = ZipFile.OpenRead(report); using var stream = zip.GetEntry("word/document.xml")!.Open();
-            string xml = XDocument.Load(stream).ToString(); Assert(xml.Contains("Residui di equilibrio") && xml.Contains("Incompleta") && xml.Contains("Diagrammi tabellari"), "Relazione incompleta");
+            string xml = XDocument.Load(stream).ToString(); Assert(xml.Contains("Residui di equilibrio") && xml.Contains("Verifica della capacità portante orizzontale") && xml.Contains("Diagrammi tabellari"), "Relazione incompleta");
             Assert(xml.Contains("Modello selezionato automaticamente") && !xml.Contains("Modello terreno"), "Relazione usa la selezione manuale obsoleta");
         }
         finally { Directory.Delete(temp, true); }

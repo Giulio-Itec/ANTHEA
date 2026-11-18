@@ -348,8 +348,8 @@ internal static class HorizontalPileSheetChecks
 
     /// <summary>
     /// The capture of the ViewModel against the F3 reference of the historic view: every file byte for byte (after the line endings) for the
-    /// fixtures on the tab of the capacity, except the four with the transitions of AG-PO-01; for those on the tab of the elastic response (F5.8),
-    /// and for those four, every file as ui/f3-equivalence compares it, with the tolerances (the measured times tempi_ms are volatile) and exactly
+    /// fixtures on the tab of the capacity, except the files with F4 transitions; for those on the tab of the elastic response (F5.8),
+    /// and for those files, every file as ui/f3-equivalence compares it, with the tolerances (the measured times tempi_ms are volatile) and exactly
     /// the F4 transitions of the two modules admitted.
     /// </summary>
     private static void CompareF3(string root, string capture, IReadOnlyList<(string Module, string Id)> fixtures, Expect expect)
@@ -414,6 +414,9 @@ internal static class HorizontalPileSheetChecks
         // head and the toe of single-soil-elastic, where MRd, ratios, critical section and summaries change, and the hypotheses of the three
         // elastic fixtures say it: 428 new entries; 224 earlier entries keep their value before, with the new value after and the entry extended
         // with « / BUG-PO-5b» (210 of them were AG-PO-02, 10 extended with AG-PO-02), so they count with the response of single-soil-elastic.
+        // Merge of main 630028b8 (1.19.4, MERGE-GIULIO-RIFERIMENTI-20261118): the reports of the capacity have the table of the capacity, so
+        // their F3 files (report.txt, report-structure.json) are new expected files from the capture, without their transitions: AG-PO-01
+        // 480 -> 301 (the two result.json), F5-REL-1160-02 18 -> 12 (the six result.json), PO-ANELLO-01 2 -> 1 (elastico-tratti-anello-spirale).
         var shear = transitions.Where(t => t.Entry.StartsWith("PARATIE-19", StringComparison.Ordinal)).ToList();
         var parabola = transitions.Where(t => t.Entry is "AG-PO-01" or "AG-PO-02").ToList();
         var partial = transitions.Where(t => t.Entry == "BUG-PO-5b").ToList();
@@ -425,17 +428,17 @@ internal static class HorizontalPileSheetChecks
         // for MinimumTension of beams: 24 + 24 + 9 lines in result.json of elastico-sisma-testa-impedita, elastico-tratti-anello-spirale, single-soil-elastic.
         var references = transitions.Where(t => t.Entry == "R14").ToList();
         var others = transitions.Except(shear).Except(parabola).Except(partial).Except(ring).Except(pacini).Except(references).ToList();
-        expect.That(elastic == 11 && capacity == 12 && pacini.Count == 18 && pacini.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) || t.File.EndsWith("/report.txt", StringComparison.Ordinal))
+        expect.That(elastic == 11 && capacity == 6 && pacini.Count == 12 && pacini.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) || t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && references.Count == 57 && references.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) && t.Path.EndsWith(".Reference", StringComparison.Ordinal))
-            && shear.Count == 3941 && others.Count == 1327 && ring.Count == 2 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
+            && shear.Count == 3941 && others.Count == 1327 && ring.Count == 1 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
-            && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
+            && parabola.Count(t => t.Entry == "AG-PO-01") == 301 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
             && partial.Count == 2367 && partial.Count(t => t.Path.EndsWith(".DevelopedFraction", StringComparison.Ordinal)) == 1939
             && transitions.Count(t => t.Entry.EndsWith(" / AG-PO-02", StringComparison.Ordinal)) == 7
             && transitions.Count(t => t.Entry.EndsWith(" / BUG-PO-5b", StringComparison.Ordinal)) == 224,
             "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1327 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
-            + "le 480 di AG-PO-01 su 4 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
-            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, le 2 di PO-ANELLO-01 sui report, le 18 di F5-REL-1160-02 su 12 file della capacità, "
+            + "le 301 di AG-PO-01 su 2 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
+            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, la 1 di PO-ANELLO-01 sul report di elastico-tratti-anello-spirale, le 12 di F5-REL-1160-02 su 6 file della capacità, "
             + "le 57 di R14 sui riferimenti dei controlli costruttivi della risposta elastica)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }

@@ -556,8 +556,9 @@ internal static class StratigraphySheetChecks
         editor.SelectedLayerIndex = 1; editor.MinimaForm!["notes"].EditText = "Nota";
         sheet.Commit();
         var layer = StratigraphyDocument.Layers(sheet.Data)[0]!.AsObject();
-        expect.That(sheet.Data.Select(p => p.Key).SequenceEqual(fixture.Select(p => p.Key)) && layer.Select(p => p.Key).Last() == "behavior"
-            && layer.Count == StratigraphyDocument.Layers(fixture)[0]!.AsObject().Count + 1, "Chiavi scritte dalla scheda");
+        // 18/11/2026 (merge of main 630028b8): γ written with an empty γsat links them («gamma_sat_auto», StratigraphyEditing).
+        expect.That(sheet.Data.Select(p => p.Key).SequenceEqual(fixture.Select(p => p.Key)) && layer.Select(p => p.Key).TakeLast(2).SequenceEqual(["behavior", "gamma_sat_auto"])
+            && layer.Count == StratigraphyDocument.Layers(fixture)[0]!.AsObject().Count + 2, "Chiavi scritte dalla scheda: " + string.Join(", ", layer.Select(p => p.Key)));
     }
 
     // ---------------------------------------------------------------- read-only

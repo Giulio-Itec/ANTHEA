@@ -1,165 +1,337 @@
 # word/document.xml
-¶ ANTHEA — Fixture F3 · geo_palo_verticale · regressione-palo_storico_0
-¶ Palo — capacità portante · <DATA> <ORA>
-¶ Dati generali — m, kN, kPa, gradi; p_i in MPa
+¶ 1  Oggetto e dati generali
+¶ 1.1  Oggetto e unità di misura
+¶ Verifica geotecnica della capacità portante verticale del palo soggetto a compressione e trazione.
+¶ Lunghezze in m, azioni e resistenze in kN, tensioni in kPa, pesi dell’unità di volume in kN/m³. Profondità z positiva verso il basso dalla testa del palo; la stratigrafia è riferita al piano campagna.
+¶ Tabella 1.1  Geometria e inquadramento
 [T1 r1 c1] Parametro
 [T1 r1 c2] Valore
-[T1 r2 c1] diametro
-[T1 r2 c2] 1
-[T1 r3 c1] lunghezza
-[T1 r3 c2] 12,3
-[T1 r4 c1] presenza_falda
-[T1 r4 c2] false
-[T1 r5 c1] profondita_falda
-[T1 r5 c2] 3,2
-[T1 r6 c1] considera_sottospinta
-[T1 r6 c2] true
-[T1 r7 c1] azione_compressione
-[T1 r7 c2] 500
-[T1 r8 c1] azione_trazione
-[T1 r8 c2] 100
-[T1 r9 c1] verticali_indagate
-[T1 r9 c2] 2
-[T1 r10 c1] tipo_palo
-[T1 r10 c2] Trivellato
-[T1 r11 c1] peso_specifico_palo
-[T1 r11 c2] 25
-[T1 r12 c1] sicurezza_laterale_compressione
-[T1 r12 c2] 1,15
-[T1 r13 c1] sicurezza_laterale_trazione
-[T1 r13 c2] 1,25
-[T1 r14 c1] sicurezza_base
-[T1 r14 c2] 1,35
-[T1 r15 c1] peso_palo_sfavorevole
-[T1 r15 c2] 1,3
-[T1 r16 c1] peso_palo_favorevole
-[T1 r16 c2] 1
-[T1 r17 c1] metodo_nq
-[T1 r17 c2] Parametrizzata
-[T1 r18 c1] metodo_nq_precedente
-[T1 r18 c2] Originale
-¶ Efficienza — dati
+[T1 r2 c1] Tipologia del palo
+[T1 r2 c2] Trivellato
+[T1 r3 c1] Diametro D [m]
+[T1 r3 c2] 1
+[T1 r4 c1] Lunghezza L [m]
+[T1 r4 c2] 12,3
+[T1 r5 c1] Peso dell’unità di volume γp [kN/m³]
+[T1 r5 c2] 25
+[T1 r6 c1] Verticali indagate n
+[T1 r6 c2] 2
+¶ 1.2  Riferimenti e coefficienti adottati
+¶ D.M. 17 gennaio 2018, NTC: § 6.4.3.1.1 e tabelle 6.4.II e 6.4.IV per la resistenza assiale dei pali; tabella 5.1.V per le azioni sui ponti. Approccio 2: A1 + M1 + R3.
+¶ Tabella 1.2  Coefficienti applicati
 [T2 r1 c1] Parametro
 [T2 r1 c2] Valore
-[T2 r2 c1] metodo
-[T2 r2 c2] Nessuna riduzione
-[T2 r3 c1] numero_pali_x
-[T2 r3 c2] 3
-[T2 r4 c1] numero_pali_y
-[T2 r4 c2] 2
-[T2 r5 c1] interasse_x
-[T2 r5 c2] 3
-[T2 r6 c1] interasse_y
-[T2 r6 c2] 3
-[T2 r7 c1] eta_compressione
-[T2 r7 c2] 0,8
-[T2 r8 c1] eta_trazione
-[T2 r8 c2] 0,9
-¶ Efficienza — risultati
-[T3 r1 c1] Parametro
-[T3 r1 c2] Valore
-[T3 r2 c1] errore
-[T3 r2 c2]
-[T3 r3 c1] metodo
-[T3 r3 c2] Nessuna riduzione
-[T3 r4 c1] eta_compressione
-[T3 r4 c2] 1,0
-[T3 r5 c1] eta_trazione
-[T3 r5 c2] 1,0
-[T3 r6 c1] numero_pali
-[T3 r6 c2] 1,0
-¶ Coefficienti applicati
-[T4 r1 c1] Parametro
-[T4 r1 c2] Valore
-[T4 r2 c1] ξ3
-[T4 r2 c2] 1,65
-[T4 r3 c1] ξ4
-[T4 r3 c2] 1,55
-[T4 r4 c1] γs,c
-[T4 r4 c2] 1,15
-[T4 r5 c1] γs,t
-[T4 r5 c2] 1,25
-[T4 r6 c1] γb
-[T4 r6 c2] 1,35
-[T4 r7 c1] γG sfavorevole
-[T4 r7 c2] 1,3
-[T4 r8 c1] γG favorevole
-[T4 r8 c2] 1
-¶ Sondaggio 1 — strato 1
+[T2 r2 c1] ξ3
+[T2 r2 c2] 1,65
+[T2 r3 c1] ξ4
+[T2 r3 c2] 1,55
+[T2 r4 c1] γs,c
+[T2 r4 c2] 1,15
+[T2 r5 c1] γs,t
+[T2 r5 c2] 1,25
+[T2 r6 c1] γb
+[T2 r6 c2] 1,35
+[T2 r7 c1] γG sfavorevole
+[T2 r7 c2] 1,35
+[T2 r8 c1] γG favorevole
+[T2 r8 c2] 1
+¶ 2  Teoria di calcolo
+¶ 2.1  Resistenza a compressione e trazione
+¶ La resistenza a compressione comprende punta e fusto; in trazione si considera il contributo laterale.
+¶ D e L sono diametro e lunghezza; qb è la resistenza unitaria di punta e τ quella tangenziale lungo il fusto. I contributi Rb e Rs sono espressi in kN.
+¶ 2.2  Condizioni drenate
+¶ Il motore corrente considera c′ nella resistenza laterale dei terreni coesivi; nei terreni granulari il termine è nullo. k e μ sono i coefficienti del modello adottato. Nq dipende dall’angolo di attrito e dal rapporto fra profondità della punta dal piano campagna e diametro.
+¶ I coefficienti K e μ del fusto dipendono dalla tecnologia del palo e dallo stato di addensamento del terreno. Il programma adotta i valori della Tabella 2.1, nella forma proposta da Viggiani (1999); la riga evidenziata è la tecnologia del palo in esame.
+¶ Tabella 2.1  Coefficienti K e μ del fusto in condizioni drenate
+[T3 r1 c1] Tipo di palo
+[T3 r1 c2] K — stato di addensamento
+[T3 r1 c3] μ
+[T3 r2 c1]
+[T3 r2 c2] sciolto
+[T3 r2 c3] denso
+[T3 r2 c4]
+[T3 r3 c1] Battuto
+[T3 r3 c2] Profilato d'acciaio
+[T3 r3 c3] 0,7
+[T3 r3 c4] 1,0
+[T3 r3 c5] tan 20°
+[T3 r4 c1]
+[T3 r4 c2] Tubo d'acciaio chiuso
+[T3 r4 c3] 1,0
+[T3 r4 c4] 2,0
+[T3 r4 c5] tan 20°
+[T3 r5 c1]
+[T3 r5 c2] Calcestruzzo prefabbricato
+[T3 r5 c3] 1,0
+[T3 r5 c4] 2,0
+[T3 r5 c5] tan (¾ φ′)
+[T3 r6 c1]
+[T3 r6 c2] Calcestruzzo gettato in opera
+[T3 r6 c3] 1,0
+[T3 r6 c4] 3,0
+[T3 r6 c5] tan φ′
+[T3 r7 c1] Trivellato
+[T3 r7 c2] 0,5
+[T3 r7 c3] 0,4
+[T3 r7 c4] tan φ′
+[T3 r8 c1] Elica continua
+[T3 r8 c2] 0,7
+[T3 r8 c3] 0,9
+[T3 r8 c4] tan φ′
+¶ Riga evidenziata: «Trivellato», la tecnologia del palo nei dati generali. φ′ è l’angolo di attrito efficace dello strato.
+¶ 2.3  Condizioni non drenate
+¶ La resistenza di punta è lorda: σv è la tensione verticale totale alla punta. Il ramo non drenato si applica ai terreni coesivi sotto falda; negli altri tratti si usa il ramo drenato. I valori di Nc, cu e α adottati sono riportati nei dati e nei dettagli del calcolo.
+¶ In condizioni non drenate l’aderenza è τs = α cu. Il coefficiente α dipende dalla tecnologia e dalla coesione non drenata secondo la Tabella 2.2, nella forma proposta da Viggiani (1999); le righe evidenziate sono quelle del palo in esame.
+¶ Tabella 2.2  Coefficiente di aderenza α in condizioni non drenate
+[T4 r1 c1] Tipo di palo
+[T4 r1 c2] cu [kPa]
+[T4 r1 c3] α
+[T4 r2 c1] Battuto
+[T4 r2 c2] cu ≤ 25
+[T4 r2 c3] 1,0
+[T4 r3 c1]
+[T4 r3 c2] 25 < cu < 70
+[T4 r3 c3] 1 − 0,0111 (cu − 25)
+[T4 r4 c1]
+[T4 r4 c2] cu ≥ 70
+[T4 r4 c3] 0,5
+[T4 r5 c1] Trivellato
+[T4 r5 c2] cu ≤ 25
+[T4 r5 c3] 0,7
+[T4 r6 c1]
+[T4 r6 c2] 25 < cu < 70
+[T4 r6 c3] 0,7 − 0,008 (cu − 25)
+[T4 r7 c1]
+[T4 r7 c2] cu ≥ 70
+[T4 r7 c3] 0,35
+¶ Le righe «Trivellato» valgono per tutte le tecnologie non battute, compresa l’elica continua.
+¶ 2.4  Resistenze caratteristiche e di progetto
+¶ Per ciascun contributo di punta e laterale si valutano separatamente media/ξ₃ e minimo/ξ₄ sulle verticali. Nei due rami, i contributi caratteristici sono divisi per i rispettivi coefficienti di resistenza; si assume il minore dei valori di progetto.
+¶ ηc ed ηt sono le efficienze del gruppo. Le tabelle distinguono le resistenze calcolate, caratteristiche e di progetto e indicano il ramo determinante.
+¶ 2.5  Efficienza del gruppo
+¶ Metodo: Nessuna riduzione. Efficienza in compressione ηc = 1; in trazione ηt = 1.
+¶ Tabella 2.3  Efficienza — risultati
 [T5 r1 c1] Parametro
 [T5 r1 c2] Valore
-[T5 r2 c1] tipologia
-[T5 r2 c2] Granulare
-[T5 r3 c1] addensamento
-[T5 r3 c2] Denso
-[T5 r4 c1] spessore
-[T5 r4 c2] 6
-[T5 r5 c1] peso_specifico
-[T5 r5 c2] 19
-[T5 r6 c1] peso_specifico_saturo
-[T5 r6 c2] 21
-[T5 r7 c1] angolo_attrito
-[T5 r7 c2] 31
-[T5 r8 c1] coesione_efficace
-[T5 r8 c2] 2
-[T5 r9 c1] coesione_non_drenata
-[T5 r9 c2] 50
-[T5 r10 c1] nc
-[T5 r10 c2] 9
-¶ Sondaggio 1 — strato 2
-[T6 r1 c1] Parametro
-[T6 r1 c2] Valore
-[T6 r2 c1] tipologia
+[T5 r2 c1] metodo
+[T5 r2 c2] Nessuna riduzione
+[T5 r3 c1] Efficienza in compressione ηc
+[T5 r3 c2] 1
+[T5 r4 c1] Efficienza in trazione ηt
+[T5 r4 c2] 1
+[T5 r5 c1] Numero di pali
+[T5 r5 c2] 1
+¶ 3  Modello geotecnico
+¶ 3.1  Falda e quota della testa
+¶ Falda assente nel modello.
+¶ Testa del palo a 0 m sotto il piano campagna. Gli strati sopra la testa contribuiscono alle tensioni verticali, senza resistenza laterale lungo il palo.
+¶ 3.2  Verticale di indagine 1
+¶ Tabella 3.1  Strati e condizioni del modello
+[T6 r1 c1] Strato
+[T6 r1 c2] Tipologia
+[T6 r1 c3] Spessore [m]
+[T6 r1 c4] Stato
+[T6 r1 c5] Laterale
+[T6 r2 c1] 1
 [T6 r2 c2] Granulare
-[T6 r3 c1] addensamento
-[T6 r3 c2] Sciolto
-[T6 r4 c1] spessore
-[T6 r4 c2] 10
-[T6 r5 c1] peso_specifico
-[T6 r5 c2] 20
-[T6 r6 c1] peso_specifico_saturo
-[T6 r6 c2] 22
-[T6 r7 c1] angolo_attrito
-[T6 r7 c2] 35
-[T6 r8 c1] coesione_efficace
-[T6 r8 c2] 0
-[T6 r9 c1] coesione_non_drenata
-[T6 r9 c2] 0
-[T6 r10 c1] nc
-[T6 r10 c2] 9
-¶ Profilo del sondaggio 1
-¶ Metodo
-¶ Parametrizzata NQ-2026-09-09: D ≤ 0,80 m, Nq = 10^(a+b·φ), b=1/(φ100-φ10), a=1-b·φ10. D > 0,80 m: Nq* da cubiche raccordate a 34° e 38°, adattate alla figura fornita. φ in gradi, senza riduzioni. Per una quota z si usa z/D; alla punta finale z=L. Tra le curve: t=ln(r/r1)/ln(r2/r1), interpolazione geometrica di Nq per i pali medi e aritmetica di Nq* per i grandi. Questa regola tra L/D è una scelta numerica mantenuta dal metodo precedente, non desunta dalla figura. Fuori dagli intervalli visibili si usa il bordo, con segnalazione; i valori limitati non costituiscono una validazione fuori campo.
-¶ Criteri e unità
-¶ Lunghezze m; forze kN; tensioni e aderenze kPa; pesi specifici kN/m³. I valori arrotondati sono solo di presentazione. I minimi dei contributi laterale e di punta sono valutati separatamente.
-¶ Rd,c = ηc min[Rb,media/(ξ3 γb) + Rs,media/(ξ3 γs,c); Rb,min/(ξ4 γb) + Rs,min/(ξ4 γs,c)]. Rd,t = ηt min[Rs,media/(ξ3 γs,t); Rs,min/(ξ4 γs,t)].
-¶ Rd drenata: Rb,calc = Ab σ′v Nq; Rs = ΣπD Δz (c′ + k μ σ′media). Non drenata coesiva sotto falda: τ=α Cu e Rb,calc = Ab (Nc Cu + σv,L totale), formulazione lorda richiesta il 16/09/2026. Sopra falda si usa il ramo drenato. La sottospinta agisce separatamente sul peso nelle azioni.
-¶ Resistenze di progetto
-[T7 r1 c1] Verifica
-[T7 r1 c2] Quota [m]
-[T7 r1 c3] Rd [kN]
-[T7 r1 c4] Ed [kN]
-[T7 r1 c5] Esito
-[T7 r2 c1] drenante compressione
-[T7 r2 c2] 12,3
-[T7 r2 c3] 3211,0
-[T7 r2 c4] 814,0
-[T7 r2 c5] Verifica soddisfatta
-[T7 r3 c1] drenante trazione
-[T7 r3 c2] 12,3
-[T7 r3 c3] 719,9
-[T7 r3 c4] 0,0
-[T7 r3 c5] Verifica soddisfatta
-[T7 r4 c1] non drenante compressione
-[T7 r4 c2] 12,3
-[T7 r4 c3] 3211,0
-[T7 r4 c4] 814,0
-[T7 r4 c5] Verifica soddisfatta
-[T7 r5 c1] non drenante trazione
-[T7 r5 c2] 12,3
-[T7 r5 c3] 719,9
-[T7 r5 c4] 0,0
-[T7 r5 c5] Verifica soddisfatta
-¶ Capacità portante del palo
-¶ Nq parametrizzato
-¶ Profilo stratigrafico
+[T6 r2 c3] 6
+[T6 r2 c4] Denso
+[T6 r2 c5] Attiva
+[T6 r3 c1] 2
+[T6 r3 c2] Granulare
+[T6 r3 c3] 10
+[T6 r3 c4] Sciolto
+[T6 r3 c5] Attiva
+¶ Tabella 3.2  Parametri geotecnici
+[T7 r1 c1] Strato
+[T7 r1 c2] γ [kN/m³]
+[T7 r1 c3] γsat [kN/m³]
+[T7 r1 c4] φ′ [°]
+[T7 r1 c5] c′ [kPa]
+[T7 r1 c6] cu [kPa]
+[T7 r1 c7] Nc
+[T7 r2 c1] 1
+[T7 r2 c2] 19
+[T7 r2 c3] 21
+[T7 r2 c4] 31
+[T7 r2 c5] 2
+[T7 r2 c6] 50
+[T7 r2 c7] 9
+[T7 r3 c1] 2
+[T7 r3 c2] 20
+[T7 r3 c3] 22
+[T7 r3 c4] 35
+[T7 r3 c5] 0
+[T7 r3 c6] 0
+[T7 r3 c7] 9
+¶ I coefficienti del fusto adottati dal calcolo per ciascuno strato sono riportati nella Tabella 3.3.
+¶ Tabella 3.3  Coefficienti del fusto per strato
+[T8 r1 c1] Strato
+[T8 r1 c2] Tipologia
+[T8 r1 c3] Stato
+[T8 r1 c4] φ′ [°]
+[T8 r1 c5] cu [kPa]
+[T8 r1 c6] K [−]
+[T8 r1 c7] μ [−]
+[T8 r1 c8] α [−]
+[T8 r2 c1] 1
+[T8 r2 c2] Granulare
+[T8 r2 c3] Denso
+[T8 r2 c4] 31
+[T8 r2 c5] 50
+[T8 r2 c6] 0,40
+[T8 r2 c7] 0,60
+[T8 r2 c8] —
+[T8 r3 c1] 2
+[T8 r3 c2] Granulare
+[T8 r3 c3] Sciolto
+[T8 r3 c4] 35
+[T8 r3 c5] 0
+[T8 r3 c6] 0,50
+[T8 r3 c7] 0,70
+[T8 r3 c8] —
+¶ K dalla Tabella 2.1 per la tecnologia «Trivellato» e lo stato di addensamento dello strato; μ = tan φ′; α dalla Tabella 2.2, solo negli strati coesivi sotto falda (ramo non drenato). «—»: coefficiente non usato nello strato o strato non attraversato dal fusto.
+¶ Figura 3.1  Profilo del sondaggio 1
+¶ 4  Calcolo della capacità portante
+¶ Quota finale disponibile: z = 12,3 m dalla testa. Lunghezza del palo: 12,3 m.
+¶ 4.1  Fattore di capacità portante Nq
+¶ Tabella 4.1  Parametri alla punta
+[T9 r1 c1] Verticale
+[T9 r1 c2] σ′v [kPa]
+[T9 r1 c3] σv [kPa]
+[T9 r1 c4] φ′ [°]
+[T9 r1 c5] Nq
+[T9 r1 c6] Nc
+[T9 r2 c1] 1
+[T9 r2 c2] 240
+[T9 r2 c3] 240
+[T9 r2 c4] 35
+[T9 r2 c5] 28,7
+[T9 r2 c6] —
+¶ Figura 4.1  Nq parametrizzato
+¶ 4.2  Contributi resistenti alla quota finale
+¶ Tabella 4.2  Resistenze calcolate per verticale
+[T10 r1 c1] Verticale
+[T10 r1 c2] Condizione
+[T10 r1 c3] Rb,cal [kN]
+[T10 r1 c4] Rs,cal [kN]
+[T10 r2 c1] 1
+[T10 r2 c2] Drenata
+[T10 r2 c3] 5409,53
+[T10 r2 c4] 1484,71
+[T10 r3 c1] 1
+[T10 r3 c2] Non drenata
+[T10 r3 c3] 5409,53
+[T10 r3 c4] 1484,71
+¶ Tabella 4.3  DRENATE
+[T11 r1 c1]
+[T11 r1 c2] Calcolo [kN]
+[T11 r1 c3] Caratteristiche [kN]
+[T11 r1 c4] Progetto [kN]
+[T11 r2 c1] Laterale compressione
+[T11 r2 c2] 1484,71
+[T11 r2 c3] 899,83
+[T11 r2 c4] 782,46
+[T11 r3 c1] Punta compressione
+[T11 r3 c2] 5409,53
+[T11 r3 c3] 3278,5
+[T11 r3 c4] 2428,52
+[T11 r4 c1] Laterale trazione
+[T11 r4 c2] 1484,71
+[T11 r4 c3] 899,83
+[T11 r4 c4] 719,86
+¶ Tabella 4.4  NON DRENATE
+[T12 r1 c1]
+[T12 r1 c2] Calcolo [kN]
+[T12 r1 c3] Caratteristiche [kN]
+[T12 r1 c4] Progetto [kN]
+[T12 r2 c1] Laterale compressione
+[T12 r2 c2] 1484,71
+[T12 r2 c3] 899,83
+[T12 r2 c4] 782,46
+[T12 r3 c1] Punta compressione
+[T12 r3 c2] 5409,53
+[T12 r3 c3] 3278,5
+[T12 r3 c4] 2428,52
+[T12 r4 c1] Laterale trazione
+[T12 r4 c2] 1484,71
+[T12 r4 c3] 899,83
+[T12 r4 c4] 719,86
+¶ Tabella 4.5  Ramo determinante alla quota finale
+[T13 r1 c1] Verifica
+[T13 r1 c2] Ramo
+[T13 r2 c1] Drenata compressione
+[T13 r2 c2] Media / ξ₃
+[T13 r3 c1] Drenata trazione
+[T13 r3 c2] Media / ξ₃
+[T13 r4 c1] Non drenata compressione
+[T13 r4 c2] Media / ξ₃
+[T13 r5 c1] Non drenata trazione
+[T13 r5 c2] Media / ξ₃
+¶ Le componenti caratteristiche e di progetto si riferiscono al ramo determinante; i fattori di efficienza sono inclusi nelle resistenze di progetto finali.
+¶ 5  Azioni e verifica
+¶ 5.1  Azioni assegnate e peso proprio
+¶ Le azioni in testa sono già di progetto e non includono il peso del palo. Peso e sottospinta sono gestiti dal motore una sola volta; la tabella degli esiti riporta l’azione specifica di ciascuna condizione.
+¶ Peso del palo nelle azioni per condizione e verso: a trazione, drenata e non drenata, sempre il peso alleggerito W′ = W − γw A (z − zf) sotto falda; a compressione non drenata con la base lorda Ab (Nc cu + σv,L totale), punta coesiva sotto falda in almeno una verticale, sempre il peso intero W (σv contiene già la pressione dell'acqua alla base); a compressione drenata (e non drenata senza base lorda) W′ con «Considera sottospinta», W altrimenti (a favore di sicurezza). Ogni condizione è confrontata con la propria resistenza.
+¶ Tabella 5.1  Azioni assegnate e peso proprio
+[T14 r1 c1] Grandezza
+[T14 r1 c2] Valore
+[T14 r2 c1] Compressione in testa [kN]
+[T14 r2 c2] 500
+[T14 r3 c1] Trazione in testa [kN]
+[T14 r3 c2] 100
+[T14 r4 c1] Peso proprio alla quota finale [kN]
+[T14 r4 c2] 241,51
+[T14 r5 c1] γG sfavorevole
+[T14 r5 c2] 1,35
+[T14 r6 c1] γG favorevole
+[T14 r6 c2] 1
+[T14 r7 c1] Sottospinta
+[T14 r7 c2] Considerata
+¶ 5.2  Riepilogo delle verifiche
+¶ Tabella 5.2  Riepilogo alla quota finale
+[T15 r1 c1] Verifica
+[T15 r1 c2] z [m]
+[T15 r1 c3] Rd [kN]
+[T15 r1 c4] Ed [kN]
+[T15 r1 c5] I = Ed/Rd
+[T15 r1 c6] Esito
+[T15 r2 c1] Drenata compressione
+[T15 r2 c2] 12,3
+[T15 r2 c3] 3210,98
+[T15 r2 c4] 826,04
+[T15 r2 c5] 0,26
+[T15 r2 c6] Verifica soddisfatta
+[T15 r3 c1] Drenata trazione
+[T15 r3 c2] 12,3
+[T15 r3 c3] 719,86
+[T15 r3 c4] 0
+[T15 r3 c5] 0
+[T15 r3 c6] Verifica soddisfatta
+[T15 r4 c1] Non drenata compressione
+[T15 r4 c2] 12,3
+[T15 r4 c3] 3210,98
+[T15 r4 c4] 826,04
+[T15 r4 c5] 0,26
+[T15 r4 c6] Verifica soddisfatta
+[T15 r5 c1] Non drenata trazione
+[T15 r5 c2] 12,3
+[T15 r5 c3] 719,86
+[T15 r5 c4] 0
+[T15 r5 c5] 0
+[T15 r5 c6] Verifica soddisfatta
+¶ 5.3  Grafici della capacità portante
+¶ Figura 5.1  Capacità portante del palo
+# word/footer1.xml
+¶ Report palo proposta
+# word/footer2.xml
+¶ È vietata a norma di legge la riproduzione, anche parziale, non autorizzata di questo documento
+# word/footer3.xml
+# word/footer4.xml
+¶ Fixture F3 · geo_palo_verticale · regressione-palo_storico_0
+¶ Pagina 1
+# word/header1.xml
+# word/header2.xml
+# word/header3.xml
+# word/header4.xml
+# word/header6.xml

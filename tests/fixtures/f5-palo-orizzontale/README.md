@@ -128,3 +128,8 @@ li confronta a ogni corsa.
   nuova. La traccia viene dalla vista XAML (`ui/check-palo-orizzontale-view`, corsa `20261118-103620-1194-p2-ra-a3042f1f`) ed è uguale a quella
   del ViewModel; `diagrammi/geo_palo_orizzontale--stratificato-sabbia-broms.json` dal ViewModel e le 5 righe della fixture in
   `disegni/elenco.txt` dalla vista XAML (corsa `20261118-110139-1194-p2-rb-f23cee0e`). Le altre tracce, i diagrammi e le righe dei disegni non cambiano.
+- 18/11/2026, voce MERGE-GIULIO-RIFERIMENTI-20261118 (ANTHEA 1.19.4, merge di main 630028b8, con l'OK dell'utente): la sintesi e gli avvisi
+  hanno la dicitura nuova (commit `8796bae8`): l'esito della verifica («Verifica non soddisfatta.» e simili) e «Modello di calcolo per
+  terreno stratificato» al posto di «MODELLO SPERIMENTALE». In 17 tracce sono sostituite solo le
+  226 righe «sintesi» e «avvisi» diverse, prese dalla vista XAML (`ui/check-palo-orizzontale-view`, corsa
+  `20261118-151110-1194-p2-full-264ce17d`) e uguali a quelle del ViewModel; ogni altra riga resta, comprese le 20 di F5-02. Diagrammi e disegni non cambiano.

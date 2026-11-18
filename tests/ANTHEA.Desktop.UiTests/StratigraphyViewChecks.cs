@@ -597,11 +597,11 @@ internal static partial class StratigraphyViewChecks
             finally { side.Dispose(); }
             StratigraphyTrace.Write(Path.Combine(folder, scenario.File), trace);
             string stored = Path.Combine(StratigraphyScenarios.Reference(root), scenario.File);
-            // The approved bridge default is unrelated to this layout: compare 1.35 as the historic 1.30,
-            // without rewriting frozen fixtures or the captured trace (other values still fail).
+            // 18/11/2026 (merge of main 630028b8, MERGE-GIULIO-RIFERIMENTI-20261118): the frozen traces have the default weight 1,35, so the
+            // captured trace is compared as it is; only the two compact lines of the general fields stay out of the comparison.
             string? difference = File.Exists(stored) ? StratigraphyTrace.FirstDifference(StratigraphyTrace.Read(stored).Where(line => !line.StartsWith("  scelta scenario ", StringComparison.Ordinal) &&
                     !line.StartsWith("  testo description \"Descrizione / ubicazione\"", StringComparison.Ordinal)).ToArray(),
-                trace.Select(line => line.Replace("\"peso_palo_sfavorevole\":\"1.35\"", "\"peso_palo_sfavorevole\":\"1.30\"", StringComparison.Ordinal)).ToArray()) : "traccia di riferimento assente";
+                trace.ToArray()) : "traccia di riferimento assente";
             // These four workflows deliberately changed: compact general fields, distinct new colours and linked saturated weights.
             // They are still driven and recorded here; EditingFeatures asserts their new outcomes independently.
             if (scenario.Name is "modifiche-generali" or "azioni-strati" or "azioni-indefinito" or "minimi")

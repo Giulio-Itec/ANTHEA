@@ -548,3 +548,19 @@ non compare: questa è la sola fixture F3 che lo contiene. Gli attesi delle 119 
 - In `expected/esito.txt` è cambiato solo il numero delle fixture (119 → 120).
 - Impronte nel manifest, sezione `fixture_aggiunte_1194` (input, attesi ed `esito.txt` prima e dopo), sulla forma conservata da git
   (fine riga LF). Voce del registro F3-PO-BROMS-SABBIA-20261118.
+
+## Merge di main 630028b8 nella 1.19.4 (18/11/2026)
+
+La candidata 1.19.4 unisce main `630028b8` (merge `2c4b4a1e`). La commit `8796bae8` cambia comportamenti già coperti da questi
+attesi: peso proprio sfavorevole predefinito del palo verticale 1,35 invece di 1,30, relazione ITEC del palo verticale, relazione
+del palo orizzontale con la tabella della capacità. Decisione dell'utente del 18/11/2026: «Sì, registratele voi», con l'OK
+sull'elenco delle differenze.
+- **Attesi rinnovati** (35 file): `report.txt` e `report-structure.json` di 4 fixture del palo verticale con risultato, di
+  3 del palo e 3 del micropalo orizzontale e di `stratificato-sabbia-broms`, più i file di `regressione-palo_storico_0` e
+  `regressione-micropalo_igu_0_nessuna-riduzione` (fogli senza la chiave del peso). Il nuovo atteso è il file della cattura
+  `supporto/artefatti/ci/20261118-151110-1194-p2-full-264ce17d/ui_f3-equivalence/cattura`.
+- **Transizioni**: le 217 transizioni elencate su quegli stessi file sono tolte (AG-PO-01 179, BUG-PV-1 3, BUG-PV-3 1, F5-REL-1160-02 6, PO-ANELLO-01 1, REPORT-TEMPLATE-20261106 27): il nuovo atteso ha già il
+  valore dopo, o la riga non c'è più. Restano 77972 voci; chiave `aggiornamento_1194_merge` dell'elenco.
+- La Wiki e ogni altra fixture non cambiano. In `stratificato-sabbia-broms` cambia solo la forma della relazione: il paragrafo del
+  confronto con Broms resta dopo la tabella della capacità e i valori (207,36 kN, rapporto 0,739) sono gli stessi.
+- Impronte prima e dopo (forma LF) nel manifest, sezione `expected_updates_1194_merge`. Voce del registro MERGE-GIULIO-RIFERIMENTI-20261118.

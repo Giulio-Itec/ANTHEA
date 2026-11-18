@@ -1,15 +1,16 @@
 # word/document.xml
 ¶ ANTHEA — Fixture F3 · geo_palo_orizzontale · stratificato-sabbia-broms
 ¶ Palo singolo: capacità portante orizzontale — Stratificato-ANTHEA-1
-¶ STRATIFICATO — MODELLO SPERIMENTALE
+¶ Modello di calcolo per terreno stratificato
 ¶ Modello selezionato automaticamente in base alle proprietà degli strati attraversati e alla falda: Diagramma stratificato · terreno omogeneo.
 ¶ Modello e fonti
-¶ Estensione stratificata di G. Pacini: diagrammi per strato e profondità a taglio nullo; equilibrio globale con reazioni distribuite. Modello sperimentale, non formula originale di Broms. Leggi locali: Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5
+¶ Estensione stratificata di G. Pacini: diagrammi per strato e profondità a taglio nullo; equilibrio globale con reazioni distribuite. Formule riadattate per tenere conto della presenza di più strati; la chiusura distribuita è un’ipotesi del modello. Leggi locali: Viggiani, Fondazioni, pp. 400–415 (PDF 205–212), §§13.2.2–13.2.5
 ¶ Incremento di H con e costante; M applicato = H·e; N costante
 ¶ z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.
 ¶ Coesivo non drenato: p=0 per z<1,5D; p=9CuD al di sotto (Viggiani p.400). Granulare drenato: p=3KpDσ′v; Kp=(1+sinφ′)/(1−sinφ′), σ′v integrata dagli strati sovrastanti; γw=9,81 kN/m³. Nessun modello c–φ. Ammesse sequenze miste: il peso efficace degli strati coesivi contribuisce al confinamento dei granulari sottostanti. Il taglio a 1,5D è riferito al piano campagna e si applica solo ai tratti coesivi.
 ¶ Sviluppo dell'approccio stratificato: Q(z)=∫p_lim dz; S(z)=∫z p_lim dz; Q(z_f)=H. La coppia inferiore vale C(z_f,t)=S(t)+S(z_f)−2S(b), con Q(b)=[Q(z_f)+Q(t)]/2. Si confrontano i candidati corto, intermedio e lungo con un unico My e si controlla l'equilibrio globale.
-¶ Reazioni distribuite anche nei granulari e nei profili misti; nessuna risultante concentrata al piede. Recupera il coesivo omogeneo e il ramo lungo granulare quando la lunghezza è sufficiente alla chiusura distribuita. Per il granulare corto/intermedio differisce dalle formule di Broms con forza concentrata. La chiusura inferiore è un'ipotesi del modello, non una soluzione dell'interazione elastoplastica o una validazione sperimentale.
+¶ Le formulazioni per la valutazione della capacità portante orizzontale sono state riadattate per tenere conto della presenza di più strati di terreno con caratteristiche geotecniche differenti. Le reazioni del terreno sono valutate lungo il palo considerando le proprietà di ciascuno strato.
+¶ Reazioni distribuite anche nei granulari e nei profili misti; nessuna risultante concentrata al piede. Recupera il coesivo omogeneo e il ramo lungo granulare quando la lunghezza è sufficiente alla chiusura distribuita. Per il granulare corto/intermedio differisce dalle formule di Broms con forza concentrata. La chiusura inferiore è un'ipotesi di equilibrio limite e non descrive l'interazione elastoplastica terreno–palo.
 ¶ I diagrammi non forniscono spostamenti o rotazioni.
 ¶ Lettura dei diagrammi
 ¶ σv è la tensione verticale totale da peso proprio; u è la pressione idrostatica; σ′v=σv−u. La pressione laterale equivalente q_lim=p_lim/D [kPa] è distinta dalla reazione lineare p_lim [kN/m]. Le curve p e q rappresentano la distribuzione adottata alla capacità Hu, non il carico HEd. ξ e γR riducono la capacità globale e non le tensioni locali.
@@ -55,272 +56,298 @@
 [T2 r2 c5] 30
 [T2 r2 c6] 0
 ¶ Risultati
-¶ Hu = 153,234 kN; sondaggio governante 1; meccanismo Corto; My adottato = 1000000 kNm.
+¶ Capacità portante e meccanismo governante
+[T3 r1 c1] Grandezza
+[T3 r1 c2] Valore
+[T3 r1 c3] Unità
+[T3 r2 c1] Capacità ultima orizzontale Hu
+[T3 r2 c2] 153,234
+[T3 r2 c3] kN
+[T3 r3 c1] Sondaggio governante
+[T3 r3 c2] 1
+[T3 r3 c3] —
+[T3 r4 c1] Meccanismo governante
+[T3 r4 c2] Corto
+[T3 r4 c3] —
+[T3 r5 c1] Momento resistente adottato My
+[T3 r5 c2] 1.000.000
+[T3 r5 c3] kNm
 ¶ Confronto con Broms (verticale governante): Hu di Broms = 207,36 kN, meccanismo corto; rapporto Stratificato / Broms = 0,739. La capacità adottata resta quella del modello stratificato; il rapporto misura quanto pesa la chiusura distribuita rispetto alla forza concentrata al piede di Broms.
-¶ Verifica normativa: Incompleta
-¶ Rk = min(Hu,media/ξ3; Hu,min/ξ4) = min(90,1; 90,1) = 90,1 kN; criterio governante: Media / ξ3. Rd = η · Rk/γR = 69,3 kN. HEd = 100,0 kN. Verifica non soddisfatta. Non costituisce conformità normativa complessiva automatica.
+¶ Verifica della capacità portante orizzontale
+¶ La verifica confronta l’azione orizzontale di progetto HEd con la resistenza di progetto Rd. La resistenza caratteristica Rk deriva dal minore tra la capacità media divisa per ξ₃ e la capacità minima divisa per ξ₄; Rd si ottiene applicando a Rk l’efficienza η e il coefficiente parziale γR.
+¶ Rd = η · Rk / γR. Condizione di verifica: HEd ≤ Rd, equivalente a HEd/Rd ≤ 1.
+[T4 r1 c1] Rk [kN]
+[T4 r1 c2] Rd [kN]
+[T4 r1 c3] HEd [kN]
+[T4 r1 c4] HEd/Rd
+[T4 r1 c5] Esito
+[T4 r2 c1] 90,138
+[T4 r2 c2] 69,337
+[T4 r2 c3] 100
+[T4 r2 c4] 1,4422
+[T4 r2 c5] Verifica non soddisfatta
 ¶ Avvisi e limiti
 ¶ Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.
 ¶ Resistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.
 ¶ I diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.
-¶ MODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms.
+¶ MODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms.
 ¶ Sondaggio 1: Corto
 ¶ Hu=153,234 kN; |M|max=334,628 kNm a z=1,776 m. Cerniere z [m]: [].
 ¶ Residui di equilibrio: forza=-1,746E-13 kN; momento=-4,569E-10 kNm. Convergenza: Raggiunta.
 ¶ Chiusura distribuita: inversione a 3,0946 m; fine reazioni a 4 m. Risultante concentrata nulla.
 ¶ Confronto con Broms (stessa verticale): Hu di Broms = 207,36 kN, meccanismo corto; rapporto Stratificato / Broms = 0,739. La capacità adottata resta quella del modello stratificato; il rapporto misura quanto pesa la chiusura distribuita rispetto alla forza concentrata al piede di Broms.
-[T3 r1 c1] Meccanismo
-[T3 r1 c2] Capacità candidata [kN]
-[T3 r1 c3] Stato
-[T3 r2 c1] Corto
-[T3 r2 c2] 153,234
-[T3 r2 c3] Ammissibile, governante
-[T3 r3 c1] Lungo
-[T3 r3 c2] Non attivabile
-[T3 r3 c3] Meccanismo non attivabile nel campo di lunghezza
+[T5 r1 c1] Meccanismo
+[T5 r1 c2] Capacità candidata [kN]
+[T5 r1 c3] Stato
+[T5 r2 c1] Corto
+[T5 r2 c2] 153,234
+[T5 r2 c3] Ammissibile, governante
+[T5 r3 c1] Lungo
+[T5 r3 c2] Non attivabile
+[T5 r3 c3] Meccanismo non attivabile nel campo di lunghezza
 ¶ σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR.
 ¶ Legge locale per tratti
-[T4 r1 c1] Strato / tipo
-[T4 r1 c2] da / a [m]
-[T4 r1 c3] σ′v iniz. [kPa]
-[T4 r1 c4] p iniz. [kN/m]
-[T4 r1 c5] dp/dz [kN/m²]
-[T4 r2 c1] 1 / Granulare
-[T4 r2 c2] 0 / 4
-[T4 r2 c3] 0
-[T4 r2 c4] 0
-[T4 r2 c5] 97,2
+[T6 r1 c1] Strato / tipo
+[T6 r1 c2] da / a [m]
+[T6 r1 c3] σ′v iniz. [kPa]
+[T6 r1 c4] p iniz. [kN/m]
+[T6 r1 c5] dp/dz [kN/m²]
+[T6 r2 c1] 1 / Granulare
+[T6 r2 c2] 0 / 4
+[T6 r2 c3] 0
+[T6 r2 c4] 0
+[T6 r2 c5] 97,2
 ¶ Diagrammi tabellari alla capacità ultima (prima/dopo: lati della quota)
-[T5 r1 c1] z [m]
-[T5 r1 c2] Lato
-[T5 r1 c3] p [kN/m]
-[T5 r1 c4] V [kN]
-[T5 r1 c5] M [kNm]
-[T5 r2 c1] 0
-[T5 r2 c2] nodo
-[T5 r2 c3] 0
-[T5 r2 c4] 153,234
-[T5 r2 c5] 153,234
-[T5 r3 c1] 0,1
-[T5 r3 c2] nodo
-[T5 r3 c3] 9,72
-[T5 r3 c4] 152,748
-[T5 r3 c5] 168,5413
-[T5 r4 c1] 0,2
-[T5 r4 c2] nodo
-[T5 r4 c3] 19,44
-[T5 r4 c4] 151,29
-[T5 r4 c5] 183,7513
-[T5 r5 c1] 0,3
-[T5 r5 c2] nodo
-[T5 r5 c3] 29,16
-[T5 r5 c4] 148,86
-[T5 r5 c5] 198,7669
-[T5 r6 c1] 0,4
-[T5 r6 c2] nodo
-[T5 r6 c3] 38,88
-[T5 r6 c4] 145,458
-[T5 r6 c5] 213,4909
-[T5 r7 c1] 0,5
-[T5 r7 c2] nodo
-[T5 r7 c3] 48,6
-[T5 r7 c4] 141,084
-[T5 r7 c5] 227,8261
-[T5 r8 c1] 0,6
-[T5 r8 c2] nodo
-[T5 r8 c3] 58,32
-[T5 r8 c4] 135,738
-[T5 r8 c5] 241,6753
-[T5 r9 c1] 0,7
-[T5 r9 c2] nodo
-[T5 r9 c3] 68,04
-[T5 r9 c4] 129,42
-[T5 r9 c5] 254,9413
-[T5 r10 c1] 0,8
-[T5 r10 c2] nodo
-[T5 r10 c3] 77,76
-[T5 r10 c4] 122,13
-[T5 r10 c5] 267,5269
-[T5 r11 c1] 0,9
-[T5 r11 c2] nodo
-[T5 r11 c3] 87,48
-[T5 r11 c4] 113,868
-[T5 r11 c5] 279,3349
-[T5 r12 c1] 1
-[T5 r12 c2] nodo
-[T5 r12 c3] 97,2
-[T5 r12 c4] 104,634
-[T5 r12 c5] 290,2681
-[T5 r13 c1] 1,1
-[T5 r13 c2] nodo
-[T5 r13 c3] 106,92
-[T5 r13 c4] 94,428
-[T5 r13 c5] 300,2293
-[T5 r14 c1] 1,2
-[T5 r14 c2] nodo
-[T5 r14 c3] 116,64
-[T5 r14 c4] 83,25
-[T5 r14 c5] 309,1213
-[T5 r15 c1] 1,3
-[T5 r15 c2] nodo
-[T5 r15 c3] 126,36
-[T5 r15 c4] 71,1
-[T5 r15 c5] 316,8469
-[T5 r16 c1] 1,4
-[T5 r16 c2] nodo
-[T5 r16 c3] 136,08
-[T5 r16 c4] 57,978
-[T5 r16 c5] 323,3089
-[T5 r17 c1] 1,5
-[T5 r17 c2] nodo
-[T5 r17 c3] 145,8
-[T5 r17 c4] 43,884
-[T5 r17 c5] 328,4101
-[T5 r18 c1] 1,6
-[T5 r18 c2] nodo
-[T5 r18 c3] 155,52
-[T5 r18 c4] 28,818
-[T5 r18 c5] 332,0533
-[T5 r19 c1] 1,7
-[T5 r19 c2] nodo
-[T5 r19 c3] 165,24
-[T5 r19 c4] 12,78
-[T5 r19 c5] 334,1413
-[T5 r20 c1] 1,7757
-[T5 r20 c2] nodo
-[T5 r20 c3] 172,594
-[T5 r20 c4] 0
-[T5 r20 c5] 334,6283
-[T5 r21 c1] 1,8
-[T5 r21 c2] nodo
-[T5 r21 c3] 174,96
-[T5 r21 c4] -4,23
-[T5 r21 c5] 334,5769
-[T5 r22 c1] 1,9
-[T5 r22 c2] nodo
-[T5 r22 c3] 184,68
-[T5 r22 c4] -22,212
-[T5 r22 c5] 333,2629
-[T5 r23 c1] 2
-[T5 r23 c2] nodo
-[T5 r23 c3] 194,4
-[T5 r23 c4] -41,166
-[T5 r23 c5] 330,1021
-[T5 r24 c1] 2,1
-[T5 r24 c2] nodo
-[T5 r24 c3] 204,12
-[T5 r24 c4] -61,092
-[T5 r24 c5] 324,9973
-[T5 r25 c1] 2,2
-[T5 r25 c2] nodo
-[T5 r25 c3] 213,84
-[T5 r25 c4] -81,99
-[T5 r25 c5] 317,8513
-[T5 r26 c1] 2,3
-[T5 r26 c2] nodo
-[T5 r26 c3] 223,56
-[T5 r26 c4] -103,86
-[T5 r26 c5] 308,567
-[T5 r27 c1] 2,4
-[T5 r27 c2] nodo
-[T5 r27 c3] 233,28
-[T5 r27 c4] -126,702
-[T5 r27 c5] 297,047
-[T5 r28 c1] 2,5
-[T5 r28 c2] nodo
-[T5 r28 c3] 243
-[T5 r28 c4] -150,516
-[T5 r28 c5] 283,1942
-[T5 r29 c1] 2,6
-[T5 r29 c2] nodo
-[T5 r29 c3] 252,72
-[T5 r29 c4] -175,302
-[T5 r29 c5] 266,9114
-[T5 r30 c1] 2,7
-[T5 r30 c2] nodo
-[T5 r30 c3] 262,44
-[T5 r30 c4] -201,06
-[T5 r30 c5] 248,1014
-[T5 r31 c1] 2,8
-[T5 r31 c2] nodo
-[T5 r31 c3] 272,16
-[T5 r31 c4] -227,79
-[T5 r31 c5] 226,667
-[T5 r32 c1] 2,9
-[T5 r32 c2] nodo
-[T5 r32 c3] 281,88
-[T5 r32 c4] -255,492
-[T5 r32 c5] 202,511
-[T5 r33 c1] 3
-[T5 r33 c2] nodo
-[T5 r33 c3] 291,6
-[T5 r33 c4] -284,166
-[T5 r33 c5] 175,5362
-[T5 r34 c1] 3,0946
-[T5 r34 c2] prima
-[T5 r34 c3] 300,7941
-[T5 r34 c4] -312,183
-[T5 r34 c5] 147,339
-[T5 r35 c1] 3,0946
-[T5 r35 c2] dopo
-[T5 r35 c3] -300,7941
-[T5 r35 c4] -312,183
-[T5 r35 c5] 147,339
-[T5 r36 c1] 3,1
-[T5 r36 c2] nodo
-[T5 r36 c3] -301,32
-[T5 r36 c4] -310,554
-[T5 r36 c5] 145,6542
-[T5 r37 c1] 3,2
-[T5 r37 c2] nodo
-[T5 r37 c3] -311,04
-[T5 r37 c4] -279,936
-[T5 r37 c5] 116,1216
-[T5 r38 c1] 3,3
-[T5 r38 c2] nodo
-[T5 r38 c3] -320,76
-[T5 r38 c4] -248,346
-[T5 r38 c5] 89,6994
-[T5 r39 c1] 3,4
-[T5 r39 c2] nodo
-[T5 r39 c3] -330,48
-[T5 r39 c4] -215,784
-[T5 r39 c5] 66,4848
-[T5 r40 c1] 3,5
-[T5 r40 c2] nodo
-[T5 r40 c3] -340,2
-[T5 r40 c4] -182,25
-[T5 r40 c5] 46,575
-[T5 r41 c1] 3,6
-[T5 r41 c2] nodo
-[T5 r41 c3] -349,92
-[T5 r41 c4] -147,744
-[T5 r41 c5] 30,0672
-[T5 r42 c1] 3,7
-[T5 r42 c2] nodo
-[T5 r42 c3] -359,64
-[T5 r42 c4] -112,266
-[T5 r42 c5] 17,0586
-[T5 r43 c1] 3,8
-[T5 r43 c2] nodo
-[T5 r43 c3] -369,36
-[T5 r43 c4] -75,816
-[T5 r43 c5] 7,6464
-[T5 r44 c1] 3,9
-[T5 r44 c2] nodo
-[T5 r44 c3] -379,08
-[T5 r44 c4] -38,394
-[T5 r44 c5] 1,9278
-[T5 r45 c1] 4
-[T5 r45 c2] prima
-[T5 r45 c3] -388,8
-[T5 r45 c4] -0
-[T5 r45 c5] -0
-[T5 r46 c1] 4
-[T5 r46 c2] dopo
-[T5 r46 c3] 0
-[T5 r46 c4] 0
-[T5 r46 c5] 0
+[T7 r1 c1] z [m]
+[T7 r1 c2] Lato
+[T7 r1 c3] p [kN/m]
+[T7 r1 c4] V [kN]
+[T7 r1 c5] M [kNm]
+[T7 r2 c1] 0
+[T7 r2 c2] nodo
+[T7 r2 c3] 0
+[T7 r2 c4] 153,234
+[T7 r2 c5] 153,234
+[T7 r3 c1] 0,1
+[T7 r3 c2] nodo
+[T7 r3 c3] 9,72
+[T7 r3 c4] 152,748
+[T7 r3 c5] 168,5413
+[T7 r4 c1] 0,2
+[T7 r4 c2] nodo
+[T7 r4 c3] 19,44
+[T7 r4 c4] 151,29
+[T7 r4 c5] 183,7513
+[T7 r5 c1] 0,3
+[T7 r5 c2] nodo
+[T7 r5 c3] 29,16
+[T7 r5 c4] 148,86
+[T7 r5 c5] 198,7669
+[T7 r6 c1] 0,4
+[T7 r6 c2] nodo
+[T7 r6 c3] 38,88
+[T7 r6 c4] 145,458
+[T7 r6 c5] 213,4909
+[T7 r7 c1] 0,5
+[T7 r7 c2] nodo
+[T7 r7 c3] 48,6
+[T7 r7 c4] 141,084
+[T7 r7 c5] 227,8261
+[T7 r8 c1] 0,6
+[T7 r8 c2] nodo
+[T7 r8 c3] 58,32
+[T7 r8 c4] 135,738
+[T7 r8 c5] 241,6753
+[T7 r9 c1] 0,7
+[T7 r9 c2] nodo
+[T7 r9 c3] 68,04
+[T7 r9 c4] 129,42
+[T7 r9 c5] 254,9413
+[T7 r10 c1] 0,8
+[T7 r10 c2] nodo
+[T7 r10 c3] 77,76
+[T7 r10 c4] 122,13
+[T7 r10 c5] 267,5269
+[T7 r11 c1] 0,9
+[T7 r11 c2] nodo
+[T7 r11 c3] 87,48
+[T7 r11 c4] 113,868
+[T7 r11 c5] 279,3349
+[T7 r12 c1] 1
+[T7 r12 c2] nodo
+[T7 r12 c3] 97,2
+[T7 r12 c4] 104,634
+[T7 r12 c5] 290,2681
+[T7 r13 c1] 1,1
+[T7 r13 c2] nodo
+[T7 r13 c3] 106,92
+[T7 r13 c4] 94,428
+[T7 r13 c5] 300,2293
+[T7 r14 c1] 1,2
+[T7 r14 c2] nodo
+[T7 r14 c3] 116,64
+[T7 r14 c4] 83,25
+[T7 r14 c5] 309,1213
+[T7 r15 c1] 1,3
+[T7 r15 c2] nodo
+[T7 r15 c3] 126,36
+[T7 r15 c4] 71,1
+[T7 r15 c5] 316,8469
+[T7 r16 c1] 1,4
+[T7 r16 c2] nodo
+[T7 r16 c3] 136,08
+[T7 r16 c4] 57,978
+[T7 r16 c5] 323,3089
+[T7 r17 c1] 1,5
+[T7 r17 c2] nodo
+[T7 r17 c3] 145,8
+[T7 r17 c4] 43,884
+[T7 r17 c5] 328,4101
+[T7 r18 c1] 1,6
+[T7 r18 c2] nodo
+[T7 r18 c3] 155,52
+[T7 r18 c4] 28,818
+[T7 r18 c5] 332,0533
+[T7 r19 c1] 1,7
+[T7 r19 c2] nodo
+[T7 r19 c3] 165,24
+[T7 r19 c4] 12,78
+[T7 r19 c5] 334,1413
+[T7 r20 c1] 1,7757
+[T7 r20 c2] nodo
+[T7 r20 c3] 172,594
+[T7 r20 c4] 0
+[T7 r20 c5] 334,6283
+[T7 r21 c1] 1,8
+[T7 r21 c2] nodo
+[T7 r21 c3] 174,96
+[T7 r21 c4] -4,23
+[T7 r21 c5] 334,5769
+[T7 r22 c1] 1,9
+[T7 r22 c2] nodo
+[T7 r22 c3] 184,68
+[T7 r22 c4] -22,212
+[T7 r22 c5] 333,2629
+[T7 r23 c1] 2
+[T7 r23 c2] nodo
+[T7 r23 c3] 194,4
+[T7 r23 c4] -41,166
+[T7 r23 c5] 330,1021
+[T7 r24 c1] 2,1
+[T7 r24 c2] nodo
+[T7 r24 c3] 204,12
+[T7 r24 c4] -61,092
+[T7 r24 c5] 324,9973
+[T7 r25 c1] 2,2
+[T7 r25 c2] nodo
+[T7 r25 c3] 213,84
+[T7 r25 c4] -81,99
+[T7 r25 c5] 317,8513
+[T7 r26 c1] 2,3
+[T7 r26 c2] nodo
+[T7 r26 c3] 223,56
+[T7 r26 c4] -103,86
+[T7 r26 c5] 308,567
+[T7 r27 c1] 2,4
+[T7 r27 c2] nodo
+[T7 r27 c3] 233,28
+[T7 r27 c4] -126,702
+[T7 r27 c5] 297,047
+[T7 r28 c1] 2,5
+[T7 r28 c2] nodo
+[T7 r28 c3] 243
+[T7 r28 c4] -150,516
+[T7 r28 c5] 283,1942
+[T7 r29 c1] 2,6
+[T7 r29 c2] nodo
+[T7 r29 c3] 252,72
+[T7 r29 c4] -175,302
+[T7 r29 c5] 266,9114
+[T7 r30 c1] 2,7
+[T7 r30 c2] nodo
+[T7 r30 c3] 262,44
+[T7 r30 c4] -201,06
+[T7 r30 c5] 248,1014
+[T7 r31 c1] 2,8
+[T7 r31 c2] nodo
+[T7 r31 c3] 272,16
+[T7 r31 c4] -227,79
+[T7 r31 c5] 226,667
+[T7 r32 c1] 2,9
+[T7 r32 c2] nodo
+[T7 r32 c3] 281,88
+[T7 r32 c4] -255,492
+[T7 r32 c5] 202,511
+[T7 r33 c1] 3
+[T7 r33 c2] nodo
+[T7 r33 c3] 291,6
+[T7 r33 c4] -284,166
+[T7 r33 c5] 175,5362
+[T7 r34 c1] 3,0946
+[T7 r34 c2] prima
+[T7 r34 c3] 300,7941
+[T7 r34 c4] -312,183
+[T7 r34 c5] 147,339
+[T7 r35 c1] 3,0946
+[T7 r35 c2] dopo
+[T7 r35 c3] -300,7941
+[T7 r35 c4] -312,183
+[T7 r35 c5] 147,339
+[T7 r36 c1] 3,1
+[T7 r36 c2] nodo
+[T7 r36 c3] -301,32
+[T7 r36 c4] -310,554
+[T7 r36 c5] 145,6542
+[T7 r37 c1] 3,2
+[T7 r37 c2] nodo
+[T7 r37 c3] -311,04
+[T7 r37 c4] -279,936
+[T7 r37 c5] 116,1216
+[T7 r38 c1] 3,3
+[T7 r38 c2] nodo
+[T7 r38 c3] -320,76
+[T7 r38 c4] -248,346
+[T7 r38 c5] 89,6994
+[T7 r39 c1] 3,4
+[T7 r39 c2] nodo
+[T7 r39 c3] -330,48
+[T7 r39 c4] -215,784
+[T7 r39 c5] 66,4848
+[T7 r40 c1] 3,5
+[T7 r40 c2] nodo
+[T7 r40 c3] -340,2
+[T7 r40 c4] -182,25
+[T7 r40 c5] 46,575
+[T7 r41 c1] 3,6
+[T7 r41 c2] nodo
+[T7 r41 c3] -349,92
+[T7 r41 c4] -147,744
+[T7 r41 c5] 30,0672
+[T7 r42 c1] 3,7
+[T7 r42 c2] nodo
+[T7 r42 c3] -359,64
+[T7 r42 c4] -112,266
+[T7 r42 c5] 17,0586
+[T7 r43 c1] 3,8
+[T7 r43 c2] nodo
+[T7 r43 c3] -369,36
+[T7 r43 c4] -75,816
+[T7 r43 c5] 7,6464
+[T7 r44 c1] 3,9
+[T7 r44 c2] nodo
+[T7 r44 c3] -379,08
+[T7 r44 c4] -38,394
+[T7 r44 c5] 1,9278
+[T7 r45 c1] 4
+[T7 r45 c2] prima
+[T7 r45 c3] -388,8
+[T7 r45 c4] -0
+[T7 r45 c5] -0
+[T7 r46 c1] 4
+[T7 r46 c2] dopo
+[T7 r46 c3] 0
+[T7 r46 c4] 0
+[T7 r46 c5] 0
 ¶ Riferimenti bibliografici e attribuzione delle ipotesi
 ¶ G. Pacini — approccio al terreno stratificato
 ¶ Articolo «Capacità orizzontale del palo in terreno stratificato» della documentazione di ANTHEA (cartella Guide); origine: Checker/PileCalculator.cs, diagrammi per strato e FindDepthForForce

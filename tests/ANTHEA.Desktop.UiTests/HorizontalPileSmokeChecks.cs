@@ -268,7 +268,7 @@ internal sealed class HorizontalPileSmoke
         await WaitForAutomatic();
         if (Result is null || Result.S("metodo_calcolo") != PaloOrizzontale.StratifiedMethod || !Result["sondaggi"]![0].B("misto"))
             throw new Exception("Selezione del metodo stratificato: " + View.StatusText.Text);
-        if (!View.WarningsText.Text.Contains("MODELLO STRATIFICATO SPERIMENTALE")) throw new Exception("Ipotesi del nuovo modello non esposte");
+        if (!View.WarningsText.Text.Contains("MODELLO DI CALCOLO PER TERRENO STRATIFICATO")) throw new Exception("Ipotesi del nuovo modello non esposte");
         await Dispatcher.Yield(DispatcherPriority.ApplicationIdle); Window.UpdateLayout();
         var selector = Editor<ComboBox>(Sheet.ModelForm, "metodo_calcolo"); var first = Cards[0];
         var bounds = selector.TransformToAncestor(first).TransformBounds(new Rect(0, 0, selector.ActualWidth, selector.ActualHeight));

@@ -15901,7 +15901,7 @@
       "data": "2026-11-17",
       "famiglia": "Palo e micropalo verticale / coefficienti peso proprio ponti",
       "categoria": "intenzionale",
-      "stato": "aperto",
+      "stato": "rinviato",
       "descrizione": "Promemoria: portare nella libreria GPC il profilo ponti A1 concordato per il peso proprio, gammaG sfavorevole 1,35 e favorevole 1,00. I predefiniti dei nuovi fogli ANTHEA sono già allineati; resta da recepire il profilo in Model/Checker e nei valori di riserva per campi assenti. Distinto dal coefficiente gammaB della resistenza di base.",
       "codice": [
         "X.Calculations/CalculationDefaults.cs: Vertical(bool micro)",
@@ -16462,6 +16462,29 @@
       ],
       "evidenze": [
         "supporto/artefatti/relazione-pali-viggiani"
+      ]
+    },
+    {
+      "id": "MERGE-GIULIO-RIFERIMENTI-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / merge di main 630028b8",
+      "titolo": "Riferimenti congelati aggiornati per il lavoro di main 630028b8 (commit 8796bae8), registrati nella 1.19.4",
+      "famiglia": "riferimenti/merge",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il merge di main 630028b8 nella candidata (2c4b4a1e) porta la commit 8796bae8 di Giulio, che cambia comportamenti già coperti da riferimenti congelati senza aggiornarli: peso_palo_sfavorevole predefinito 1,35 invece di 1,30 (i fogli senza la chiave cambiano dati e azioni con il peso proprio), relazione ITEC come predefinita del palo verticale, sintesi e avvisi del palo orizzontale con l'esito della verifica e «Modello di calcolo per terreno stratificato», relazione del palo orizzontale con la tabella della capacità, colore degli strati nuovi e duplicati della stratigrafia. Con l'OK dell'utente i riferimenti sono presi dalla full sul merge (20261118-151110-1194-p2-full-264ce17d): tracce del palo verticale 5 file e 598 righe (vista XAML, uguale al ViewModel), del palo orizzontale 17 file e 226 righe (solo «sintesi» e «avvisi»; le righe F5-02 restano), della stratigrafia 4 file e 55 righe (ViewModel); F3: 35 file attesi dalla cattura, 217 transizioni F4 sugli stessi file tolte (AG-PO-01 179, BUG-PV-1 3, BUG-PV-3 1, F5-REL-1160-02 6, PO-ANELLO-01 1, REPORT-TEMPLATE-20261106 27), manifest expected_updates_1194_merge e chiave aggiornamento_1194_merge dell'elenco; serie dei grafici F3 delle due fixture di regressione del palo verticale; 29 valori del peso nelle catture della shell (f5-shell/cattura-mainwindow). Conteggi delle transizioni nei controlli dei pali di Presentation.Tests: orizzontale file della capacità 12 → 6, AG-PO-01 480 → 301, F5-REL-1160-02 18 → 12, PO-ANELLO-01 2 → 1; verticale 43 → 12. Attesi letterali delle prove allineati alla dicitura nuova (smoke del palo orizzontale, verifiche/horizontal, verifiche/software, StratigraphySheetChecks con gamma_sat_auto, HorizontalPileBromsChecks). La voce LIB-PALI-PESO-PONTI-20261117 passa da «aperto», stato non dichiarato, a «rinviato». La fixture stratificato-sabbia-broms (F3-PO-BROMS-SABBIA-20261118) prende la relazione nella forma nuova con il paragrafo del confronto con Broms dopo la tabella; i valori di Broms non cambiano. Resta aperto: ui/check-stratigrafia-view non confronta più quattro scenari (8796bae8), coperti per intero dal ViewModel in Presentation.Tests. Nella verifica mirata dopo la registrazione sono uscite, con l'OK del coordinatore, quattro differenze del solo codice di 8796bae8 nascoste nella full perché le suite si fermavano prima: (1) Architecture.Tests, regola P3: StratigraphyDocument.Densities da array statico a proprietà IReadOnlyList, comportamento invariato, baseline P3 non toccata; (2) verifiche/horizontal, l'atteso della relazione dello Stratificato con la dicitura nuova («ipotesi del modello», «ipotesi di equilibrio limite», nessun «sperimentale»); (3) verifiche/software e verifiche/regressione, l'esito del report del palo verticale controllato sulla tabella classica dei risultati (includeInputs false), perché la relazione ITEC costruisce ogni sezione classica e con il risultato sintetico della prova result[«efficienza»] dà una NullReferenceException (fragilità da segnalare, non corretta); (5) ui/check-stratigrafia-view senza la sostituzione 1.35 → 1.30 della traccia, superata dalle tracce registrate.",
+      "segno": "riferimenti e attesi letterali: i calcoli cambiano solo per il peso proprio predefinito 1,35 dei fogli senza la chiave (scelta di Giulio, LIB-PALI-PESO-PONTI-20261117).",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, registratele voi» (verso le 16:05, riferito dal coordinatore) e OK sull'elenco anthea-1194-merge-differenze.md",
+        "esito": "riferimenti aggiornati nella candidata 1.19.4"
+      },
+      "test": [
+        "full sul merge e verifica mirata dopo la registrazione (rapporto anthea-1194-parte2-20261118.md)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261118-151110-1194-p2-full-264ce17d",
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-merge-differenze.md"
       ]
     }
   ]

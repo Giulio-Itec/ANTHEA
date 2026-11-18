@@ -66,7 +66,7 @@ internal static class HorizontalPileBromsChecks
 
         // Sheet: the summary and the details of the vertical; report: the results and the vertical.
         string line = "\nHu di Broms = 207,4 kN (corto) · Stratificato / Broms = 0,739";
-        e.That(HorizontalPilePresentation.Summary(free).EndsWith("MODELLO SPERIMENTALE" + line, StringComparison.Ordinal),
+        e.That(HorizontalPilePresentation.Summary(free).EndsWith("Modello di calcolo per terreno stratificato" + line, StringComparison.Ordinal),
             "Broms accanto: sintesi del foglio: " + HorizontalPilePresentation.Summary(free));
         e.That(HorizontalPilePresentation.Results(free)[0].Info.EndsWith(line, StringComparison.Ordinal), "Broms accanto: dettagli della verticale nel foglio.");
         var xml = DocxWriter.Read(ReportOrizzontale.Create("Palo corto in sabbia", free)).GetXml("word/document.xml").ToString();

@@ -39,3 +39,7 @@ corsa `20261104-144134-f7a-capture-3` del worktree `gpc-f6-claude/F7/ANTHEA`, co
 (`<istante>+02:00`); `esito.txt` non cambia. Nessun'altra fixture è stata toccata.
 
 Corsa da cui vengono i valori: `supporto/artefatti/ci/20261023-195541-f5-13-g-rif1` del worktree.
+
+18/11/2026, voce MERGE-GIULIO-RIFERIMENTI-20261118 (ANTHEA 1.19.4, merge di main 630028b8, con l'OK dell'utente): il foglio di palo verticale del
+progetto si apre con il peso proprio sfavorevole predefinito 1,35 (commit `8796bae8`). Nei 13 file JSON di `cattura-mainwindow/`
+cambiano solo i 29 valori `"peso_palo_sfavorevole": "1.30"` → `"1.35"`, come nella cattura della corsa `20261118-151110-1194-p2-full-264ce17d`.
