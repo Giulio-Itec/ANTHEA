@@ -107,6 +107,17 @@ internal static partial class EmbeddedWallChecks
         e.That(confirmedXml.Contains(warning) && confirmedXml.Contains("Storia delle fasi confermata come di progetto dall'utente.")
             && requestXml.Contains(warning) && requestXml.Contains(unconfirmed)
             && confirmedXml.Contains("Storia delle fasi già di progetto per le verifiche SLU"), "A2: avvertenza o conferma assenti dalla relazione.");
+        // A2 among the assigned data (approved 18/11/2026): «sì» or «no», never the JSON value «true» or «false».
+        static string? AssignedValue(DocxDocument report, string label)
+        {
+            System.Xml.Linq.XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+            return report.GetXml("word/document.xml").Descendants(w + "tr").Select(row => row.Descendants(w + "t").Select(t => t.Value).ToArray())
+                .FirstOrDefault(cells => cells.Length == 2 && cells[0] == label)?[1];
+        }
+        const string designLabel = "Storia delle fasi già di progetto per le verifiche SLU";
+        string? confirmedValue = AssignedValue(EmbeddedWallReport.Create("A2 confermata", service.Calculate(RcPileExample()).NativeAs<EmbeddedWallReportData>()), designLabel);
+        string? requestValue = AssignedValue(EmbeddedWallReport.Create("A2 da confermare", service.Calculate(piles).NativeAs<EmbeddedWallReportData>()), designLabel);
+        e.That(confirmedValue == "sì" && requestValue == "no", $"A2: conferma nei dati assegnati «{confirmedValue}» e «{requestValue}» invece di «sì» e «no».");
         string multiXml = EmbeddedWallReport.Create("A2 casi", both).GetXml("word/document.xml").ToString();
         e.That(multiXml.Split(warning).Length - 1 == 2, "A2: l'avvertenza non è ripetuta per ogni storia.");
         // M2 (review of 15/11): exact per history. Tie rods, UPL/HYD and global stability have their own factors; without one of the four ULS

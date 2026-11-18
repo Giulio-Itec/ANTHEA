@@ -81,7 +81,11 @@ public static partial class EmbeddedWallReport
             // Document keys are shown with their explicit unit contract, without recomputing derived data.
             string Label(string key) => Labels.GetValueOrDefault(key, key);
             // Item 12h, question 6 (17/11/2026): the inputs keep every digit, with the decimal comma; m/s as a power of ten (Kxx 1·10⁻⁵).
-            string Assigned(string key, JsonNode? value) => value is null ? "non assegnato" : UnitNumberFormat.Input(value.ToString(), UnitNumberFormat.UnitOf(Label(key)), Italian);
+            // A2 (approved 18/11/2026): the confirmation of the history, of the document and of every case, reads «sì» or «no», not the JSON value;
+            // anything but true reads «no», as in PartialFactorsWarning.
+            string Assigned(string key, JsonNode? value) => value is null ? "non assegnato"
+                : key == "design_history_confirmed" ? (value is JsonValue flag && flag.TryGetValue<bool>(out bool confirmed) && confirmed ? "sì" : "no")
+                : UnitNumberFormat.Input(value.ToString(), UnitNumberFormat.UnitOf(Label(key)), Italian);
             Table(["Dato", "Valore"], input.Where(p => p.Value is not JsonArray && p.Value is not JsonObject && p.Key != "schema")
                 .Select(p => new[] { Label(p.Key), Assigned(p.Key, p.Value) }));
             foreach (var entry in input.Where(p => p.Value is JsonArray))
