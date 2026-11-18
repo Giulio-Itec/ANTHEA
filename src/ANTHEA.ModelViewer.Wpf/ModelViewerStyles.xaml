@@ -72,6 +72,9 @@
       </Trigger>
     </Style.Triggers>
   </Style>
+  <!-- 17/11/2026: with a text content this template (RecognizesAccessKey) draws an AccessText, which takes the first «_» as the mark of an
+       access key and hides it («Q_A» → «QA», and Alt+A toggles the box). A CheckBox that shows a name of the model or of the source has a
+       TextBlock as content instead (ModelImportOptionsView, ModelReportView); the template stays as it is for the texts of the commands. -->
   <Style TargetType="CheckBox">
     <Setter Property="Margin" Value="0,8,0,2" />
     <Setter Property="VerticalContentAlignment" Value="Center" />

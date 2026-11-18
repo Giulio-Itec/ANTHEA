@@ -15671,6 +15671,31 @@
       ]
     },
     {
+      "id": "GUIDE-REV73-20261117",
+      "data": "2026-11-17",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.2)",
+      "titolo": "Guide Rev73 della 1.19.2: transizioni editoriali della pagina Wiki dei Modelli",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide Rev73: capitolo «Modelli e importazione da MIDAS» della guida pratica per i rilievi R1–R10 del modulo Modelli, riga dell'edizione «ANTHEA 1.19.2» ed esempio di Annulla con il nome neutro «Esempio». La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) sulla candidata 829f852b dava 260 differenze non ammesse, tutte nei due file della pagina modelli-importazione-midas; la ricerca è invariata. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-17",
+        "utente": "«Sì, approvo» (OK alle transizioni F3 della pagina Wiki dei Modelli).",
+        "esito": "138 transizioni editoriali esatte aggiunte (riga-aggiunta 132, testo 6) e 122 precedenti superate; registro 3480 → 3496 voci; numero degli articoli invariato (94)."
+      },
+      "effetto_quantificato": "Guide: pratica 142 pagine, teorica 214. Wiki: 94 capitoli. F3: 260 → 0 differenze non ammesse dopo l'applicazione.",
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev73 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261117-084353-candidata-1192-829f852b/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/gpc-f6-claude/INT/rapporti/modelli-guida-20261117.md",
+        "Repository/gpc-f6-claude/INT/rapporti/guide-1192-edizioni-20261117.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev73; nessuna guida autonoma nuova."
+    },
+    {
       "id": "UI-STRATIGRAFIA-TABELLA-20261116",
       "data": "2026-11-16",
       "famiglia": "Stratigrafia standalone e anteprima importazione",
@@ -15766,6 +15791,236 @@
         "Verifiche di nuovi fogli, campi assenti e override per palo e micropalo; attesi indipendenti e rilascio coerente delle librerie secondo AGENTS.md"
       ],
       "verifica_nota": "JSON del registro validato; diff controllato. Solo commenti e documentazione, nessuna ricompilazione necessaria."
+    },
+    {
+      "id": "MOD-RIL-R1-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Memoria della serie di combinazioni: impronta ripresa, nomi delle alternative condivisi, vettori solo dei governanti, memoria restituita",
+      "famiglia": "modelli/combinazioni/memoria",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. «Calcola tutte» (73 su 73, limite 8 GiB) portava ANTHEA a 24,3 GB e lì restava, con 5,0 GiB di spazio salvato. Causa misurata: la memoria viva a fine serie è 7,7 GB; il resto è memoria che il processo ha già liberato ma non restituisce a Windows (nessuna raccolta dopo la serie) e che si accumula durante la serie per gli oggetti temporanei. I più grandi erano di ANTHEA: a ogni pubblicazione della serie (ogni 20 s o più) ModelDocumentEntry.Prepare decomprimeva e rileggeva TUTTI i blocchi della copia per l'impronta (ProjectModelStore.cs, WholeRevision); 21,5 milioni di stringhe «A12» uguali, una per governante (GpcModelCombinationService.cs, DisplayResult); il vettore di visualizzazione di ogni stato alternativo di ogni posizione, anche dei non governanti; il raggruppamento per posizione fatto due volte (minimo e massimo). Correzione lato ANTHEA: impronta SHA-256 ripresa dallo stato dei blocchi già letti (ResumableSha256, CNG BCryptDuplicateHash; .NET 8 non ha IncrementalHash.Clone), nomi delle alternative creati una volta per risultato, vettori solo per gli stati con un ruolo governante, gruppi una volta, e a fine serie una raccolta che restituisce la memoria (SystemMemory.Release, GCCollectionMode.Aggressive). Valori, governanti, JSON e impronte identici bit per bit: impronta della copia dopo la serie 88C70849D8780491F87E312FB4360AB0A8B6D9F9BC6638AB616E9EC7F96AD28D prima e dopo.",
+      "codice": "src/ANTHEA.ModelWorkspace/ProjectModelStore.cs (Prepare, RevisionCheckpoint, WholeRevision), src/ANTHEA.ModelWorkspace/ResumableSha256.cs, src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs (Calculate, Locations, DisplayResult), src/ANTHEA.ModelWorkspace/SystemMemory.cs, src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CombinationBatch.cs",
+      "effetto_quantificato": "Banco sul modello vero, serie di 73 combinazioni: 1.19.1 157 s, picco del working set 26,5 GB, 26,2 GB alla fine, 7,7 GB vivi; dopo 134 s, picco 21,7 GB, 14,3 GB alla fine, 7,0 GB vivi, 22.636 stringhe distinte invece di 21,5 milioni. Impronta della copia uguale prima e dopo.",
+      "test": [
+        "ModelWorkspace.Checks: RevisionCheckpointChecks (impronta ripresa uguale a quella completa: risultati in coda, «Libera» in mezzo, definizione nuova, copia riletta)",
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs (--banco-modelli): ShellViewModel, ModelTabViewModel, ModelViewerViewModel, archivio dei risultati e storico veri sul thread dell'interfaccia delle prove, senza WPF."
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/prima-serie73",
+        "supporto/artefatti/modelli-rilievi/r1-prima",
+        "supporto/artefatti/modelli-rilievi/r1-dopo",
+        "supporto/artefatti/modelli-rilievi/dopo-serie73"
+      ]
+    },
+    {
+      "id": "MOD-RIL-R6-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Memoria dopo «Libera tutte»",
+      "famiglia": "modelli/combinazioni/memoria",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. Dopo «Libera tutte» ANTHEA restava a 17,9 GB. Riferito davvero resta poco: 3,6 GB vivi, di cui 2,3 GB della preparazione GPC dei casi base (tenuta per i calcoli successivi), 0,9 GB dei blocchi compressi non salvati nell'archivio dei risultati (servono ad «Annulla» e a «Salva») e la copia dei 48 casi. Il resto è memoria già liberata che il processo non restituiva. Correzione: dopo «Libera» la raccolta che restituisce la memoria (SystemMemory.Release).",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CombinationSpace.cs (FreeCombinationResultsAsync)",
+      "effetto_quantificato": "Dopo «Libera tutte» (banco): working set 25,3 → 7,3 GB dopo la serie; 9,3 → 0,9 GB sul progetto riaperto. Pausa della restituzione 3–4 s.",
+      "test": [
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs (--banco-modelli): ShellViewModel, ModelTabViewModel, ModelViewerViewModel, archivio dei risultati e storico veri sul thread dell'interfaccia delle prove, senza WPF."
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/prima-serie73",
+        "supporto/artefatti/modelli-rilievi/dopo-serie73",
+        "supporto/artefatti/modelli-rilievi/dopo-progetto",
+        "supporto/artefatti/modelli-rilievi/dopo-progetto2"
+      ]
+    },
+    {
+      "id": "MOD-RIL-R8-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Lettura della copia di un modello in un altro thread, a finestre, all'apertura e dopo «Annulla» (R8, R5)",
+      "famiglia": "modelli/progetti/interfaccia",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. Riaprendo il progetto salvato la finestra non rispondeva per circa 40 s e ANTHEA arrivava a 13,3 GB (R8); «Annulla» dopo «Libera tutte» bloccava l'interfaccia circa 90 s (R5). Causa: ModelTabViewModel (costruttore e Rebind, ModelsViewModels.cs:168 e 296 della 1.19.1) leggeva la copia con ProjectModelStore.Read sul thread dell'interfaccia; Assemble (ProjectModelStore.cs:263) teneva in memoria il JSON di tutti i 188 insiemi insieme (5,4 GB) e ricalcolava l'impronta sull'intero JSON; ogni «Annulla» o «Ripristina» del progetto, anche di una modifica a un foglio, rileggeva la copia. Correzione: la voce si prende dal documento sul thread dell'interfaccia (ProjectModelStore.Capture) e si legge in un altro thread quando i risultati superano 64 MiB (ProjectSession.ModelReadThreshold), con avanzamento nella scheda; lettura, decompressione, rilettura e impronta 12 insiemi alla volta; controlli e revisioni del visore preparati nello stesso thread; la copia sullo schermo resta quando la voce ripristinata ha la stessa revisione; una lettura superata da una più recente si scarta; i governanti riletti condividono testi e vettori (ProjectModelStore.Shared); il visore usa l'impronta già nota della copia (ModelSnapshot.KnownFingerprint) invece di ricalcolarla sul thread dell'interfaccia (InitializeExploration, 23,9 s con 5,4 GB). La semantica di «Annulla» non cambia: il documento torna subito, la scheda mostra la lettura e poi la copia. Caricamento pigro dei risultati non fatto: domanda all'utente nel rapporto.",
+      "codice": "src/ANTHEA.ModelWorkspace/ProjectModelStore.cs (ModelCopyReader, Capture, Assemble), src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (Load, LoadAsync, Rebind), src/ANTHEA.Presentation/Shell/ProjectSession.cs (ModelReadThreshold), src/ANTHEA.Desktop/Views/Shell/ModelTabView.xaml(.cs), src/ANTHEA.ModelWorkspace/ModelSnapshot.cs (KnownFingerprint), src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Exploration.cs (InitializeExploration)",
+      "effetto_quantificato": "Progetto salvato dall'utente (925 MB di archivio): apertura 63,7 s con l'interfaccia ferma per tutto il tempo, picco 12,8 GB, 10,1 GB dopo, 6,6 GB vivi; ora 58,1 s di lettura con la finestra utilizzabile, blocco più lungo 8,3 s (raccolte della memoria), 4,8–4,9 GB dopo, 3,2 GB vivi; creazione del visore 23,9 → 0,7 s. «Annulla» dopo «Libera tutte»: 52,5 s fermi, 13,9 GB dopo → 57,6 s di lettura, blocco più lungo 8,2 s, 4,8–6,6 GB dopo.",
+      "test": [
+        "ModelWorkspace.Checks: ArchivedCopyReadingChecks",
+        "Presentation.Tests: ModelTabLoadingChecks (lettura in background all'apertura e dopo Annulla, copia conservata per un Annulla di un'altra modifica, vale l'ultima lettura)",
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs (--banco-modelli): ShellViewModel, ModelTabViewModel, ModelViewerViewModel, archivio dei risultati e storico veri sul thread dell'interfaccia delle prove, senza WPF."
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/prima-progetto",
+        "supporto/artefatti/modelli-rilievi/dopo-progetto",
+        "supporto/artefatti/modelli-rilievi/dopo-progetto2"
+      ]
+    },
+    {
+      "id": "MOD-RIL-R4-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«↶ Annulla Libera» accanto a «Libera» e nomi delle modifiche del modello nello storico",
+      "famiglia": "modelli/combinazioni/interfaccia",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. L'utente non trovava l'Annulla di «Libera», che c'era solo nella finestra principale, con il suggerimento «Annulla: Modifica dei dati dei fogli». Ora, subito dopo «Libera selezionate/tutte», il riquadro Spazio delle combinazioni offre «↶ Annulla Libera» e il messaggio dice dove è «↶ Annulla» del progetto (Ctrl+Z); il comando annulla solo se l'ultima modifica del progetto è ancora quella «Libera» (ModelTabViewModel.UndoChange) e sparisce dopo un'altra modifica della copia. Le modifiche del modello hanno un nome nello storico: «Importazione del modello», «Libera i risultati di N combinazioni», «Calcolo di «…»», «Calcolo delle combinazioni in serie», «Modifica del modello «…»».",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CombinationSpace.cs, ModelViewerViewModel.Combinations.cs, src/ANTHEA.ModelWorkspace/ProjectModelStore.cs (ModelDocumentEntry.ChangeLabel), src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs, src/ANTHEA.ModelViewer.Wpf/ModelCombinationsView.xaml",
+      "test": [
+        "ModelWorkspace.Checks: UndoFreeChecks",
+        "Presentation.Tests: ModelUndoLabelChecks",
+        "ModelViewer.Combinations.UiChecks: pulsante dopo «Libera tutte» (nuova immagine combinazioni-spazio-dopo-libera.png, non congelata)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-R7-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Casi base GPC preparati in background all'apertura del modello",
+      "famiglia": "modelli/combinazioni/prestazioni",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. Proposta dell'utente approvata (15:04): la preparazione dei casi base (25,4 s su 26,9 s della prima combinazione) parte quando la scena del modello è pronta (ModelViewerViewModel.SceneReady, chiamato da ModelViewerControl), una volta per copia aperta o importata, solo con combinazioni da calcolare e fuori dalla sola lettura, a priorità sotto il normale, annullata da una nuova copia o dalla chiusura, e non parte con meno di 8 GiB di memoria libera (la preparazione tiene 2,3 GB e arriva a circa 4 GB; con meno del doppio libero il lavoro non chiesto potrebbe portare il PC al file di paging). È la stessa preparazione del catalogo e del calcolo (GpcModelCombinationService, stesso semaforo): chi arriva dopo la attende e la riusa. Il catalogo mostra lo stato (in corso, pronti, rinviata per la memoria).",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Preparation.cs, src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs (PrepareAsync con priorità bassa), src/ANTHEA.ModelWorkspace/SystemMemory.cs (AvailableBytes)",
+      "effetto_quantificato": "Prima combinazione della serie 23,8 → 0,6 s; la preparazione (23,2 s) avviene in background dopo l'apertura, blocco più lungo dell'interfaccia 4,9 s (raccolte della memoria durante la preparazione).",
+      "test": [
+        "ModelWorkspace.Checks: BackgroundPreparationChecks",
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs (--banco-modelli): ShellViewModel, ModelTabViewModel, ModelViewerViewModel, archivio dei risultati e storico veri sul thread dell'interfaccia delle prove, senza WPF. con --scena"
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/dopo-serie73"
+      ]
+    },
+    {
+      "id": "MOD-RIL-R2-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Campione con media ai vertici: «Valore dell'elemento» al posto di «Importato»",
+      "famiglia": "modelli/risultati/interfaccia",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. Con «media ai vertici» la seconda riga del campione diceva «Importato: …» anche per le combinazioni calcolate da ANTHEA (ModelViewerViewModel.Exploration.cs:209). Ora «Valore dell'elemento: …», giusto per i casi importati e per le combinazioni: è il valore dell'elemento al vertice, non mediato. Nessun valore cambiato.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Exploration.cs (ProbeFor)",
+      "test": [
+        "ModelWorkspace.Checks: ContourAveragingChecks"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-R3-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "File di un modello in File › Apri",
+      "famiglia": "shell/file/modelli",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "Prova dell'utente del 16/11/2026 sul modello MIDAS vero (3.341 nodi, 3.223 elementi, 48 casi, 73 combinazioni LCOM), rilievi del coordinatore in INT/piano-3-giorni-20261115.md (14:33–15:15) e INT/rapporti/modelli-rilievi-20261116.md. File › Apri su un .antheamodel leggeva 110 MB come documento e diceva «Formato o versione del file non supportati.» (DocumentService.cs:32). Ora i file dei modelli (.antheamodel, .mct, .mgt, NODE.json, .st7, .lsa, .nla) non si aprono come documenti: un messaggio dice che si aprono nel modulo Modelli e come (+ Modello, Importa modello…, sorgente File o Straus7) e la shell mostra la pagina «Modelli»; dalla riga di comando lo stesso testo come errore. Aprirli direttamente in una sezione non è fatto: serve scegliere la fase o sottofase (domanda nel rapporto).",
+      "codice": "src/ANTHEA.Presentation/Shell/WorkspaceSession.cs (IsModelFile, ModelFileMessage, OpenFile), src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs (Open, ModelsRequested), src/ANTHEA.Presentation/Shell/ShellViewModel.cs",
+      "test": [
+        "Presentation.Tests: ModelFileOpenChecks"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-R9-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Straus7: perché il catalogo non ha casi di risultato, e gli avvisi del convertitore prima dell'importazione",
+      "famiglia": "modelli/straus7/interfaccia",
+      "categoria": "difetto-legacy",
+      "stato": "corretto",
+      "descrizione": "File Straus7 dell'utente del 16/11 (15:15; 2563 nodi, 96 aste, 5142 piastre, 15 casi di carico, 7 combinazioni LSA, due freedom case): tutti i casi di risultato sono coppie caso di carico × freedom case che GPC.Converter (Straus7LinearStaticResults.CaseMap) non associa, quindi il catalogo aveva 0 casi e il pannello diceva solo «nessun risultato» e «Avvisi del convertitore GPC: 10 (dettagli nel rapporto di importazione)», un rapporto che non esiste ancora. Ora il catalogo porta i casi non associati (UnmappedResultCases, dal worker) e il pannello dice perché non c'è niente da importare (più casi di vincolo, elenco dei casi esclusi) ed elenca gli avvisi del convertitore prima dell'importazione. La mappatura dei risultati e dei vincoli con più freedom case resta da fare in GPC.Converter: proposta nel rapporto.",
+      "codice": "src/ANTHEA.ModelWorkspace/Strand7ImportSetup.cs (UnmappedResultCases, NoResultsReason), src/ANTHEA.Strand7Worker/Program.cs (Inspect), src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs, src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml",
+      "test": [
+        "ModelWorkspace.Checks: NoResultCasesChecks (catalogo sintetico come quello del file)",
+        "Nativo sul file Straus7 dell'utente (sola lettura, worker del ramo): Inspect 0 casi selezionabili, 15 casi di carico, 15 casi non associati, 10 avvisi; Read come «Geometria + attributi + carichi» 2563 nodi, 5238 elementi, 0 risultati"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-R10-20261116",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«Tutto» senza casi di risultato importa geometria, attributi e carichi (Straus7 e MIDAS)",
+      "famiglia": "modelli/importazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Requisito dell'utente del 16/11 («il file deve essere importato anche senza casi di carico»). Con «Tutto» (predefinito) e un catalogo senza casi di risultato selezionabili (Straus7 con casi non associati, senza file dei risultati o senza casi di carico; MIDAS senza casi statici né stage) l'importazione è possibile: alla sorgente si chiede «Geometria + attributi + carichi», la copia si applica come «Tutto» (definizioni dell'utente conservate, nessun risultato) e il messaggio finale dice perché non ci sono risultati. Con casi disponibili resta come prima (almeno un caso e un tipo di risultato); «Solo risultati» senza casi resta disattivato. Il worker non cambia per questo: la lettura senza risultati c'era già.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs (ImportsWithoutResults, EffectiveImportScope), ModelViewerViewModel.cs (ImportAsync), ModelViewerViewModel.Strand7Import.cs",
+      "test": [
+        "ModelWorkspace.Checks: NoResultCasesChecks (Straus7 e MIDAS)",
+        "Nativo sul file Straus7 dell'utente (sola lettura, worker del ramo): Inspect 0 casi selezionabili, 15 casi di carico, 15 casi non associati, 10 avvisi; Read come «Geometria + attributi + carichi» 2563 nodi, 5238 elementi, 0 risultati"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-P1P2-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Casi base in background (R7): avvio dopo «Importa/Aggiorna modello…» e servizio GPC della scheda",
+      "famiglia": "modelli/combinazioni/prestazioni",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. P1: SceneReady consumava l'attesa della copia prima di controllare il visore libero e il catalogo: durante l'importazione (visore occupato, catalogo ancora della copia precedente) la preparazione non partiva mai; la misura 23,8 → 0,6 s di MOD-RIL-R7 chiamava SceneReady a mano. Ora TryStartPreparation parte con la scena sullo schermo, la copia in attesa, il visore libero e il catalogo della copia; si riprova alla fine di SetSnapshot e quando un'importazione, una verifica, un report o una revisione finiscono (NotifyCombinationCommands); l'attesa si consuma solo all'avvio o per una rinuncia definitiva (sola lettura, niente da calcolare, poca memoria, già pronti). P2: un GpcModelCombinationService per visore, svuotato a ogni ricreazione (cambio di scheda o di pagina, Annulla): la preparazione ripartiva da zero e due semafori potevano lavorare insieme. Ora il servizio è della scheda del modello (ModelTabViewModel.Combinations, uno per scheda, chiuso con la scheda), passato a ogni visore; un visore nuovo sulla stessa copia trova i casi base pronti o la loro preparazione in corso (la chiusura del visore non la ferma); una copia diversa toglie ciò che era preparato o in preparazione per la precedente (KeepOnlyFor, revisione della preparazione già nota alla copia, mai calcolata sul thread dell'interfaccia); prima di una preparazione nuova quella vecchia esce (mai due insieme). N1: un errore della preparazione automatica è detto nel catalogo invece di perdersi.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Preparation.cs (TryStartPreparation), ModelViewerViewModel.cs (costruttore, SetSnapshot, Dispose), ModelViewerViewModel.Combinations.cs, src/ANTHEA.ModelWorkspace/GpcModelCombinationService.cs (IsPreparedFor, KeepOnlyFor, Close), src/ANTHEA.ModelWorkspace/ModelCombinations.cs (KnownPreparationRevision), src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml.cs, src/ANTHEA.Desktop/Views/Shell/ModelTabView.xaml.cs, src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (Combinations)",
+      "effetto_quantificato": "Banco sul modello vero (73 combinazioni, 48 casi) con la scena collegata come nel controllo e nessuna chiamata a mano: dopo «Importa modello…» la preparazione parte da sola e dura 28,7 s in background (blocco più lungo dell'interfaccia 4,9 s, raccolte della memoria); prima combinazione 0,7 s (prima della correzione, sul percorso vero, la preparazione non partiva e la prima combinazione aspettava i circa 24 s della preparazione); visore ricreato sulla stessa copia (cambio di scheda) 0,7 s, senza preparare di nuovo. Risultati delle combinazioni invariati.",
+      "test": [
+        "ModelWorkspace.Checks: BackgroundPreparationChecks (importazione con la scena collegata come nel controllo, visore ricreato sullo stesso servizio, chiusura durante la preparazione, copia diversa, chiusura della scheda)",
+        "Banco tests/ANTHEA.Presentation.Tests/ModelMemoryBench.cs con --scena: SceneReady collegato a SceneChanged come nel controllo, mai chiamato dalle fasi; fase «scheda»"
+      ],
+      "evidenze": [
+        "supporto/artefatti/modelli-rilievi/r7-percorso-vero"
+      ]
+    },
+    {
+      "id": "MOD-RIL-REV-P3-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Lettura della copia in background: «Ripristina» non sovrascritto, Annulla che non la ricomincia, testo d'errore che se ne va",
+      "famiglia": "modelli/progetti/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. P3: «Ripristina» (Copie precedenti) durante la lettura in background metteva la copia ripristinata nel documento, poi la fine della lettura rimetteva sullo schermo la copia vecchia, e una combinazione calcolata dopo la pubblicava sopra quella ripristinata. Ora una copia che entra nella scheda (importazione, Ripristina, combinazione) abbandona la lettura in corso (AbandonLoading) e «Ripristina» è disattivato durante la lettura. R4 della revisione: un Annulla di un'altra modifica durante la lettura, con la stessa revisione, la lascia proseguire invece di ricominciarla. R5 della revisione: il testo di una lettura non riuscita se ne va quando la copia si rilegge sul thread dell'interfaccia. N5: una lettura abbandonata si ferma prima dei controlli e della restituzione della memoria.",
+      "codice": "src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (AbandonLoading, Imported, Load, LoadAsync, Rebind, RestoreCopyCommand)",
+      "test": [
+        "Presentation.Tests: ModelTabLoadingChecks (RestoreDuringReading, FailedReading)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R1-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«↶ Annulla Libera» annulla solo la propria modifica",
+      "famiglia": "modelli/combinazioni/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Il controllo confrontava solo il nome dell'ultima modifica del progetto: con due modelli e due «Libera» con lo stesso nome la scheda di uno annullava la «Libera» dell'altro, e con un foglio aperto non confermato l'annullamento si prendeva quella modifica. Ora la scheda tiene l'identità della propria ultima modifica (ProjectHistory.UndoStep, ProjectSession.UndoStep) e ProjectSession.UndoOnly conferma il foglio aperto, poi annulla solo se l'ultima modifica è ancora quella; altrimenti il visore dice perché. N8: il pulsante non è offerto durante una verifica, un report o una revisione.",
+      "codice": "src/ANTHEA.Projects/ProjectHistory.cs (UndoStep), src/ANTHEA.Presentation/Shell/ProjectSession.cs (UndoStep, UndoOnly), src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (UndoChange), src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.CombinationSpace.cs",
+      "test": [
+        "Presentation.Tests: ModelUndoLabelChecks (due modelli con «Libera» dello stesso nome)",
+        "ModelWorkspace.Checks: UndoFreeChecks"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R2-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "«Aggiorna modello…» con «Tutto» e sorgente senza casi su una copia con risultati: avviso prima e «Importa» disattivato",
+      "famiglia": "modelli/importazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Con R10 «Tutto» da una sorgente senza casi di risultato (Straus7 senza .lsa o con casi non associati, MIDAS senza casi statici) toglieva senza avviso i casi e le combinazioni calcolate di una copia che ne aveva. Scelta prudente dell'agente, delegata dal coordinatore (17/11, 00:20): su una copia con risultati «Importa» resta disattivato con «Tutto» e il pannello dice prima quanti casi e combinazioni sarebbero tolti e che la scelta esplicita è «Geometria + attributi + carichi»; su una copia senza risultati R10 resta com'è. Per MIDAS il motivo compare ora già nel controllo della connessione.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.LiveImport.cs (ImportsWithoutResults, ResultsLossWarning), ModelViewerViewModel.Strand7Import.cs, src/ANTHEA.ModelViewer.Wpf/ModelImportOptionsView.xaml",
+      "test": [
+        "ModelWorkspace.Checks: NoResultCasesChecks (Straus7 e MIDAS su una copia con risultati)"
+      ],
+      "evidenze": []
+    },
+    {
+      "id": "MOD-RIL-REV-R6-20261117",
+      "fase": "Dopo il refactoring / modulo Modelli",
+      "titolo": "Fogli del visore dopo un Annulla che conserva la copia",
+      "famiglia": "modelli/progetti/interfaccia",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Revisione indipendente del ramo claude/modelli-rilievi a ff514607 (INT/rapporti/revisione-modelli-rilievi-20261117.md), rilievi «da correggere prima della prova» e «prima del rilascio»; correzioni nel rapporto INT/rapporti/modelli-rilievi-20261116.md. Da R5 un Annulla di un'altra modifica non ricrea il visore, che prendeva i fogli solo nel costruttore: un foglio tolto da Annulla restava offerto da «Collega», che rispondeva con un testo inglese di .NET. Ora la vista passa al visore i fogli nuovi (SetSheets, scelta conservata se il foglio c'è ancora) e «Collega» a un foglio che non c'è più lo dice in italiano.",
+      "codice": "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.cs (SetSheets), src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.xaml.cs, src/ANTHEA.Desktop/Views/Shell/ModelTabView.xaml.cs, src/ANTHEA.Presentation/Shell/Projects/ModelsViewModels.cs (Linked, SheetGone)",
+      "test": [
+        "ModelWorkspace.Checks: UndoFreeChecks (SetSheets)",
+        "Presentation.Tests: ModelUndoLabelChecks (foglio tolto da Annulla)"
+      ],
+      "evidenze": []
     }
   ]
 }

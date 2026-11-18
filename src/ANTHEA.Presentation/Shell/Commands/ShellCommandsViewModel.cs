@@ -158,8 +158,19 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     /// <summary>«Apri…» (MainWindow.Open): the file chosen opens, or is activated when it is open already.</summary>
     public void Open()
     {
-        if (services.Files.OpenFile(new OpenFileRequest(WorkspaceSession.OpenFilters)) is { } path) workspace.OpenFile(path);
+        if (services.Files.OpenFile(new OpenFileRequest(WorkspaceSession.OpenFilters)) is not { } path) return;
+        // R3 (16/11/2026): a file of the module «Modelli» says where it opens and the page «Modelli» comes on screen.
+        if (WorkspaceSession.IsModelFile(path))
+        {
+            services.Messages.Inform(WorkspaceSession.ModelFileTitle, WorkspaceSession.ModelFileMessage(path));
+            ModelsRequested?.Invoke(this, EventArgs.Empty);
+            return;
+        }
+        workspace.OpenFile(path);
     }
+
+    /// <summary>R3: «Apri…» chose a file of a calculation model: the shell shows the page «Modelli».</summary>
+    public event EventHandler? ModelsRequested;
 
     /// <summary>«Salva» and «Salva con nome…»: the document of the sheet with the focus, otherwise the project.</summary>
     public bool Save(bool asNew) => workspace.CurrentDocument is { } document && workspace.Save(document, asNew, background: true);

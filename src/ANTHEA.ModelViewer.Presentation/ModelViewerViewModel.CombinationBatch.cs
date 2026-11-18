@@ -60,7 +60,7 @@ public sealed partial class ModelViewerViewModel
             // Written off the thread of the interface, as a single combination; never cancelled, so the calculated results are kept.
             var entry=await Task.Run(()=>ModelDocumentEntry.Prepare(copy));
             if(disposed)return;
-            PublishCombinationSnapshot(entry);unpublished=0;sincePublished.Restart();
+            PublishCombinationSnapshot(entry,"Calcolo delle combinazioni in serie");unpublished=0;sincePublished.Restart();
             double spaced=BatchPublishRatio*publishing.Elapsed.TotalSeconds;publishAfter=spaced>BatchPublishSeconds?spaced:BatchPublishSeconds;
         }
         try
@@ -95,6 +95,8 @@ public sealed partial class ModelViewerViewModel
         {
             try {if(unpublished>0&&!disposed)await Publish();}
             catch(Exception ex){stopped=(stopped==null?"":stopped+"\n")+"Pubblicazione non completata: "+ex.Message;}
+            // R1 (16/11/2026): the memory the series used and freed goes back to Windows, before the commands come back.
+            if(calculated.Count>0&&!disposed){CombinationMessage="Restituzione della memoria usata dalla serie…";await SystemMemory.ReleaseAsync();}
             batchCancellation=null;
             IsCombinationBusy=false;IsCombinationBatchBusy=false;IsBusy=false;NotifyCombinationCommands();
         }

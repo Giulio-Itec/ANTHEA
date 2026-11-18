@@ -97,7 +97,7 @@ static class Strand7Worker
         var listed = session.Listing?.Cases ?? [];
         var phases = data.Stages.ToDictionary(s => s.Number, s => Strand7Snapshot.StageLabel(s.Number, s.Name));
         var warnings = session.Geometry.Diagnostics.Concat(session.Listing?.Diagnostics ?? []).Where(d => d.Severity == DiagnosticSeverity.Warning).Select(d => d.Code + ": " + d.Message).ToList();
-        Strand7ResultCase[] cases;
+        Strand7ResultCase[] cases; string[] unmapped = [];
         if (session.Nonlinear)
         {
             if (listed.Any(c => !phases.ContainsKey(c.Stage))) throw new Failure(Rejected, "Casi di risultato non lineari di fasi assenti dal modello.");
@@ -107,7 +107,9 @@ static class Strand7Worker
         {
             cases = listed.Where(c => session.Map!.ContainsKey(c.Number))
                 .Select(c => new Strand7ResultCase(c.Number, Strand7Snapshot.CaseName(session.Map![c.Number])) { StageNumber = c.Stage == 0 ? null : c.Stage }).ToArray();
-            if (cases.Length < listed.Count) warnings.Add("Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + string.Join(", ", listed.Where(c => !session.Map!.ContainsKey(c.Number)).Select(c => c.Name)) + ".");
+            // R9 (16/11/2026): the cases left out, also as a list of the catalogue, so that the panel can say why there is no result to import.
+            unmapped = listed.Where(c => !session.Map!.ContainsKey(c.Number)).Select(c => c.Name).ToArray();
+            if (cases.Length < listed.Count) warnings.Add("Casi di risultato senza un caso di carico corrispondente, non selezionabili: " + string.Join(", ", unmapped) + ".");
             if (listed.FirstOrDefault(c => c.Stage != 0) is { } staged)
                 warnings.Add("Risultati statici lineari della fase attiva " + (phases.TryGetValue(staged.Stage, out var phase) ? phase : staged.Stage.ToString(System.Globalization.CultureInfo.InvariantCulture)) +
                     ": gli elementi non attivi in quella fase non hanno risultati; i casi si combinano fra loro.");
@@ -119,7 +121,7 @@ static class Strand7Worker
             LoadCases = model.LoadCases.Values.Where(c => c is not GPC.Model.Stages.StageResultCase).Select(c => Strand7Snapshot.CaseName(c.Name)).ToArray(),
             ApiVersion = model.AnalysisSource?.SolverVersion ?? "",
             Phases = data.Stages.Select(s => new ModelConstructionPhase(s.Number, phases[s.Number], null, null, s.EnabledGroups?.Length ?? 0)).ToArray(),
-            StageResultsAvailable = listed.Any(c => c.Stage != 0), NonlinearStages = session.Nonlinear, Warnings = warnings
+            StageResultsAvailable = listed.Any(c => c.Stage != 0), NonlinearStages = session.Nonlinear, Warnings = warnings, UnmappedResultCases = unmapped
         };
     }
 

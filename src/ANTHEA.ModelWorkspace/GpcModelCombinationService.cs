@@ -28,6 +28,31 @@ public sealed partial class GpcModelCombinationService
     }
     public void ClearCache()=>prepared=null;
 
+    // P2 of the review of 17/11/2026: the service may outlive the viewer that uses it (the tab of the model owns it, so that the base cases
+    // prepared in the background survive a change of tab or page). The owner closes it; a preparation of another copy in progress stops.
+    readonly CancellationTokenSource lifetime=new();
+    readonly object preparing=new();
+    (string Revision,CancellationTokenSource Cancellation)? running;
+
+    /// <summary>True when the base cases of <paramref name="snapshot"/> are prepared, known without computing the revision of the copy
+    /// (<see cref="ModelCombinations.KnownPreparationRevision"/>): a new viewer on the same copy finds them and does not prepare again.</summary>
+    public bool IsPreparedFor(ModelSnapshot snapshot)=>prepared is {} current&&ModelCombinations.KnownPreparationRevision(snapshot)==current.Revision;
+
+    /// <summary>
+    /// A copy comes on screen (P2 of the review of 17/11/2026): what is prepared, or being prepared, for another copy is dropped, so that two
+    /// preparations are never kept together. The revision is the one the copy already knows; a copy that does not know it is taken as another
+    /// copy (the preparation is made again, as before 17/11/2026, never kept for a different copy).
+    /// </summary>
+    public void KeepOnlyFor(ModelSnapshot snapshot)
+    {
+        string? revision=ModelCombinations.KnownPreparationRevision(snapshot);
+        if(prepared is {} current&&current.Revision!=revision)prepared=null;
+        lock(preparing)if(running is {} work&&work.Revision!=revision)work.Cancellation.Cancel();
+    }
+
+    /// <summary>The owner closes (the tab of the model): a preparation in progress stops and nothing prepared is kept.</summary>
+    public void Close(){lifetime.Cancel();prepared=null;}
+
     /// <summary>
     /// Request of the user of 2/11/2026 («spacchettando delle parti comuni»): the combinations within the limit of the expansion are evaluated
     /// by the matrix of GPC (CombinationMatrix, GPCModel 5.38), which gives the values, governing roles and principal components of the samples
@@ -43,26 +68,49 @@ public sealed partial class GpcModelCombinationService
     /// does not wait for it. The same preparation and the same gate as <see cref="CalculateAsync"/>: a calculation started meanwhile waits for
     /// it and reuses it. Nothing is reported: a copy that cannot be prepared is explained by the calculation, as before.
     /// </summary>
-    public async Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)
+    public Task PrepareAsync(ModelSnapshot snapshot,CancellationToken token=default)=>PrepareAsync(snapshot,false,token);
+
+    /// <summary>
+    /// As <see cref="PrepareAsync(ModelSnapshot, CancellationToken)"/>; with <paramref name="lowPriority"/> (rilievo R7, 16/11/2026: the preparation
+    /// started when the model opens, approved by the user) the thread that prepares runs below normal priority, so that the window and the other
+    /// programs go first. The same preparation and the same gate: a calculation or the catalogue started meanwhile waits for it and reuses it.
+    /// True when the copy is prepared at the end (now or before).
+    /// </summary>
+    public async Task<bool> PrepareAsync(ModelSnapshot snapshot,bool lowPriority,CancellationToken token)
     {
         try
         {
-            await calculationGate.WaitAsync(token).ConfigureAwait(false);
+            using var work=CancellationTokenSource.CreateLinkedTokenSource(token,lifetime.Token);
+            var cancel=work.Token;
+            await calculationGate.WaitAsync(cancel).ConfigureAwait(false);
             try
             {
-                await Task.Run(()=>
+                return await Task.Run(()=>
                 {
-                    if(!GpcSnapshotModel.CanRebuild(snapshot))return;
+                    if(!GpcSnapshotModel.CanRebuild(snapshot))return false;
                     string revision=ModelCombinations.PreparationRevision(snapshot);
-                    if(prepared?.Revision==revision)return; // already prepared: the catalogue opened again
-                    snapshot.Validate();prepared=Prepare(snapshot,revision,null,token);
-                    if(UseMatrix)prepared.Matrix=CombinationMatrix.Prepare(prepared.Model,Dataset,prepared.Model.AllElements,token);
-                },token).ConfigureAwait(false);
+                    if(prepared?.Revision==revision)return true; // already prepared: the catalogue opened again
+                    lock(preparing)running=(revision,work);
+                    var thread=Thread.CurrentThread;var priority=thread.Priority;
+                    if(lowPriority)thread.Priority=ThreadPriority.BelowNormal;
+                    try
+                    {
+                        // P2 of the review of 17/11/2026: the preparation of another copy leaves before this one is made (never two together).
+                        prepared=null;
+                        snapshot.Validate();var made=Prepare(snapshot,revision,null,cancel);
+                        if(UseMatrix)made.Matrix=CombinationMatrix.Prepare(made.Model,Dataset,made.Model.AllElements,cancel);
+                        cancel.ThrowIfCancellationRequested();prepared=made;
+                        // A viewer closed (or the tab) while the result was stored: it cancels before emptying, so nothing stays.
+                        if(cancel.IsCancellationRequested){prepared=null;return false;}
+                        return true;
+                    }
+                    finally {thread.Priority=priority;lock(preparing)running=null;}
+                },cancel).ConfigureAwait(false);
             }
             finally {calculationGate.Release();}
         }
         catch(Exception ex) when(ex is OperationCanceledException or InvalidDataException or ArgumentException or InvalidOperationException
-            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {}
+            or NotSupportedException or FormatException or KeyNotFoundException or System.Text.Json.JsonException) {return false;}
     }
 
     public async Task<ModelCombinationCalculation> CalculateAsync(ModelSnapshot snapshot,string definitionId,
@@ -97,6 +145,8 @@ public sealed partial class GpcModelCombinationService
         string revision=ModelCombinations.DefinitionRevision(snapshot,definitionId);
         string preparationRevision=ModelCombinations.PreparationRevision(snapshot);
         bool reused=prepared?.Revision==preparationRevision;
+        // P2 of the review of 17/11/2026: the preparation of another copy leaves before this one is made (never two together).
+        if(!reused)prepared=null;
         var context=reused?prepared!:Prepare(snapshot,preparationRevision,progress,token);
         token.ThrowIfCancellationRequested();prepared=context;
         var model=context.Model;
@@ -114,7 +164,12 @@ public sealed partial class GpcModelCombinationService
             token.ThrowIfCancellationRequested();
             if(evaluated.IsRejected||evaluated.Results.Count==0)throw new InvalidDataException("Combinazione non costruita: "+Messages(evaluated.Diagnostics));
             warnings.AddRange(evaluated.Diagnostics.Select(d=>d.Code+": "+d.Message));
-            states=evaluated.Results.SelectMany(l=>l.States.Select(s=>new CombinedState(l.Owner,l.Location,s.StateId,s.Roles,DisplayVector(l.Location,s.Values)))).ToArray();
+            // Rilievo R1 (16/11/2026): in an envelope only the states with a governing role are read by DisplayResult (their vector is the
+            // concomitant one); the vector as displayed is made for them only, not for every alternative of every location, which was most of
+            // the memory thrown away by a combination of the series. Same values, same governing records.
+            bool governedOnly=alternatives.Length>1;
+            states=evaluated.Results.SelectMany(l=>l.States.Select(s=>new CombinedState(l.Owner,l.Location,s.StateId,s.Roles,
+                !governedOnly||s.Roles.Count>0?DisplayVector(l.Location,s.Values):null!))).ToArray();
             platePrincipals=evaluated.PlatePrincipals;
         }
         else
@@ -139,8 +194,10 @@ public sealed partial class GpcModelCombinationService
         foreach(var p in platePrincipals)if(p.Location is PointResultPlateForces {SourceNodeId:not null} at)principals.TryAdd((p.Owner,at.SourceNodeId),p);
         var principalLabels=platePrincipals.SelectMany(p=>p.Components).SelectMany(e=>new[]{e.MinimumStateId,e.MaximumStateId})
             .Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal).ToArray();
+        // R1 (16/11/2026): the states grouped by location once for the minimum and the maximum (twice before), in the same order.
+        var groups=Locations(states);
         var results=(envelope?new[]{false,true}:new[]{false}).Select(max=>DisplayResult(snapshot,selected,required,revision,
-            states,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
+            groups,sourceNodes,labels,envelope,max,token,principals,principalLabels)).ToArray();
         if(results.All(r=>r.Values.Length==0&&(r.Fields?.Length??0)==0&&(r.Displacements?.Length??0)==0))
             throw new InvalidDataException("Nessun campo completo disponibile per la visualizzazione.");
         return new(results,warnings.Distinct().ToArray(),watch.Elapsed.TotalMilliseconds,preparationMs,rebuildMs,
@@ -216,8 +273,13 @@ public sealed partial class GpcModelCombinationService
     /// and its vector as displayed. From the samples of CombinationRebuild or from the states of CombinationMatrix: the same values.</summary>
     readonly record struct CombinedState(Element Owner,ResultLocation Location,string StateId,IReadOnlyList<string> Roles,double[] Vector);
 
+    /// <summary>The combined states of each location (element, node of a plate, station of a member, node), in the order of the states.</summary>
+    static IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] Locations(CombinedState[] states)=>
+        states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
+            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)).ToArray();
+
     static ModelResultSet DisplayResult(ModelSnapshot snapshot,ModelCombinationDefinition definition,string[] required,string revision,
-        CombinedState[] states,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
+        IGrouping<(Element Owner,int? Node,double? Station,bool Nodal),CombinedState>[] locations,IReadOnlyDictionary<int,int> sourceNodes,string[] labels,bool envelope,bool maximum,CancellationToken token,
         IReadOnlyDictionary<(Element,int?),PlatePrincipalResult> principals,string[] principalLabels)
     {
         var corners=new List<CornerResult>();var fields=new Dictionary<(string Family,string Component),List<ResultValue>>();
@@ -226,9 +288,12 @@ public sealed partial class GpcModelCombinationService
         var principalIndex=principalLabels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
         var elements=snapshot.Elements.ToDictionary(e=>e.Id);
         var labelIndex=labels.Select((label,i)=>(label,i)).ToDictionary(p=>p.label,p=>p.i,StringComparer.Ordinal);
+        // Rilievo R1 (16/11/2026): the names of the alternatives («A0», «A1»…, «P1»…) made once for each result instead of once for each governing
+        // record (21.5 million equal strings after «Calcola tutte» on the MIDAS model of 16/11). The same texts, so the same JSON and fingerprints.
+        var alternativeNames=Enumerable.Range(0,labels.Length+1).Select(i=>"A"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
+        var principalNames=Enumerable.Range(1,principalLabels.Length).Select(i=>"P"+i.ToString(CultureInfo.InvariantCulture)).ToArray();
         // 1.16.0: displacements and reactions of a node are separate groups; members take the family of their document element (BEAM, TRUSS, CABLE).
-        foreach(var group in states.GroupBy(p=>(p.Owner,p.Location is PointResultPlateForces plate?plate.SourceNodeId:0,
-            p.Location is StationResultBeamForces beam?(double?)beam.ParametricDistance:null,p.Location is NodeResultForces)))
+        foreach(var group in locations)
         {
             token.ThrowIfCancellationRequested();
             int id=int.Parse(group.Key.Owner.Source.OriginalId,CultureInfo.InvariantCulture);
@@ -248,7 +313,7 @@ public sealed partial class GpcModelCombinationService
                 var chosen=envelope?group.Where(p=>p.Roles.Contains(role)).Select(p=>(CombinedState?)p).SingleOrDefault():firstState;
                 if(chosen==null)throw new InvalidDataException("GPC non ha restituito il governante completo per "+components[c]+".");
                 var vector=chosen.Value.Vector;values[c]=vector[c];
-                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],"A"+((labelIndex.TryGetValue(chosen.Value.StateId,out int index)?index:-1)+1),vector));
+                if(envelope)governing.Add(new(family,id,node,group.Key.Item3,components[c],alternativeNames[(labelIndex.TryGetValue(chosen.Value.StateId,out int index)?index:-1)+1],vector));
             }
             if(family=="PLATE")
             {
@@ -258,7 +323,7 @@ public sealed partial class GpcModelCombinationService
                     {
                         var (value,state,vector)=PrincipalExtreme(principal,c,maximum);
                         principalFields[PrincipalComponents[c]].Add(new(id,node,value));
-                        if(envelope)principalGoverning.Add(new("PLATE",id,node,null,PrincipalComponents[c],"P"+(principalIndex[state]+1).ToString(CultureInfo.InvariantCulture),vector));
+                        if(envelope)principalGoverning.Add(new("PLATE",id,node,null,PrincipalComponents[c],principalNames[principalIndex[state]],vector));
                     }
             }
             else if(family=="NODE")

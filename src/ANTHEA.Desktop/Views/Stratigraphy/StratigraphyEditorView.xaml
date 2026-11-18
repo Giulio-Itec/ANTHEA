@@ -120,7 +120,7 @@
       <TextBlock Style="{StaticResource Text}" Text="Origine delle profondità: piano campagna (0 m). Un solo livello di falda; nessuna modellazione artesiana o di falde sospese."/>
      </StackPanel>
      <TextBlock Style="{StaticResource Heading}" Text="Strati · dall’alto verso il basso" Margin="0,8,0,6"/>
-<DataGrid x:Name="LayerList" ItemsSource="{Binding TableRows}" SelectedIndex="{Binding SelectedLayerIndex}"
+<DataGrid x:Name="LayerList" ItemsSource="{Binding TableRows}" SelectedIndex="{Binding SelectedLayerIndex}" IsReadOnly="{Binding IsReadOnly}"
  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
  SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column" FrozenColumnCount="1"
  EnableRowVirtualization="False" EnableColumnVirtualization="False" ColumnHeaderStyle="{StaticResource LayerHeader}"

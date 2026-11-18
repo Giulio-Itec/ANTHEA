@@ -15,14 +15,18 @@ public partial class ModelViewerControl : UserControl, IDisposable
     private ModelSnapshot? renderedSnapshot;
     private bool disposed;
     public void SetDisplayName(string name) => viewModel.SetDisplayName(name);
+    /// <summary>R6 of the review of 17/11/2026: the sheets of the section changed while the copy stays on screen.</summary>
+    public void SetSheets(IReadOnlyList<SheetTarget> sheets) => viewModel.SetSheets(sheets);
 
     public ModelViewerControl(ModelSnapshot? snapshot, IReadOnlyList<SheetTarget> sheets, bool readOnly,
         Action<ModelDocumentEntry> imported, Action<string, int, string, string> linked, ModelViewPresetStore? viewStore=null,
-        bool resultsArchive=false)
+        bool resultsArchive=false, Func<string, bool>? undoChange=null, GpcModelCombinationService? combinations=null)
     {
         InitializeComponent();
         var services = new WpfModelViewerServices(() => Window.GetWindow(this), () => {previousCamera=renderer?.CameraState();renderer?.Fit(viewModel?.IncludeHiddenInFit ?? false);}, SaveConfiguredImage,()=>renderer?.CameraState() is {} captured ? captured with { AspectRatio=Viewport.ActualWidth/Math.Max(1,Viewport.ActualHeight) } : null,camera=>{viewModel!.IsOrthographic=camera.Orthographic;renderer?.RestoreCamera(camera);},viewStore);
-        viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked) { CombinationArchive = resultsArchive };
+        // R4 (16/11/2026): «↶ Annulla Libera» goes to the undo of the project of the tab (null outside a project).
+        // P2 of the review of 17/11/2026: the GPC service of the tab of the model, so that the base cases prepared survive this control.
+        viewModel = new ModelViewerViewModel(snapshot, sheets, readOnly, services, imported, linked, combinations) { CombinationArchive = resultsArchive, UndoProjectChange = undoChange };
         DataContext = viewModel;
         AttachInteraction();
         AttachAnimation();
@@ -110,6 +114,8 @@ public partial class ModelViewerControl : UserControl, IDisposable
             if (statistics.IncompleteDeformations > 0) viewModel.Status += $" · {statistics.IncompleteDeformations} elementi con spostamenti incompleti";
             if (viewModel.ShowLocalAxes && viewModel.Snapshot.LocalFrames == null) viewModel.Status += " · terne locali non importate";
             if (viewModel.ShowNodeAxes && viewModel.Snapshot.NodeFrames == null) viewModel.Status += " · terne nodali non importate";
+            // R7 (16/11/2026): the scene of the copy is on screen; the base cases of GPC may be prepared in the background now.
+            viewModel.SceneReady();
         }
         catch (Exception ex) { viewModel.Status = "Vista non disponibile: " + ex.Message; }
     }

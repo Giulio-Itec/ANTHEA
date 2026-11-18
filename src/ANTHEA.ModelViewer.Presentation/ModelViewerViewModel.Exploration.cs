@@ -15,6 +15,8 @@ public sealed partial class ModelViewerViewModel
     public IReadOnlyList<string> SelectionTargets { get; } = ["Tutti", "Nodi", "Aste", "Superfici"];
     public IReadOnlyList<string> ClipAxes { get; } = ["X · piano YZ", "Y · piano XZ", "Z · piano XY", "Tre nodi"];
     public IReadOnlyList<string> BandModes { get; } = ["Continuo", "8 fasce", "12 fasce", "20 fasce"];
+    /// <summary>The line of the sample with «media ai vertici»: the value of the element at the sample, not averaged (R2, 16/11/2026).</summary>
+    public const string ElementValueLabel = "Valore dell'elemento";
     public ObservableCollection<ModelProbe> PinnedProbes { get; } = [];
     public ObservableCollection<ModelViewPreset> SavedViews { get; } = [];
     public event EventHandler? FocusSelectionRequested;
@@ -159,7 +161,8 @@ public sealed partial class ModelViewerViewModel
         SetClipBoxBounds(false,false);
         visibilityHistory.Clear(); lastVisible = null; PinnedProbes.Clear(); HoverProbe = null;
         CompareCase = Snapshot!.Results.FirstOrDefault()?.Name; CompareComponent = "Myy";
-        SavedViews.Clear(); viewRevision = Snapshot.Fingerprint();
+        // R5/R8 (16/11/2026): the fingerprint known from the document entry, not computed again on the thread of the interface (24 s for 5.4 GB).
+        SavedViews.Clear(); viewRevision = Snapshot.KnownFingerprint();
         try { foreach (var view in services.LoadViews(viewRevision)) SavedViews.Add(view); }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or System.Text.Json.JsonException) { ExplorationMessage = "Viste salvate non leggibili. Il modello resta disponibile."; }
         SelectedSavedView = SavedViews.FirstOrDefault();
@@ -206,7 +209,9 @@ public sealed partial class ModelViewerViewModel
         var original=ActiveValues.FirstOrDefault(v=>v.Element==value.Element && v.Node==value.Node && v.Station==value.Station);
         string place=value.Node>0?$"N {value.Node}":$"x/L {value.Station:G3}";
         string caption=$"{prefix} E {value.Element} · {place}\n{SelectedCase}\n{FormatLegend(value.Value)} · {ResultUnit}";
-        if(IsAveragedContour && original!=null) caption+=$"\nImportato: {FormatLegend(original.Value)}";
+        // Rilievo R2 (16/11/2026): with «media ai vertici» the line is the value of the element itself at the sample, not averaged, for an
+        // imported case as for a combination calculated by ANTHEA (until 1.19.1 «Importato», wrong for the combinations).
+        if(IsAveragedContour && original!=null) caption+=$"\n{ElementValueLabel}: {FormatLegend(original.Value)}";
         return new(value.Element,value.Node,value.Station,caption,a.X+(b.X-a.X)*t,a.Y+(b.Y-a.Y)*t,a.Z+(b.Z-a.Z)*t);
     }
     [RelayCommand] void SaveView()

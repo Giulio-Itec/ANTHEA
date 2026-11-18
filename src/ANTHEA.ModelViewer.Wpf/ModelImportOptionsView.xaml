@@ -13,6 +13,9 @@
       </StackPanel>
       <WrapPanel><Button Content="Controlla file e casi" Command="{Binding CheckStrand7SetupCommand}"/><Button Content="Annulla controllo" Command="{Binding CheckStrand7SetupCancelCommand}" Margin="5,0,0,0"/></WrapPanel>
       <TextBlock Text="{Binding Strand7PreparationSummary}" TextWrapping="Wrap" FontSize="11" Margin="0,8,0,0"/>
+      <!-- R9 (16/11/2026): the warnings of the GPC converter before the import, not only their number. -->
+      <TextBox Text="{Binding Strand7Warnings, Mode=OneWay}" IsReadOnly="True" TextWrapping="Wrap" FontSize="10" MaxHeight="140" VerticalScrollBarVisibility="Auto" Margin="0,6,0,0"
+        BorderThickness="0" Background="Transparent" AutomationProperties.Name="Avvisi del convertitore GPC"/>
       <TextBlock Text="Il controllo apre il modello in Straus7, verifica la corrispondenza fra modello e risultati e legge l’elenco dei casi statici lineari. Gli stage non vengono trattati come casi statici." TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,8,0,0"/>
     </StackPanel>
     <StackPanel Visibility="{Binding IsMidasImport, Converter={StaticResource Visible}}" Margin="0,8,0,10">
@@ -32,6 +35,9 @@
     <TextBlock Text="Contenuto da acquisire" Margin="0,0,0,5"/>
     <ComboBox ItemsSource="{Binding UpdateScopeLabels}" SelectedIndex="{Binding SelectedUpdateScope}" IsEnabled="{Binding CanChooseUpdateScope}" AutomationProperties.Name="Modalità di aggiornamento"/>
     <TextBlock Text="{Binding UpdateScopeDescription}" TextWrapping="Wrap" FontSize="11" Margin="0,7,0,8"/>
+    <!-- R2 of the review of 17/11/2026: «Tutto» from a source without result cases on a copy with results: what would go, before the import. -->
+    <TextBlock Text="{Binding ResultsLossWarning}" Visibility="{Binding HasResultsLossWarning, Converter={StaticResource Visible}}" TextWrapping="Wrap" FontSize="11" FontWeight="SemiBold" Margin="0,0,0,8"
+     AutomationProperties.Name="Avviso sui risultati della copia"/>
     <StackPanel Visibility="{Binding IsLiveImport, Converter={StaticResource Visible}}">
       <StackPanel Visibility="{Binding ImportIncludesResults, Converter={StaticResource Visible}}" IsEnabled="{Binding CanEditImport}">
         <CheckBox Content="Sollecitazioni locali · beam e plate" IsChecked="{Binding ImportForces}"/>
@@ -40,7 +46,8 @@
         <WrapPanel><Button Content="Tutti" Command="{Binding SelectAllImportCasesCommand}"/><Button Content="Nessuno" Command="{Binding ClearImportCasesCommand}" Margin="4,0,0,0"/></WrapPanel>
         <ListBox ItemsSource="{Binding ImportCases}" MaxHeight="160" MinHeight="45" Margin="0,4,0,8" Background="{DynamicResource AppearanceSurface}" Foreground="{DynamicResource AppearanceInk}" BorderBrush="{DynamicResource AppearanceBorder}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" AutomationProperties.Name="Casi statici da importare">
           <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem"><Setter Property="Foreground" Value="{DynamicResource AppearanceInk}"/><Setter Property="Background" Value="Transparent"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/><Setter Property="Padding" Value="5,3"/></Style></ListBox.ItemContainerStyle>
-          <ListBox.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ListBox.ItemTemplate>
+          <!-- 17/11/2026: the names of the source as they are, «Q_A» and not «QA» (a TextBlock, not the AccessText of the CheckBox template), here and in the stages below. -->
+          <ListBox.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Name}"/></CheckBox></DataTemplate></ListBox.ItemTemplate>
         </ListBox>
         <Expander Header="Fasi costruttive · stage" Visibility="{Binding HasImportStages, Converter={StaticResource Visible}}" IsExpanded="True" Margin="0,5,0,10">
           <StackPanel Margin="0,8,0,0">
@@ -51,14 +58,14 @@
                 <ItemsControl ItemsSource="{Binding ImportStages}"><ItemsControl.ItemTemplate><DataTemplate>
                   <Border BorderBrush="{DynamicResource AppearanceBorder}" BorderThickness="0,0,0,1" Padding="0,4,0,7">
                     <StackPanel>
-                      <CheckBox Content="{Binding Label}" IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanRead}"/>
+                      <CheckBox IsChecked="{Binding IsSelected}" IsEnabled="{Binding CanRead}"><TextBlock Text="{Binding Label}"/></CheckBox>
                       <TextBox Text="{Binding StepsText, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsSelected}" Margin="20,4,0,0" AutomationProperties.Name="Passi stage da importare" ToolTip="Etichette dei passi separate da ;"/>
                     </StackPanel>
                   </Border>
                 </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
               </ScrollViewer>
               <TextBlock Text="Casi di risultato degli stage" FontWeight="SemiBold" Margin="0,8,0,4"/>
-              <ItemsControl ItemsSource="{Binding ImportStageCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+              <ItemsControl ItemsSource="{Binding ImportStageCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding IsSelected}"><TextBlock Text="{Binding Name}"/></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
               <TextBlock Text="Riferimento degli spostamenti" Margin="0,8,0,4"/>
               <ComboBox ItemsSource="{Binding StageDisplacementReferences}" SelectedItem="{Binding ImportDisplacementReference}" IsEnabled="{Binding ImportDisplacements}" AutomationProperties.Name="Riferimento spostamenti stage"/>
               <TextBlock Text="{Binding ImportStageReferenceHelp}" TextWrapping="Wrap" FontSize="10" Opacity=".75" Margin="0,4,0,7"/>

@@ -19,9 +19,10 @@
       <UniformGrid Columns="2" Margin="0,6,0,0"><Button Content="+ Testo libero" Command="{Binding AddReportTextCommand}" Margin="0,0,3,0"/><Button Content="+ Sezione verifica" Command="{Binding AddReportVerificationCommand}" Margin="3,0,0,0"/></UniformGrid>
       <Expander Header="Serie di viste e combinazioni" Margin="0,10"><StackPanel Margin="0,7">
         <TextBlock Text="Viste salvate · nessuna selezione = vista corrente" FontSize="10" TextWrapping="Wrap" Margin="0,0,0,5"/>
-        <ScrollViewer MaxHeight="140" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding ReportViews}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Label}" IsChecked="{Binding Selected}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+        <!-- 17/11/2026: saved views and cases with their names as they are, «SLE_QP» and not «SLEQP» (a TextBlock, not the AccessText of the CheckBox template). -->
+        <ScrollViewer MaxHeight="140" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding ReportViews}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding Selected}"><TextBlock Text="{Binding Label}"/></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
         <TextBlock Text="Casi / combinazioni disponibili" Style="{StaticResource FieldLabel}"/>
-        <ScrollViewer MaxHeight="160" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding ReportCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox Content="{Binding Label}" IsChecked="{Binding Selected}"/></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
+        <ScrollViewer MaxHeight="160" VerticalScrollBarVisibility="Auto"><ItemsControl ItemsSource="{Binding ReportCases}"><ItemsControl.ItemTemplate><DataTemplate><CheckBox IsChecked="{Binding Selected}"><TextBlock Text="{Binding Label}"/></CheckBox></DataTemplate></ItemsControl.ItemTemplate></ItemsControl></ScrollViewer>
         <Button Content="Aggiungi la serie" Command="{Binding AddReportSeriesCommand}" Margin="0,7,0,0"/>
         <TextBlock Text="Il campo e le impostazioni provengono dalle viste. Configurali nelle schede Vista e Risultati." FontSize="10" TextWrapping="Wrap" Opacity=".65" Margin="0,7"/>
       </StackPanel></Expander>

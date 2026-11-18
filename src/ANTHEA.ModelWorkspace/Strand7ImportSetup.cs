@@ -36,6 +36,31 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
     public IReadOnlyList<string> LoadCases { get; init; } = [];
     public string ApiVersion { get; init; } = "";
     public IReadOnlyList<string> Warnings { get; init; } = [];
+    /// <summary>Rilievo R9 (16/11/2026): the result cases of the file that the GPC converter did not match to a load case (for instance the load
+    /// case × freedom case pairs of a model with several freedom cases), so not selectable.</summary>
+    public IReadOnlyList<string> UnmappedResultCases { get; init; } = [];
+    /// <summary>R9: the model has several freedom cases (GPC diagnostic Straus7FreedomCasesPreserved): restraints and results are not mapped.</summary>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public bool SeveralFreedomCases => Warnings.Any(w => w.StartsWith("Straus7FreedomCasesPreserved", StringComparison.Ordinal));
+
+    /// <summary>
+    /// R9 and R10 (16/11/2026): why the catalogue offers no result case, null when it offers some. «Tutto» then imports geometry, attributes and
+    /// loads without results (ModelViewerViewModel).
+    /// </summary>
+    public string? NoResultsReason(bool resultsFile)
+    {
+        const int ListedCases = 8; // the cases named in the reason, the others counted
+        if (Cases.Count > 0) return null;
+        if (!resultsFile) return "nessun file dei risultati (.lsa o .nla) scelto";
+        if (UnmappedResultCases.Count > 0)
+            return (UnmappedResultCases.Count == 1 ? "l’unico caso di risultato del file non corrisponde" : $"nessuno dei {UnmappedResultCases.Count} casi di risultato del file corrisponde") +
+                " a un caso di carico del modello" +
+                (SeveralFreedomCases ? ": il modello ha più casi di vincolo (freedom case) e il convertitore GPC non associa ancora ai casi di carico i risultati né i vincoli di questi modelli" : "") +
+                ". Casi non importabili: " + string.Join(", ", UnmappedResultCases.Take(ListedCases)) +
+                (UnmappedResultCases.Count > ListedCases ? $" e altri {UnmappedResultCases.Count - ListedCases}" : "");
+        if (LoadCases.Count == 0) return "il modello non ha casi di carico";
+        return "il file dei risultati non contiene casi leggibili";
+    }
     [System.Text.Json.Serialization.JsonIgnore]
     public string Summary => $"{Nodes:N0} nodi · {Beams:N0} aste · {Plates:N0} piastre · {LoadCases.Count} casi di carico · {Combinations} combinazioni LSA · " +
         (Phases.Count > 0 ? $"{Phases.Count} fasi · " : "") +

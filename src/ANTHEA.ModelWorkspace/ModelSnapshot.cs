@@ -129,6 +129,8 @@ public sealed class ModelSnapshot
     internal IReadOnlyDictionary<string, ModelCombinations.KnownRevision>? CombinationDefinitionRevisions;
     // 3/11/2026 (limit of the copy chosen by the user): the address and compressed block of every result set already prepared for the archive.
     internal IReadOnlyDictionary<ModelResultSet, ModelDocumentEntry.PreparedBlock>? ResultBlocks;
+    // Rilievo R1 (16/11/2026): the state of the fingerprint of the copy up to its result sets (ModelDocumentEntry.Prepare).
+    internal ModelDocumentEntry.RevisionCheckpoint? RevisionCheckpoint;
     /// <summary>Results archive (2/11/2026): the result sets of the copy that the archive beside the project could not give back (archive
     /// missing, block damaged), with the reason; empty otherwise. Never serialized and never part of the fingerprints.</summary>
     [JsonIgnore] public IReadOnlyList<ModelUnavailableResult> UnavailableResults { get; internal set; } = [];
@@ -261,6 +263,19 @@ public sealed class ModelSnapshot
     /// <summary>The result sets that passed the checks of <see cref="Validate"/>, with the nodes and elements they were checked against.</summary>
     internal sealed record CheckedResults(ModelNode[] Nodes, ModelElement[] Elements, IReadOnlySet<ModelResultSet> Results);
     public string Fingerprint() => FingerprintAndSize().Hash;
+
+    /// <summary>
+    /// Rilievi R5 and R8 (16/11/2026): the fingerprint of this copy as it was computed when the copy was prepared for the project document
+    /// (ModelDocumentEntry.Prepare) or checked when it was read back from it (ProjectModelStore), the same value as <see cref="Fingerprint"/>;
+    /// <see cref="Fingerprint"/> for any other copy. The viewer keys the saved views with it: computing it again on the thread of the interface
+    /// serialized and hashed the whole copy, about 24 s for the 5.4 GB of the MIDAS model of 16/11 at every opening and undo. Only for copies
+    /// that are not changed afterwards (the copies of the document never are).
+    /// </summary>
+    public string KnownFingerprint() => knownFingerprint ?? Fingerprint();
+
+    // Set by the preparation and the reading of the document entry; never copied (ModelCombinations.Copy makes another copy).
+    internal string? knownFingerprint;
+
     /// <summary>The fingerprint and the length in bytes of the same canonical UTF-8 JSON, written once.</summary>
     internal (string Hash, long Bytes) FingerprintAndSize()
     {

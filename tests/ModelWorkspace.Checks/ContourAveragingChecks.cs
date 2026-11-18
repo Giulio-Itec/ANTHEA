@@ -28,6 +28,10 @@ static partial class Program
         Check(changes == 1 && vm.ContourValues.Where(v => v.Node == 2).All(v => v.Value == -90) && vm.ContourValues.Where(v => v.Node == 3).All(v => v.Value == 0), "one scene update applies the independent equal-weight shared-vertex means");
         Check(vm.ContourValues.Single(v => v.Node == 1).Value == 10 && vm.ContourValues.Single(v => v.Node == 6).Value == 80 && vm.ContourValues.Count == vm.ActiveValues.Count, "boundary corners and result membership stay unchanged");
         Check(vm.ColorMinimum == -90 && vm.ColorMaximum == 80 && vm.Minimum == "-200", "automatic legend uses the smoothed field while imported extrema remain available");
+        // R2 (16/11/2026): the sample shows the averaged value and the value of the element itself, named so for imported cases and combinations.
+        var probe = vm.ProbeFor(vm.ContourValues.First(v => v.Element == 11 && v.Node == 2)).Caption;
+        Check(probe.Contains("\nValore dell'elemento: ", StringComparison.Ordinal) && !probe.Contains("Importato", StringComparison.Ordinal),
+            "averaged sample: the line of the element value is «Valore dell'elemento», not «Importato»");
         vm.ShowTable = true; vm.SelectedTableKind = 5;
         Check(vm.TableRows!.Cast<System.Data.DataRowView>().Min(row => (double)row["Valore"]) == -200 && vm.ActiveValues.Where(v => v.Node == 2).Select(v => v.Value).SequenceEqual([20.0, -200.0]), "smoothing never alters tables or original per-element samples");
         vm.SelectElement(10); vm.IsolateCommand.Execute(null);

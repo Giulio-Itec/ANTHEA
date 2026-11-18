@@ -2877,30 +2877,6 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 133 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1150-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 135 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1150-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 137 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1150-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 83 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -20669,23 +20645,7 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 57 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 63 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "F5-REL-1170-01"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 65 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
@@ -23381,210 +23341,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 3",
-      "classe": "testo",
-      "a": "Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
-      "b": "Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.1. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 52 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La scheda **Verifiche** permette di collegare il riferimento dell'elemento a un **Foglio di verifica** con **Collega riferimento**. Mostra «Dal modello al foglio» e avvisa che le impostazioni di verifica verranno definite nel prossimo passaggio.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 53 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 54 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "![Riquadro Verifiche del modulo Modelli, senza un modello caricato. Il collegamento al foglio è disponibile quando esiste un riferimento; Esegui verifiche resta disabilitato.](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-verifiche-perimetro.png)",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 55 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 56 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "In **Modello → Carichi sul modello**, attivare **Mostra carichi importati** e scegliere il caso. Per le pressioni sulle piastre MIDAS sono rappresentate le distribuzioni uniformi, anche se descritte da valori uguali ai vertici o da una direzione vettoriale. Le pressioni variabili o proiettate non so…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 62 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La planarità delle piastre a quattro nodi usa una tolleranza pari al maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. Si confronta lo scostamento massimo dal piano medio passante per il baricentro dei vertici; le coordinate non vengono spostate. Lo stesso criterio vale per l'…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 64 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Se il materiale non dichiara una classe riconoscibile, il convertitore può ricavarla da una resistenza cilindrica caratteristica esplicitata nel nome: per esempio **Concrete: Compressive Strength fc = 32 MPa** dà C32/40, con la diagnostica **MaterialGradeFromStrength** che dichiara l'interpretazione…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 66 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Calcolare le combinazioni del modello",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 68 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Nella scheda **Combinazioni** il catalogo riporta lo stato di ogni definizione. **Calcolata**: i risultati locali sono nella copia del modello. **Da calcolare**: i casi base ci sono e la combinazione si costruisce con la libreria GPC. **Casi mancanti**: il messaggio elenca i casi da importare. **Sor…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 70 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Un inviluppo può contenere lo stesso caso due volte con segni opposti, per esempio Q × 1 e Q × −1 per ±Q, oppure ±E per il sisma: ogni termine è un'alternativa e la tabella dei governanti le distingue con un numero d'ordine («±Q=Q» e «±Q=Q #2»).",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 72 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "All'apertura del catalogo ANTHEA prepara in background il modello di calcolo GPC della copia: la prima combinazione parte prima e un calcolo avviato nel frattempo attende la stessa preparazione. Il calcolo e il salvataggio di una definizione scrivono la copia del modello nel progetto senza fermare l…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 74 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo i risultati delle definizioni cambiate e delle combinazioni e degli inviluppi che le usano: gli altri risultati calcolati restano validi e non si ricalcolano. Nei progetti salvati con una versione precedente (fino alla 1…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 76 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senza elen…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 78 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Un inviluppo viene ricostruito dai casi base anche quando le combinazioni che contiene sono già calcolate.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 80 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Calcolare più combinazioni in serie",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 82 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Sotto il comando della combinazione selezionata, **Calcola tutte (N)** calcola una dopo l'altra le combinazioni ancora da calcolare; **Calcola selezionate (N)** calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, co…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 84 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "I risultati entrano nella copia del modello e passano nel progetto circa ogni 20 secondi e alla fine della serie. Con una copia molto grande i passaggi si diradano: fra due passaggi la serie calcola almeno quattro volte la durata dell'ultimo. **Annulla calcolo** ferma la serie e conserva le combinaz…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 86 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risultati d…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 88 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il limite di 256 MiB riguarda i dati JSON non compressi del singolo blocco di risultato nell'archivio; il limite complessivo della copia si sceglie nel pannello **Spazio delle combinazioni**.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 90 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Gestire lo spazio delle combinazioni",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 92 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro **SPAZIO DELLE COMBINAZIONI** mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In **Limite** scegli lo spazio massim…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 94 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "**Libera selezionate** toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; **Libera tutte** toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 96 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il comando **Annulla** del progetto ripristina i risultati rimossi con **Libera selezionate** o **Libera tutte**.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 97 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 98 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Generare le combinazioni NTC 2018",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23597,26 +23357,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 100 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Nel gestore delle combinazioni **Genera NTC 2018…** apre la tabella dei casi statici del modello, con le colonne **Caso**, **Natura**, **Categoria**, **Gruppo** e **Direzione**. Per ogni caso scegli la natura: **Permanente G1**, **Permanente G2**, **Variabile**, **Eccezionale**, **Sismica** oppure *…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 101 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 102 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il **Gruppo** riunisce i casi correlati: in ogni combinazione un gruppo è presente o assente per intero e uno solo è il principale. Per un caso sismico puoi indicare la direzione dell'azione, X, Y o Z. I casi con direzione si combinano con la regola 100/30 di NTC 2018 §7.3.5: 1,00 della direzione pr…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23629,26 +23373,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 104 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Prima di generare, il pannello mostra quante combinazioni nascono per ogni stato limite: SLE rara, frequente e quasi permanente, SLU con l'insieme A1, SLV ed eccezionali. Oltre 4096 combinazioni, o con più di 12 gruppi di casi permanenti e variabili, la generazione non parte: riunisci i casi correla…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 105 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 106 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Leggere le componenti principali dei plate",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23661,26 +23389,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 108 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le combinazioni calcolate con GPC hanno anche le componenti principali dei plate: **Mmax**, **Mmin**, **Fmax** e **Fmin**. In **Risultati** scegli la famiglia plate e **Principali** al posto di **Locali**: i valori compaiono nella vista, nel contouring e nelle tabelle. Per una combinazione lineare s…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 109 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 110 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Se una combinazione calcolata non ha le principali, la vista ne indica il motivo: oltre 4096 stati alternativi non sono disponibili; per i risultati di una versione precedente usa «Ricalcola con le componenti principali» nel gestore delle combinazioni. Per un caso statico la vista mostra le principa…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23693,130 +23405,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 132 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Aprire un file di testo MIDAS Civil o Gen",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 134 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita** in **Sorgente del modello**.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 136 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "2. In **Contenuto da acquisire** scegli **Tutto** oppure **Geometria + attributi + carichi**; **Solo geometria** limita la copia alla forma del modello.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 138 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "3. Premi **Scegli il file e importa…** e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro **File di testo MIDAS Civil / Gen** mostra soltanto questi file.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 140 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "4. Leggi i messaggi di importazione, controlla il modello e premi **Salva progetto**.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 142 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, molle, li…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 144 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il file non contiene risultati e la copia non ne ha: **Solo risultati** è rifiutato e, con **Tutto**, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 146 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "### Importare un modello Straus7",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 148 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTHEA.exe…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 150 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 152 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e **Tutto**, **Risultati statici lineari .lsa** dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. **API R3 a 64 bit · St7api.dll** è proposta dalla cartella di instal…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 154 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 156 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "4. Scegli il contenuto, i casi con **Tutti**, **Nessuno** o le singole caselle e i tipi di risultato **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata**, come per la sorgente MIDAS.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 158 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "5. Premi **Importa da Straus7**. Il pannello mostra l'avanzamento; **Annulla importazione** chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti **Controlla file e casi**…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 159 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 160 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi **Salva progetto**.",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23829,26 +23421,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 162 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti e rota…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 163 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 164 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le p…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23861,26 +23437,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 166 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi ri…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 167 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 168 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento,…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23893,14 +23453,6 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 170 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dat…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 171 (b)",
       "classe": "riga-aggiunta",
       "a": null,
@@ -23909,50 +23461,10 @@
     },
     {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 172 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
       "percorso": "riga 173 (b)",
       "classe": "riga-aggiunta",
       "a": null,
       "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 183 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 184 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 185 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 186 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -23972,486 +23484,6 @@
       "voce": "GUIDE-REV72-20261116"
     },
     {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 193 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
-      "percorso": "riga 194 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modell…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 1",
-      "classe": "testo",
-      "a": "text: Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
-      "b": "text: Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.1. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 32 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La scheda Verifiche permette di collegare il riferimento dell'elemento a un Foglio di verifica con Collega riferimento. Mostra «Dal modello al foglio» e avvisa che le impostazioni di verifica verranno definite nel prossimo passaggio.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 33 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Riquadro Verifiche del modulo Modelli, senza un modello caricato. Il collegamento al foglio è disponibile quando esiste un riferimento; Esegui verifiche resta disabilitato.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 34 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: In Modello → Carichi sul modello, attivare Mostra carichi importati e scegliere il caso. Per le pressioni sulle piastre MIDAS sono rappresentate le distribuzioni uniformi, anche se descritte da valori uguali ai vertici o da una direzione vettoriale. Le pressioni variabili o proiettate non sono…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 37 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La planarità delle piastre a quattro nodi usa una tolleranza pari al maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. Si confronta lo scostamento massimo dal piano medio passante per il baricentro dei vertici; le coordinate non vengono spostate. Lo stesso criterio vale …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 38 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Se il materiale non dichiara una classe riconoscibile, il convertitore può ricavarla da una resistenza cilindrica caratteristica esplicitata nel nome: per esempio Concrete: Compressive Strength fc = 32 MPa dà C32/40, con la diagnostica MaterialGradeFromStrength che dichiara l'interpretazione c…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 39 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: calcolare-le-combinazioni-del-modello",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 40 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Nella scheda Combinazioni il catalogo riporta lo stato di ogni definizione. Calcolata: i risultati locali sono nella copia del modello. Da calcolare: i casi base ci sono e la combinazione si costruisce con la libreria GPC. Casi mancanti: il messaggio elenca i casi da importare. Sorgente incomp…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 41 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Un inviluppo può contenere lo stesso caso due volte con segni opposti, per esempio Q × 1 e Q × −1 per ±Q, oppure ±E per il sisma: ogni termine è un'alternativa e la tabella dei governanti le distingue con un numero d'ordine («±Q=Q» e «±Q=Q #2»).",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 42 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: All'apertura del catalogo ANTHEA prepara in background il modello di calcolo GPC della copia: la prima combinazione parte prima e un calcolo avviato nel frattempo attende la stessa preparazione. Il calcolo e il salvataggio di una definizione scrivono la copia del modello nel progetto senza fer…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 43 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo i risultati delle definizioni cambiate e delle combinazioni e degli inviluppi che le usano: gli altri risultati calcolati restano validi e non si ricalcolano. Nei progetti salvati con una versione precedente (fino …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 44 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senz…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 45 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Un inviluppo viene ricostruito dai casi base anche quando le combinazioni che contiene sono già calcolate.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 46 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: calcolare-piu-combinazioni-in-serie",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 47 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Sotto il comando della combinazione selezionata, Calcola tutte (N) calcola una dopo l'altra le combinazioni ancora da calcolare; Calcola selezionate (N) calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, comp…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 48 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: I risultati entrano nella copia del modello e passano nel progetto circa ogni 20 secondi e alla fine della serie. Con una copia molto grande i passaggi si diradano: fra due passaggi la serie calcola almeno quattro volte la durata dell'ultimo. Annulla calcolo ferma la serie e conserva le combin…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 49 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risul…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 50 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il limite di 256 MiB riguarda i dati JSON non compressi del singolo blocco di risultato nell'archivio; il limite complessivo della copia si sceglie nel pannello Spazio delle combinazioni.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 51 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: gestire-lo-spazio-delle-combinazioni",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 52 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro SPAZIO DELLE COMBINAZIONI mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In Limite scegli lo spazio massimo:…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 53 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Libera selezionate toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; Libera tutte toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 54 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il comando Annulla del progetto ripristina i risultati rimossi con Libera selezionate o Libera tutte.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 55 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: generare-le-combinazioni-ntc-2018",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 56 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Nel gestore delle combinazioni Genera NTC 2018… apre la tabella dei casi statici del modello, con le colonne Caso, Natura, Categoria, Gruppo e Direzione. Per ogni caso scegli la natura: Permanente G1, Permanente G2, Variabile, Eccezionale, Sismica oppure Esclusa. ANTHEA propone la natura dai t…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 57 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il Gruppo riunisce i casi correlati: in ogni combinazione un gruppo è presente o assente per intero e uno solo è il principale. Per un caso sismico puoi indicare la direzione dell'azione, X, Y o Z. I casi con direzione si combinano con la regola 100/30 di NTC 2018 §7.3.5: 1,00 della direzione …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 58 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Prima di generare, il pannello mostra quante combinazioni nascono per ogni stato limite: SLE rara, frequente e quasi permanente, SLU con l'insieme A1, SLV ed eccezionali. Oltre 4096 combinazioni, o con più di 12 gruppi di casi permanenti e variabili, la generazione non parte: riunisci i casi c…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 59 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: leggere-le-componenti-principali-dei-plate",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 60 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le combinazioni calcolate con GPC hanno anche le componenti principali dei plate: Mmax, Mmin, Fmax e Fmin. In Risultati scegli la famiglia plate e Principali al posto di Locali: i valori compaiono nella vista, nel contouring e nelle tabelle. Per una combinazione lineare sono le principali dell…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 61 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Se una combinazione calcolata non ha le principali, la vista ne indica il motivo: oltre 4096 stati alternativi non sono disponibili; per i risultati di una versione precedente usa «Ricalcola con le componenti principali» nel gestore delle combinazioni. Per un caso statico la vista mostra le pr…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 72 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: aprire-un-file-di-testo-midas-civil-o-gen",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 73 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona File · .antheamodel, MIDAS .mct/.mgt o copia acquisita in Sorgente del modello.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 74 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 2. In Contenuto da acquisire scegli Tutto oppure Geometria + attributi + carichi; Solo geometria limita la copia alla forma del modello.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 75 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 3. Premi Scegli il file e importa… e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro File di testo MIDAS Civil / Gen mostra soltanto questi file.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 76 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 4. Leggi i messaggi di importazione, controlla il modello e premi Salva progetto.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 77 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, mol…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 78 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il file non contiene risultati e la copia non ne ha: Solo risultati è rifiutato e, con Tutto, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro ca…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 79 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: importare-un-modello-straus7",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 80 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTH…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 81 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona Straus7 / Strand7 R3 · file .st7 e .lsa in Sorgente del modello.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 82 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 2. Con Sfoglia… scegli Modello .st7 e, per Solo risultati e Tutto, Risultati statici lineari .lsa dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. API R3 a 64 bit · St7api.dll è proposta dalla cartella di installazione, se ANTHEA…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 83 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 3. Premi Controlla file e casi. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato stati…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 84 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 4. Scegli il contenuto, i casi con Tutti, Nessuno o le singole caselle e i tipi di risultato Sollecitazioni locali · beam e plate e Spostamenti globali · deformata, come per la sorgente MIDAS.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 85 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 5. Premi Importa da Straus7. Il pannello mostra l'avanzamento; Annulla importazione chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti Controlla file e casi.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 86 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: 6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi Salva progetto.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 87 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 88 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m pe…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 89 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Le combinazioni LSA compaiono in Combinazioni come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi …",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 90 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incre…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 91 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Il pulsante Tabella offre anche Reazioni vincolari del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, Masse, Temperature e Fasi, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello:…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 92 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a ce…",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 106 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: File MIDAS non importato o modello rifiutato dal convertitore GPC",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 107 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 108 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Processo di lettura Straus7 non trovato",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 109 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 110 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: API Straus7 non disponibile",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 111 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 112 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: File del modello o dei risultati non disponibili o cambiati",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 113 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
       "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
       "percorso": "riga 58",
       "classe": "testo",
@@ -24465,14 +23497,6 @@
       "classe": "testo",
       "a": "text: Per aprire una copia già acquisita scegli File o copia già acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. Questa scelta non è l'apertura diretta di un file nativo MIDAS; per il modello nativo usa il collegamento al modello aperto descritto sopra.",
       "b": "text: Per una copia acquisita con una versione fino alla 1.17.1, rileggere il modello: Solo risultati può aggiungere le terne quando le tabelle necessarie sono disponibili e coincidono geometria, attributi e tabelle della sorgente; Tutto acquisisce nuovamente anche gli altri dati previsti dalla lettura. Se mancano le tabelle necessarie o il convertitore non riesce a leggerle, l'avviso MIDAS-CONVERTER-PENDING spiega il motivo: le tabelle originali restano nella copia, ma la normalizzazione non fornisce terne e simboli; pressioni in assi locali e media ai vertici non sono disponibili. Leggere gli avvisi prima di interpretare l'assenza di un simbolo come assenza dell'attributo nel modello. Dai file di testo MIDAS e da Straus7 terne, vincoli, molle, link e rilasci vengono normalizzati dalla libreria GPC durante l'importazione.",
-      "voce": "GUIDE-REV72-20261116"
-    },
-    {
-      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
-      "percorso": "riga 117 (b)",
-      "classe": "riga-aggiunta",
-      "a": null,
-      "b": "text: Per aprire una copia già acquisita scegli File · .antheamodel, MIDAS .mct/.mgt o copia acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDA…",
       "voce": "GUIDE-REV72-20261116"
     },
     {
@@ -27842,7 +26866,1111 @@
       "a": null,
       "b": "\"/wiki/manuale/azioni/azioni-climatiche\"",
       "voce": "GUIDE-REV72-20261116"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 3",
+      "classe": "testo",
+      "a": "Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.2. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 11 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un file di modello (.antheamodel, .mct, .mgt, NODE.json, .st7, .lsa o .nla) non è un documento di ANTHEA e non si apre con **File → Apri…** né con **Apri progetto…**. Se lo scegli, il messaggio **Modello di calcolo** indica con quale sorgente di **Importa modello…** si acquisisce e ANTHEA mostra la …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 12 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 27",
+      "classe": "testo",
+      "a": "5. Se acquisisci i risultati, lascia attive **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata** secondo ciò che vuoi visualizzare. Usa **Tutti**, **Nessuno** o le caselle dei singoli casi. Occorrono almeno un caso e almeno un tipo di risultato selezionati.",
+      "b": "5. Se acquisisci i risultati, lascia attive **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata** secondo ciò che vuoi visualizzare. Usa **Tutti**, **Nessuno** o le caselle dei singoli casi. Occorrono almeno un caso e almeno un tipo di risultato selezionati. Se il modello aperto in MIDAS non ha casi statici né casi stage, il riepilogo del controllo lo dice («Nessun caso di risultato da importare») e con **Tutto** si importano geometria, attributi e carichi, senza risultati; il messaggio finale ne indica il motivo. Se la copia aperta ha già risultati, **Tutto** li toglierebbe: sotto **Contenuto da acquisire** un avviso dice quanti casi e combinazioni calcolate ha la copia e il comando di importazione resta disattivato. Per aggiornare geometria, attributi e carichi togliendo i risultati scegli **Geometria + attributi + carichi**; per tenerli non aggiornare la copia.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Quando apri il modello di un progetto salvato, la scheda del modello legge la copia con i risultati salvati. Se i risultati superano 64 MiB di dati non compressi, la lettura avviene in background: al posto del visualizzatore la scheda mostra «Lettura del modello e dei risultati salvati (… di dati)… …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 38 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 52",
+      "classe": "testo",
+      "a": "In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il valore grezzo di ogni campione. Attiva **Mostra modello deformato** per la deformata; controlla il fattore applicato, perché la scala automatica amplifica gli spostamenti per renderli leggibili.",
+      "b": "La scheda **Verifiche** permette di collegare il riferimento dell'elemento a un **Foglio di verifica** con **Collega riferimento**. Mostra «Dal modello al foglio» e avvisa che le impostazioni di verifica verranno definite nel prossimo passaggio.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 58 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "![Riquadro Verifiche del modulo Modelli, senza un modello caricato. Il collegamento al foglio è disponibile quando esiste un riferimento; Esegui verifiche resta disabilitato.](../../src/ANTHEA.Desktop/Assets/Wiki/modelli-verifiche-perimetro.png)",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "In **Modello → Carichi sul modello**, attivare **Mostra carichi importati** e scegliere il caso. Per le pressioni sulle piastre MIDAS sono rappresentate le distribuzioni uniformi, anche se descritte da valori uguali ai vertici o da una direzione vettoriale. Le pressioni variabili o proiettate non so…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 62 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "In **Risultati** seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il va…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 66 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La planarità delle piastre a quattro nodi usa una tolleranza pari al maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. Si confronta lo scostamento massimo dal piano medio passante per il baricentro dei vertici; le coordinate non vengono spostate. Lo stesso criterio vale per l'…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 68 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Se il materiale non dichiara una classe riconoscibile, il convertitore può ricavarla da una resistenza cilindrica caratteristica esplicitata nel nome: per esempio **Concrete: Compressive Strength fc = 32 MPa** dà C32/40, con la diagnostica **MaterialGradeFromStrength** che dichiara l'interpretazione…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 70 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Calcolare le combinazioni del modello",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 72 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nella scheda **Combinazioni** il catalogo riporta lo stato di ogni definizione. **Calcolata**: i risultati locali sono nella copia del modello. **Da calcolare**: i casi base ci sono e la combinazione si costruisce con la libreria GPC. **Casi mancanti**: il messaggio elenca i casi da importare. **Sor…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 74 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un inviluppo può contenere lo stesso caso due volte con segni opposti, per esempio Q × 1 e Q × −1 per ±Q, oppure ±E per il sisma: ogni termine è un'alternativa e la tabella dei governanti le distingue con un numero d'ordine («±Q=Q» e «±Q=Q #2»).",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Appena il modello è sullo schermo, anche dopo **Importa modello…** o **Aggiorna modello…**, se ci sono combinazioni da calcolare e la copia è modificabile, ANTHEA prepara in background, a bassa priorità, il modello di calcolo GPC della copia con i casi base: la prima combinazione parte senza attende…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo i risultati delle definizioni cambiate e delle combinazioni e degli inviluppi che le usano: gli altri risultati calcolati restano validi e non si ricalcolano. Nei progetti salvati con una versione precedente (fino alla 1…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senza elen…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Un inviluppo viene ricostruito dai casi base anche quando le combinazioni che contiene sono già calcolate.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Calcolare più combinazioni in serie",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 86 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Sotto il comando della combinazione selezionata, **Calcola tutte (N)** calcola una dopo l'altra le combinazioni ancora da calcolare; **Calcola selezionate (N)** calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, co…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "I risultati entrano nella copia del modello e passano nel progetto circa ogni 20 secondi e alla fine della serie. Con una copia molto grande i passaggi si diradano: fra due passaggi la serie calcola almeno quattro volte la durata dell'ultimo. **Annulla calcolo** ferma la serie e conserva le combinaz…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risultati d…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il limite di 256 MiB riguarda i dati JSON non compressi del singolo blocco di risultato nell'archivio; il limite complessivo della copia si sceglie nel pannello **Spazio delle combinazioni**.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 94 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Gestire lo spazio delle combinazioni",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 96 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro **SPAZIO DELLE COMBINAZIONI** mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In **Limite** scegli lo spazio massim…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 98 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "**Libera selezionate** toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; **Libera tutte** toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 100 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Dopo **Libera selezionate** o **Libera tutte** ANTHEA restituisce a Windows la memoria dei risultati liberati; con un modello grande la finestra può non rispondere per qualche secondo. Accanto ai due comandi compare poi **↶ Annulla Libera**, che riporta i risultati liberati. Lo stesso fa **↶ Annulla…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 102 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Anche le altre modifiche della copia hanno un nome nei suggerimenti di **↶ Annulla** e **↷ Ripristina**: per esempio «Calcolo di «SLU 03»», «Calcolo delle combinazioni in serie», «Importazione del modello» e «Modifica del modello «Esempio»».",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 104 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Generare le combinazioni NTC 2018",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 106 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Nel gestore delle combinazioni **Genera NTC 2018…** apre la tabella dei casi statici del modello, con le colonne **Caso**, **Natura**, **Categoria**, **Gruppo** e **Direzione**. Per ogni caso scegli la natura: **Permanente G1**, **Permanente G2**, **Variabile**, **Eccezionale**, **Sismica** oppure *…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 108 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il **Gruppo** riunisce i casi correlati: in ogni combinazione un gruppo è presente o assente per intero e uno solo è il principale. Per un caso sismico puoi indicare la direzione dell'azione, X, Y o Z. I casi con direzione si combinano con la regola 100/30 di NTC 2018 §7.3.5: 1,00 della direzione pr…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 110 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Prima di generare, il pannello mostra quante combinazioni nascono per ogni stato limite: SLE rara, frequente e quasi permanente, SLU con l'insieme A1, SLV ed eccezionali. Oltre 4096 combinazioni, o con più di 12 gruppi di casi permanenti e variabili, la generazione non parte: riunisci i casi correla…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 112 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Leggere le componenti principali dei plate",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 113 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 114 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le combinazioni calcolate con GPC hanno anche le componenti principali dei plate: **Mmax**, **Mmin**, **Fmax** e **Fmin**. In **Risultati** scegli la famiglia plate e **Principali** al posto di **Locali**: i valori compaiono nella vista, nel contouring e nelle tabelle. Per una combinazione lineare s…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 115 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 116 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Se una combinazione calcolata non ha le principali, la vista ne indica il motivo: oltre 4096 stati alternativi non sono disponibili; per i risultati di una versione precedente usa «Ricalcola con le componenti principali» nel gestore delle combinazioni. Per un caso statico la vista mostra le principa…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 117 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 138 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Aprire un file di testo MIDAS Civil o Gen",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 140 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita** in **Sorgente del modello**.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 142 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "2. In **Contenuto da acquisire** scegli **Tutto** oppure **Geometria + attributi + carichi**; **Solo geometria** limita la copia alla forma del modello.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 144 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "3. Premi **Scegli il file e importa…** e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro **File di testo MIDAS Civil / Gen** mostra soltanto questi file.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 146 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "4. Leggi i messaggi di importazione, controlla il modello e premi **Salva progetto**.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 148 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, molle, li…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 150 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il file non contiene risultati e la copia non ne ha: **Solo risultati** è rifiutato e, con **Tutto**, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 152 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "### Importare un modello Straus7",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 154 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTHEA.exe…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 156 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "1. Premi **Importa modello…** oppure **Aggiorna modello…** e seleziona **Straus7 / Strand7 R3 · file .st7 e .lsa** in **Sorgente del modello**.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 158 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "2. Con **Sfoglia…** scegli **Modello .st7** e, per **Solo risultati** e per **Tutto** con i risultati, **Risultati statici lineari .lsa** dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. Senza file dei risultati, **Tutto** importa geom…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 160 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "3. Premi **Controlla file e casi**. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato statici…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 162 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "4. Scegli il contenuto, i casi con **Tutti**, **Nessuno** o le singole caselle e i tipi di risultato **Sollecitazioni locali · beam e plate** e **Spostamenti globali · deformata**, come per la sorgente MIDAS. Con **Tutto** e nessun caso selezionabile si importano geometria, attributi e carichi, senz…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 164 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "5. Premi **Importa da Straus7**. Il pannello mostra l'avanzamento; **Annulla importazione** chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti **Controlla file e casi**…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 166 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi **Salva progetto**.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 168 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti e rota…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 170 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m per le p…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 172 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Le combinazioni LSA compaiono in **Combinazioni** come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi ri…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 174 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incremento,…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 175 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 176 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Il pulsante **Tabella** offre anche **Reazioni vincolari** del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, **Masse**, **Temperature** e **Fasi**, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dat…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 177 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 178 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a cerniera…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 179 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 189 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File MIDAS non importato o modello rifiutato dal convertitore GPC | Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta. |",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 190 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Processo di lettura Straus7 non trovato | Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe. |",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 191 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| API Straus7 non disponibile | Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi. |",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 192 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| File del modello o dei risultati non disponibili o cambiati | I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi. |",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 193 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "| Nessun caso di risultato da importare | Leggi il motivo nel riepilogo del controllo e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarla. |",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 200 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.md",
+      "percorso": "riga 201 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "Per aprire una copia già acquisita scegli **File · .antheamodel, MIDAS .mct/.mgt o copia acquisita**: sono previsti il pacchetto **.antheamodel** oppure **NODE.json** della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modell…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 1",
+      "classe": "testo",
+      "a": "text: Questa procedura riguarda la versione di prova del modulo Modelli disponibile al 12 ottobre 2026. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX, con i risultati selezionati; non esegue l'analisi e non modifica il modello sorgente.",
+      "b": "text: Questa procedura riguarda il modulo Modelli in prova, nella versione distribuita con ANTHEA 1.19.2. Il modulo viene sviluppato separatamente: una distribuzione precedente di ANTHEA può non avere i comandi descritti. L'importazione acquisisce una copia del modello aperto in MIDAS Civil NX con i risultati selezionati, di un file di testo MIDAS Civil .mct o MIDAS Gen .mgt, oppure di un modello Straus7 .st7 con i risultati statici lineari .lsa; non esegue l'analisi e non modifica il modello sorgente.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 5 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un file di modello (.antheamodel, .mct, .mgt, NODE.json, .st7, .lsa o .nla) non è un documento di ANTHEA e non si apre con File → Apri… né con Apri progetto…. Se lo scegli, il messaggio Modello di calcolo indica con quale sorgente di Importa modello… si acquisisce e ANTHEA mostra la pagina Mod…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 13",
+      "classe": "testo",
+      "a": "text: 5. Se acquisisci i risultati, lascia attive Sollecitazioni locali · beam e plate e Spostamenti globali · deformata secondo ciò che vuoi visualizzare. Usa Tutti, Nessuno o le caselle dei singoli casi. Occorrono almeno un caso e almeno un tipo di risultato selezionati.",
+      "b": "text: 5. Se acquisisci i risultati, lascia attive Sollecitazioni locali · beam e plate e Spostamenti globali · deformata secondo ciò che vuoi visualizzare. Usa Tutti, Nessuno o le caselle dei singoli casi. Occorrono almeno un caso e almeno un tipo di risultato selezionati. Se il modello aperto in MIDAS non ha casi statici né casi stage, il riepilogo del controllo lo dice («Nessun caso di risultato da importare») e con Tutto si importano geometria, attributi e carichi, senza risultati; il messaggio finale ne indica il motivo. Se la copia aperta ha già risultati, Tutto li toglierebbe: sotto Contenuto da acquisire un avviso dice quanti casi e combinazioni calcolate ha la copia e il comando di importazione resta disattivato. Per aggiornare geometria, attributi e carichi togliendo i risultati scegli Geometria + attributi + carichi; per tenerli non aggiornare la copia.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 18 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Quando apri il modello di un progetto salvato, la scheda del modello legge la copia con i risultati salvati. Se i risultati superano 64 MiB di dati non compressi, la lettura avviene in background: al posto del visualizzatore la scheda mostra «Lettura del modello e dei risultati salvati (… di d…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 32",
+      "classe": "testo",
+      "a": "text: In Risultati seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il valore grezzo di ogni campione. Attiva Mostra modello deformato per la deformata; controlla il fattore applicato, perché la scala automatica amplifica gli spostamenti per renderli leggibili.",
+      "b": "text: La scheda Verifiche permette di collegare il riferimento dell'elemento a un Foglio di verifica con Collega riferimento. Mostra «Dal modello al foglio» e avvisa che le impostazioni di verifica verranno definite nel prossimo passaggio.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 35 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Riquadro Verifiche del modulo Modelli, senza un modello caricato. Il collegamento al foglio è disponibile quando esiste un riferimento; Esegui verifiche resta disabilitato.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 36 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: In Modello → Carichi sul modello, attivare Mostra carichi importati e scegliere il caso. Per le pressioni sulle piastre MIDAS sono rappresentate le distribuzioni uniformi, anche se descritte da valori uguali ai vertici o da una direzione vettoriale. Le pressioni variabili o proiettate non sono…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 37 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: In Risultati seleziona caso, famiglia di elementi, componente e unità. Per controllare un plate scegli, ad esempio, G1, la famiglia plate e Mxx negli assi locali. Confronta un elemento noto, tenendo conto della posizione di lettura e dell'eventuale media ai vertici: un colore mediato non è il …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 39 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La planarità delle piastre a quattro nodi usa una tolleranza pari al maggiore fra 0,0001 mm e 10⁻⁵ volte la massima distanza fra due vertici. Si confronta lo scostamento massimo dal piano medio passante per il baricentro dei vertici; le coordinate non vengono spostate. Lo stesso criterio vale …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 40 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Se il materiale non dichiara una classe riconoscibile, il convertitore può ricavarla da una resistenza cilindrica caratteristica esplicitata nel nome: per esempio Concrete: Compressive Strength fc = 32 MPa dà C32/40, con la diagnostica MaterialGradeFromStrength che dichiara l'interpretazione c…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 41 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: calcolare-le-combinazioni-del-modello",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 42 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nella scheda Combinazioni il catalogo riporta lo stato di ogni definizione. Calcolata: i risultati locali sono nella copia del modello. Da calcolare: i casi base ci sono e la combinazione si costruisce con la libreria GPC. Casi mancanti: il messaggio elenca i casi da importare. Sorgente incomp…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 43 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un inviluppo può contenere lo stesso caso due volte con segni opposti, per esempio Q × 1 e Q × −1 per ±Q, oppure ±E per il sisma: ogni termine è un'alternativa e la tabella dei governanti le distingue con un numero d'ordine («±Q=Q» e «±Q=Q #2»).",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 44 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Appena il modello è sullo schermo, anche dopo Importa modello… o Aggiorna modello…, se ci sono combinazioni da calcolare e la copia è modificabile, ANTHEA prepara in background, a bassa priorità, il modello di calcolo GPC della copia con i casi base: la prima combinazione parte senza attenderl…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 45 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Salvare, eliminare, ripristinare o generare di nuovo le definizioni scarta solo i risultati delle definizioni cambiate e delle combinazioni e degli inviluppi che le usano: gli altri risultati calcolati restano validi e non si ricalcolano. Nei progetti salvati con una versione precedente (fino …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 46 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Una somma lineare di inviluppi ha come alternative tutte le scelte di un termine per ogni inviluppo, cioè il prodotto delle loro alternative. Fino a 4096 stati alternativi GPC li elenca tutti. Oltre questo numero la riga del catalogo lo segnala e GPC cerca gli estremi termine per termine, senz…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 47 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Un inviluppo viene ricostruito dai casi base anche quando le combinazioni che contiene sono già calcolate.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 48 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: calcolare-piu-combinazioni-in-serie",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 49 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Sotto il comando della combinazione selezionata, Calcola tutte (N) calcola una dopo l'altra le combinazioni ancora da calcolare; Calcola selezionate (N) calcola quelle selezionate nell'elenco con Ctrl o Maiusc + clic. Il numero fra parentesi conta le combinazioni che il comando calcolerà, comp…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 50 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I risultati entrano nella copia del modello e passano nel progetto circa ogni 20 secondi e alla fine della serie. Con una copia molto grande i passaggi si diradano: fra due passaggi la serie calcola almeno quattro volte la durata dell'ultimo. Annulla calcolo ferma la serie e conserva le combin…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 51 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La copia del modello con i risultati delle combinazioni ha un limite di spazio. Quando lo supera, escono dalla cache i risultati delle combinazioni calcolate per prime: le definizioni restano e si ricalcolano quando servono, e il messaggio finale ne indica il numero. Se dovrebbero uscire risul…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 52 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il limite di 256 MiB riguarda i dati JSON non compressi del singolo blocco di risultato nell'archivio; il limite complessivo della copia si sceglie nel pannello Spazio delle combinazioni.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 53 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: gestire-lo-spazio-delle-combinazioni",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 54 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nei modelli di un progetto, sotto i comandi di calcolo, il riquadro SPAZIO DELLE COMBINAZIONI mostra lo spazio occupato dalla copia con i risultati delle combinazioni rispetto al limite, per esempio «850 MiB di 2 GiB · 37 combinazioni con risultati salvati». In Limite scegli lo spazio massimo:…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 55 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Libera selezionate toglie dalla copia i risultati salvati delle combinazioni selezionate nell'elenco; Libera tutte toglie tutti i risultati salvati delle combinazioni. Le definizioni restano e si ricalcolano quando servono. Durante un calcolo i due comandi non sono disponibili.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 56 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Dopo Libera selezionate o Libera tutte ANTHEA restituisce a Windows la memoria dei risultati liberati; con un modello grande la finestra può non rispondere per qualche secondo. Accanto ai due comandi compare poi ↶ Annulla Libera, che riporta i risultati liberati. Lo stesso fa ↶ Annulla del pro…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 57 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Anche le altre modifiche della copia hanno un nome nei suggerimenti di ↶ Annulla e ↷ Ripristina: per esempio «Calcolo di «SLU 03»», «Calcolo delle combinazioni in serie», «Importazione del modello» e «Modifica del modello «Esempio»».",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 58 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: generare-le-combinazioni-ntc-2018",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 59 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nel gestore delle combinazioni Genera NTC 2018… apre la tabella dei casi statici del modello, con le colonne Caso, Natura, Categoria, Gruppo e Direzione. Per ogni caso scegli la natura: Permanente G1, Permanente G2, Variabile, Eccezionale, Sismica oppure Esclusa. ANTHEA propone la natura dai t…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 60 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il Gruppo riunisce i casi correlati: in ogni combinazione un gruppo è presente o assente per intero e uno solo è il principale. Per un caso sismico puoi indicare la direzione dell'azione, X, Y o Z. I casi con direzione si combinano con la regola 100/30 di NTC 2018 §7.3.5: 1,00 della direzione …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 61 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Prima di generare, il pannello mostra quante combinazioni nascono per ogni stato limite: SLE rara, frequente e quasi permanente, SLU con l'insieme A1, SLV ed eccezionali. Oltre 4096 combinazioni, o con più di 12 gruppi di casi permanenti e variabili, la generazione non parte: riunisci i casi c…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 62 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: leggere-le-componenti-principali-dei-plate",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 63 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le combinazioni calcolate con GPC hanno anche le componenti principali dei plate: Mmax, Mmin, Fmax e Fmin. In Risultati scegli la famiglia plate e Principali al posto di Locali: i valori compaiono nella vista, nel contouring e nelle tabelle. Per una combinazione lineare sono le principali dell…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 64 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Se una combinazione calcolata non ha le principali, la vista ne indica il motivo: oltre 4096 stati alternativi non sono disponibili; per i risultati di una versione precedente usa «Ricalcola con le componenti principali» nel gestore delle combinazioni. Per un caso statico la vista mostra le pr…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 75 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: aprire-un-file-di-testo-midas-civil-o-gen",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 76 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona File · .antheamodel, MIDAS .mct/.mgt o copia acquisita in Sorgente del modello.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 77 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 2. In Contenuto da acquisire scegli Tutto oppure Geometria + attributi + carichi; Solo geometria limita la copia alla forma del modello.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 78 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 3. Premi Scegli il file e importa… e seleziona il file .mct di MIDAS Civil o .mgt di MIDAS Gen. Il dialogo propone tutti i modelli leggibili; il filtro File di testo MIDAS Civil / Gen mostra soltanto questi file.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 79 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 4. Leggi i messaggi di importazione, controlla il modello e premi Salva progetto.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 80 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La libreria GPC traduce i comandi del file nelle stesse tabelle della copia acquisita dal modello aperto, in N e mm; il file è letto con la codifica Windows-1252, oppure UTF-8 quando inizia con il BOM. La copia contiene geometria, sezioni, spessori e offset, terne locali e nodali, vincoli, mol…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 81 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il file non contiene risultati e la copia non ne ha: Solo risultati è rifiutato e, con Tutto, i risultati di una copia precedente vengono rimossi. Restano fuori, con un messaggio, gli elementi senza equivalente nella vista, come pareti, elementi piani o assialsimmetrici e solidi, con i loro ca…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 82 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: importare-un-modello-straus7",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 83 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per leggere un modello Straus7 serve Straus7 R3 installato sul computer nella versione a 64 bit, con la licenza API attiva. ANTHEA usa St7api.dll dell'installazione, in sola lettura, con il convertitore GPC, in un processo dedicato a 64 bit, ANTHEA.Strand7Worker.exe, installato accanto ad ANTH…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 84 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 1. Premi Importa modello… oppure Aggiorna modello… e seleziona Straus7 / Strand7 R3 · file .st7 e .lsa in Sorgente del modello.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 85 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 2. Con Sfoglia… scegli Modello .st7 e, per Solo risultati e per Tutto con i risultati, Risultati statici lineari .lsa dello stesso modello oppure, per un'analisi costruttiva per fasi, il file dei risultati statici non lineari .nla. Senza file dei risultati, Tutto importa geometria, attributi e…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 86 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 3. Premi Controlla file e casi. Il controllo verifica che i file esistano e che la libreria sia quella nativa a 64 bit, poi apre il modello, verifica che i risultati corrispondano al modello e ne legge il catalogo: nodi, aste, piastre, casi di carico, combinazioni LSA e casi di risultato stati…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 87 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 4. Scegli il contenuto, i casi con Tutti, Nessuno o le singole caselle e i tipi di risultato Sollecitazioni locali · beam e plate e Spostamenti globali · deformata, come per la sorgente MIDAS. Con Tutto e nessun caso selezionabile si importano geometria, attributi e carichi, senza risultati, e…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 88 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 5. Premi Importa da Straus7. Il pannello mostra l'avanzamento; Annulla importazione chiude il processo di lettura. Un'importazione annullata, fallita o incompleta non modifica la copia aperta. Se i file sono cambiati dopo il controllo, la lettura è rifiutata: ripeti Controlla file e casi.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 89 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: 6. Leggi i messaggi, compresi gli avvisi del convertitore GPC, controlla il modello e premi Salva progetto.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 90 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La copia contiene geometria, proprietà con numero e nome di Straus7, terne locali e nodali, vincoli, molle, link e rilasci. Dei casi scelti acquisisce i risultati statici lineari: piastre ai nodi di ogni elemento, senza media fra elementi; aste alle stazioni restituite da Straus7; spostamenti …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 91 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le sollecitazioni si leggono con la convenzione della copia MIDAS, uguale per ogni sorgente: Mxx, Myy e Mxy delle piastre e My delle aste hanno il segno opposto a quello che Straus7 mostra per gli stessi risultati, e Mxx positivo tende la faccia −z della piastra. Le unità sono kN/m e kN·m/m pe…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 92 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Le combinazioni LSA compaiono in Combinazioni come definizioni della sorgente, non modificabili; si escludono o si ridefiniscono come quelle MIDAS. I loro risultati non sono letti dal file: li costruisce ANTHEA con la libreria GPC dai casi importati, che devono quindi comprendere tutti i casi …",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 93 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Controlla file e casi riporta anche il numero delle fasi del modello. Con un file .lsa risolto su una fase attiva il riepilogo lo segnala: i casi sono quelli di quella configurazione e gli elementi non attivi non hanno risultati. Con un file .nla l'elenco mostra uno stato per ogni fase e incre…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 94 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Il pulsante Tabella offre anche Reazioni vincolari del caso corrente, con nel riepilogo la risultante delle reazioni, quella dei carichi e l'esito del controllo di equilibrio, Masse, Temperature e Fasi, con i gruppi e gli elementi attivi di ogni fase. Masse e temperature sono dati del modello:…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 95 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: La lettura riguarda l'analisi statica lineare dei casi primari, anche su una fase attiva, e l'analisi statica non lineare per fasi del file .nla, del quale si legge solo questa. Restano nel file, con un avviso del convertitore, elementi brick, link diversi da quelli rigidi, master-slave e a ce…",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 109 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: File MIDAS non importato o modello rifiutato dal convertitore GPC",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 110 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Correggi il file o ripeti l'esportazione da MIDAS; la copia precedente resta aperta.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 111 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Processo di lettura Straus7 non trovato",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 112 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Reinstalla ANTHEA: ANTHEA.Strand7Worker.exe deve stare accanto ad ANTHEA.exe.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 113 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: API Straus7 non disponibile",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 114 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Verifica l'installazione a 64 bit di Straus7 R3, il percorso di St7api.dll e la licenza API, poi ripeti Controlla file e casi.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 115 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: File del modello o dei risultati non disponibili o cambiati",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 116 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: I file sono stati spostati o modificati dopo il controllo: ripeti Controlla file e casi.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 117 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Nessun caso di risultato da importare",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 118 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Leggi il motivo nel riepilogo del controllo e gli avvisi del convertitore GPC. Con Tutto si importa il modello senza risultati; se la copia ha già risultati, scegli Geometria + attributi + carichi oppure non aggiornarla.",
+      "voce": "GUIDE-REV73-20261117"
+    },
+    {
+      "file": "wiki/_wiki_guide_progetti_modelli-importazione-midas.txt",
+      "percorso": "riga 122 (b)",
+      "classe": "riga-aggiunta",
+      "a": null,
+      "b": "text: Per aprire una copia già acquisita scegli File · .antheamodel, MIDAS .mct/.mgt o copia acquisita: sono previsti il pacchetto .antheamodel oppure NODE.json della cartella di acquisizione MIDAS completa. La stessa scelta apre i file di testo MIDAS descritti sopra. Il file nativo del modello MIDA…",
+      "voce": "GUIDE-REV73-20261117"
     }
   ],
-  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato."
+  "descrizione": " Rev63: quattro articoli nuovi sulle Azioni climatiche e su carichi, combinazioni e traffico; aggiornamenti delle ricerche; conteggio 78 → 82. Voce AZIONI-01; nessun atteso ingegneristico modificato. Rev68 (1.17.1): criterio resistente per stato limite della sezione c.a.; aggiornamenti esatti di due articoli (sezione c.a. e profili del calcestruzzo): 12 transizioni nuove, 52 spostate dalle righe aggiunte, 0 tolte. Voce CA-CRITERIO-STATI-01; nessun atteso ingegneristico modificato. Rev73 (1.19.2): capitolo «Modelli e importazione da MIDAS» aggiornato per i rilievi R1–R10 del modulo Modelli: 138 transizioni nuove (riga-aggiunta 132, testo 6), 122 superate tolte, tutte nei due file della pagina; ricerca invariata. Voce GUIDE-REV73-20261117; nessun atteso ingegneristico modificato."
 }

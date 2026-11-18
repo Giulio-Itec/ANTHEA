@@ -2052,5 +2052,20 @@
     "record": "GUIDE-REV72-20261116",
     "decision": "Utente, 16/11/2026: «Sì, tutti i consigli» (scheda decisioni-utente-20261116, voce 6c a: OK alle transizioni della Wiki).",
     "note": "Guides Rev72 (ANTHEA 1.19.1): the 1086 not-admitted differences of the capture, all in wiki/ (26 article files and the search index), are the proposal of task 208 applied unchanged: 629 exact editorial transitions added (riga-aggiunta 516, testo 86, elemento-aggiunto 27) and 457 earlier transitions superseded. Article count unchanged (94). The same 1086 differences, identical by file, path, class and values, appear in the capture of task 208 on 68192e18. No expected files, engineering transitions or tolerances changed."
+  },
+  "editorial_transitions_rev73": {
+    "capture": "supporto/artefatti/ci/20261117-084353-candidata-1192-829f852b/ui_f3-equivalence/cattura",
+    "before_sha256": "eca067f26543fc381d699f395b87019727d95cca52aa3618d77475ea3897ccbc",
+    "after_sha256": "55b05a493cc4424b0d328c59adf8176193a780e136584a398411f05879b43f93",
+    "counts": {
+      "previous": 3480,
+      "current": 3496,
+      "added": 138,
+      "removed": 122
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV73-20261117",
+    "decision": "Utente, 17/11/2026: «Sì, approvo» (OK alle 260 transizioni F3 della pagina Wiki dei Modelli, candidata ANTHEA 1.19.2).",
+    "note": "Guides Rev73 (ANTHEA 1.19.2): the 260 not-admitted differences of the capture of 829f852b are all in the two files of the Wiki page modelli-importazione-midas (.md and .txt); the search index is unchanged. 138 exact editorial transitions added (riga-aggiunta 132, testo 6) and 122 earlier transitions of the same page superseded. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
   }
 }

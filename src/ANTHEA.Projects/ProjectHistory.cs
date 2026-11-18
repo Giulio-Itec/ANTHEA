@@ -51,6 +51,12 @@ public sealed class ProjectHistory
     /// <summary>The name of the change «Annulla» takes back (step 3b), null when unnamed or when there is nothing to undo.</summary>
     public string? UndoLabel => undo.Count > 0 ? undo[^1].Label : null;
 
+    /// <summary>
+    /// The change «Annulla» takes back, as an identity (R1 of the review of 17/11/2026): never the same object for two changes, also with the
+    /// same name; null when there is nothing to undo. A caller keeps it after its change to undo that change only.
+    /// </summary>
+    public object? UndoStep => undo.Count > 0 ? undo[^1] : null;
+
     /// <summary>The name of the change «Ripristina» makes again, null when unnamed or when there is nothing to redo.</summary>
     public string? RedoLabel => redo.Count > 0 ? redo[^1].Label : null;
 

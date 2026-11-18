@@ -38,6 +38,15 @@
     </StackPanel>
    </Expander>
   </StackPanel>
-  <ContentControl x:Name="Viewer" Focusable="False"/>
+  <!-- R5 and R8 (16/11/2026): while the copy is read on another thread the viewer is not created; the reading and its progress are shown. -->
+  <TextBlock DockPanel.Dock="Top" Margin="14,0,14,8" TextWrapping="Wrap" Foreground="{DynamicResource Token.Danger}" Text="{Binding LoadFailure}"
+   Visibility="{Binding LoadFailure, Converter={StaticResource WhenPresent}}"/>
+  <Grid>
+   <ContentControl x:Name="Viewer" Focusable="False"/>
+   <StackPanel x:Name="Loading" VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="560" Visibility="{Binding IsLoading, Converter={StaticResource WhenTrue}}">
+    <TextBlock Style="{StaticResource Shell.Muted}" Text="{Binding LoadingText}" TextWrapping="Wrap" TextAlignment="Center"/>
+    <ProgressBar Value="{Binding LoadingPercent, Mode=OneWay}" Maximum="100" Height="6" Margin="0,10,0,0" AutomationProperties.Name="Lettura del modello"/>
+   </StackPanel>
+  </Grid>
  </DockPanel>
 </UserControl>

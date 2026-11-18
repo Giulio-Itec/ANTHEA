@@ -238,7 +238,9 @@ public static class ModelCombinations
         // 2/11/2026 (series of the combinations): the checks, lengths, tables and revisions already known for the same references.
         Checked=s.Checked,CombinationSizes=s.CombinationSizes,CombinationTables=s.CombinationTables,CombinationDefinitionRevisions=s.CombinationDefinitionRevisions,
         // 3/11/2026: the blocks of the archive already prepared for the same result sets (ModelDocumentEntry.Prepare).
-        ResultBlocks=s.ResultBlocks};
+        ResultBlocks=s.ResultBlocks,
+        // Rilievo R1 (16/11/2026): the fingerprint resumed from the sets already hashed.
+        RevisionCheckpoint=s.RevisionCheckpoint};
 
     public static ModelSnapshot RestoreImported(ModelSnapshot snapshot)
     {
@@ -280,6 +282,17 @@ public static class ModelCombinations
     }
 
     internal static string PreparationRevision(ModelSnapshot snapshot)=>Preparation(snapshot).Hash;
+
+    /// <summary>
+    /// P2 of the review of 17/11/2026: the revision of the preparation when the copy already knows it (computed for this copy, or for a copy
+    /// of it with the same parts and base cases), null otherwise. Never computed here: cheap on the thread of the interface.
+    /// </summary>
+    public static string? KnownPreparationRevision(ModelSnapshot snapshot)
+    {
+        ArgumentNullException.ThrowIfNull(snapshot);
+        var known=snapshot.CombinationRevisions;
+        return known!=null&&known.SameBase(snapshot,Revisions.BasisOf(snapshot))?known.Preparation:null;
+    }
 
     /// <summary>
     /// Decision of the user of 1/11/2026 («Revisione per singola definizione»): the revision of the inputs of one definition, the SHA-256 of

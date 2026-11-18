@@ -22,7 +22,7 @@ public sealed partial class ModelViewerViewModel
     {
         Strand7PreparationSummary = "File da controllare. Nessun dato Straus/Strand7 è stato letto.";
         if (strand7Catalog == null) return;
-        strand7Catalog = null; strand7CaseNumbers.Clear();
+        strand7Catalog = null; strand7CaseNumbers.Clear(); Strand7Warnings = "";
         if (IsStrand7Import) { ImportCases.Clear(); OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); }
         OnPropertyChanged(nameof(HasStrand7Catalog)); ImportCommand.NotifyCanExecuteChanged();
     }
@@ -41,7 +41,11 @@ public sealed partial class ModelViewerViewModel
     {
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(lifetime.Token, cancellationToken);
         var token = linked.Token;
-        var request = Strand7Request((ModelUpdateScope)SelectedUpdateScope);
+        // R10: «Tutto» without a results file checks the model as «Geometria + attributi + carichi» (the import takes no results then).
+        var scope = (ModelUpdateScope)SelectedUpdateScope;
+        if (scope == ModelUpdateScope.Everything && string.IsNullOrWhiteSpace(Strand7ResultsPath)) scope = ModelUpdateScope.ModelWithoutResults;
+        var request = Strand7Request(scope);
+        Strand7Warnings = "";
         IsBusy = true; ImportFailure = null;
         ++importOperation; ImportProgressMessage="Controllo dei file Straus / Strand7…";ImportProgressIndeterminate=true;ImportPercent=0;
         try
@@ -54,8 +58,16 @@ public sealed partial class ModelViewerViewModel
             token.ThrowIfCancellationRequested(); if (disposed) return;
             strand7Catalog = catalog; strand7CaseNumbers.Clear(); ImportCases.Clear();
             foreach (var item in catalog.Cases) { strand7CaseNumbers[item.Name] = item.Number; ImportCases.Add(new(item.Name, ImportCaseSelectionChanged)); }
+            // R9 (16/11/2026): why there is no result to import, and the warnings of the converter here, before the import (until 1.19.1 only
+            // their number, with a reference to an import report that did not exist yet).
+            string? reason = catalog.NoResultsReason(!string.IsNullOrWhiteSpace(Strand7ResultsPath));
             Strand7PreparationSummary = "Catalogo letto · " + catalog.Summary + (catalog.ApiVersion.Length > 0 ? " · API " + catalog.ApiVersion : "") +
-                (catalog.Warnings.Count > 0 ? "\nAvvisi del convertitore GPC: " + catalog.Warnings.Count + " (dettagli nel rapporto di importazione)." : "");
+                // R2 of the review of 17/11/2026: on a copy with results «Tutto» stays disabled (ResultsLossWarning says why).
+                (reason is null ? "" : "\nNessun caso di risultato da importare: " + reason + (HasCurrentResults
+                    ? ". La copia attuale ha risultati: leggi l'avviso sotto «Contenuto da acquisire»."
+                    : ". Con «Tutto» si importano geometria, attributi e carichi, senza risultati.")) +
+                (catalog.Warnings.Count > 0 ? "\nAvvisi del convertitore GPC: " + catalog.Warnings.Count + ", elencati qui sotto e conservati nei messaggi di acquisizione della copia." : "");
+            Strand7Warnings = string.Join("\n", catalog.Warnings.Select(w => "• " + w));
             ImportProgressMessage = "File pronti. Scegli il contenuto da acquisire."; ImportPercent = 100; ImportProgressIndeterminate = false;
             OnPropertyChanged(nameof(HasImportCases)); OnPropertyChanged(nameof(ImportCasesSummary)); OnPropertyChanged(nameof(HasStrand7Catalog));
         }
@@ -66,7 +78,13 @@ public sealed partial class ModelViewerViewModel
         finally { IsBusy = false; ImportCommand.NotifyCanExecuteChanged(); }
     }
 
-    bool HasStrand7Selection => strand7Catalog != null && (!ImportIncludesResults || ImportCases.Any(c => c.IsSelected) && (ImportForces || ImportDisplacements));
+    /// <summary>R9 (16/11/2026): the warnings of the GPC converter of the catalogue, one per line, shown before the import; empty without them.</summary>
+    [ObservableProperty] string strand7Warnings = "";
+
+    // R10 (16/11/2026, requirement of the user: «il file deve essere importato anche senza casi di carico»): with «Tutto» and a catalogue without
+    // result cases the import takes geometry, attributes and loads; with result cases at least one case and one type of result, as before.
+    bool HasStrand7Selection => strand7Catalog != null && (!ImportIncludesResults || ImportsWithoutResults ||
+        ImportCases.Any(c => c.IsSelected) && (ImportForces || ImportDisplacements));
 
     Task<ModelSnapshot> ReadStrand7ModelAsync(ModelUpdateScope scope, CancellationToken token)
     {

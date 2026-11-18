@@ -36,11 +36,14 @@ public partial class ModelTabView : UserControl
     {
         viewer = null;
         Viewer.Content = null;
-        if (model is null) return;
+        // R5 and R8 (16/11/2026): no viewer while the copy is read on another thread (the XAML shows the reading); it comes with Snapshot.
+        if (model is null || model.IsLoading || model.LoadFailure is not null) return;
         var current = model;
         // 3/11/2026: the project of the shell has a results archive (ModelTabViewModel.Imported, ProjectSession.Results), so the copy of the
         // model may take with its combinations the limit the user chooses in «Spazio delle combinazioni».
-        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked, resultsArchive: true);
+        // P2 of the review of 17/11/2026: the GPC service of the tab, so that the base cases prepared survive the viewer created again.
+        viewer = new ModelViewerControl(current.Snapshot, current.Targets, current.IsReadOnly, current.Imported, current.Linked, resultsArchive: true,
+            undoChange: current.UndoChange, combinations: current.Combinations);
         viewer.SetDisplayName(current.Title);
         Viewer.Content = viewer;
     }
@@ -49,5 +52,7 @@ public partial class ModelTabView : UserControl
     {
         if (e.PropertyName is nameof(ModelTabViewModel.Snapshot) or nameof(ModelTabViewModel.IsReadOnly)) CreateViewer();
         else if (e.PropertyName == nameof(ModelTabViewModel.Title) && model is not null) viewer?.SetDisplayName(model.Title);
+        // R6 of the review of 17/11/2026: an undo that keeps the copy on screen keeps the viewer; its sheets follow the project.
+        else if (e.PropertyName == nameof(ModelTabViewModel.Targets) && model is not null) viewer?.SetSheets(model.Targets);
     }
 }

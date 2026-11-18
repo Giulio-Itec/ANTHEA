@@ -95,6 +95,36 @@ public sealed class WorkspaceSession : IDisposable
     /// <summary>Caption of the warning after a project opened with sheets or revisions that cannot be read (step 2b, 3/11/2026).</summary>
     public const string OpenProblemsTitle = "Progetto aperto con fogli non leggibili";
 
+    /// <summary>Rilievo R3 (16/11/2026): caption of the message for a file of a calculation model chosen in «Apri…».</summary>
+    public const string ModelFileTitle = "Modello di calcolo";
+
+    /// <summary>Rilievo R3: the files the module «Modelli» imports (ANTHEA package, MIDAS texts, the copy of the laboratory, Straus7), never
+    /// documents of ANTHEA. Until 1.19.1 «Apri…» read them as documents and said «Formato o versione del file non supportati.».</summary>
+    public static bool IsModelFile(string path)
+    {
+        string name = System.IO.Path.GetFileName(path ?? "");
+        string extension = System.IO.Path.GetExtension(name).ToLowerInvariant();
+        return extension is ".antheamodel" or ".mct" or ".mgt" or ".st7" or ".lsa" or ".nla" || name.Equals("NODE.json", StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>Where <paramref name="path"/> opens, for <see cref="IsModelFile"/>.</summary>
+    public static string ModelFileMessage(string path)
+    {
+        string name = System.IO.Path.GetFileName(path);
+        string extension = System.IO.Path.GetExtension(name).ToLowerInvariant();
+        string kind = extension switch
+        {
+            ".antheamodel" => "è la copia di un modello di calcolo (pacchetto .antheamodel)",
+            ".mct" or ".mgt" => "è un file di testo di MIDAS Civil o Gen",
+            ".st7" => "è un modello Straus7",
+            ".lsa" or ".nla" => "è un file di risultati di Straus7",
+            _ => "è la copia di un modello MIDAS acquisita dal laboratorio"
+        };
+        string source = extension is ".st7" or ".lsa" or ".nla" ? "«Straus7 / Strand7 R3», con il modello .st7 e i risultati" : "«File», scegliendo questo file";
+        return "«" + name + "» " + kind + ", non un documento di ANTHEA (.programma, .anthea): si apre nel modulo «Modelli».\n\n" +
+            "Apri o crea un archivio progetti, vai in «Modelli», premi «+ Modello» nella fase o sottofase e poi «Importa modello…» con la sorgente " + source + ".";
+    }
+
     /// <summary>The warning: each sheet or revision with its place and its reason.</summary>
     public static string OpenProblems(IReadOnlyList<DocumentProblem> problems) =>
         "Questi fogli o revisioni non si possono leggere: si aprono in sola lettura e il salvataggio li riscrive come erano nel file.\n\n" +
@@ -212,6 +242,8 @@ public sealed class WorkspaceSession : IDisposable
     {
         ThrowIfDisposed();
         ArgumentException.ThrowIfNullOrEmpty(path);
+        // R3 (16/11/2026): a model file is not read as a document (the command line and the other callers get where it opens).
+        if (IsModelFile(path)) throw new ArgumentException(ModelFileMessage(path));
         if (files.IsInExamples(path) && files.OpenExampleCopy(path) is { } example) return OpenDocument(example, null, true);
         if (Documents.FirstOrDefault(d => d.IsFile(path)) is { } open)
         {

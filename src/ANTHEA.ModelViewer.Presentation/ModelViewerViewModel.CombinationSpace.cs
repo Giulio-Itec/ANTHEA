@@ -51,7 +51,7 @@ public sealed partial class ModelViewerViewModel
         NotifyCombinationSpaceCommands();
     }
 
-    void NotifyCombinationSpaceCommands(){FreeSelectedCombinationResultsCommand.NotifyCanExecuteChanged();FreeAllCombinationResultsCommand.NotifyCanExecuteChanged();}
+    void NotifyCombinationSpaceCommands(){FreeSelectedCombinationResultsCommand.NotifyCanExecuteChanged();FreeAllCombinationResultsCommand.NotifyCanExecuteChanged();NotifyUndoFree();}
 
     IEnumerable<string> SavedDefinitions(IEnumerable<string> ids)=>Snapshot==null?[]:
         ids.Where(id=>Snapshot.Results.Any(r=>r.Combination?.DefinitionId==id)).Distinct(StringComparer.Ordinal);
@@ -67,12 +67,47 @@ public sealed partial class ModelViewerViewModel
     async Task FreeCombinationResultsAsync(IReadOnlyCollection<string> ids)
     {
         string? selected=SelectedCombination?.Definition.Id;
+        string label=FreeLabel(ids.Count);
         try
         {
-            if(!await PublishCombinationChangeAsync(s=>ModelCombinations.DiscardResults(s,ids),"Liberazione dei risultati salvati…"))return;
+            if(!await PublishCombinationChangeAsync(s=>ModelCombinations.DiscardResults(s,ids),"Liberazione dei risultati salvati…",label))return;
         }
         catch(Exception ex) when(ex is InvalidDataException or InvalidOperationException){CombinationMessage="Risultati non liberati: "+ex.Message;return;}
+        // R6 (16/11/2026): the memory of the results freed goes back to Windows (18 GB stayed with the process after «Libera tutte»).
+        if(!disposed)await SystemMemory.ReleaseAsync();
+        if(disposed)return;
         RefreshCombinations(selected);
-        CombinationMessage=$"Risultati di {ids.Count} combinazioni liberati: le definizioni restano e si ricalcolano quando servono.";
+        freedLabel=UndoProjectChange is null?null:label;NotifyUndoFree();
+        // R4 (16/11/2026): where the undo is, right after «Libera» (the user did not find it in the main window).
+        CombinationMessage=$"Risultati di {ids.Count} combinazioni liberati: le definizioni restano e si ricalcolano quando servono.\n"+
+            (UndoProjectChange is null?"Per riaverli usa «↶ Annulla» del progetto (Ctrl+Z), nella barra in alto della finestra principale."
+                :"Per riaverli usa «↶ Annulla Libera» qui sotto, o «↶ Annulla» del progetto (Ctrl+Z) nella barra in alto della finestra principale, finché non fai altre modifiche.");
+    }
+
+    /// <summary>R1 of the review of 17/11/2026: «↶ Annulla Libera» refused, because another change of the project came after «Libera» (of this
+    /// model, of another model, of a sheet: the open sheet is confirmed by the undo, as by «↶ Annulla»).</summary>
+    public const string UndoFreeRefused="Non annullato: dopo «Libera» il progetto è cambiato (questo modello, un altro modello o un foglio). Usa «↶ Annulla» della finestra principale (Ctrl+Z) per tornare indietro una modifica alla volta.";
+
+    /// <summary>The name of «Libera» in the history of the project.</summary>
+    public static string FreeLabel(int count)=>count==1?"Libera i risultati di una combinazione":$"Libera i risultati di {count} combinazioni";
+
+    /// <summary>
+    /// Rilievo R4 (16/11/2026): the undo of the last change of the project when it is still the one named <c>label</c> (the host, the tab of
+    /// the model: ModelTabViewModel.UndoChange); false when another change came after it. Null outside a project: no «↶ Annulla Libera».
+    /// </summary>
+    public Func<string,bool>? UndoProjectChange {get;init;}
+    string? freedLabel;
+    /// <summary>«↶ Annulla Libera» is offered: right after «Libera», until another change of the copy.</summary>
+    // N8 of the review of 17/11/2026: not during a verification, a report or a revision (the undo creates the viewer again and would stop them).
+    public bool CanUndoFree=>UndoProjectChange!=null&&freedLabel!=null&&!IsCombinationBusy&&CanManageCombinations;
+    void NotifyUndoFree(){OnPropertyChanged(nameof(CanUndoFree));UndoFreeCommand.NotifyCanExecuteChanged();}
+    /// <summary>«↶ Annulla Libera»: the project goes back to before «Libera»; the tab reads the copy with its results again.</summary>
+    [RelayCommand(CanExecute=nameof(CanUndoFree))]
+    void UndoFree()
+    {
+        if(freedLabel is not {} label||UndoProjectChange is null)return;
+        freedLabel=null;NotifyUndoFree();
+        if(!UndoProjectChange(label)&&!disposed)
+            CombinationMessage=UndoFreeRefused;
     }
 }

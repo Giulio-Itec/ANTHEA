@@ -1,5 +1,20 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.2 - 17 novembre 2026
+
+Ramo `claude/1192-candidata`, pubblicato il 17/11/2026 dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.2.md).
+
+- [x] Modulo Modelli, rilievi R1–R10 della prova MIDAS del 16/11 e correzioni della revisione (`claude/modelli-rilievi` 865868b0).
+- [x] Stratigrafia: griglia degli strati in sola lettura nelle revisioni precedenti (eb248595, sopra d202c46f di main).
+- [x] Nomi con «_» nelle caselle del pannello di importazione e del report (P4 della revisione del ramo Straus7, adattato ai nomi del ramo dei Modelli).
+- [x] Guide Rev73 con «ANTHEA 1.19.2» ed esempio con un nome neutro; Wiki rigenerata.
+- [x] Versione 1.19.2 e README dell'installer; README 1.19.1 conservato in SUPERATI.
+- [x] Edizioni Word e PDF delle guide e PDF dei README (7426f226).
+- [x] Full sulla candidata (108 + 23 PASS) e transizioni F3 della pagina Modelli approvate dall'utente (a27bee25, F3 PASS).
+- [x] Setup locale (74.831.765 byte, C081CF35…), Audit-Installer e collaudi PASS; prova dell'utente sulla build della candidata: «Prova OK». [Verbale](installer-1.19.2.md).
+- [x] origin/main ancora a323af43: tag v1.19.2 su a27bee25, push in avanti veloce e copia sulla condivisione a cura del coordinatore.
+
+
 ## Guide Rev72 — compito 207, 16 novembre 2026
 
 - [x] R1/R2 sul controllo del copriferro recepite in pratica, teoria, Word/PDF e Wiki; nessun avviso P10 anticipato.
@@ -1861,3 +1876,24 @@ Release pubblicata in sequenza, controllo assenza codice di prova superato sulle
 Rimossa la colonna Descrizione su richiesta; tabella con otto colonne e sola lettera/colore bloccata nello scorrimento. Il nome già archiviato resta accessibile nei dettagli avanzati e dal suggerimento/automazione della lettera. Tolta la linea grigia inclinata; legenda identificata dal colore dello strato. Dati e calcoli invariati.
 
 Cattura precedente e sorgenti grafici conservati in `supporto/artefatti/stratigrafia-pulizia-2026-11-17/prima`. Controlli finali in `20261117-100904-stratigrafia-pulizia-finale`: 219 controlli UI e 630 di architettura superati. Una prima corsa ha individuato il nome ancora nascosto nei dettagli, corretto prima del rilascio; nessun fallimento aggiunto alla whitelist. Suite UI **74 prima e dopo**. Schermata controllata; Release senza codice di prova installata in `app`, precedente e hash conservati nell’attività. Differenza `UI-STRATIGRAFIA-PULIZIA-20261117`.
+
+## Rilievi del modulo Modelli sul modello MIDAS vero — 16 novembre 2026
+
+Prova dell'utente del 16/11 (73 combinazioni LCOM, 48 casi, progetto salvato con 925 MB di archivio) e file Straus7 con due freedom case. Ramo `claude/modelli-rilievi`, rapporto `INT/rapporti/modelli-rilievi-20261116.md`, voci `MOD-RIL-*` nel registro. Banco senza WPF del percorso della shell: `ANTHEA.Presentation.Tests --banco-modelli`.
+
+- [x] R2 «Valore dell'elemento» al posto di «Importato» nel campione con la media ai vertici.
+- [x] R1 serie: impronta ripresa dai blocchi già letti, nomi delle alternative condivisi, vettori solo dei governanti, gruppi una volta, memoria restituita alla fine; risultati identici bit per bit (impronta della copia uguale).
+- [x] R8 e R5 lettura della copia in un altro thread oltre 64 MiB di risultati, a finestre di 12 insiemi, con avanzamento nella scheda; copia conservata per un Annulla di altre modifiche; governanti riletti con testi e vettori condivisi; impronta nota invece di quella ricalcolata dal visore.
+- [x] R4 «↶ Annulla Libera» accanto a «Libera» e nomi delle modifiche del modello nello storico.
+- [x] R6 memoria restituita dopo «Libera».
+- [x] R7 casi base GPC preparati in background quando la scena è pronta (solo con combinazioni da calcolare, almeno 8 GiB liberi, priorità bassa, annullata da una nuova copia).
+- [x] R3 File › Apri su un file di modello: messaggio con i passi e pagina «Modelli».
+- [x] R9 Straus7 senza casi di risultato selezionabili: motivo e avvisi del convertitore nel pannello; casi non associati nel catalogo del worker.
+- [x] R10 «Tutto» senza casi di risultato importa geometria, attributi e carichi (Straus7 e MIDAS).
+- [x] Unione di main a323af43 (stratigrafia) senza conflitti; prove veloci sopra l'unione: ModelWorkspace.Checks e Presentation.Tests PASS, Architecture.Tests corretta (fb3944d4, due letterali F4 R2).
+- [x] Prove sopra d9ddf63e (unione e correzioni comprese): veloci PASS 7 (`supporto/artefatti/ci/20261116-223355-modelli-r-fast2`), WPF del modulo Modelli e della stratigrafia PASS 10 (`supporto/artefatti/ci/20261116-220230-modelli-r-ui`), nessun nuovo fallimento; nativo sul file Straus7 dell'utente: 0 casi selezionabili, 15 non associati, importazione senza risultati 2563 nodi e 5238 elementi. Progetto salvato riaperto: finestra ferma al massimo 8,3 s invece di 63,7 s.
+- [x] Revisione indipendente del 17/11 (`INT/rapporti/revisione-modelli-rilievi-20261117.md`), voci `MOD-RIL-REV-*` nel registro: P1 casi base in background anche dopo «Importa/Aggiorna modello…»; P2 servizio GPC della scheda, che sopravvive al visore ricreato; P3 «Ripristina» durante la lettura in background non più sovrascritto; R1 «↶ Annulla Libera» solo della propria modifica; R2 avviso prima di un aggiornamento con «Tutto» che toglierebbe i risultati («Importa» disattivato, scelta esplicita «Geometria + attributi + carichi»); R4–R6 lettura che prosegue dopo un Annulla di altro, testo d'errore che se ne va, fogli del visore che seguono il progetto; prove di R7 rifatte senza il controllo sempre vero. Prove su f16a92d0: veloci PASS 7 (`supporto/artefatti/ci/20261117-013957-modelli-fix-fast`), WPF del modulo Modelli e della stratigrafia PASS 10 (`supporto/artefatti/ci/20261117-014817-modelli-fix-ui`); banco sul percorso vero (`supporto/artefatti/modelli-rilievi/r7-percorso-vero`): preparazione partita da sola dopo l'importazione, prima combinazione 0,7 s, visore ricreato senza preparare di nuovo. Dopo N6, N7 e la prova della chiusura della scheda: veloci PASS 7 (`supporto/artefatti/ci/20261117-020819-modelli-fix4-fast`).
+- [ ] Domande D1–D5 del rapporto (caricamento pigro dei risultati, preparazione GPC dopo «Libera», apertura diretta dei file di modello, soglia di memoria, pausa della restituzione).
+- [x] Guide Rev73 (ramo `claude/modelli-guida`, rapporto `INT/rapporti/modelli-guida-20261117.md`): i testi proposti controllati sul codice di ff514607 e corretti dove non corrispondevano, poi allineati alle correzioni della revisione (865868b0: preparazione anche dopo un'importazione e legata alla scheda, avviso di «Tutto» su una copia con risultati, «↶ Annulla Libera» solo della propria modifica, testo della lettura); capitolo «Modelli e importazione da MIDAS» della pratica, riga dell'edizione nelle due guide; Word e PDF con la pipeline ITEC, Rev72 in `supporto/SUPERATI/guide-rev73-20261117/` con manifest.
+- [ ] Wiki: transizioni F3 della pagina «Modelli e importazione da MIDAS» da approvare dall'utente; testo Straus7 con più freedom case da rivedere quando entra il convertitore di `claude/st7-freedom-cases`.
+- [ ] Libreria: mappatura dei risultati e dei vincoli con più freedom case (GPC.Converter, ramo `claude/st7-freedom-cases`); stati solo governanti da `CombinationMatrix.Evaluate` (GPCModel).
