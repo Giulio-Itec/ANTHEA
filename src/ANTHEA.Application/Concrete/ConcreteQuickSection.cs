@@ -33,6 +33,13 @@ public sealed record ConcreteQuickResult(
     IReadOnlyList<ConcreteQuickCombination> Combinations,
     string? SelectedId);
 
+/// <summary>A choice of the shape of the quick section: its name, whether it can be chosen, the note when it cannot.</summary>
+public sealed record ConcreteQuickShape(string Name, bool Available, string Note)
+{
+    /// <summary>The name, as the segmented buttons show it.</summary>
+    public override string ToString() => Name;
+}
+
 /// <summary>
 /// The outcome of a combination of the quick section: η of the ultimate check (or the ratio of the stresses with the method n) and the status of
 /// the engine; <see cref="Passed"/> true when the ratio is within 1, null without a ratio.
@@ -69,7 +76,23 @@ public static class ConcreteQuickSection
     /// <summary>The names of the two actions of the sheet.</summary>
     public const string UltimateName = "Sollecitazione SLU", ServiceName = "Metodo n";
 
-    public static ImmutableArray<string> Shapes { get; } = ["Rettangolare", "A T", "Circolare"];
+    /// <summary>The shapes of the RC section that the quick section offers and calculates (18/11/2026: the flanged one is no longer offered).</summary>
+    public const string Rectangular = "Rettangolare", Circular = "Circolare";
+
+    /// <summary>
+    /// The flanged section of the first version (17/11/2026): no longer offered, the sheets saved with it still open and calculate.
+    /// </summary>
+    public const string Tee = "A T";
+
+    /// <summary>The section read from a DXF file: shown and not yet available (the engine has no section from an outline).</summary>
+    public const string Dxf = "DXF";
+
+    /// <summary>The shapes that can be chosen.</summary>
+    public static ImmutableArray<string> Shapes { get; } = [Rectangular, Circular];
+
+    /// <summary>The choices of the shape on screen, in order: rectangular, circular, DXF (not available yet, with its note).</summary>
+    public static ImmutableArray<ConcreteQuickShape> ShapeChoices { get; } =
+        [new(Rectangular, true, ""), new(Circular, true, ""), new(Dxf, false, "Sezione da file DXF: in preparazione")];
     public static ImmutableArray<string> Methods { get; } = ["SLU+", "SLU−", "Metodo n"];
     public static ImmutableArray<string> Bendings { get; } = ["Retta", "Deviata"];
     public static ImmutableArray<string> Charts { get; } = ["Dominio", "Momento–curvatura"];
@@ -382,7 +405,7 @@ public static class ConcreteQuickSection
     public static string? ApplyLayers(JsonObject data)
     {
         var input = data["input"]!.AsObject();
-        if (input.S("shape") == Shapes[2]) { input.Remove("barre_manuali"); return null; }
+        if (input.S("shape") == Circular) { input.Remove("barre_manuali"); return null; }
         try { input["barre_manuali"] = LayerBars(input, Layers(data)); return null; }
         catch (ArgumentException failure) { input["barre_manuali"] = new JsonArray(); return failure.Message; }
     }
@@ -396,7 +419,7 @@ public static class ConcreteQuickSection
             if (value <= 0) throw new ArgumentException(label + ": inserire un numero maggiore di zero.");
             return value;
         }
-        bool tee = input.S("shape") == Shapes[1];
+        bool tee = input.S("shape") == Tee;
         double height = Positive(input.S("height_mm"), "h"), cover = SectionWorkspace.Number(input.S("cover_mm"), "Copriferro c");
         double link = input.S("staffe_presenti", "Sì") == "No" ? 0 : SectionWorkspace.Number(input.S("transverse_bar_diameter_mm"), "Ø staffe");
         double top = tee ? Positive(input.S("flange_width_mm"), "B ala") : Positive(input.S("width_mm"), "b");

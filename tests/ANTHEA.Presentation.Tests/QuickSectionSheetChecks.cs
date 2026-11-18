@@ -223,6 +223,12 @@ internal static class QuickSectionSheetChecks
         sheet.Shape = "Circolare"; await sheet.PendingCalculation;
         expect.That(sheet.GeometryForm.Fields.Any(f => f.Key == "diameter_mm") && sheet.BarsForm.Fields.Any(f => f.Key == "longitudinal_bar_count") && sheet.LayerRows.Count == 0
             && sheet.Data["input"]!["barre_manuali"] is null && sheet.HasResults && sheet.Section?.Shape == "Circolare", "Sezione circolare: anello del motore, senza strati");
+        // The shapes (18/11/2026): rectangular, circular, DXF shown off; the flanged section no longer offered.
+        expect.That(sheet.ShapeChoices.Select(c => c.Name).SequenceEqual(["Rettangolare", "Circolare", "DXF"]) && sheet.ShapeChoices.Select(c => c.Available).SequenceEqual([true, true, false])
+            && sheet.ShapeChoices[2].Note.Length > 0 && sheet.ShapeChoices[2].ToString() == "DXF" && !sheet.Shapes.Contains("A T"), "Forme: Rettangolare, Circolare, DXF spento; niente sezione a T");
+        int beforeShape = modified;
+        sheet.Shape = "DXF"; sheet.Shape = "A T";
+        expect.That(sheet.Shape == "Circolare" && modified == beforeShape, "DXF e sezione a T non si scelgono");
         sheet.Title = "Prova";
         expect.That(ConcreteQuickSection.View(sheet.Data).S("titolo") == "Prova", "Titolo nel documento");
         await sheet.PendingCalculation;
@@ -303,6 +309,18 @@ internal static class QuickSectionSheetChecks
                 "File Excel non valido: il motivo, combinazioni invariate");
             excelSheet.IsReadOnly = true;
             expect.That(!excelSheet.ImportExcelCommand.CanExecute(null) && excelSheet.ExportExcelCommand.CanExecute(null), "Sola lettura: si esporta, non si importa");
+        }
+
+        // A sheet saved with the flanged section (first version, 17/11/2026) opens with its fields and calculates.
+        var tee = ConcreteQuickSection.Create();
+        var teeInput = tee["input"]!.AsObject();
+        teeInput["shape"] = "A T"; teeInput["flange_width_mm"] = "1200"; teeInput["flange_thickness_mm"] = "250"; teeInput["web_width_mm"] = "400"; teeInput["height_mm"] = "800";
+        ConcreteQuickSection.ApplyLayers(tee); Act(tee, "-500", "300");
+        using (var teeSheet = Open(tee))
+        {
+            await teeSheet.PendingCalculation;
+            expect.That(teeSheet.Shape == "A T" && teeSheet.GeometryForm.Fields.Any(f => f.Key == "flange_width_mm") && teeSheet.HasResults && teeSheet.Section?.Bars.Count == 10
+                && teeSheet.Current?.UltimateCheck is not null, "Foglio salvato con la sezione a T: campi e calcolo conservati");
         }
 
         // No report in this version.

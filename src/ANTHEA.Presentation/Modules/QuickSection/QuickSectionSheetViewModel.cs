@@ -146,7 +146,14 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     // ---------------------------------------------------------------- choices
 
+    /// <summary>The shapes that can be chosen: rectangular, circular.</summary>
     public IReadOnlyList<string> Shapes => ConcreteQuickSection.Shapes;
+
+    /// <summary>
+    /// The shapes on screen, in order: rectangular, circular and DXF, the last one shown off with its note (18/11/2026). A sheet saved with the
+    /// flanged section keeps it: no choice is selected and its fields stay.
+    /// </summary>
+    public IReadOnlyList<ConcreteQuickShape> ShapeChoices => ConcreteQuickSection.ShapeChoices;
     /// <summary>The checks on screen: positive moment, negative moment (the SLU), method n.</summary>
     public IReadOnlyList<string> Methods => ConcreteQuickSection.MethodChoices(IsStraight);
     /// <summary>The resistance models on screen: plastic, elastic.</summary>
@@ -166,7 +173,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         }
     }
 
-    public bool IsCircular => Shape == ConcreteQuickSection.Shapes[2];
+    public bool IsCircular => Shape == ConcreteQuickSection.Circular;
 
     /// <summary>The check: «Momento positivo», «Momento negativo» or «Metodo n» (codes SLU+, SLU−, Metodo n in the document).</summary>
     public string Method
@@ -331,12 +338,12 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
             StirrupForm = Form(Input, [T("transverse_bar_diameter_mm", "Ø staffe", "mm", "Diametro delle staffe")], InputEdited);
             FieldSpec BarCount(string key, string tip) => T(key, "n", "", tip);
             FieldSpec BarDiameter(string key, string tip) => T(key, "Ø", "mm", tip);
-            BarsForm = Form(Input, shape == ConcreteQuickSection.Shapes[2]
+            BarsForm = Form(Input, shape == ConcreteQuickSection.Circular
                 ? [BarCount("longitudinal_bar_count", "Barre sull'anello"), BarDiameter("longitudinal_bar_diameter_mm", "Diametro delle barre"),
                     B("second_inner_enabled", "Secondo anello"), BarCount("second_inner_count", "Barre del secondo anello"), BarDiameter("second_inner_diameter", "Diametro del secondo anello"),
                     T("second_inner_gap", "s", "mm", "Distanza libera fra gli anelli")]
                 : [], InputEdited);
-            BarRows = shape == ConcreteQuickSection.Shapes[2]
+            BarRows = shape == ConcreteQuickSection.Circular
                 ? [new("Anello", null, BarsForm["longitudinal_bar_count"], BarsForm["longitudinal_bar_diameter_mm"], null),
                     new("2° anello", BarsForm["second_inner_enabled"], BarsForm["second_inner_count"], BarsForm["second_inner_diameter"], BarsForm["second_inner_gap"])]
                 : [];

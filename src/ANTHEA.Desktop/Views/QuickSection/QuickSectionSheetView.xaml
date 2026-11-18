@@ -65,6 +65,26 @@
    </Setter>
   </Style>
   <!-- Segmented buttons: a list of choices, the selected one in evidence. -->
+  <Style x:Key="SegmentedItem" TargetType="ListBoxItem">
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBoxItem">
+      <Border x:Name="B" Padding="9,2" CornerRadius="5" Background="Transparent">
+       <TextBlock x:Name="T" Text="{Binding}" Foreground="{DynamicResource Token.Muted}"/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsSelected" Value="True">
+        <Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Selection}"/>
+        <Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="T" Property="FontWeight" Value="SemiBold"/>
+       </Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
   <Style x:Key="Segmented" TargetType="ListBox">
    <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/><Setter Property="BorderThickness" Value="1"/>
    <Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="HorizontalAlignment" Value="Left"/>
@@ -78,30 +98,15 @@
     </Setter.Value>
    </Setter>
    <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></Setter.Value></Setter>
-   <Setter Property="ItemContainerStyle">
-    <Setter.Value>
-     <Style TargetType="ListBoxItem">
-      <Setter Property="Cursor" Value="Hand"/>
-      <Setter Property="Template">
-       <Setter.Value>
-        <ControlTemplate TargetType="ListBoxItem">
-         <Border x:Name="B" Padding="9,2" CornerRadius="5" Background="Transparent">
-          <TextBlock x:Name="T" Text="{Binding}" Foreground="{DynamicResource Token.Muted}"/>
-         </Border>
-         <ControlTemplate.Triggers>
-          <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
-          <Trigger Property="IsSelected" Value="True">
-           <Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Selection}"/>
-           <Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="T" Property="FontWeight" Value="SemiBold"/>
-          </Trigger>
-          <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
-         </ControlTemplate.Triggers>
-        </ControlTemplate>
-       </Setter.Value>
-      </Setter>
-     </Style>
-    </Setter.Value>
-   </Setter>
+   <Setter Property="ItemContainerStyle" Value="{StaticResource SegmentedItem}"/>
+  </Style>
+  <!-- The shapes: a choice not available yet (DXF) is shown off, with its note. -->
+  <Style x:Key="ShapeItem" TargetType="ListBoxItem" BasedOn="{StaticResource SegmentedItem}">
+   <Setter Property="IsEnabled" Value="{Binding Available}"/>
+   <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Available}" Value="False"><Setter Property="ToolTip" Value="{Binding Note}"/></DataTrigger>
+   </Style.Triggers>
   </Style>
   <!-- The bar of the utilization: filled up to η (1 = full), green within 1, red beyond. -->
   <Style x:Key="Meter" TargetType="ProgressBar">
@@ -202,7 +207,8 @@
    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
    <TextBlock Text="Titolo" Style="{StaticResource Muted}" Margin="0,0,6,0"/>
    <TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
-   <ListBox Grid.Column="2" Style="{StaticResource Segmented}" ItemsSource="{Binding Shapes}" SelectedItem="{Binding Shape}" IsEnabled="{Binding CanEdit}"
+   <ListBox Grid.Column="2" Style="{StaticResource Segmented}" ItemContainerStyle="{StaticResource ShapeItem}" ItemsSource="{Binding ShapeChoices}"
+    SelectedValuePath="Name" SelectedValue="{Binding Shape}" IsEnabled="{Binding CanEdit}"
     Margin="10,0,0,0" ToolTip="Forma della sezione" AutomationProperties.Name="Forma della sezione"/>
   </Grid>
 
