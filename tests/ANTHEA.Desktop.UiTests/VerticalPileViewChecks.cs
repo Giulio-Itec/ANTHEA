@@ -107,10 +107,12 @@ internal static class VerticalPileViewChecks
         ["geo_palo_verticale--battuto-falda-sondaggi"] = "2DEB1CCAE8D15BCC4F4712872B8FB88AF1187159C282E2EC2CCD6564937B5CA0",
         ["geo_palo_verticale--copertura-insufficiente"] = "5B417E3547B4CC3DE90AAD806B483E281FB1DDD4C0BEFB9BEA5AAF0F3B002C7B",
         ["geo_palo_verticale--elica-coesivo-avvisi"] = "228E9064E7E3827C4579D28490CC04D3CE75ACDB906A57234D9FEA71A28081D6",
-        ["geo_palo_verticale--regressione-palo_storico_0"] = "76CAEA84E52394804FB49536C6CF75E87C74B5DEDA22A0AD5A13B8FF94FE197B",
+        // A1, peso 1,35, MERGE-GIULIO-RIFERIMENTI-20261118 (merge of main 630028b8): the chart of the regression fixture changes.
+        ["geo_palo_verticale--regressione-palo_storico_0"] = "69A9843938307FCF6AEFB234A3C2E26DDDDBB8AD868BB86E524E314A83FE64B1",
         ["geo_micropalo_verticale--igu-copertura-avvisi"] = "AF58E9ACEA64DF1A8ECDE6A0C297605C6BD189C4885D9F08F6EF89284A18ABA0",
         ["geo_micropalo_verticale--irs-punta-inclinato"] = "C68C7FCC72D563007BF311C76ADCBCDB7801E7ED2CFE699D54B00EB84E0C1F05",
-        ["geo_micropalo_verticale--regressione-micropalo_igu_0_nessuna-riduzione"] = "66B9F1B7AFE0E676D37B161DFF90794E85BDF0F464CEE3DD9755719EF5847DFC",
+        // A1, peso 1,35, MERGE-GIULIO-RIFERIMENTI-20261118 (merge of main 630028b8): the chart of the regression fixture changes.
+        ["geo_micropalo_verticale--regressione-micropalo_igu_0_nessuna-riduzione"] = "963B2E7D0CBBAB3A6B43F1884C23FA00981BC81979428E4A985996F3C8DC9D92",
     };
 
     private static int checks;
