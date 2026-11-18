@@ -1,6 +1,6 @@
 # Refactoring di ANTHEA: piano operativo
 
-## Preparazione ANTHEA 1.19.4 (parte 1) - 18 novembre 2026
+## Preparazione ANTHEA 1.19.4 - 18 novembre 2026
 
 Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pubblicata), su decisione dell'utente del 17/11 alle 20:50
 («ok per tutte le voci», [decisioni](decisioni.md), «17 novembre (sera)»). [Note di rilascio provvisorie](note-rilascio-1.19.4.md).
@@ -14,7 +14,12 @@ Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pub
 - [x] Full con le librerie candidate del set AZ (`-GpcLibDir`) e, dopo l'installazione del set ufficiale, full sul commit finale: esito e differenze nel rapporto della candidata.
 - [x] `lib/Checker` dal set ufficiale AZ (`gpc-release-20261118-az`, Model a3406225, Checker 5723a084) e registrazione F4.
 - [x] Vincoli e molle per freedom case di GPC.Model nella copia e nel visore (`MOD-FC-AZ-20261118`); equilibrio valutato anche sulle piastre piane.
-- [ ] OK dell'utente alle differenze delle catture, dei report delle paratie e alle transizioni F3, poi la loro registrazione.
+- [x] OK dell'utente alle differenze della parte 1 («Sì, i consigli», 18/11) e registrazione (parte 2): conferma A2 e tutte le opzioni dei
+  dati assegnati del report delle paratie come «sì» o «no», «mm2» e «mm2/m» come mm² e mm²/m; catture e report delle paratie
+  (`PARATIE-RIFERIMENTI-1194-20261118`); 53 tracce congelate di quattro viste con la virgola della domanda 5
+  (`TRACCE-VISTE-DOMANDA5-20261118`); fixture F3 `stratificato-sabbia-broms` con il confronto con Broms
+  (`F3-PO-BROMS-SABBIA-20261118`); transizioni F3 della Wiki Rev75 (`GUIDE-REV75-20261118`); Presentation.Tests raccoglie
+  tutti i fallimenti e fallisce alla fine.
 - [ ] Edizioni Word e PDF Rev75 delle guide, README delle guide e indice dell'installer alla Rev75, PDF delle note e dei README.
 - [ ] Setup locale e Audit-Installer; prova dell'utente; fetch e merge di origin/main, tag, push e copia sulla condivisione: coordinatore.
 

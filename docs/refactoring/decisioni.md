@@ -1,5 +1,23 @@
 # Refactoring di ANTHEA: decisioni
 
+## 18 novembre — differenze della candidata 1.19.4 e report delle paratie
+
+L'utente il 18/11, riferito dal coordinatore: «Sì, i consigli» per gli undici consigli del rapporto della candidata (parte 1,
+`gpc-f6-claude/INT/rapporti/anthea-1194-parte1-20261118.md`, fuori dal repository) e, verso le 11:00, «Sì ai consigli per tutte e tre»
+per le domande della registrazione:
+
+- **Differenze approvate e registrate:** catture della vista delle paratie e report delle paratie (`PARATIE-RIFERIMENTI-1194-20261118`),
+  tracce congelate di palificata, fondazioni, palo orizzontale e stratigrafia con la virgola della domanda 5
+  (`TRACCE-VISTE-DOMANDA5-20261118`), transizioni F3 della Wiki Rev75 (`GUIDE-REV75-20261118`). Versione 1.19.4.
+- **Report delle paratie:** nei «Dati assegnati» la conferma A2 e ogni altra opzione si scrivono «sì» o «no», non «true» o «false»;
+  «mm2» e «mm2/m» delle librerie hanno i decimali di mm² e mm²/m, cioè nessuno.
+- **Fixture F3 di un palo corto in sabbia con lo Stratificato** (`F3-PO-BROMS-SABBIA-20261118`), perché il confronto con Broms entri nel
+  riferimento.
+- **Presentation.Tests** raccoglie tutti i fallimenti e fallisce alla fine.
+- **Passi a parte, non nella 1.19.4:** la domanda 5 nelle celle delle tabelle (con la protezione della scrittura, insieme alla domanda
+  2); il testo dell'avviso A4 scritto in it-IT o con scarto e quota come valori nella prossima Geotechnics; il freedom case delle
+  combinazioni (quello comune ai termini, quando è uno solo).
+
 ## 17 novembre (sera) — scheda del 16/11 e separatore decimale, per la 1.19.4
 
 L'utente il 17/11 alle 20:50: «ok per tutte le voci» di `gpc-f6-claude/INT/decisioni-aperte-20261117.md` (fuori dal repository), con il

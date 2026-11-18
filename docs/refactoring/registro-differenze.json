@@ -16130,6 +16130,37 @@
         "supporto/artefatti/ci/20261118-103620-1194-p2-ra-a3042f1f",
         "supporto/artefatti/ci/20261118-110139-1194-p2-rb-f23cee0e"
       ]
+    },
+    {
+      "id": "PARATIE-RIFERIMENTI-1194-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / paratie",
+      "titolo": "Catture della vista e report delle paratie della 1.19.4 approvati, opzioni dei dati assegnati come «sì» o «no» e mm2 come mm²",
+      "famiglia": "interfaccia/paratie",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Registrazione delle differenze della candidata 1.19.4 approvate dall'utente (consigli 1 e 4 del riepilogo delle 07:50 del 18/11). Catture di ui/check-paratie-view: 39 su 46 diverse dalla 1.19.3, 32 per il separatore nei binding (voce 12h, d), 6 per i numeri salvati mostrati con la virgola (domanda 5: albero del modello nei tre aspetti e richiudibile, editor dello strato con K0 «0,5» e kh «0,001», quota inferiore «-4,5» dei carichi distribuiti) e 1 per A2 (casi-editor, campo e colonna nuovi); 7 uguali. Report delle paratie di Presentation.Tests: 12 cambiati e 1 nuovo (prima-fase-non-geostatica, A4), per le cifre per unità (12h e), i dati assegnati (domanda 6), mm² e mm⁴ (domanda 7) e A2 (avvertenza sotto le azioni e riga della conferma). Con l'OK, prima della registrazione: la conferma A2 nei «Dati assegnati», della storia principale e di ogni caso, si scrive «sì» o «no» invece del valore JSON «true» o «false» (qualunque valore diverso da true si legge «no», come nell'avvertenza), e così ogni altra opzione dei dati (testa e piede bloccati, suzione trascurata, conferma A1 e M1 dei tiranti); «mm2» e «mm2/m», scritti dalle librerie nelle verifiche delle armature dei pali circolari, hanno i decimali di mm² e mm²/m, cioè nessuno (1570,796 → 1571). Righe dei report delle prove cambiate da queste due correzioni rispetto alle differenze approvate: 119. Nessuna delle due uscite ha un riferimento congelato nel repository: le catture non si confrontano e i report si provano con attesi letterali (Presentation.Tests). Questa voce ne registra lo stato approvato; le figure delle paratie della guida pratica sono ricatturate nell'edizione Word e PDF Rev75.",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/EmbeddedWallReport.cs",
+        "src/ANTHEA.Serialization/UnitNumberFormat.cs"
+      ],
+      "segno": "solo presentazione: risultati, documenti, calcoli e CSV non cambiano.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, i consigli» (riepilogo delle 07:50, consigli 1 e 4; «sì»/«no» per A2 come passo piccolo) e «Sì ai consigli per tutte e tre» (~11:00: «sì»/«no» per tutti i booleani dei dati assegnati, mm2 come mm²)",
+        "esito": "registrato nella candidata 1.19.4 (ramo claude/1194-candidata)"
+      },
+      "test": [
+        "Presentation --paratie (EmbeddedWallDesignHistoryChecks): «sì» con la storia confermata e «no» senza, nella riga «Storia delle fasi già di progetto per le verifiche SLU» dei dati assegnati",
+        "Presentation (UnitNumberFormatChecks): opzioni dei dati assegnati «sì»/«no» senza «true» o «false»; «mm2» e «mm2/m» senza decimali",
+        "ui/check-paratie-view: le catture della corsa finale uguali a quelle approvate (anthea-1194-differenze, dopo-1194)"
+      ],
+      "evidenze": [
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/LEGGIMI.md",
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/catture-paratie/riepilogo.md",
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/report-paratie/riepilogo.md",
+        "supporto/artefatti/ci/20261118-111952-1194-p2-rc-3dd69aad"
+      ]
     }
   ]
 }
