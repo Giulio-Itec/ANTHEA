@@ -18,6 +18,11 @@ geo_palo_orizzontale--stratificato-misto-manuale sondaggio 1 terreno 1280x820 ·
 geo_palo_orizzontale--stratificato-misto-manuale sondaggio 1 palo 1000x660 · primitivi 1667 EC2209D88289516E
 geo_palo_orizzontale--stratificato-misto-manuale sondaggio 1 palo 1280x820 · primitivi 1694 6CDC82D6A56A37E5
 geo_palo_orizzontale--stratificato-misto-manuale profilo 1 420x640 · primitivi 156 1C34FAF9655566CB
+geo_palo_orizzontale--stratificato-sabbia-broms sondaggio 1 terreno 1000x660 · primitivi 842 2ABE3694DBB0B482
+geo_palo_orizzontale--stratificato-sabbia-broms sondaggio 1 terreno 1280x820 · primitivi 842 2513EF3494E80F8E
+geo_palo_orizzontale--stratificato-sabbia-broms sondaggio 1 palo 1000x660 · primitivi 545 BAE6DA9C3FA8513D
+geo_palo_orizzontale--stratificato-sabbia-broms sondaggio 1 palo 1280x820 · primitivi 572 A52BA3794C88FFB3
+geo_palo_orizzontale--stratificato-sabbia-broms profilo 1 420x640 · primitivi 96 56430A2DAF5A72AB
 geo_micropalo_orizzontale--chs-manuale-impedita sondaggio 1 terreno 1000x660 · primitivi 1652 E103484FA55BBD9E
 geo_micropalo_orizzontale--chs-manuale-impedita sondaggio 1 terreno 1280x820 · primitivi 1652 52BF64D914D2B30B
 geo_micropalo_orizzontale--chs-manuale-impedita sondaggio 1 palo 1000x660 · primitivi 1006 CBA3AA67B6EE8C56

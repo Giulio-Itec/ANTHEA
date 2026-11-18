@@ -54,7 +54,8 @@ internal static partial class HorizontalPileViewChecks
         var services = new Services();
         var editors = Editors(services);
         var fixtures = Fixtures(root);
-        Check(fixtures.Length == 21, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
+        // 1.19.4: 22 with stratificato-sabbia-broms (comparison with Broms, approved 18/11/2026).
+        Check(fixtures.Length == 22, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
         foreach (var (module, id) in fixtures)
         {
             string name = module + "--" + id;

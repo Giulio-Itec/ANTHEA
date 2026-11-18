@@ -82,11 +82,12 @@ internal static class HorizontalPileSheetChecks
             }
             CustomSteel(root, expect);
             var fixtures = new[] { Pile, Micro }.SelectMany(m => HorizontalPileScenarios.Fixtures(root, m).Select(id => (Module: m, Id: id))).ToArray();
-            expect.That(fixtures.Length == 21, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
+            // 1.19.4: 22 with stratificato-sabbia-broms (comparison with Broms, approved 18/11/2026).
+            expect.That(fixtures.Length == 22, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
             string capture = Path.Combine(output, "palo-orizzontale-f3");
             foreach (var (module, id) in fixtures) await F3Async(root, module, id, capture, expect);
             CompareF3(root, capture, fixtures, expect);
-            foreach (var (module, id) in fixtures) await DiagramsAsync(root, module, id, expect);
+            foreach (var (module, id) in fixtures) await DiagramsAsync(root, module, id, Path.Combine(output, "palo-orizzontale-diagrammi"), expect);
             Contract(expect);
             Derivations(expect);
             await CurrentRevisionAsync(root, expect);
@@ -460,8 +461,9 @@ internal static class HorizontalPileSheetChecks
 
     // ---------------------------------------------------------------- diagrams
 
-    /// <summary>The diagrams of every survey of the result after «Calcola» equal those that the historic view draws, frozen by the ui stage.</summary>
-    private static async Task DiagramsAsync(string root, string module, string id, Expect expect)
+    /// <summary>The diagrams of every survey of the result after «Calcola» equal those that the historic view draws, frozen by the ui stage.
+    /// The diagrams of the ViewModel are written in <paramref name="written"/> (1.19.4: to read a difference, or the file of a new fixture).</summary>
+    private static async Task DiagramsAsync(string root, string module, string id, string written, Expect expect)
     {
         var data = HorizontalPileScenarios.FixtureData(root, module, id);
         string file = Path.Combine(HorizontalPileScenarios.Diagrams(root), module + "--" + id + ".json");
@@ -471,6 +473,7 @@ internal static class HorizontalPileSheetChecks
         if (sheet.Result is null) { expect.That(!File.Exists(file), "Diagrammi congelati senza risultato: " + id); return; }
         var actual = HorizontalPileTrace.Diagrams(Enumerable.Range(0, sheet.Result.Array("sondaggi").Count)
             .SelectMany(i => new[] { true, false }.Select(soil => sheet.Diagram(i, soil))));
+        Directory.CreateDirectory(written); File.WriteAllText(Path.Combine(written, module + "--" + id + ".json"), actual, new UTF8Encoding(false));
         expect.That(File.Exists(file) && File.ReadAllText(file).Replace("\r\n", "\n") == actual.Replace("\r\n", "\n"),
             "Diagrammi del ViewModel diversi da quelli della vista storica: " + module + "--" + id);
     }

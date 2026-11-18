@@ -33,9 +33,9 @@ dalla revisione in sola lettura) non fa nulla. Il servizio di calcolo della capa
 nelle tracce: resta la sua parte che agisce sui dati e su `Modified` anche dalla scheda della capacità (preparazione
 all'apertura, `elastico.stratigrafia` quando cambia il numero delle stratigrafie, un secondo `Modified` per ogni modifica).
 
-Gli scenari sono 27:
-- `palo-<id>` e `micropalo-<id>`, uno per ognuna delle 21 fixture F3 dei due moduli (16 di F5.7, più le 5 aggiunte in F5.8 sulla
-  risposta elastica, `elastico-*`): apertura, conferma, la visita delle due
+Gli scenari sono 28 (27 fino alla 1.19.3):
+- `palo-<id>` e `micropalo-<id>`, uno per ognuna delle 22 fixture F3 dei due moduli (16 di F5.7, più le 5 aggiunte in F5.8 sulla
+  risposta elastica, `elastico-*`, e `stratificato-sabbia-broms` della 1.19.4): apertura, conferma, la visita delle due
   schede delle analisi come `ui/f3-equivalence` (andata e ritorno; una fixture aperta sulla risposta elastica torna alla
   capacità), attesa, calcolo, conferma, riapertura, conferma, attesa del ricalcolo automatico;
 - `modifiche-palo`: campi, scelte e opzioni dei sette form (testa impedita con e senza eccentricità, falda, metodo, verticali,
@@ -124,3 +124,7 @@ li confronta a ogni corsa.
   (`ui/check-palo-orizzontale-view`, corsa `supporto/artefatti/1143-teste/orizzontale-1`); ogni altra riga resta quella di prima,
   comprese le 20 di F5-02. Dati, risultati, diagrammi e disegni non cambiano.
 - 18/11/2026, voce TRACCE-VISTE-DOMANDA5-20261118 (ANTHEA 1.19.4, domanda 5 della voce 12h, con l'OK dell'utente): un numero salvato come numero JSON si mostra nel campo con la virgola. In 24 tracce sono sostituite solo le 414 righe che differiscono per il separatore decimale, prese dalla vista XAML (full `20261118-051529-1194-full-az-a3042f1f`); ogni altra riga resta, comprese le 20 di F5-02. Il ViewModel scrive ora nella traccia il testo che il campo mostra (`EditText`), come la vista.
+- 18/11/2026, voce F3-PO-BROMS-SABBIA-20261118 (ANTHEA 1.19.4): scenario nuovo `palo-stratificato-sabbia-broms` per la fixture F3
+  nuova. La traccia viene dalla vista XAML (`ui/check-palo-orizzontale-view`, corsa `20261118-103620-1194-p2-ra-a3042f1f`) ed è uguale a quella
+  del ViewModel; `diagrammi/geo_palo_orizzontale--stratificato-sabbia-broms.json` dal ViewModel e le 5 righe della fixture in
+  `disegni/elenco.txt` dalla vista XAML (corsa `20261118-110139-1194-p2-rb-f23cee0e`). Le altre tracce, i diagrammi e le righe dei disegni non cambiano.

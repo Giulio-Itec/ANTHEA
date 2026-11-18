@@ -16100,6 +16100,36 @@
         "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/tracce-viste/riepilogo.md",
         "supporto/artefatti/ci/20261118-051529-1194-full-az-a3042f1f"
       ]
+    },
+    {
+      "id": "F3-PO-BROMS-SABBIA-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / palo orizzontale",
+      "titolo": "Fixture F3 stratificato-sabbia-broms: il confronto con Broms dello Stratificato entra nel riferimento",
+      "famiglia": "riferimenti/f3",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Consiglio 7 del riepilogo delle 07:50 del 18/11, approvato. Le due fixture F3 dello Stratificato (F5.7) hanno verticali miste, dove PO-BROMS-01 non aggiunge il confronto con Broms: il riferimento non lo conteneva. La fixture nuova geo_palo_orizzontale--stratificato-sabbia-broms è il foglio d'esempio della build di prova della 1.19.4: palo corto in sabbia, D 0,6 m, L 4 m, testa libera con eccentricità 1 m, una stratigrafia granulare di 30 m (φ′ 30°, γ 18 kN/m³), senza falda, momento manuale molto grande, una verticale, efficienza manuale 1. Input da fixtures-f3 (F3Fixtures.HorizontalPileBroms1194), uguale ai dati del foglio; attesi F3 (9 file) dalla prima cattura della vista XAML (20261118-103620-1194-p2-ra-a3042f1f), uguali byte per byte nella seconda (20261118-110139-1194-p2-rb-f23cee0e); esito.txt 119 → 120 fixture. Con la fixture: scenario nuovo palo-stratificato-sabbia-broms delle tracce del palo orizzontale (28 scenari), diagrammi e righe dei disegni; 22 fixture dei pali orizzontali nelle prove del ViewModel e della vista.",
+      "codice": [
+        "tests/ANTHEA.Testing/Capture/F3Fixtures.cs",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/HorizontalPileViewChecks.Checks.cs"
+      ],
+      "segno": "riferimento nuovo: nessun atteso, transizione o tolleranza esistente cambia.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, i consigli» (riepilogo delle 07:50, consiglio 7: aggiungere una fixture di un palo corto in sabbia)",
+        "esito": "fixture aggiunta (manifest fixture_aggiunte_1194); Hu 153,234 kN, Hu di Broms 207,36 kN e rapporto 0,738976 come gli attesi in forma chiusa di PO-BROMS-01"
+      },
+      "test": [
+        "ui/f3-equivalence e ui/f3-report-chapters con 120 fixture",
+        "Presentation.Tests (riferimento F3, traccia e diagrammi della fixture dal ViewModel)",
+        "ui/check-palo-orizzontale-view (traccia e disegni dalla vista XAML)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261118-103620-1194-p2-ra-a3042f1f",
+        "supporto/artefatti/ci/20261118-110139-1194-p2-rb-f23cee0e"
+      ]
     }
   ]
 }

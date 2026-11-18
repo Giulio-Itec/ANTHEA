@@ -2082,5 +2082,40 @@
     "record": "GUIDE-REV74-20261117",
     "decision": "Utente, 17/11/2026 16:33: «Sì, approvo» (OK alle transizioni F3 delle due pagine Wiki della Rev74, candidata ANTHEA 1.19.3).",
     "note": "Guides Rev74 (ANTHEA 1.19.3): the 248 not-admitted differences of the capture are all in the files of the Wiki pages modelli-importazione-midas and architettura-del-calcolo-e-convenzioni (.md and .txt); the search index is unchanged. 127 exact editorial transitions added (riga-aggiunta 125, testo 2) and 121 earlier transitions of the same pages superseded. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
+  },
+  "fixture_aggiunte_1194": {
+    "record": "F3-PO-BROMS-SABBIA-20261118 (ANTHEA 1.19.4, PO-BROMS-01)",
+    "date": "2026-11-18",
+    "source_commit": "f23cee0e84094ac18a0ce4378b9df18251f05985",
+    "reason": "Una fixture del palo orizzontale aggiunta con l'OK dell'utente del 18/11/2026 («Sì, i consigli», consiglio 7): un palo corto in sabbia con il metodo stratificato (D 0,6 m, L 4 m, testa libera con eccentricità 1 m, una stratigrafia granulare di 30 m con φ′ 30° e γ 18 kN/m³, senza falda, momento manuale molto grande), il foglio dell'esempio della build di prova della 1.19.4. È la sola fixture F3 dove compare il confronto con Broms dello Stratificato (PO-BROMS-01): le due fixture stratificate di F5.7 hanno verticali miste. Catturata con la vista XAML attuale: la vista storica è archiviata dal 23/10/2026. Gli attesi delle 119 fixture esistenti e le transizioni non cambiano.",
+    "generator": "tests/ANTHEA.Testing/Capture/F3Fixtures.cs (HorizontalPileBroms1194), comando fixtures-f3: solo input, mai attesi",
+    "captures": [
+      "20261118-103620-1194-p2-ra-a3042f1f",
+      "20261118-110139-1194-p2-rb-f23cee0e"
+    ],
+    "comparison": "La prima cattura, senza attesi per la fixture nuova, differisce dal riferimento solo per i file aggiunti, il numero di esito.txt e le differenze editoriali della Rev75; la seconda, con gli attesi copiati dalla prima, dà gli stessi file byte per byte e nessuna differenza fuori dalla Wiki.",
+    "inputs": 1,
+    "expected_files": 9,
+    "hash": "SHA-256 della forma conservata da git (fine riga LF)",
+    "files": {
+      "inputs/geo_palo_orizzontale--stratificato-sabbia-broms.json": "62e8f595264377beed2487069ae1f6a9b489c7f30bd0a484d85d0155cd475e91",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/calculated-data.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/exported-data.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/opened.json": "c773c46eac0a84b6dc9a0eadd6f6cdb81a343f4715f5d29a2c604c0065f90235",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/reopened.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report-structure.json": "98ea299f094729b0ecf0d14dd685968d027031c429bb0d5709081364976f5870",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report.txt": "588771584f693620d6827d2a2098e8a3940c7a9945709a7e7f53a7aa19ff0902",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/result.json": "1b33e9d0007282e3b512440f73e2fa4b15a6dd032a307e437515b7d938de1b47",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/visited.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79"
+    },
+    "updated": [
+      {
+        "file": "expected/esito.txt",
+        "before_sha256": "d328fef09410a435f7926ffe43800b55e77a6982ca2f039051bb4ded94d39452",
+        "after_sha256": "e94d35bd815cbb10bc8d309db6f1cd8e97fc4cbe178646b545a743729a376f7f",
+        "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 119 -> 120; il numero degli articoli e delle ricerche non cambia."
+      }
+    ]
   }
 }
