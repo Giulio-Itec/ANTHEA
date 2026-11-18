@@ -1,14 +1,14 @@
 # ANTHEA 1.19.4 - note di rilascio
 
-Note provvisorie del 18 novembre 2026, preparate con la candidata (parte 1) per la distribuzione dopo l'approvazione dell'utente. Descrivono
-solo le differenze dalla 1.19.3. Le librerie sono quelle candidate del set AZ: i numeri definitivi arrivano con il set ufficiale AZ e la
-parte 2 (vincoli e molle per freedom case di GPC.Model).
+Note provvisorie del 18 novembre 2026, preparate con la candidata per la distribuzione dopo l'approvazione dell'utente. Descrivono solo
+le differenze dalla 1.19.3. Le librerie sono quelle del set ufficiale AZ.
 
 La 1.19.4 porta le decisioni del 17/11 sulla scheda del 16/11 e sul separatore decimale. Comprende:
 - le paratie con la conferma della storia di progetto per le verifiche SLU, la fase nuova che riprende quote e falda, l'avviso della prima
   fase non geostatica e il passo delle barre della faccia tesa nella fessurazione delle fasce;
 - il palo orizzontale con la Hu di Broms accanto a quella dello Stratificato;
 - il separatore decimale scelto in tutte le viste e il report delle paratie con i decimali per unità;
+- i modelli Straus7 con più freedom case con i vincoli e le molle del freedom case del caso scelto e l'equilibrio valutato in tutti i casi;
 - le librerie GPC del set AZ;
 - le guide Rev75.
 
@@ -46,14 +46,26 @@ versioni future del documento. Non ci sono comandi nuovi né un formato nuovo de
   cambiare il dato.
 - Restano come prima le caselle numeriche del visore dei modelli e i disegni e i report che scrivono sempre la virgola: sono passi a parte.
 
+## Modelli Straus7 con più freedom case
+
+- **Vincoli e molle.** Entrano nella copia con il loro freedom case. Il visore disegna quelli del freedom case del caso scelto, insieme a
+  quelli senza freedom case; la tabella delle assegnazioni scrive il freedom case accanto ai gradi di libertà. Prima la copia non mostrava
+  i vincoli di questi modelli.
+- **Equilibrio.** Il controllo di GPC valuta anche le pressioni sui quadrilateri piani: sul modello di prova con due freedom case 15 casi
+  su 15 in equilibrio, prima 5 valutati e 10 «non valutato».
+- L'avviso `Straus7FreedomCasesPreserved` non compare più: al suo posto l'informazione `Straus7FreedomCaseSupports`.
+- Le copie di questi modelli hanno un'impronta nuova; quelle con un solo freedom case non cambiano.
+
 ## Librerie
 
-Snapshot candidato del set AZ, al posto del set ufficiale AY della 1.19.3:
-- GPCChecker.Concrete 0.39: R16 della torsione nel profilo danese con la variante (b2) e il limite ν ≥ 2/√fck, fori eccentrici rifiutati e
+Set ufficiale AZ (`gpc-release-20261118-az`), al posto del set ufficiale AY della 1.19.3:
+- GPCModel 5.53, GPC.Converter 2.27 e GPC.Model.Persistence 3.17: vincoli, molle e casi di carico per freedom case, equilibrio delle
+  piastre piane;
+- GPCChecker.Concrete 0.39.0.1: R16 della torsione nel profilo danese con la variante (b2) e il limite ν ≥ 2/√fck, fori eccentrici rifiutati e
   foro ad anello; nessun effetto su ANTHEA, che fa la torsione con NTC e usa fori concentrici;
-- GPCChecker.Geotechnics 0.30: Hu di Broms accanto allo Stratificato e avviso della prima fase non geostatica;
-- GPC.Design 0.47: passo della faccia tesa nelle fasce;
-- GPCChecker.Steel 2.136: basi di colonna e giunti tubolari facoltativi e V1 ratificato, che ANTHEA non usa;
+- GPCChecker.Geotechnics 0.30.0.1: Hu di Broms accanto allo Stratificato e avviso della prima fase non geostatica;
+- GPC.Design 0.47.0.1: passo della faccia tesa nelle fasce;
+- GPCChecker.Steel 2.136.0.1: basi di colonna e giunti tubolari facoltativi e V1 ratificato, che ANTHEA non usa;
 - le altre DLL ricompilate.
 
 L'impronta dei documenti delle paratie contiene le versioni delle librerie: con il set nuovo i risultati salvati risultano superati, come
@@ -62,4 +74,5 @@ a ogni set, e vanno ricalcolati.
 ## Guide
 
 Guide globali Rev75, in Markdown e nella Wiki: paratie (A2, A3, A4, S3 e cifre del report), palo orizzontale (Broms accanto allo
-Stratificato), separatore decimale e torsione del profilo danese. Le edizioni Word e PDF seguono.
+Stratificato), separatore decimale, torsione del profilo danese e vincoli dei modelli con più freedom case. Le edizioni Word e PDF
+seguono.
