@@ -18,7 +18,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -110,7 +110,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -212,7 +212,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -314,7 +314,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -416,7 +416,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -518,7 +518,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -620,7 +620,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -722,7 +722,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -824,7 +824,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -926,7 +926,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1028,7 +1028,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1130,7 +1130,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1232,7 +1232,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1334,7 +1334,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1436,7 +1436,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1538,7 +1538,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1640,7 +1640,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1742,7 +1742,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1844,7 +1844,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1946,7 +1946,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2048,7 +2048,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2150,7 +2150,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2252,7 +2252,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2354,7 +2354,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"

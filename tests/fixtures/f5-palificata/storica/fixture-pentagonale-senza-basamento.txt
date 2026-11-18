@@ -49,9 +49,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -
@@ -106,9 +106,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -
@@ -163,9 +163,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -
@@ -220,9 +220,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -
@@ -277,9 +277,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -
@@ -334,9 +334,9 @@ disposizione "Pentagonale" · nota "L’anello k ha k volte le suddivisioni del 
   campo sx_d "Passo lungo il lato S / D" = "3"
   opzione centro "Palo al centro" = no
   campo rotazione "Rotazione palificata [° da +X]" = "0"
-diametro "1.2"
+diametro "1,2"
 direzioni X=sì Y=sì X-=no Y-=no custom=no · angolo "45" spento
-basamento "Contorno palificata" · asse-bordo "0.4"
+basamento "Contorno palificata" · asse-bordo "0,4"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 4/"Y"/90 · basamento -

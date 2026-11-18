@@ -123,3 +123,4 @@ li confronta a ogni corsa.
   `campo profondita_testa "Profondità della testa sotto il piano campagna" = "0"` (445), prese dalla vista XAML
   (`ui/check-palo-orizzontale-view`, corsa `supporto/artefatti/1143-teste/orizzontale-1`); ogni altra riga resta quella di prima,
   comprese le 20 di F5-02. Dati, risultati, diagrammi e disegni non cambiano.
+- 18/11/2026, voce TRACCE-VISTE-DOMANDA5-20261118 (ANTHEA 1.19.4, domanda 5 della voce 12h, con l'OK dell'utente): un numero salvato come numero JSON si mostra nel campo con la virgola. In 24 tracce sono sostituite solo le 414 righe che differiscono per il separatore decimale, prese dalla vista XAML (full `20261118-051529-1194-full-az-a3042f1f`); ogni altra riga resta, comprese le 20 di F5-02. Il ViewModel scrive ora nella traccia il testo che il campo mostra (`EditText`), come la vista.

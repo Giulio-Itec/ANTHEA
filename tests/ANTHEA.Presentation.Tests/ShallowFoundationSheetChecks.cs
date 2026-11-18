@@ -247,7 +247,7 @@ internal static class ShallowFoundationSheetChecks
                     var f = s.Field(key);
                     trace.Fields.Add(f.Kind switch
                     {
-                        FieldKind.Text => new ShallowFoundationFieldState(key, "campo", f.Label, f.Unit, f.Text, null, f.IsVisible),
+                        FieldKind.Text => new ShallowFoundationFieldState(key, "campo", f.Label, f.Unit, f.EditText, null, f.IsVisible),
                         FieldKind.Choice => new ShallowFoundationFieldState(key, "scelta", f.Label, f.Unit, f.SelectedChoice ?? "", f.Choices, f.IsVisible),
                         _ => new ShallowFoundationFieldState(key, "opzione", f.Label, f.Unit, PileGroupTrace.YesNo(f.IsChecked), null, f.IsVisible),
                     });

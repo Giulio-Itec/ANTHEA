@@ -241,7 +241,7 @@ internal static class StratigraphySheetChecks
 
         private static List<StratigraphyControl> Controls(FormViewModel form, string prefix) => form.Fields.Select(field => field.Kind == FieldKind.Choice
             ? new StratigraphyControl("scelta", prefix + field.Key, field.Label, field.SelectedChoice ?? "-", field.CanChange && field.IsEnabled, field.Choices)
-            : new StratigraphyControl("testo", prefix + field.Key, field.Label, field.Text, !field.IsInputReadOnly && field.IsEnabled)).ToList();
+            : new StratigraphyControl("testo", prefix + field.Key, field.Label, field.EditText, !field.IsInputReadOnly && field.IsEnabled)).ToList();
 
         // ------------------------------------------------ messages and questions
 

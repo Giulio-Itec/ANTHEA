@@ -197,10 +197,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico" · spento
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45" · spento
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5" · spento
+  testo thickness "Spessore [m]" "1,5" · spento
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì" · spento
   testo gamma "Peso naturale γ [kN/m³]" "14" · spento
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5" · spento
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5" · spento
   testo phi "Angolo di resistenza efficace φ′ [°]" "22" · spento
   testo c "Coesione efficace c′ [kPa]" "5" · spento
   testo cu "Resistenza non drenata cu [kPa]" "25" · spento
@@ -241,10 +241,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico" · spento
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45" · spento
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5" · spento
+  testo thickness "Spessore [m]" "1,5" · spento
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì" · spento
   testo gamma "Peso naturale γ [kN/m³]" "14" · spento
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5" · spento
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5" · spento
   testo phi "Angolo di resistenza efficace φ′ [°]" "22" · spento
   testo c "Coesione efficace c′ [kPa]" "5" · spento
   testo cu "Resistenza non drenata cu [kPa]" "25" · spento
@@ -285,10 +285,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico" · spento
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45" · spento
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5" · spento
+  testo thickness "Spessore [m]" "1,5" · spento
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì" · spento
   testo gamma "Peso naturale γ [kN/m³]" "14" · spento
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5" · spento
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5" · spento
   testo phi "Angolo di resistenza efficace φ′ [°]" "22" · spento
   testo c "Coesione efficace c′ [kPa]" "5" · spento
   testo cu "Resistenza non drenata cu [kPa]" "25" · spento
@@ -329,10 +329,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico" · spento
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45" · spento
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5" · spento
+  testo thickness "Spessore [m]" "1,5" · spento
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì" · spento
   testo gamma "Peso naturale γ [kN/m³]" "14" · spento
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5" · spento
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5" · spento
   testo phi "Angolo di resistenza efficace φ′ [°]" "22" · spento
   testo c "Coesione efficace c′ [kPa]" "5" · spento
   testo cu "Resistenza non drenata cu [kPa]" "25" · spento
@@ -373,10 +373,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico" · spento
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45" · spento
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5" · spento
+  testo thickness "Spessore [m]" "1,5" · spento
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì" · spento
   testo gamma "Peso naturale γ [kN/m³]" "14" · spento
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5" · spento
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5" · spento
   testo phi "Angolo di resistenza efficace φ′ [°]" "22" · spento
   testo c "Coesione efficace c′ [kPa]" "5" · spento
   testo cu "Resistenza non drenata cu [kPa]" "25" · spento

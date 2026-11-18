@@ -18,7 +18,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -48,7 +48,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -101,7 +101,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -131,7 +131,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -194,7 +194,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -224,7 +224,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -287,7 +287,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -317,7 +317,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -380,7 +380,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -410,7 +410,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -463,7 +463,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -493,7 +493,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -546,7 +546,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -576,7 +576,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -629,7 +629,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -659,7 +659,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -712,7 +712,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -742,7 +742,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -805,7 +805,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -835,7 +835,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"
@@ -888,7 +888,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -918,7 +918,7 @@ form sezione
   campo spessore_chs_mm "Spessore manuale" = "8" · spento · attenuato
   campo fy_chs_mpa "Snervamento acciaio" = "355"
   campo modulo_chs_mpa "Modulo elastico acciaio" = "210000"
-  campo gamma_acciaio "Peso unitario acciaio adottato" = "78.5"
+  campo gamma_acciaio "Peso unitario acciaio adottato" = "78,5"
   campo gamma_iniezione "Peso unitario iniezione (0 = esclusa)" = "0"
   campo gamma_m0 "Sicurezza resistenza" = "1.05"
   campo __fyd "Resistenza di progetto" = "338,1"

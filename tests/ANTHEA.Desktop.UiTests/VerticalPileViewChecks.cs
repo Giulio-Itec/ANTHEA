@@ -442,7 +442,7 @@ internal static class VerticalPileViewChecks
             string label = editor is null ? f.Label : AutomationProperties.GetName(editor);
             return f.Kind switch
             {
-                FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", label, editor is TextBox t ? t.Text : f.Text, null, enabled, dimmed, visible),
+                FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", label, editor is TextBox t ? t.Text : f.EditText, null, enabled, dimmed, visible),
                 FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", label, editor is ComboBox c ? c.SelectedItem as string ?? "" : f.SelectedChoice ?? "",
                     editor is ComboBox items ? ((IEnumerable)items.ItemsSource).Cast<string>().ToArray() : f.Choices, enabled, dimmed, visible),
                 _ => new VerticalPileFieldState(f.Key, "opzione", label, VerticalPileTrace.YesNo(editor is CheckBox b ? b.IsChecked == true : f.IsChecked), null, enabled, dimmed, visible),

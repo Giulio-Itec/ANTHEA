@@ -25,7 +25,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -63,7 +63,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -130,7 +130,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -168,7 +168,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -206,7 +206,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -244,7 +244,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -282,7 +282,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -321,7 +321,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -360,7 +360,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -398,7 +398,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -436,7 +436,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -474,7 +474,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -512,7 +512,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -549,7 +549,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -587,7 +587,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -625,7 +625,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -663,7 +663,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -701,7 +701,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -768,7 +768,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -835,7 +835,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"
@@ -873,7 +873,7 @@ campi
   campo RelativeDensity "Densità relativa Dr [0–1]" = "0,35"
   opzione IncludeDepthFactors "Includi fattori di profondità" = "sì"
   opzione RoughBase "Base ruvida · EC7: δ ≥ φ′/2" = "sì" · nascosto
-  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9.81"
+  campo WaterUnitWeight "Peso specifico acqua [kN/m³]" = "9,81"
   scelta classe_cls "Calcestruzzo" = "C25/30" voci "C20/25|C25/30|C28/35|C30/37|C32/40|C35/45|C40/50|C45/55|C50/60|C55/67|C60/75|C70/85|C80/90|C90/105|Personalizzato"
   campo fck_mpa "Resistenza fck" [MPa] = "25"
   scelta cls_diagramma "Diagramma" = "Parabola-rettangolo" voci "Parabola-rettangolo|Bilineare|Stress block|Non lineare"

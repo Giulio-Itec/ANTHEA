@@ -43,3 +43,4 @@ Gli scenari sono 11:
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - `ui/check-pile-group-view`, nello stadio `ui`, le confronta attraverso i controlli della vista XAML.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 18/11/2026, voce TRACCE-VISTE-DOMANDA5-20261118 (ANTHEA 1.19.4, domanda 5 della voce 12h, con l'OK dell'utente): un numero salvato come numero JSON si mostra nel campo con la virgola. In 6 tracce sono sostituite solo le 123 righe che differiscono per il separatore decimale, prese dalla vista XAML (full `20261118-051529-1194-full-az-a3042f1f`); ogni altra riga resta. Il ViewModel scrive ora nella traccia il testo che il campo mostra (`EditText`), come la vista.

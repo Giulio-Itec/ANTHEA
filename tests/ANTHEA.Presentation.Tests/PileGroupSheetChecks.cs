@@ -162,18 +162,18 @@ internal static class PileGroupSheetChecks
                 Piles = s.Piles.Select(p => new[] { p.Id, p.X, p.Y }).ToList(),
                 CoordinatesEditable = s.CanEditCoordinates, CanAddPiles = s.CanEditCoordinates, CoordinateHelp = s.CoordinateHelp,
                 Layout = s.SelectedLayout, GeneratorNote = s.GeneratorNote,
-                Diameter = s.DiameterForm["diametro"].Text,
+                Diameter = s.DiameterForm["diametro"].EditText,
                 Directions = new[] { "X", "Y", "X-", "Y-", "custom" }.Select(k => PileGroupTrace.DirectionLine(k, s.Field(k).IsChecked)).ToList(),
-                CustomAngle = s.CustomDirectionForm["angolo_custom"].Text, CustomAngleEnabled = s.CustomDirectionForm["angolo_custom"].IsEnabled,
-                CapShape = s.SelectedCapShape, CapEdge = s.CapForm["bordo_d"].Text,
+                CustomAngle = s.CustomDirectionForm["angolo_custom"].EditText, CustomAngleEnabled = s.CustomDirectionForm["angolo_custom"].IsEnabled,
+                CapShape = s.SelectedCapShape, CapEdge = s.CapForm["bordo_d"].EditText,
                 Extrapolations = s.ExtrapolationsForm["estrapolazioni"].IsChecked, ProjectedRows = s.ProjectedRowsForm["file_proiettate"].IsChecked,
                 SpacingDirection = s.SpacingDirection, SpacingIndex = s.SpacingDirectionIndex,
-                ParallelSpacing = s.SpacingForm["interasse_parallelo"].Text, TransverseSpacing = s.SpacingForm["interasse_trasversale"].Text,
+                ParallelSpacing = s.SpacingForm["interasse_parallelo"].EditText, TransverseSpacing = s.SpacingForm["interasse_trasversale"].EditText,
                 PlanShown = s.Plan is not null, PlanSelected = s.Plan?.Selected, PlanCap = s.Plan?.Cap,
             };
             foreach (var field in (s.GeneratorForm?.Fields ?? []).Concat(s.RotationForm?.Fields ?? []))
                 trace.Generator.Add(field.Kind == FieldKind.Bool ? PileGroupTrace.OptionLine(field.Key, field.Label, field.IsChecked)
-                    : PileGroupTrace.FieldLine(field.Key, field.Label, field.Text, field.IsEnabled));
+                    : PileGroupTrace.FieldLine(field.Key, field.Label, field.EditText, field.IsEnabled));
             return trace;
         }
     }

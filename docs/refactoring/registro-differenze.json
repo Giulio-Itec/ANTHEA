@@ -16066,6 +16066,40 @@
         "ModelWorkspace.Checks (FreedomCaseSupportsChecks): modello sintetico Straus7 con due freedom case scritti come il convertitore 2.27: vincoli e molle con il loro freedom case, collegamenti e rilasci senza; casi con il freedom case; regola del visore; andata e ritorno della copia; copia senza freedom case senza il campo nel JSON"
       ],
       "evidenze": []
+    },
+    {
+      "id": "TRACCE-VISTE-DOMANDA5-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / interfaccia e numeri",
+      "titolo": "Tracce congelate di palificata, fondazioni, palo orizzontale e stratigrafia con la virgola dei numeri salvati (domanda 5)",
+      "famiglia": "interfaccia/numeri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di NUMERI-SEPARATORE-20261116, domanda 5: un numero salvato come numero JSON si mostra nel campo con la virgola quando la virgola è il separatore dell'applicazione. Le tracce congelate delle quattro viste (cartelle storica di tests/fixtures/f5-palificata, f5-fondazioni, f5-palo-orizzontale e f5-stratigrafia) registravano quei numeri con il punto: 53 scenari cambiavano, solo per quel carattere (palificata 6, fondazioni 15, palo orizzontale 24, stratigrafia 8; «2.6» → «2,6», «0.5» → «0,5», «9.81» → «9,81», «112.4» → «112,4»), e la riesecuzione con la domanda 5 spenta dava le quattro suite per intero (corsa 20261118-032036-1194-r2-senza-domanda5-33f8c6f3). Con l'OK dell'utente le tracce sono rigenerate dalla vista XAML (full 20261118-051529-1194-full-az-a3042f1f) solo nelle righe che differiscono per il separatore: 1121 righe in 53 file; ogni altra riga resta, comprese le 20 righe F5-02 del palo orizzontale. Il lato ViewModel delle tracce (Presentation.Tests) scriveva il testo grezzo del campo (FieldViewModel.Text) e il lato XAML quello della casella (EditText): prima della domanda 5 erano uguali. Ora i due lati leggono il testo che il campo mostra (EditText), anche per le righe senza casella disposta della vista del palo orizzontale e del palo verticale.",
+      "codice": [
+        "tests/ANTHEA.Presentation.Tests/PileGroupSheetChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/ShallowFoundationSheetChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/StratigraphySheetChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/HorizontalPileSheetChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/VerticalPileSheetChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/HorizontalPileViewChecks.Capacity.cs",
+        "tests/ANTHEA.Desktop.UiTests/VerticalPileViewChecks.cs"
+      ],
+      "segno": "solo riferimenti di presentazione: dati, Modified, risultati, diagrammi e disegni delle tracce non cambiano.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, i consigli» (riepilogo delle 07:50, consiglio 2: approvare e rigenerare le tracce in un commit a parte)",
+        "esito": "53 tracce rigenerate, 1121 righe; le 20 righe F5-02 invariate"
+      },
+      "test": [
+        "Presentation.Tests (tracce delle quattro viste dal ViewModel)",
+        "ui/check-pile-group-view, ui/check-fondazioni-view, ui/check-palo-orizzontale-view, ui/check-stratigrafia-view (tracce dalla vista XAML)",
+        "ui/check-palo-verticale-view (lato XAML con il testo mostrato anche per le righe senza casella)"
+      ],
+      "evidenze": [
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/tracce-viste/riepilogo.md",
+        "supporto/artefatti/ci/20261118-051529-1194-full-az-a3042f1f"
+      ]
     }
   ]
 }

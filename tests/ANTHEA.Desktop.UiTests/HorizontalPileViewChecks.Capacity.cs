@@ -332,7 +332,7 @@ internal static partial class HorizontalPileViewChecks
         if (controls.Editors.GetValueOrDefault(f) is not { } editor)
             return f.Kind switch
             {
-                FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, enabled, dimmed, visible),
+                FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.EditText, null, enabled, dimmed, visible),
                 FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, enabled, dimmed, visible),
                 _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, enabled, dimmed, visible),
             };

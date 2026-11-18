@@ -243,7 +243,7 @@ internal static class VerticalPileSheetChecks
 
     private static List<VerticalPileFieldState> FormState(FormViewModel form) => form.Fields.Select(f => f.Kind switch
     {
-        FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, f.IsEnabled, f.IsDimmed, f.IsVisible),
+        FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.EditText, null, f.IsEnabled, f.IsDimmed, f.IsVisible),
         FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, f.IsEnabled, f.IsDimmed, f.IsVisible),
         _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, f.IsEnabled, f.IsDimmed, f.IsVisible),
     }).ToList();
