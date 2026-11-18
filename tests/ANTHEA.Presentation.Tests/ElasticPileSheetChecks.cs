@@ -359,7 +359,7 @@ internal static class ElasticPileSheetChecks
         bool enabled = f.IsEnabled && !(f.Layout == FieldLayout.EditorOnly && !f.CanChange);
         return f.Kind switch
         {
-            FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, enabled, f.IsDimmed, f.IsVisible),
+            FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.EditText, null, enabled, f.IsDimmed, f.IsVisible),
             FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, enabled, f.IsDimmed, f.IsVisible),
             _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, enabled, f.IsDimmed, f.IsVisible),
         };

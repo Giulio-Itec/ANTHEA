@@ -65,7 +65,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -162,7 +162,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -266,7 +266,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -370,7 +370,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -474,7 +474,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -578,7 +578,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -682,7 +682,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -786,7 +786,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -890,7 +890,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -994,7 +994,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1098,7 +1098,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1202,7 +1202,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1306,7 +1306,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1410,7 +1410,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1514,7 +1514,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1618,7 +1618,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1722,7 +1722,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1826,7 +1826,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -1930,7 +1930,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2034,7 +2034,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2138,7 +2138,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2242,7 +2242,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2346,7 +2346,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2450,7 +2450,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2554,7 +2554,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2658,7 +2658,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2762,7 +2762,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2866,7 +2866,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -2970,7 +2970,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -3074,7 +3074,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "sì" · spento
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "sì" · spento
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "sì" · spento
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "sì" · spento
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"

@@ -16185,6 +16185,32 @@
         "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-differenze/report-paratie/riepilogo.md",
         "supporto/artefatti/ci/20261118-111952-1194-p2-rc-3dd69aad"
       ]
+    },
+    {
+      "id": "TRACCE-ELASTICO-DOMANDA5-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / interfaccia e numeri",
+      "titolo": "Tracce congelate della risposta elastica del palo orizzontale con la virgola dei numeri salvati (domanda 5)",
+      "famiglia": "interfaccia/numeri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Seguito di TRACCE-VISTE-DOMANDA5-20261118. Le tracce congelate della risposta elastica (tests/fixtures/f5-elastico/storica) registravano con il punto i numeri salvati come numeri JSON («Passo iniziale FEM» «0.5», «Braccio resistente z/d» «0.9»): con la domanda 5 la vista li mostra con la virgola. Nella full della parte 1 ui/check-palo-orizzontale-view si fermava alle tracce della capacità e non le raggiungeva; sono emerse nella verifica 20261118-111952-1194-p2-rc-3dd69aad, dopo la rigenerazione delle 53 tracce. 17 tracce su 20, 358 righe, solo il separatore. Rigenerate dalla vista XAML solo nelle righe che differiscono per il separatore; il ViewModel (ElasticPileSheetChecks) scrive il testo che il campo mostra (EditText).",
+      "codice": [
+        "tests/ANTHEA.Presentation.Tests/ElasticPileSheetChecks.cs"
+      ],
+      "segno": "solo riferimenti di presentazione: dati, risultati, verifiche e disegni non cambiano.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, approvo» (18/11/2026 verso le 12:25, riferito dal coordinatore, che ha riverificato le 358 righe: solo separatore)",
+        "esito": "17 tracce rigenerate, 358 righe"
+      },
+      "test": [
+        "ui/check-palo-orizzontale-view (tracce della risposta elastica dalla vista XAML)",
+        "Presentation.Tests (ElasticPileSheetChecks)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261118-111952-1194-p2-rc-3dd69aad/ui_check-palo-orizzontale-view/vista/tracce-elastiche/differenze.txt"
+      ]
     }
   ]
 }

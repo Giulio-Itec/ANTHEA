@@ -9,7 +9,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -49,7 +49,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -88,7 +88,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -128,7 +128,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -167,7 +167,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -207,7 +207,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -246,7 +246,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -286,7 +286,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -325,7 +325,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
@@ -367,7 +367,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -413,7 +413,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
@@ -455,7 +455,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -501,7 +501,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
@@ -543,7 +543,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -589,7 +589,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -629,7 +629,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -668,7 +668,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno - · quota -
@@ -708,7 +708,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
@@ -747,7 +747,7 @@ intestazione stratigrafie "Stratigrafia 1" scelta 0 · attiva
   comando "Modifica dati e strati" attivo
   comando "Info" attivo
   opzioni
-    campo passo "Passo iniziale FEM" = "0.5"
+    campo passo "Passo iniziale FEM" = "0,5"
     scelta punta "Vincolo alla punta" = "Libera" voci "Libera|Cerniera|Incastro"
   viste strati=sì,falda=sì,kh=sì,mesh=sì,molle=no,carichi=sì,sisma=sì,k=sì,y=sì,theta=sì,q=sì,N=sì,V=sì,M=sì,tratti=sì
 disegno risultato · quota -
@@ -789,7 +789,7 @@ armature
     opzione zone_estremita "Confermo dettagli nelle zone di estremità" = "no"
     opzione azioni_progetto "H e N sono azioni di progetto; peso unitario adottato coerente" = "no"
     opzione taglio_confermato "Confermo taglio circolare equivalente, staffe chiuse a 90°" = "no"
-    campo z_d "Braccio resistente z/d (≤0,9)" = "0.9"
+    campo z_d "Braccio resistente z/d (≤0,9)" = "0,9"
     opzione aderenza_buona "Condizioni di buona aderenza" = "no"
     campo percentuale_sovrapposta "Barre sovrapposte nella sezione" = "100"
     campo distanza_barre "Distanza libera barre sovrapposte" = "0"
