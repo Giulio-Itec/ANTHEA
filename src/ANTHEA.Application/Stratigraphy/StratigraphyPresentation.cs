@@ -46,6 +46,7 @@ public static class StratigraphyPresentation
         "scenario" => "Medi",
         "soil_type" => "Non classificato",
         "behavior" => "Da definire",
+        "density" => "Da definire",
         _ => null
     };
 

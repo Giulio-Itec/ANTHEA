@@ -17,10 +17,20 @@ public static class ReportWord
     public static byte[] Create(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true) => DocxWriter.Write(CreateDocument(title, module, data, result, options, images, includeInputs));
     public static DocxDocument CreateDocument(string title,string module,JsonObject data,JsonObject result,HashSet<string>? options=null,IReadOnlyList<ImmagineReport>? images=null,bool includeInputs=true)
     {
+        if (module == "geo_micropalo_verticale" && includeInputs && options?.Contains(PileReportContents.Version) == true)
+            return PileFamilyReport.Create(title, module, data, result, options, images);
         if(result.S("tipo_risultato") == "palo_elastico") return ReportElasticPile.CreateDocument(title,result);
         if (module == HorizontalPileGroup.Module) return ReportPileGroup.CreateDocument(title, result);
         if(result.S("errore")!="")throw new ArgumentException("Calcolo non disponibile: "+result.S("errore"));
         if(module=="str_palo")throw new ArgumentException("Il report Word della sezione non è disponibile, come nel programma sorgente. Esportare i risultati JSON.");
+        if (module == "geo_palo_verticale" && includeInputs && options?.Contains(PileReportContents.Brief) == true)
+        {
+            var normalized = (JsonObject)data.DeepClone(); Calcolo.AggiornaFoglio(normalized, false);
+            var summary = CreateDocument(title, module, normalized, result, ["coefficienti", "risultati"], includeInputs: false);
+            return ItecPileReport.CreateBrief(title, normalized, result, images ?? [], summary);
+        }
+        var pileOptions = module == "geo_palo_verticale" && includeInputs ? PileReportContents.Normalize(data, options) : null;
+        if (pileOptions is not null) options = Sezioni.Select(s => s.Key).ToHashSet();
         options??=Sezioni.Where(s=>!s.Key.StartsWith("grafico_")||s.Key=="grafico_nq").Select(s=>s.Key).ToHashSet();if(options.Count==0)throw new ArgumentException("Selezionare almeno un contenuto per il report.");
         bool micro=module=="geo_micropalo_verticale";var body=new XElement(W+"body");
         // D7-d (d2): the report shows the sheet as the editor opens it (Calcolo.AggiornaFoglio on a copy), with the effective γb.
@@ -125,6 +135,8 @@ public static class ReportWord
             foreach(var rel in relationships.Elements())rel.SetAttributeValue("Type",R.NamespaceName+"/image");
             Entry("word/_rels/document.xml.rels",relationships.ToString());Entry("word/document.xml",new XDocument(new XDeclaration("1.0","utf-8","yes"),new XElement(W+"document",new XAttribute(XNamespace.Xmlns+"w",W),new XAttribute(XNamespace.Xmlns+"r",R),body)).ToString());
         }
-        return package;
+        return module == "geo_palo_verticale" && includeInputs
+            ? ItecPileReport.Create(title, data, result, pileOptions!, images, package)
+            : package;
     }
 }

@@ -135,7 +135,7 @@ internal static class PileFactorChecks
             Assert(microTarget["dati"].D("versione") == Calcolo.VersioneFoglio && microTarget["dati"]!["generali"].S("sicurezza_base") == "1.35", "Progetto: micropalo senza metodo non migrato, " + type);
         }
 
-        // Report: the coefficient table and the general data show the effective γb of an old driven sheet (1,35 or without γb), the
+        // Report ITEC: the coefficient table shows the effective γb of an old driven sheet (1,35 or without γb), the
         // explicit 1,35 of a sheet at version 2; the report does not write into the sheet.
         foreach (var (marked, value, expected) in new[] { (false, "1.35", "1,15"), (false, (string?)null, "1,15"), (true, "1.35", "1,35") })
         {
@@ -144,7 +144,8 @@ internal static class PileFactorChecks
             string text = sheet.ToJsonString(); var result = Calcolo.Calcola(sheet);
             var rows = ReportRows(ReportWord.Create("Prova γb", "geo_palo_verticale", sheet, result));
             Assert(rows.Contains("γb|" + expected), $"Relazione: γb {expected} nei coefficienti applicati");
-            Assert(rows.Contains("sicurezza_base|" + expected), $"Relazione: γb {expected} nei dati generali");
+            // The redesigned general table is geometric; normative factors have one authoritative table.
+            Assert(rows.Count(r => r.StartsWith("γb|", StringComparison.Ordinal)) == 1, "Relazione: un solo valore di γb nei coefficienti applicati");
             Assert(sheet.ToJsonString() == text, "La relazione scrive nel foglio");
         }
 

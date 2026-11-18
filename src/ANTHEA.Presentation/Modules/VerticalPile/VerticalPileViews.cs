@@ -125,10 +125,11 @@ public interface IVerticalPileFigureRenderer
 }
 
 /// <summary>What the figures of the report draw: the data and the result of the sheet and its two charts as the sheet shows them.</summary>
-public sealed record VerticalPileFigureRequest(JsonObject Data, JsonObject Result, bool Micro, VerticalPileCapacityChart Capacity, PlotData Reference)
+public sealed record VerticalPileFigureRequest(JsonObject Data, JsonObject Result, bool Micro, VerticalPileCapacityChart Capacity, PlotData Reference, bool CapacityOnly = false, bool ReportLayout = false)
 {
     /// <summary>The figures to draw, in the order of the report.</summary>
-    public IReadOnlyList<VerticalPileFigurePlan> Figures => VerticalPilePresentation.Figures(Data, Micro, Capacity.Title, Reference.Title);
+    public IReadOnlyList<VerticalPileFigurePlan> Figures => VerticalPilePresentation.Figures(Data, Micro, Capacity.Title, Reference.Title)
+        .Where(f => !CapacityOnly || f.Kind == VerticalPileFigureKind.Capacity).ToArray();
 }
 
 /// <summary>A choice of «Copia in…» and «Copia da…»: a stratigraphy (from 0) or a new one (−1).</summary>

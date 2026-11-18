@@ -16,6 +16,7 @@ internal static class EditorContractChecks
             && m.Id != Anthea.Application.Actions.SpectraDocument.Module
             && m.Id != Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module
             && m.Id != RheologyDocument.Module
+            && m.Id != Anthea.Application.Concrete.ConcreteQuickSection.Module
             && !Anthea.Application.Actions.ClimateDocument.Supports(m.Id)).ToArray(), "Catalogo");
         foreach (var module in ModuleDirectory.All)
         {

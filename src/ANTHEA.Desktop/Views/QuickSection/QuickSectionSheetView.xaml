@@ -1,0 +1,519 @@
+<!--
+  View of QuickSectionSheetViewModel: the whole sheet on one page, as a small calculation window. Left, in the order of the input, four cards:
+  1 Geometria, 2 Armature, 3 Sollecitazioni (the combinations, η of each one), 4 Materiali. Right: the choices of the calculation as segmented buttons,
+  the result of the selected combination in evidence (MRd, η with its bar, outcome, behaviour, the other values), the drawing area with the tabs
+  Sezione / Dominio / M–χ. The fields are those of the ViewModel (the editors are wired in the code-behind as in FieldForm). Colours are theme tokens.
+-->
+<UserControl x:Class="X.Desktop.Views.QuickSection.QuickSectionSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation"
+ xmlns:concrete="clr-namespace:X.Desktop.Views.ConcreteSection"
+ Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visibility"/>
+  <concrete:PresentShownConverter x:Key="Present"/>
+  <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+  <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="HorizontalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/></Style>
+  <Style TargetType="ComboBox"><Setter Property="MinHeight" Value="22"/></Style>
+
+  <!-- A card: light border, rounded corners. -->
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="8"/><Setter Property="Padding" Value="10,6,10,8"/><Setter Property="Margin" Value="0,0,0,8"/>
+  </Style>
+  <Style x:Key="CardTitle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- A command as a link («+ strato», «?»). -->
+  <Style x:Key="Link" TargetType="Button">
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Foreground" Value="{DynamicResource Token.Accent}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border Background="Transparent" Padding="4,0"><TextBlock x:Name="T" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/></Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="T" Property="TextDecorations" Value="Underline"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <!-- A small Excel button: the green sheet with its «X» and an arrow (the content: ↑ export, ↓ import). -->
+  <Style x:Key="ExcelButton" TargetType="Button">
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Margin" Value="2,0,0,0"/><Setter Property="Focusable" Value="False"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border x:Name="B" Background="Transparent" CornerRadius="4" Padding="3,1">
+       <StackPanel Orientation="Horizontal">
+        <Border Width="15" Height="15" CornerRadius="2" Background="{DynamicResource Token.Status.Ok}">
+         <TextBlock Text="X" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource Token.Badge.Ok}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Text="{TemplateBinding Content}" Margin="2,0,0,0" FontWeight="Bold" Foreground="{DynamicResource Token.Status.Ok}"/>
+       </StackPanel>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="B" Property="Opacity" Value="0.4"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <!-- Segmented buttons: a list of choices, the selected one in evidence. -->
+  <Style x:Key="SegmentedItem" TargetType="ListBoxItem">
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBoxItem">
+      <Border x:Name="B" Padding="9,2" CornerRadius="5" Background="Transparent">
+       <TextBlock x:Name="T" Text="{Binding}" Foreground="{DynamicResource Token.Muted}"/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsSelected" Value="True">
+        <Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Selection}"/>
+        <Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="T" Property="FontWeight" Value="SemiBold"/>
+       </Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <Style x:Key="Segmented" TargetType="ListBox">
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="HorizontalAlignment" Value="Left"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBox">
+      <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="6" Padding="1">
+       <ItemsPresenter/>
+      </Border>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+   <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></Setter.Value></Setter>
+   <Setter Property="ItemContainerStyle" Value="{StaticResource SegmentedItem}"/>
+  </Style>
+  <!-- The shapes: a choice not available yet (DXF) is shown off, with its note. -->
+  <Style x:Key="ShapeItem" TargetType="ListBoxItem" BasedOn="{StaticResource SegmentedItem}">
+   <Setter Property="IsEnabled" Value="{Binding Available}"/>
+   <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Available}" Value="False"><Setter Property="ToolTip" Value="{Binding Note}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <!-- The bar of the utilization: filled up to η (1 = full), green within 1, red beyond. -->
+  <Style x:Key="Meter" TargetType="ProgressBar">
+   <Setter Property="Height" Value="7"/><Setter Property="Minimum" Value="0"/><Setter Property="Maximum" Value="1"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Calculated}"/><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ProgressBar">
+      <Grid>
+       <Border x:Name="PART_Track" CornerRadius="3" Background="{TemplateBinding Background}"/>
+       <Border x:Name="PART_Indicator" CornerRadius="3" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}"/>
+      </Grid>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+
+  <!-- The editors of a field: text box, choice and check box (the same bindings as FieldForm). -->
+  <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" MinHeight="21" Margin="1" FontWeight="Normal"
+    Background="{DynamicResource Token.Field.Background}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" ToolTip="{Binding LabelToolTip}"
+    AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}" IsKeyboardFocusWithinChanged="Editor_FocusChanged"/>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" Margin="1" FontWeight="Normal"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
+   <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <Style x:Key="Editor" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Choice"><Setter Property="ContentTemplate" Value="{StaticResource ChoiceEditor}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Bool"><Setter Property="ContentTemplate" Value="{StaticResource BoolEditor}"/></DataTrigger>
+    <Trigger Property="Content" Value="{x:Null}"><Setter Property="ContentTemplate" Value="{x:Null}"/></Trigger>
+   </Style.Triggers>
+  </Style>
+  <!-- A text box of a row (layers, combinations). -->
+  <Style x:Key="RowBox" TargetType="TextBox">
+   <Setter Property="TextAlignment" Value="Right"/><Setter Property="Margin" Value="1"/><Setter Property="MinHeight" Value="21"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Field.Background}"/>
+  </Style>
+
+  <!-- A field as a small cell: label and unit above, editor below. -->
+  <DataTemplate x:Key="Cell" DataType="{x:Type forms:FieldViewModel}">
+   <StackPanel Width="70" Margin="0,0,4,0">
+    <StackPanel Orientation="Horizontal" ToolTip="{Binding LabelToolTip}">
+     <TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"/>
+     <TextBlock Text="{Binding Unit, StringFormat=' [{0}]'}" Style="{StaticResource Muted}" Visibility="{Binding HasUnit, Converter={StaticResource Visibility}}"/>
+    </StackPanel>
+    <ContentControl Content="{Binding}" Style="{StaticResource Editor}"/>
+   </StackPanel>
+  </DataTemplate>
+  <!-- A value of the engine: label, value, unit. -->
+  <DataTemplate x:Key="ValueRow">
+   <Grid Margin="0,0,10,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+    <TextBlock x:Name="Label" Text="{Binding Label}" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+    <TextBlock x:Name="Value" Grid.Column="1" Text="{Binding Value}" TextAlignment="Right" TextTrimming="CharacterEllipsis" MaxWidth="130" ToolTip="{Binding Value}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="3,0,0,0" Style="{StaticResource Muted}"/>
+   </Grid>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding InUse}" Value="True">
+     <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+     <Setter TargetName="Value" Property="FontWeight" Value="Bold"/>
+    </DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <ItemsPanelTemplate x:Key="TwoColumns"><UniformGrid Columns="2"/></ItemsPanelTemplate>
+  <!-- A field of a material: label, editor (the class is a choice), unit. -->
+  <DataTemplate x:Key="MaterialRow" DataType="{x:Type forms:FieldViewModel}">
+   <Grid Margin="0,0,0,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+    <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding LabelToolTip}"/>
+    <ContentControl Grid.Column="1" Content="{Binding}" Style="{StaticResource Editor}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="4,0,0,0" Style="{StaticResource Muted}"/>
+   </Grid>
+  </DataTemplate>
+  <!-- A value of a material calculated by the engine: read-only, on the background of the calculated fields. -->
+  <!-- The value that the calculation uses among similar ones (the n of the method n) is in evidence, with its note under it. -->
+  <DataTemplate x:Key="CalculatedRow">
+   <Border x:Name="Row" Background="Transparent" CornerRadius="4" Margin="0,0,0,1">
+    <StackPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+      <TextBlock x:Name="Label" Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+      <Border Grid.Column="1" Background="{DynamicResource Token.Calculated}" CornerRadius="4" Margin="1" Padding="4,2" ToolTip="Calcolato dal motore">
+       <TextBlock x:Name="Value" Text="{Binding Value}" TextAlignment="Right" HorizontalAlignment="Stretch"/>
+      </Border>
+      <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="4,0,0,0" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis"/>
+     </Grid>
+     <TextBlock x:Name="Note" Text="{Binding Note}" Visibility="Collapsed" Margin="4,0,4,2" FontSize="11" Foreground="{DynamicResource Token.Accent}" TextWrapping="Wrap"/>
+    </StackPanel>
+   </Border>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding InUse}" Value="True">
+     <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+     <Setter TargetName="Label" Property="FontWeight" Value="Bold"/><Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Token.Accent}"/>
+     <Setter TargetName="Value" Property="FontWeight" Value="Bold"/>
+     <Setter TargetName="Note" Property="Visibility" Value="Visible"/>
+    </DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+ </UserControl.Resources>
+
+ <Grid Margin="10,8,10,8">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="410"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*" MinWidth="420"/></Grid.ColumnDefinitions>
+
+  <!-- Title and shape. -->
+  <Grid Grid.ColumnSpan="3" Margin="0,0,0,8">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <TextBlock Text="Titolo" Style="{StaticResource Muted}" Margin="0,0,6,0"/>
+   <TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
+   <ListBox Grid.Column="2" Style="{StaticResource Segmented}" ItemContainerStyle="{StaticResource ShapeItem}" ItemsSource="{Binding ShapeChoices}"
+    SelectedValuePath="Name" SelectedValue="{Binding Shape}" IsEnabled="{Binding CanEdit}"
+    Margin="10,0,0,0" ToolTip="Forma della sezione" AutomationProperties.Name="Forma della sezione"/>
+  </Grid>
+
+  <!-- The data, in the order of the input. -->
+  <StackPanel Grid.Row="1">
+   <Border Style="{StaticResource Card}">
+    <StackPanel>
+     <DockPanel Margin="0,0,0,3">
+      <Button DockPanel.Dock="Right" Content="? copriferro" Style="{StaticResource Link}" Command="{Binding CoverHelpCommand}" ToolTip="Che cosa misura il copriferro c"/>
+      <TextBlock Text="1 · Geometria" Style="{StaticResource CardTitle}"/>
+     </DockPanel>
+     <ItemsControl ItemsSource="{Binding GeometryForm.Fields}" ItemTemplate="{StaticResource Cell}" Focusable="False">
+      <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+     </ItemsControl>
+    </StackPanel>
+   </Border>
+
+   <Border Style="{StaticResource Card}">
+    <StackPanel>
+     <DockPanel Margin="0,0,0,3">
+      <Button DockPanel.Dock="Right" Content="+ strato" Command="{Binding AddLayerCommand}" ToolTip="Aggiungi uno strato di barre">
+       <Button.Style>
+        <Style TargetType="Button" BasedOn="{StaticResource Link}">
+         <Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+        </Style>
+       </Button.Style>
+      </Button>
+      <TextBlock Text="2 · Armature" Style="{StaticResource CardTitle}"/>
+     </DockPanel>
+     <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+      <TextBlock Text="Staffe Ø [mm]" Style="{StaticResource Muted}" Margin="0,0,8,0" ToolTip="Diametro delle staffe"/>
+      <ContentControl Content="{Binding StirrupField}" Style="{StaticResource Editor}" Width="60"/>
+     </StackPanel>
+     <!-- Layers of bars: rectangular and flanged sections. -->
+     <StackPanel>
+      <StackPanel.Style>
+       <Style TargetType="StackPanel"><Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
+      </StackPanel.Style>
+      <Grid>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="112"/><ColumnDefinition Width="66"/><ColumnDefinition Width="56"/><ColumnDefinition Width="62"/><ColumnDefinition Width="24"/></Grid.ColumnDefinitions>
+       <TextBlock Grid.Column="1" Text="Posizione" Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="2" Text="d [mm]" Style="{StaticResource Caption}" ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
+       <TextBlock Grid.Column="3" Text="n" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="4" Text="Ø [mm]" Style="{StaticResource Caption}"/>
+      </Grid>
+      <ItemsControl ItemsSource="{Binding LayerRows}" Focusable="False">
+       <ItemsControl.ItemTemplate>
+        <DataTemplate>
+         <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="112"/><ColumnDefinition Width="66"/><ColumnDefinition Width="56"/><ColumnDefinition Width="62"/><ColumnDefinition Width="24"/></Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Title}" Style="{StaticResource Muted}"/>
+          <ComboBox Grid.Column="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding Position}" IsEnabled="{Binding CanEdit}" Margin="1"
+           ToolTip="Superiore e Inferiore: a copriferro + staffa dal bordo; Da sopra e Da sotto: alla distanza d dal bordo superiore o inferiore"/>
+          <TextBox Grid.Column="2" Text="{Binding Distance}" IsEnabled="{Binding UsesDistance}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"
+           ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
+          <TextBox Grid.Column="3" Text="{Binding Count}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Numero delle barre dello strato"/>
+          <TextBox Grid.Column="4" Text="{Binding Diameter}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Diametro delle barre dello strato"/>
+          <Button Grid.Column="5" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli lo strato"
+           AutomationProperties.Name="Togli lo strato"/>
+         </Grid>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+     </StackPanel>
+     <!-- Rings of the circular section. -->
+     <StackPanel Visibility="{Binding IsCircular, Converter={StaticResource Visibility}}">
+      <Grid>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+       <TextBlock Grid.Column="2" Text="n" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="3" Text="Ø [mm]" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="4" Text="s [mm]" Style="{StaticResource Caption}" ToolTip="Distanza libera dal primo anello"/>
+      </Grid>
+      <ItemsControl ItemsSource="{Binding BarRows}" Focusable="False">
+       <ItemsControl.ItemTemplate>
+        <DataTemplate>
+         <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Title}"/>
+          <ContentControl Grid.Column="1" Content="{Binding Enabled}" Style="{StaticResource Editor}"/>
+          <ContentControl Grid.Column="2" Content="{Binding Count}" Style="{StaticResource Editor}"/>
+          <ContentControl Grid.Column="3" Content="{Binding Diameter}" Style="{StaticResource Editor}"/>
+          <ContentControl Grid.Column="4" Content="{Binding Gap}" Style="{StaticResource Editor}"/>
+         </Grid>
+        </DataTemplate>
+       </ItemsControl.ItemTemplate>
+      </ItemsControl>
+     </StackPanel>
+    </StackPanel>
+   </Border>
+
+   <Border Style="{StaticResource Card}">
+    <StackPanel>
+     <DockPanel Margin="0,0,0,3">
+      <Button DockPanel.Dock="Right" Content="+ combinazione" Style="{StaticResource Link}" Command="{Binding AddCombinationCommand}" ToolTip="Aggiungi una combinazione"/>
+      <TextBlock Text="3 · Sollecitazioni" Style="{StaticResource CardTitle}"/>
+      <Button Content="↑" Style="{StaticResource ExcelButton}" Margin="8,0,0,0" Command="{Binding ExportExcelCommand}" AutomationProperties.Name="Esporta in Excel"
+       ToolTip="Esporta in Excel: apre in Excel le combinazioni da compilare, una riga per combinazione. Dopo Ctrl+S in Excel premere «Importa da Excel»."/>
+      <Button Content="↓" Style="{StaticResource ExcelButton}" Command="{Binding ImportExcelCommand}" AutomationProperties.Name="Importa da Excel"
+       ToolTip="Importa da Excel: rilegge il file esportato (salvato con Ctrl+S) e sostituisce le combinazioni." HorizontalAlignment="Left"/>
+     </DockPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="64"/><ColumnDefinition Width="74"/><ColumnDefinition Width="56"/><ColumnDefinition Width="56"/><ColumnDefinition Width="48"/><ColumnDefinition Width="50"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
+      <TextBlock Grid.Column="1" Text="Nome" Style="{StaticResource Muted}"/>
+      <TextBlock Grid.Column="2" Text="SL" Style="{StaticResource Caption}" ToolTip="Stato limite della combinazione: SLU (plastico), SLV (elastico), SLE rara, frequente e quasi permanente (metodo n, tensioni e fessurazione); scegliendolo, modello e verifica in alto tornano quelli dello stato limite"/>
+      <TextBlock Grid.Column="3" Text="N" Style="{StaticResource Caption}" ToolTip="N [kN], negativo a compressione"/>
+      <TextBlock Grid.Column="4" Text="Mx" Style="{StaticResource Caption}" ToolTip="Mx [kNm]"/>
+      <TextBlock Grid.Column="5" Text="My" Style="{StaticResource Caption}" ToolTip="My [kNm], usato solo con la flessione deviata"/>
+      <TextBlock Grid.Column="6" Text="{Binding RatioHeader}" Style="{StaticResource Caption}" ToolTip="η (SLU, SLV), σ/σlim (SLE rara), wk/wlim o il maggiore con σ/σlim (SLE frequente e quasi permanente)"/>
+     </Grid>
+     <ItemsControl ItemsSource="{Binding CombinationRows}" Focusable="False">
+      <ItemsControl.ItemTemplate>
+       <DataTemplate>
+        <Border CornerRadius="5" Padding="0,1">
+         <Border.Style>
+          <Style TargetType="Border">
+           <Setter Property="Background" Value="Transparent"/>
+           <Style.Triggers><DataTrigger Binding="{Binding IsSelected}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Selection}"/></DataTrigger></Style.Triggers>
+          </Style>
+         </Border.Style>
+         <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="64"/><ColumnDefinition Width="74"/><ColumnDefinition Width="56"/><ColumnDefinition Width="56"/><ColumnDefinition Width="48"/><ColumnDefinition Width="50"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
+          <RadioButton IsChecked="{Binding IsSelected}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Mostra i risultati di questa combinazione"
+           AutomationProperties.Name="Seleziona la combinazione"/>
+          <TextBox Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" TextAlignment="Left" ToolTip="Nome della combinazione"/>
+          <ComboBox Grid.Column="2" ItemsSource="{Binding States}" SelectedValuePath="Code" SelectedValue="{Binding State}" IsEnabled="{Binding CanEdit}" Margin="1" MinHeight="21"
+           FontSize="{DynamicResource Font.Small}" ToolTip="Stato limite della combinazione" AutomationProperties.Name="Stato limite della combinazione"/>
+          <TextBox Grid.Column="3" Text="{Binding N}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="N (negativo a compressione)"/>
+          <TextBox Grid.Column="4" Text="{Binding Mx}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Mx"/>
+          <TextBox Grid.Column="5" Text="{Binding My}" IsReadOnly="{Binding MyReadOnly}" ToolTip="My: usato solo con la flessione deviata">
+           <TextBox.Style>
+            <Style TargetType="TextBox" BasedOn="{StaticResource RowBox}">
+             <Style.Triggers><DataTrigger Binding="{Binding MyEditable}" Value="False"><Setter Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger></Style.Triggers>
+            </Style>
+           </TextBox.Style>
+          </TextBox>
+          <!-- The ratio of the engine as a pill: green within 1, red beyond. -->
+          <Border Grid.Column="6" CornerRadius="8" Padding="6,1" Margin="4,0,0,0" HorizontalAlignment="Center" ToolTip="{Binding RatioToolTip}">
+           <Border.Style>
+            <Style TargetType="Border">
+             <Setter Property="Background" Value="Transparent"/>
+             <Style.Triggers>
+              <DataTrigger Binding="{Binding Passed}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Badge.Ok}"/></DataTrigger>
+              <DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="Background" Value="{DynamicResource Token.Warning.Background}"/></DataTrigger>
+             </Style.Triggers>
+            </Style>
+           </Border.Style>
+           <TextBlock Text="{Binding Ratio}">
+            <TextBlock.Style>
+             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+              <Setter Property="FontWeight" Value="SemiBold"/>
+              <Style.Triggers>
+               <DataTrigger Binding="{Binding Passed}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+               <DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+              </Style.Triggers>
+             </Style>
+            </TextBlock.Style>
+           </TextBlock>
+          </Border>
+          <Button Grid.Column="7" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli la combinazione"
+           AutomationProperties.Name="Togli la combinazione"/>
+         </Grid>
+        </Border>
+       </DataTemplate>
+      </ItemsControl.ItemTemplate>
+     </ItemsControl>
+     <TextBlock Text="N [kN], M [kNm] · N &lt; 0 compressione · risultati della riga selezionata" Style="{StaticResource Muted}" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+    </StackPanel>
+   </Border>
+
+   <Border Style="{StaticResource Card}" ToolTip="NTC 2018 · coefficienti e diagrammi della sezione in c.a.">
+    <StackPanel>
+     <DockPanel Margin="0,0,0,3">
+      <TextBlock DockPanel.Dock="Right" Text="NTC 2018" Style="{StaticResource Muted}"/>
+      <TextBlock Text="4 · Materiali" Style="{StaticResource CardTitle}"/>
+     </DockPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="14"/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <StackPanel>
+       <TextBlock Text="Calcestruzzo" Style="{StaticResource Muted}" Margin="0,0,0,2"/>
+       <ItemsControl ItemsSource="{Binding ConcreteFields}" ItemTemplate="{StaticResource MaterialRow}" Focusable="False"/>
+       <ItemsControl ItemsSource="{Binding ConcreteValues}" ItemTemplate="{StaticResource CalculatedRow}" Focusable="False"/>
+       <ContentControl Content="{Binding CreepField}" ContentTemplate="{StaticResource MaterialRow}" Focusable="False" IsTabStop="False" Margin="0,2,0,0"/>
+       <ContentControl Content="{Binding ExposureField}" ContentTemplate="{StaticResource MaterialRow}" Focusable="False" IsTabStop="False"/>
+      </StackPanel>
+      <StackPanel Grid.Column="2">
+       <TextBlock Text="Acciaio" Style="{StaticResource Muted}" Margin="0,0,0,2"/>
+       <ItemsControl ItemsSource="{Binding SteelFields}" ItemTemplate="{StaticResource MaterialRow}" Focusable="False"/>
+       <ItemsControl ItemsSource="{Binding SteelValues}" ItemTemplate="{StaticResource CalculatedRow}" Focusable="False"/>
+      </StackPanel>
+     </Grid>
+    </StackPanel>
+   </Border>
+  </StackPanel>
+
+  <!-- The calculation, the result of the selected combination and the drawing area. -->
+  <DockPanel Grid.Row="1" Grid.Column="2">
+   <Border DockPanel.Dock="Top" Style="{StaticResource Card}">
+    <Grid>
+     <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+     <Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <TextBlock Grid.Row="2" Grid.ColumnSpan="5" Text="Modello e verifica della combinazione selezionata; scegliendo lo SL nella riga tornano quelli dello stato limite." Style="{StaticResource Muted}"
+      Margin="0,3,0,0" TextWrapping="Wrap"/>
+     <TextBlock Text="Modello" Style="{StaticResource Muted}" Margin="0,0,8,4"/>
+     <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
+      ToolTip="Modello resistente della combinazione selezionata (SLU plastico e SLV elastico di base). Il modulo grande usa un modello per stato limite: vede quello di base." AutomationProperties.Name="Modello"/>
+     <TextBlock Grid.Column="2" Text="Flessione" Style="{StaticResource Muted}" Margin="14,0,8,4"/>
+     <ListBox Grid.Column="3" Style="{StaticResource Segmented}" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
+      ToolTip="Retta: My non è usato" AutomationProperties.Name="Flessione"/>
+     <TextBlock Grid.Row="1" Text="Verifica" Style="{StaticResource Muted}" Margin="0,0,8,0"/>
+     <!-- The check: one list for each bending, the one of the bending shown. -->
+     <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource Segmented}" ItemsSource="{Binding StraightMethods}" SelectedItem="{Binding StraightMethod}"
+      IsEnabled="{Binding CanEdit}" Visibility="{Binding IsStraight, Converter={StaticResource Visibility}}"
+      ToolTip="Della combinazione selezionata: momento positivo o negativo (SLU, SLV), oppure tensioni con il metodo n (la combinazione diventa SLE rara)" AutomationProperties.Name="Verifica"/>
+     <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding BiaxialMethods}" SelectedItem="{Binding BiaxialMethod}" IsEnabled="{Binding CanEdit}"
+      ToolTip="Capacità allo SLU (il segno viene da Mx e My di ogni combinazione), oppure tensioni con il metodo n" AutomationProperties.Name="Verifica">
+      <ListBox.Style>
+       <Style TargetType="ListBox" BasedOn="{StaticResource Segmented}">
+        <Style.Triggers><DataTrigger Binding="{Binding IsStraight}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+       </Style>
+      </ListBox.Style>
+     </ListBox>
+    </Grid>
+   </Border>
+
+   <!-- The result in evidence. -->
+   <Border DockPanel.Dock="Top" Style="{StaticResource Card}" BorderBrush="{DynamicResource Token.Accent}">
+    <StackPanel>
+     <StackPanel Visibility="{Binding Summary, Converter={StaticResource Present}}">
+      <TextBlock Text="{Binding Summary.Title}" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Summary.Title}"/>
+      <TextBlock Text="{Binding Summary.Value}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,1,0,2"/>
+      <Grid Margin="0,0,0,3">
+       <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+       <ProgressBar Value="{Binding Summary.Ratio, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" VerticalAlignment="Center" Margin="0,0,8,0"
+        Visibility="{Binding Summary.Ratio, Converter={StaticResource Present}}">
+        <ProgressBar.Style>
+         <Style TargetType="ProgressBar" BasedOn="{StaticResource Meter}">
+          <Style.Triggers><DataTrigger Binding="{Binding Summary.Passed}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+         </Style>
+        </ProgressBar.Style>
+       </ProgressBar>
+       <TextBlock Grid.Column="1" Text="{Binding Summary.Detail}" TextWrapping="Wrap" MaxWidth="320"/>
+      </Grid>
+      <Border Padding="8,1" CornerRadius="8" HorizontalAlignment="Left" Visibility="{Binding IsDuctile, Converter={StaticResource Present}}">
+       <Border.Style>
+        <Style TargetType="Border">
+         <Setter Property="Background" Value="{DynamicResource Token.Warning.Background}"/>
+         <Style.Triggers><DataTrigger Binding="{Binding IsDuctile}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Badge.Ok}"/></DataTrigger></Style.Triggers>
+        </Style>
+       </Border.Style>
+       <TextBlock Text="{Binding Summary.Behaviour}" TextWrapping="Wrap">
+        <TextBlock.Style>
+         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+          <Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/>
+          <Style.Triggers><DataTrigger Binding="{Binding IsDuctile}" Value="True"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger></Style.Triggers>
+         </Style>
+        </TextBlock.Style>
+       </TextBlock>
+      </Border>
+     </StackPanel>
+     <ItemsControl ItemsSource="{Binding ResultValues}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ValueRow}" Focusable="False" Margin="0,6,0,0"/>
+     <TextBlock Text="{Binding Status}" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+     <ItemsControl ItemsSource="{Binding Errors}" Focusable="False">
+      <ItemsControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" Foreground="{DynamicResource Token.Warning.Foreground}" TextWrapping="Wrap"/></DataTemplate></ItemsControl.ItemTemplate>
+     </ItemsControl>
+    </StackPanel>
+   </Border>
+
+   <!-- The drawing area: section, domain or moment–curvature. -->
+   <Border Style="{StaticResource Card}" Margin="0">
+    <DockPanel>
+     <ListBox DockPanel.Dock="Top" Style="{StaticResource Segmented}" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" Margin="0,0,0,6"
+      ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x" AutomationProperties.Name="Mostra"/>
+     <Grid>
+      <ContentControl x:Name="DrawingHost" Focusable="False" Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
+      <ContentControl x:Name="ChartHost" Focusable="False">
+       <ContentControl.Style>
+        <Style TargetType="ContentControl">
+         <Setter Property="Visibility" Value="Collapsed"/>
+         <Style.Triggers><DataTrigger Binding="{Binding ShowsSection}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+        </Style>
+       </ContentControl.Style>
+      </ContentControl>
+     </Grid>
+    </DockPanel>
+   </Border>
+  </DockPanel>
+ </Grid>
+</UserControl>

@@ -75,8 +75,8 @@ public sealed class SoilTransferDialogViewModel : DialogViewModel<SoilTransferCh
         ArgumentNullException.ThrowIfNull(confirmations);
         this.module = module; this.sources = sources; this.files = files; this.confirmations = confirmations;
         original = (JsonObject)data.DeepClone();
-        Surveys = module == WallModel.Module ? ["Monte", "Valle"] : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i).ToArray();
-        selectedSurvey = IndexOf(Surveys, module == WallModel.Module ? "Monte" : "Profilo 1");
+        Surveys = ProfileLabels(module, data);
+        selectedSurvey = 0;
         Destinations = SoilProfileTransfer.Modules.Select(target => { var info = ModuleDirectory.Get(target); return new SoilTransferDestination(target, info.Element + " · " + info.Description); }).ToArray();
         selectedDestination = module == "geo_palo_verticale" ? WallModel.Module : "geo_palo_verticale";
         SourceLabels = sources.Select((s, i) => $"{i + 1}. {s.Label}").ToArray();
@@ -227,7 +227,7 @@ public sealed class SoilTransferDialogViewModel : DialogViewModel<SoilTransferCh
     {
         if (SelectedSourceIndex < 0) return;
         var source = sources[SelectedSourceIndex];
-        SourceSurveys = source.Module == WallModel.Module ? ["Monte", "Valle"] : Enumerable.Range(1, SoilProfileTransfer.SurveyCount(source.Module, source.Data)).Select(i => "Profilo " + i).ToArray();
+        SourceSurveys = ProfileLabels(source.Module, source.Data);
         SelectedSourceSurveyIndex = SourceSurveys.Count > 0 ? 0 : -1;
     }
 
@@ -286,9 +286,11 @@ public sealed class SoilTransferDialogViewModel : DialogViewModel<SoilTransferCh
         ? "Copia indipendente completa fra stratigrafie. Dai moduli di verifica l’insieme unico viene riportato nei campi principali: verificarne la qualificazione come medi; minimi e litologia non vengono ricostruiti."
         : SoilProfileTransfer.Guidance(SelectedDestination ?? module)) + "\nMicropalo verticale Bustamante–Doix: schema specifico, escluso da questo trasferimento.";
 
-    private static int IndexOf(IReadOnlyList<string> items, string item)
+    private static IReadOnlyList<string> ProfileLabels(string module, JsonObject data)
     {
-        for (int i = 0; i < items.Count; i++) if (items[i] == item) return i;
-        return -1;
+        if (module == WallModel.Module) return ["Monte", "Valle"];
+        if (module == StratigraphyDocument.Module && StratigraphyProfiles.All(data).Count > 1)
+            return StratigraphyProfiles.All(data).Select((p, i) => $"{i + 1} · {p["name"]}").ToArray();
+        return Enumerable.Range(1, SoilProfileTransfer.SurveyCount(module, data)).Select(i => "Profilo " + i).ToArray();
     }
 }

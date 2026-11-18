@@ -10,15 +10,18 @@ public static class SoilProfileTransfer
     public static readonly string[] Modules = [StratigraphyDocument.Module, RetainingWall.Module, "geo_palo_verticale", PaloOrizzontale.Module, MicropaloOrizzontale.Module, Anthea.FoundationWorkspace.FoundationDocument.Module];
     private static readonly string[] Properties = ["name", "spessore", "tipologia", "peso_specifico", "peso_specifico_saturo", "angolo_attrito", "coesione_efficace", "coesione_non_drenata"];
     public static bool Supports(string module) => Modules.Contains(module);
-    public static int SurveyCount(string module, JsonObject data) => module == StratigraphyDocument.Module ? 1 : module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
+    public static int SurveyCount(string module, JsonObject data) => module == StratigraphyDocument.Module ? StratigraphyProfiles.All(data).Count : module == RetainingWall.Module ? 2 : data.Array("stratigrafie").Count;
     public static JsonObject Extract(string module, JsonObject data, int survey = 0)
     {
         if (!Supports(module)) throw new ArgumentException("Modulo non compatibile con il profilo terreno comune.");
         if (module == StratigraphyDocument.Module)
         {
-            StratigraphyDocument.Validate(data);
+            var profiles = StratigraphyProfiles.All(data);
+            if (survey < 0 || survey >= profiles.Count) throw new ArgumentException("Stratigrafia non presente.");
+            var selected = StratigraphyProfiles.CopyProfile(profiles[survey]);
+            StratigraphyDocument.Validate(selected);
             return new JsonObject { ["formato"] = "ANTHEA.Stratigrafia", ["versione"] = 1,
-                ["source_module"] = module, ["source_survey"] = 1, ["stratigraphy"] = data.DeepClone() };
+                ["source_module"] = module, ["source_survey"] = survey + 1, ["stratigraphy"] = selected };
         }
         var rows = new JsonArray();
         bool wall = module == RetainingWall.Module;
@@ -33,7 +36,9 @@ public static class SoilProfileTransfer
             if (survey < 0 || survey >= surveys.Count || surveys[survey] is not JsonArray layers) throw new ArgumentException("Sondaggio non presente.");
             foreach (var row in layers.OfType<JsonObject>())
             {
-                var copy = new JsonObject(); foreach (string key in Properties) copy[key] = row[key]?.DeepClone(); rows.Add(copy);
+                var copy = new JsonObject(); foreach (string key in Properties) copy[key] = row[key]?.DeepClone();
+                if (module == "geo_palo_verticale" && row.S("addensamento") is "Sciolto" or "Denso") copy["addensamento"] = row.S("addensamento");
+                rows.Add(copy);
             }
         }
         var profile = J.Obj(("formato", "ANTHEA.Terreno"), ("versione", 1), ("source_module", module), ("source_survey", survey + 1),
@@ -59,6 +64,7 @@ public static class SoilProfileTransfer
             row.Required("spessore", strict: true); row.Required("peso_specifico", strict: true);
             if (row.Required("angolo_attrito") >= 90) throw new ArgumentException("Angolo di attrito fuori campo.");
             foreach (string key in new[] { "peso_specifico_saturo", "coesione_efficace", "coesione_non_drenata" }) if (!string.IsNullOrWhiteSpace(row.S(key))) row.Required(key);
+            if (row.S("addensamento") is not ("" or "Sciolto" or "Denso")) throw new ArgumentException("Stato di addensamento non valido: usare Sciolto o Denso.");
         }
         if (profile["water"] is not JsonObject water || water["enabled"] is not JsonValue flag || !flag.TryGetValue<bool>(out bool wet)) throw new ArgumentException("Dati della falda non validi.");
         if (wet) water.Required("depth");
@@ -66,7 +72,13 @@ public static class SoilProfileTransfer
     public static JsonObject Apply(string module, JsonObject original, JsonObject profile, int survey = 0, string scenario = "Medi")
     {
         Validate(profile); if (!Supports(module)) throw new ArgumentException("Modulo non compatibile con il profilo terreno comune.");
-        if (module == StratigraphyDocument.Module) return StratigraphyTransfer.ToDocument(profile);
+        if (module == StratigraphyDocument.Module)
+        {
+            var updated = original.DeepClone().AsObject();
+            StratigraphyProfiles.Replace(updated, survey, StratigraphyTransfer.ToDocument(profile));
+            StratigraphyDocument.Validate(updated);
+            return updated;
+        }
         var source = profile.DeepClone();
         if (profile.S("formato") == "ANTHEA.Stratigrafia") profile = StratigraphyTransfer.ToLegacy(profile, scenario);
         var data = (JsonObject)original.DeepClone(); var layers = profile.Array("layers"); var water = profile["water"]!;
@@ -104,7 +116,8 @@ public static class SoilProfileTransfer
             {
                 var copy = module == "geo_palo_verticale" ? Archivio.NuovoStratoPalo() : new JsonObject();
                 foreach (string key in Properties) copy[key] = row[key]?.DeepClone() ?? JsonValue.Create("");
-                // Density, interface factors and method-specific data must be assigned for the destination pile.
+                if (module == "geo_palo_verticale" && row.S("addensamento") is "Sciolto" or "Denso") copy["addensamento"] = row.S("addensamento");
+                // Density when not given, interface factors and method-specific data must be assigned for the destination pile.
                 rows.Add(copy);
             }
             surveys[survey] = rows; data["generali"]!["presenza_falda"] = water.B("enabled"); data["generali"]!["profondita_falda"] = water["depth"]?.DeepClone() ?? JsonValue.Create("");

@@ -27,10 +27,12 @@ public static class StratigraphyTransfer
             var row = new JsonObject { ["name"] = layer["name"]?.DeepClone(),
                 ["spessore"] = StratigraphyDocument.Number(layer["thickness"], "Spessore"), ["tipologia"] = layer.S("behavior") };
             foreach (var key in Keys) row[key.Legacy] = StratigraphyDocument.Number(layer[key.Document], key.Document);
+            // The state of density only when defined: the vertical pile receives it, the other modules ignore it.
+            if (StratigraphyDocument.PileDensity(layer) is { Length: > 0 } density) row["addensamento"] = density;
             rows.Add(row);
         }
         var result = new JsonObject { ["formato"] = "ANTHEA.Terreno", ["versione"] = 1,
-            ["source_module"] = StratigraphyDocument.Module, ["source_survey"] = 1,
+            ["source_module"] = StratigraphyDocument.Module, ["source_survey"] = packet["source_survey"]?.DeepClone() ?? JsonValue.Create(1),
             ["datum"] = "z=0: piano campagna della stratigrafia; nessuna traslazione di quota",
             ["layers"] = rows, ["water"] = new JsonObject { ["enabled"] = data.S("water_state") == "Assegnata",
                 ["depth"] = StratigraphyDocument.Number(data["water_depth"], "Falda") } };
@@ -54,6 +56,7 @@ public static class StratigraphyTransfer
                 layer["name"] = string.IsNullOrWhiteSpace(row.S("name")) ? "Strato " + (rows.Count + 1) : row.S("name");
                 layer["thickness"] = row["spessore"]?.DeepClone(); layer["behavior"] = row.S("tipologia");
                 foreach (var key in Keys) layer[key.Document] = row[key.Legacy]?.DeepClone();
+                if (row.S("addensamento") is "Sciolto" or "Denso") layer["density"] = row.S("addensamento");
                 layer["source"] = "Foglio ANTHEA: " + packet.S("source_sheet", packet.S("source_module"));
                 layer["notes"] = "Parametri importati dall’insieme unico del modulo: verificare la qualificazione come valori medi. Nessun minimo ricostruito.";
                 rows.Add(layer);

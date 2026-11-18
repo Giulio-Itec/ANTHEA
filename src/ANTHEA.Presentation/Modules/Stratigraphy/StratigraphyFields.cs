@@ -33,12 +33,13 @@ public static class StratigraphyFields
         Text("water_depth", "Profondità falda [m] · positiva verso il basso"),
     ];
 
-    /// <summary>The identity of the selected layer: name, family, behaviour, description, colour.</summary>
+    /// <summary>The identity of the selected layer: name, family, behaviour, state of density, description, colour.</summary>
     public static FieldSpec[] Layer() =>
     [
         Text("name", "Denominazione"),
         Choice("soil_type", "Famiglia prevalente · retino automatico", StratigraphyDocument.SoilTypes),
         Choice("behavior", "Comportamento per il trasferimento ai moduli di verifica", StratigraphyPresentation.Behaviors()),
+        Choice("density", "Stato di addensamento · trasferito al palo verticale", StratigraphyDocument.Densities),
         Text("description", "Descrizione litologica"),
         Text("color", "Colore del profilo [#RRGGBB]"),
     ];

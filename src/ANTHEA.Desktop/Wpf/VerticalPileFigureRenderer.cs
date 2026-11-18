@@ -1,4 +1,5 @@
 using Anthea.Application.Reporting;
+using Anthea.Application.Presentation;
 using Anthea.Presentation.Modules.VerticalPile;
 
 namespace X.Desktop;
@@ -17,10 +18,12 @@ internal sealed class VerticalPileFigureRenderer : IVerticalPileFigureRenderer
         var capacity = new Plot
         {
             Capacity = true, Title = shown.Title, XLabel = shown.XLabel, YLabel = shown.YLabel, CapacityDepth = shown.CapacityDepth,
-            EmptyMessage = shown.EmptyMessage, Series = shown.Series.Select(PlotPresentation.Series).ToList()
+            EmptyMessage = shown.EmptyMessage, Series = request.CapacityOnly
+                ? VerticalPileCharts.Capacity(request.Data, request.Result, request.Micro).Where(s => VerticalPileCharts.CapacityIncludes(s.Key, request.Micro, 0)).Select(s => PlotPresentation.Series(s.Series)).ToList()
+                : shown.Series.Select(PlotPresentation.Series).ToList()
         };
         var reference = new Plot { InvertY = false };
         PlotPresentation.Apply(reference, request.Reference);
-        return ModuleFigureRenderer.VerticalFigures(request.Data, request.Result, request.Micro, capacity, reference);
+        return ModuleFigureRenderer.VerticalFigures(request.Data, request.Result, request.Micro, capacity, reference, capacityOnly: request.CapacityOnly, reportLayout: request.ReportLayout);
     }
 }

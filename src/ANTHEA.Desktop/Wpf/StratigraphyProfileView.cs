@@ -15,9 +15,11 @@ namespace X.Desktop;
 internal sealed class StratigraphyProfileView : DrawingView
 {
     // Display dimensions only: pixels and proportions of the visible panel, not soil parameters.
-    private const double InfiniteTailRatio = .25, ProfileLabelWidthRatio = .22;
+    private const double InfiniteTailRatio = .25, ProfileLabelWidthRatio = .45;
     private const double TopPixels = 30, LabelGapPixels = 8, TextInsetPixels = 3, EdgePixels = 4,
         LabelPaddingPixels = 12, WaterFooterPixels = 44, ExtentFooterPixels = 22;
+    private const double LegendGapPixels = 24, LegendExtentPixels = 25, LegendParametersPixels = 47,
+        LegendMinimaPixels = 84;
     internal JsonObject? Data;
     internal int Selection;
     internal event Action<int>? Selected;
@@ -41,9 +43,11 @@ internal sealed class StratigraphyProfileView : DrawingView
         double water = StratigraphyDocument.Number(Data["water_depth"], "Falda") ?? 0;
         if (infinite && Data["water_state"]!.ToString() == "Assegnata") shown = Math.Max(shown, water + 1);
         double height = size.Height - 100, top = 0, left = 58;
-        double width = Math.Max(60, size.Width - left - Math.Clamp(size.Width * ProfileLabelWidthRatio, 160, 260));
+        double width = Math.Max(60, size.Width - left - Math.Max(420, size.Width * ProfileLabelWidthRatio));
+        double legendLeft = left + width + LegendGapPixels, legendWidth = size.Width - legendLeft - LabelGapPixels;
         var ink = Appearance.Foreground(Ui.Muted);
-        Text(dc, "Piano campagna", left, 5, 14, ink);
+        Text(dc, "Piano campagna" + (Data["ground_elevation"] is null || string.IsNullOrWhiteSpace(Data["ground_elevation"]!.ToString()) ? "" : " · quota " + Value(Data, "ground_elevation") + " m"), left, 5, 14, ink);
+        double lastDepthY = -100;
         for (int i = 0; i < rows.Length; i++)
         {
             var row = rows[i]; bool endless = StratigraphyDocument.Infinite(row);
@@ -53,8 +57,22 @@ internal sealed class StratigraphyProfileView : DrawingView
             dc.DrawRectangle(fill, null, bounds);
             dc.DrawRectangle(SoilHatchBrush.Create(StratigraphyDocument.SoilType(row), fill.Color), null, bounds);
             dc.DrawRectangle(null, new Pen(i == Selection ? Brushes.DodgerBlue : Brushes.DimGray, i == Selection ? 3 : 1), bounds);
-            Text(dc, top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, bounds.Top, 13, ink);
-            Text(dc, row["name"]!.ToString() + (endless ? " · ↓ indefinito" : ""), bounds.Right + LabelGapPixels, bounds.Top + TextInsetPixels, 14, ink, width: Math.Max(30, size.Width - bounds.Right - LabelPaddingPixels));
+            if (bounds.Top - lastDepthY >= 17)
+            {
+                Text(dc, top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, bounds.Top, 13, ink);
+                lastDepthY = bounds.Top;
+            }
+            string label = StratigraphyEditing.LayerLabel(i);
+            double legendY = TopPixels + i * (height / rows.Length);
+            dc.DrawRectangle(fill, null, new Rect(legendLeft, legendY + TextInsetPixels, LabelPaddingPixels, LabelPaddingPixels));
+            Text(dc, label + " · " + row["name"] + " · " + (row["behavior"]?.ToString() ?? "Da definire"), legendLeft + LabelPaddingPixels + LabelGapPixels, legendY, 14, ink,
+                width: legendWidth - LabelPaddingPixels - LabelGapPixels);
+            string extent = endless ? "z ≥ " + ValueNumber(top) + " m · S indefinito" : "z = " + ValueNumber(top) + "–" + ValueNumber(bottom) + " m · S = " + Value(row, "thickness") + " m";
+            Text(dc, extent + " · " + StratigraphyDocument.SoilType(row), legendLeft, legendY + LegendExtentPixels, 13, ink, width: legendWidth);
+            Text(dc, Parameters(row), legendLeft, legendY + LegendParametersPixels, 13, ink, width: legendWidth);
+            if (row["minimum"] is JsonObject minimum)
+                Text(dc, "Minimi: " + Parameters(minimum), legendLeft, legendY + LegendMinimaPixels, 12, ink, width: legendWidth);
+            hits.Add((new Rect(legendLeft, legendY, legendWidth, height / rows.Length), i));
             hits.Add((bounds, i)); top = bottom;
         }
         Text(dc, infinite ? "↓" : top.ToString("G4", CultureInfo.GetCultureInfo("it-IT")), 2, TopPixels + height * (top / shown), 11, ink);
@@ -68,8 +86,15 @@ internal sealed class StratigraphyProfileView : DrawingView
             }
             else Text(dc, $"Falda a {water:G4} m · sotto il profilo", left, size.Height - WaterFooterPixels, 12, Brushes.DodgerBlue);
         }
+        if (Data["water_state"]!.ToString() != "Assegnata") Text(dc, "Falda: " + Data["water_state"], left, size.Height - WaterFooterPixels, 13, ink);
         if (infinite) Text(dc, $"Vista fino a {shown:G4} m; ultimo strato indefinito.", 2, size.Height - ExtentFooterPixels, 11, ink, width: size.Width - EdgePixels);
     }
+    private static string ValueNumber(double value) => value.ToString("0.###", CultureInfo.GetCultureInfo("it-IT"));
+    private static string Value(JsonObject row, string key) => StratigraphyDocument.Number(row[key], key) is double value ? ValueNumber(value) : "—";
+    private static string Parameters(JsonObject row) =>
+        "γ = " + Value(row, "gamma") + " · γsat = " + Value(row, "gamma_sat") + " kN/m³\n"
+        + "φ′ = " + Value(row, "phi") + "° · c′ = " + Value(row, "c") + " · cu = " + Value(row, "cu") + " kPa";
+
 }
 
 internal sealed class SoilProfileIcon : DrawingView

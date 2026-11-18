@@ -55,10 +55,10 @@ public static class HorizontalPilePresentation
     public static JsonObject NewLayer() => J.Obj(("tipologia", "Granulare"), ("spessore", "0"), ("peso_specifico", "0"),
         ("peso_specifico_saturo", "0"), ("angolo_attrito", "0"), ("coesione_non_drenata", "0"), ("coesione_efficace", "0"));
 
-    /// <summary>The summary of a complete result: mechanism, governing survey, moment, ratio and the experimental model.</summary>
+    /// <summary>The summary of a complete result: mechanism, governing survey, moment, ratio and model.</summary>
     public static string Summary(JsonObject result) =>
-        $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\nVerifica normativa incompleta." +
-        (result.B("sperimentale") ? "\nMODELLO SPERIMENTALE" : "") + BromsLine(result);
+        $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\n" + Anthea.Reports.HorizontalPileVerificationReport.Outcome(result) + "." +
+        (result.B("sperimentale") ? "\nModello di calcolo per terreno stratificato" : "") + BromsLine(result);
 
     /// <summary>
     /// Stratificato, option C of the sheet of 16/11/2026: Hu of Broms for the same pile and vertical and the ratio, on a new line, when the result
@@ -68,7 +68,7 @@ public static class HorizontalPilePresentation
         : $"\nHu di Broms = {broms:N1} kN ({result.S("meccanismo_broms").ToLowerInvariant()}) · Stratificato / Broms = {ratio:0.000}";
 
     /// <summary>The warnings of a result, one per line.</summary>
-    public static string Warnings(JsonObject result) => string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
+    public static string Warnings(JsonObject result) => Anthea.Reports.HorizontalPileWording.Display(string.Join("\n", result.Array("avvisi").Select(v => v!.ToString())));
 
     /// <summary>The moment of a section (DisplayMoment): CHS (no note) or c.a. with the standard and the model as note.</summary>
     public static HorizontalPileMoment SectionMoment(JsonObject section, bool micro)

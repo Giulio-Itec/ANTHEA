@@ -185,6 +185,68 @@ internal static class ShellDraftChecks
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
 
+                // 17/11/2026: a new quick RC section opens by itself in its own window, with the size of SheetLayout.OwnWindow.
+                int windowsBefore = detached.Count;
+                var quick = workspace.NewCalculation(SheetLayout.QuickSectionModule)!;
+                await Idle(main);
+                Check(detached.Count == windowsBefore + 1 && tracker.Hosts.Count == 1 && shell.Windows.TabOf(quick) is { IsDetached: true }, "Verifica rapida: finestra propria aperta da sola");
+                var quickWindow = detached[^1];
+                var size = SheetLayout.OwnWindow(SheetLayout.QuickSectionModule)!.Value;
+                Check(quickWindow.Window.Width == size.Width && quickWindow.Window.Height == size.Height, "Verifica rapida: la finestra ha la sua dimensione (" + quickWindow.Window.Width + " × " + quickWindow.Window.Height + ")");
+                if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel quickSheet)
+                {
+                    // Two combinations with values, the first selected, for the picture of the table.
+                    quickSheet.CombinationRows[0].N = "-1000"; quickSheet.CombinationRows[0].Mx = "400";
+                    quickSheet.AddCombinationCommand.Execute(null);
+                    quickSheet.CombinationRows[1].N = "-300"; quickSheet.CombinationRows[1].Mx = "-750";
+                    quickSheet.CombinationRows[0].IsSelected = true;
+                    await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(quickSheet.CombinationRows.Count == 2 && quickSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Verifica rapida: due combinazioni con η");
+                }
+                await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
+                if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel biaxial)
+                {
+                    // The biaxial bending: the check is «Capacità» or «Metodo n», without the sign of the moment.
+                    biaxial.Bending = "Deviata"; biaxial.CombinationRows[0].My = "150";
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.Methods.SequenceEqual(["Capacità", "Metodo n"]) && biaxial.Method == "Capacità", "Verifica rapida, flessione deviata: verifica di capacità o metodo n");
+                    await Capture(quickWindow.Window, output, "08c-verifica-rapida-deviata.png", bindings);
+                    // The creep (18/11/2026): φ = 1,5 with the method n, the n used in evidence in the materials and in the results.
+                    biaxial.Bending = "Retta"; biaxial.Method = "Metodo n";
+                    biaxial.CreepForm.Set(Anthea.Application.Concrete.ConcreteQuickSection.CreepKey, "1.5");
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.SteelValues.Single(v => v.InUse).Value != biaxial.SteelValues.Single(v => v.Label == "n₀").Value && biaxial.ResultValues.Any(v => v.InUse),
+                        "Verifica rapida: con φ = 1,5 n cambia ed è in evidenza");
+                    await Capture(quickWindow.Window, output, "08d-verifica-rapida-viscosita.png", bindings);
+                    // The limit states of the combinations (18/11/2026): one row for each state, the quasi-permanent one selected with the exposure XC3.
+                    biaxial.Method = "Momento positivo";
+                    biaxial.CombinationRows[0].My = "0"; biaxial.CombinationRows[1].Name = "SLU 1"; biaxial.CombinationRows[1].N = "-1400"; biaxial.CombinationRows[1].Mx = "560";
+                    biaxial.CombinationRows[1].State = "SLU";
+                    (string Name, string N, string Mx, string State)[] more = [("Sisma", "-900", "620", "SLV"), ("Rara", "-1000", "400", "SLE"), ("Frequente", "-850", "330", "SLE_FREQ"),
+                        ("Q. perm.", "-800", "300", "SLE_QP")];
+                    foreach (var (name, n, mx, state) in more)
+                    {
+                        biaxial.AddCombinationCommand.Execute(null);
+                        var row = biaxial.CombinationRows[^1];
+                        row.Name = name; row.N = n; row.Mx = mx; row.State = state;
+                    }
+                    biaxial.CreepForm.Set(Anthea.Application.Concrete.ConcreteQuickSection.ExposureKey, "XC3");
+                    biaxial.CombinationRows[^1].IsSelected = true;
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.Method == "Metodo n" && biaxial.Model is null,
+                        "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
+                    await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
+                }
+                quickWindow.Window.Close();
+                await Idle(main);
+                Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");
+                workspace.CloseSheet(quick);
+                await Idle(main);
+
                 // After the checkpoint of 22/10: the menu of a sheet of the tree offers the new window and the full page.
                 var node = (DataTemplate)main.FindResource(new DataTemplateKey(typeof(ProjectNodeViewModel)));
                 var menu = ((FrameworkElement)node.LoadContent()).ContextMenu!;
@@ -227,8 +289,9 @@ internal static class ShellDraftChecks
                 shell.Tree.Find(project.Find(strata.S("id"))!)!.OpenInNewWindowCommand.Execute(null);
                 var strataSheet = workspace.SheetOf(project.Find(strata.S("id"))!)!;
                 var strataTab = shell.Windows.TabOf(strataSheet)!;
-                Check(detached.Count == 2 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
-                var fromTree = detached[1];
+                // Three windows created in all: the pile group, the quick RC section (17/11/2026), this one.
+                Check(detached.Count == 3 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
+                var fromTree = detached[2];
                 var treeHost = tracker.Hosts.Single();
                 Check(treeHost.Tabs.Count == 1 && ReferenceEquals(treeHost.Tabs[0], strataTab) && !shell.Windows.Main.Tabs.Contains(strataTab)
                     && ReferenceEquals(tracker.WindowOf(treeHost), fromTree) && fromTree.Activations == 1 && fromTree.IsActive && ReferenceEquals(workspace.Active, strataSheet),

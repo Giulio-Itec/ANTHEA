@@ -58,6 +58,8 @@ internal sealed partial class ModuleImplementations
         ("act_gru_carriponte", SheetImplementation.Mvvm),
         ("act_incendio", SheetImplementation.Mvvm),
         ("mat_reologia", SheetImplementation.Mvvm),
+        // 17/11/2026: the quick RC section, a new module without a historic view.
+        ("str_sezione_ca_rapida", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

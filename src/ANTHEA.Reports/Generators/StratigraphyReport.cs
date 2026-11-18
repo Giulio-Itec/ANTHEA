@@ -9,6 +9,22 @@ public static class StratigraphyReport
     public static DocxDocument Create(string title, JsonObject data)
     {
         XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
+        if (data["additional_profiles"] is JsonArray { Count: > 0 } profiles)
+        {
+            var first = data.DeepClone().AsObject();
+            first.Remove("additional_profiles");
+            var combined = Create(title, first);
+            var xml = combined.GetXml("word/document.xml");
+            var section = xml.Root!.Element(w + "body")!.Element(w + "sectPr")!;
+            foreach (var profile in profiles.OfType<JsonObject>())
+            {
+                section.AddBeforeSelf(new XElement(w + "p", new XElement(w + "r", new XElement(w + "br", new XAttribute(w + "type", "page")))));
+                var next = Create(title, profile).GetXml("word/document.xml");
+                section.AddBeforeSelf(next.Root!.Element(w + "body")!.Elements().Where(e => e.Name != w + "sectPr"));
+            }
+            combined.SetXml("word/document.xml", xml.ToString());
+            return combined;
+        }
         var body = new XElement(w + "body");
         void Paragraph(string text, bool heading = false)
         {

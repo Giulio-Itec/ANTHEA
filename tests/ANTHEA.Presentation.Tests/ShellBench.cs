@@ -14,7 +14,8 @@ namespace Anthea.Presentation.Tests;
 /// </summary>
 internal sealed class ShellBench
 {
-    internal static IReadOnlyList<string> Modules { get; } = ["mat_calcestruzzo", "str_palo", "geo_palo_verticale", "geo_stratigrafia"];
+    // 17/11/2026: the quick RC section, the module that opens in its own window (SheetLayout.OwnWindow).
+    internal static IReadOnlyList<string> Modules { get; } = ["mat_calcestruzzo", "str_palo", "geo_palo_verticale", "geo_stratigrafia", "str_sezione_ca_rapida"];
 
     internal ShellBench(ScriptedConfirmations? confirmations = null, ScriptedFileDialogs? dialogs = null, string? examples = null, ScriptedDialogs? windows = null)
     {

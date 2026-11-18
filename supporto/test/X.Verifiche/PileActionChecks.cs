@@ -31,6 +31,22 @@ internal static class PileActionChecks
         }
         double Last(JsonObject result, string curve) => Calcolo.AzioniCurva(result, curve)![^1]![1]!.GetValue<double>();
 
+        // Ponti: i predefiniti del documento sono trasmessi al motore, senza cambiare i valori espliciti dei fogli precedenti.
+        foreach (string module in new[] { "geo_palo_verticale", "geo_micropalo_verticale" })
+        {
+            var defaults = Archivio.NuovoFoglio(module)["generali"]!;
+            Near(defaults.D("peso_palo_sfavorevole"), 1.35, module + ": peso sfavorevole predefinito");
+            Near(defaults.D("peso_palo_favorevole"), 1.00, module + ": peso favorevole predefinito");
+        }
+        var bridgeData = Pile("Granulare", 2, false, "900", "1200");
+        var bridgeDefaults = Archivio.NuovoFoglio("geo_palo_verticale")["generali"]!;
+        foreach (string key in new[] { "peso_palo_sfavorevole", "peso_palo_favorevole" })
+            bridgeData["generali"]![key] = bridgeDefaults[key]!.DeepClone();
+        var bridge = Calcolo.Calcola(bridgeData);
+        Assert(bridge.S("errore") == "", "Peso per ponti: " + bridge.S("errore"));
+        Near(Last(bridge, "drenante_compressione"), 900 + 1.35 * Weight(l), "Peso per ponti: Ed,c = N + 1,35 W");
+        Near(Last(bridge, "drenante_trazione"), 1200 - Buoyant(l, 2), "Peso per ponti: Ed,t = T - 1,00 W′");
+
         // (a) Sabbia densa, falda a 2 m, sottospinta non richiesta, T = 1200 kN, N = 900 kN: a trazione, drenata e non drenata, sempre W′;
         // a compressione il peso intero della scelta dell'utente (nessuna base lorda nel granulare).
         var sand = Calcolo.Calcola(Pile("Granulare", 2, false, "900", "1200"));

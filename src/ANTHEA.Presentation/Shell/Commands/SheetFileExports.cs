@@ -90,6 +90,11 @@ public sealed class SheetFileExports(ReportTemplateStore? templates = null) : IS
         ArgumentNullException.ThrowIfNull(sheet);
         ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(options);
+        if (Anthea.Reports.PileFamilyReport.Supports(sheet.ModuleId))
+        {
+            ReportFiles.WriteWord(path, sheet.Report.BuildReport(title, options, projectReport));
+            return;
+        }
         if (sheet is IMaterialSheetViewModel && template is null)
         {
             // T8: the report of a material sheet written as SheetEditor writes it, DOCX and PDF from the same document.

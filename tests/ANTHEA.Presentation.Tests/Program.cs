@@ -18,6 +18,19 @@ try
         int count = Group("RheologySheetChecks", () => RheologySheetChecks.Run(root, target));
         return Finish(target, count, $"PASS {count} controlli foglio Reologia");
     }
+    // 17/11/2026: --sezione-rapida runs only the checks of the quick RC section; --sezione-rapida-esempi <cartella> writes its examples.
+    if (args.Contains("--sezione-rapida-esempi"))
+    {
+        string target = args.First(a => a != "--sezione-rapida-esempi");
+        foreach (string path in QuickSectionSheetChecks.WriteExamples(target)) Console.WriteLine(path);
+        return 0;
+    }
+    if (args.Contains("--sezione-rapida"))
+    {
+        string target = args.FirstOrDefault(a => a != "--sezione-rapida") ?? Path.Combine(root, "supporto/artefatti/sezione-rapida/presentation"); Directory.CreateDirectory(target);
+        int count = Group("QuickSectionSheetChecks", () => QuickSectionSheetChecks.Run(root, target));
+        return Finish(target, count, $"PASS {count} controlli della verifica rapida della sezione in c.a.");
+    }
     if(args.Contains("--spettri")){
         string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
         int count=Group("SpectraSheetChecks",()=>SpectraSheetChecks.Run(root,target));return Finish(target,count,$"PASS {count} controlli Spettri");
@@ -34,8 +47,9 @@ try
         int count = Group("ConcreteSectionSheetChecks.RunBarMaterials", () => ConcreteSectionSheetChecks.RunBarMaterials(root, target));
         return Finish(target, count, $"PASS {count} controlli materiali barre e trefoli");
     }
-    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit");
-    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit")).ToArray();
+    bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit"),
+        stratigraphyOnly = args.Contains("--stratigrafia");
+    args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit" or "--stratigrafia")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     int checks = 0;
@@ -72,6 +86,13 @@ try
     {
         checks = Group("ShellChecks", () => ShellChecks.Run(output));
         return Finish(output, checks, $"PASS {checks} controlli della shell (F5.13) senza WPF");
+    }
+    // 17/11/2026: --stratigrafia runs only the checks of the stratigraphy sheet, traces and F3 included (to work on the module).
+    if (stratigraphyOnly)
+    {
+        checks = StratigraphySheetChecks.Run(root, output);
+        string stratigraphy = $"PASS {checks} controlli della stratigrafia senza WPF";
+        File.WriteAllText(Path.Combine(output, "esito.txt"), stratigraphy, new UTF8Encoding(false)); Console.WriteLine(stratigraphy); return 0;
     }
     // F5.13 (d): --paralleli runs only the exit test of the parallel calculations (proposal 4.6): the same sheets in series and in parallel.
     if (args.Contains("--paralleli"))
@@ -119,6 +140,7 @@ try
     checks += Group("ElasticPileSheetChecks.Run", () => ElasticPileSheetChecks.Run(root, output));
     checks += Group("ConcreteSectionSheetChecks.Run", () => ConcreteSectionSheetChecks.Run(root, output, full: false));
     checks += Group("SectionActionsEditorChecks.Run", () => SectionActionsEditorChecks.Run());
+    checks += Group("QuickSectionSheetChecks.Run", () => QuickSectionSheetChecks.Run(root, output));
     checks += Group("CompositeSectionSheetChecks.Run", () => CompositeSectionSheetChecks.Run(root, output));
     // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.
     checks += Group("BridgePricesChecks.Run", () => BridgePricesChecks.Run());

@@ -206,7 +206,7 @@
    </StackPanel>
   </DataTemplate>
 
-  <!-- The table of a stratigraphy: the columns of HorizontalPileFields.Layers() with the soil editor after «Terreno», «Aggiungi strato». -->
+  <!-- The table of a stratigraphy: the columns of HorizontalPileFields.Layers() with the soil editor after the physical and strength parameters, «Aggiungi strato». -->
   <DataTemplate x:Key="SurveyTable" DataType="{x:Type pile:HorizontalPileSurveyViewModel}">
    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
     <StackPanel>
@@ -229,37 +229,6 @@
         <DataGridTemplateColumn.CellTemplate><DataTemplate><ComboBox Style="{StaticResource LayerChoice}" AutomationProperties.Name="Terreno"
          ItemsSource="{Binding DataContext.Columns[0].Choices, RelativeSource={RelativeSource AncestorType=DataGrid}}" SelectedItem="{Binding [tipologia], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[tipologia], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
-       </DataGridTemplateColumn>
-       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="1004">
-        <DataGridTemplateColumn.Header>
-         <StackPanel Orientation="Horizontal">
-          <TextBlock Width="180" Style="{StaticResource SoilHeader}" Text="Addensamento"/>
-          <TextBlock Width="240" Style="{StaticResource SoilHeader}" Text="Determinazione · autore / teoria"/>
-          <TextBlock Width="88" Style="{StaticResource SoilHeader}" Text="Parametro&#10;unità"/>
-          <TextBlock Width="78" Style="{StaticResource SoilHeader}" Text="Minimo"/>
-          <TextBlock Width="78" Style="{StaticResource SoilHeader}" Text="Massimo"/>
-          <TextBlock Width="100" Style="{StaticResource SoilHeader}" Text="Adottato&#10;modificabile"/>
-          <TextBlock Width="240" Style="{StaticResource SoilHeader}" Text="Origine / Info"/>
-         </StackPanel>
-        </DataGridTemplateColumn.Header>
-        <DataGridTemplateColumn.CellTemplate><DataTemplate>
-         <ContentControl Focusable="False" IsTabStop="False">
-          <ContentControl.Style>
-           <!-- Empty while the row has no soil editor (the sheet creates it when the row is shown). -->
-           <Style TargetType="ContentControl">
-            <Setter Property="ContentTemplate" Value="{StaticResource SoilEditor}"/>
-            <Style.Triggers><Trigger Property="Content" Value="{x:Null}"><Setter Property="ContentTemplate" Value="{x:Null}"/></Trigger></Style.Triggers>
-           </Style>
-          </ContentControl.Style>
-          <ContentControl.Content>
-           <MultiBinding Converter="{StaticResource SoilOfRow}">
-            <Binding/>
-            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=DataGrid}"/>
-            <Binding Path="DataContext.SoilsVersion" RelativeSource="{RelativeSource AncestorType=DataGrid}"/>
-           </MultiBinding>
-          </ContentControl.Content>
-         </ContentControl>
-        </DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
        <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="125">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Kp [−]"/></DataGridTemplateColumn.Header>
@@ -295,6 +264,37 @@
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Coesione efficace&#10;c′ [kPa]"/></DataGridTemplateColumn.Header>
         <DataGridTemplateColumn.CellTemplate><DataTemplate><TextBox Style="{StaticResource LayerText}" AutomationProperties.Name="c′ [kPa]" Text="{Binding [coesione_efficace], UpdateSourceTrigger=PropertyChanged}"
          ToolTip="{Binding DataContext.Help[coesione_efficace], RelativeSource={RelativeSource AncestorType=DataGrid}}"/></DataTemplate></DataGridTemplateColumn.CellTemplate>
+       </DataGridTemplateColumn>
+       <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="1004">
+        <DataGridTemplateColumn.Header>
+         <StackPanel Orientation="Horizontal">
+          <TextBlock Width="180" Style="{StaticResource SoilHeader}" Text="Addensamento"/>
+          <TextBlock Width="240" Style="{StaticResource SoilHeader}" Text="Determinazione · autore / teoria"/>
+          <TextBlock Width="88" Style="{StaticResource SoilHeader}" Text="Parametro&#10;unità"/>
+          <TextBlock Width="78" Style="{StaticResource SoilHeader}" Text="Minimo"/>
+          <TextBlock Width="78" Style="{StaticResource SoilHeader}" Text="Massimo"/>
+          <TextBlock Width="100" Style="{StaticResource SoilHeader}" Text="Adottato&#10;modificabile"/>
+          <TextBlock Width="240" Style="{StaticResource SoilHeader}" Text="Origine / Info"/>
+         </StackPanel>
+        </DataGridTemplateColumn.Header>
+        <DataGridTemplateColumn.CellTemplate><DataTemplate>
+         <ContentControl Focusable="False" IsTabStop="False">
+          <ContentControl.Style>
+           <!-- Empty while the row has no soil editor (the sheet creates it when the row is shown). -->
+           <Style TargetType="ContentControl">
+            <Setter Property="ContentTemplate" Value="{StaticResource SoilEditor}"/>
+            <Style.Triggers><Trigger Property="Content" Value="{x:Null}"><Setter Property="ContentTemplate" Value="{x:Null}"/></Trigger></Style.Triggers>
+           </Style>
+          </ContentControl.Style>
+          <ContentControl.Content>
+           <MultiBinding Converter="{StaticResource SoilOfRow}">
+            <Binding/>
+            <Binding Path="DataContext" RelativeSource="{RelativeSource AncestorType=DataGrid}"/>
+            <Binding Path="DataContext.SoilsVersion" RelativeSource="{RelativeSource AncestorType=DataGrid}"/>
+           </MultiBinding>
+          </ContentControl.Content>
+         </ContentControl>
+        </DataTemplate></DataGridTemplateColumn.CellTemplate>
        </DataGridTemplateColumn>
        <DataGridTemplateColumn HeaderStyle="{StaticResource LayerColumnHeader}" Width="60">
         <DataGridTemplateColumn.Header><TextBlock Style="{StaticResource LayerHeader}" Text="Elimina"/></DataGridTemplateColumn.Header>

@@ -35,7 +35,10 @@ internal static class ShellLayoutChecks
 
         // The modules whose view follows the window: the list of MainWindow.LoadSheetEditor, with its constants.
         string[] fitting = ["geo_palo_verticale", "geo_micropalo_verticale", HorizontalPileEditor.Module, "geo_micropalo_orizzontale", WallModel.Module,
-            "mat_calcestruzzo", RebarEditor.Module, BridgeEditor.Module, BridgeDesignModel.Module];
+            "mat_calcestruzzo", RebarEditor.Module, BridgeEditor.Module, BridgeDesignModel.Module, Anthea.Application.Concrete.ConcreteQuickSection.Module];
+        // 17/11/2026: the quick RC section opens in its own window; the other modules in a tab.
+        expect.That(SheetLayout.QuickSectionModule == Anthea.Application.Concrete.ConcreteQuickSection.Module && SheetLayout.OwnWindow(SheetLayout.QuickSectionModule) is { Width: > 800, Height: > 600 }
+            && ModuleDirectory.All.Count(m => SheetLayout.OwnWindow(m.Id) is not null) == 1, "Finestra propria della verifica rapida della sezione c.a.");
         expect.That(ModuleDirectory.All.Where(m => m.Id.Length > 0).Select(m => m.Id).Where(SheetLayout.FitsWindow).Order(StringComparer.Ordinal)
             .SequenceEqual(fitting.Order(StringComparer.Ordinal)), "Moduli che seguono la finestra: l'elenco di MainWindow.LoadSheetEditor");
         expect.That(!SheetLayout.FitsWindow("str_palo") && !SheetLayout.FitsWindow("geo_stratigrafia") && !SheetLayout.FitsWindow("geo_efficienza_orizzontale")

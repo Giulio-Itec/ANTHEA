@@ -2,14 +2,14 @@ using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
+using Anthea.Reports;
 
 namespace X.Core;
 
 /// <summary>Self-contained DOCX with inputs, model, equilibrium diagnostics and numerical tables.</summary>
 public static class ReportOrizzontale
 {
-    public sealed record Figure(int Survey, string Caption, byte[] Png, double AspectRatio);
-
+    public sealed record Figure(int Survey, string Caption, byte[] Png, double AspectRatio, string Category = "grafici");
     /// <summary>
     /// Stratificato, option C of the sheet of 16/11/2026 (decided on 17/11/2026): Hu of Broms for the same pile and vertical, with its mechanism and
     /// the ratio. The capacity adopted stays the stratified one; the ratio shows how much the distributed closure weighs against the concentrated
@@ -33,7 +33,7 @@ public static class ReportOrizzontale
             new XElement(w + "r", new XElement(w + "rPr", new XElement(w + "rFonts", new XAttribute(w + "ascii", "Calibri"), new XAttribute(w + "hAnsi", "Calibri")),
                 new XElement(w + "sz", new XAttribute(w + "val", heading ? 25 : 20)), heading ? new XElement(w + "b") : null),
                 new XElement(w + "t", new XAttribute(XNamespace.Xml + "space", "preserve"), text)));
-        void P(string text, bool heading = false) => body.Add(Paragraph(text, heading));
+        void P(string text, bool heading = false) => body.Add(Paragraph(HorizontalPileWording.Display(text), heading));
         var images = new List<byte[]>();
         void Image(Figure figure)
         {
@@ -61,7 +61,7 @@ public static class ReportOrizzontale
         }
         P("ANTHEA — " + title, true); P("Palo singolo: capacità portante orizzontale — " + result.S("versione_motore"));
         bool distributed = result.S("metodo_calcolo") == PaloOrizzontale.StratifiedMethod;
-        P(distributed ? "STRATIFICATO — MODELLO SPERIMENTALE" : result.B("sperimentale") ? "MODALITÀ MULTISTRATO SPERIMENTALE" : "Metodo omogeneo di Broms", true);
+        P(distributed || result.B("sperimentale") ? "Modello di calcolo per terreno stratificato" : "Metodo omogeneo di Broms", true);
         if (result.S("selezione_modello") == "Automatica") P("Modello selezionato automaticamente in base alle proprietà degli strati attraversati e alla falda: " + result.S("modello_adottato") + ".");
         P("Modello e fonti", true); P(result.S("fonte")); P(result.S("percorso"));
         P("z positivo verso il basso; H positiva; p [kN/m] positiva se opposta a H. V(z)=H−∫p dz; M(z)=M0+Hz−∫(z−s)p(s) ds. Compressione N positiva.");
@@ -73,11 +73,12 @@ public static class ReportOrizzontale
         if (distributed)
         {
             P("Sviluppo dell'approccio stratificato: Q(z)=∫p_lim dz; S(z)=∫z p_lim dz; Q(z_f)=H. La coppia inferiore vale C(z_f,t)=S(t)+S(z_f)−2S(b), con Q(b)=[Q(z_f)+Q(t)]/2. Si confrontano i candidati corto, intermedio e lungo con un unico My e si controlla l'equilibrio globale.");
-            P("Reazioni distribuite anche nei granulari e nei profili misti; nessuna risultante concentrata al piede. Recupera il coesivo omogeneo e il ramo lungo granulare quando la lunghezza è sufficiente alla chiusura distribuita. Per il granulare corto/intermedio differisce dalle formule di Broms con forza concentrata. La chiusura inferiore è un'ipotesi del modello, non una soluzione dell'interazione elastoplastica o una validazione sperimentale.");
+            P(HorizontalPileWording.Adaptation);
+            P("Reazioni distribuite anche nei granulari e nei profili misti; nessuna risultante concentrata al piede. Recupera il coesivo omogeneo e il ramo lungo granulare quando la lunghezza è sufficiente alla chiusura distribuita. Per il granulare corto/intermedio differisce dalle formule di Broms con forza concentrata. La chiusura inferiore è un'ipotesi di equilibrio limite e non descrive l'interazione elastoplastica terreno–palo.");
         }
         else
         {
-            P("Omogeneo: coesivo testa libera eq.13.23–13.29; impedita eq.13.30–13.36. Granulare libera eq.13.37–13.43; impedita eq.13.44–13.47. L'estensione a strati e falda interna è una scelta ANTHEA sperimentale: integrali esatti a tratti e ricerca delle radici, senza media dei parametri o somma di capacità.");
+            P("Omogeneo: coesivo testa libera eq.13.23–13.29; impedita eq.13.30–13.36. Granulare libera eq.13.37–13.43; impedita eq.13.44–13.47. Le formule sono state riadattate per tenere conto della presenza di più strati e della falda interna: integrali esatti a tratti e ricerca delle radici, senza media dei parametri o somma di capacità.");
             P("Nel coesivo il tratto inferiore forma una coppia con risultante nulla. Nel granulare F è una risultante concentrata separata: il completamento sotto la cerniera è idealizzato, non univoco.");
         }
         P("I diagrammi non forniscono spostamenti o rotazioni.");
@@ -139,20 +140,32 @@ public static class ReportOrizzontale
             Table(["Tipo", "S [m]", "γ", "γsat", "φ′ [°]", "Cu [kPa]"], survey!.AsArray().Select(r => new[] { r.S("tipologia"), r.S("spessore"), r.S("peso_specifico"), r.S("peso_specifico_saturo"), r.S("angolo_attrito"), r.S("coesione_non_drenata") }));
         }
         P("Risultati", true);
-        P($"Hu = {result.D("capacita_kn"):0.###} kN; sondaggio governante {result.D("sondaggio_governante")}; meccanismo {result.S("meccanismo")}; My adottato = {result.D("momento_resistente_knm"):0.###} kNm.");
+        var capacityTable = HorizontalPileResistanceReport.Capacity(result);
+        P(capacityTable.Titolo, true); Table(capacityTable.Colonne, capacityTable.Righe);
         // Stratificato, option C of the sheet of 16/11/2026: Hu of Broms beside the stratified one, only where the result has it.
         if (result["capacita_broms_kn"] is not null) P(BromsComparison(result, "verticale governante"));
         if (result["sezione"] is JsonObject section)
         {
-            P(section.S("modello"));
-            if (section.S("tipo") == "CHS") P($"N={section.D("n_kn"):0.0} kN; fyd={section.D("fyd_mpa"):0.0} MPa; My(N)={section.D("momento_knm"):0.0} kNm.");
-            else P($"N={section.D("n_kn"):0.###} kN (compressione positiva); fcd={section.D("fcd_mpa"):0.###} MPa; fyd={section.D("fyd_mpa"):0.###} MPa; As={section.D("area_acciaio_mm2"):0.###} mm²; residuo N={section.D("residuo_n_kn"):G4} kN; motore={section.S("motore", "storico")}; contorno={section.D("lati_contorno"):0} lati.");
+            P(HorizontalPileResistanceReport.SectionDescription(section));
+            var sectionTable = HorizontalPileResistanceReport.Section(section);
+            P(sectionTable.Titolo, true); Table(sectionTable.Colonne, sectionTable.Righe);
+            P(HorizontalPileResistanceReport.SectionNote(section));
         }
-        P("Verifica normativa: " + result.S("verifica_normativa"));
-        if (result["resistenza_progetto_manuale_kn"] is not null)
-            P($"Rk = min(Hu,media/ξ3; Hu,min/ξ4) = min({result.D("ramo_media_kn"):0.0}; {result.D("ramo_minimo_kn"):0.0}) = {result.D("resistenza_caratteristica_manuale_kn"):0.0} kN; criterio governante: {result.S("criterio_governante")}. Rd = η · Rk/γR = {result.D("resistenza_progetto_manuale_kn"):0.0} kN. HEd = {result.D("azione_kn"):0.0} kN. {result.S("esito_manuale")}. Non costituisce conformità normativa complessiva automatica.");
-        else P("Rk e Rd non determinate. Nessun esito normativo attribuito al confronto HEd/Hu.");
-        P("Avvisi e limiti", true); foreach (var warning in result.Array("avvisi")) P(warning!.ToString());
+        P(HorizontalPileVerificationReport.Title, true);
+        P(HorizontalPileVerificationReport.Introduction);
+        P("Rd = η · Rk / γR. Condizione di verifica: HEd ≤ Rd, equivalente a HEd/Rd ≤ 1.");
+        var verificationTable = HorizontalPileVerificationReport.Table(result);
+        Table(verificationTable.Colonne, verificationTable.Righe);
+        if (!HorizontalPileVerificationReport.Available(result)) P(HorizontalPileVerificationReport.MissingResistance);
+        P("Avvisi e limiti", true);
+        foreach (var warning in result.Array("avvisi"))
+            if (warning!.ToString() != result["sezione"].S("modello")) P(warning.ToString());
+        if (result["sezione"] is JsonObject concrete && concrete.S("tipo") != "CHS")
+        {
+            var diagnostics = HorizontalPileResistanceReport.Diagnostics(concrete);
+            P(diagnostics.Titolo, true); Table(diagnostics.Colonne, diagnostics.Righe);
+            P("Convenzione interna del risolutore: lo sforzo normale positivo a compressione nel modello geotecnico è trasmesso con segno negativo al calcolo della sezione.");
+        }
         index = 0;
         foreach (var survey in result.Array("sondaggi"))
         {

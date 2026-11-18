@@ -494,7 +494,7 @@ internal static class DisplayReportChecks
         System.Xml.Linq.XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
         if (xml.Descendants(w + "t").Any(t => t.Value == "Avvisi" || t.Value == "sottotipo_palo_battuto")) throw new Exception("Contenuti non richiesti nella relazione");
         if (xml.Descendants(w + "tc").Any(c => !c.Descendants(w + "jc").Any(j => (string?)j.Attribute(w + "val") == "center"))) throw new Exception("Celle della relazione non centrate");
-        if (zip.Entries.Count(e => e.FullName.StartsWith("word/media/")) != (micro ? 2 * data.Array("stratigrafie").Count : data.Array("stratigrafie").Count + 1)) throw new Exception("Immagini dei sondaggi o abachi mancanti");
+        if (xml.Descendants(System.Xml.Linq.XName.Get("blip", "http://schemas.openxmlformats.org/drawingml/2006/main")).Count() != (micro ? 2 * data.Array("stratigrafie").Count : data.Array("stratigrafie").Count + 1)) throw new Exception("Immagini dei sondaggi o abachi mancanti");
         if (micro && xml.Descendants(w + "t").Any(t => new[] { "tipo_palo", "metodo_nq", "presenza_falda", "considera_sottospinta", "pressione_limite" }.Contains(t.Value))) throw new Exception("Dati non applicabili presenti nella relazione micropalo");
     }
 }

@@ -247,19 +247,24 @@
 
  <!-- «Contenuti del report Word» (ReportSectionsDialogViewModel): the sections of the report, the note of the module, «Esporta». -->
  <DataTemplate DataType="{x:Type cmd:ReportSectionsDialogViewModel}">
-  <ScrollViewer Width="574" MaxHeight="611" Background="{DynamicResource Token.Surface}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-   <StackPanel Margin="16">
-    <ItemsControl ItemsSource="{Binding Sections}">
-     <ItemsControl.ItemTemplate>
-      <DataTemplate DataType="{x:Type cmd:ReportSectionChoice}">
-       <CheckBox Content="{Binding Label}" IsChecked="{Binding IsChecked}" Margin="4"/>
-      </DataTemplate>
-     </ItemsControl.ItemTemplate>
-    </ItemsControl>
+  <DockPanel Width="574" MaxHeight="611" Background="{DynamicResource Token.Surface}" Margin="0">
+    <StackPanel DockPanel.Dock="Bottom" Margin="16,8,16,16">
     <TextBlock x:Name="Note" Style="{StaticResource ShellDialog.Text}" FontSize="{DynamicResource Font.Caption}" Text="{Binding Note}"/>
     <Button Style="{StaticResource ShellDialog.Primary}" HorizontalAlignment="Left" Content="{Binding ExportLabel}" Command="{Binding ExportCommand}"/>
    </StackPanel>
-  </ScrollViewer>
+    <ScrollViewer x:Name="ReportContents" Margin="16,16,16,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <TreeView ItemsSource="{Binding Sections}" BorderThickness="0" Background="Transparent">
+     <TreeView.ItemContainerStyle>
+      <Style TargetType="TreeViewItem"><Setter Property="IsExpanded" Value="True"/></Style>
+     </TreeView.ItemContainerStyle>
+     <TreeView.ItemTemplate>
+      <HierarchicalDataTemplate DataType="{x:Type cmd:ReportSectionChoice}" ItemsSource="{Binding Children}">
+       <CheckBox Content="{Binding Label}" IsChecked="{Binding Selection, Mode=OneWay}" Command="{Binding ToggleCommand}" Margin="4"/>
+      </HierarchicalDataTemplate>
+     </TreeView.ItemTemplate>
+    </TreeView>
+   </ScrollViewer>
+  </DockPanel>
   <DataTemplate.Triggers>
    <DataTrigger Binding="{Binding Note}" Value="{x:Null}">
     <Setter TargetName="Note" Property="Visibility" Value="Collapsed"/>

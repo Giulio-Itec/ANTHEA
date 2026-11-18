@@ -32,8 +32,13 @@
    <Button Style="{StaticResource Shell.BarButton}" Content="Salva" ToolTip="Salva" Command="{Binding DataContext.Commands.SaveCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    <Button Style="{StaticResource Shell.BarButton}" Content="Salva con nome" ToolTip="Salva con nome"
     Command="{Binding DataContext.Commands.SaveAsCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
-   <Button Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2" ToolTip="Report Word" AutomationProperties.Name="Report Word"
-    Command="{Binding DataContext.Commands.ReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+   <StackPanel Orientation="Horizontal">
+    <Button Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2" ToolTip="Report Word" AutomationProperties.Name="Report Word"
+     Command="{Binding DataContext.Commands.ReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+    <Button Style="{StaticResource Shell.BarButton}" Content="W breve" MinWidth="75" Padding="6,2" ToolTip="Report Word breve — esportazione diretta" AutomationProperties.Name="Report Word breve"
+     Command="{Binding DataContext.Commands.BriefReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+     Visibility="{Binding DataContext.Commands.BriefReportVisible, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenTrue}}"/>
+   </StackPanel>
    <Button Style="{StaticResource Shell.BarButton}" Content="Report short" ToolTip="{x:Static cmd:ShellCommandsViewModel.ShortToolTip}"
     Command="{Binding DataContext.Commands.ShortReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"
     Visibility="{Binding DataContext.Commands.ShortReportVisible, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenTrue}}"/>

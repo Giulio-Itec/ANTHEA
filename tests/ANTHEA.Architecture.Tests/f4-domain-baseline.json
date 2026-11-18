@@ -6239,25 +6239,9 @@
       "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
       "Rule": "R2-numeric-literal",
       "Owner": "Plot.Render",
-      "Fingerprint": "5EF930E10F116BEB02E02B7B050A79F9EE098834298A75947749A1B798ED2043",
-      "Count": 1,
-      "Example": "170"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "Plot.Render",
       "Fingerprint": "6CFE23128183666A58EBA99DAE05420AC6CBF080828E8F9DFE9FA1620BF1786E",
       "Count": 1,
       "Example": "33"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "Plot.Render",
-      "Fingerprint": "81FCC1D19C129368B0C413E7388229C2A0279904CFD2370EA2749014E53DAB3F",
-      "Count": 2,
-      "Example": "18"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
@@ -6290,14 +6274,6 @@
       "Fingerprint": "8E9FA2503A4CB6782E01ACA949536573BE96AC1853F9C072112A4E49455ECE69",
       "Count": 2,
       "Example": "3"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "Plot.Render",
-      "Fingerprint": "91F1D52FB20F440C499E501046911AEAFBDFEAF1096B129080323D8DB2CD93FC",
-      "Count": 1,
-      "Example": "77"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
@@ -6458,14 +6434,6 @@
       "Fingerprint": "0540B2B9A46E208651D53A16DC9F611A0875BE67997BFF56955A326FD8E34A5D",
       "Count": 1,
       "Example": "26"
-    },
-    {
-      "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
-      "Rule": "R2-numeric-literal",
-      "Owner": "StratigraphyDrawing.Render",
-      "Fingerprint": "09C0727846038D8F3832B586789F1B0877F4F86071661F56A33EA327598FDF8A",
-      "Count": 1,
-      "Example": "17"
     },
     {
       "File": "src/ANTHEA.Desktop/Wpf/Drawings.cs",
@@ -6632,7 +6600,7 @@
       "Rule": "R2-numeric-literal",
       "Owner": "StratigraphyDrawing.Render",
       "Fingerprint": "FCF8243F2D301F2209DC5C5A921569A2172128F7486D0D0E2091DB0185CF0794",
-      "Count": 2,
+      "Count": 1,
       "Example": "3"
     },
     {
@@ -15599,14 +15567,6 @@
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "053DEFF190E4AD59D046C1622075C87FF886BBA2DECF9E7AEDB56951F79F0F5D",
-      "Count": 2,
-      "Example": "section . D ( \"n_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
       "Fingerprint": "074163D8A2ECC20E8795D4E262E12148F8CB7F6AA39EED72368FEC8620AEF8FE",
       "Count": 1,
       "Example": "survey . D ( \"inversione_reazioni_m\" )"
@@ -15623,25 +15583,9 @@
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "244F7D5ED5C6BB214D0BA315B875080D8DBEBE5A42EB62F419DD33668032CD36",
-      "Count": 1,
-      "Example": "result . D ( \"momento_resistente_knm\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
       "Fingerprint": "344EF7C0D8E4123E5EB54EA3D615E7FBA93595C27F978B2A5D8B99F2ED31DF2A",
       "Count": 1,
       "Example": "survey . D ( \"momento_massimo_knm\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "352AAD29158075E8AEAE382D9BDC22813CA44642883E86D06358B4F589838C78",
-      "Count": 2,
-      "Example": "section . D ( \"fyd_mpa\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
@@ -15674,14 +15618,6 @@
       "Fingerprint": "46C8F9ED2BAA556B9076788936FD7527168EA9153B8526F8ABDE92352842E030",
       "Count": 1,
       "Example": "survey . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "4C06B12EEED9CEAE65C9415FA1F2904CBC25CDE4E1CBFE49EBA277D895D082E3",
-      "Count": 1,
-      "Example": "result . D ( \"ramo_minimo_kn\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
@@ -15727,49 +15663,9 @@
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "788A52922AC3B827D706307F68ED5044AA81F9C1A819380AF0C731FB094E2B27",
-      "Count": 1,
-      "Example": "result . D ( \"resistenza_progetto_manuale_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "7BC53F5A050311B3E194C4F5990A979471C293CED484423B6856D0FBECAAB06C",
-      "Count": 1,
-      "Example": "result . D ( \"azione_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
       "Fingerprint": "7DFF8408EB2345E9251F9EB926ADA4C446CFD5EB8DE0E4997CA1AA18CD1504FA",
       "Count": 1,
       "Example": "survey . D ( \"quota_risultante_m\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "84AE97A61D3EFC0F5B9626CD691DFACBBD9D684FEA7B5FA29FAA479ED90DF389",
-      "Count": 1,
-      "Example": "section . D ( \"residuo_n_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "883CBAC158A433B042F8CA3507FF9D181C0A9BA092CB0254163ED2ABB14E7097",
-      "Count": 1,
-      "Example": "section . D ( \"momento_knm\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "9557380AF384FD796A4DFC0092B19E7305DD96E9D19BC24F4028C679E37B2304",
-      "Count": 1,
-      "Example": "result . D ( \"sondaggio_governante\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
@@ -15791,14 +15687,6 @@
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "AADB78AC9C7A415401A157FC58E5AB8AE0FCE430A466BBCFFDC44A389E0F674B",
-      "Count": 1,
-      "Example": "section . D ( \"fcd_mpa\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
       "Fingerprint": "AE3A593DD101BBE630B065E15BC2710F8FEDA4EB1F895066BADA2E2E1D230B5B",
       "Count": 1,
       "Example": "result . D ( \"xi4\" )"
@@ -15815,33 +15703,9 @@
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
       "Rule": "R4-implicit-number",
       "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "BE41475856EBD3B2CB7C41A0528BC4CCB283F2F25146F19CB74B38BFD530C4B5",
-      "Count": 1,
-      "Example": "result . D ( \"ramo_media_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "BF00BC4E73D9DB47DD2E475D04A15AE2D2CDAA07205D306DA12921086EB48228",
-      "Count": 1,
-      "Example": "result . D ( \"resistenza_caratteristica_manuale_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
       "Fingerprint": "BF9B15CC15626381F61B09D0C7ED66525D4D5A56398AF080663D7F2B6B1FE85D",
       "Count": 1,
       "Example": "r . D ( \"m_knm\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "C81BAEB4EEFCBA2DD61404AEF2A871D71B7FE63EF54475F43F87FBC2EECF16DB",
-      "Count": 1,
-      "Example": "section . D ( \"area_acciaio_mm2\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
@@ -15858,22 +15722,6 @@
       "Fingerprint": "D822FEFAD0CB2563DCEE8ADF8A7898B6EF00AEA072DBFE144DD554FC79B1A9A8",
       "Count": 1,
       "Example": "r . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "E9E21B383CD551C1A2BEFF64BA4F298A720762785AC646759677AF0BA4C3773E",
-      "Count": 1,
-      "Example": "result . D ( \"capacita_kn\" )"
-    },
-    {
-      "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",
-      "Rule": "R4-implicit-number",
-      "Owner": "ReportOrizzontale.CreateDocument",
-      "Fingerprint": "E9FC1515AFFA1C067DBF3EADD5D54B0AEC48DA80EC20DCF0BCF2B28BB4D8CA7A",
-      "Count": 1,
-      "Example": "section . D ( \"lati_contorno\" )"
     },
     {
       "File": "src/ANTHEA.Reports/Generators/ReportOrizzontale.cs",

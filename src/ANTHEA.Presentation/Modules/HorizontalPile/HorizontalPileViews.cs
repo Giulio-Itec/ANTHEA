@@ -46,7 +46,7 @@ public sealed class HorizontalPileSurveyViewModel : ObservableObject
     /// <summary>The layers in the document.</summary>
     public JsonArray Layers { get; }
 
-    /// <summary>The columns of the table (the soil editor comes after the second).</summary>
+    /// <summary>The columns of the table (the soil editor follows the physical and strength parameters).</summary>
     public IReadOnlyList<FieldSpec> Columns { get; } = HorizontalPileFields.Layers();
 
     /// <summary>The tool tips of the cells of the columns, by key (the calculation help of the key, as StratigraphyTable; null without).</summary>
@@ -296,4 +296,6 @@ public interface IHorizontalPileFigureRenderer
 {
     /// <summary>The figures of <see cref="HorizontalPilePresentation.Figures"/> for <paramref name="result"/>, in its order.</summary>
     IReadOnlyList<ReportOrizzontale.Figure> Render(JsonObject result);
+    /// <summary>Figures for the ITEC report; keeps existing renderers compatible.</summary>
+    IReadOnlyList<ReportOrizzontale.Figure> RenderReport(JsonObject result, bool brief) => Render(result);
 }

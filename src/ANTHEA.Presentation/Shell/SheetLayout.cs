@@ -38,8 +38,19 @@ public static class SheetLayout
     /// <summary>
     /// True when the view of <paramref name="module"/> follows the size of the window (MainWindow.LoadSheetEditor puts it in the sheet area as it is):
     /// the vertical pile and micropile, the horizontal pile and micropile, the retaining walls, the concrete and reinforcing steel materials, the
-    /// composite bridge section, Bridge Design. The others keep <see cref="SheetMinimumWidth"/> × <see cref="SheetMinimumHeight"/> and scroll.
+    /// composite bridge section, Bridge Design, the quick RC section (17/11/2026). The others keep <see cref="SheetMinimumWidth"/> ×
+    /// <see cref="SheetMinimumHeight"/> and scroll.
     /// </summary>
     public static bool FitsWindow(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or "geo_palo_orizzontale"
-        or "geo_micropalo_orizzontale" or "geo_muri_sostegno" or "mat_calcestruzzo" or "mat_acciaio_armatura" or "str_mista_ponte" or "str_bridge_design";
+        or "geo_micropalo_orizzontale" or "geo_muri_sostegno" or "mat_calcestruzzo" or "mat_acciaio_armatura" or "str_mista_ponte" or "str_bridge_design"
+        or QuickSectionModule;
+
+    /// <summary>The quick RC section (17/11/2026), a small calculation window.</summary>
+    public const string QuickSectionModule = "str_sezione_ca_rapida";
+
+    /// <summary>
+    /// The size of the own window of a module whose sheets open detached, as a small calculation window (17/11/2026: the quick RC section, its
+    /// compact view with the strip of the tab and the frame); null for the modules that open in a tab of the window with the focus.
+    /// </summary>
+    public static (double Width, double Height)? OwnWindow(string module) => module == QuickSectionModule ? (900, 800) : null;
 }

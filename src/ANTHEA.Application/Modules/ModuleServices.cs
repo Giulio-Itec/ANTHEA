@@ -8,6 +8,7 @@ public static class ModuleServices
         .ToDictionary(m => m.Id, m => (IModuleService)new CalculationModule(m.Id), StringComparer.Ordinal);
     public static IModuleService Get(string module) => Actions.ClimateDocument.Supports(module) ? new Actions.ClimateModuleService(module)
         : module == Materials.RheologyDocument.Module ? new Materials.RheologyModuleService()
+        : module == Concrete.ConcreteQuickSection.Module ? new Concrete.ConcreteQuickSectionService()
         : module == Actions.SpectraDocument.Module ? new Actions.SpectraModuleService()
         : module == EmbeddedWalls.EmbeddedWallDocument.Module ? new EmbeddedWalls.EmbeddedWallModule()
         : module == Stratigraphy.StratigraphyDocument.Module ? new StratigraphyModule() : Services.TryGetValue(module, out var service) ? service

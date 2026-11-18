@@ -22,6 +22,8 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
         Windows = windows ?? throw new ArgumentNullException(nameof(windows));
         this.shell = shell;
         InitializeComponent();
+        // A module with its own window (SheetLayout.OwnWindow, 17/11/2026) opens it with its size.
+        if (host.PreferredSize is { } size) { Width = size.Width; Height = size.Height; }
         DataContext = host;
         if (shell is not null) ProjectHistoryKeys.Attach(this, shell, () => host.Selected);
         DisplayAdaptation.Attach(this);

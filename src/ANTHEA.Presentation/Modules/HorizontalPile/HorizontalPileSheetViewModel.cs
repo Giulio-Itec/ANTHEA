@@ -808,6 +808,9 @@ public sealed class HorizontalPileSheetViewModel : SheetViewModelBase, ISheetVie
         public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false)
         {
             var result = sheet.ActiveResult ?? throw new InvalidOperationException("Premere Calcola prima di esportare.");
+            if (!projectReport && options.Contains(PileReportContents.Version))
+                return DocxWriter.Write(PileFamilyReport.Create(title, sheet.ModuleId, sheet.Data, result, options,
+                    sheet.figures.RenderReport(result, options.Contains(PileReportContents.Brief)).Select(f => new ImmagineReport(f.Caption, f.Png, f.Category, f.Survey)).ToArray()));
             if (result.S("tipo_risultato") == "palo_elastico") return DocxWriter.Write(ReportElasticPile.CreateDocument(title, result));
             return DocxWriter.Write(ReportOrizzontale.CreateDocument(title, result, !projectReport, sheet.figures.Render(result)));
         }

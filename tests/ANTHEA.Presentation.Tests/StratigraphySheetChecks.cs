@@ -11,6 +11,7 @@ using Anthea.Presentation.Forms;
 using Anthea.Presentation.Modules;
 using Anthea.Presentation.Modules.Shared;
 using Anthea.Presentation.Modules.Stratigraphy;
+using Anthea.Presentation.Modules.VerticalPile;
 using Anthea.Presentation.Services;
 using Anthea.Testing.Normalization;
 using X.Core;
@@ -86,6 +87,8 @@ internal static class StratigraphySheetChecks
             Closing(root, expect);
             await ImportAsync(root, output, expect);
             await TransferAsync(root, expect);
+            await ProfileCopyAsync(root, expect);
+            Density(root, expect);
             return expect.Count;
         }
         finally { CultureInfo.CurrentCulture = culture; CultureInfo.CurrentUICulture = uiCulture; }
@@ -239,7 +242,8 @@ internal static class StratigraphySheetChecks
             return state;
         }
 
-        private static List<StratigraphyControl> Controls(FormViewModel form, string prefix) => form.Fields.Select(field => field.Kind == FieldKind.Choice
+        // «density» (state of density, 17/11/2026) is a field added after the historic view: left out of its frozen traces and checked by DensityAsync.
+        private static List<StratigraphyControl> Controls(FormViewModel form, string prefix) => form.Fields.Where(field => field.Key != "density").Select(field => field.Kind == FieldKind.Choice
             ? new StratigraphyControl("scelta", prefix + field.Key, field.Label, field.SelectedChoice ?? "-", field.CanChange && field.IsEnabled, field.Choices)
             : new StratigraphyControl("testo", prefix + field.Key, field.Label, field.EditText, !field.IsInputReadOnly && field.IsEnabled)).ToList();
 
@@ -391,7 +395,7 @@ internal static class StratigraphySheetChecks
         expect.That(forms.Length == 7 && forms.All(f => ReferenceEquals(f.WikiNavigator, wiki) && f.Compact && !f.SymbolColumns && f.WikiModule is null)
             && ReferenceEquals(forms[0], editor.GeneralForm) && ReferenceEquals(forms[1], editor.LayerForm) && ReferenceEquals(forms[2], editor.DescriptionForm),
             "Form della vista: sette blocchi compatti con il navigatore della Wiki dei servizi");
-        expect.That(editor.LayerForm!.Fields.Select(f => f.Key).SequenceEqual(["name", "soil_type", "behavior"]) && editor.DescriptionForm!.Fields.Select(f => f.Key).SequenceEqual(["description", "color"]),
+        expect.That(editor.LayerForm!.Fields.Select(f => f.Key).SequenceEqual(["name", "soil_type", "behavior", "density"]) && editor.DescriptionForm!.Fields.Select(f => f.Key).SequenceEqual(["description", "color"]),
             "Identità dello strato in due blocchi, con la nota sui terreni misti fra comportamento e descrizione (S8)");
         var multiline = forms.SelectMany(f => f.Fields.Where(x => x.Multiline).Select(x => (ReferenceEquals(f, editor.MinimaForm) ? "minimum." : "") + x.Key)).ToArray();
         expect.That(multiline.SequenceEqual(["description", "description", "source", "minimum.source", "minimum.notes", "notes"]),
@@ -433,6 +437,109 @@ internal static class StratigraphySheetChecks
         sheet.IsReadOnly = false;
         expect.That(commands.Where(c => !ReferenceEquals(c, editor.ToggleInfiniteCommand)).All(c => c.CanExecute(null)) && !editor.ToggleInfiniteCommand.CanExecute(null)
             && modified == 2, "Ritorno alla modifica: comandi dell'editor attivi");
+    }
+
+    /// <summary>
+    /// «Copia in…» and «Copia da…» of the stratigraphies: the dialog lists the other stratigraphies by name («Nuova stratigrafia» only for
+    /// «Copia in…»); a copy into a new stratigraphy works as «Duplica stratigrafia»; replacing an existing one asks first, keeps its identifier
+    /// and its name, gives new identifiers to the layers and leaves the source unchanged, also when the destination is the first stratigraphy.
+    /// </summary>
+    private static async Task ProfileCopyAsync(string root, Expect expect)
+    {
+        static Action<object> Pick(int index) => d => { var copy = (SurveyCopyDialogViewModel)d; copy.Selected = copy.Choices[index < 0 ? copy.Choices.Count + index : index]; copy.Confirm(); };
+        var confirmations = new ScriptedConfirmations().Then(false).Then(true).Then(true);
+        var dialogs = new ScriptedDialogs().Then(Pick(-1)).Then(d => ((SurveyCopyDialogViewModel)d).Dismiss()).Then(Pick(0)).Then(Pick(0)).Then(Pick(0));
+        var messages = new ScriptedMessages();
+        using var sheet = Open(StratigraphyScenarios.FixtureData(root, "minimi-entrambi-indefinito"), Scripted.Services(messages, confirmations, null, dialogs));
+        var editor = sheet.Editor;
+        int modified = 0;
+        sheet.Modified += (_, _) => modified++;
+        string Gamma(int profile) => StratigraphyDocument.Layers(StratigraphyProfiles.All(editor.RootData)[profile])[0]!["gamma"]?.ToString() ?? "";
+        string LayerId(int profile) => StratigraphyDocument.Layers(StratigraphyProfiles.All(editor.RootData)[profile])[0]!["id"]!.ToString();
+
+        string single = editor.RootData.ToJsonString();
+        await editor.CopyProfileFromCommand.ExecuteAsync(null);
+        expect.That(editor.RootData.ToJsonString() == single && dialogs.Shown.Count == 0 && messages.Shown.Single().Message == "Non ci sono altre stratigrafie da cui copiare.",
+            "«Copia da…» con una sola stratigrafia: avviso, nessun dialogo");
+
+        editor.GeneralForm["name"].EditText = "S1";
+        modified = 0;
+        await editor.CopyProfileIntoCommand.ExecuteAsync(null);
+        var shown = (SurveyCopyDialogViewModel)dialogs.Shown[0];
+        expect.That(shown.Title == "Copia stratigrafia in…" && shown.Question == "Copia la stratigrafia «S1» in:" && shown.Choices.Select(c => c.Label).SequenceEqual(["Nuova stratigrafia"])
+            && editor.Profiles.Count == 2 && editor.SelectedProfileIndex == 1 && editor.Data["name"]!.ToString() == "S1 · copia" && LayerId(1) != LayerId(0) && modified == 1,
+            "«Copia in…» una nuova stratigrafia: copia selezionata con identità nuove");
+
+        editor.GeneralForm["name"].EditText = "S2";
+        editor.TableRows[0].Means["gamma"].EditText = "21";
+        string id2 = editor.Data["id"]!.ToString(), before = editor.RootData.ToJsonString();
+        modified = 0;
+        await editor.CopyProfileFromCommand.ExecuteAsync(null);
+        shown = (SurveyCopyDialogViewModel)dialogs.Shown[1];
+        expect.That(shown.Title == "Copia stratigrafia da…" && shown.Choices.Select(c => c.Label).SequenceEqual(["S1"]) && editor.RootData.ToJsonString() == before && modified == 0,
+            "«Copia da…» annullato: solo le altre stratigrafie, nessuna modifica");
+        await editor.CopyProfileIntoCommand.ExecuteAsync(null);
+        expect.That(((SurveyCopyDialogViewModel)dialogs.Shown[2]).Choices.Select(c => c.Label).SequenceEqual(["S1", "Nuova stratigrafia"]) && confirmations.Asked.Count == 1
+            && editor.RootData.ToJsonString() == before && modified == 0, "«Copia in…» una stratigrafia esistente: «No» alla sostituzione non modifica nulla");
+
+        string first = StratigraphyProfiles.CopyProfile(editor.RootData).ToJsonString();
+        await editor.CopyProfileFromCommand.ExecuteAsync(null);
+        expect.That(editor.SelectedProfileIndex == 1 && editor.Data["name"]!.ToString() == "S2" && editor.Data["id"]!.ToString() == id2 && Gamma(1) == Gamma(0) && Gamma(1) != "21"
+            && LayerId(1) != LayerId(0) && StratigraphyProfiles.CopyProfile(editor.RootData).ToJsonString() == first && modified == 1,
+            "«Copia da…» sostituisce dati e strati, conserva nome e identificativo della destinazione, sorgente invariata");
+
+        editor.TableRows[0].Means["gamma"].EditText = "25";
+        string second = StratigraphyProfiles.All(editor.RootData)[1].ToJsonString(), rootId = editor.RootData["id"]!.ToString();
+        await editor.CopyProfileIntoCommand.ExecuteAsync(null);
+        expect.That(editor.SelectedProfileIndex == 0 && editor.Profiles.Count == 2 && editor.RootData["name"]!.ToString() == "S1" && editor.RootData["id"]!.ToString() == rootId
+            && Gamma(0) == "25" && StratigraphyProfiles.All(editor.RootData)[1].ToJsonString() == second && confirmations.Asked.Count == 3,
+            "«Copia in…» la prima stratigrafia conserva le stratigrafie aggiuntive");
+        StratigraphyDocument.Validate(editor.RootData);
+        StratigraphyProfiles.ValidateAdditional(editor.RootData);
+
+        sheet.IsReadOnly = true;
+        expect.That(!editor.CopyProfileIntoCommand.CanExecute(null) && !editor.CopyProfileFromCommand.CanExecute(null) && messages.Failures.Count == 0,
+            "Sola lettura: «Copia in…» e «Copia da…» spenti");
+    }
+
+    /// <summary>
+    /// The state of density of a layer (17/11/2026): optional key «density», shown as «Da definire» and written only when chosen; an invalid
+    /// value refused; transferred to the vertical pile as «addensamento» and back, never to the other modules; an undefined state leaves the
+    /// pile layer as before (empty «addensamento»).
+    /// </summary>
+    private static void Density(string root, Expect expect)
+    {
+        using var sheet = Open(StratigraphyScenarios.FixtureData(root, "profilo-medi-falda"));
+        var editor = sheet.Editor;
+        var row = editor.TableRows[0];
+        expect.That(row.Data["density"] is null && row.Identity.Get("density") == "Da definire" && row.Identity["density"].Choices.SequenceEqual(["Da definire", "Sciolto", "Denso"]),
+            "Addensamento assente nei documenti esistenti, mostrato «Da definire»");
+        row.Identity["density"].SelectedChoice = "Denso";
+        expect.That(row.Data["density"]!.ToString() == "Denso" && !editor.Status.StartsWith("Correggere", StringComparison.Ordinal),
+            "Addensamento scelto scritto nello strato, documento valido");
+        var wrong = sheet.Data.DeepClone().AsObject();
+        StratigraphyDocument.Layers(wrong)[0]!["density"] = "Medio";
+        expect.Throws<ArgumentException>(() => StratigraphyDocument.Validate(wrong), "Addensamento fuori elenco rifiutato");
+
+        var document = sheet.Data.DeepClone().AsObject();
+        foreach (var layer in StratigraphyDocument.Layers(document).OfType<JsonObject>())
+        {
+            layer["behavior"] = "Granulare"; layer["gamma"] ??= 18; layer["phi"] ??= 30;
+            if (StratigraphyDocument.Infinite(layer)) StratigraphyPresentation.SetInfinite(layer, false);
+        }
+        if (document.S("water_state") == "Non nota") document["water_state"] = "Non considerata";
+        var legacy = StratigraphyTransfer.ToLegacy(SoilProfileTransfer.Extract(StratigraphyScenarios.Module, document), "Medi");
+        var layers = legacy.Array("layers").OfType<JsonObject>().ToList();
+        expect.That(layers[0].S("addensamento") == "Denso" && layers.Skip(1).All(l => l["addensamento"] is null), "Profilo comune: addensamento solo dove definito");
+        var pile = SoilProfileTransfer.Create("geo_palo_verticale", legacy);
+        var pileLayers = pile.Array("stratigrafie")[0]!.AsArray().OfType<JsonObject>().ToList();
+        expect.That(pileLayers[0].S("addensamento") == "Denso" && pileLayers.Skip(1).All(l => l.S("addensamento") == ""), "Palo verticale riceve l'addensamento definito, gli altri strati restano da assegnare");
+        var horizontal = SoilProfileTransfer.Create("geo_palo_orizzontale", legacy);
+        expect.That(horizontal.Array("stratigrafie")[0]!.AsArray().OfType<JsonObject>().All(l => l["addensamento"] is null), "Palo orizzontale non riceve l'addensamento");
+        pileLayers[0]["addensamento"] = "Sciolto";
+        var back = StratigraphyTransfer.ToDocument(SoilProfileTransfer.Extract("geo_palo_verticale", pile));
+        expect.That(StratigraphyDocument.Layers(back)[0]!["density"]!.ToString() == "Sciolto" && StratigraphyDocument.Layers(back).Skip(1).All(l => l!["density"] is null),
+            "Dal palo verticale alla stratigrafia: addensamento conservato");
     }
 
     /// <summary>

@@ -53,7 +53,7 @@
   <DataTemplate x:Key="TextEditor">
    <TextBox Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsInputReadOnly}"
     IsEnabled="{Binding IsEnabled}" AutomationProperties.Name="{Binding Label}" ToolTip="{Binding Label}"
-    FontSize="{DynamicResource Font.Small}" Margin="3" MinHeight="28" MaxHeight="64" AcceptsReturn="{Binding Multiline}" TextWrapping="Wrap" VerticalContentAlignment="Center"
+    FontSize="{DynamicResource Font.Small}" Margin="3" MinHeight="28" MaxHeight="64" AcceptsReturn="{Binding Multiline}" TextWrapping="NoWrap" VerticalContentAlignment="Center"
     KeyDown="Field_KeyDown" GotKeyboardFocus="Field_Focus" LostKeyboardFocus="Field_Focus"/>
   </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor">
@@ -62,8 +62,16 @@
     FontSize="{DynamicResource Font.Small}" KeyDown="Field_KeyDown"/>
   </DataTemplate>
   <DataTemplate x:Key="GeneralField">
-   <StackPanel Margin="0,0,12,8">
-    <TextBlock Style="{StaticResource Text}" Text="{Binding Label}" MinHeight="32"/>
+   <StackPanel Margin="0,0,12,4">
+    <TextBlock MinHeight="20" ToolTip="{Binding Label}">
+     <TextBlock.Style><Style TargetType="TextBlock" BasedOn="{StaticResource Text}">
+      <Setter Property="Text" Value="{Binding Label}"/>
+      <Style.Triggers>
+       <DataTrigger Binding="{Binding Key}" Value="ground_elevation"><Setter Property="Text" Value="Quota p.c. [m]"/></DataTrigger>
+       <DataTrigger Binding="{Binding Key}" Value="water_depth"><Setter Property="Text" Value="Profondità falda [m]"/></DataTrigger>
+      </Style.Triggers>
+     </Style></TextBlock.Style>
+    </TextBlock>
     <ContentControl Content="{Binding}" HorizontalContentAlignment="Stretch">
      <ContentControl.Style><Style TargetType="ContentControl">
       <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
@@ -84,18 +92,34 @@
 
  <ScrollViewer x:Name="Viewport" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Focusable="False">
  <StackPanel x:Name="Columns" Margin="16">
- <Border Style="{StaticResource Card}"><StackPanel>     <TextBlock Style="{StaticResource Title}" Text="Stratigrafia del terreno"/>
+ <Border Style="{StaticResource Card}"><StackPanel>     <DockPanel Margin="0,0,0,8">
+      <WrapPanel DockPanel.Dock="Right">
+       <Button Content="+ Stratigrafia" Style="{StaticResource Command}" Command="{Binding AddProfileCommand}"/>
+       <Button Content="Duplica stratigrafia" Style="{StaticResource Command}" Command="{Binding DuplicateProfileCommand}"/>
+       <Button Content="Copia da…" Style="{StaticResource Command}" Command="{Binding CopyProfileFromCommand}"
+        ToolTip="Sostituisce dati generali e strati della stratigrafia corrente con una copia di un'altra stratigrafia"/>
+       <Button Content="Copia in…" Style="{StaticResource Command}" Command="{Binding CopyProfileIntoCommand}"
+        ToolTip="Copia la stratigrafia corrente in un'altra stratigrafia o in una nuova"/>
+       <Button Content="Elimina stratigrafia" Style="{StaticResource Command}" Command="{Binding RemoveProfileCommand}"/>
+      </WrapPanel>
+      <TextBlock Style="{StaticResource Heading}" Text="Stratigrafie"/>
+     </DockPanel>
+     <TabControl x:Name="ProfileTabs" ItemsSource="{Binding Profiles}" SelectedIndex="{Binding SelectedProfileIndex}" Margin="0,0,0,8">
+      <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding [name]}" Padding="8,3"/></DataTemplate></TabControl.ItemTemplate>
+      <TabControl.ContentTemplate><DataTemplate><Grid/></DataTemplate></TabControl.ContentTemplate>
+     </TabControl>
      <StackPanel>
+
       <Button x:Name="ImportButton" Content="Importa relazione PDF con AI…" Style="{StaticResource Command}"
-       Visibility="{Binding ImportVisible, Converter={StaticResource Visible}}"
+       Visibility="{Binding ImportVisible, Converter={StaticResource Visible}}" HorizontalAlignment="Right"
        Command="{Binding DataContext.ImportCommand, RelativeSource={RelativeSource AncestorType=views:StratigraphySheetView}, FallbackValue={x:Null}}"
        ToolTip="{Binding DataContext.ImportToolTip, RelativeSource={RelativeSource AncestorType=views:StratigraphySheetView}, Converter={StaticResource TextToolTip}, FallbackValue={x:Null}}"
        ToolTipService.ShowOnDisabled="True"/>
-      <ItemsControl x:Name="GeneralForm" ItemsSource="{Binding GeneralForm.Fields}" ItemTemplate="{StaticResource GeneralField}">
-<ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="3"/></ItemsPanelTemplate></ItemsControl.ItemsPanel></ItemsControl>
+      <ItemsControl x:Name="GeneralForm" ItemsSource="{Binding CompactGeneralFields}" ItemTemplate="{StaticResource GeneralField}">
+<ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="4"/></ItemsPanelTemplate></ItemsControl.ItemsPanel></ItemsControl>
       <TextBlock Style="{StaticResource Text}" Text="Origine delle profondità: piano campagna (0 m). Un solo livello di falda; nessuna modellazione artesiana o di falde sospese."/>
      </StackPanel>
-     <TextBlock Style="{StaticResource Heading}" Text="Strati · dall’alto verso il basso"/>
+     <TextBlock Style="{StaticResource Heading}" Text="Strati · dall’alto verso il basso" Margin="0,8,0,6"/>
 <DataGrid x:Name="LayerList" ItemsSource="{Binding TableRows}" SelectedIndex="{Binding SelectedLayerIndex}" IsReadOnly="{Binding IsReadOnly}"
  AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
  SelectionMode="Single" SelectionUnit="FullRow" HeadersVisibility="Column" FrozenColumnCount="1"
@@ -105,13 +129,15 @@
  GridLinesVisibility="All" HorizontalGridLinesBrush="{DynamicResource Token.Border}" VerticalGridLinesBrush="{DynamicResource Token.Border}"
  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto">
  <DataGrid.Columns>
- <DataGridTemplateColumn Header="Strato" Width="2*" MinWidth="170">
-  <DataGridTemplateColumn.CellTemplate><DataTemplate><DockPanel>
-   <Border Width="14" Height="14" Margin="6,0,2,0" Background="{Binding Color, Converter={StaticResource SoilColor}, FallbackValue={StaticResource Token.Muted}}" BorderBrush="{DynamicResource Token.Muted}" BorderThickness="1"/>
-   <ContentControl Content="{Binding Identity[name]}" ContentTemplate="{StaticResource TextEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/>
-  </DockPanel></DataTemplate></DataGridTemplateColumn.CellTemplate>
+ <DataGridTemplateColumn Header="Strato" Width="70" MinWidth="70" IsReadOnly="True">
+  <DataGridTemplateColumn.CellTemplate><DataTemplate><StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+   <Border Width="14" Height="14" Margin="0,0,6,0" Background="{Binding Color, Converter={StaticResource SoilColor}, FallbackValue={StaticResource Token.Muted}}"/>
+   <TextBlock Text="{Binding Label}" Style="{StaticResource Text}" FontWeight="SemiBold"
+    AutomationProperties.AutomationId="StratigraphyLayerLabel" AutomationProperties.Name="{Binding Identity[name].EditText}" ToolTip="{Binding Identity[name].EditText}"/>
+  </StackPanel></DataTemplate></DataGridTemplateColumn.CellTemplate>
  </DataGridTemplateColumn>
 <DataGridTemplateColumn Header="Terreno" Width="*" MinWidth="115"><DataGridTemplateColumn.CellTemplate><DataTemplate><ContentControl Content="{Binding Identity[behavior]}" ContentTemplate="{StaticResource ChoiceEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
+<DataGridTemplateColumn Header="Addensamento" Width="*" MinWidth="115"><DataGridTemplateColumn.CellTemplate><DataTemplate><ContentControl Content="{Binding Identity[density]}" ContentTemplate="{StaticResource ChoiceEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
 <DataGridTemplateColumn Header="Spessore S&#10;[m]" Width="*" MinWidth="85"><DataGridTemplateColumn.CellTemplate><DataTemplate><Grid><ContentControl Content="{Binding Thickness[thickness]}" ContentTemplate="{StaticResource TextEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch" Visibility="{Binding Thickness, Converter={StaticResource WhenSet}}"/><TextBlock Text="∞" Style="{StaticResource Text}" HorizontalAlignment="Center" ToolTip="Ultimo strato esteso indefinitamente" Visibility="{Binding IsInfinite, Converter={StaticResource Visible}}"/></Grid></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
 <DataGridTemplateColumn Header="Peso γ&#10;[kN/m³]" Width="*" MinWidth="95"><DataGridTemplateColumn.CellTemplate><DataTemplate><ContentControl Content="{Binding Means[gamma]}" ContentTemplate="{StaticResource TextEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
 <DataGridTemplateColumn Header="Peso saturo γsat&#10;[kN/m³]" Width="*" MinWidth="110"><DataGridTemplateColumn.CellTemplate><DataTemplate><ContentControl Content="{Binding Means[gamma_sat]}" ContentTemplate="{StaticResource TextEditor}" VerticalAlignment="Center" HorizontalContentAlignment="Stretch"/></DataTemplate></DataGridTemplateColumn.CellTemplate></DataGridTemplateColumn>
@@ -126,16 +152,17 @@
       <Button Content="↓" Style="{StaticResource Command}" Command="{Binding MoveLayerDownCommand}"/>
      </WrapPanel>
 
- <TextBlock Style="{StaticResource Text}" Text="Parametri medi. Una cella vuota indica un dato non disponibile. Seleziona una riga per i dettagli e i valori minimi."/>
+ <TextBlock Style="{StaticResource Text}" Text="Parametri medi. γsat segue γ finché non viene assegnato manualmente; svuota γsat per ripristinare il collegamento."/>
  </StackPanel></Border><Border x:Name="ProfileCard" Style="{StaticResource Card}"><StackPanel>
 <TextBlock Style="{StaticResource Heading}" Text="Profilo stratigrafico · profondità [m]" Margin="0,0,0,8"/>
-<ContentControl x:Name="ProfileHost" Height="360" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+<ContentControl x:Name="ProfileHost" Height="{Binding ProfileHeight}" Focusable="False" IsTabStop="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
 <TextBlock Style="{StaticResource Text}" Text="Origine: piano campagna (0 m). Seleziona uno strato nel profilo per modificarne i dati."/>
 <TextBlock x:Name="StatusText" Style="{StaticResource Text}" Text="{Binding Status}" Margin="0,8,0,0"/>
 </StackPanel></Border><Border Style="{StaticResource Card}" Visibility="{Binding LayerForm, Converter={StaticResource WhenSet}}">     <StackPanel x:Name="LayerFields" Visibility="{Binding LayerForm, Converter={StaticResource WhenSet}}">
       <TextBlock Style="{StaticResource Heading}" Margin="0,0,0,8"><Run Text="Dettagli dello strato: "/><Run Text="{Binding LayerForm[name].EditText, Mode=OneWay}"/></TextBlock>
 <ContentControl x:Name="DescriptionForm" Style="{StaticResource Form}" Content="{Binding DescriptionForm}"/>
 <Expander x:Name="Advanced" Header="Classificazione, fonti e valori minimi" Margin="0,8,0,0" Foreground="{DynamicResource Token.Ink}"><StackPanel Margin="0,8,0,0">
+
       <ContentControl x:Name="IdentityForm" Style="{StaticResource Form}" Content="{Binding LayerForm}"/>
       <TextBlock Style="{StaticResource Text}" Text="Per terreni misti scegli la componente prevalente e specifica la miscela nella descrizione. Il retino è una convenzione grafica, non assegna parametri."/>
 
