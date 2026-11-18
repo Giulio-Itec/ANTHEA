@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Collections.Frozen;
 using Anthea.Calculations;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
 using GPC.Model.Checking.Contracts;
@@ -82,9 +83,11 @@ public static partial class EmbeddedWallReport
             string Label(string key) => Labels.GetValueOrDefault(key, key);
             // Item 12h, question 6 (17/11/2026): the inputs keep every digit, with the decimal comma; m/s as a power of ten (Kxx 1·10⁻⁵).
             // A2 (approved 18/11/2026): the confirmation of the history, of the document and of every case, reads «sì» or «no», not the JSON value;
-            // anything but true reads «no», as in PartialFactorsWarning.
+            // anything but true reads «no», as in PartialFactorsWarning. Every other option of the data (head and toe restraints, suction neglected,
+            // the A1 and M1 confirmation of the tie rods) reads «sì» or «no» too (approved on 18/11/2026, «Sì ai consigli per tutte e tre»).
             string Assigned(string key, JsonNode? value) => value is null ? "non assegnato"
                 : key == "design_history_confirmed" ? (value is JsonValue flag && flag.TryGetValue<bool>(out bool confirmed) && confirmed ? "sì" : "no")
+                : value is JsonValue option && option.GetValueKind() is JsonValueKind.True or JsonValueKind.False ? (option.GetValueKind() == JsonValueKind.True ? "sì" : "no")
                 : UnitNumberFormat.Input(value.ToString(), UnitNumberFormat.UnitOf(Label(key)), Italian);
             Table(["Dato", "Valore"], input.Where(p => p.Value is not JsonArray && p.Value is not JsonObject && p.Key != "schema")
                 .Select(p => new[] { Label(p.Key), Assigned(p.Key, p.Value) }));

@@ -109,6 +109,12 @@ internal static class UnitNumberFormatChecks
             && !assignedText.Contains("1E-05", StringComparison.Ordinal) && assignedCells.Contains("Lunghezza massima elemento [m] | 0,25")
             && assignedCells.Contains("Spessore parete impermeabile [m] | 0,6"),
             "Dati assegnati senza la virgola o le potenze di dieci: " + string.Join(" / ", assignedCells.Take(12)));
+        // 18/11/2026 («Sì ai consigli per tutte e tre»): the options of the data read «sì» or «no», never the JSON value.
+        e.That(assignedCells.Contains("Traslazione piede bloccata | sì") && assignedCells.Contains("Traslazione testa bloccata | no")
+            && assignedCells.Contains("Storia delle fasi già di progetto per le verifiche SLU | no")
+            && !assignedCells.Any(c => c.EndsWith(" | true", StringComparison.Ordinal) || c.EndsWith(" | false", StringComparison.Ordinal))
+            && !assignedText.Contains(": true", StringComparison.Ordinal) && !assignedText.Contains(": false", StringComparison.Ordinal),
+            "Opzioni dei dati assegnati non scritte «sì» o «no»: " + string.Join(" / ", assignedCells.Where(c => c.Contains("bloccata", StringComparison.Ordinal))));
         File.WriteAllText(Path.Combine(folder, "dati-assegnati.txt"), assignedText, new UTF8Encoding(false));
         // The former formats of the report (EmbeddedWallReport.F and Compact before 16/11/2026), only to show the user the difference.
         static string FormerF(double v) => v.ToString("G7", CultureInfo.GetCultureInfo("it-IT"));
