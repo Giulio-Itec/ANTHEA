@@ -280,7 +280,17 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public FormViewModel BarsForm { get; private set; } = null!;
     public FormViewModel StirrupForm { get; private set; } = null!;
     public FormViewModel MaterialsForm { get; private set; } = null!;
-    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm }.Where(f => f is not null);
+
+    /// <summary>
+    /// The creep coefficient φ of the method n (18/11/2026), with the concrete: a copy of the value of the document, written in the options of the
+    /// serviceability limit states of the RC section (<see cref="ConcreteQuickSection.WriteCreep"/>) at every edit.
+    /// </summary>
+    public FormViewModel CreepForm { get; private set; } = null!;
+
+    /// <summary>The field of φ, under the values of the concrete.</summary>
+    public FieldViewModel CreepField => CreepForm[ConcreteQuickSection.CreepKey];
+
+    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, CreepForm }.Where(f => f is not null);
 
     /// <summary>The diameter of the links, with the bars.</summary>
     public FieldViewModel StirrupField => StirrupForm["transverse_bar_diameter_mm"];
@@ -353,10 +363,13 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                 new("classe_acciaio", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre"),
                 T("fyk_mpa", "fyk", "MPa", "Tensione caratteristica di snervamento"), T("steel_modulus_mpa", "Es", "MPa", "Modulo elastico dell'acciaio"),
                 T("steel_fu_mpa", "fu", "MPa", "Tensione di rottura"), T("steel_eps_u", "εsu", "‰", "Deformazione ultima dell'acciaio")], InputEdited);
+            var creep = new JsonObject { [ConcreteQuickSection.CreepKey] = ConcreteQuickSection.Creep(Data) };
+            CreepForm = Form(creep, [T(ConcreteQuickSection.CreepKey, "φ", "", ConcreteQuickSection.CreepHelp)], _ => CreepEdited(creep));
             BuildCombinations();
         }
         finally { building = false; }
-        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(ConcreteFields), nameof(SteelFields),
+        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(CreepForm), nameof(CreepField),
+            nameof(ConcreteFields), nameof(SteelFields),
             nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
@@ -522,6 +535,13 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.ApplyLayers(Data);
         Changed();
         RefreshDrawing();
+    }
+
+    // φ changed: written where the RC section reads it, then the method n calculated again with the n of the library.
+    private void CreepEdited(JsonObject creep)
+    {
+        if (building || IsDisposed) return;
+        Edit(d => ConcreteQuickSection.WriteCreep(d, creep.S(ConcreteQuickSection.CreepKey)));
     }
 
     // ---------------------------------------------------------------- drawing

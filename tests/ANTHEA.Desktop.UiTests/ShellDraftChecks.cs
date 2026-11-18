@@ -213,6 +213,14 @@ internal static class ShellDraftChecks
                     await Idle(main);
                     Check(biaxial.Methods.SequenceEqual(["Capacità", "Metodo n"]) && biaxial.Method == "Capacità", "Verifica rapida, flessione deviata: verifica di capacità o metodo n");
                     await Capture(quickWindow.Window, output, "08c-verifica-rapida-deviata.png", bindings);
+                    // The creep (18/11/2026): φ = 1,5 with the method n, the n used in evidence in the materials and in the results.
+                    biaxial.Bending = "Retta"; biaxial.Method = "Metodo n";
+                    biaxial.CreepForm.Set(Anthea.Application.Concrete.ConcreteQuickSection.CreepKey, "1.5");
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.SteelValues.Single(v => v.InUse).Value != biaxial.SteelValues.Single(v => v.Label == "n₀").Value && biaxial.ResultValues.Any(v => v.InUse),
+                        "Verifica rapida: con φ = 1,5 n cambia ed è in evidenza");
+                    await Capture(quickWindow.Window, output, "08d-verifica-rapida-viscosita.png", bindings);
                 }
                 quickWindow.Window.Close();
                 await Idle(main);

@@ -5,8 +5,11 @@ using Anthea.Application.Modules;
 
 namespace Anthea.Application.Concrete;
 
-/// <summary>A value shown by the quick RC section: label, value already formatted, unit.</summary>
-public sealed record ConcreteQuickValue(string Label, string Value, string Unit = "");
+/// <summary>
+/// A value shown by the quick RC section: label, value already formatted, unit; <paramref name="InUse"/> marks the value that the calculation uses
+/// among similar ones (the n of the method n), with its <paramref name="Note"/>.
+/// </summary>
+public sealed record ConcreteQuickValue(string Label, string Value, string Unit = "", bool InUse = false, string Note = "");
 
 /// <summary>
 /// The outcome of a quick check of an RC section (module <see cref="ConcreteQuickSection.Module"/>): what the engine of the RC section returned,
@@ -31,7 +34,9 @@ public sealed record ConcreteQuickResult(
     string Model,
     double? YieldStrain,
     IReadOnlyList<ConcreteQuickCombination> Combinations,
-    string? SelectedId);
+    string? SelectedId,
+    double Creep = 0,
+    double? EffectiveRatio = null);
 
 /// <summary>A choice of the shape of the quick section: its name, whether it can be chosen, the note when it cannot.</summary>
 public sealed record ConcreteQuickShape(string Name, bool Available, string Note)
@@ -512,8 +517,6 @@ public static class ConcreteQuickSection
         if (ApplyLayers(data) is { } layerError) throw new ArgumentException(layerError);
         string model = Model(data);
         var settings = SectionWorkspace.Prepare(data);
-        // The method n of the quick section is at short term (n = Es / Ecm): no creep, whatever φ the document has from the RC section (on this copy).
-        foreach (string set in SectionWorkspace.Sets.Skip(2)) if (settings["sle"]?[set] is JsonObject sle) sle["phi"] = "0";
         var input = data["input"]!.AsObject();
         var view = View(data);
         string method = view.S("metodo");
@@ -628,9 +631,17 @@ public static class ConcreteQuickSection
             return stresses?.GetValueOrDefault(id) is { } s ? new ConcreteQuickCombination(id, row.S("nome"), s.Ratio, s.Status, s.Ratio is double r ? r <= 1 : null)
                 : new ConcreteQuickCombination(id, row.S("nome"), null, "Da calcolare", null);
         }).ToArray();
+        // The creep of the method n (18/11/2026): the φ that the engine reads from the rare SLE options and the n of the GPC library with it.
+        double creep = J.Number(settings["sle"]?["SLE"]?[CreepKey]) ?? 0;
+        double? effective = null;
+        if (J.Number(input["steel_modulus_mpa"]) is double steelModulus)
+        {
+            try { effective = Anthea.Calculations.Homogenization.Resolve(steelModulus, preview.Ecm, false, creep).N; }
+            catch (ArgumentException failure) { errors.Add("φ: " + failure.Message); }
+        }
         return new(method, straight, preview, selectedForce, check, limit, resistances, ultimate ? null : selectedForce, service, ratio, serviceStatus,
             ConcreteDomainChart.Geometry("SLU", options, domain, domainError), ConcreteDomainChart.Actions(options, domain, valid, selectedId, checks),
-            curvature, errors, model, yieldStrain, combinations, selectedId);
+            curvature, errors, model, yieldStrain, combinations, selectedId, creep, effective);
     }
 
     /// <summary>
@@ -759,7 +770,45 @@ public static class ConcreteQuickSection
     public static IReadOnlyList<ConcreteQuickValue> SteelValues(ConcreteQuickResult? result)
     {
         var preview = result?.Preview;
-        return [new("fyd", Number(preview?.Fyd), "MPa"), new("εyd", Number(result?.YieldStrain), "‰"), new("n", Number(preview?.N), "Es/Ecm")];
+        return [new("fyd", Number(preview?.Fyd), "MPa"), new("εyd", Number(result?.YieldStrain), "‰"), new("n₀", Number(preview?.N), "Es/Ecm"),
+            new("n", Number(result?.EffectiveRatio), "", true, $"usato nel metodo n · φ = {CreepText(result?.Creep ?? 0)}")];
+    }
+
+    // ---------------------------------------------------------------- creep
+
+    private static string CreepText(double creep) => creep.ToString("0.##", System.Globalization.CultureInfo.GetCultureInfo("it-IT"));
+
+    /// <summary>The key of the creep coefficient φ in the options of the serviceability limit states of the RC section (<c>workspace_ca.sle</c>).</summary>
+    public const string CreepKey = "phi";
+
+    /// <summary>The explanation of φ, for its field.</summary>
+    public const string CreepHelp = "Coefficiente di viscosità φ del metodo n: cambia n e le tensioni del metodo n; capacità SLU, dominio e momento–curvatura non cambiano.";
+
+    /// <summary>
+    /// The creep coefficient φ of the sheet, as the RC section reads it: the options shared by the serviceability limit states
+    /// (<c>workspace_ca.sle_comuni</c>), otherwise those of the rare combination; 0 when missing.
+    /// </summary>
+    public static string Creep(JsonObject data)
+    {
+        var settings = data["workspace_ca"];
+        return (settings?["sle_comuni"]?[CreepKey] ?? settings?["sle"]?["SLE"]?[CreepKey])?.ToString() is { Length: > 0 } text ? text : "0";
+    }
+
+    /// <summary>
+    /// Writes φ where the RC section reads it: the options shared by the serviceability limit states (<c>sle_comuni</c>, copied by
+    /// <see cref="SectionWorkspace.Prepare"/> into every state) when the document has them, and the options of every state (rare, frequent,
+    /// quasi-permanent), so that the document says the same to the RC section.
+    /// </summary>
+    public static void WriteCreep(JsonObject data, string value)
+    {
+        if (data["workspace_ca"] is not JsonObject settings) data["workspace_ca"] = settings = new JsonObject();
+        if (settings["sle_comuni"] is JsonObject shared) shared[CreepKey] = value;
+        if (settings["sle"] is not JsonObject sets) settings["sle"] = sets = new JsonObject();
+        foreach (string set in SectionWorkspace.Sets.Skip(2))
+        {
+            if (sets[set] is not JsonObject options) sets[set] = options = new JsonObject();
+            options[CreepKey] = value;
+        }
     }
 
     /// <summary>All the values of the materials that the engine derives from the input.</summary>
@@ -800,6 +849,8 @@ public static class ConcreteQuickSection
             values.Add(new("N", Number(s.N), "kN")); values.Add(new("Mx", Number(s.Mx), "kNm"));
             if (!result.Straight) values.Add(new("My", Number(s.My), "kNm"));
         }
+        // The n of the stresses, with its φ, next to them.
+        values.Add(new($"n (φ = {CreepText(result.Creep)})", Number(result.EffectiveRatio), "", true));
         if (result.ServiceState is { } stress)
         {
             values.Add(new("σc", Number(stress.sigma_cls), "MPa")); values.Add(new("σc limite", Number(stress.ConcreteStressLimit), "MPa"));

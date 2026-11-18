@@ -124,9 +124,26 @@ internal static class QuickSectionSheetChecks
         expect.That(service.ServiceState?.sigma_cls is double sigma && headlessSigma == sigma, $"σc come il calcolo della sezione in c.a.: {service.ServiceState?.sigma_cls} / {headlessSigma}");
         double? headlessSteel = J.Number(headless["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
         expect.That(service.ServiceState?.sigma_acciaio == headlessSteel && ConcreteQuickSection.Summary(service)?.Ductile is null, "σs come il calcolo della sezione in c.a.; nessun comportamento con il metodo n");
-        var creep = (JsonObject)serviceView.DeepClone(); creep["workspace_ca"]!["sle_comuni"]!["phi"] = "2";
-        expect.That(ConcreteQuickSection.Calculate(creep).ServiceState?.sigma_cls == service.ServiceState?.sigma_cls && creep["workspace_ca"]!["sle_comuni"]!["phi"]!.ToString() == "2",
-            "Metodo n a breve termine: φ del documento ignorato, documento invariato");
+        // The creep (18/11/2026): φ written where the RC section reads it; the stresses as the RC section with the same φ, n = Es/Ecm (1 + φ).
+        expect.That(ConcreteQuickSection.Creep(serviceView) == "0" && service.Creep == 0 && service.EffectiveRatio is double shortTerm && Math.Abs(shortTerm - service.Preview.N) < 1e-9,
+            "φ = 0: n uguale a Es/Ecm");
+        var creep = (JsonObject)serviceView.DeepClone(); ConcreteQuickSection.WriteCreep(creep, "2");
+        var crept = ConcreteQuickSection.Calculate(creep);
+        var headlessCreep = ConcreteAnalysis.Calculate((JsonObject)creep.DeepClone());
+        double? creepSigma = J.Number(headlessCreep["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_cls"]);
+        double? creepSteel = J.Number(headlessCreep["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
+        expect.That(ConcreteQuickSection.Creep(creep) == "2" && creep["workspace_ca"]!["sle_comuni"]!["phi"]!.ToString() == "2" && creep["workspace_ca"]!["sle"]!["SLE_QP"]!["phi"]!.ToString() == "2",
+            "φ scritto nelle opzioni SLE della sezione in c.a.");
+        expect.That(crept.ServiceState?.sigma_cls is double creptSigma && creptSigma == creepSigma && crept.ServiceState.sigma_acciaio == creepSteel && creptSigma != service.ServiceState?.sigma_cls,
+            $"φ = 2: tensioni come la sezione in c.a. con lo stesso φ, diverse dal breve termine ({crept.ServiceState?.sigma_cls} / {creepSigma} / {service.ServiceState?.sigma_cls})");
+        expect.That(crept.Creep == 2 && crept.EffectiveRatio is double longTerm && Math.Abs(longTerm - 3 * crept.Preview.N) < 1e-9, $"φ = 2: n = Es/Ecm · 3 ({crept.EffectiveRatio} / {crept.Preview.N})");
+        var steelValues = ConcreteQuickSection.SteelValues(crept);
+        expect.That(steelValues.Any(v => v.Label == "n₀" && !v.InUse) && steelValues.Single(v => v.InUse) is { Label: "n" } used && used.Note.Contains("metodo n", StringComparison.Ordinal)
+            && used.Note.Contains("φ = 2", StringComparison.Ordinal) && ConcreteQuickSection.ResultValues(crept).Any(v => v.InUse && v.Label == "n (φ = 2)"), "n usato evidenziato, con φ, nei materiali e nei risultati");
+        var creepUltimate = (JsonObject)same.DeepClone(); ConcreteQuickSection.WriteCreep(creepUltimate, "2");
+        var creptUltimate = ConcreteQuickSection.Calculate(creepUltimate);
+        expect.That(creptUltimate.UltimateCheck?.Utilization == quick.UltimateCheck?.Utilization && creptUltimate.Resistances.Select(r => r.Moment).SequenceEqual(quick.Resistances.Select(r => r.Moment))
+            && !ConcreteQuickSection.ResultValues(creptUltimate).Any(v => v.InUse), "φ non cambia la verifica SLU né le resistenze");
         var prepared = (JsonObject)same.DeepClone(); var preparedSettings = SectionWorkspace.Prepare(prepared);
         var resistances = StructuralQueries.ConcreteQuickResistance(prepared["input"]!.AsObject(), preparedSettings, quick.UltimateAction!.Value.N, false);
         expect.That(resistances.Select(r => r.Moment).SequenceEqual(quick.Resistances.Select(r => r.Moment)) && quick.Resistances.Count == 4,
@@ -148,6 +165,11 @@ internal static class QuickSectionSheetChecks
             && sheet.Summary.Detail.StartsWith("Sollecitazioni nulle", StringComparison.Ordinal) && sheet.Errors.Count == 0 && sheet.Current?.UltimateCheck is null,
             "Sollecitazioni nulle: MRd in evidenza, nessuna verifica e nessun avviso: " + sheet.Summary?.Value);
         expect.That(sheet.MaterialValues.Any(v => v.Label == "fcd" && v.Value != "—") && sheet.MaterialValues.Any(v => v.Label == "εyd" && v.Value != "—"), "Materiali con i valori del motore, εyd compreso");
+        expect.That(sheet.CreepField.Text == "0" && sheet.SteelValues.Single(v => v.InUse).Value == sheet.SteelValues.Single(v => v.Label == "n₀").Value, "φ = 0 nel foglio nuovo: n uguale a n₀");
+        sheet.CreepForm.Set(ConcreteQuickSection.CreepKey, "1.5"); await sheet.PendingCalculation;
+        expect.That(ConcreteQuickSection.Creep(sheet.Data) == "1.5" && modified == 1 && sheet.SteelValues.Single(v => v.InUse).Value != sheet.SteelValues.Single(v => v.Label == "n₀").Value,
+            "φ dal foglio: modifica del documento, n cambia");
+        sheet.CreepForm.Set(ConcreteQuickSection.CreepKey, "0"); await sheet.PendingCalculation; modified = 0;
         expect.That(sheet.Methods.SequenceEqual(["Momento positivo", "Momento negativo", "Metodo n"]) && sheet.Method == "Momento positivo" && sheet.Models.SequenceEqual(["Plastica", "Elastica"]),
             "Scelte con i nomi chiari");
         expect.That(!sheet.GeometryForm.Fields.Any(f => f.Key == "transverse_bar_diameter_mm") && sheet.StirrupField.Key == "transverse_bar_diameter_mm", "Staffe fra le armature, non nella geometria");
