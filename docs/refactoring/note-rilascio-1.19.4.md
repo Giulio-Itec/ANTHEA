@@ -30,7 +30,10 @@ versioni future del documento. Non ci sono comandi nuovi né un formato nuovo de
   Cambia solo con armature diverse sulle due facce.
 - **Esempi 04, 05 e 06** di distribuzione con la storia confermata, e la loro provenienza nel catalogo.
 - **Report.** Ogni numero con i decimali della sua unità, senza esponenti e senza «-0»; m/s e N/mm³ come potenze di dieci; aree e
-  momenti d'inerzia senza decimali; «Dati assegnati» con tutte le cifre degli ingressi e la virgola. I CSV non cambiano.
+  momenti d'inerzia senza decimali, anche quando la libreria scrive l'unità «mm2» o «mm2/m» (verifiche delle armature dei pali
+  circolari: «As minima» 1571 mm2, non più 1570,796); «Dati assegnati» con tutte le cifre degli ingressi e la virgola, e le opzioni
+  (conferma della storia di progetto, testa e piede bloccati, suzione trascurata, conferma A1 e M1 dei tiranti) scritte «sì» o «no»
+  invece di «true» o «false». I CSV non cambiano.
 
 ## Palo orizzontale
 
@@ -74,5 +77,6 @@ a ogni set, e vanno ricalcolati.
 ## Guide
 
 Guide globali Rev75, in Markdown e nella Wiki: paratie (A2, A3, A4, S3 e cifre del report), palo orizzontale (Broms accanto allo
-Stratificato), separatore decimale, torsione del profilo danese e vincoli dei modelli con più freedom case. Le edizioni Word e PDF
-seguono.
+Stratificato), separatore decimale, torsione del profilo danese e vincoli dei modelli con più freedom case. Edizioni Word e PDF Rev75,
+con le quattro figure delle paratie della guida pratica ricatturate dalla vista attuale; le Rev74 sono conservate in
+`supporto/SUPERATI/guide-rev75-20261118/`.
