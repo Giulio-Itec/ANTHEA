@@ -25,7 +25,7 @@ internal static class UnitNumberFormatChecks
         var italian = CultureInfo.GetCultureInfo("it-IT");
         // The approved table, unit by unit (16/11/2026), plus the three units of the module of the embedded walls (kN/m², kNm²/m, %).
         var table = new (string Unit, int Decimals)[] { ("m", 3), ("mm", 2), ("rad", 5), ("kN", 2), ("kN/m", 2), ("kNm", 2), ("kNm/m", 2), ("kPa", 2),
-            ("kN/m³", 2), ("°", 2), ("N", 2), ("Nmm", 2), ("kNm²", 2), ("MPa", 3), ("", 3), ("-", 3), ("mm²", 0), ("mm⁴", 0), ("L/s/m", 4), ("mm²/s", 4),
+            ("kN/m³", 2), ("°", 2), ("N", 2), ("Nmm", 2), ("kNm²", 2), ("MPa", 3), ("", 3), ("-", 3), ("mm²", 0), ("mm⁴", 0), ("mm²/m", 0), ("mm2", 0), ("mm2/m", 0), ("L/s/m", 4), ("mm²/s", 4),
             ("kN/m²", 2), ("kNm²/m", 2), ("%", 1) };
         foreach (var (unit, decimals) in table) e.That(UnitNumberFormat.Decimals(unit) == decimals, "Decimali di «" + unit + "»: " + UnitNumberFormat.Decimals(unit));
         e.That(UnitNumberFormat.Format(-0.0172, "m", comma) == "-0,017" && UnitNumberFormat.Format(-0.0172, "m", point) == "-0.017", "Metri: tre decimali e separatore");
@@ -46,6 +46,9 @@ internal static class UnitNumberFormatChecks
         // the comma, m/s and the numbers that would need an exponent as a power of ten with the whole mantissa (question 6).
         e.That(UnitNumberFormat.Format(4825.486, "mm²", italian, table: true) == "4825" && UnitNumberFormat.Format(22274444.834, "mm⁴", italian, table: true) == "22274445"
             && UnitNumberFormat.Format(990327.56, "mm⁴", italian) == "990328", "mm² e mm⁴ senza decimali");
+        // 18/11/2026: «mm2» and «mm2/m» of the libraries (reinforcement checks of the circular piles) as mm² and mm²/m.
+        e.That(UnitNumberFormat.Format(1570.796, "mm2", italian, table: true) == "1571" && UnitNumberFormat.Format(1047.198, "mm2/m", italian, table: true) == "1047"
+            && UnitNumberFormat.Format(1047.198, "mm²/m", italian) == "1047", "mm2 e mm2/m delle librerie come mm² e mm²/m");
         e.That(UnitNumberFormat.Input("1E-05", "m/s", italian) == "1·10⁻⁵" && UnitNumberFormat.Input("1.25e-7", "m/s", italian) == "1,25·10⁻⁷"
             && UnitNumberFormat.Input("0.6", "m", italian) == "0,6" && UnitNumberFormat.Input("0,123456789", "", italian) == "0,123456789"
             && UnitNumberFormat.Input("-6", "m", italian) == "-6" && UnitNumberFormat.Input("F1", "", italian) == "F1" && UnitNumberFormat.Input("true", "", italian) == "true"

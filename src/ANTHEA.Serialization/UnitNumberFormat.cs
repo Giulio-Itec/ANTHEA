@@ -10,7 +10,8 @@ namespace Anthea.Calculations;
 /// <list type="bullet">
 /// <item>m 3; mm 2; rad 5;</item>
 /// <item>kN, kN/m, kNm, kNm/m, kPa, kN/m², kN/m³, °, N, Nmm, kNm², kNm²/m 2;</item>
-/// <item>MPa 3; pure numbers and unknown units 3; L/s/m and mm²/s 4; % 1; mm² and mm⁴ 0 (17/11/2026, item 12h, question 7);</item>
+/// <item>MPa 3; pure numbers and unknown units 3; L/s/m and mm²/s 4; % 1; mm² and mm⁴ 0 (17/11/2026, item 12h, question 7); mm²/m 0, and «mm2» and
+/// «mm2/m» as the libraries write them read as mm² and mm²/m (18/11/2026);</item>
 /// <item>m/s (permeabilities, filtration velocities) and N/mm³ as a power of ten with two significant digits (<see cref="PowerOfTen"/>).</item>
 /// </list>
 /// The assigned data of a report keep every digit of the input (<see cref="Input"/>, question 6).
@@ -22,7 +23,7 @@ public static class UnitNumberFormat
     public const string Missing = "—";
 
     /// <summary>Decimals of a unit as the modules write it; an unknown unit, an empty one and «-» have those of a pure number.</summary>
-    public static int Decimals(string? unit) => (unit ?? "").Trim() switch
+    public static int Decimals(string? unit) => Canonical(unit) switch
     {
         "m" => 3,
         "mm" => 2,
@@ -30,12 +31,17 @@ public static class UnitNumberFormat
         "kN" or "kN/m" or "kNm" or "kNm/m" or "kPa" or "kN/m²" or "kN/m³" or "N" or "Nmm" or "kNm²" or "kNm²/m" or "°" => 2,
         "MPa" => 3,
         // Item 12h, question 7, decided on 17/11/2026: areas and second moments of area of the sections (tubes, piles) without decimals.
-        "mm²" or "mm⁴" => 0,
+        // 18/11/2026: the areas per metre (stirrups, «mm²/m») as the areas.
+        "mm²" or "mm⁴" or "mm²/m" => 0,
         "L/s/m" or "mm²/s" => 4,
         "m/s" => 10,
         "%" => 1,
         _ => 3
     };
+
+    /// <summary>A unit as ANTHEA writes it: «mm2» and «mm2/m», written by the libraries without the superscript (the reinforcement checks of the
+    /// circular piles of the embedded walls: «As minima» 1570,796 mm2), read as «mm²» and «mm²/m» (18/11/2026). The text shown is not changed.</summary>
+    private static string Canonical(string? unit) => (unit ?? "").Trim() switch { "mm2" => "mm²", "mm2/m" => "mm²/m", var other => other };
 
     /// <summary>Units shown as a power of ten (<see cref="PowerOfTen"/>): m/s (approved on 16/11) and N/mm³ (unit weight of the water in the
     /// coefficients of UPL/HYD, about 10⁻⁵: with three decimals it would show 0; approved on 17/11/2026, item 12h, question 3).</summary>
