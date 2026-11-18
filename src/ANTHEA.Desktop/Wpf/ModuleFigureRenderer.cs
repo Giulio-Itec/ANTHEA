@@ -14,6 +14,8 @@ internal sealed partial class ModuleFigureRenderer : IFigureRenderer
         cancellation.ThrowIfCancellationRequested();
         await Dispatcher.Yield(DispatcherPriority.Background);
         var c = request.Calculation;
+        if (c.ModuleId == Anthea.Reports.QuickSectionReport.Module)
+            return new QuickSectionFigureRenderer().Render((Anthea.Application.Concrete.ConcreteQuickReportAnalysis)request.Context!, request.Options);
         if (c.ModuleId == "str_palo") return ConcreteFigures(ConcreteGraphics(c.NativeAs<Anthea.Application.Concrete.ConcreteReportAnalysis>()), request.Options);
         if (c.ModuleId is HorizontalPileEditor.Module or MicropaloOrizzontale.Module) return !request.ProjectReport && request.Options.Contains(Anthea.Reports.PileReportContents.Version) ? HorizontalPileReportFigures.Figures(c.Values, request.Options.Contains(Anthea.Reports.PileReportContents.Brief)) : HorizontalFigures(c.Values);
         if (c.ModuleId == BridgeEditor.Module)

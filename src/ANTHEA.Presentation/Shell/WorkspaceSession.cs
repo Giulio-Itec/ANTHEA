@@ -218,7 +218,14 @@ public sealed class WorkspaceSession : IDisposable
     public SheetSession NewCalculation(string module)
     {
         ThrowIfDisposed();
-        return AddCalculation(CalculationDocumentSession.New(module));
+        var document = CalculationDocumentSession.New(module);
+        if (module == SheetLayout.QuickSectionModule)
+        {
+            int number = 1;
+            while (Sheets.Any(sheet => sheet.Module == module && sheet.Heading == "Sezione " + number)) number++;
+            document.Sheet["nome"] = "Sezione " + number;
+        }
+        return AddCalculation(document);
     }
 
     /// <summary>

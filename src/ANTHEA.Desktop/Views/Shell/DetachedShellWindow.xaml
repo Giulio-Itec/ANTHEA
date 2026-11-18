@@ -18,8 +18,27 @@
   <DockPanel DockPanel.Dock="Top" Background="{DynamicResource Token.Surface}">
    <Button DockPanel.Dock="Right" Style="{StaticResource Shell.Button}" Content="{x:Static tabs:ShellWindowsViewModel.ReattachLabel}" Margin="8,6"
     Command="{Binding Windows.ReattachCommand, ElementName=Root}" CommandParameter="{Binding Selected}"/>
-   <ItemsControl Style="{StaticResource Shell.TabStrip}" DataContext="{Binding Windows, ElementName=Root}" ItemsSource="{Binding DataContext.Tabs, ElementName=Root}"/>
+   <Button x:Name="NewQuickSection" DockPanel.Dock="Right" Style="{StaticResource Shell.Button}" Content="+ Nuova sezione" Margin="0,6"
+    ToolTip="Apre una sezione indipendente in una nuova scheda" AutomationProperties.Name="Nuova sezione"
+    Command="{Binding Windows.NewQuickSectionCommand, ElementName=Root}" CommandParameter="{Binding}"
+    Visibility="{Binding IsQuickSectionSelected, Converter={StaticResource WhenTrue}}"/>
+   <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+    <ItemsControl Style="{StaticResource Shell.TabStrip}" DataContext="{Binding Windows, ElementName=Root}" ItemsSource="{Binding DataContext.Tabs, ElementName=Root}">
+     <ItemsControl.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+    </ItemsControl>
+   </ScrollViewer>
   </DockPanel>
+  <Border DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}" Padding="4,3"
+   Visibility="{Binding IsQuickSectionSelected, Converter={StaticResource WhenTrue}}">
+   <StackPanel Orientation="Horizontal">
+    <Button x:Name="WordReport" Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2"
+     ToolTip="Report Word della sezione visualizzata" AutomationProperties.Name="Report Word"
+     Command="{Binding Commands.ReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"/>
+    <Button x:Name="BriefWordReport" Style="{StaticResource Shell.BarButton}" Content="W breve" MinWidth="75" Padding="6,2"
+     ToolTip="Report Word breve della sezione visualizzata" AutomationProperties.Name="Report Word breve"
+     Command="{Binding Commands.BriefReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"/>
+   </StackPanel>
+  </Border>
   <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource Token.Border}"/>
   <ContentControl Content="{Binding Selected}" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
  </DockPanel>

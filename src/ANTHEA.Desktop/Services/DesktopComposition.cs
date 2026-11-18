@@ -73,7 +73,7 @@ internal sealed class DesktopComposition
             // F5.10: the RC section, with the WPF figures of its report (S9); the Release keeps the historic view until its switch (C10).
             new ConcreteSectionSheetModule(new ConcreteSectionFigureRenderer()),
             // 17/11/2026: the quick RC section, a simplified interface on the engine of the RC section.
-            new Anthea.Presentation.Modules.QuickSection.QuickSectionSheetModule(),
+            new Anthea.Presentation.Modules.QuickSection.QuickSectionSheetModule(new QuickSectionFigureRenderer()),
             new Anthea.Presentation.Modules.Spectra.SpectraSheetModule(),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Snow),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BuildingWind),

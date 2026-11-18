@@ -54,8 +54,11 @@ public sealed class QuickCombinationRow : ObservableObject
     public IReadOnlyList<ConcreteQuickLimitState> States => ConcreteQuickSection.LimitStateChoices;
     public bool IsSelected { get => owner.SelectedCombinationId == Id; set { if (value) owner.SelectCombination(Id); OnPropertyChanged(); } }
     /// <summary>The ratio of the engine for this combination, or its status when there is none.</summary>
-    public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c ? (c.Ratio is double r ? EngineeringFormat.Number(r) : "—") : "";
-    public string RatioToolTip => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Status ?? "";
+    public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c
+        ? (c.Ratio is double r ? EngineeringFormat.Number(r) + (c.Governing.Length > 0 ? " " + c.Governing : "") : "—") : "";
+    /// <summary>The status of the check; with two checks (quasi-permanent) both ratios and which one governs (w: cracking, σ: stresses).</summary>
+    public string RatioToolTip => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c
+        ? (c.Ratios.Length > 0 ? c.Ratios + " · comanda " + (c.Governing == "w" ? "la fessurazione" : "la tensione") + "\n" : "") + c.Status : "";
     /// <summary>True within 1, false beyond, null without a ratio.</summary>
     public bool? Passed => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Passed;
     public IRelayCommand RemoveCommand { get; }
@@ -109,15 +112,15 @@ public sealed class QuickLayerRow : ObservableObject
     }
 }
 
-/// <summary>The quick RC section (17/11/2026): a simplified interface on the engine of the RC section, without a report of its own.</summary>
-public sealed class QuickSectionSheetModule : ISheetModule
+/// <summary>The quick RC section: a simplified interface on the RC section engine, with full and brief reports.</summary>
+public sealed class QuickSectionSheetModule(IQuickSectionFigureRenderer? figures = null) : ISheetModule
 {
     public ModuleInfo Info => ModuleDirectory.Get(ConcreteQuickSection.Module);
     public ModuleHelp Help => ModuleHelp.For(Info.Id);
     /// <summary>The choices of the view (title, method, bending, chart, layers) are data of the sheet, in <see cref="ConcreteQuickSection.ViewKey"/>.</summary>
     public ModulePersistence Persistence { get; } = new([ConcreteQuickSection.ViewKey]);
-    public ModuleReportCapabilities Reports { get; } = new(false);
-    public ISheetViewModel CreateSheet(SheetContext context) => new QuickSectionSheetViewModel(context);
+    public ModuleReportCapabilities Reports { get; } = new(true);
+    public ISheetViewModel CreateSheet(SheetContext context) => new QuickSectionSheetViewModel(context, figures);
 }
 
 /// <summary>
@@ -127,7 +130,7 @@ public sealed class QuickSectionSheetModule : ISheetModule
 /// calculation is the service of the module (<see cref="ConcreteQuickSectionService"/>), which calls the engine of the RC section after every edit,
 /// with the delay of the other sheets. The ViewModel computes nothing: the values come from <see cref="ConcreteQuickSection"/>.
 /// </summary>
-public sealed class QuickSectionSheetViewModel : SheetViewModelBase
+public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
 {
     /// <summary>The delay of the automatic recalculation after an edit.</summary>
     public static TimeSpan RecalculationDelay { get; } = TimeSpan.FromMilliseconds(450);
@@ -137,10 +140,11 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     private string drawingMessage = "";
     private bool showSection = true;
 
-    public QuickSectionSheetViewModel(SheetContext context) : base(ConcreteQuickSection.Module, context, RecalculationDelay)
+    public QuickSectionSheetViewModel(SheetContext context, IQuickSectionFigureRenderer? figures = null) : base(ConcreteQuickSection.Module, context, RecalculationDelay)
     {
         ConcreteQuickSection.Validate(Data);
-        Report = new NoReport();
+        this.figures = figures;
+        Report = new ReportSource(this);
         AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
         AddCombinationCommand = GuardedCommands.Create(Guard, AddCombination, () => CanEdit);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
@@ -719,9 +723,4 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     protected override void OnReloaded() { BuildForms(); RefreshDrawing(); }
 
-    /// <summary>The quick section has no report of its own in this version.</summary>
-    private sealed class NoReport : IModuleReportSource
-    {
-        public byte[] BuildReport(string title, IReadOnlySet<string> options, bool projectReport = false) => throw new InvalidOperationException(ConcreteQuickSection.NoReport);
-    }
 }

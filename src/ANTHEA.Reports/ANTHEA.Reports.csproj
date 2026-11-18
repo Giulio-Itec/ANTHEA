@@ -11,4 +11,5 @@
   <ItemGroup><PackageReference Include="PDFsharp-MigraDoc" Version="6.2.4" /></ItemGroup>
   <ItemGroup><EmbeddedResource Include="../ANTHEA.Desktop/Assets/Wiki/clima-*.png" LogicalName="Anthea.Climate.%(Filename)%(Extension)" /></ItemGroup>
   <ItemGroup><EmbeddedResource Include="Templates/ItecPile.docx" LogicalName="Anthea.ItecPile.docx" /></ItemGroup>
+  <ItemGroup><EmbeddedResource Include="Templates/QuickSection/*.png" LogicalName="Anthea.QuickSection.%(Filename)%(Extension)" /></ItemGroup>
 </Project>

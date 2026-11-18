@@ -12,7 +12,7 @@ namespace Anthea.Presentation.Tests;
 /// <summary>
 /// The quick RC section (17/11/2026): the module and its document (the format of the RC section), the same engine of the RC section (the outcome of
 /// the sheet equals the headless calculation of <c>str_palo</c> on the same data), the layers of bars, the resistance model, the behaviour, the
-/// ViewModel (opening, edits, choices, read-only revision, reload, save and reopen, invalid data, no report) and the examples of the distribution.
+/// ViewModel (opening, edits, choices, read-only revision, reload, save and reopen, invalid data, reports) and the examples of the distribution.
 /// </summary>
 internal static class QuickSectionSheetChecks
 {
@@ -405,9 +405,19 @@ internal static class QuickSectionSheetChecks
         var quasiResult = ConcreteQuickSection.Calculate(quasiView);
         var quasiSummary = ConcreteQuickSection.Summary(quasiResult)!;
         expect.That(quasiResult.State == "SLE_QP" && quasiResult.Crack?.Width is double width && quasiSummary.Value.StartsWith("wk = ", StringComparison.Ordinal)
-            && quasiSummary.Title.Contains("SLE quasi permanente · fessurazione e tensioni", StringComparison.Ordinal) && width == J.Number(Stress("SLE_QP", stateIds[5])?["CrackResult"]?["Width"])
+            && quasiSummary.Title.Contains("SLE quasi permanente · ", StringComparison.Ordinal) && quasiSummary.Title.EndsWith("verificata", StringComparison.Ordinal) && width == J.Number(Stress("SLE_QP", stateIds[5])?["CrackResult"]?["Width"])
             && ConcreteQuickSection.ResultValues(quasiResult).Select(v => v.Label).Intersect(["wk", "wlim", "σc limite", "n (φ = 1,5)"]).Count() == 4,
             "SLE quasi permanente selezionata: wk in evidenza, wlim, tensioni con i limiti, n con φ");
+        // The two checks of the quasi-permanent combination with the same importance (19/11/2026).
+        expect.That(quasiSummary.Heading == "Fessurazione" && quasiSummary.Ratio == Crack("SLE_QP", stateIds[5]) && quasiSummary.Secondary is { Heading: "Tensioni" } stressBlock
+            && stressBlock.Value.StartsWith("σc = ", StringComparison.Ordinal) && stressBlock.Value.Contains("σs = ", StringComparison.Ordinal) && stressBlock.Ratio == quasiStress
+            && quasiSummary.Title.EndsWith(byId[stateIds[5]].Passed == true ? "· verificata" : "· non verificata", StringComparison.Ordinal),
+            "SLE quasi permanente: fessurazione e tensioni in due blocchi uguali, ognuno con il suo rapporto; esito complessivo nel titolo");
+        expect.That(byId[stateIds[5]].Governing == (Crack("SLE_QP", stateIds[5]) >= quasiStress ? "w" : "σ") && byId[stateIds[5]].Ratios.Contains("wk/wlim", StringComparison.Ordinal)
+            && byId[stateIds[5]].Ratios.Contains("σ/σlim", StringComparison.Ordinal) && byId[stateIds[3]].Governing == "" && byId[stateIds[4]].Governing == "",
+            "Tabella: con due verifiche la sigla di quella che comanda e i due rapporti; nessuna sigla con una sola verifica");
+        var frequentOnly = (JsonObject)states.DeepClone(); ConcreteQuickSection.SelectCombination(frequentOnly, stateIds[4]);
+        expect.That(ConcreteQuickSection.Summary(ConcreteQuickSection.Calculate(frequentOnly))!.Secondary is null, "SLE frequente: un solo blocco (fessurazione)");
         var frequentView = (JsonObject)states.DeepClone(); ConcreteQuickSection.SelectCombination(frequentView, stateIds[4]);
         var frequentValues = ConcreteQuickSection.ResultValues(ConcreteQuickSection.Calculate(frequentView));
         expect.That(frequentValues.Any(v => v.Label == "wk") && !frequentValues.Any(v => v.Label == "σc limite"), "SLE frequente: fessurazione, tensioni senza limiti");
@@ -457,6 +467,9 @@ internal static class QuickSectionSheetChecks
         var oldService = Legacy("Metodo n", "Plastico");
         string oldServiceId = ConcreteQuickSection.Combinations(oldService)[0].S("id");
         var oldServiceResult = ConcreteQuickSection.Calculate(oldService);
+        var oldServiceReport = ConcreteQuickReportAnalysis.Create(oldService);
+        expect.That(oldServiceReport.Report.Cases.Count == 1 && oldServiceReport.Report.Cases[0].State == "SLE"
+            && oldServiceReport.Results[oldServiceId].ServiceRatio == oldServiceResult.ServiceRatio, "Relazione del foglio legacy: copia -n esclusa e verifica SLE conservata");
         expect.That(ConcreteQuickSection.Combinations(oldService)[0].S(ConcreteQuickSection.StateField) == "SLE" && oldServiceResult.ServiceState is not null && oldServiceResult.Method == "Metodo n",
             "Foglio della prima versione con il metodo n: combinazione SLE rara");
         ConcreteQuickSection.WriteCombination(oldService, oldServiceId, "nome", "Rara");
@@ -469,6 +482,38 @@ internal static class QuickSectionSheetChecks
         expect.That(ConcreteQuickActionsExcel.Read(stateBook).SequenceEqual(withStates) && ConcreteQuickActionsExcel.State("sle fr") == "SLE_FREQ" && ConcreteQuickActionsExcel.State("") == "SLU"
             && ConcreteQuickActionsExcel.State("Capacità") == "SLU" && ConcreteQuickActionsExcel.State("Quasi permanente") == "SLE_QP", "Excel: colonna SL scritta e riletta (vuota = SLU)");
         expect.Throws<ArgumentException>(() => ConcreteQuickActionsExcel.State("SLD"), "Excel: stato limite sconosciuto rifiutato");
+        // The order of the program (Nome, SL, N, Mx, My) with the drop-down list of SL (19/11/2026); the columns read by their heads.
+        var sheetXml = System.Xml.Linq.XDocument.Load(new System.IO.Compression.ZipArchive(new MemoryStream(stateBook)).GetEntry("xl/worksheets/sheet1.xml")!.Open());
+        System.Xml.Linq.XNamespace sx = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
+        var heads = sheetXml.Descendants(sx + "row").First(r => (string?)r.Attribute("r") == ConcreteQuickActionsExcel.HeaderRow.ToString(System.Globalization.CultureInfo.InvariantCulture))
+            .Elements(sx + "c").Select(c => string.Concat(c.Descendants(sx + "t").Select(x => x.Value))).ToArray();
+        var list = sheetXml.Descendants(sx + "dataValidation").SingleOrDefault();
+        expect.That(heads.SequenceEqual(["Nome", "SL", "N [kN]", "Mx [kNm]", "My [kNm]"]) && list?.Attribute("type")?.Value == "list" && list.Attribute("sqref")?.Value == "B5:B10004"
+            && list.Element(sx + "formula1")?.Value == "\"SLU,SLV,SLE RA,SLE FR,SLE QP\"", "Excel: colonne nell'ordine del programma, menù a tendina per SL");
+        // A workbook of the earlier layout (SL last) and one without SL: the same rows.
+        byte[] Rewritten(Func<string[], string[]> layout)
+        {
+            using var buffer = new MemoryStream(); buffer.Write(stateBook);
+            using (var zip = new System.IO.Compression.ZipArchive(buffer, System.IO.Compression.ZipArchiveMode.Update, true))
+            {
+                var entry = zip.GetEntry("xl/worksheets/sheet1.xml")!; System.Xml.Linq.XDocument xml;
+                using (var s = entry.Open()) xml = System.Xml.Linq.XDocument.Load(s);
+                foreach (var row in xml.Descendants(sx + "row").Where(r => int.Parse((string)r.Attribute("r")!, System.Globalization.CultureInfo.InvariantCulture) >= ConcreteQuickActionsExcel.HeaderRow))
+                {
+                    var cells = row.Elements(sx + "c").ToArray();
+                    string[] letters = ["A", "B", "C", "D", "E"];
+                    var order = layout(letters);
+                    foreach (var cell in cells) cell.Remove();
+                    foreach (var (cell, i) in order.Select((l, i) => (cells.FirstOrDefault(c => ((string)c.Attribute("r")!).StartsWith(l, StringComparison.Ordinal)), i)))
+                        if (cell is not null) { cell.SetAttributeValue("r", letters[i] + row.Attribute("r")!.Value); row.Add(cell); }
+                }
+                entry.Delete(); using var output = zip.CreateEntry("xl/worksheets/sheet1.xml").Open(); xml.Save(output);
+            }
+            return buffer.ToArray();
+        }
+        expect.That(ConcreteQuickActionsExcel.Read(Rewritten(l => [l[0], l[2], l[3], l[4], l[1]])).SequenceEqual(withStates)
+            && ConcreteQuickActionsExcel.Read(Rewritten(l => [l[0], l[2], l[3], l[4]])).Select(r => r.State).All(s => s == "SLU"),
+            "Excel: si leggono anche il vecchio ordine (SL in fondo) e i file senza SL (tutte SLU)");
         var imported = ConcreteQuickSection.Create(); ConcreteQuickActionsExcel.Import(imported, stateBook);
         expect.That(ConcreteQuickSection.Combinations(imported).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(["SLU", "SLV", "SLE_QP"])
             && ConcreteSheetPreparation.ReadActions(imported)["SLV"].Length == 1, "Excel importato: combinazioni nelle loro famiglie");
@@ -495,10 +540,13 @@ internal static class QuickSectionSheetChecks
             stateSheet.Model = "Elastica"; await stateSheet.PendingCalculation;
             expect.That(stateSheet.CombinationRows[0].State == "SLU" && stateSheet.Model == "Elastica" && stateSheet.Current?.Model == "Elastico",
                 "Modello scelto in alto su una combinazione SLE: diventa SLU con quel modello");
+            string reportInput = stateSheet.Data.ToJsonString();
+            var reportBytes = stateSheet.Report.BuildReport("Sezione", new HashSet<string> { "oggetto", "materiali", "azioni", "riepilogo", "risultati_SLU" });
+            expect.That(reportBytes.Length > 1000 && stateSheet.Data.ToJsonString() == reportInput, "Relazione dal ViewModel: Word generato senza cambiare il documento");
         }
 
-        // No report in this version.
-        expect.Throws<InvalidOperationException>(() => sheet.Report.BuildReport("Sezione", new HashSet<string>()), "Relazione non disponibile segnalata");
+        expect.That(module.Reports.ShortReport, "Relazione breve disponibile per la verifica rapida");
+        QuickSectionReportChecks.Run(expect, folder);
 
         // The examples of the distribution: valid documents that calculate without errors.
         var examples = Directory.Exists(ExampleFolder(root)) ? Directory.GetFiles(ExampleFolder(root), "*.anthea") : [];

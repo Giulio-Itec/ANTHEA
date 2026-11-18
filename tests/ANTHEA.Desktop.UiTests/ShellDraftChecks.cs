@@ -241,10 +241,37 @@ internal static class ShellDraftChecks
                         "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
                     await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
                 }
+                // Report commands are inside the detached window and follow its selected tab.
+                var word = (Button)quickWindow.Window.FindName("WordReport");
+                var briefWord = (Button)quickWindow.Window.FindName("BriefWordReport");
+                var newSection = (Button)quickWindow.Window.FindName("NewQuickSection");
+                Check(word.IsVisible && briefWord.IsVisible && newSection.IsVisible
+                    && ReferenceEquals(word.Command, shell.Commands.ReportCommand) && ReferenceEquals(briefWord.Command, shell.Commands.BriefReportCommand)
+                    && ReferenceEquals(word.CommandParameter, quick) && ReferenceEquals(briefWord.CommandParameter, quick), "W e W breve nella finestra staccata, riferiti alla sezione visibile");
+                shell.Windows.Select(shell.Windows.TabOf(pileSheet)!);
+                await Press(newSection);
+                var secondQuick = workspace.Active!;
+                var quickHost = shell.Windows.TabOf(quick)!.Host!;
+                Check(secondQuick != quick && quickHost.Tabs.Count == 2 && quickHost.SelectedSheet == secondQuick
+                    && detached.Count == windowsBefore + 1 && tracker.Hosts.Count == 1, "«+ Nuova sezione» aggiunge una scheda nella stessa finestra");
+                var secondQuickModel = (Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)secondQuick.ViewModel;
+                secondQuickModel.CombinationRows[0].N = "-250"; secondQuickModel.CombinationRows[0].Mx = "120";
+                await secondQuickModel.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                await Idle(main);
+                Check(secondQuickModel.CombinationRows.Count == 1 && quickHost.Selected!.Title == "Sezione 2"
+                    && ReferenceEquals(word.CommandParameter, secondQuick) && ReferenceEquals(briefWord.CommandParameter, secondQuick), "Seconda sezione indipendente, pulsanti Word aggiornati");
+                await Capture(quickWindow.Window, output, "08f-verifica-rapida-due-schede.png", bindings);
+                var firstTabButton = Descendants<Button>(quickWindow.Window).Single(b => ReferenceEquals(b.Command, shell.Windows.SelectCommand) && ReferenceEquals(b.CommandParameter, shell.Windows.TabOf(quick)));
+                await Press(firstTabButton);
+                Check(workspace.Active == quick && ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).CombinationRows.Count == 6
+                    && ReferenceEquals(word.CommandParameter, quick) && ReferenceEquals(briefWord.CommandParameter, quick), "Selezionando la prima scheda ritornano i suoi dati e i suoi report");
+                await Capture(quickWindow.Window, output, "08g-verifica-rapida-prima-scheda.png", bindings);
                 quickWindow.Window.Close();
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");
                 workspace.CloseSheet(quick);
+                Check(shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(secondQuick)!), "La seconda sezione resta aperta dopo la chiusura della finestra e della prima sezione");
+                workspace.CloseSheet(secondQuick);
                 await Idle(main);
 
                 // After the checkpoint of 22/10: the menu of a sheet of the tree offers the new window and the full page.

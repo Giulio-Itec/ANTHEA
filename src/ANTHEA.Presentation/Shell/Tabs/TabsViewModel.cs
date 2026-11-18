@@ -120,6 +120,11 @@ public sealed class TabHostViewModel : ViewModelBase
 
     public ObservableCollection<ShellTabViewModel> Tabs { get; } = [];
 
+    /// <summary>The quick-section commands belong to the tab shown in this window.</summary>
+    public bool IsQuickSectionSelected => Selected is SheetTabViewModel { Module: SheetLayout.QuickSectionModule };
+
+    public SheetSession? SelectedSheet => (Selected as SheetTabViewModel)?.Session;
+
     /// <summary>The tab shown; null when the window has no tab (the main window then shows the pages).</summary>
     public ShellTabViewModel? Selected
     {
@@ -131,6 +136,8 @@ public sealed class TabHostViewModel : ViewModelBase
             selected = value;
             if (value is not null) value.IsSelected = true;
             OnPropertyChanged();
+            OnPropertyChanged(nameof(IsQuickSectionSelected));
+            OnPropertyChanged(nameof(SelectedSheet));
         }
     }
 }
@@ -178,6 +185,12 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         CloseCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => Close(tab!)), tab => tab is not null);
         MoveToNewWindowCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => MoveToNewWindow(tab!)), tab => tab is not null);
         ReattachCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => Reattach(tab!)), tab => tab is { IsDetached: true });
+        NewQuickSectionCommand = new RelayCommand<TabHostViewModel>(host => guard.Run(() =>
+        {
+            if (host is null || !Detached.Contains(host)) return;
+            WindowActivated(host);
+            workspace.NewCalculation(SheetLayout.QuickSectionModule);
+        }), host => host is { IsMain: false } && Detached.Contains(host));
         foreach (var sheet in workspace.Sheets) Add(sheet);
         workspace.SheetOpened += OnSheetOpened;
         workspace.SheetClosed += OnSheetClosed;
@@ -198,6 +211,7 @@ public sealed class ShellWindowsViewModel : ViewModelBase
     public IRelayCommand<ShellTabViewModel> CloseCommand { get; }
     public IRelayCommand<ShellTabViewModel> MoveToNewWindowCommand { get; }
     public IRelayCommand<ShellTabViewModel> ReattachCommand { get; }
+    public IRelayCommand<TabHostViewModel> NewQuickSectionCommand { get; }
 
     /// <summary>The tab of an open sheet.</summary>
     public SheetTabViewModel? TabOf(SheetSession sheet) => sheets.GetValueOrDefault(sheet);
@@ -381,11 +395,12 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         }
     }
 
-    // A module with its own window (17/11/2026, the quick RC section) opens its new sheet detached, in a window of its size.
+    // The first quick section opens detached; further sections in that window become independent tabs.
     private void OnSheetOpened(object? sender, SheetSession sheet)
     {
+        bool reuseWindow = !activeHost.IsMain && activeHost.Tabs.OfType<SheetTabViewModel>().Any(tab => tab.Module == sheet.Module);
         Add(sheet);
-        if (SheetLayout.OwnWindow(sheet.Module) is { } size) MoveToNewWindow(sheets[sheet], size);
+        if (!reuseWindow && SheetLayout.OwnWindow(sheet.Module) is { } size) MoveToNewWindow(sheets[sheet], size);
     }
 
     private void OnSheetClosed(object? sender, SheetClosedEventArgs e)

@@ -36,6 +36,9 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
     /// <summary>The windows and tabs of the shell: the commands of the tabs.</summary>
     public ShellWindowsViewModel Windows { get; }
 
+    /// <summary>Report commands; the view passes the sheet selected in this window.</summary>
+    public Anthea.Presentation.Shell.Commands.ShellCommandsViewModel? Commands => shell?.Commands;
+
     /// <summary>F1 and the «?» of a historic sheet in this window (R5, WikiContextHelp): the Wiki tab of the shell, in the main window.</summary>
     void IShellWikiHost.ShowWiki(string uri) => shell?.ShowWikiFromView(uri);
 
