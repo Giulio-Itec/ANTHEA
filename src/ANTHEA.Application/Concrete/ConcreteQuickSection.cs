@@ -58,13 +58,15 @@ public sealed record ConcreteQuickShape(string Name, bool Available, string Note
 /// The outcome of a combination of the quick section: η of the ultimate check (or the ratio of the stresses with the method n) and the status of
 /// the engine; <see cref="Passed"/> true when the ratio is within 1, null without a ratio.
 /// </summary>
-public sealed record ConcreteQuickCombination(string Id, string Name, double? Ratio, string Status, bool? Passed, string State = "SLU");
+public sealed record ConcreteQuickCombination(string Id, string Name, double? Ratio, string Status, bool? Passed, string State = "SLU",
+    string Governing = "", string Ratios = "");
 
 /// <summary>
 /// The main outcome of the quick RC section, shown in evidence: the design resisting moment (or the stresses of the method n), the ratio with the
 /// outcome, and the behaviour at the resistant point (ductile when the tension steel yields, brittle otherwise; null for the method n).
 /// </summary>
-public sealed record ConcreteQuickSummary(string Title, string Value, string Detail, string Behaviour, bool? Ductile, double? Ratio, bool? Passed);
+public sealed record ConcreteQuickSummary(string Title, string Value, string Detail, string Behaviour, bool? Ductile, double? Ratio, bool? Passed,
+    string Heading = "", ConcreteQuickSummary? Secondary = null);
 
 /// <summary>
 /// The quick RC section (17/11/2026): a simplified interface on the engine of the RC section (<c>str_palo</c>). The document has the format of the
@@ -822,7 +824,10 @@ public static class ConcreteQuickSection
                 // The governing ratio between the cracking and the stresses.
                 bool crackGoverns = stressRatio is not double other || crackRatio >= other;
                 double governing = crackGoverns ? crackRatio : stressRatio!.Value;
-                return new(id, name, governing, crackGoverns ? s.CrackResult.Status : s.Status, governing <= 1, state);
+                // With two checks (quasi-permanent): which one governs (w: cracking, σ: stresses) and both ratios, for the table (19/11/2026).
+                bool both = stressRatio is not null;
+                string ratios = both ? $"wk/wlim = {Number(crackRatio)} · σ/σlim = {Number(stressRatio)}" : "";
+                return new(id, name, governing, crackGoverns ? s.CrackResult.Status : s.Status, governing <= 1, state, both ? (crackGoverns ? "w" : "σ") : "", ratios);
             }
             return new(id, name, stressRatio, s.Status, stressRatio is double r ? r <= 1 : null, state);
         }
@@ -891,15 +896,22 @@ public static class ConcreteQuickSection
         combination += LimitStateNames.ElementAtOrDefault(LimitStates.IndexOf(result.State)) + " · ";
         if (result.State is "SLE_FREQ" or "SLE_QP")
         {
-            string crackTitle = combination + (result.State == "SLE_QP" ? "fessurazione e tensioni con il metodo n" : "fessurazione");
-            if (result.Crack is not { } crack) return new(crackTitle, "—", selected?.Status ?? result.ServiceStatus, "", null, null, null);
-            string crackDetail = string.Join(" · ", new[]
-            {
-                crack.Ratio is double cr ? $"wk/wlim = {Number(cr)}" : "",
-                result.State == "SLE_QP" && result.ServiceRatio is double sr ? $"σ/σlim = {Number(sr)}" : "",
-                selected?.Status ?? crack.Status
-            }.Where(t => t.Length > 0));
-            return new(crackTitle, crack.Width is double w ? $"wk = {Number(w)} mm" : crack.Status, crackDetail, "", null, selected?.Ratio, selected?.Passed);
+            bool quasi = result.State == "SLE_QP";
+            // The quasi-permanent combination has two checks of the same importance (19/11/2026): the cracking and the stresses, each with its value,
+            // its ratio and its outcome; the combination passes when both pass.
+            string outcome = quasi && selected?.Passed is bool passed ? (passed ? " · verificata" : " · non verificata") : "";
+            string crackTitle = quasi ? combination.TrimEnd('·', ' ') + outcome : combination + "fessurazione";
+            ConcreteQuickSummary? stresses = quasi && result.ServiceState is { } s
+                ? new("", $"σc = {Number(s.sigma_cls)} MPa · σs = {Number(s.sigma_acciaio)} MPa",
+                    string.Join(" · ", new[] { result.ServiceRatio is double sr ? $"σ/σlim = {Number(sr)}" : "", result.ServiceStatus }.Where(t => t.Length > 0)),
+                    "", null, result.ServiceRatio, result.ServiceRatio is double r ? r <= 1 : null, "Tensioni")
+                : null;
+            string block = quasi ? "Fessurazione" : "";
+            if (result.Crack is not { } crack)
+                return new(crackTitle, "—", selected?.Status ?? result.ServiceStatus, "", null, null, null, block, stresses);
+            string width = crack.Width is double w ? $"wk = {Number(w)} mm" + (crack.Limit is double l ? $" (wlim {Number(l)} mm)" : "") : crack.Status;
+            string crackDetail = string.Join(" · ", new[] { crack.Ratio is double cr ? $"wk/wlim = {Number(cr)}" : "", crack.Status }.Where(t => t.Length > 0));
+            return new(crackTitle, width, crackDetail, "", null, crack.Ratio, crack.Ratio is double ratio ? ratio <= 1 : null, block, stresses);
         }
         if (result.Method == Methods[2])
         {
@@ -1090,7 +1102,6 @@ public static class ConcreteQuickSection
         if (result.Crack is { } crack)
         {
             values.Add(new("wk", Number(crack.Width), "mm")); values.Add(new("wlim", Number(crack.Limit), "mm"));
-            values.Add(new("wk/wlim", Number(crack.Ratio))); values.Add(new("Fessure", crack.Status));
             if (crack.BarSpacing is double spacing) values.Add(new("s barre", Number(spacing), "mm"));
         }
         if (result.ServiceState is { } stress)
@@ -1103,8 +1114,6 @@ public static class ConcreteQuickSection
             if (checkedStresses)
             {
                 values.Add(new("σs limite", Number(stress.SteelStressLimit), "MPa"));
-                values.Add(new("σ/σlim", Number(result.ServiceRatio)));
-                values.Add(new("Tensioni", result.ServiceStatus));
             }
             values.AddRange(State(stress.Response));
         }

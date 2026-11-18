@@ -17,15 +17,18 @@ public static class ConcreteQuickActionsExcel
     /// <summary>The name of the sheet of the combinations.</summary>
     public const string SheetName = "Sollecitazioni";
 
-    /// <summary>The heads of the table, from column A.</summary>
+    /// <summary>The heads that a workbook must have (in any column; the column SL is optional).</summary>
     public static ImmutableArray<string> Headers { get; } = ["Nome", "N [kN]", "Mx [kNm]", "My [kNm]"];
+
+    /// <summary>The heads of the written workbook, from column A, in the order of the table of the program.</summary>
+    public static ImmutableArray<string> Layout { get; } = ["Nome", StateHeader, "N [kN]", "Mx [kNm]", "My [kNm]"];
 
     /// <summary>The title of the sheet, in A1.</summary>
     public const string Title = "ANTHEA · sezione in c.a. rapida · sollecitazioni";
 
     /// <summary>The note of the sheet, in A2.</summary>
     public const string Note = "Una riga per combinazione, quante se ne vogliono. N negativo a compressione; My conta solo con la flessione deviata; "
-        + "una forza vuota vale 0. SL: SLU (vuoto), SLV, SLE RA, SLE FR, SLE QP. Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
+        + "una forza vuota vale 0. SL: scegliere dal menù a tendina (vuoto = SLU). Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
 
     /// <summary>The most combinations of a workbook.</summary>
     public const int MaximumRows = 10000;
@@ -39,7 +42,7 @@ public static class ConcreteQuickActionsExcel
     /// <summary>A combination of the workbook, with its limit state (<see cref="ConcreteQuickSection.LimitStates"/>; SLU by default).</summary>
     public sealed record Row(string Name, double N, double Mx, double My, string State = "SLU");
 
-    /// <summary>The head of the optional column of the limit state, in E.</summary>
+    /// <summary>The head of the column of the limit state (in B in the written workbook, optional when reading).</summary>
     public const string StateHeader = "SL";
 
     /// <summary>The combinations of the sheet <paramref name="data"/>, as the workbook writes them.</summary>
@@ -86,18 +89,26 @@ public static class ConcreteQuickActionsExcel
             if (!double.IsFinite(value)) throw new ArgumentException("Sollecitazione non finita.");
             return new(ns + "c", new XAttribute("r", reference), new XAttribute("s", 4), new XElement(ns + "v", value.ToString("R", CultureInfo.InvariantCulture)));
         }
+        // The columns in the order of the table of the program: Nome, SL, N, Mx, My (19/11/2026).
         var body = new XElement(ns + "sheetData",
             new XElement(ns + "row", new XAttribute("r", 1), Text("A1", Title, 1)),
             new XElement(ns + "row", new XAttribute("r", 2), Text("A2", Note, 3)),
-            new XElement(ns + "row", new XAttribute("r", HeaderRow), Headers.Append(StateHeader).Select((h, i) => Text(Column(i) + HeaderRow, h, 2))));
+            new XElement(ns + "row", new XAttribute("r", HeaderRow), Layout.Select((h, i) => Text(Column(i) + HeaderRow, h, 2))));
         for (int i = 0; i < rows.Count; i++)
         {
             int r = HeaderRow + 1 + i;
             var row = rows[i];
-            body.Add(new XElement(ns + "row", new XAttribute("r", r), Text("A" + r, row.Name, 0), Number("B" + r, row.N), Number("C" + r, row.Mx), Number("D" + r, row.My),
-                Text("E" + r, ConcreteQuickSection.LimitStateLabel(row.State), 0)));
+            body.Add(new XElement(ns + "row", new XAttribute("r", r), Text("A" + r, row.Name, 0), Text("B" + r, ConcreteQuickSection.LimitStateLabel(row.State), 0),
+                Number("C" + r, row.N), Number("D" + r, row.Mx), Number("E" + r, row.My)));
         }
         int last = Math.Max(HeaderRow + 1, HeaderRow + rows.Count);
+        // The column SL as a drop-down list of the limit states, for the rows of the combinations.
+        var stateList = new XElement(ns + "dataValidations", new XAttribute("count", 1),
+            new XElement(ns + "dataValidation", new XAttribute("type", "list"), new XAttribute("allowBlank", 1), new XAttribute("showInputMessage", 1),
+                new XAttribute("showErrorMessage", 1), new XAttribute("errorTitle", "Stato limite"), new XAttribute("error", "Scegliere " + string.Join(", ", ConcreteQuickSection.LimitStateLabels) + "."),
+                new XAttribute("promptTitle", "Stato limite"), new XAttribute("prompt", "Vuoto = SLU"),
+                new XAttribute("sqref", "B" + (HeaderRow + 1) + ":B" + (HeaderRow + MaximumRows)),
+                new XElement(ns + "formula1", "\"" + string.Join(",", ConcreteQuickSection.LimitStateLabels) + "\"")));
         var sheet = new XDocument(new XElement(ns + "worksheet", new XAttribute("xmlns", ns.NamespaceName), new XAttribute(XNamespace.Xmlns + "r", rel.NamespaceName),
             new XElement(ns + "dimension", new XAttribute("ref", "A1:E" + last)),
             new XElement(ns + "sheetViews", new XElement(ns + "sheetView", new XAttribute("workbookViewId", 0),
@@ -106,9 +117,9 @@ public static class ConcreteQuickActionsExcel
             new XElement(ns + "sheetFormatPr", new XAttribute("defaultRowHeight", 15)),
             new XElement(ns + "cols",
                 new XElement(ns + "col", new XAttribute("min", 1), new XAttribute("max", 1), new XAttribute("width", 26), new XAttribute("customWidth", 1)),
-                new XElement(ns + "col", new XAttribute("min", 2), new XAttribute("max", 4), new XAttribute("width", 14), new XAttribute("customWidth", 1)),
-                new XElement(ns + "col", new XAttribute("min", 5), new XAttribute("max", 5), new XAttribute("width", 12), new XAttribute("customWidth", 1))),
-            body));
+                new XElement(ns + "col", new XAttribute("min", 2), new XAttribute("max", 2), new XAttribute("width", 12), new XAttribute("customWidth", 1)),
+                new XElement(ns + "col", new XAttribute("min", 3), new XAttribute("max", 5), new XAttribute("width", 14), new XAttribute("customWidth", 1))),
+            body, stateList));
         var bytes = Package(new Dictionary<string, XDocument>
         {
             ["[Content_Types].xml"] = XDocument.Parse(ContentTypes),
@@ -124,7 +135,8 @@ public static class ConcreteQuickActionsExcel
 
     /// <summary>
     /// The combinations of a workbook: the rows under the heads <see cref="Headers"/> of the sheet <see cref="SheetName"/>, without the empty
-    /// ones; an empty force is zero, the columns after D are ignored. At least one combination.
+    /// ones. The columns are found by their heads, in any order (the order of the program, Nome, SL, N, Mx, My, and the earlier one with SL last
+    /// or without it); the other columns are ignored, an empty force is zero, an empty SL is SLU. At least one combination.
     /// </summary>
     public static IReadOnlyList<Row> Read(byte[] bytes)
     {
@@ -136,34 +148,38 @@ public static class ConcreteQuickActionsExcel
             throw new ArgumentException("Il file non è una cartella di lavoro Excel (.xlsx) valida.", error);
         }
         var rows = new List<Row>();
-        bool header = false, state = false;
+        Dictionary<string, int>? columns = null;
         foreach (var row in sheet.Rows)
         {
             var cells = row.Cells;
             string Cell(int column) => cells.GetValueOrDefault(column)?.Trim() ?? "";
-            if (!header)
+            if (columns is null)
             {
-                header = Enumerable.Range(1, Headers.Length).All(c => string.Equals(Cell(c), Headers[c - 1], StringComparison.OrdinalIgnoreCase));
-                state = header && string.Equals(Cell(Headers.Length + 1), StateHeader, StringComparison.OrdinalIgnoreCase);
+                // The row of the heads: every head of Headers in some column; SL where it is, when it is.
+                var found = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                foreach (var (column, text) in cells.OrderBy(c => c.Key))
+                    if (Headers.Append(StateHeader).Contains(text.Trim(), StringComparer.OrdinalIgnoreCase)) found.TryAdd(text.Trim(), column);
+                if (Headers.All(found.ContainsKey)) columns = found;
                 continue;
             }
-            if (Enumerable.Range(1, Headers.Length).All(c => Cell(c).Length == 0)) continue;
+            string Field(string head) => columns.TryGetValue(head, out int column) ? Cell(column) : "";
+            if (Headers.Append(StateHeader).All(h => Field(h).Length == 0)) continue;
             string context = "Riga Excel " + row.Number + ": ";
-            string name = Cell(1);
+            string name = Field(Headers[0]);
             if (name.Length == 0) throw new ArgumentException(context + "nome della combinazione mancante.");
-            double Value(int column)
+            double Value(string head)
             {
-                string text = Cell(column);
-                try { return text.Length == 0 ? 0 : ConcreteEditor.Number(text, Headers[column - 1]); }
+                string text = Field(head);
+                try { return text.Length == 0 ? 0 : ConcreteEditor.Number(text, head); }
                 catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
             }
             string limitState;
-            try { limitState = state ? State(Cell(Headers.Length + 1)) : "SLU"; }
+            try { limitState = State(Field(StateHeader)); }
             catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
-            rows.Add(new Row(name, Value(2), Value(3), Value(4), limitState));
+            rows.Add(new Row(name, Value(Headers[1]), Value(Headers[2]), Value(Headers[3]), limitState));
             if (rows.Count > MaximumRows) throw new ArgumentException("Massimo 10.000 combinazioni per importazione.");
         }
-        if (!header) throw new ArgumentException("Intestazioni non riconosciute nel foglio " + SheetName + ": servono le colonne " + string.Join(", ", Headers) + ".");
+        if (columns is null) throw new ArgumentException("Intestazioni non riconosciute nel foglio " + SheetName + ": servono le colonne " + string.Join(", ", Headers) + ".");
         if (rows.Count == 0) throw new ArgumentException("Nessuna combinazione nel foglio " + SheetName + ": nessuna modifica.");
         return rows;
     }

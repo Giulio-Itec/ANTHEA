@@ -54,8 +54,11 @@ public sealed class QuickCombinationRow : ObservableObject
     public IReadOnlyList<ConcreteQuickLimitState> States => ConcreteQuickSection.LimitStateChoices;
     public bool IsSelected { get => owner.SelectedCombinationId == Id; set { if (value) owner.SelectCombination(Id); OnPropertyChanged(); } }
     /// <summary>The ratio of the engine for this combination, or its status when there is none.</summary>
-    public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c ? (c.Ratio is double r ? EngineeringFormat.Number(r) : "—") : "";
-    public string RatioToolTip => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Status ?? "";
+    public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c
+        ? (c.Ratio is double r ? EngineeringFormat.Number(r) + (c.Governing.Length > 0 ? " " + c.Governing : "") : "—") : "";
+    /// <summary>The status of the check; with two checks (quasi-permanent) both ratios and which one governs (w: cracking, σ: stresses).</summary>
+    public string RatioToolTip => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c
+        ? (c.Ratios.Length > 0 ? c.Ratios + " · comanda " + (c.Governing == "w" ? "la fessurazione" : "la tensione") + "\n" : "") + c.Status : "";
     /// <summary>True within 1, false beyond, null without a ratio.</summary>
     public bool? Passed => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id)?.Passed;
     public IRelayCommand RemoveCommand { get; }
