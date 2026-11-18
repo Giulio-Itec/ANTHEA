@@ -118,6 +118,8 @@ public sealed partial class ModelViewerViewModel
         if (catalog.Warnings.Any(w => w.StartsWith("Straus7FreedomCasesPreserved", StringComparison.Ordinal)))
             text.Append(" Vincoli e molle dei freedom case restano conservati dal convertitore come dati della sorgente, non come vincoli del modello GPC " +
                 "(avviso Straus7FreedomCasesPreserved).");
+        // Set AZ (GPC.Converter 2.27): without the warning the restraints and springs of every freedom case are in the copy with their freedom case.
+        else text.Append(" Vincoli e molle di ogni freedom case entrano nella copia con il loro freedom case: il visore disegna quelli del freedom case del caso scelto.");
         return text.ToString();
     }
 

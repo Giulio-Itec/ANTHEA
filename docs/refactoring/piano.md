@@ -11,9 +11,9 @@ Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pub
 - [x] Voce 12h: ramo `claude/numeri-separatore` e domande 1, 3, 5, 6 e 7 (`NUMERI-SEPARATORE-20261116`); domande 2 e 4 a parte.
 - [x] Guide Rev75 in Markdown e Wiki rigenerata.
 - [x] Versione 1.19.4, note provvisorie e README dell'installer; README 1.19.3 conservato in SUPERATI.
-- [x] Full con le librerie candidate del set AZ (`-GpcLibDir`): esito e differenze nel rapporto della candidata.
-- [ ] `lib/Checker` dal set ufficiale AZ e registrazione F4: coordinatore, dopo il set.
-- [ ] Parte 2: vincoli e molle per freedom case di GPC.Model (coordinatore).
+- [x] Full con le librerie candidate del set AZ (`-GpcLibDir`) e, dopo l'installazione del set ufficiale, full sul commit finale: esito e differenze nel rapporto della candidata.
+- [x] `lib/Checker` dal set ufficiale AZ (`gpc-release-20261118-az`, Model a3406225, Checker 5723a084) e registrazione F4.
+- [x] Vincoli e molle per freedom case di GPC.Model nella copia e nel visore (`MOD-FC-AZ-20261118`); equilibrio valutato anche sulle piastre piane.
 - [ ] OK dell'utente alle differenze delle catture, dei report delle paratie e alle transizioni F3, poi la loro registrazione.
 - [ ] Edizioni Word e PDF Rev75 delle guide, README delle guide e indice dell'installer alla Rev75, PDF delle note e dei README.
 - [ ] Setup locale e Audit-Installer; prova dell'utente; fetch e merge di origin/main, tag, push e copia sulla condivisione: coordinatore.

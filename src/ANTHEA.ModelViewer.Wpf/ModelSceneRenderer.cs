@@ -16,7 +16,12 @@ internal sealed record SceneOptions(bool ShowResults, bool Extruded, IReadOnlyLi
     IReadOnlySet<int>? Visible, IReadOnlySet<int> Selection, bool ShowLocalAxes, bool ShowRestraints, bool ShowConstraints, bool ShowLinks, bool ShowReleases, bool ShowContext,
     DisplayOptions Display, double ColorMinimum, double ColorMaximum, bool ShowNodeAxes, bool OverlaysOnlySelection, IReadOnlySet<int> SelectedNodes,
     int Lighting = 1, int Palette = 0, int IsolineCount = 8, double IsolineWidth = .5, ExplorationOptions? Exploration = null, double RasterScale = 1, bool LineContour = true,
-    bool ElementDirections = false, bool BoundaryLabels = false, double OverlayScale = 1);
+    bool ElementDirections = false, bool BoundaryLabels = false, double OverlayScale = 1, string? FreedomCase = null)
+{
+    /// <summary>Set AZ (18/11/2026): a restraint or spring of a freedom case is drawn only with a case analysed under it
+    /// (<c>ModelViewerViewModel.ActiveFreedomCase</c>); the default set and the other kinds always.</summary>
+    internal bool Shows(ModelBoundary boundary) => boundary.FreedomCase == null || boundary.FreedomCase == FreedomCase;
+}
 internal sealed record DisplayOptions(IReadOnlyDictionary<int, ElementDisplay> Colors, int SurfaceMode, bool HiddenWireframe,
     bool NodeIds, bool ElementIds, bool PropertyIds, bool Nodes, bool LabelsSelectedOnly, double LabelScale, double LineWidth);
 internal sealed record SceneStatistics(TimeSpan Preparation, int Triangles, int MissingElements, int IncompleteDeformations = 0);
@@ -200,6 +205,7 @@ internal sealed partial class ModelSceneRenderer : IDisposable
         foreach (var boundary in model!.Boundaries ?? [])
         {
             if (visibleNodes != null && !boundary.Nodes.Any(visibleNodes.Contains)) continue;
+            if (!options.Shows(boundary)) continue;
             if (options.OverlaysOnlySelection && !boundary.Nodes.Any(options.SelectedNodes.Contains) && !(boundary.Element is int element && options.Selection.Contains(element))) continue;
             var p = points[boundary.Nodes[0]];
             if (boundary.Kind == "RESTRAIN" && options.ShowRestraints)

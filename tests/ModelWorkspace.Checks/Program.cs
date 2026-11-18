@@ -122,6 +122,7 @@ static partial class Program
             await NoResultCasesChecks(output);
             await FreedomCaseCatalogChecks(output);
             await FreedomCaseConverterChecks(output);
+            FreedomCaseSupportsChecks();
 
             if (args.Length > 1)
             {

@@ -19,7 +19,13 @@ public sealed record ModelDisplacement(int Node,double X,double Y,double Z)
 public sealed record ModelDirection(double X, double Y, double Z);
 public sealed record ModelLocalFrame(int Element, ModelDirection X, ModelDirection Y, ModelDirection Z);
 public sealed record ModelNodeFrame(int Node, ModelDirection X, ModelDirection Y, ModelDirection Z);
-public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes, int? Element, string Dofs);
+public sealed record ModelBoundary(string SourceRecord, string Kind, int[] Nodes, int? Element, string Dofs)
+{
+    /// <summary>Set AZ (GPCModel 5.53, 18/11/2026): the freedom case of a restraint or of a spring to ground, by name; null for the default set
+    /// and for every other kind. Omitted when null, so the copies without freedom cases are written as before.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FreedomCase { get; init; }
+}
 public sealed record ModelImportMessage(string Code, string Severity, string Record, string Message);
 /// <summary>Static load cases and combination definitions of a source without MIDAS tables (Straus7 and later solvers): definitions only,
 /// never results. Linear combinations and envelopes are rebuilt by GPC from the imported static cases (GpcModelCombinationService).</summary>
@@ -72,6 +78,10 @@ public sealed record ModelResultSet(string Name, bool IsEnvelope, CornerResult[]
     // Optional imported global displacements in metres, never reconstructed from internal forces.
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public ModelDisplacement[]? Displacements { get; init; }
+    /// <summary>Set AZ (18/11/2026): the freedom case under which the static case is analysed (LoadCaseBase.FreedomCase), by name: its restraints
+    /// and springs are the supports of the reactions of the case. Null without one; omitted when null.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? FreedomCase { get; init; }
 }
 
 /// <summary>Offline presentation snapshot. Units: m, kN/m and kN m/m. It is not a calculation model or a solver.</summary>

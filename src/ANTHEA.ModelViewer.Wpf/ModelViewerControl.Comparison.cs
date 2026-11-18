@@ -18,7 +18,7 @@ public partial class ModelViewerControl
         new(state.ElementColors,state.SelectedSurfaceMode,state.ShowHiddenWireframe,state.ShowNodeIds,state.ShowElementIds,state.ShowPropertyIds,state.ShowNodes,state.SelectedLabelScope==1,state.LabelScale,state.LineWidth),
         state.ColorMinimum,state.ColorMaximum,state.ShowNodeAxes,state.OverlaysOnlySelection,state.SelectedNodeIds,state.SelectedLighting,state.SelectedContourPalette,state.IsolineCount,state.IsolineWidth,
         new(state.ActiveClipPlane,state.ShowOutlines,state.SurfaceOpacity,state.ReversePalette,state.ContourBands,state.AvoidLabelOverlap,[..state.ExtremeProbes,..state.PinnedProbes],state.IsBeamFamily&&state.ShowBeamDiagram,state.BeamDiagramScale,state.ActiveLoads,state.LoadGlyphScale,state.ShowDeformation&&state.CanDeform?state.Displacements:[],state.EffectiveDeformationScale*state.DeformationPhase,state.BeamDiagramAlongY,state.ShowBeamDiagramValues,state.ShowUndeformed,state.UndeformedOpacity,state.ShowUndeformedMesh,state.ActiveClipPlanes,state.ActiveClipBox,state.MeasurementAnnotations,state.PendingMeasurementNodes,state.ActiveRevisionOverlay),LineContour:state.IsDisplacementResult||state.ShowLineContour,
-        ElementDirections:state.ShowElementDirections,BoundaryLabels:state.ShowBoundaryLabels,OverlayScale:state.OverlayScale);
+        ElementDirections:state.ShowElementDirections,BoundaryLabels:state.ShowBoundaryLabels,OverlayScale:state.OverlayScale,FreedomCase:state.ActiveFreedomCase);
     private void UpdateComparisonScene()
     {
         if(!viewModel.CompareEnabled||viewModel.Comparison is not {} state) {DisposeComparison();return;}

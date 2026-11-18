@@ -151,8 +151,9 @@ static class Strand7Worker
                     throw new Failure(SourceUnavailable, "Il caso di risultato " + n + " non è disponibile nel file dei risultati: ricontrolla i casi.");
             static int[] Numbers(IEnumerable<GPC.Model.Elements.Element> elements) =>
                 elements.Select(e => int.Parse(e.Source.OriginalId, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture)).Order().ToArray();
-            // Reactions of the supports (restraints, springs to ground) always; every node with the displacements, or when the converter could not
-            // map the restraints (several freedom cases, other coordinate systems, enforced values): their reactions are needed by the equilibrium.
+            // Reactions of the supports (restraints, springs to ground, of every freedom case: set AZ, GPC.Converter 2.27) always; every node with the
+            // displacements, or when the converter could not map the restraints (a binding that does not read the freedom cases, other coordinate
+            // systems, enforced values): their reactions are needed by the equilibrium.
             bool unmappedSupports = session.Geometry.Diagnostics.Any(d => d.Code is "Straus7FreedomCasesPreserved" or "Straus7RestraintUcsPreserved" or "Straus7EnforcedDisplacementPreserved");
             var nodes = request.Displacements || unmappedSupports ? model.NodesElements.Values
                 : model.NodesElements.Values.Where(n => n.Assignments.Restrains.Any(r => r.Restrain != null) || n.Assignments.GroundSprings.Count > 0);
@@ -174,7 +175,8 @@ static class Strand7Worker
                 foreach (var c in native.Cases)
                 {
                     // Applied loads against the solver reactions (GPC Equilibrium.Check), for every unstaged linear static case; the reactions of a
-                    // case of several freedom cases are those of its freedom case (all the nodes are read, Straus7FreedomCasesPreserved above).
+                    // case of several freedom cases are those of its freedom case (since GPC.Converter 2.27 its supports are restraints and springs of the
+                    // model with that freedom case, read above with the others; all the nodes only with Straus7FreedomCasesPreserved).
                     string name = session.Map![c.Number]; var balance = Straus7Equilibrium.Check(model, name, dataset);
                     var check = Strand7Snapshot.Equilibrium(balance); equilibria[name] = check;
                     messages.Add(new("STRAUS7-EQUILIBRIUM", balance.Balanced == false ? "Warning" : "info", freedomLabels.TryGetValue(c.Number, out var label) ? label : Strand7Snapshot.CaseName(name),

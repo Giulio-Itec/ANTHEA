@@ -16035,6 +16035,37 @@
         "ui/check-climate-view (ViewNumberChecks: binding reali con «Virgola», «Punto» e un separatore personalizzato, caselle del visore invariate)"
       ],
       "evidenze": []
+    },
+    {
+      "id": "MOD-FC-AZ-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / modelli",
+      "titolo": "Vincoli e molle per freedom case nella copia e nel visore (set AZ)",
+      "famiglia": "modelli/straus7",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Con il set AZ (GPCModel 5.53, GPC.Converter 2.27) il convertitore porta nel modello GPC i vincoli e le molle a terra di ogni freedom case con il loro freedom case e dà a ogni caso di carico risolto sotto un solo freedom case il riferimento LoadCaseBase.FreedomCase; al posto dell'avviso Straus7FreedomCasesPreserved scrive l'informazione Straus7FreedomCaseSupports. Prima la copia non mostrava i vincoli dei modelli con più freedom case; con AZ, senza questo passo, li avrebbe mostrati tutti insieme. Ora ModelBoundary.FreedomCase e ModelResultSet.FreedomCase portano il nome del freedom case (omessi quando nulli: le copie senza freedom case non cambiano); il visore disegna i vincoli e le molle del freedom case del caso scelto insieme a quelli senza freedom case (SceneOptions.Shows, ModelViewerViewModel.ActiveFreedomCase); la tabella delle assegnazioni scrive il freedom case accanto ai gradi di libertà; il riepilogo del controllo lo dice al posto della frase sull'avviso. Il processo Straus7 legge le reazioni dei nodi vincolati o su molla di tutti i freedom case (commenti aggiornati). L'equilibrio di GPC valuta ora anche le pressioni sui quadrilateri piani (regola ShellPlanarity): sul modello dell'utente 15 casi su 15 invece di 5.",
+      "codice": [
+        "src/ANTHEA.ModelWorkspace/ModelSnapshot.cs",
+        "src/ANTHEA.ModelWorkspace/GpcModelSnapshot.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelSceneRenderer.OverlayDetails.cs",
+        "src/ANTHEA.ModelViewer.Wpf/ModelViewerControl.Comparison.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Workspace.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Tables.cs",
+        "src/ANTHEA.ModelViewer.Presentation/ModelViewerViewModel.Strand7Import.cs",
+        "src/ANTHEA.Strand7Worker/Program.cs"
+      ],
+      "segno": "le copie dei modelli con più freedom case cambiano (vincoli e molle con il freedom case, freedom case dei casi): impronta nuova; le copie senza freedom case sono scritte come prima.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "coordinatore, 18/11/2026 (set AZ ufficiale), sul consiglio dell'agente di GPC.Model (domanda 4 di gpcmodel-fc-20261117.md) e del set AZ (domanda 3 di set-az-ufficiale-20261118.md), dentro le decisioni dell'utente del 17/11 (passo 2 di GPC.Model)",
+        "esito": "attuato nella candidata 1.19.4 (ramo claude/1194-candidata); impronte e catture che cambiano nell'elenco delle differenze per l'utente"
+      },
+      "test": [
+        "ModelWorkspace.Checks (FreedomCaseSupportsChecks): modello sintetico Straus7 con due freedom case scritti come il convertitore 2.27: vincoli e molle con il loro freedom case, collegamenti e rilasci senza; casi con il freedom case; regola del visore; andata e ritorno della copia; copia senza freedom case senza il campo nel JSON"
+      ],
+      "evidenze": []
     }
   ]
 }
