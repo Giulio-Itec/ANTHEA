@@ -16,8 +16,8 @@ public static class ReportOrizzontale
     /// force of Broms.
     /// </summary>
     public static string BromsComparison(JsonNode values, string vertical) =>
-        $"Confronto con Broms ({vertical}): Hu di Broms = {values.D("capacita_broms_kn"):0.###} kN, meccanismo {values.S("meccanismo_broms").ToLowerInvariant()}; "
-        + $"rapporto Stratificato / Broms = {values.D("rapporto_broms"):0.000}. La capacità adottata resta quella del modello stratificato; il rapporto misura "
+        $"Confronto con Broms ({vertical}): Hu di Broms = {J.Number(values["capacita_broms_kn"]):0.###} kN, meccanismo {values.S("meccanismo_broms").ToLowerInvariant()}; "
+        + $"rapporto Stratificato / Broms = {J.Number(values["rapporto_broms"]):0.000}. La capacità adottata resta quella del modello stratificato; il rapporto misura "
         + "quanto pesa la chiusura distribuita rispetto alla forza concentrata al piede di Broms.";
     public static void Write(string path, string title, JsonObject result, bool includeInputs = true)
         => DocumentFile.Write(path, Create(title, result, includeInputs));

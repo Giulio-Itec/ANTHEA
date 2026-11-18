@@ -18,6 +18,8 @@ public static partial class PaloOrizzontale
 {
     public const string Module = "geo_palo_orizzontale";
     const double M = 1000, KPa = 1e-3, KN3 = 1e-6, Deg = Math.PI / 180, Gw = 9.81;
+    /// <summary>N in a kN: the forces of the library are in N, those of the sheet in kN.</summary>
+    const double Kilonewton = 1000;
     static readonly StandardNTC2018Geotechnics Ntc = new();
     public static double PassivePressureCoefficient(double phiDegrees)
     {
@@ -239,7 +241,7 @@ public static partial class PaloOrizzontale
     static void AddBroms(JsonObject target, double? capacity, LateralMechanism? mechanism, double? ratio)
     {
         if (capacity is not double broms || ratio is not double r) return;
-        target["capacita_broms_kn"] = broms / 1000;
+        target["capacita_broms_kn"] = broms / Kilonewton;
         if (mechanism is LateralMechanism m) target["meccanismo_broms"] = Mechanisms[(int)m];
         target["rapporto_broms"] = r;
     }

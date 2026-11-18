@@ -64,8 +64,8 @@ public static class HorizontalPilePresentation
     /// Stratificato, option C of the sheet of 16/11/2026: Hu of Broms for the same pile and vertical and the ratio, on a new line, when the result
     /// has them (short or intermediate pile in granular soil); empty otherwise. Additional output: Hu and the verification are the stratified ones.
     /// </summary>
-    public static string BromsLine(JsonNode? result) => result?["capacita_broms_kn"] is null ? ""
-        : $"\nHu di Broms = {result.D("capacita_broms_kn"):N1} kN ({result.S("meccanismo_broms").ToLowerInvariant()}) · Stratificato / Broms = {result.D("rapporto_broms"):0.000}";
+    public static string BromsLine(JsonNode? result) => J.Number(result?["capacita_broms_kn"]) is not double broms || J.Number(result?["rapporto_broms"]) is not double ratio ? ""
+        : $"\nHu di Broms = {broms:N1} kN ({result.S("meccanismo_broms").ToLowerInvariant()}) · Stratificato / Broms = {ratio:0.000}";
 
     /// <summary>The warnings of a result, one per line.</summary>
     public static string Warnings(JsonObject result) => string.Join("\n", result.Array("avvisi").Select(v => v!.ToString()));
