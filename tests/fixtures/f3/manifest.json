@@ -2067,5 +2067,20 @@
     "record": "GUIDE-REV73-20261117",
     "decision": "Utente, 17/11/2026: «Sì, approvo» (OK alle 260 transizioni F3 della pagina Wiki dei Modelli, candidata ANTHEA 1.19.2).",
     "note": "Guides Rev73 (ANTHEA 1.19.2): the 260 not-admitted differences of the capture of 829f852b are all in the two files of the Wiki page modelli-importazione-midas (.md and .txt); the search index is unchanged. 138 exact editorial transitions added (riga-aggiunta 132, testo 6) and 122 earlier transitions of the same page superseded. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
+  },
+  "editorial_transitions_rev74": {
+    "capture": "supporto/artefatti/ci/20261117-143817-1193-full-95531fa6/ui_f3-equivalence/cattura",
+    "before_sha256": "55b05a493cc4424b0d328c59adf8176193a780e136584a398411f05879b43f93",
+    "after_sha256": "c6c567a040d57e1fa41bdcca7088967b770e806ab208718f57fe016a3f5bb1a7",
+    "counts": {
+      "previous": 3496,
+      "current": 3502,
+      "added": 127,
+      "removed": 121
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV74-20261117",
+    "decision": "Utente, 17/11/2026 16:33: «Sì, approvo» (OK alle transizioni F3 delle due pagine Wiki della Rev74, candidata ANTHEA 1.19.3).",
+    "note": "Guides Rev74 (ANTHEA 1.19.3): the 248 not-admitted differences of the capture are all in the files of the Wiki pages modelli-importazione-midas and architettura-del-calcolo-e-convenzioni (.md and .txt); the search index is unchanged. 127 exact editorial transitions added (riga-aggiunta 125, testo 2) and 121 earlier transitions of the same pages superseded. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
   }
 }

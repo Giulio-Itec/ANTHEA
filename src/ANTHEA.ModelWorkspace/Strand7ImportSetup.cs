@@ -22,7 +22,22 @@ public sealed record Strand7ResultCase(int Number, string Name)
 {
     // Native stage association must be supplied by the worker; zero/null is never inferred from a case label.
     public int? StageNumber { get; init; }
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the label of a result case of a solution with several freedom cases, the load case under its
+    /// freedom case («5: G1 · FC 2», Straus7LinearStaticResults.Cases), shown in the import panel; null with one freedom case. <see cref="Name"/>
+    /// stays the name of the case in the copy.</summary>
+    public string? FreedomCaseLabel { get; init; }
+    /// <summary>The text of the case in the import panel.</summary>
+    [System.Text.Json.Serialization.JsonIgnore]
+    public string Label => FreedomCaseLabel ?? Name;
 }
+
+/// <summary>17/11/2026: a result case of the file that the GPC converter does not map to a load case of the model, with its reason in Italian
+/// (<see cref="Strand7Snapshot.ExclusionReason"/>).</summary>
+public sealed record Strand7ExcludedResultCase(int Number, string Name, string Reason);
+
+/// <summary>17/11/2026 (revision P3): the result cases of a linear static listing for the catalogue, the selectable ones and those left out
+/// (<see cref="Strand7Snapshot.LinearCases"/>).</summary>
+public sealed record Strand7LinearCases(IReadOnlyList<Strand7ResultCase> Cases, IReadOnlyList<Strand7ExcludedResultCase> Excluded);
 public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<Strand7ResultCase> Cases, string SourceSignature)
 {
     public IReadOnlyList<ModelConstructionPhase> Phases { get; init; } = [];
@@ -36,12 +51,19 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
     public IReadOnlyList<string> LoadCases { get; init; } = [];
     public string ApiVersion { get; init; } = "";
     public IReadOnlyList<string> Warnings { get; init; } = [];
-    /// <summary>Rilievo R9 (16/11/2026): the result cases of the file that the GPC converter did not match to a load case (for instance the load
-    /// case × freedom case pairs of a model with several freedom cases), so not selectable.</summary>
+    /// <summary>Rilievo R9 (16/11/2026): the result cases of the file that the GPC converter did not match to a load case (since GPC.Converter
+    /// 2.24, for a solution with several freedom cases, a pair whose load case the settings solve under more than one freedom case or under
+    /// another one; <see cref="ExcludedResultCases"/> gives each reason), so not selectable.</summary>
     public IReadOnlyList<string> UnmappedResultCases { get; init; } = [];
-    /// <summary>R9: the model has several freedom cases (GPC diagnostic Straus7FreedomCasesPreserved): restraints and results are not mapped.</summary>
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the result cases of <see cref="UnmappedResultCases"/> with the reason of the converter, in Italian.</summary>
+    public IReadOnlyList<Strand7ExcludedResultCase> ExcludedResultCases { get; init; } = [];
+    /// <summary>17/11/2026 (GPC.Converter 2.24): the freedom cases of a model with several of them and the load cases the linear static solver
+    /// solves under each one («FC 2 «Freedom Case 1»: casi di carico 5, 6»); empty with one freedom case.</summary>
+    public IReadOnlyList<string> FreedomCases { get; init; } = [];
+    /// <summary>R9: the model has several freedom cases (GPC diagnostic Straus7FreedomCasesPreserved). Since GPC.Converter 2.24 the result cases
+    /// are mapped to their load case under their freedom case; restraints and springs of the freedom cases stay preserved Straus7 data.</summary>
     [System.Text.Json.Serialization.JsonIgnore]
-    public bool SeveralFreedomCases => Warnings.Any(w => w.StartsWith("Straus7FreedomCasesPreserved", StringComparison.Ordinal));
+    public bool SeveralFreedomCases => FreedomCases.Count > 0 || Warnings.Any(w => w.StartsWith("Straus7FreedomCasesPreserved", StringComparison.Ordinal));
 
     /// <summary>
     /// R9 and R10 (16/11/2026): why the catalogue offers no result case, null when it offers some. «Tutto» then imports geometry, attributes and
@@ -55,7 +77,9 @@ public sealed record Strand7ModelCatalog(int Nodes, int Elements, IReadOnlyList<
         if (UnmappedResultCases.Count > 0)
             return (UnmappedResultCases.Count == 1 ? "l’unico caso di risultato del file non corrisponde" : $"nessuno dei {UnmappedResultCases.Count} casi di risultato del file corrisponde") +
                 " a un caso di carico del modello" +
-                (SeveralFreedomCases ? ": il modello ha più casi di vincolo (freedom case) e il convertitore GPC non associa ancora ai casi di carico i risultati né i vincoli di questi modelli" : "") +
+                // 17/11/2026 (GPC.Converter 2.24): the converter maps the result cases of several freedom cases; the reason of each case left out
+                // is in the list of the excluded cases of the import panel.
+                (SeveralFreedomCases ? ": il modello ha più casi di vincolo (freedom case) e il convertitore GPC dà il motivo di ogni caso escluso nell’elenco dei casi esclusi del pannello di importazione" : "") +
                 ". Casi non importabili: " + string.Join(", ", UnmappedResultCases.Take(ListedCases)) +
                 (UnmappedResultCases.Count > ListedCases ? $" e altri {UnmappedResultCases.Count - ListedCases}" : "");
         if (LoadCases.Count == 0) return "il modello non ha casi di carico";

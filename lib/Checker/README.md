@@ -1,5 +1,29 @@
 # DLL Checker
 
+**Release AY — librerie della 1.19.3: Straus7 con più freedom case (17 novembre 2026).** Set ufficiale
+`gpc-release-20261117-ay` (`gpc-f6-claude/F7/sets/gpc-release-20261117-ay`, `release-set.json` SHA-256
+`DA364F5161A236B223EAB334E8BEBADB4919B815E1E8238F9518D1984D409A65`), prodotto da `Checker/build/Release-Set.ps1 -Previous` (set
+ufficiale AX dei plug-in 0.4.1) su Model `bea29afecbc36860a66876a1edcf82aaee1b5fb9` e Checker `69ba97c8ce972fe67412a0e937a697053ad483cb`,
+pubblicati su origin/master il 17/11; Geometry `6734eee1` e Utilities `e57b440b` invariati. `candidate: false`, sorgenti su origin/master.
+In ANTHEA il set precedente era AW (AX non è mai stato installato qui): rispetto ad AW cambiano solo i sorgenti di GPC.Converter,
+2.22.0.3 → **2.25.0.0**:
+- risultati statici lineari e combinazioni LSA dei modelli Straus7 con più freedom case (`Straus7LinearStaticResults.Cases`,
+  `Straus7FreedomCaseData`), nomi distinti per le combinazioni omonime di freedom case diversi, codice del motivo di ogni caso escluso
+  (`Straus7LinearStaticCase.ReasonCode`, enum `Straus7CaseExclusionReason`);
+- equilibrio «non valutato» per un caso con pressioni su piastre non integrabili (prima l'eccezione fermava l'importazione), normalizzazione
+  dei risultati indicizzata e reazioni controllate una volta per caso;
+- avviso `CombinationNameRepeated` per una combinazione della sorgente con il nome di una precedente;
+- da AX, la scrittura .st7 delle sezioni aperte T, C, L, che l'importatore di ANTHEA non usa.
+Le altre DLL sono gli stessi sorgenti di AW ricompilati (SourceLink, InformationalVersion, riferimento a GPCModel), con l'ultimo componente
+alzato: GPCModel 5.51.0.5, GPCModelData 0.3.0.34, GPC.Model.Persistence 3.15.0.6, GPC.Archive 1.2.0.7, Concrete 0.37.0.5, Steel 2.134.0.4,
+CompositeBridge 1.31.0.5, Geotechnics 0.28.0.4, Masonry 0.10.0.39, GPC.Design 0.45.0.13; Utilities, Geometry e DelaunayMesh con gli stessi
+byte di AW. Suite del set: Model Core 63, UnitTest 2005 (7 non eseguite, opt-in come AX; prove Straus7 native comprese, anche quelle dei
+freedom case), .NET Framework 142; Checker Concrete net472 988 con il contratto K0, Steel 122, CompositeBridge 529, Geotechnics 202,
+Calculation 175, ShallowFoundation 29, EmbeddedWalls 99, Steel.Members 7429, Design 274 net8 e 273 net472, ModelChecker 702 (1 non
+eseguita); zero fallimenti; API senza rimozioni non approvate. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; registrazione
+F4 (`tests/fixtures/f4/library-release.json`) aggiornata alla release AY, con `previous_manifest_sha256` invariato. Nessuna baseline, fixture
+numerica o cattura rigenerata. Il set candidato AY (GPC.Converter 2.24.0.0) è servito solo alle prove del ramo e non è mai entrato in main.
+
 **Proposta post F8, 15 novembre 2026 — set ufficiale AW.**
 Model c2abf2221262fcb38358609d45b4909d82d37d6b, Checker 9c71ca658ed43d6211d901ead2bef29ee85b1506;
 Geometry 6734eee1004142576b96759e34c15dec48776e23, Utilities e57b440b16a0a311a7bf0af2f9cf4d2681b83491.

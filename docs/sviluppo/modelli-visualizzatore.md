@@ -946,9 +946,21 @@ alla convenzione GPC** (trazione su +z). Scelta da confermare con l'utente.
 - MIDAS di testo: nessun risultato (il file non li contiene); elementi senza equivalente esclusi; travi REF con le terne di
   default di GPC; quadrilateri sghembi oltre la tolleranza di GPC rifiutati come nella libreria.
 - Straus7: statico lineare, casi primari senza fasi; brick, link diversi da rigidi/master-slave/pinned, cut-off, contatti, beam
-  utente, temperature, masse e fasi restano nel file con un avviso del convertitore; reazioni non mostrate; combinazioni su più
-  freedom case o di combinazioni conservate con avviso; truss e cavi fuori dalle combinazioni ricostruite; sezioni diverse dal
+  utente, temperature, masse e fasi restano nel file con un avviso del convertitore; reazioni non mostrate; combinazioni di
+  combinazioni conservate con avviso; truss e cavi fuori dalle combinazioni ricostruite; sezioni diverse dal
   rettangolo pieno senza volume. Collaudo nativo con Straus7 R31 / API 3.1.5.
+  Con più freedom case (GPC.Converter 2.25 del set AY del 17/11/2026, ANTHEA 1.19.3; 2.24 nel set candidato): ogni caso di risultato è il suo caso di
+  carico sotto il suo freedom case (`Straus7LinearStaticResults.Cases`; nel pannello «5: G1 · FC 2», nella copia il nome resta
+  «5: G1»), le combinazioni LSA seguono le coppie delle impostazioni (nomi ripetuti fra freedom case resi distinti con « · FC n»),
+  i casi esclusi hanno il motivo del convertitore (`Strand7Snapshot.ExclusionReason`, dal codice `ReasonCode` di GPC.Converter 2.25,
+  non dal testo inglese); vincoli e molle di più freedom case
+  restano conservati con avviso (`Straus7FreedomCasesPreserved`) e le reazioni di ogni caso sono quelle del suo freedom case.
+  Restano solo conservate le combinazioni su un caso di carico risolto sotto più freedom case o su una coppia non risolta.
+  Prima della 2.24 non si associava nessun caso di risultato delle soluzioni con più freedom case; un modello con più freedom case
+  risolto con uno solo («n: nome») si associava già. Dalla revisione del 17/11 i casi del catalogo li costruisce
+  `Strand7Snapshot.LinearCases` (provata senza Straus7 sul convertitore vero, `FreedomCaseConverterChecks`), e il riepilogo del
+  pannello dice dei casi solo quello che vale per il file: «· FC n», reazioni del solutore e controllo di equilibrio di GPC per i
+  risultati lineari, niente di questo per un .nla o senza file dei risultati.
 - Dal 2/11/2026 l'importazione dal vivo dell'API MIDAS applica la normalizzazione GPC (`MidasLiveNormalization`): le tabelle
   sorgente passano da `CivilNxModelProfile` e `GpcBatchNormalization` aggiunge terne, terne nodali e simboli, come per i file
   .mct. Senza terne non si orientavano le pressioni in LZ e non si faceva la media ai vertici. La sola geometria non costruisce il

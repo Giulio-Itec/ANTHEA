@@ -1,5 +1,20 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.3 - 17 novembre 2026
+
+Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pubblicata), che va pubblicato dal coordinatore dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.3.md).
+
+- [x] Straus7 con più freedom case: i rami `claude/st7-freedom-cases-anthea` e `claude/st7-fc-revisione` riportati sopra main con messaggi neutri, senza il commit del set candidato (sezione «Straus7 con più freedom case» in fondo al piano).
+- [x] `lib/Checker` dal set ufficiale AY (`gpc-release-20261117-ay`, GPC.Converter 2.25.0.0) e registrazione F4.
+- [x] Motivi dei casi esclusi dal codice del convertitore, non dal testo inglese (`MOD-FC-CODICE-20261117`).
+- [x] Guide Rev74: testo Straus7 della pratica e della teorica; Wiki rigenerata.
+- [x] Versione 1.19.3 e README dell'installer; README 1.19.2 conservato in SUPERATI.
+- [x] Edizioni Word e PDF Rev74 delle guide con la pipeline ITEC (pratica 143 pagine, teorica 214), Rev73 in `supporto/SUPERATI/guide-rev74-20261117/` con manifest; README delle guide (edizione 9), indice e README dell'installer e README di supporto alla Rev74; PDF dei README, dell'indice e delle note 1.19.3.
+- [ ] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente.
+- [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
+- [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.
+
+
 ## Preparazione ANTHEA 1.19.2 - 17 novembre 2026
 
 Ramo `claude/1192-candidata`, pubblicato il 17/11/2026 dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.2.md).
@@ -1896,4 +1911,17 @@ Prova dell'utente del 16/11 (73 combinazioni LCOM, 48 casi, progetto salvato con
 - [ ] Domande D1–D5 del rapporto (caricamento pigro dei risultati, preparazione GPC dopo «Libera», apertura diretta dei file di modello, soglia di memoria, pausa della restituzione).
 - [x] Guide Rev73 (ramo `claude/modelli-guida`, rapporto `INT/rapporti/modelli-guida-20261117.md`): i testi proposti controllati sul codice di ff514607 e corretti dove non corrispondevano, poi allineati alle correzioni della revisione (865868b0: preparazione anche dopo un'importazione e legata alla scheda, avviso di «Tutto» su una copia con risultati, «↶ Annulla Libera» solo della propria modifica, testo della lettura); capitolo «Modelli e importazione da MIDAS» della pratica, riga dell'edizione nelle due guide; Word e PDF con la pipeline ITEC, Rev72 in `supporto/SUPERATI/guide-rev73-20261117/` con manifest.
 - [ ] Wiki: transizioni F3 della pagina «Modelli e importazione da MIDAS» da approvare dall'utente; testo Straus7 con più freedom case da rivedere quando entra il convertitore di `claude/st7-freedom-cases`.
-- [ ] Libreria: mappatura dei risultati e dei vincoli con più freedom case (GPC.Converter, ramo `claude/st7-freedom-cases`); stati solo governanti da `CombinationMatrix.Evaluate` (GPCModel).
+- [ ] Libreria: mappatura dei risultati e dei vincoli con più freedom case (GPC.Converter, ramo `claude/st7-freedom-cases`); stati solo governanti da `CombinationMatrix.Evaluate` (GPCModel). I risultati sono associati da GPC.Converter 2.24 (set AY, sezione «Straus7 con più freedom case» qui sotto); restano i vincoli e gli stati solo governanti.
+
+## Straus7 con più freedom case (GPC.Converter 2.24, set AY) — 17 novembre 2026
+
+Ramo `claude/st7-freedom-cases-anthea` (dal ramo dei Modelli, provato sul set candidato AY), riportato sopra main nel ramo `claude/1193-candidata` per la 1.19.3; voce `MOD-FC-AY-20261117` nel registro. Prova nativa sul file Straus7 dell'utente con due freedom case, in una copia in sola lettura fuori dal repository.
+
+- [x] Pannello di importazione Straus7: etichette dei casi con il freedom case («5: G1 · FC 2»), freedom case nel riepilogo, casi esclusi con il motivo del convertitore in italiano.
+- [x] Tolto il testo di R9 secondo cui il convertitore non associa ancora i risultati dei modelli con più freedom case.
+- [x] Revisione indipendente del 17/11 sul ramo, rilievi P2–P4 e note N1–N5 (ramo `claude/st7-fc-revisione`, voce `MOD-FC-REV-20261117`): riepilogo dei freedom case secondo il catalogo (riga dei freedom case sempre; «· FC n», reazioni del solutore e controllo di equilibrio di GPC solo per risultati lineari con casi selezionabili; niente per un .nla o senza file dei risultati); nomi con «_» interi nelle caselle del pannello di importazione e del report (in main dalla 1.19.2, qui sull'etichetta del caso); casi del catalogo costruiti da `Strand7Snapshot.LinearCases` e provati senza Straus7 sul vero `Straus7LinearStaticResults.Cases` (numero del caso di risultato diverso da quello del caso di carico, sei motivi del convertitore). Prove sul ramo della revisione (415890cb): ModelWorkspace.Checks PASS 810, WPF dei Modelli PASS 5 su 5 dopo la correzione della prova di confronto; Architecture.Tests ferma alla guardia F4 del set candidato, come atteso.
+- [x] P1 della revisione: i due rami ricomposti sopra main e61e0915 nel ramo `claude/1193-candidata`, con messaggi neutri, senza il commit del set candidato e senza doppioni della correzione dei nomi con «_».
+- [x] D3 della revisione: motivi dei casi esclusi dal codice del convertitore (`Straus7LinearStaticCase.ReasonCode` di GPC.Converter 2.25) invece che dal testo inglese, voce `MOD-FC-CODICE-20261117`.
+- [ ] D1–D2 della revisione (catalogo vecchio dopo un controllo fallito, casi esclusi ripetuti negli avvisi): dopo la 1.19.3.
+- [x] `lib/Checker` dal set AY ufficiale `gpc-release-20261117-ay` (Model bea29afe e Checker 69ba97c8 su origin/master, GPC.Converter 2.25.0.0) con `Update-Snapshot.ps1 -ReleaseSet … -Install` e registrazione F4; profilo `full` nella preparazione della 1.19.3.
+- [ ] Libreria: vincoli e molle per freedom case in GPC.Model; equilibrio con pressioni su piastre non piane entro la regola di planarità dell'import.

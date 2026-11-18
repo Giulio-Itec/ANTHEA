@@ -1,15 +1,17 @@
 # Guide globali ANTHEA
 
-Edizione 8, 17 novembre 2026. Guide pratica e teorica Rev73, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 9, 17 novembre 2026. Guide pratica e teorica Rev74, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev73.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev73.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev73.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev73.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev74.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev74.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev74.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev74.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev74 accompagna la 1.19.3 sul set AY e descrive l'importazione dei modelli Straus7 con più casi di vincolo (freedom case): riepilogo dei freedom case nel controllo, casi come «5: G1 · FC 2» nel pannello e «5: G1» nella copia, casi di risultato esclusi con il loro motivo, vincoli e molle conservati dal convertitore GPC senza simboli nella copia, reazioni e controllo di equilibrio nel freedom case di ogni caso, combinazioni LSA sommate sotto il freedom case di ogni caso di carico, con i nomi ripetuti resi distinti da « · FC n». La guida pratica non dice più che il convertitore non associa i risultati di questi modelli; la guida teorica ne spiega casi, vincoli, reazioni e combinazioni in «Copie dei modelli importati». Le Rev73 e i loro indici sono conservati con manifest in `supporto/SUPERATI/guide-rev74-20261117/`.
 
 La Rev73 aggiorna il modulo Modelli della guida pratica per la 1.19.2, sempre sul set AW: casi base GPC preparati in background quando il modello è sullo schermo, anche dopo un'importazione, e tenuti dalla scheda del modello, memoria restituita a fine serie e dopo «Libera», il comando «Annulla Libera» e nomi delle modifiche del modello nello storico, lettura in background delle copie con risultati grandi, riga «Valore dell'elemento» del campione, file di modello scelti con «Apri…», motivo e avvisi del convertitore quando un modello Straus7 non ha casi di risultato selezionabili e importazione con «Tutto» senza risultati, con l'avviso che lascia disattivata l'importazione quando toglierebbe i risultati di una copia. La guida teorica cambia soltanto nella riga dell'edizione. Le Rev72 e i loro indici sono conservati con manifest in `supporto/SUPERATI/guide-rev73-20261117/`.
 

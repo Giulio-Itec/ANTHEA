@@ -30,7 +30,7 @@ static partial class Program
         Children<PasswordBox>(panel).Single().Password = "test-only";
         Invoke(Children<Button>(panel).Single(b => b.Command == vm.InspectMidasCommand)); Wait(80);
         vm.ImportConstructionStages = true; Wait(60);
-        Check(vm.ImportCases.Select(c => c.Name).SequenceEqual(SourceNameServices.CaseNames) && vm.ImportStages.Count == 1 && vm.ImportStageCases.Count == 1,
+        Check(vm.ImportCases.Select(c => c.Label).SequenceEqual(SourceNameServices.CaseNames) && vm.ImportStages.Count == 1 && vm.ImportStageCases.Count == 1,
             "source names: the panel has the cases, the phase and the stage case of the source");
 
         // The reason of the TextBlock: a CheckBox of the viewer with a text content still draws it with an AccessText, which takes the «_» as
@@ -51,7 +51,7 @@ static partial class Program
         Check(Shown(phase) == vm.ImportStages[0].Label && Shown(phase).StartsWith("Fase_1 ", StringComparison.Ordinal) && Shown(stageCase) == "Stage_A" &&
               !Children<AccessText>(phase).Any() && !Children<AccessText>(stageCase).Any(),
             "source names: the phases and the stage cases keep their «_»");
-        Check(cases.All(c => new CheckBoxAutomationPeer(c).GetName() == ((ImportCaseOption)c.DataContext).Name),
+        Check(cases.All(c => new CheckBoxAutomationPeer(c).GetName() == ((ImportCaseOption)c.DataContext).Label),
             "source names: the automation name of a case is its name, «_» included");
         host.Close();
 
