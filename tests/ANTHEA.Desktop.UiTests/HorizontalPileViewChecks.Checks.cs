@@ -103,8 +103,9 @@ internal static partial class HorizontalPileViewChecks
             Check(WithoutTimes(JsonNode.Parse(File.ReadAllText(Path.Combine(folder, name + "-mvvm.json")))) == WithoutTimes(mvvm.Editor.Result),
                 name + ": JSON del risultato mostrato dopo «Calcola» (tempi esclusi)");
             mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, []);
-            Check(new FileInfo(Path.Combine(folder, name + "-mvvm.docx")).Length > 0 && new FileInfo(Path.Combine(folder, name + "-mvvm.pdf")).Length > 0,
-                name + ": report Word e PDF affiancato scritti");
+            // 18/11/2026 (merge of main 630028b8, provisional): the «W» of the piles writes only the Word (ReportFiles.WriteWord, 8796bae8).
+            Check(new FileInfo(Path.Combine(folder, name + "-mvvm.docx")).Length > 0 && !File.Exists(Path.Combine(folder, name + "-mvvm.pdf")),
+                name + ": report Word scritto, solo il Word (8796bae8)");
             // «Esporta CSV» of the capacity: the file chosen in the dialog, the tables of the historic button (HorizontalPileEditor.Csv).
             if (mvvm.Sheet.Result is { } capacity)
             {

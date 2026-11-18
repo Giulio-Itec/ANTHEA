@@ -604,17 +604,9 @@ internal static class VerticalPileViewChecks
             Expected();
             string? part = DifferentPart(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.docx")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.docx")), normalizer);
             Check(part is null, name + ": report Word uguale in ogni parte a quello della ricetta della vista storica, figure comprese (date normalizzate)" + (part is null ? "" : ", diversa " + part));
-            // The PDF carries the time of the report inside its compressed pages: two exports that straddle a change of the time differ only
-            // there. The pair is written again (at most twice) before comparing once more; any other difference stays.
-            int attempts = 1;
-            while (!SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))) && attempts < 3)
-            {
-                attempts++;
-                mvvm.Editor.ExportReport(Path.Combine(folder, name + "-mvvm.docx"), title, sections);
-                Expected();
-            }
-            Check(SamePdf(File.ReadAllBytes(Path.Combine(folder, name + "-mvvm.pdf")), File.ReadAllBytes(Path.Combine(folder, name + "-attesa.pdf"))),
-                name + ": PDF affiancato uguale a quello della ricetta della vista storica (date normalizzate" + (attempts > 1 ? $", {attempts} esportazioni" : "") + ")");
+            // 18/11/2026 (merge of main 630028b8, provisional): the «W» of the piles writes only the Word (SheetFileExports.WriteReport with
+            // ReportFiles.WriteWord, 8796bae8), no PDF beside it; the Word is compared above.
+            Check(!File.Exists(Path.Combine(folder, name + "-mvvm.pdf")), name + ": solo il Word (8796bae8), nessun PDF affiancato");
             // «Salva PNG…» of the capacity chart: the file chosen in the dialog receives the image of the chart, the same as the historic one.
             string png = Path.Combine(folder, name + "-capacita.png");
             services.SavePath = png;

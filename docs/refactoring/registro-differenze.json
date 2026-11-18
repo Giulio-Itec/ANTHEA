@@ -16486,6 +16486,29 @@
         "supporto/artefatti/ci/20261118-151110-1194-p2-full-264ce17d",
         "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-merge-differenze.md"
       ]
+    },
+    {
+      "id": "REPORT-PALI-SOLO-WORD-20261118",
+      "data": "2026-11-18",
+      "fase": "ANTHEA 1.19.4 / merge di main 630028b8",
+      "titolo": "Il report dei pali si salva solo in Word, senza il PDF affiancato",
+      "famiglia": "report/esportazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Da 8796bae8 (main 630028b8) SheetFileExports.WriteReport scrive per palo e micropalo, verticale e orizzontale (PileFamilyReport.Supports) solo il documento Word con ReportFiles.WriteWord, senza il PDF accanto che la decisione T8 del 17/10/2026 prevedeva per ogni report. ui/check-palo-verticale-view e ui/check-palo-orizzontale-view controllano ora che il Word sia scritto e che il PDF non ci sia («solo il Word (8796bae8)»); il confronto del Word con la ricetta resta. Note della 1.19.4 con la riga «Il report dei pali (palo e micropalo, verticale e orizzontale) si salva solo in Word». La guida «Salvataggio e report» (F4-46, «Word e PDF affiancati») va aggiornata nella Rev76: testo proposto nel rapporto della 1.19.4.",
+      "segno": "comportamento dell'esportazione: per i pali il PDF accanto al Word non c'è più; i contenuti del Word non cambiano per questa voce.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, solo Word» (riferito dal coordinatore): supera la T8 del 17/10/2026 per i report dei pali",
+        "esito": "attuato nella 1.19.4; prove allineate"
+      },
+      "test": [
+        "ui/check-palo-verticale-view",
+        "ui/check-palo-orizzontale-view"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261118-172446-1194-p2-rv-264ce17d (file …-mvvm.pdf assente)"
+      ]
     }
   ]
 }

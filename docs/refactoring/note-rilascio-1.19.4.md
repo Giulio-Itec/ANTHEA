@@ -62,6 +62,7 @@ versioni future del documento. Non ci sono comandi nuovi né un formato nuovo de
 
 - Per i pali e micropali verticali e orizzontali la relazione può essere prodotta nel formato ITEC, completa o breve («W breve» nella
   barra del foglio), con le figure dei risultati; la relazione storica resta disponibile.
+- Il report dei pali (palo e micropalo, verticale e orizzontale) si salva solo in Word.
 - Nella teoria le tabelle dei coefficienti K e μ del fusto e del coefficiente di aderenza α nella forma di Viggiani; nel modello
   geotecnico K, μ e α di ogni strato di ogni verticale.
 
