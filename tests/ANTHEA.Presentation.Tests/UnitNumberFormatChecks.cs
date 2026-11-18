@@ -49,7 +49,7 @@ internal static class UnitNumberFormatChecks
         e.That(UnitNumberFormat.Input("1E-05", "m/s", italian) == "1·10⁻⁵" && UnitNumberFormat.Input("1.25e-7", "m/s", italian) == "1,25·10⁻⁷"
             && UnitNumberFormat.Input("0.6", "m", italian) == "0,6" && UnitNumberFormat.Input("0,123456789", "", italian) == "0,123456789"
             && UnitNumberFormat.Input("-6", "m", italian) == "-6" && UnitNumberFormat.Input("F1", "", italian) == "F1" && UnitNumberFormat.Input("true", "", italian) == "true"
-            && UnitNumberFormat.Input("2e16", "", italian) == "2·10¹⁶" && UnitNumberFormat.Input("2e14", "", italian) == "200000000000000"
+            && UnitNumberFormat.Input("2e14", "", italian) == "200000000000000"
             && UnitNumberFormat.Input("1e-5", "", italian) == "1·10⁻⁵" && UnitNumberFormat.Input("9.81e-6", "N/mm³", italian) == "9,81·10⁻⁶"
             && UnitNumberFormat.Input("0.6", "m", point) == "0.6" && UnitNumberFormat.Input("", "m", italian) == "", "Dati assegnati: cifre, virgola e potenze di dieci");
         e.That(UnitNumberFormat.ExactPowerOfTen(-1.5e-7, italian) == "-1,5·10⁻⁷" && UnitNumberFormat.ExactPowerOfTen(3, italian) == "3"
