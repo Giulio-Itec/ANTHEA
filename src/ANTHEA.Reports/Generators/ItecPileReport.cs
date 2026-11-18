@@ -92,13 +92,23 @@ internal sealed partial class ItecPileReport
             }
             if (Selected("drenate"))
             {
-                Subheading("Condizioni drenate"); Equation(2);
-                Paragraph("Il motore corrente considera c′ nella resistenza laterale dei terreni coesivi; nei terreni granulari il termine è nullo. k e μ sono i coefficienti del modello adottato. Nq dipende dall’angolo di attrito e dal rapporto fra profondità della punta dal piano campagna e diametro.");
+                Subheading("Condizioni drenate");
+                if (Selected("drenate_testo"))
+                {
+                    Equation(2);
+                    Paragraph("Il motore corrente considera c′ nella resistenza laterale dei terreni coesivi; nei terreni granulari il termine è nullo. k e μ sono i coefficienti del modello adottato. Nq dipende dall’angolo di attrito e dal rapporto fra profondità della punta dal piano campagna e diametro.");
+                }
+                if (Selected("tab_k_mu")) ShaftCoefficientTable(g);
             }
             if (Selected("non_drenate"))
             {
-                Subheading("Condizioni non drenate"); Equation(3);
-                Paragraph("La resistenza di punta è lorda: σv è la tensione verticale totale alla punta. Il ramo non drenato si applica ai terreni coesivi sotto falda; negli altri tratti si usa il ramo drenato. I valori di Nc, cu e α adottati sono riportati nei dati e nei dettagli del calcolo.");
+                Subheading("Condizioni non drenate");
+                if (Selected("non_drenate_testo"))
+                {
+                    Equation(3);
+                    Paragraph("La resistenza di punta è lorda: σv è la tensione verticale totale alla punta. Il ramo non drenato si applica ai terreni coesivi sotto falda; negli altri tratti si usa il ramo drenato. I valori di Nc, cu e α adottati sono riportati nei dati e nei dettagli del calcolo.");
+                }
+                if (Selected("tab_alfa")) AdhesionTable(g);
             }
             if (Selected("resistenze_progetto"))
             {
@@ -136,6 +146,7 @@ internal sealed partial class ItecPileReport
                     (j+1).ToString(), s.S("tipologia"), Value(s?["spessore"]), s.S("addensamento"), s.B("laterale_attiva", true) ? "Attiva" : "Esclusa" }).ToList(), [1, 2, 1.3, 1.5, 1.3]);
                 if (Selected("tab_terreni_" + i)) Table("Parametri geotecnici", ["Strato", "γ [kN/m³]", "γsat [kN/m³]", "φ′ [°]", "c′ [kPa]", "cu [kPa]", "Nc"], layers.Select((s, j) => new[] { (j+1).ToString() }
                     .Concat(new[] { "peso_specifico", "peso_specifico_saturo", "angolo_attrito", "coesione_efficace", "coesione_non_drenata", "nc" }.Select(k => Value(s?[k]))).ToArray()).ToList());
+                if (Selected("tab_coefficienti_strati_" + i)) LayerCoefficientTable(i, layers, g, last);
                 if (Selected("profilo_" + i)) foreach (var image in images.Where(im => im.Categoria == "stratigrafia" && im.SurveyIndex == i)) Image(image);
             }
         }
@@ -338,19 +349,25 @@ internal sealed partial class ItecPileReport
         "eta_compressione" => "Efficienza in compressione ηc", "eta_trazione" => "Efficienza in trazione ηt", "numero_pali" => "Numero di pali", _ => key.Replace('_', ' ')
     };
     void Table(Tabella table) => Table(table.Titolo, table.Colonne, table.Righe);
-    void Table(string title, string[] columns, List<string[]> rows, double[]? weights = null, bool preservePrecision = false)
+    static int[] Widths(double[] weights)
     {
-        if (rows.Count == 0) return;
-        var caption = P($"Tabella {chapter}.{++tableNumber}  {Condition(title)}", "Didascalia");
-        caption.Element(W + "pPr")!.Add(new XElement(W + "keepNext")); body.Add(caption);
-        weights ??= Enumerable.Repeat(1d, columns.Length).ToArray();
         int[] widths = weights.Select(v => (int)Math.Round(TableWidthTwips * v / weights.Sum())).ToArray(); widths[^1] += TableWidthTwips - widths.Sum();
-        var table = new XElement(W + "tbl", new XElement(W + "tblPr",
+        return widths;
+    }
+    static XElement TableElement(int[] widths) => new(W + "tbl", new XElement(W + "tblPr",
             new XElement(W + "tblW", new XAttribute(W + "w", TableWidthTwips), new XAttribute(W + "type", "dxa")),
             new XElement(W + "tblBorders", new[] { "top", "left", "bottom", "right", "insideH", "insideV" }.Select(s => new XElement(W + s, new XAttribute(W + "val", "single"), new XAttribute(W + "sz", 4), new XAttribute(W + "color", "808080")))),
             new XElement(W + "tblLayout", new XAttribute(W + "type", "fixed")),
             new XElement(W + "tblCellMar", new[] { "top", "left", "bottom", "right" }.Select(s => new XElement(W + s, new XAttribute(W + "w", s is "top" or "bottom" ? 40 : 65), new XAttribute(W + "type", "dxa"))))),
             new XElement(W + "tblGrid", widths.Select(v => new XElement(W + "gridCol", new XAttribute(W + "w", v)))));
+    void Table(string title, string[] columns, List<string[]> rows, double[]? weights = null, bool preservePrecision = false, string? note = null)
+    {
+        if (rows.Count == 0) return;
+        var caption = P($"Tabella {chapter}.{++tableNumber}  {Condition(title)}", "Didascalia");
+        caption.Element(W + "pPr")!.Add(new XElement(W + "keepNext")); body.Add(caption);
+        weights ??= Enumerable.Repeat(1d, columns.Length).ToArray();
+        int[] widths = Widths(weights);
+        var table = TableElement(widths);
         foreach (var (values, i) in new[] { columns }.Concat(rows).Select((r, i) => (r, i)))
         {
             var row = new XElement(W + "tr", new XElement(W + "trPr", new XElement(W + "cantSplit"), i == 0 ? new XElement(W + "tblHeader") : null));
@@ -365,7 +382,8 @@ internal sealed partial class ItecPileReport
             }
             table.Add(row);
         }
-        body.Add(table); body.Add(P(""));
+        body.Add(table);
+        if (note is null) body.Add(P("")); else Note(note);
     }
     void Image(ImmagineReport image)
     {

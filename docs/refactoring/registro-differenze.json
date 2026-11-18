@@ -16091,6 +16091,27 @@
         "ModelWorkspace.Checks: FreedomCaseConverterChecks (codici del vero Straus7LinearStaticResults.Cases di GPC.Converter 2.25: sei motivi, None per i casi associati, ListedUnderSeveralFreedomCases senza dati dei freedom case; testi italiani invariati)"
       ],
       "evidenze": []
+    },
+    {
+      "id": "REPORT-PALO-COEFFICIENTI-VIGGIANI-20261118",
+      "data": "2026-11-18",
+      "famiglia": "palo verticale / relazione ITEC",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Relazione ITEC del palo verticale: aggiunte, senza togliere altro, le tabelle dei coefficienti del fusto. Nella teoria la Tabella «Coefficienti K e μ del fusto in condizioni drenate» (forma di Viggiani, Fondazioni, Tab. 13.2: «Battuto» unito sulle quattro varianti, K sciolto e denso, μ) e la Tabella «Coefficiente di aderenza α in condizioni non drenate» (forma della Tab. 13.3, cu ≤ 25, 25–70, ≥ 70 kPa), con la tecnologia del palo evidenziata; valori dalla libreria GPC (Calcolo.Parametri, Calcolo.CoefficienteAlfa), regola lineare di α stampata come quella della libreria (0,0111 per i battuti). Nel modello geotecnico, per ogni verticale, la Tabella «Coefficienti del fusto per strato» con K, μ e α usati dal motore (tratti del fusto alla quota finale, associati allo strato per profondità; «—» per i coefficienti non usati e gli strati non attraversati). Nuove voci dei contenuti: drenate_testo, tab_k_mu, non_drenate_testo, tab_alfa, tab_coefficienti_strati_i, attive di default; «drenate» e «non_drenate» diventano gruppi. Calcolo, dati e relazione storica invariati; le tabelle successive dei capitoli 2 e 3 cambiano numero (Efficienza da 2.1 a 2.3).",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«nella parte teorica voglio la forma delle tabelle del viggiani […] nella parte geotecnica voglio i valori di alfa k ecc.. per ogni singolo strato»; «non devi togliere niente, devi solo aggiungere»; esempio Word approvato («perfetto, implementalo in ANTHEA»).",
+        "esito": "Implementato in ItecPileReport.Coefficients.cs e PileReportContents; relazione storica (ReportWord senza contenuti v2) e attesi F3 invariati."
+      },
+      "codice": "src/ANTHEA.Reports/Generators/ItecPileReport.Coefficients.cs, src/ANTHEA.Reports/Generators/ItecPileReport.cs (Table con nota, Widths, TableElement), src/ANTHEA.Reports/PileReportContents.cs",
+      "test": [
+        "ANTHEA.Reports.Tests: ItecPileCoefficientChecks (30 controlli, --coefficienti-palo): valori di Viggiani Tab. 13.2 e 13.3 come attesi indipendenti, regola lineare di α confrontata con la libreria a cu = 40 kPa, righe evidenziate per trivellato e battuto prefabbricato, K, μ, α per strato calcolati a mano (tan 32°, tan 24°, tan 18°, α(80)), strato sopra la testa senza coefficienti, voci dei contenuti e selezioni storiche",
+        "ui/check-itec-pile-report PASS 40 con le figure reali; relazione completa confrontata con l'esempio approvato"
+      ],
+      "evidenze": [
+        "supporto/artefatti/relazione-pali-viggiani"
+      ]
     }
   ]
 }

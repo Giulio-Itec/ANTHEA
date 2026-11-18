@@ -19,6 +19,9 @@ try
     string root = directory!.FullName;
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f3/reports") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
+    // The coefficients of the shaft in the ITEC report of the vertical pile (18/11/2026), alone with --coefficienti-palo.
+    checks += ItecPileCoefficientChecks.Run(output);
+    if (args.Contains("--coefficienti-palo")) { Console.WriteLine($"PASS {checks} controlli dei coefficienti del palo"); return 0; }
     XNamespace w = "http://schemas.openxmlformats.org/wordprocessingml/2006/main";
     XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
     XNamespace r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
