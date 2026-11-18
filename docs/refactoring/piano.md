@@ -20,7 +20,7 @@ Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pub
   (`TRACCE-VISTE-DOMANDA5-20261118`); fixture F3 `stratificato-sabbia-broms` con il confronto con Broms
   (`F3-PO-BROMS-SABBIA-20261118`); transizioni F3 della Wiki Rev75 (`GUIDE-REV75-20261118`); Presentation.Tests raccoglie
   tutti i fallimenti e fallisce alla fine.
-- [ ] Edizioni Word e PDF Rev75 delle guide, README delle guide e indice dell'installer alla Rev75, PDF delle note e dei README.
+- [x] Edizioni Word e PDF Rev75 delle guide con la pipeline ITEC (pratica 145 pagine, teorica 214) e le quattro figure delle paratie della guida pratica ricatturate, Rev74 in `supporto/SUPERATI/guide-rev75-20261118/` con manifest; README delle guide (edizione 10), indice e README dell'installer e README di supporto alla Rev75; PDF dei README, dell'indice e delle note 1.19.4.
 - [ ] Setup locale e Audit-Installer; prova dell'utente; fetch e merge di origin/main, tag, push e copia sulla condivisione: coordinatore.
 
 
