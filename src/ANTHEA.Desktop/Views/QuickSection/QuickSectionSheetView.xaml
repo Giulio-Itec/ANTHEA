@@ -332,7 +332,7 @@
      <Grid>
       <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="64"/><ColumnDefinition Width="74"/><ColumnDefinition Width="56"/><ColumnDefinition Width="56"/><ColumnDefinition Width="48"/><ColumnDefinition Width="50"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
       <TextBlock Grid.Column="1" Text="Nome" Style="{StaticResource Muted}"/>
-      <TextBlock Grid.Column="2" Text="SL" Style="{StaticResource Caption}" ToolTip="Stato limite della combinazione: Capacità segue la verifica scelta in alto; SLU plastico, SLV elastico, SLE con il metodo n"/>
+      <TextBlock Grid.Column="2" Text="SL" Style="{StaticResource Caption}" ToolTip="Stato limite della combinazione: SLU (plastico), SLV (elastico), SLE rara, frequente e quasi permanente (metodo n, tensioni e fessurazione); scegliendolo, modello e verifica in alto tornano quelli dello stato limite"/>
       <TextBlock Grid.Column="3" Text="N" Style="{StaticResource Caption}" ToolTip="N [kN], negativo a compressione"/>
       <TextBlock Grid.Column="4" Text="Mx" Style="{StaticResource Caption}" ToolTip="Mx [kNm]"/>
       <TextBlock Grid.Column="5" Text="My" Style="{StaticResource Caption}" ToolTip="My [kNm], usato solo con la flessione deviata"/>
@@ -429,11 +429,11 @@
     <Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
      <Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-     <TextBlock Grid.Row="2" Grid.ColumnSpan="5" Text="Modello e verifica valgono per le combinazioni «Capacità»; le altre seguono il loro stato limite." Style="{StaticResource Muted}"
-      Margin="0,3,0,0" TextWrapping="Wrap" Visibility="{Binding HasLimitStates, Converter={StaticResource Visibility}}"/>
+     <TextBlock Grid.Row="2" Grid.ColumnSpan="5" Text="Modello e verifica della combinazione selezionata; scegliendo lo SL nella riga tornano quelli dello stato limite." Style="{StaticResource Muted}"
+      Margin="0,3,0,0" TextWrapping="Wrap"/>
      <TextBlock Text="Modello" Style="{StaticResource Muted}" Margin="0,0,8,4"/>
      <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
-      ToolTip="Verifica SLU plastica o elastica: il modello resistente della sezione in c.a." AutomationProperties.Name="Modello"/>
+      ToolTip="Modello resistente della combinazione selezionata (SLU plastico e SLV elastico di base). Il modulo grande usa un modello per stato limite: vede quello di base." AutomationProperties.Name="Modello"/>
      <TextBlock Grid.Column="2" Text="Flessione" Style="{StaticResource Muted}" Margin="14,0,8,4"/>
      <ListBox Grid.Column="3" Style="{StaticResource Segmented}" ItemsSource="{Binding Bendings}" SelectedItem="{Binding Bending}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
       ToolTip="Retta: My non è usato" AutomationProperties.Name="Flessione"/>
@@ -441,7 +441,7 @@
      <!-- The check: one list for each bending, the one of the bending shown. -->
      <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Style="{StaticResource Segmented}" ItemsSource="{Binding StraightMethods}" SelectedItem="{Binding StraightMethod}"
       IsEnabled="{Binding CanEdit}" Visibility="{Binding IsStraight, Converter={StaticResource Visibility}}"
-      ToolTip="SLU a momento positivo o negativo, oppure tensioni con il metodo n" AutomationProperties.Name="Verifica"/>
+      ToolTip="Della combinazione selezionata: momento positivo o negativo (SLU, SLV), oppure tensioni con il metodo n (la combinazione diventa SLE rara)" AutomationProperties.Name="Verifica"/>
      <ListBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" ItemsSource="{Binding BiaxialMethods}" SelectedItem="{Binding BiaxialMethod}" IsEnabled="{Binding CanEdit}"
       ToolTip="Capacità allo SLU (il segno viene da Mx e My di ogni combinazione), oppure tensioni con il metodo n" AutomationProperties.Name="Verifica">
       <ListBox.Style>

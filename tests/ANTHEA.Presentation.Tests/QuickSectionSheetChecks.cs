@@ -44,15 +44,15 @@ internal static class QuickSectionSheetChecks
         ModuleCatalog.ValidateData(ConcreteQuickSection.SourceModule, created);
         var firstCombination = ConcreteQuickSection.Combinations(created).Single();
         expect.That(created["input"] is JsonObject && created["workspace_ca"] is JsonObject && firstCombination.S("nome") == "Combo 1"
-            && ConcreteQuickSection.Action(created, "SLE")?.S("id") == firstCombination.S("id") + "-n" && ConcreteQuickSection.SelectedCombination(created) == firstCombination.S("id"),
-            "Documento nel formato della sezione in c.a.: una combinazione, selezionata, copiata nelle righe SLE");
-        expect.That(new[] { "SLU", "SLE" }.All(s => ConcreteQuickSection.ActionComponents.All(c => J.Number(JsonValue.Create(ConcreteQuickSection.Action(created, s)!.S(c))) == 0)),
+            && firstCombination.S(ConcreteQuickSection.StateField) == "SLU" && ConcreteQuickSection.Action(created, "SLE") is null && ConcreteQuickSection.SelectedCombination(created) == firstCombination.S("id"),
+            "Documento nel formato della sezione in c.a.: una combinazione SLU, selezionata, senza copie SLE");
+        expect.That(ConcreteQuickSection.ActionComponents.All(c => J.Number(JsonValue.Create(ConcreteQuickSection.Action(created, "SLU")!.S(c))) == 0),
             "Foglio nuovo: tutte le sollecitazioni a zero");
         var combos = ConcreteQuickSection.Create();
         string second = ConcreteQuickSection.AddCombination(combos);
         expect.That(ConcreteQuickSection.Combinations(combos).Count == 2 && ConcreteQuickSection.Combinations(combos)[1].S("nome") == "Combo 2"
-            && ConcreteQuickSection.SelectedCombination(combos) == second && ConcreteQuickSection.Combinations(combos).Count == ConcreteSheetPreparation.ReadActions(combos)["SLE"].Length,
-            "«+»: Combo 2 aggiunta, selezionata e copiata nelle righe SLE");
+            && ConcreteQuickSection.SelectedCombination(combos) == second && ConcreteSheetPreparation.ReadActions(combos)["SLU"].Length == 2 && ConcreteSheetPreparation.ReadActions(combos)["SLE"].Length == 0,
+            "«+»: Combo 2 SLU aggiunta e selezionata");
         ConcreteQuickSection.RemoveCombination(combos, second);
         ConcreteQuickSection.RemoveCombination(combos, ConcreteQuickSection.Combinations(combos)[0].S("id"));
         expect.That(ConcreteQuickSection.Combinations(combos).Count == 1 && ConcreteQuickSection.SelectedCombination(combos) == ConcreteQuickSection.Combinations(combos)[0].S("id"),
@@ -99,7 +99,7 @@ internal static class QuickSectionSheetChecks
         var same = ConcreteQuickSection.Create();
         Act(same, "-1000", "400");
         string otherId = ConcreteQuickSection.AddCombination(same); Act(same, "-2500", "700", index: 1);
-        string ultimateId = ConcreteQuickSection.Combinations(same)[0].S("id"), serviceId = ultimateId + "-n";
+        string ultimateId = ConcreteQuickSection.Combinations(same)[0].S("id"), serviceId = ultimateId;
         ConcreteQuickSection.SelectCombination(same, ultimateId);
         var headless = ConcreteAnalysis.Calculate((JsonObject)same.DeepClone());
         var quick = ConcreteQuickSection.Calculate(same);
@@ -118,11 +118,12 @@ internal static class QuickSectionSheetChecks
         var summary = ConcreteQuickSection.Summary(quick)!;
         expect.That(summary.Value.StartsWith("MRd = ", StringComparison.Ordinal) && summary.Detail.StartsWith("η = ", StringComparison.Ordinal) && summary.Title.Contains("momento positivo", StringComparison.Ordinal)
             && summary.Ductile == true && quick.YieldStrain is > 1 and < 3, "Riquadro: MRd, η, comportamento duttile con εyd del motore (" + summary.Behaviour + ")");
-        var serviceView = (JsonObject)same.DeepClone(); ConcreteQuickSection.View(serviceView)["metodo"] = ConcreteQuickSection.Methods[2];
+        var serviceView = (JsonObject)same.DeepClone(); ConcreteQuickSection.SetCombinationState(serviceView, ultimateId, "SLE");
         var service = ConcreteQuickSection.Calculate(serviceView);
-        double? headlessSigma = J.Number(headless["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_cls"]);
+        var headlessService = ConcreteAnalysis.Calculate((JsonObject)serviceView.DeepClone());
+        double? headlessSigma = J.Number(headlessService["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_cls"]);
         expect.That(service.ServiceState?.sigma_cls is double sigma && headlessSigma == sigma, $"σc come il calcolo della sezione in c.a.: {service.ServiceState?.sigma_cls} / {headlessSigma}");
-        double? headlessSteel = J.Number(headless["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
+        double? headlessSteel = J.Number(headlessService["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
         expect.That(service.ServiceState?.sigma_acciaio == headlessSteel && ConcreteQuickSection.Summary(service)?.Ductile is null, "σs come il calcolo della sezione in c.a.; nessun comportamento con il metodo n");
         // The creep (18/11/2026): φ written where the RC section reads it; the stresses as the RC section with the same φ, n = Es/Ecm (1 + φ).
         expect.That(ConcreteQuickSection.Creep(serviceView) == "0" && service.Creep == 0 && service.EffectiveRatio is double shortTerm && Math.Abs(shortTerm - service.Preview.N) < 1e-9,
@@ -148,11 +149,15 @@ internal static class QuickSectionSheetChecks
         var resistances = StructuralQueries.ConcreteQuickResistance(prepared["input"]!.AsObject(), preparedSettings, quick.UltimateAction!.Value.N, false);
         expect.That(resistances.Select(r => r.Moment).SequenceEqual(quick.Resistances.Select(r => r.Moment)) && quick.Resistances.Count == 4,
             "Resistenze a N costante come le «Resistenze rapide» della sezione in c.a.");
-        // The elastic model: the model of the RC section for the domain and the elastic resistances.
-        var elastic = (JsonObject)same.DeepClone(); ConcreteQuickSection.WriteModel(elastic, "Elastico");
+        // The elastic model of a combination (18/11/2026: a setting of the combination): the domain and the resistances of the RC section with that model.
+        var elastic = (JsonObject)same.DeepClone(); ConcreteQuickSection.WriteCombinationSetting(elastic, ultimateId, ConcreteQuickSection.ModelField, "Elastico");
         var elasticResult = ConcreteQuickSection.Calculate(elastic);
         var elasticResistances = StructuralQueries.ConcreteQuickResistance(prepared["input"]!.AsObject(), preparedSettings, -1000, true);
-        expect.That(elastic["workspace_ca"]!["modello_resistente"]!["SLU"]!.ToString() == "Elastico" && elasticResult.Model == "Elastico"
+        var elasticDocument = (JsonObject)same.DeepClone(); ConcreteQuickSection.WriteModel(elasticDocument, "Elastico");
+        double? elasticHeadless = J.Number(ConcreteAnalysis.Calculate(elasticDocument)["domini"]?["3D:SLU"]?[ultimateId]?["Utilization"]);
+        expect.That(elasticResult.UltimateCheck?.Utilization is double elasticRatio && elasticRatio == elasticHeadless && elasticResult.Combinations[1].Ratio == quick.Combinations[1].Ratio,
+            $"Combinazione elastica: η come la sezione in c.a. con il modello elastico; le altre combinazioni invariate ({elasticResult.UltimateCheck?.Utilization} / {elasticHeadless})");
+        expect.That(ConcreteQuickSection.Combinations(elastic)[0].S(ConcreteQuickSection.ModelField) == "Elastico" && elasticResult.Model == "Elastico"
             && elasticResistances.Select(r => r.Moment).SequenceEqual(elasticResult.Resistances.Select(r => r.Moment))
             && elasticResult.Resistances.First(r => r.Direction == "Mx+").Moment < mxPlus && elasticResult.UltimateCheck?.Utilization > quick.UltimateCheck.Utilization,
             "Verifica elastica: il modello della sezione in c.a., resistenze elastiche minori di quelle plastiche");
@@ -178,8 +183,8 @@ internal static class QuickSectionSheetChecks
 
         // Edits of the actions, of the layers and of the materials.
         sheet.CombinationRows[0].N = "-1000"; sheet.CombinationRows[0].Mx = "400";
-        expect.That(ConcreteQuickSection.Action(sheet.Data, "SLU")!.S("Mx") == "400" && ConcreteQuickSection.Action(sheet.Data, "SLE")!.S("Mx") == "400" && modified == 2 && !sheet.HasResults,
-            "Modifica della combinazione nel documento (righe SLU e SLE)");
+        expect.That(ConcreteQuickSection.Action(sheet.Data, "SLU")!.S("Mx") == "400" && ConcreteQuickSection.Action(sheet.Data, "SLE") is null && modified == 2 && !sheet.HasResults,
+            "Modifica della combinazione nel documento (riga SLU)");
         await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("400", StringComparison.Ordinal)) && sheet.IsDuctile == true
             && sheet.CombinationRows[0].Ratio.Length > 0 && sheet.CombinationRows[0].Passed == true, "Ricalcolo automatico dopo la modifica: η nella riga, comportamento duttile");
@@ -217,22 +222,32 @@ internal static class QuickSectionSheetChecks
             "Classe scelta di nuovo: valori del catalogo");
         await sheet.PendingCalculation;
 
-        // The choices: negative moment, elastic model, biaxial bending, method n, moment–curvature.
+        // The choices of the selected combination (18/11/2026): negative moment, elastic model, the limit state of the row that resets them.
+        JsonObject First() => ConcreteQuickSection.Combinations(sheet.Data)[0];
         sheet.Method = "Momento negativo"; await sheet.PendingCalculation;
-        expect.That(ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU−" && sheet.Summary?.Title.Contains("momento negativo", StringComparison.Ordinal) == true, "Momento negativo: codice SLU− nel documento");
+        expect.That(First().S(ConcreteQuickSection.SignField) == "SLU−" && sheet.Method == "Momento negativo" && sheet.Summary?.Title.Contains("momento negativo", StringComparison.Ordinal) == true,
+            "Momento negativo: segno della combinazione selezionata");
         sheet.Model = "Elastica"; await sheet.PendingCalculation;
-        expect.That(ConcreteQuickSection.Model(sheet.Data) == "Elastico" && sheet.Summary?.Title.Contains("elastica", StringComparison.Ordinal) == true, "Verifica elastica scelta");
-        sheet.Model = "Plastica"; sheet.Method = "Momento positivo"; await sheet.PendingCalculation;
+        expect.That(First().S(ConcreteQuickSection.ModelField) == "Elastico" && sheet.Model == "Elastica" && sheet.Summary?.Title.Contains("elastica", StringComparison.Ordinal) == true,
+            "Modello elastico della combinazione selezionata");
+        sheet.CombinationRows[0].State = "SLV"; await sheet.PendingCalculation;
+        expect.That(sheet.Model == "Elastica" && First().S(ConcreteQuickSection.SignField) == "" && sheet.Method == "Momento positivo" && sheet.Summary?.Title.Contains("SLV · ", StringComparison.Ordinal) == true
+            && ConcreteSheetPreparation.ReadActions(sheet.Data)["SLV"].Length == 1, "SL scelto nella riga: impostazioni dello stato limite (SLV elastico, segno da Mx)");
+        sheet.CombinationRows[0].State = "SLU"; await sheet.PendingCalculation;
+        expect.That(sheet.Model == "Plastica" && sheet.Method == "Momento positivo" && First().S(ConcreteQuickSection.ModelField) == "Plastico", "Di nuovo SLU: plastico, segno da Mx");
         sheet.Bending = ConcreteQuickSection.Bendings[1];
         expect.That(!sheet.CombinationRows[0].MyReadOnly && !sheet.IsStraight, "Flessione deviata: My modificabile");
-        expect.That(sheet.Methods.SequenceEqual(["Capacità", "Metodo n"]) && sheet.Method == "Capacità" && ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+",
-            "Flessione deviata: verifica «Capacità» senza segno del momento (codice SLU+ invariato)");
+        expect.That(sheet.Methods.SequenceEqual(["Capacità", "Metodo n"]) && sheet.Method == "Capacità" && First().S(ConcreteQuickSection.StateField) == "SLU",
+            "Flessione deviata: verifica di capacità senza segno del momento");
         sheet.CombinationRows[0].My = "60"; await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "My,Ed") && sheet.ResultValues.Count(v => v.Label.EndsWith(",Rd", StringComparison.Ordinal)) == 4
             && sheet.Summary?.Value.StartsWith("Mx,Rd = ", StringComparison.Ordinal) == true && sheet.Summary.Title.Contains("flessione deviata", StringComparison.Ordinal),
             "Flessione deviata: My,Ed, le quattro resistenze principali, il punto resistente in evidenza");
-        sheet.Method = "Metodo n"; sheet.Method = "Capacità";
-        expect.That(ConcreteQuickSection.View(sheet.Data).S("metodo") == "SLU+" && sheet.Method == "Capacità", "Flessione deviata: dal metodo n di nuovo «Capacità» (codice SLU+)");
+        sheet.Method = "Metodo n";
+        expect.That(First().S(ConcreteQuickSection.StateField) == "SLE" && sheet.CombinationRows[0].State == "SLE" && sheet.Model is null && sheet.IsServiceMethod,
+            "Metodo n scelto in alto: la combinazione diventa SLE rara");
+        sheet.Method = "Capacità";
+        expect.That(First().S(ConcreteQuickSection.StateField) == "SLU" && sheet.Method == "Capacità" && sheet.Model == "Plastica", "Di nuovo capacità: la combinazione torna SLU plastica");
         await sheet.PendingCalculation;
         sheet.Method = "Metodo n"; await sheet.PendingCalculation;
         expect.That(sheet.IsServiceMethod && sheet.ResultValues.Any(v => v.Label == "σc") && sheet.SectionStress is not null && sheet.IsDuctile is null, "Metodo n: tensioni del motore");
@@ -290,8 +305,9 @@ internal static class QuickSectionSheetChecks
         var excelData = ConcreteQuickSection.Create();
         expect.That(ConcreteQuickActionsExcel.Import(excelData, workbook) == 2 && ConcreteQuickSection.Combinations(excelData).Select(r => r.S("nome")).SequenceEqual(["SLU 1", "SLU 2"])
             && ConcreteQuickSection.Combinations(excelData)[1].S("N") == "-800.5" && ConcreteQuickSection.Combinations(excelData)[1].S("My") == "40"
-            && ConcreteSheetPreparation.ReadActions(excelData)["SLE"].Length == 2 && ConcreteQuickSection.SelectedCombination(excelData) == ConcreteQuickSection.Combinations(excelData)[0].S("id"),
-            "Excel: combinazioni sostituite, copiate nelle righe SLE, la prima selezionata");
+            && ConcreteSheetPreparation.ReadActions(excelData)["SLU"].Length == 2 && ConcreteSheetPreparation.ReadActions(excelData)["SLE"].Length == 0
+            && ConcreteQuickSection.SelectedCombination(excelData) == ConcreteQuickSection.Combinations(excelData)[0].S("id"),
+            "Excel: combinazioni sostituite (SLU), la prima selezionata");
         ModuleDirectory.ValidateData(ConcreteQuickSection.Module, excelData);
         expect.Throws<ArgumentException>(() => ConcreteQuickActionsExcel.Read(System.Text.Encoding.UTF8.GetBytes("x")) , "Excel: file non valido rifiutato");
         var links = new RecordingLinks();
@@ -345,12 +361,13 @@ internal static class QuickSectionSheetChecks
                 && teeSheet.Current?.UltimateCheck is not null, "Foglio salvato con la sezione a T: campi e calcolo conservati");
         }
 
-        // The limit states of the combinations (18/11/2026): «Capacità» as before, SLU plastic, SLV elastic, SLE with the method n, stresses and cracking
-        // of the RC section. Each row is stored in the set of its state as the RC section stores it; every ratio equals the calculation of the RC section.
+        // The limit states of the combinations (18/11/2026): SLU plastic, SLV elastic, SLE with the method n, stresses and cracking of the RC section;
+        // the model and the sign are settings of each combination. Each row is stored in the set of its state as the RC section stores it; every ratio
+        // equals the calculation of the RC section.
         var states = ConcreteQuickSection.Create();
         Act(states, "-1000", "400");
         string[] stateIds = [ConcreteQuickSection.Combinations(states)[0].S("id"), .. Enumerable.Range(0, 5).Select(_ => ConcreteQuickSection.AddCombination(states))];
-        (string N, string Mx, string State)[] stateRows = [("-1000", "400", "Capacità"), ("-1400", "560", "SLU"), ("-900", "620", "SLV"), ("-1000", "400", "SLE"),
+        (string N, string Mx, string State)[] stateRows = [("-1000", "400", "SLU"), ("-1400", "560", "SLU"), ("-900", "620", "SLV"), ("-1000", "400", "SLE"),
             ("-850", "330", "SLE_FREQ"), ("-800", "300", "SLE_QP")];
         for (int i = 1; i < stateRows.Length; i++)
         {
@@ -362,11 +379,12 @@ internal static class QuickSectionSheetChecks
         var stored = ConcreteSheetPreparation.ReadActions(states);
         bool In(string set, string id) => stored[set].Any(r => r.S("id") == id);
         expect.That(ConcreteQuickSection.Combinations(states).Select(r => r.S("id")).SequenceEqual(stateIds)
-            && ConcreteQuickSection.Combinations(states).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(stateRows.Select(r => r.State)),
-            "Stati limite: ordine della tabella conservato, stato di ogni combinazione");
-        expect.That(In("SLU", stateIds[0]) && In("SLE", stateIds[0] + "-n") && In("SLU", stateIds[1]) && !In("SLE", stateIds[1] + "-n") && In("SLV", stateIds[2]) && !In("SLU", stateIds[2])
-            && In("SLE", stateIds[3]) && !In("SLE", stateIds[3] + "-n") && In("SLE_FREQ", stateIds[4]) && In("SLE_QP", stateIds[5]) && stored["SLE"].Length == 2,
-            "Stati limite: righe nelle famiglie della sezione in c.a., copia SLE solo per «Capacità»");
+            && ConcreteQuickSection.Combinations(states).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(stateRows.Select(r => r.State))
+            && ConcreteQuickSection.Combinations(states).Select(r => r.S(ConcreteQuickSection.ModelField)).SequenceEqual(["Plastico", "Plastico", "Elastico", "", "", ""]),
+            "Stati limite: ordine della tabella conservato, stato e modello di base di ogni combinazione");
+        expect.That(In("SLU", stateIds[0]) && In("SLU", stateIds[1]) && In("SLV", stateIds[2]) && !In("SLU", stateIds[2]) && In("SLE", stateIds[3]) && In("SLE_FREQ", stateIds[4])
+            && In("SLE_QP", stateIds[5]) && stored["SLE"].Length == 1 && !stored["SLE"].Any(r => r.S("id").EndsWith("-n", StringComparison.Ordinal)),
+            "Stati limite: righe nelle famiglie della sezione in c.a., senza copie");
         var stateHeadless = ConcreteAnalysis.Calculate((JsonObject)states.DeepClone());
         var stateQuick = ConcreteQuickSection.Calculate(states);
         double? Domain(string set, string id) => J.Number(stateHeadless["domini"]?["3D:" + set]?[id]?["Utilization"]);
@@ -375,7 +393,7 @@ internal static class QuickSectionSheetChecks
         expect.That(byId[stateIds[0]].Ratio == Domain("SLU", stateIds[0]) && byId[stateIds[1]].Ratio == Domain("SLU", stateIds[1]) && byId[stateIds[2]].Ratio == Domain("SLV", stateIds[2])
             && byId[stateIds[0]].Ratio is not null && byId[stateIds[1]].Ratio is not null && byId[stateIds[2]].Ratio is not null
             && byId.Values.Select(c => c.State).SequenceEqual(stateRows.Select(r => r.State)),
-            $"Capacità, SLU e SLV: η come la sezione in c.a. ({byId[stateIds[1]].Ratio} / {Domain("SLU", stateIds[1])}; {byId[stateIds[2]].Ratio} / {Domain("SLV", stateIds[2])})");
+            $"SLU e SLV: η come la sezione in c.a. ({byId[stateIds[1]].Ratio} / {Domain("SLU", stateIds[1])}; {byId[stateIds[2]].Ratio} / {Domain("SLV", stateIds[2])})");
         expect.That(byId[stateIds[3]].Ratio == J.Number(Stress("SLE", stateIds[3])?["Ratio"]) && byId[stateIds[3]].Ratio is not null,
             $"SLE rara: σ/σlim come la sezione in c.a. ({byId[stateIds[3]].Ratio} / {Stress("SLE", stateIds[3])?["Ratio"]})");
         double? Crack(string set, string id) => J.Number(Stress(set, id)?["CrackResult"]?["Ratio"]);
@@ -397,41 +415,86 @@ internal static class QuickSectionSheetChecks
         var slvResult = ConcreteQuickSection.Calculate(slvView);
         expect.That(slvResult.Model == "Elastico" && slvResult.UltimateCheck?.Utilization == byId[stateIds[2]].Ratio && ConcreteQuickSection.Summary(slvResult)!.Title.Contains("SLV · momento resistente", StringComparison.Ordinal)
             && ConcreteQuickSection.Summary(slvResult)!.Title.Contains("verifica elastica", StringComparison.Ordinal), "SLV selezionata: verifica elastica, η della tabella");
-        var elasticCapacity = (JsonObject)states.DeepClone(); ConcreteQuickSection.WriteModel(elasticCapacity, "Elastico");
-        var elasticStates = ConcreteQuickSection.Calculate(elasticCapacity).Combinations.ToDictionary(c => c.Id);
-        expect.That(elasticStates[stateIds[1]].Ratio == byId[stateIds[1]].Ratio && elasticStates[stateIds[0]].Ratio != byId[stateIds[0]].Ratio,
-            "Modello elastico scelto in alto: cambia «Capacità», non la combinazione SLU (sempre plastica)");
+        // The model of one combination: only that combination changes; choosing its limit state again brings back the model of the state.
+        var ownModel = (JsonObject)states.DeepClone(); ConcreteQuickSection.WriteCombinationSetting(ownModel, stateIds[0], ConcreteQuickSection.ModelField, "Elastico");
+        var ownStates = ConcreteQuickSection.Calculate(ownModel).Combinations.ToDictionary(c => c.Id);
+        expect.That(ownStates[stateIds[1]].Ratio == byId[stateIds[1]].Ratio && ownStates[stateIds[0]].Ratio != byId[stateIds[0]].Ratio,
+            "Modello elastico di una combinazione SLU: cambia solo quella");
+        ConcreteQuickSection.SetCombinationState(ownModel, stateIds[0], "SLU");
+        expect.That(ConcreteQuickSection.Combinations(ownModel)[0].S(ConcreteQuickSection.ModelField) == "Plastico" && ConcreteQuickSection.Calculate(ownModel).Combinations[0].Ratio == byId[stateIds[0]].Ratio,
+            "Stato limite scelto di nuovo: impostazioni azzerate (SLU plastico)");
+        expect.Throws<ArgumentException>(() => ConcreteQuickSection.WriteCombinationSetting(ownModel, stateIds[3], ConcreteQuickSection.ModelField, "Elastico"), "Modello di una combinazione SLE rifiutato");
         var noExposure = (JsonObject)states.DeepClone(); ConcreteQuickSection.WriteServiceOption(noExposure, ConcreteQuickSection.ExposureKey, "Da scegliere");
         var unexposed = ConcreteQuickSection.Calculate(noExposure).Combinations.ToDictionary(c => c.Id);
         expect.That(unexposed[stateIds[5]].Ratio is null && unexposed[stateIds[5]].Status.Length > 0 && unexposed[stateIds[3]].Ratio == byId[stateIds[3]].Ratio,
             "Esposizione da scegliere: fessurazione senza rapporto, con il motivo; la rara non cambia (" + unexposed[stateIds[5]].Status + ")");
-        ConcreteQuickSection.SetCombinationState(states, stateIds[3], ConcreteQuickSection.Capacity);
-        expect.That(ConcreteSheetPreparation.ReadActions(states)["SLU"].Any(r => r.S("id") == stateIds[3]) && ConcreteSheetPreparation.ReadActions(states)["SLE"].Any(r => r.S("id") == stateIds[3] + "-n")
-            && ConcreteQuickSection.Combinations(states)[3].S("id") == stateIds[3], "Ritorno a «Capacità»: riga SLU con la sua copia, stesso posto in tabella");
         ConcreteQuickSection.RemoveCombination(states, stateIds[2]);
         expect.That(!ConcreteSheetPreparation.ReadActions(states)["SLV"].Any() && ConcreteQuickSection.Combinations(states).Count == 5, "Combinazione SLV tolta");
+
+        // A sheet of the first version, «Capacità» (SLU rows copied in SLE, the check and the model on the top): read as SLU with that model and sign,
+        // or as SLE rara with the method n; the same results; written so at the first edit.
+        JsonObject Legacy(string method, string model)
+        {
+            var old = ConcreteQuickSection.Create();
+            Act(old, "-1000", "-400");
+            var row = (JsonObject)old["combinazioni"]!["SLU"]![0]!.DeepClone(); row["id"] = row.S("id") + "-n";
+            old["combinazioni"]!["SLE"] = new JsonArray(row);
+            ConcreteQuickSection.View(old)["metodo"] = method; ConcreteQuickSection.WriteModel(old, model);
+            return old;
+        }
+        var oldUltimate = Legacy("SLU−", "Elastico");
+        string oldId = ConcreteQuickSection.Combinations(oldUltimate)[0].S("id");
+        var oldRow = ConcreteQuickSection.Combinations(oldUltimate)[0];
+        var oldResult = ConcreteQuickSection.Calculate(oldUltimate);
+        double? oldHeadless = J.Number(ConcreteAnalysis.Calculate((JsonObject)oldUltimate.DeepClone())["domini"]?["3D:SLU"]?[oldId]?["Utilization"]);
+        expect.That(oldRow.S(ConcreteQuickSection.StateField) == "SLU" && oldRow.S(ConcreteQuickSection.ModelField) == "Elastico" && oldRow.S(ConcreteQuickSection.SignField) == "SLU−"
+            && ConcreteQuickSection.Combinations(oldUltimate).Count == 1 && oldResult.Method == "SLU−" && oldResult.Model == "Elastico" && oldResult.Combinations[0].Ratio == oldHeadless,
+            "Foglio della prima versione: «Capacità» letta come SLU elastica a momento negativo, η come prima");
+        ConcreteQuickSection.AddCombination(oldUltimate);
+        var normalized = ConcreteQuickSection.Combinations(oldUltimate)[0];
+        expect.That(ConcreteSheetPreparation.ReadActions(oldUltimate)["SLE"].Length == 0 && normalized.S(ConcreteQuickSection.ModelField) == "Elastico" && normalized.S(ConcreteQuickSection.SignField) == "SLU−"
+            && ConcreteQuickSection.Calculate(oldUltimate).Combinations[0].Ratio == oldResult.Combinations[0].Ratio, "Prima modifica: copia SLE tolta, modello e segno conservati, η invariato");
+        var oldService = Legacy("Metodo n", "Plastico");
+        string oldServiceId = ConcreteQuickSection.Combinations(oldService)[0].S("id");
+        var oldServiceResult = ConcreteQuickSection.Calculate(oldService);
+        expect.That(ConcreteQuickSection.Combinations(oldService)[0].S(ConcreteQuickSection.StateField) == "SLE" && oldServiceResult.ServiceState is not null && oldServiceResult.Method == "Metodo n",
+            "Foglio della prima versione con il metodo n: combinazione SLE rara");
+        ConcreteQuickSection.WriteCombination(oldService, oldServiceId, "nome", "Rara");
+        expect.That(ConcreteSheetPreparation.ReadActions(oldService)["SLE"].Single().S("id") == oldServiceId && ConcreteSheetPreparation.ReadActions(oldService)["SLU"].Length == 0
+            && ConcreteQuickSection.Calculate(oldService).ServiceState?.sigma_cls == oldServiceResult.ServiceState!.sigma_cls, "Prima modifica: la riga passa fra le SLE, tensioni invariate");
+
         // Excel with the column SL.
         ConcreteQuickActionsExcel.Row[] withStates = [new("A", -1000, 400, 0), new("B", -900, 620, 0, "SLV"), new("C", -800, 300, 0, "SLE_QP")];
         var stateBook = ConcreteQuickActionsExcel.Write(withStates);
-        expect.That(ConcreteQuickActionsExcel.Read(stateBook).SequenceEqual(withStates) && ConcreteQuickActionsExcel.State("sle fr") == "SLE_FREQ" && ConcreteQuickActionsExcel.State("") == "Capacità"
-            && ConcreteQuickActionsExcel.State("Quasi permanente") == "SLE_QP", "Excel: colonna SL scritta e riletta");
+        expect.That(ConcreteQuickActionsExcel.Read(stateBook).SequenceEqual(withStates) && ConcreteQuickActionsExcel.State("sle fr") == "SLE_FREQ" && ConcreteQuickActionsExcel.State("") == "SLU"
+            && ConcreteQuickActionsExcel.State("Capacità") == "SLU" && ConcreteQuickActionsExcel.State("Quasi permanente") == "SLE_QP", "Excel: colonna SL scritta e riletta (vuota = SLU)");
         expect.Throws<ArgumentException>(() => ConcreteQuickActionsExcel.State("SLD"), "Excel: stato limite sconosciuto rifiutato");
         var imported = ConcreteQuickSection.Create(); ConcreteQuickActionsExcel.Import(imported, stateBook);
-        expect.That(ConcreteQuickSection.Combinations(imported).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(["Capacità", "SLV", "SLE_QP"])
+        expect.That(ConcreteQuickSection.Combinations(imported).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(["SLU", "SLV", "SLE_QP"])
             && ConcreteSheetPreparation.ReadActions(imported)["SLV"].Length == 1, "Excel importato: combinazioni nelle loro famiglie");
-        // The sheet: the state of a row, the exposure, the head of the ratios.
+
+        // The sheet: the settings of the selected combination on the top, the state of a row, the exposure, the head of the ratios.
         using (var stateSheet = Open(ConcreteQuickSection.Create()))
         {
             await stateSheet.PendingCalculation;
-            expect.That(stateSheet.RatioHeader == "η" && !stateSheet.HasLimitStates && stateSheet.CombinationRows[0].State == "Capacità" && stateSheet.ExposureField.SelectedChoice == "Da scegliere",
-                "Foglio nuovo: combinazione «Capacità», esposizione da scegliere");
+            expect.That(stateSheet.RatioHeader == "η" && stateSheet.CombinationRows[0].State == "SLU" && stateSheet.Model == "Plastica" && stateSheet.Method == "Momento positivo"
+                && stateSheet.ExposureField.SelectedChoice == "Da scegliere", "Foglio nuovo: combinazione SLU plastica, esposizione da scegliere");
+            stateSheet.AddCombinationCommand.Execute(null);
+            stateSheet.CombinationRows[1].Mx = "-300"; stateSheet.CombinationRows[1].State = "SLV";
+            await stateSheet.PendingCalculation;
+            expect.That(stateSheet.Model == "Elastica" && stateSheet.Method == "Momento negativo", "Combinazione SLV selezionata: in alto elastica, momento negativo da Mx");
+            stateSheet.CombinationRows[0].IsSelected = true;
+            expect.That(stateSheet.Model == "Plastica" && stateSheet.Method == "Momento positivo", "Selezione della combinazione SLU: in alto le sue impostazioni");
             stateSheet.CombinationRows[0].N = "-800"; stateSheet.CombinationRows[0].Mx = "300";
             stateSheet.CombinationRows[0].State = "SLE_QP";
             stateSheet.CreepForm.Set(ConcreteQuickSection.ExposureKey, "XC3");
             await stateSheet.PendingCalculation;
-            expect.That(stateSheet.RatioHeader == "rapp." && stateSheet.HasLimitStates && ConcreteQuickSection.Exposure(stateSheet.Data) == "XC3" && stateSheet.CombinationRows[0].State == "SLE_QP"
-                && stateSheet.Current?.State == "SLE_QP" && stateSheet.Summary?.Value.StartsWith("wk = ", StringComparison.Ordinal) == true && stateSheet.CombinationRows[0].Ratio.Length > 0,
-                "Foglio: SLE quasi permanente scelta nella riga, esposizione XC3, fessurazione in evidenza: " + stateSheet.Summary?.Value);
+            expect.That(stateSheet.RatioHeader == "rapp." && ConcreteQuickSection.Exposure(stateSheet.Data) == "XC3" && stateSheet.CombinationRows[0].State == "SLE_QP" && stateSheet.Model is null
+                && stateSheet.Method == "Metodo n" && stateSheet.Current?.State == "SLE_QP" && stateSheet.Summary?.Value.StartsWith("wk = ", StringComparison.Ordinal) == true
+                && stateSheet.CombinationRows[0].Ratio.Length > 0, "Foglio: SLE quasi permanente scelta nella riga, metodo n in alto, fessurazione in evidenza: " + stateSheet.Summary?.Value);
+            stateSheet.Model = "Elastica"; await stateSheet.PendingCalculation;
+            expect.That(stateSheet.CombinationRows[0].State == "SLU" && stateSheet.Model == "Elastica" && stateSheet.Current?.Model == "Elastico",
+                "Modello scelto in alto su una combinazione SLE: diventa SLU con quel modello");
         }
 
         // No report in this version.
@@ -494,7 +557,8 @@ internal static class QuickSectionSheetChecks
             Set(d, ("shape", "Circolare"), ("diameter_mm", "800"), ("cover_mm", "60"), ("transverse_bar_diameter_mm", "10"),
                 ("longitudinal_bar_count", "14"), ("longitudinal_bar_diameter_mm", "22"), ("classe_cls", "C25/30"), ("classe_acciaio", "B450C"));
             Act(d, "-1100", "300");
-            var view = ConcreteQuickSection.View(d); view["titolo"] = "Palo Ø800 · metodo n"; view["metodo"] = ConcreteQuickSection.Methods[2]; view["grafico"] = ConcreteQuickSection.Charts[1];
+            var view = ConcreteQuickSection.View(d); view["titolo"] = "Palo Ø800 · metodo n"; view["grafico"] = ConcreteQuickSection.Charts[1];
+            ConcreteQuickSection.SetCombinationState(d, ConcreteQuickSection.Combinations(d)[0].S("id"), "SLE");
         });
         return written;
     }

@@ -237,7 +237,7 @@ internal static class ShellDraftChecks
                     biaxial.CombinationRows[^1].IsSelected = true;
                     await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);
-                    Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.HasLimitStates,
+                    Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.Method == "Metodo n" && biaxial.Model is null,
                         "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
                     await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
                 }

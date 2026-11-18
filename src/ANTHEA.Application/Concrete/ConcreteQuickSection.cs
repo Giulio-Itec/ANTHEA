@@ -37,7 +37,7 @@ public sealed record ConcreteQuickResult(
     string? SelectedId,
     double Creep = 0,
     double? EffectiveRatio = null,
-    string State = ConcreteQuickSection.Capacity,
+    string State = "SLU",
     ConcreteResults.CrackResult? Crack = null);
 
 /// <summary>A limit state of a combination of the quick section: the code of the document and the label of the table.</summary>
@@ -58,7 +58,7 @@ public sealed record ConcreteQuickShape(string Name, bool Available, string Note
 /// The outcome of a combination of the quick section: η of the ultimate check (or the ratio of the stresses with the method n) and the status of
 /// the engine; <see cref="Passed"/> true when the ratio is within 1, null without a ratio.
 /// </summary>
-public sealed record ConcreteQuickCombination(string Id, string Name, double? Ratio, string Status, bool? Passed, string State = ConcreteQuickSection.Capacity);
+public sealed record ConcreteQuickCombination(string Id, string Name, double? Ratio, string Status, bool? Passed, string State = "SLU");
 
 /// <summary>
 /// The main outcome of the quick RC section, shown in evidence: the design resisting moment (or the stresses of the method n), the ratio with the
@@ -177,7 +177,6 @@ public static class ConcreteQuickSection
         var input = data["input"]!.AsObject();
         input["second_inner_enabled"] = false; input["second_inner_count"] = "8"; input["second_inner_diameter"] = "20"; input["second_inner_gap"] = "25";
         SectionActionInputs.Replace(data, [Row("SLU", "Combo 1")]);
-        CopyToService(data);
         WriteModel(data, Models[0]);
         data[ViewKey] = new JsonObject
         {
@@ -215,8 +214,11 @@ public static class ConcreteQuickSection
             throw new ArgumentException("Titolo della verifica rapida non valido.");
         if (view[LayersKey] is { } layers && (layers is not JsonArray list || list.Any(l => l is not JsonObject layer || !LayerPositions.Contains(LayerPosition(layer.S("posizione"))))))
             throw new ArgumentException("Strati di armatura della verifica rapida non validi.");
-        if (view[StatesKey] is { } states && (states is not JsonObject map || map.Any(p => p.Value?.ToString() != "SLU")))
+        if (view[LegacyStatesKey] is { } states && (states is not JsonObject map || map.Any(p => p.Value?.ToString() != "SLU")))
             throw new ArgumentException("Stati limite delle combinazioni della verifica rapida non validi.");
+        if (view[RowsKey] is { } rows && (rows is not JsonObject settings || settings.Any(p => p.Value is not JsonObject own
+            || own[ModelField]?.ToString() is { } m && m.Length > 0 && !Models.Contains(m) || own[SignField]?.ToString() is { } s && s is not ("" or "SLU+" or "SLU−"))))
+            throw new ArgumentException("Impostazioni delle combinazioni della verifica rapida non valide.");
         if (view[OrderKey] is { } order && (order is not JsonArray ids || ids.Any(i => i is not JsonValue)))
             throw new ArgumentException("Ordine delle combinazioni della verifica rapida non valido.");
     }
@@ -236,20 +238,24 @@ public static class ConcreteQuickSection
 
     // ---------------------------------------------------------------- limit states of the combinations (18/11/2026)
 
-    /// <summary>The limit state of a combination that follows the check chosen on the top of the sheet (the behaviour of the first version).</summary>
+    /// <summary>
+    /// The combinations of the first version (17/11/2026), «Capacità»: SLU rows copied in the SLE rows («-n»), checked with the check, model and sign
+    /// chosen on the top of the sheet. They are read as SLU combinations (SLE rara with the method n) with those settings, and written so at the
+    /// first edit (<see cref="Normalize"/>): the results stay the same.
+    /// </summary>
     public const string Capacity = "Capacità";
 
     /// <summary>
-    /// The limit states of a combination, in order: «Capacità» (default), then the sets of the RC section: SLU (plastic model), SLV (elastic model),
-    /// SLE rara, frequente, quasi permanente (method n, stresses and cracking as the RC section checks them).
+    /// The limit states of a combination, the sets of the RC section: SLU and SLV (resistance at constant N, plastic and elastic by default), SLE
+    /// rara, frequente, quasi permanente (method n, stresses and cracking as the RC section checks them). A new combination is SLU.
     /// </summary>
-    public static ImmutableArray<string> LimitStates { get; } = [Capacity, "SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
+    public static ImmutableArray<string> LimitStates { get; } = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
 
     /// <summary>The names on screen of <see cref="LimitStates"/>, in the same order.</summary>
-    public static ImmutableArray<string> LimitStateLabels { get; } = [Capacity, "SLU", "SLV", "SLE RA", "SLE FR", "SLE QP"];
+    public static ImmutableArray<string> LimitStateLabels { get; } = ["SLU", "SLV", "SLE RA", "SLE FR", "SLE QP"];
 
     /// <summary>The longer names of <see cref="LimitStates"/>, for the headings of the results.</summary>
-    public static ImmutableArray<string> LimitStateNames { get; } = [Capacity, "SLU", "SLV", "SLE rara", "SLE frequente", "SLE quasi permanente"];
+    public static ImmutableArray<string> LimitStateNames { get; } = ["SLU", "SLV", "SLE rara", "SLE frequente", "SLE quasi permanente"];
 
     /// <summary>The choices of the limit state of a combination on screen: code and label.</summary>
     public static ImmutableArray<ConcreteQuickLimitState> LimitStateChoices { get; } = [.. LimitStates.Select((s, i) => new ConcreteQuickLimitState(s, LimitStateLabels[i]))];
@@ -257,11 +263,23 @@ public static class ConcreteQuickSection
     /// <summary>The label of a limit state, for the table.</summary>
     public static string LimitStateLabel(string state) => LimitStateLabels.ElementAtOrDefault(LimitStates.IndexOf(state)) ?? state;
 
-    /// <summary>The field of the rows of <see cref="Combinations"/> with their limit state.</summary>
-    public const string StateField = "sl";
+    /// <summary>True for the ultimate limit states (SLU, SLV): resistance at constant N with a resistance model and a sign of the moment.</summary>
+    public static bool Ultimate(string state) => state is "SLU" or "SLV";
 
-    /// <summary>The key of the explicit SLU combinations (the other states are their set of the RC section) and the key of the order of the table.</summary>
-    public const string StatesKey = "stati", OrderKey = "ordine";
+    /// <summary>The resistance model of a limit state when the combination has none of its own: plastic for SLU, elastic for SLV, as the RC section.</summary>
+    public static string DefaultModel(string state) => state == "SLV" ? Models[1] : Models[0];
+
+    /// <summary>
+    /// The fields of the rows of <see cref="Combinations"/>: the limit state, the resistance model (SLU, SLV; empty for SLE) and the sign of the moment
+    /// chosen for the straight bending (SLU+ or SLU−; empty: from the sign of Mx).
+    /// </summary>
+    public const string StateField = "sl", ModelField = "modello", SignField = "segno";
+
+    /// <summary>The key of the settings of the combinations (model and sign by identifier) and the key of the order of the table.</summary>
+    public const string RowsKey = "righe", OrderKey = "ordine";
+
+    /// <summary>The key of the explicit SLU combinations of the version of 18/11/2026 with «Capacità» (read, removed at the first edit).</summary>
+    private const string LegacyStatesKey = "stati";
 
     /// <summary>The sets of the RC section that hold the combinations of the sheet.</summary>
     private static readonly ImmutableArray<string> CombinationSets = ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"];
@@ -269,68 +287,114 @@ public static class ConcreteQuickSection
     /// <summary>The copy in the SLE rows of a «Capacità» combination (its identifier with «-n»).</summary>
     private static bool ServiceCopy(string id) => id.EndsWith("-n", StringComparison.Ordinal);
 
-    /// <summary>The set of the RC section of a limit state: «Capacità» and SLU in the SLU rows.</summary>
-    private static string SetOf(string state) => state == Capacity ? "SLU" : state;
-
-    private static JsonObject States(JsonObject data)
+    private static JsonObject RowSettings(JsonObject data)
     {
         var view = View(data);
-        if (view[StatesKey] is not JsonObject states) view[StatesKey] = states = new JsonObject();
-        return states;
+        if (view[RowsKey] is not JsonObject rows) view[RowsKey] = rows = new JsonObject();
+        return rows;
     }
 
     /// <summary>
-    /// The combinations of the sheet (17/11/2026; limit states 18/11/2026): the rows of the RC section as it reads them (id, nome, N, Mx, My), each
-    /// with its limit state in <see cref="StateField"/>, in the order of the table. «Capacità» combinations are SLU rows copied in the SLE rows
-    /// (<see cref="CopyToService"/>); the others are rows of the set of their state, as the RC section stores them.
+    /// The combinations of the sheet: the rows of the RC section as it reads them (id, nome, N, Mx, My), each with its limit state, its resistance
+    /// model and its sign (<see cref="StateField"/>, <see cref="ModelField"/>, <see cref="SignField"/>), in the order of the table. The «Capacità»
+    /// combinations of the first version are read as SLU (SLE rara with the method n) with the model and the sign of the top of the sheet.
     /// </summary>
     public static IReadOnlyList<JsonObject> Combinations(JsonObject data)
     {
         var sets = ConcreteSheetPreparation.ReadActions(data);
-        var explicitUltimate = data[ViewKey]?[StatesKey] as JsonObject;
+        var view = data[ViewKey];
+        var explicitUltimate = view?[LegacyStatesKey] as JsonObject;
+        var settings = view?[RowsKey] as JsonObject;
+        var copies = sets["SLE"].Select(r => r.S("id")).Where(ServiceCopy).ToHashSet();
+        string legacyMethod = view.S("metodo");
+        string legacyState = legacyMethod == Methods[2] ? "SLE" : "SLU", legacySign = legacyMethod is "SLU+" or "SLU−" ? legacyMethod : "";
         var rows = new List<JsonObject>();
         foreach (string set in CombinationSets)
             foreach (var row in sets[set])
             {
                 string id = row.S("id");
                 if (set == "SLE" && ServiceCopy(id)) continue;
-                row[StateField] = set == "SLU" ? (explicitUltimate?[id]?.ToString() == "SLU" ? "SLU" : Capacity) : set;
+                bool capacity = set == "SLU" && copies.Contains(id + "-n") && explicitUltimate?[id]?.ToString() != "SLU";
+                string state = capacity ? legacyState : set;
+                string model = settings?[id]?[ModelField]?.ToString() is { } own && Models.Contains(own) ? own : capacity ? Model(data) : DefaultModel(state);
+                string sign = settings?[id]?[SignField]?.ToString() is { } chosen && chosen is "SLU+" or "SLU−" ? chosen : capacity ? legacySign : "";
+                row[StateField] = state;
+                row[ModelField] = Ultimate(state) ? model : "";
+                row[SignField] = Ultimate(state) ? sign : "";
                 rows.Add(row);
             }
-        if (data[ViewKey]?[OrderKey] is not JsonArray order) return rows;
+        if (view?[OrderKey] is not JsonArray order) return rows;
         var position = order.Select((n, i) => (Id: n?.ToString() ?? "", i)).GroupBy(p => p.Id).ToDictionary(g => g.Key, g => g.First().i);
         return rows.Select((r, i) => (r, i)).OrderBy(p => position.TryGetValue(p.r.S("id"), out int k) ? k : order.Count + p.i).Select(p => p.r).ToArray();
     }
 
-    /// <summary>The limit state of the combination <paramref name="id"/> («Capacità» when it does not exist).</summary>
-    public static string CombinationState(JsonObject data, string id) => Combinations(data).FirstOrDefault(r => r.S("id") == id)?.S(StateField) ?? Capacity;
+    /// <summary>The limit state of the combination <paramref name="id"/> (SLU when it does not exist).</summary>
+    public static string CombinationState(JsonObject data, string id) => Combinations(data).FirstOrDefault(r => r.S("id") == id)?.S(StateField) ?? LimitStates[0];
 
     private static void SaveOrder(JsonObject data, IEnumerable<string> ids) => View(data)[OrderKey] = new JsonArray(ids.Select(id => (JsonNode?)JsonValue.Create(id)).ToArray());
 
-    /// <summary>The stored row of the combination <paramref name="id"/> and its set, or null.</summary>
-    private static (JsonArray Rows, JsonObject Row)? Find(JsonObject data, string id)
+    /// <summary>The stored row of the combination <paramref name="id"/> with its array and its set, or null.</summary>
+    private static (JsonArray Rows, JsonObject Row, string Set)? Find(JsonObject data, string id)
     {
         foreach (string set in CombinationSets)
             if (data["combinazioni"]?[set] is JsonArray rows && rows.OfType<JsonObject>().FirstOrDefault(r => r.S("id") == id && !(set == "SLE" && ServiceCopy(id))) is { } row)
-                return (rows, row);
+                return (rows, row, set);
         return null;
     }
 
     /// <summary>
-    /// The limit state of the combination <paramref name="id"/>: its row moves to the set of the state (SLU for «Capacità»), the SLE copies follow,
-    /// the order of the table stays.
+    /// Writes the combinations as <see cref="Combinations"/> reads them: each row in the set of its limit state, the model and the sign of the
+    /// «Capacità» combinations as settings of the row, without the SLE copies. Called before every edit of the combinations; nothing changes in a
+    /// sheet already written so.
+    /// </summary>
+    private static void Normalize(JsonObject data)
+    {
+        bool copies = data["combinazioni"]?["SLE"] is JsonArray service && service.OfType<JsonObject>().Any(r => ServiceCopy(r.S("id")));
+        if (!copies && data[ViewKey]?[LegacyStatesKey] is null) return;
+        var rows = Combinations(data);
+        var settings = RowSettings(data);
+        foreach (var row in rows)
+        {
+            string id = row.S("id"), state = row.S(StateField);
+            if (Find(data, id) is { } found && found.Set != state) { found.Rows.Remove(found.Row); Stored(data, state).Add(found.Row); }
+            if (Ultimate(state) && (row.S(ModelField) != DefaultModel(state) || row.S(SignField).Length > 0))
+                settings[id] = new JsonObject { [ModelField] = row.S(ModelField), [SignField] = row.S(SignField) };
+        }
+        if (data["combinazioni"]?["SLE"] is JsonArray sle)
+            foreach (var copy in sle.OfType<JsonObject>().Where(r => ServiceCopy(r.S("id"))).ToArray()) sle.Remove(copy);
+        View(data).Remove(LegacyStatesKey);
+        SaveOrder(data, rows.Select(r => r.S("id")));
+    }
+
+    /// <summary>
+    /// The limit state of the combination <paramref name="id"/>: its row moves to the set of the state and its settings go back to those of the state
+    /// (the model of the state, the sign from Mx); the order of the table stays.
     /// </summary>
     public static void SetCombinationState(JsonObject data, string id, string state)
     {
         if (!LimitStates.Contains(state)) throw new ArgumentException("Stato limite non valido: " + state);
+        Normalize(data);
         var order = Combinations(data).Select(r => r.S("id")).ToArray();
         var found = Find(data, id) ?? throw new ArgumentException("Combinazione inesistente.");
-        found.Rows.Remove(found.Row);
-        Stored(data, SetOf(state)).Add(found.Row);
-        var states = States(data);
-        if (state == "SLU") states[id] = "SLU"; else states.Remove(id);
-        CopyToService(data);
+        if (found.Set != state) { found.Rows.Remove(found.Row); Stored(data, state).Add(found.Row); }
+        RowSettings(data).Remove(id);
         SaveOrder(data, order);
+    }
+
+    /// <summary>
+    /// A setting of the combination <paramref name="id"/> (SLU or SLV): its resistance model (<see cref="ModelField"/>: Plastico, Elastico) or the
+    /// sign of the moment of the straight bending (<see cref="SignField"/>: SLU+, SLU−; empty for the sign of Mx).
+    /// </summary>
+    public static void WriteCombinationSetting(JsonObject data, string id, string key, string value)
+    {
+        if (key == ModelField ? !Models.Contains(value) : key != SignField || value is not ("" or "SLU+" or "SLU−"))
+            throw new ArgumentException("Impostazione della combinazione non valida: " + key + " = " + value);
+        Normalize(data);
+        var row = Combinations(data).FirstOrDefault(r => r.S("id") == id) ?? throw new ArgumentException("Combinazione inesistente.");
+        if (!Ultimate(row.S(StateField))) throw new ArgumentException("Modello e segno valgono per le combinazioni SLU e SLV.");
+        var settings = RowSettings(data);
+        if (settings[id] is not JsonObject own) settings[id] = own = new JsonObject { [ModelField] = row.S(ModelField), [SignField] = row.S(SignField) };
+        own[key] = value;
     }
 
     /// <summary>The selected combination: the saved one when it exists, otherwise the first; null without combinations.</summary>
@@ -358,24 +422,24 @@ public static class ConcreteQuickSection
         ["visible"] = true, ["elemento"] = ""
     };
 
-    /// <summary>A new «Capacità» combination at zero, «Combo k» with the first free k, at the end of the table, selected; returns its identifier.</summary>
+    /// <summary>A new SLU combination at zero, «Combo k» with the first free k, at the end of the table, selected; returns its identifier.</summary>
     public static string AddCombination(JsonObject data)
     {
+        Normalize(data);
         var existing = Combinations(data);
         var names = existing.Select(r => r.S("nome")).ToHashSet();
         int k = existing.Count + 1;
         while (names.Contains("Combo " + k)) k++;
         string id = Guid.NewGuid().ToString("N");
         Stored(data).Add(NewRow(id, "Combo " + k));
-        CopyToService(data);
         SaveOrder(data, existing.Select(r => r.S("id")).Append(id));
         SelectCombination(data, id);
         return id;
     }
 
     /// <summary>
-    /// Replaces the combinations with <paramref name="rows"/> (name, N, Mx, My; the other components at zero), the first one selected: the
-    /// combinations read from Excel (<see cref="ConcreteQuickActionsExcel"/>). At least one row; nothing changes when the rows are not valid.
+    /// Replaces the combinations with <paramref name="rows"/> (name, N, Mx, My, limit state; the other components at zero), the first one selected:
+    /// the combinations read from Excel (<see cref="ConcreteQuickActionsExcel"/>). At least one row; nothing changes when the rows are not valid.
     /// </summary>
     public static void ReplaceCombinations(JsonObject data, IReadOnlyList<ConcreteQuickActionsExcel.Row> rows)
     {
@@ -387,16 +451,14 @@ public static class ConcreteQuickSection
         if (rows.Any(r => !LimitStates.Contains(r.State))) throw new ArgumentException("Stato limite non valido.");
         static string Text(double value) => value.ToString(System.Globalization.CultureInfo.InvariantCulture);
         foreach (string set in CombinationSets) Stored(data, set).Clear();
-        var states = States(data); states.Clear();
+        RowSettings(data).Clear(); View(data).Remove(LegacyStatesKey);
         var ids = new List<string>();
         foreach (var r in rows)
         {
             string id = Guid.NewGuid().ToString("N");
-            Stored(data, SetOf(r.State)).Add(NewRow(id, r.Name.Trim(), new Dictionary<string, string> { ["N"] = Text(r.N), ["Mx"] = Text(r.Mx), ["My"] = Text(r.My) }));
-            if (r.State == "SLU") states[id] = "SLU";
+            Stored(data, r.State).Add(NewRow(id, r.Name.Trim(), new Dictionary<string, string> { ["N"] = Text(r.N), ["Mx"] = Text(r.Mx), ["My"] = Text(r.My) }));
             ids.Add(id);
         }
-        CopyToService(data);
         SaveOrder(data, ids);
         SelectCombination(data, ids[0]);
     }
@@ -404,11 +466,11 @@ public static class ConcreteQuickSection
     /// <summary>Removes the combination <paramref name="id"/>; the last one stays. The selection moves to the first combination when it was removed.</summary>
     public static void RemoveCombination(JsonObject data, string id)
     {
+        Normalize(data);
         var order = Combinations(data).Select(r => r.S("id")).ToList();
         if (order.Count <= 1 || Find(data, id) is not { } found) return;
         found.Rows.Remove(found.Row);
-        States(data).Remove(id);
-        CopyToService(data);
+        RowSettings(data).Remove(id);
         order.Remove(id);
         SaveOrder(data, order);
         if (data[ViewKey].S(SelectedKey) == id) SelectCombination(data, order[0]);
@@ -417,6 +479,7 @@ public static class ConcreteQuickSection
     /// <summary>Writes the name or a component (N, Mx, My) of the combination <paramref name="id"/>.</summary>
     public static void WriteCombination(JsonObject data, string id, string key, string value)
     {
+        Normalize(data);
         var row = Find(data, id)?.Row ?? throw new ArgumentException("Combinazione inesistente.");
         if (key == "nome") row["nome"] = value;
         else
@@ -427,24 +490,6 @@ public static class ConcreteQuickSection
             while (components.Count < SectionActionInputs.Components.Length) components.Add(JsonValue.Create("0"));
             components[index] = value;
         }
-        CopyToService(data);
-    }
-
-    /// <summary>
-    /// The SLE rows: the combinations of state «SLE rara», then a copy of every «Capacità» combination (identifiers with «-n», distinct from those
-    /// of the SLU rows), so that the document says the same to the RC section.
-    /// </summary>
-    public static void CopyToService(JsonObject data)
-    {
-        var explicitUltimate = data[ViewKey]?[StatesKey] as JsonObject;
-        var service = Stored(data, "SLE").OfType<JsonObject>().Where(r => !ServiceCopy(r.S("id"))).Select(r => (JsonNode?)r.DeepClone());
-        var copies = Stored(data).OfType<JsonObject>().Where(r => explicitUltimate?[r.S("id")]?.ToString() != "SLU").Select(r =>
-        {
-            var row = (JsonObject)r.DeepClone();
-            row["id"] = row.S("id") + "-n";
-            return (JsonNode?)row;
-        });
-        data["combinazioni"]!["SLE"] = new JsonArray(service.Concat(copies).ToArray());
     }
 
     /// <summary>Writes a component of the first action of <paramref name="state"/>; the action is created when missing.</summary>
@@ -669,15 +714,13 @@ public static class ConcreteQuickSection
         foreach (var row in valid.Except(active)) statuses[row.S("id")] = "Azione nulla";
         ConcreteResults.Action? selectedForce = selectedId is not null && forces.TryGetValue(selectedId, out var chosen) ? chosen : null;
 
-        // The set of the RC section that checks a combination: «Capacità» follows the check on the top (SLU, or the rare SLE with the method n).
+        // The limit state of each combination, with its resistance model and its sign (18/11/2026).
         static string StateOf(JsonObject row) => row.S(StateField);
-        string CheckSet(JsonObject row) => StateOf(row) == Capacity ? (ultimate ? "SLU" : "SLE") : StateOf(row);
-        string selectedState = selectedRow is null ? Capacity : StateOf(selectedRow);
-        string selectedSet = selectedRow is null ? (ultimate ? "SLU" : "SLE") : CheckSet(selectedRow);
-        bool selectedUltimate = selectedSet is "SLU" or "SLV";
+        string selectedState = selectedRow is null ? LimitStates[0] : StateOf(selectedRow);
+        bool selectedUltimate = Ultimate(selectedState);
 
-        // The ultimate checks of all the combinations: the 3D domain of the RC section at constant N (as its 3D panel), for each group with its
-        // resistance model: «Capacità» with the model of the sheet, SLU plastic, SLV elastic.
+        // The ultimate checks of all the combinations: the 3D domain of the RC section at constant N (as its 3D panel), for each limit state and
+        // resistance model with the settings of the RC section for that model.
         JsonObject WithModel(string state, string resistance)
         {
             var copy = (JsonObject)settings.DeepClone();
@@ -685,16 +728,12 @@ public static class ConcreteQuickSection
             models[state] = resistance;
             return copy;
         }
-        JsonObject plastic = WithModel("SLU", Models[0]), elasticSettings = WithModel("SLV", Models[1]);
-        var groups = new (string Key, JsonObject Settings, JsonObject[] Rows)[]
-        {
-            ("SLU", settings, active.Where(r => StateOf(r) == Capacity && ultimate).ToArray()),
-            ("SLU", plastic, active.Where(r => StateOf(r) == "SLU").ToArray()),
-            ("SLV", elasticSettings, active.Where(r => StateOf(r) == "SLV").ToArray())
-        };
         var checks = new Dictionary<string, ConcreteResults.Check>();
-        foreach (var (key, groupSettings, groupRows) in groups.Where(g => g.Rows.Length > 0))
+        foreach (var group in active.Where(r => Ultimate(StateOf(r))).GroupBy(r => (State: StateOf(r), Model: r.S(ModelField))))
         {
+            var (key, resistance) = group.Key;
+            var groupRows = group.ToArray();
+            var groupSettings = WithModel(key, resistance);
             var options3D = (JsonObject)groupSettings["dominio3d"]!.DeepClone();
             options3D["stato"] = key; options3D["criterio"] = "N costante";
             try
@@ -706,10 +745,11 @@ public static class ConcreteQuickSection
             catch (Exception failure) when (failure is not OperationCanceledException) { errors.Add("Verifica " + key + ": " + failure.Message); }
         }
         token.ThrowIfCancellationRequested();
-        string selectedModel = selectedState switch { "SLU" => Models[0], "SLV" => Models[1], _ => model };
-        var selectedSettings = selectedState switch { "SLU" => plastic, "SLV" => elasticSettings, _ => settings };
-        // The sign of the moment of an explicit SLU or SLV combination comes from its Mx.
-        string selectedMethod = !selectedUltimate ? Methods[2] : selectedState == Capacity ? method : straight && selectedForce is { Mx: < 0 } ? Methods[1] : Methods[0];
+        string selectedModel = selectedRow?.S(ModelField) is { Length: > 0 } own ? own : DefaultModel(selectedState);
+        var selectedSettings = selectedUltimate ? WithModel(selectedState, selectedModel) : settings;
+        // The sign of the moment: the one chosen for the combination, otherwise the sign of its Mx.
+        string selectedMethod = !selectedUltimate ? Methods[2] : !straight ? Methods[0]
+            : selectedRow?.S(SignField) is { Length: > 0 } sign ? sign : selectedForce is { Mx: < 0 } ? Methods[1] : Methods[0];
         ConcreteResults.Check? check = selectedId is null || !selectedUltimate ? null : checks.GetValueOrDefault(selectedId);
         ConcreteResults.StressState? limit = check?.LimitState?.Value;
         IReadOnlyList<ConcreteResults.PrincipalResistance> resistances = [];
@@ -717,7 +757,7 @@ public static class ConcreteQuickSection
 
         // The chart: the section N–M at θ = 0 with the straight bending, the section Mx–My at the N of the selected combination with the biaxial one;
         // the domain of the SLV for an SLV combination, of the SLU otherwise.
-        string chartKey = selectedSet == "SLV" ? "SLV" : "SLU";
+        string chartKey = selectedState == "SLV" ? "SLV" : "SLU";
         var options = (JsonObject)selectedSettings["dominio2d"]!.DeepClone();
         options["stato"] = chartKey; options["tipo"] = straight ? "N–M" : "Mx–My"; options["theta"] = "0"; options["filtro"] = "Tutte";
         options["solo_selezionata"] = false; options["tutte_rd"] = true;
@@ -750,7 +790,7 @@ public static class ConcreteQuickSection
         var stresses = new Dictionary<string, StressOutcome>();
         foreach (string set in new[] { "SLE", "SLE_FREQ", "SLE_QP" })
         {
-            var groupRows = valid.Where(r => CheckSet(r) == set).ToArray();
+            var groupRows = valid.Where(r => StateOf(r) == set).ToArray();
             if (groupRows.Length == 0) continue;
             try
             {
@@ -763,13 +803,13 @@ public static class ConcreteQuickSection
         token.ThrowIfCancellationRequested();
         var outcome = selectedUltimate || selectedId is null ? null : stresses.GetValueOrDefault(selectedId);
         ConcreteResults.StressState? service = outcome?.State;
-        double? ratio = ConcreteEditor.HasStressCheck(selectedSet) ? outcome?.Ratio : null;
+        double? ratio = ConcreteEditor.HasStressCheck(selectedState) ? outcome?.Ratio : null;
         string serviceStatus = outcome?.Status ?? "";
-        var crack = !selectedUltimate && ConcreteEditor.HasCrackCheck(selectedSet, settings) ? outcome?.CrackResult : null;
+        var crack = !selectedUltimate && ConcreteEditor.HasCrackCheck(selectedState, settings) ? outcome?.CrackResult : null;
 
         ConcreteQuickCombination Outcome(JsonObject row)
         {
-            string id = row.S("id"), name = row.S("nome"), state = StateOf(row), set = CheckSet(row);
+            string id = row.S("id"), name = row.S("nome"), state = StateOf(row), set = StateOf(row);
             if (statuses.TryGetValue(id, out var status)) return new(id, name, null, status, null, state);
             if (set is "SLU" or "SLV")
                 return checks.GetValueOrDefault(id) is { } c ? new(id, name, c.Utilization, c.Status, c.Utilization is double u ? u <= 1 : null, state)
@@ -795,7 +835,7 @@ public static class ConcreteQuickSection
             try { effective = Anthea.Calculations.Homogenization.Resolve(steelModulus, preview.Ecm, false, creep).N; }
             catch (ArgumentException failure) { errors.Add("φ: " + failure.Message); }
         }
-        var chartRows = valid.Where(r => CheckSet(r) == chartKey).ToArray();
+        var chartRows = valid.Where(r => StateOf(r) == chartKey).ToArray();
         return new(selectedMethod, straight, preview, selectedForce, check, limit, resistances, selectedUltimate ? null : selectedForce, service, ratio, serviceStatus,
             ConcreteDomainChart.Geometry(chartKey, options, domain, domainError), ConcreteDomainChart.Actions(options, domain, chartRows, selectedId, checks),
             curvature, errors, selectedModel, yieldStrain, combinations, selectedId, creep, effective, selectedState, crack);
@@ -848,7 +888,7 @@ public static class ConcreteQuickSection
         var selected = result.Combinations.FirstOrDefault(c => c.Id == result.SelectedId);
         string combination = selected?.Name is { Length: > 0 } name ? name + " · " : "";
         // The limit state of an explicit combination, after its name (18/11/2026).
-        if (result.State != Capacity) combination += LimitStateNames.ElementAtOrDefault(LimitStates.IndexOf(result.State)) + " · ";
+        combination += LimitStateNames.ElementAtOrDefault(LimitStates.IndexOf(result.State)) + " · ";
         if (result.State is "SLE_FREQ" or "SLE_QP")
         {
             string crackTitle = combination + (result.State == "SLE_QP" ? "fessurazione e tensioni con il metodo n" : "fessurazione");

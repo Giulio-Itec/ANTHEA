@@ -46,7 +46,7 @@ public sealed class QuickCombinationRow : ObservableObject
     /// </summary>
     public string State
     {
-        get => row.S(ConcreteQuickSection.StateField) is { Length: > 0 } state ? state : ConcreteQuickSection.Capacity;
+        get => row.S(ConcreteQuickSection.StateField) is { Length: > 0 } state ? state : ConcreteQuickSection.LimitStates[0];
         set { if (value is not null && value != State && owner.SetCombinationState(Id, value)) row[ConcreteQuickSection.StateField] = value; OnPropertyChanged(); }
     }
 
@@ -188,15 +188,48 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
 
     public bool IsCircular => Shape == ConcreteQuickSection.Circular;
 
-    /// <summary>The check: «Momento positivo», «Momento negativo» or «Metodo n» (codes SLU+, SLU−, Metodo n in the document).</summary>
+    // ---------------------------------------------------------------- the settings of the selected combination (18/11/2026)
+
+    /// <summary>The selected combination as <see cref="ConcreteQuickSection.Combinations"/> reads it (limit state, model, sign), or null.</summary>
+    private JsonObject? SelectedRow => ConcreteQuickSection.Combinations(Data).FirstOrDefault(r => r.S("id") == SelectedCombinationId);
+
+    private bool SelectedUltimate => SelectedRow is not { } row || ConcreteQuickSection.Ultimate(row.S(ConcreteQuickSection.StateField));
+
+    /// <summary>The code of the check of the selected combination: its sign (chosen, or from Mx) for SLU and SLV, «Metodo n» for the SLE states.</summary>
+    private string MethodCode()
+    {
+        if (SelectedRow is not { } row) return ConcreteQuickSection.Methods[0];
+        if (!ConcreteQuickSection.Ultimate(row.S(ConcreteQuickSection.StateField))) return ConcreteQuickSection.Methods[2];
+        if (row.S(ConcreteQuickSection.SignField) is { Length: > 0 } sign) return sign;
+        return J.Number(row["Mx"]) is < 0 ? ConcreteQuickSection.Methods[1] : ConcreteQuickSection.Methods[0];
+    }
+
+    /// <summary>
+    /// The check of the selected combination: «Momento positivo», «Momento negativo» (the sign of MRd of SLU and SLV) or «Metodo n» (the SLE states).
+    /// A change applies to that combination: «Metodo n» makes an SLU or SLV combination SLE rara, a moment makes an SLE combination SLU.
+    /// </summary>
     public string Method
     {
-        get => ConcreteQuickSection.MethodLabel(View.S("metodo"), IsStraight);
+        get => ConcreteQuickSection.MethodLabel(MethodCode(), IsStraight);
         set
         {
-            if (value is null) { OnPropertyChanged(); return; }
-            Choose("metodo", ConcreteQuickSection.MethodCode(value, View.S("metodo")), ConcreteQuickSection.Methods);
-            OnPropertyChanged(nameof(StraightMethod)); OnPropertyChanged(nameof(BiaxialMethod));
+            if (value is null || SelectedCombinationId is not { } id || building || IsDisposed) { NotifyCombinationSettings(); return; }
+            string? code = ConcreteQuickSection.MethodCode(value, MethodCode());
+            bool ultimate = SelectedUltimate;
+            if (code == ConcreteQuickSection.Methods[2])
+            {
+                if (ultimate) Edit(d => ConcreteQuickSection.SetCombinationState(d, id, "SLE"));
+            }
+            else if (code is not null)
+            {
+                Edit(d =>
+                {
+                    if (!ultimate) ConcreteQuickSection.SetCombinationState(d, id, "SLU");
+                    if (IsStraight) ConcreteQuickSection.WriteCombinationSetting(d, id, ConcreteQuickSection.SignField, code);
+                });
+            }
+            BuildCombinations();
+            NotifyCombinationSettings();
         }
     }
 
@@ -210,29 +243,48 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The check with the straight bending: «Momento positivo», «Momento negativo», «Metodo n»; a value of the other list is ignored.</summary>
     public string? StraightMethod
     {
-        get => ConcreteQuickSection.MethodLabel(View.S("metodo"));
+        get => ConcreteQuickSection.MethodLabel(MethodCode());
         set { if (value is not null && StraightMethods.Contains(value)) Method = value; else OnPropertyChanged(); }
     }
 
     /// <summary>The check with the biaxial bending: «Capacità» or «Metodo n»; a value of the other list is ignored.</summary>
     public string? BiaxialMethod
     {
-        get => ConcreteQuickSection.MethodLabel(View.S("metodo"), false);
+        get => ConcreteQuickSection.MethodLabel(MethodCode(), false);
         set { if (value is not null && BiaxialMethods.Contains(value)) Method = value; else OnPropertyChanged(); }
     }
 
-    /// <summary>The resistance model of the ultimate check: «Plastica» or «Elastica», written where the RC section reads it.</summary>
-    public string Model
+    /// <summary>
+    /// The resistance model of the selected combination: «Plastica» or «Elastica» for SLU and SLV (by default plastic and elastic), none for the SLE
+    /// states. A change applies to that combination; on an SLE combination it makes it SLU with that model.
+    /// </summary>
+    public string? Model
     {
-        get => ConcreteQuickSection.ModelLabel(ConcreteQuickSection.Model(Data));
+        get => SelectedRow is { } row && ConcreteQuickSection.Ultimate(row.S(ConcreteQuickSection.StateField))
+            ? ConcreteQuickSection.ModelLabel(row.S(ConcreteQuickSection.ModelField)) : SelectedRow is null ? ConcreteQuickSection.ModelLabels[0] : null;
         set
         {
-            string? model = ConcreteQuickSection.Models.ElementAtOrDefault(ConcreteQuickSection.ModelLabels.IndexOf(value));
-            if (model is not null && model != ConcreteQuickSection.Model(Data)) Edit(d => ConcreteQuickSection.WriteModel(d, model));
-            OnPropertyChanged();
+            string? model = ConcreteQuickSection.Models.ElementAtOrDefault(ConcreteQuickSection.ModelLabels.IndexOf(value ?? ""));
+            if (model is not null && SelectedCombinationId is { } id && !building && !IsDisposed && ConcreteQuickSection.ModelLabel(model) != Model)
+            {
+                bool ultimate = SelectedUltimate;
+                Edit(d =>
+                {
+                    if (!ultimate) ConcreteQuickSection.SetCombinationState(d, id, "SLU");
+                    ConcreteQuickSection.WriteCombinationSetting(d, id, ConcreteQuickSection.ModelField, model);
+                });
+                BuildCombinations();
+            }
+            NotifyCombinationSettings();
         }
     }
 
+    /// <summary>The settings of the selected combination shown again (selection, limit state, model, sign).</summary>
+    private void NotifyCombinationSettings()
+    {
+        foreach (string p in new[] { nameof(Model), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(IsServiceMethod), nameof(RatioHeader) })
+            OnPropertyChanged(p);
+    }
     /// <summary>Straight or biaxial bending: with the straight one My is not used.</summary>
     public string Bending
     {
@@ -273,7 +325,8 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public bool ShowsSection => showSection;
 
     public bool IsStraight => Bending == ConcreteQuickSection.Bendings[0];
-    public bool IsServiceMethod => View.S("metodo") == ConcreteQuickSection.Methods[2];
+    /// <summary>True when the selected combination is an SLE one (method n).</summary>
+    public bool IsServiceMethod => !SelectedUltimate;
     public bool ShowsDomain => Chart == ConcreteQuickSection.Charts[0];
 
     private bool Choose(string key, string? value, IReadOnlyList<string> choices, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
@@ -339,10 +392,13 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public string? SelectedCombinationId => ConcreteQuickSection.SelectedCombination(Data);
 
     /// <summary>The head of the column of the ratios: η for the ultimate check, the ratio of the stresses for the method n.</summary>
-    public string RatioHeader => HasLimitStates ? "rapp." : IsServiceMethod ? "σ/σlim" : "η";
-
-    /// <summary>True when a combination has its own limit state (not «Capacità»): the ratios of the table are of different kinds.</summary>
-    public bool HasLimitStates => ConcreteQuickSection.Combinations(Data).Any(r => r.S(ConcreteQuickSection.StateField) != ConcreteQuickSection.Capacity);
+    public string RatioHeader => ConcreteQuickSection.Combinations(Data).Select(r => r.S(ConcreteQuickSection.StateField)).Distinct().ToArray() switch
+    {
+        var states when states.All(ConcreteQuickSection.Ultimate) => "η",
+        ["SLE"] => "σ/σlim",
+        ["SLE_FREQ"] => "wk/wlim",
+        _ => "rapp."
+    };
 
     private static FieldSpec T(string key, string label, string unit, string tip) => new(key, label, unit, ToolTip: tip);
     private static FieldSpec B(string key, string tip) => new(key, "", Bool: true, ToolTip: tip);
@@ -433,7 +489,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                 GuardedCommands.Create(Guard, () => RemoveCombination(id), () => CanEdit && CombinationRows.Count > 1),
                 GuardedCommands.Create(Guard, () => SelectCombination(id)));
         }).ToArray();
-        OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId)); OnPropertyChanged(nameof(RatioHeader)); OnPropertyChanged(nameof(HasLimitStates));
+        OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId)); NotifyCombinationSettings();
     }
 
     private void AddCombination()
@@ -535,6 +591,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         {
             OnPropertyChanged(nameof(SelectedCombinationId));
             foreach (var row in CombinationRows) row.Refresh();
+            NotifyCombinationSettings();
         }
     }
 
@@ -543,7 +600,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     {
         if (building || IsDisposed) return false;
         if (!Edit(d => ConcreteQuickSection.SetCombinationState(d, id, state))) return false;
-        OnPropertyChanged(nameof(RatioHeader)); OnPropertyChanged(nameof(HasLimitStates));
+        NotifyCombinationSettings();
         return true;
     }
 
@@ -551,7 +608,10 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     internal bool EditCombination(string id, string key, string value)
     {
         if (building || IsDisposed) return false;
-        return Edit(d => ConcreteQuickSection.WriteCombination(d, id, key, value));
+        bool done = Edit(d => ConcreteQuickSection.WriteCombination(d, id, key, value));
+        // The sign of the moment of an SLU or SLV combination may follow its Mx.
+        if (done && key == "Mx" && id == SelectedCombinationId) NotifyCombinationSettings();
+        return done;
     }
 
     private void InputEdited(string key)

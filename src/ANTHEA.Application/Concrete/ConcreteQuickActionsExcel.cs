@@ -25,7 +25,7 @@ public static class ConcreteQuickActionsExcel
 
     /// <summary>The note of the sheet, in A2.</summary>
     public const string Note = "Una riga per combinazione, quante se ne vogliono. N negativo a compressione; My conta solo con la flessione deviata; "
-        + "una forza vuota vale 0. SL: Capacità (vuoto), SLU, SLV, SLE RA, SLE FR, SLE QP. Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
+        + "una forza vuota vale 0. SL: SLU (vuoto), SLV, SLE RA, SLE FR, SLE QP. Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
 
     /// <summary>The most combinations of a workbook.</summary>
     public const int MaximumRows = 10000;
@@ -36,8 +36,8 @@ public static class ConcreteQuickActionsExcel
     /// <summary>The row of the heads of the table.</summary>
     public const int HeaderRow = 4;
 
-    /// <summary>A combination of the workbook, with its limit state (<see cref="ConcreteQuickSection.LimitStates"/>; «Capacità» by default).</summary>
-    public sealed record Row(string Name, double N, double Mx, double My, string State = ConcreteQuickSection.Capacity);
+    /// <summary>A combination of the workbook, with its limit state (<see cref="ConcreteQuickSection.LimitStates"/>; SLU by default).</summary>
+    public sealed record Row(string Name, double N, double Mx, double My, string State = "SLU");
 
     /// <summary>The head of the optional column of the limit state, in E.</summary>
     public const string StateHeader = "SL";
@@ -51,20 +51,20 @@ public static class ConcreteQuickActionsExcel
     }).ToArray();
 
     /// <summary>
-    /// The limit state of a cell of the column SL: empty is «Capacità»; the labels of the table (SLE RA, SLE FR, SLE QP), the codes of the RC section
+    /// The limit state of a cell of the column SL: empty (and «Capacità» of the first version) is SLU; the labels of the table (SLE RA, SLE FR, SLE QP), the codes of the RC section
     /// (SLE, SLE_FREQ, SLE_QP) and the names rara, frequente, quasi permanente are read, without regard to case.
     /// </summary>
     public static string State(string text)
     {
         string t = text.Trim().ToUpperInvariant().Replace('.', ' ').Replace("  ", " ");
-        if (t.Length == 0 || t == "CAPACITÀ" || t == "CAPACITA") return ConcreteQuickSection.Capacity;
+        if (t.Length == 0 || t == "CAPACITÀ" || t == "CAPACITA") return "SLU";
         return t switch
         {
             "SLU" => "SLU", "SLV" => "SLV",
             "SLE" or "SLE RA" or "SLE RARA" or "RARA" => "SLE",
             "SLE_FREQ" or "SLE FR" or "SLE FREQUENTE" or "FREQUENTE" => "SLE_FREQ",
             "SLE_QP" or "SLE QP" or "SLE QUASI PERMANENTE" or "QUASI PERMANENTE" => "SLE_QP",
-            _ => throw new ArgumentException("Stato limite non riconosciuto: «" + text.Trim() + "» (Capacità, SLU, SLV, SLE RA, SLE FR, SLE QP).")
+            _ => throw new ArgumentException("Stato limite non riconosciuto: «" + text.Trim() + "» (SLU, SLV, SLE RA, SLE FR, SLE QP).")
         };
     }
 
@@ -158,7 +158,7 @@ public static class ConcreteQuickActionsExcel
                 catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
             }
             string limitState;
-            try { limitState = state ? State(Cell(Headers.Length + 1)) : ConcreteQuickSection.Capacity; }
+            try { limitState = state ? State(Cell(Headers.Length + 1)) : "SLU"; }
             catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
             rows.Add(new Row(name, Value(2), Value(3), Value(4), limitState));
             if (rows.Count > MaximumRows) throw new ArgumentException("Massimo 10.000 combinazioni per importazione.");
