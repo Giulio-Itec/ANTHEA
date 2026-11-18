@@ -2117,5 +2117,20 @@
         "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 119 -> 120; il numero degli articoli e delle ricerche non cambia."
       }
     ]
+  },
+  "editorial_transitions_rev75": {
+    "capture": "supporto/artefatti/ci/20261118-110139-1194-p2-rb-f23cee0e/ui_f3-equivalence/cattura",
+    "before_sha256": "c6c567a040d57e1fa41bdcca7088967b770e806ab208718f57fe016a3f5bb1a7",
+    "after_sha256": "68c30a137f3deee1184620ba62ae03d1c0b3248f78c4dbe830afa28c6fbf60a5",
+    "counts": {
+      "previous": 3502,
+      "current": 3505,
+      "added": 494,
+      "removed": 491
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV75-20261118",
+    "decision": "Utente, 18/11/2026: «Sì, i consigli» (consiglio 3 del riepilogo delle 07:50: OK alle transizioni F3 delle tre pagine Wiki della Rev75, candidata ANTHEA 1.19.4).",
+    "note": "Guides Rev75 (ANTHEA 1.19.4): the 985 not-admitted differences of the capture are all in the files of the Wiki pages avvio-e-scelta-del-modulo, modelli-importazione-midas and sezione-in-calcestruzzo-armato (.md and .txt); the search index is unchanged. 494 exact editorial transitions added (riga-aggiunta 492, testo 2) and 491 earlier transitions of the same pages superseded. The pages of the embedded walls, of the horizontal pile and of the stratified method are added files of the F3 base, not compared line by line. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
   }
 }

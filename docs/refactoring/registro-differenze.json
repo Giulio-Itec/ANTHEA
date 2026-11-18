@@ -15641,6 +15641,30 @@
       "wiki": "Indice della Wiki rigenerato con le guide Rev74; nessuna guida autonoma nuova."
     },
     {
+      "id": "GUIDE-REV75-20261118",
+      "data": "2026-11-18",
+      "fase": "Dopo il refactoring / guide globali (ANTHEA 1.19.4)",
+      "titolo": "Guide Rev75 della 1.19.4: transizioni editoriali delle pagine Wiki dell'avvio, dei Modelli e della sezione in c.a.",
+      "famiglia": "guide/wiki",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Guide Rev75: separatore decimale anche nelle pagine delle paratie e nel visore, con i numeri salvati mostrati con il separatore scelto («Avvio e scelta del modulo» della pratica), riga «distribuita con ANTHEA 1.19.4» («Modelli e importazione da MIDAS»), torsione del profilo DS con il limite ν ≥ 2/√fck e la variante (b2) (R16, «Sezione in calcestruzzo armato» della teorica: il blocco di formule passa da tre righe a due e le righe seguenti si spostano di una). La Wiki deriva dalle due guide; il confronto F3 (ui/f3-equivalence) sulla candidata dava 985 differenze non ammesse, tutte nei file delle tre pagine; la ricerca è invariata. Le pagine delle paratie, del palo orizzontale e dello Stratificato sono file aggiunti della base F3 e non danno differenze. Nessun atteso, transizione ingegneristica o tolleranza cambiati.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "«Sì, i consigli» (consiglio 3 del riepilogo delle 07:50, dopo l'elenco f3-candidata-1194-a3042f1f-elenco.md)",
+        "esito": "494 transizioni editoriali esatte aggiunte (riga-aggiunta 492, testo 2) e 491 precedenti superate; registro 3502 → 3505 voci; numero degli articoli invariato (94)."
+      },
+      "test": [
+        "ui/f3-equivalence con il registro aggiornato (editorial_transitions_rev75 in tests/fixtures/f3/manifest.json)"
+      ],
+      "evidenze": [
+        "supporto/artefatti/ci/20261118-110139-1194-p2-rb-f23cee0e/ui_f3-equivalence/cattura/confronto.json",
+        "Repository/gpc-f6-claude/INT/rapporti/f3-candidata-1194-a3042f1f-elenco.md",
+        "Repository/gpc-f6-claude/INT/rapporti/anthea-1194-parte2-20261118.md"
+      ],
+      "wiki": "Indice della Wiki rigenerato con le guide Rev75; nessuna guida autonoma nuova."
+    },
+    {
       "id": "UI-STRATIGRAFIA-TABELLA-20261116",
       "data": "2026-11-16",
       "famiglia": "Stratigrafia standalone e anteprima importazione",
