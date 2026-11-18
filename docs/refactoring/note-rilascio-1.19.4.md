@@ -3,14 +3,18 @@
 Note provvisorie del 18 novembre 2026, preparate con la candidata per la distribuzione dopo l'approvazione dell'utente. Descrivono solo
 le differenze dalla 1.19.3. Le librerie sono quelle del set ufficiale AZ.
 
-La 1.19.4 porta le decisioni del 17/11 sulla scheda del 16/11 e sul separatore decimale. Comprende:
+La 1.19.4 porta le decisioni del 17/11 sulla scheda del 16/11 e sul separatore decimale e il lavoro pubblicato su main fino al 18/11
+(630028b8). Comprende:
 - le paratie con la conferma della storia di progetto per le verifiche SLU, la fase nuova che riprende quote e falda, l'avviso della prima
   fase non geostatica e il passo delle barre della faccia tesa nella fessurazione delle fasce;
 - il palo orizzontale con la Hu di Broms accanto a quella dello Stratificato;
 - il separatore decimale scelto in tutte le viste e il report delle paratie con i decimali per unità;
 - i modelli Straus7 con più freedom case con i vincoli e le molle del freedom case del caso scelto e l'equilibrio valutato in tutti i casi;
 - le librerie GPC del set AZ;
-- le guide Rev75.
+- le guide Rev75;
+- la Sezione c.a. rapida, una verifica della sezione in c.a. in una finestra propria;
+- la stratigrafia con lo stato di addensamento degli strati e Copia in…/Copia da… delle stratigrafie;
+- la relazione ITEC dei pali, con le tabelle di Viggiani e i coefficienti del fusto per strato.
 
 Il documento delle paratie passa alla versione 13: un file salvato con la 1.19.4 non si apre con le versioni precedenti, che rifiutano le
 versioni future del documento. Non ci sono comandi nuovi né un formato nuovo dell'archivio.
@@ -35,8 +39,36 @@ versioni future del documento. Non ci sono comandi nuovi né un formato nuovo de
   (conferma della storia di progetto, testa e piede bloccati, suzione trascurata, conferma A1 e M1 dei tiranti) scritte «sì» o «no»
   invece di «true» o «false». I CSV non cambiano.
 
+## Sezione c.a. rapida
+
+- **Modulo nuovo** dei moduli singoli, in una finestra propria, per una verifica veloce della sezione in c.a.: forme Rettangolare
+  e Circolare (DXF in preparazione, spento; i fogli salvati con la sezione a T si aprono e calcolano come prima), copriferro netto
+  alla staffa, armature a strati (Superiore, Inferiore, Da sopra, Da sotto) e staffe, materiali dal catalogo o modificati.
+- **Combinazioni** in tabella, ognuna con il suo stato limite (SLU di base, SLV, SLE rara, frequente e quasi permanente), il modello
+  resistente e il segno del momento; η di ogni combinazione, il risultato della combinazione selezionata in evidenza, MRd, duttilità,
+  flessione retta e deviata con i momenti resistenti; sollecitazioni scambiate con Excel.
+- **Metodo n e SLE:** viscosità φ, n usato in evidenza, tensioni con i limiti e fessurazione con la classe di esposizione.
+- Calcoli con le funzioni della sezione in c.a. e le librerie GPC, senza motore nuovo. Tre esempi di distribuzione: trave in
+  flessione retta, pilastro in flessione deviata, palo circolare con il metodo n.
+
+## Stratigrafia
+
+- **Addensamento** di ogni strato (Da definire, Sciolto, Denso), usato dal palo verticale.
+- **Copia in… e Copia da…** di una stratigrafia intera in un'altra o in una nuova; la sostituzione di una esistente chiede conferma e
+  conserva identificativo e nome della destinazione.
+- Gli strati nuovi e duplicati prendono un colore diverso dagli altri.
+
+## Relazione ITEC dei pali
+
+- Per i pali e micropali verticali e orizzontali la relazione può essere prodotta nel formato ITEC, completa o breve («W breve» nella
+  barra del foglio), con le figure dei risultati; la relazione storica resta disponibile.
+- Nella teoria le tabelle dei coefficienti K e μ del fusto e del coefficiente di aderenza α nella forma di Viggiani; nel modello
+  geotecnico K, μ e α di ogni strato di ogni verticale.
+
 ## Palo orizzontale
 
+- **Sintesi e report.** La sintesi del foglio dice l'esito della verifica e, con lo Stratificato, «Modello di calcolo per terreno
+  stratificato»; nel report i risultati sono in una tabella della capacità.
 - **Stratificato con Broms accanto.** Broms resta il metodo predefinito. Con lo Stratificato, quando governa un palo corto o intermedio in
   terreno granulare, la sintesi del foglio, i dettagli della verticale e il report mostrano anche Hu di Broms per lo stesso palo e il
   rapporto fra le due capacità. La capacità adottata e la verifica restano quelle dello Stratificato.
