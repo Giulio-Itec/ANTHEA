@@ -71,6 +71,7 @@ internal static class StratigraphySheetChecks
                 StratigraphyTrace.Write(Path.Combine(traces, scenario.File), lines);
                 string stored = Path.Combine(StratigraphyScenarios.Reference(root), scenario.File);
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 string? difference = StratigraphyTrace.FirstDifference(StratigraphyTrace.Read(stored), lines);
                 expect.That(difference is null, "Stratigrafia MVVM diversa dalla vista storica, scenario " + scenario.File + ", " + difference);
             }

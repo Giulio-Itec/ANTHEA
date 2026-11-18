@@ -15,52 +15,53 @@ try
     if (args.Contains("--rheology"))
     {
         string target = args.First(a => a != "--rheology"); Directory.CreateDirectory(target);
-        int count = RheologySheetChecks.Run(root, target);
-        string rheologyMessage = $"PASS {count} controlli foglio Reologia";
-        File.WriteAllText(Path.Combine(target, "esito.txt"), rheologyMessage); Console.WriteLine(rheologyMessage); return 0;
+        int count = Group("RheologySheetChecks", () => RheologySheetChecks.Run(root, target));
+        return Finish(target, count, $"PASS {count} controlli foglio Reologia");
     }
     if(args.Contains("--spettri")){
         string target=args.FirstOrDefault(a=>a!="--spettri")??Path.Combine(root,"supporto/artefatti/spettri-ntc/presentation");Directory.CreateDirectory(target);
-        int count=SpectraSheetChecks.Run(root,target);string spectraMessage=$"PASS {count} controlli Spettri";File.WriteAllText(Path.Combine(target,"esito.txt"),spectraMessage);Console.WriteLine(spectraMessage);return 0;
+        int count=Group("SpectraSheetChecks",()=>SpectraSheetChecks.Run(root,target));return Finish(target,count,$"PASS {count} controlli Spettri");
     }
     if(args.Contains("--climate")){
         string target=args.FirstOrDefault(a=>a!="--climate")??Path.Combine(root,"supporto/artefatti/azioni-climatiche/presentation");Directory.CreateDirectory(target);
-        int count=ClimateSheetChecks.Run(root,target);string climateMessage=$"PASS {count} controlli azioni climatiche";File.WriteAllText(Path.Combine(target,"esito.txt"),climateMessage);Console.WriteLine(climateMessage);return 0;
+        int count=Group("ClimateSheetChecks",()=>ClimateSheetChecks.Run(root,target));return Finish(target,count,$"PASS {count} controlli azioni climatiche");
     }
     // F5.10: --sezione-tracce runs only the long traces of the RC section (decision C7, ui stage), --sezione-rapide only its checks of the fast
     // stage (to work on the module); the other arguments are positional.
     if (args.Contains("--sezione-materiali"))
     {
         string target = args.First(a => a != "--sezione-materiali"); Directory.CreateDirectory(target);
-        int count = ConcreteSectionSheetChecks.RunBarMaterials(root, target);
-        string materialsMessage = $"PASS {count} controlli materiali barre e trefoli";
-        File.WriteAllText(Path.Combine(target, "esito.txt"), materialsMessage); Console.WriteLine(materialsMessage); return 0;
+        int count = Group("ConcreteSectionSheetChecks.RunBarMaterials", () => ConcreteSectionSheetChecks.RunBarMaterials(root, target));
+        return Finish(target, count, $"PASS {count} controlli materiali barre e trefoli");
     }
     bool sectionTraces = args.Contains("--sezione-tracce"), sectionFast = args.Contains("--sezione-rapide"), embeddedWalls = args.Contains("--paratie"), versionAudit = args.Contains("--paratie-regression-audit");
     args = args.Where(a => a is not ("--sezione-tracce" or "--sezione-rapide" or "--paratie" or "--paratie-regression-audit")).ToArray();
     string output = args.Length == 0 ? Path.Combine(root, "supporto/artefatti/refactoring/f5/presentation") : Path.GetFullPath(args[0]);
     Directory.CreateDirectory(output);
     int checks = 0;
-    if (versionAudit) { Console.WriteLine("PASS " + ShallowFoundationSheetChecks.AuditLibraryVersion(root, output) + " confronto versione fondazioni"); return 0; }
+    if (versionAudit)
+    {
+        int audit = Group("ShallowFoundationSheetChecks.AuditLibraryVersion", () => ShallowFoundationSheetChecks.AuditLibraryVersion(root, output));
+        if (Expect.Failures.Count > 0) return Finish(output, audit, "");
+        Console.WriteLine("PASS " + audit + " confronto versione fondazioni"); return 0;
+    }
     if (embeddedWalls)
     {
-        checks = UnitNumberFormatChecks.Run(output) + EmbeddedWallChecks.Run(output);
-        string result = $"PASS {checks} controlli paratie, applicazione e MVVM";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), result, new UTF8Encoding(false)); Console.WriteLine(result); return 0;
+        checks = Group("UnitNumberFormatChecks", () => UnitNumberFormatChecks.Run(output)) + Group("EmbeddedWallChecks", () => EmbeddedWallChecks.Run(output));
+        return Finish(output, checks, $"PASS {checks} controlli paratie, applicazione e MVVM");
     }
     // F5.11: --sezione-mista runs only the checks of the composite bridge section, traces and F3 included (to work on the module).
     if (args.Contains("--sezione-mista"))
     {
-        checks = CompositeSectionSheetChecks.Run(root, output);
-        string composite = $"PASS {checks} controlli della sezione mista (F5.11) senza WPF";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), composite, new UTF8Encoding(false)); Console.WriteLine(composite); return 0;
+        checks = Group("CompositeSectionSheetChecks", () => CompositeSectionSheetChecks.Run(root, output));
+        return Finish(output, checks, $"PASS {checks} controlli della sezione mista (F5.11) senza WPF");
     }
     // F5.12: --bridge-design runs only the checks of Bridge Design and of its price editor, traces and F3 included (to work on the module).
     if (args.Contains("--bridge-design"))
     {
-        checks = BridgeDesignSheetChecks.Run(root, output) + BridgePricesChecks.Run() + BridgePriceAnalysesChecks.Run();
-        string bridgeDesign = $"PASS {checks} controlli di Bridge Design (F5.12) senza WPF";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), bridgeDesign, new UTF8Encoding(false)); Console.WriteLine(bridgeDesign); return 0;
+        checks = Group("BridgeDesignSheetChecks", () => BridgeDesignSheetChecks.Run(root, output)) + Group("BridgePricesChecks", () => BridgePricesChecks.Run())
+            + Group("BridgePriceAnalysesChecks", () => BridgePriceAnalysesChecks.Run());
+        return Finish(output, checks, $"PASS {checks} controlli di Bridge Design (F5.12) senza WPF");
     }
     // 4/11/2026 (docs/sviluppo/progetto-sistema.md, step 3): --banco-progetto measures the edits of a large project in the shell.
     if (args.Contains("--banco-progetto")) return ProjectEditBench.Run(output);
@@ -69,68 +70,94 @@ try
     // F5.13: --shell runs only the checks of the sessions and ViewModels of the new shell (to work on the step).
     if (args.Contains("--shell"))
     {
-        checks = ShellChecks.Run(output);
-        string shell = $"PASS {checks} controlli della shell (F5.13) senza WPF";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), shell, new UTF8Encoding(false)); Console.WriteLine(shell); return 0;
+        checks = Group("ShellChecks", () => ShellChecks.Run(output));
+        return Finish(output, checks, $"PASS {checks} controlli della shell (F5.13) senza WPF");
     }
     // F5.13 (d): --paralleli runs only the exit test of the parallel calculations (proposal 4.6): the same sheets in series and in parallel.
     if (args.Contains("--paralleli"))
     {
-        checks = ParallelChecks.Run(root, output);
-        string parallel = $"PASS {checks} controlli dei calcoli in parallelo (F5.13 d) senza WPF";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), parallel, new UTF8Encoding(false)); Console.WriteLine(parallel); return 0;
+        checks = Group("ParallelChecks", () => ParallelChecks.Run(root, output));
+        return Finish(output, checks, $"PASS {checks} controlli dei calcoli in parallelo (F5.13 d) senza WPF");
     }
     if (sectionTraces || sectionFast)
     {
-        checks += ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces);
+        checks += Group("ConcreteSectionSheetChecks", () => ConcreteSectionSheetChecks.Run(root, output, full: sectionTraces));
         // F5.10 S2 (decision C3): the editor of the actions moved from ANTHEA.Application with its check.
-        if (!sectionTraces) checks += SectionActionsEditorChecks.Run();
-        string traces = $"PASS {checks} controlli della sezione c.a. (F5.10" + (sectionTraces ? ", tracce lunghe" : "") + ") senza WPF";
-        File.WriteAllText(Path.Combine(output, "esito.txt"), traces, new UTF8Encoding(false));
-        Console.WriteLine(traces);
-        return 0;
+        if (!sectionTraces) checks += Group("SectionActionsEditorChecks", () => SectionActionsEditorChecks.Run());
+        return Finish(output, checks, $"PASS {checks} controlli della sezione c.a. (F5.10" + (sectionTraces ? ", tracce lunghe" : "") + ") senza WPF");
     }
-    checks += ViewModelBaseChecks.Run();
-    checks += NumberSeparatorChecks.Run();
-    checks += UnitNumberFormatChecks.Run(output);
-    checks += ReportTemplateMenuChecks.Run(output);
-    checks += EmbeddedWallChecks.Run(output);
-    checks += await CommandGuardChecks.RunAsync();
-    checks += await ServicesChecks.RunAsync();
-    checks += SheetCalculationChecks.Run();
-    checks += SynchronousSheetChecks.Run();
-    checks += SheetPreviewChecks.Run();
-    checks += HelpTopicsChecks.Run();
-    checks += FieldSpecChecks.Run();
-    checks += JsonRowChecks.Run();
-    checks += FormViewModelChecks.Run();
-    checks += SharedDataCoordinatorChecks.Run();
+    checks += Group("ViewModelBaseChecks.Run", () => ViewModelBaseChecks.Run());
+    checks += Group("NumberSeparatorChecks.Run", () => NumberSeparatorChecks.Run());
+    checks += Group("UnitNumberFormatChecks.Run", () => UnitNumberFormatChecks.Run(output));
+    checks += Group("ReportTemplateMenuChecks.Run", () => ReportTemplateMenuChecks.Run(output));
+    checks += Group("EmbeddedWallChecks.Run", () => EmbeddedWallChecks.Run(output));
+    checks += await GroupAsync("CommandGuardChecks.RunAsync", () => CommandGuardChecks.RunAsync());
+    checks += await GroupAsync("ServicesChecks.RunAsync", () => ServicesChecks.RunAsync());
+    checks += Group("SheetCalculationChecks.Run", () => SheetCalculationChecks.Run());
+    checks += Group("SynchronousSheetChecks.Run", () => SynchronousSheetChecks.Run());
+    checks += Group("SheetPreviewChecks.Run", () => SheetPreviewChecks.Run());
+    checks += Group("HelpTopicsChecks.Run", () => HelpTopicsChecks.Run());
+    checks += Group("FieldSpecChecks.Run", () => FieldSpecChecks.Run());
+    checks += Group("JsonRowChecks.Run", () => JsonRowChecks.Run());
+    checks += Group("FormViewModelChecks.Run", () => FormViewModelChecks.Run());
+    checks += Group("SharedDataCoordinatorChecks.Run", () => SharedDataCoordinatorChecks.Run());
     // 16/11/2026 (note of step 6, §1.5 point 8): the layers of a survey with another number of layers are not shared by position.
-    checks += SoilSubdivisionChecks.Run();
-    checks += ProjectHistoryChecks.Run();
+    checks += Group("SoilSubdivisionChecks.Run", () => SoilSubdivisionChecks.Run());
+    checks += Group("ProjectHistoryChecks.Run", () => ProjectHistoryChecks.Run());
     // F5.13 (a, b): sessions and ViewModels of the new shell.
-    checks += ShellChecks.Run(output);
-    checks += ModuleHostChecks.Run();
-    checks += PileGroupSheetChecks.Run(root, output);
-    checks += MaterialSheetChecks.Run(root, output);
-    checks += RheologySheetChecks.Run(root, output);
-    checks += VerticalPileSheetChecks.Run(root, output);
-    checks += ShallowFoundationSheetChecks.Run(root, output);
-    checks += HorizontalPileSheetChecks.Run(root, output);
-    checks += HorizontalPileBromsChecks.Run(output);
-    checks += StratigraphySheetChecks.Run(root, output);
-    checks += RetainingWallSheetChecks.Run(root, output);
-    checks += ElasticPileSheetChecks.Run(root, output);
-    checks += ConcreteSectionSheetChecks.Run(root, output, full: false);
-    checks += SectionActionsEditorChecks.Run();
-    checks += CompositeSectionSheetChecks.Run(root, output);
+    checks += Group("ShellChecks.Run", () => ShellChecks.Run(output));
+    checks += Group("ModuleHostChecks.Run", () => ModuleHostChecks.Run());
+    checks += Group("PileGroupSheetChecks.Run", () => PileGroupSheetChecks.Run(root, output));
+    checks += Group("MaterialSheetChecks.Run", () => MaterialSheetChecks.Run(root, output));
+    checks += Group("RheologySheetChecks.Run", () => RheologySheetChecks.Run(root, output));
+    checks += Group("VerticalPileSheetChecks.Run", () => VerticalPileSheetChecks.Run(root, output));
+    checks += Group("ShallowFoundationSheetChecks.Run", () => ShallowFoundationSheetChecks.Run(root, output));
+    checks += Group("HorizontalPileSheetChecks.Run", () => HorizontalPileSheetChecks.Run(root, output));
+    checks += Group("HorizontalPileBromsChecks.Run", () => HorizontalPileBromsChecks.Run(output));
+    checks += Group("StratigraphySheetChecks.Run", () => StratigraphySheetChecks.Run(root, output));
+    checks += Group("RetainingWallSheetChecks.Run", () => RetainingWallSheetChecks.Run(root, output));
+    checks += Group("ElasticPileSheetChecks.Run", () => ElasticPileSheetChecks.Run(root, output));
+    checks += Group("ConcreteSectionSheetChecks.Run", () => ConcreteSectionSheetChecks.Run(root, output, full: false));
+    checks += Group("SectionActionsEditorChecks.Run", () => SectionActionsEditorChecks.Run());
+    checks += Group("CompositeSectionSheetChecks.Run", () => CompositeSectionSheetChecks.Run(root, output));
     // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.
-    checks += BridgePricesChecks.Run();
-    checks += BridgePriceAnalysesChecks.Run();
-    checks += BridgeDesignSheetChecks.Run(root, output);
-    string message = $"PASS {checks} controlli di Presentation senza WPF";
-    File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
-    Console.WriteLine(message);
-    return 0;
+    checks += Group("BridgePricesChecks.Run", () => BridgePricesChecks.Run());
+    checks += Group("BridgePriceAnalysesChecks.Run", () => BridgePriceAnalysesChecks.Run());
+    checks += Group("BridgeDesignSheetChecks.Run", () => BridgeDesignSheetChecks.Run(root, output));
+    return Finish(output, checks, $"PASS {checks} controlli di Presentation senza WPF");
 }
-catch (Exception error) { Console.Error.WriteLine(error); return 1; }
+catch (Exception error)
+{
+    Console.Error.WriteLine(error);
+    foreach (string failure in Expect.Failures) Console.Error.WriteLine(failure);
+    return 1;
+}
+
+// 18/11/2026 (approved): a group that throws is recorded and the next one runs; the run fails at the end with every failure.
+static int Group(string name, Func<int> run)
+{
+    try { return run(); }
+    catch (Exception error) { Expect.Fail(name + " interrotto: " + error); return 0; }
+}
+
+static async Task<int> GroupAsync(string name, Func<Task<int>> run)
+{
+    try { return await run(); }
+    catch (Exception error) { Expect.Fail(name + " interrotto: " + error); return 0; }
+}
+
+// esito.txt is «PASS …» only without failures; otherwise «FAIL …» and the whole list, numbered, in fallimenti.txt and on the error stream.
+static int Finish(string output, int checks, string passed)
+{
+    var failures = Expect.Failures;
+    if (failures.Count == 0)
+    {
+        File.WriteAllText(Path.Combine(output, "esito.txt"), passed, new UTF8Encoding(false)); Console.WriteLine(passed); return 0;
+    }
+    string list = string.Join(Environment.NewLine, failures.Select((failure, i) => (i + 1) + ". " + failure));
+    string message = $"FAIL {failures.Count} controlli non superati, {checks} superati (elenco in fallimenti.txt)";
+    File.WriteAllText(Path.Combine(output, "fallimenti.txt"), list + Environment.NewLine, new UTF8Encoding(false));
+    File.WriteAllText(Path.Combine(output, "esito.txt"), message, new UTF8Encoding(false));
+    Console.Error.WriteLine(message); Console.Error.WriteLine(list);
+    return 1;
+}

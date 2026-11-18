@@ -72,6 +72,7 @@ internal static class HorizontalPileSheetChecks
                 HorizontalPileTrace.Write(Path.Combine(traces, scenario.Name + ".txt"), lines);
                 string stored = Path.Combine(HorizontalPileScenarios.Reference(root), scenario.Name + ".txt");
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 // F5-02 (O6): the historic trace with the declared difference of the new view (the choice «Acciaio» shows the class of the data).
                 var (expected, declared) = HorizontalPileTrace.WithDeclaredDifferences(HorizontalPileTrace.Read(stored));
                 expect.That(declared == 0 || scenario.Name == HorizontalPileTrace.CustomSteelScenario, "F5-02 solo nello scenario dell'acciaio personalizzato: " + scenario.Name);
@@ -363,6 +364,8 @@ internal static class HorizontalPileSheetChecks
             string relative = "sheets/" + module + "/" + id;
             bool opensElastic = HorizontalPileScenarios.OpensElastic(HorizontalPileScenarios.FixtureData(root, module, id));
             if (opensElastic) elastic++;
+            expect.That(Directory.Exists(Path.Combine(expected, relative)), module + "/" + id + ": riferimento F3 assente");
+            if (!Directory.Exists(Path.Combine(expected, relative))) continue;
             var names = Directory.EnumerateFiles(Path.Combine(expected, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
             var produced = Directory.EnumerateFiles(Path.Combine(capture, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
             expect.That(names.SequenceEqual(produced), module + "/" + id + ": file della cattura diversi dal riferimento F3 (" + string.Join(", ", produced) + ")");

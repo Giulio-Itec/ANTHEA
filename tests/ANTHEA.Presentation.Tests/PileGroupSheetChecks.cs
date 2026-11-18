@@ -54,6 +54,7 @@ internal static class PileGroupSheetChecks
                 PileGroupTrace.Write(Path.Combine(traces, scenario.Name + ".txt"), lines);
                 string stored = Path.Combine(PileGroupScenarios.Reference(root), scenario.Name + ".txt");
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 string? difference = PileGroupTrace.FirstDifference(PileGroupTrace.Read(stored), lines);
                 expect.That(difference is null, "Palificata MVVM diversa dalla vista storica, scenario " + scenario.Name + ", " + difference);
             }

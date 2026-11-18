@@ -83,6 +83,7 @@ internal static class ShallowFoundationSheetChecks
                 PileGroupTrace.Write(Path.Combine(traces, scenario.Name + ".txt"), lines);
                 string stored = Path.Combine(ShallowFoundationScenarios.Reference(root), scenario.Name + ".txt");
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 string? difference = PileGroupTrace.FirstDifference(PileGroupTrace.Read(stored), lines);
                 expect.That(difference is null, "Fondazioni MVVM diverse dalla vista storica, scenario " + scenario.Name + ", " + difference);
             }
