@@ -21,10 +21,14 @@ internal static class CommandsChecks
     private sealed class RecordingExports : ISheetExports
     {
         internal List<string> Calls { get; } = [];
+        internal SheetSession? ReportSheet { get; private set; }
         internal Exception? ShortFailure { get; set; }
         public void ExportResult(SheetSession sheet, string path) => Calls.Add("risultati " + sheet.Module + " " + Path.GetFileName(path));
-        public void ExportReport(SheetSession sheet, string path, string title, IReadOnlySet<string> options) =>
+        public void ExportReport(SheetSession sheet, string path, string title, IReadOnlySet<string> options)
+        {
+            ReportSheet = sheet;
             Calls.Add("report " + sheet.Module + " " + Path.GetFileName(path) + " «" + title + "» " + string.Join(",", options.Order(StringComparer.Ordinal)));
+        }
         public byte[] BuildShortReport(SheetSession sheet, string title) { Calls.Add("short " + title); return [1, 2]; }
         public Task WriteShortReportAsync(string path, byte[] report, string title)
         {
@@ -125,6 +129,38 @@ internal static class CommandsChecks
         int calls = exports.Calls.Count;
         await commands.ReportCommand.ExecuteAsync(null);
         expect.That(exports.Calls.Count == calls, "Report annullato");
+
+        var quick = workspace.NewCalculation(Anthea.Reports.QuickSectionReport.Module);
+        expect.That(commands.BriefReportVisible && !commands.ShortReportVisible, "Verifica rapida: W breve dedicata, senza duplicare il report short");
+        await quick.ViewModel.CalculateAsync();
+        files.Then(Path.Combine(folder, "Rapida_breve.docx"));
+        await commands.BriefReportCommand.ExecuteAsync(null);
+        expect.That(exports.Calls.Last().Contains("sezione_rapida_breve") && FileFilter.Join(((SaveFileRequest)files.Requests.Last()).Filters) == "Word e PDF affiancati|*.docx", "W breve della verifica rapida esporta Word e PDF");
+        dialogs.Then(d =>
+        {
+            var choice = (ReportSectionsDialogViewModel)d;
+            expect.That(choice.Sections.SelectMany(s => s.Descendants()).All(s => s.Key != Anthea.Reports.QuickSectionReport.Brief), "W completa senza scelta duplicata del report breve");
+            choice.ExportCommand.Execute(null);
+        });
+        files.Then(Path.Combine(folder, "Rapida.docx"));
+        await commands.ReportCommand.ExecuteAsync(null);
+        expect.That(exports.Calls.Last().Contains("sezione_rapida_contenuti_v1") && !exports.Calls.Last().Contains("sezione_rapida_breve"), "W completa: selettore gerarchico della sezione rapida");
+        var secondQuick = workspace.NewCalculation(Anthea.Reports.QuickSectionReport.Module);
+        await secondQuick.ViewModel.CalculateAsync();
+        workspace.Activate(null);
+        expect.That(!commands.BriefReportVisible && commands.BriefReportCommand.CanExecute(quick), "W breve della finestra disponibile anche con il fuoco fuori dal foglio");
+        files.Then(Path.Combine(folder, "Rapida-finestra.docx"));
+        await commands.BriefReportCommand.ExecuteAsync(quick);
+        expect.That(exports.ReportSheet == quick && workspace.Active == quick, "W breve usa la sezione richiesta, non l'ultima aperta");
+        dialogs.Then(d =>
+        {
+            workspace.Activate(pile);
+            ((ReportSectionsDialogViewModel)d).ExportCommand.Execute(null);
+        });
+        files.Then(Path.Combine(folder, "Seconda-finestra.docx"));
+        await commands.ReportCommand.ExecuteAsync(secondQuick);
+        expect.That(exports.ReportSheet == secondQuick && exports.Calls.Last().Contains("«Sezione 2»"), "W mantiene la destinazione anche se il fuoco cambia durante il selettore");
+        workspace.Activate(pile);
 
         // The defaults of the RC section and of the composite section, and the contents saved in the sheet.
         var data = new JsonObject();

@@ -101,6 +101,46 @@ internal static class TabsChecks
         expect.That(shell.Close(wiki) && !shell.Tabs.Contains(wiki) && shell.ShowWiki(null) is { } again && !ReferenceEquals(again, wiki), "Chiusura della Wiki");
         expect.Throws<ArgumentException>(() => _ = new PageTabViewModel(ShellTabKind.Sheet, "x", null), "Pagina come foglio");
         expect.That(ShellWindowsViewModel.MoveLabel == "Sposta in una nuova finestra" && ShellWindowsViewModel.ReattachLabel == "Riaggancia", "Etichette");
+        return expect.Count + QuickSections();
+    }
+
+    private static int QuickSections()
+    {
+        var expect = new Expect();
+        var bench = new ShellBench();
+        using var workspace = bench.Workspace;
+        var windows = new RecordingWindows();
+        using var shell = new ShellWindowsViewModel(workspace, windows, bench.Messages);
+        var first = workspace.NewCalculation(SheetLayout.QuickSectionModule);
+        var host = shell.Detached.Single();
+        expect.That(host.IsQuickSectionSelected && host.SelectedSheet == first && first.Heading == "Sezione 1", "Prima sezione rapida, numerata nella propria finestra");
+        ShellBench.Probe(first).Note = "sezione originale";
+        shell.WindowActivated(shell.Main);
+        shell.NewQuickSectionCommand.Execute(host);
+        var second = workspace.Active!;
+        expect.That(shell.Detached.Single() == host && host.Tabs.Count == 2 && windows.Calls.Count(c => c.Action == "apri") == 1,
+            "Nuova sezione nella finestra richiesta anche se il fuoco era nella principale, senza aprire altre finestre");
+        expect.That(second != first && second.Heading == "Sezione 2" && host.SelectedSheet == second
+            && !ReferenceEquals(first.ViewModel, second.ViewModel) && !ReferenceEquals(first.ViewModel.Data, second.ViewModel.Data), "Sezioni con documenti e ViewModel indipendenti");
+        ShellBench.Probe(second).Note = "seconda sezione";
+        shell.Select(shell.TabOf(first)!);
+        expect.That(first.ViewModel.Data.S("nota") == "sezione originale" && second.Sheet["dati"].S("nota") == "seconda sezione" && host.SelectedSheet == first,
+            "Il cambio di scheda conserva dati distinti");
+        var material = workspace.NewCalculation("mat_calcestruzzo");
+        expect.That(!host.IsQuickSectionSelected && host.SelectedSheet == material, "Comandi della sezione rapida nascosti su un altro modulo");
+        var third = workspace.NewCalculation(SheetLayout.QuickSectionModule);
+        expect.That(shell.Detached.Single() == host && third.Heading == "Sezione 3" && host.SelectedSheet == third, "Ulteriore sezione nella stessa finestra");
+        var wiki = shell.ShowWiki(null);
+        expect.That(!host.IsQuickSectionSelected && host.SelectedSheet is null, "Wiki senza destinazione per i report della sezione");
+        shell.Close(wiki);
+        expect.That(host.IsQuickSectionSelected && host.SelectedSheet == third, "Comandi ripristinati tornando alla sezione");
+        bench.Confirmations.Then(SaveChangesAnswer.Cancel);
+        expect.That(!shell.Close(shell.TabOf(first)!) && host.Tabs.Count == 4, "Annulla la chiusura conserva la sezione modificata");
+        bench.Confirmations.Then(SaveChangesAnswer.Discard);
+        expect.That(shell.Close(shell.TabOf(first)!) && host.Tabs.Count == 3 && !second.IsDisposed, "Chiudere una sezione lascia intatte le altre");
+        shell.WindowClosed(host);
+        expect.That(shell.Detached.Count == 0 && shell.Main.Tabs.Count == 3 && !second.IsDisposed && !third.IsDisposed, "Chiudere la finestra riaggancia tutte le sezioni");
+        expect.That(!shell.NewQuickSectionCommand.CanExecute(host), "Nessuna nuova sezione in una finestra chiusa");
         return expect.Count;
     }
 }

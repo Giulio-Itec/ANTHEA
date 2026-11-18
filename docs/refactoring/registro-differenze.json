@@ -16112,6 +16112,50 @@
       "evidenze": [
         "supporto/artefatti/relazione-pali-viggiani"
       ]
+    },
+    {
+      "id": "UI-SEZIONE-RAPIDA-SCHEDE-20261118",
+      "data": "2026-11-18",
+      "famiglia": "sezione in c.a. rapida / finestra staccata",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "W e W breve nella finestra staccata con destinazione esplicita alla scheda visualizzata. Nuova sezione apre un documento indipendente nella stessa finestra, senza un'ulteriore finestra; nuove sezioni numerate e barra delle schede scorrevole. Calcoli, dati di sezioni già aperte, salvataggio e regole di chiusura invariati.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "Tastino del report dentro la finestra staccata e possibilità di aprire un'altra sezione scorrendo tra le schede in alto; procedi.",
+        "esito": "Implementazione MVVM e confronto prima/dopo, senza modifiche a GPC o alle guide, senza commit o push."
+      },
+      "codice": "src/ANTHEA.Presentation/Shell/Tabs/TabsViewModel.cs; src/ANTHEA.Presentation/Shell/WorkspaceSession.cs; src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs; src/ANTHEA.Desktop/Views/Shell/DetachedShellWindow.xaml e .xaml.cs",
+      "test": [
+        "ANTHEA.Presentation.Tests --shell: PASS 718 prima, PASS 733 dopo; indipendenza, selezione, chiusura annullata, chiusura singola, riaggancio, report con fuoco in un'altra finestra e cambiato durante il selettore",
+        "ui/check-shell-draft: PASS 81 prima, PASS 86 dopo; due sezioni reali, pulsanti collegati alla scheda selezionata e nessun errore di binding",
+        "ui/check-theme-tokens: PASS 139; suite UI 74 prima e dopo"
+      ],
+      "evidenze": [
+        "supporto/artefatti/sezione-rapida-schede"
+      ]
+    },
+    {
+      "id": "REPORT-SEZIONE-RAPIDA-20261118",
+      "data": "2026-11-18",
+      "famiglia": "sezione in c.a. rapida / relazione ITEC",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Aggiunta relazione completa e breve Word con PDF affiancato. W apre i capitoli e sottocapitoli; W breve seleziona i governanti distinti per stato e verifica, mantenendo i casi non determinati. QP con tensioni e fessurazione distinte. Dati dai risultati esistenti e coefficienti effettivi; copie isolate delle combinazioni con ordine, modello e segno conservati. Nessun calcolo nuovo, nessuna modifica a GPC, lib/Checker o guide.",
+      "decisione": {
+        "data": "2026-11-18",
+        "utente": "Indice completo/breve approvato: procedi. Nessun commit fino a richiesta, mai push.",
+        "esito": "Implementazione e verifiche nella cartella dedicata."
+      },
+      "codice": "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs; src/ANTHEA.Reports/QuickSectionReport.cs; src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs; src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Report.cs; src/ANTHEA.Desktop/Wpf/QuickSectionFigureRenderer.cs",
+      "test": [
+        "ANTHEA.Presentation.Tests --sezione-rapida: confronto Summary/ResultValues, ConcreteAnalysis, ordine, segni/modelli, QP e casi incompleti",
+        "ANTHEA.Presentation.Tests --shell: W e W breve",
+        "ui/check-module-host-offscreen: figure WPF e Word/PDF completo/breve"
+      ],
+      "evidenze": [
+        "supporto/artefatti/sezione-rapida-relazione"
+      ]
     }
   ]
 }

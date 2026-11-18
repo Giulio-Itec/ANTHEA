@@ -1,5 +1,15 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Sezione rapida: comandi nella finestra e più schede — 18 novembre 2026
+
+Richiesta approvata dall’utente («procedi» dopo l’aggiunta delle istanze multiple). W e W breve nella finestra staccata, riferiti esplicitamente alla sezione visualizzata; «+ Nuova sezione» apre un documento e un ViewModel indipendenti nella stessa finestra. Nuove sezioni numerate, schede in alto con scorrimento orizzontale; chiusura, annullamento della chiusura e riaggancio conservano il comportamento del coordinatore. Nessun cambio ai calcoli o alle librerie. Cattura e confronto in `supporto/artefatti/sezione-rapida-schede`: shell senza WPF da PASS 718 a PASS 733, finestra WPF da PASS 81 a PASS 86, tema PASS 139, nessun errore di binding; suite UI 74 prima e dopo. Voce `UI-SEZIONE-RAPIDA-SCHEDE-20261118` nel registro. Guide invariate secondo la richiesta precedente; nessun commit o push.
+
+Compilazione Release e `qa/no-test-code` PASS tramite il runner. Copia in `app` aggiornata dopo la chiusura di ANTHEA confermata dall’utente; eseguibile e DLL aggiornate identici alla Release verificata (confronto SHA-256 in `supporto/artefatti/sezione-rapida-schede/publish-verificato.json`).
+
+## Relazione della sezione in c.a. rapida — 18 novembre 2026
+
+Indice completo e breve approvato dall’utente. Completati l’adattatore in Application, la composizione ITEC in Reports, il selettore gerarchico e W breve nella shell, con le figure WPF ottenute dai risultati esistenti. Nessun cambio al motore GPC o a lib/Checker; nessuno spostamento di codice legacy. Confronto prima/dopo in `supporto/artefatti/sezione-rapida-relazione`: modulo da PASS 124 a PASS 166; shell da PASS 714 a PASS 718. Confrontati ordine, modello/segno, Summary/ResultValues e ConcreteAnalysis; verificati governanti distinti QP, esiti mancanti, sezioni circolari/a T e lettura legacy. Build Release e prove WPF `check-module-host-offscreen`, `check-shell-draft`, `check-theme-tokens` PASS; suite UI 74 prima e dopo. Profilo quick: 60 PASS e i cinque fallimenti preesistenti indicati dall’utente (horizontal, Architecture, Presentation sul palo, wiki/indice, wiki/manuale), senza modificare baseline o known-failures. Esempi Word/PDF controllati con Word e rendering PDF: completa 10 pagine, breve 2. Voce `REPORT-SEZIONE-RAPIDA-20261118` nel registro delle differenze. Guide invariate su richiesta esplicita; nessun commit o push.
+
 ## Preparazione ANTHEA 1.19.3 - 17 novembre 2026
 
 Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pubblicata), che va pubblicato dal coordinatore dopo la prova e l'approvazione dell'utente. [Note di rilascio](note-rilascio-1.19.3.md).

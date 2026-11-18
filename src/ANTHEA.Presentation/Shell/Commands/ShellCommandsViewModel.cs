@@ -99,8 +99,9 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         SaveCommand = GuardedCommands.Create(guard, () => Save(false));
         SaveAsCommand = GuardedCommands.Create(guard, () => Save(true));
         ExportSheetCommand = GuardedCommands.Create(guard, ExportSheet);
-        ReportCommand = new AsyncRelayCommand(() => guard.RunAsync(_ => ExportReportAsync()));
-        BriefReportCommand = new AsyncRelayCommand(() => guard.RunAsync(_ => ExportReportAsync(brief: true)), () => BriefReportVisible);
+        ReportCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => ExportReportAsync(target: sheet)));
+        BriefReportCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => ExportReportAsync(brief: true, target: sheet)),
+            sheet => SupportsBriefReport(sheet ?? workspace.Active));
         ShortReportCommand = new AsyncRelayCommand(ExportShortReportAsync, () => !shortRunning);
         ResultsCommand = GuardedCommands.Create(guard, ExportResults);
         ExitCommand = GuardedCommands.Create(guard, () => ExitRequested?.Invoke(this, EventArgs.Empty));
@@ -137,9 +138,10 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public IRelayCommand SaveCommand { get; }
     public IRelayCommand SaveAsCommand { get; }
     public IRelayCommand ExportSheetCommand { get; }
-    public IAsyncRelayCommand ReportCommand { get; }
-    public IAsyncRelayCommand BriefReportCommand { get; }
-    public bool BriefReportVisible => workspace.Active is { } sheet && PileFamilyReport.Supports(sheet.Module);
+    public IAsyncRelayCommand<SheetSession> ReportCommand { get; }
+    public IAsyncRelayCommand<SheetSession> BriefReportCommand { get; }
+    public bool BriefReportVisible => SupportsBriefReport(workspace.Active);
+    private static bool SupportsBriefReport(SheetSession? sheet) => sheet is not null && (PileFamilyReport.Supports(sheet.Module) || sheet.Module == QuickSectionReport.Module);
     public IAsyncRelayCommand ShortReportCommand { get; }
     public IRelayCommand ResultsCommand { get; }
     public IRelayCommand ExitCommand { get; }
@@ -205,13 +207,17 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     /// results not being calculated; the horizontal piles and pile groups, Bridge Design and walls with a fixed name; the others after the
     /// choice of the contents («Contenuti del report Word»), «Relazione.docx».
     /// </summary>
-    public async Task ExportReportAsync(bool brief = false)
+    public async Task ExportReportAsync(bool brief = false, SheetSession? target = null)
     {
+        // Detached windows pass their selected sheet, independently of the last window with focus.
+        if (target is not null)
+        {
+            if (!workspace.Sheets.Contains(target)) return;
+            workspace.Activate(target);
+        }
         var sheet = workspace.Active;
         string? module = sheet?.Module;
-        if (brief && (module is null || !PileFamilyReport.Supports(module))) return;
-        // 17/11/2026: the quick RC section has no report in its first version.
-        if (module == Anthea.Application.Concrete.ConcreteQuickSection.Module) { services.Messages.Inform("", Anthea.Application.Concrete.ConcreteQuickSection.NoReport); return; }
+        if (brief && (module is null || !(PileFamilyReport.Supports(module) || module == QuickSectionReport.Module))) return;
         if (module is "geo_stratigrafia" or "geo_fondazioni_superficiali" or "mat_calcestruzzo" or "mat_acciaio_armatura")
         {
             workspace.CommitActive();
@@ -228,12 +234,14 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         workspace.CommitActive();
         if (sheet is not { ViewModel.HasResults: true } || sheet.ViewModel.IsBusy)
         {
-            services.Messages.Inform("", module == "str_palo" ? WaitConcrete : CompleteFirst);
+            services.Messages.Inform("", module is "str_palo" or QuickSectionReport.Module ? WaitConcrete : CompleteFirst);
             return;
         }
         if (brief)
         {
-            Export(sheet, "Relazione_breve.docx", new HashSet<string> { PileReportContents.Version, PileReportContents.Brief });
+            Export(sheet, "Relazione_breve.docx", module == QuickSectionReport.Module
+                ? new HashSet<string> { QuickSectionReport.Version, QuickSectionReport.Brief }
+                : new HashSet<string> { PileReportContents.Version, PileReportContents.Brief });
             return;
         }
         if (module is "mat_reologia" or "geo_efficienza_orizzontale" or "str_bridge_design" or "geo_muri_sostegno")
@@ -382,7 +390,8 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
     {
         ArgumentNullException.ThrowIfNull(data);
         bool bridge = module == "str_mista_ponte", concrete = module == "str_palo";
-        hierarchical = PileFamilyReport.Supports(module);
+        quick = module == QuickSectionReport.Module;
+        hierarchical = PileFamilyReport.Supports(module) || quick;
         var saved = data[bridge ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
         IEnumerable<(string Key, string Label)> sections = bridge ? ReportBridge.Sections : concrete ? ReportConcrete.Sections : ReportWord.Sezioni;
         Sections = sections.Select(s => new ReportSectionChoice(s.Key, s.Label, saved is not null ? saved.Any(v => v?.ToString() == s.Key)
@@ -395,19 +404,21 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
                 choice.SetChildren(content.Children.Select(Choice).ToArray());
                 return choice;
             }
-            Sections = PileFamilyReport.Outline(module, data, result).Select(Choice).ToArray();
+            Sections = (quick ? QuickSectionReport.Outline(Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)))
+                : PileFamilyReport.Outline(module, data, result)).Select(Choice).ToArray();
         }
-        Note = bridge ? BridgeNote : concrete ? ConcreteNote : null;
+        Note = quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
         ExportCommand = new RelayCommand(() => Close(SelectedKeys()), () => CanExport);
         CancelCommand = new RelayCommand(Cancel);
         foreach (var section in Sections.SelectMany(s => s.Descendants())) section.Changed += (_, _) => ExportCommand.NotifyCanExecuteChanged();
     }
 
     private readonly bool hierarchical;
+    private readonly bool quick;
     private HashSet<string> SelectedKeys()
     {
         var keys = Sections.SelectMany(s => s.Descendants()).Where(s => s.Children.Count == 0 && s.IsChecked).Select(s => s.Key).ToHashSet();
-        if (hierarchical) keys.Add(PileReportContents.Version);
+        if (hierarchical) keys.Add(quick ? QuickSectionReport.Version : PileReportContents.Version);
         return keys;
     }
 
@@ -417,7 +428,7 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
     public string? Note { get; }
 
     /// <summary>A content of the report is chosen, not only options.</summary>
-    public bool CanExport => hierarchical ? SelectedKeys().Any(k => k is not (PileReportContents.Version or "indice"))
+    public bool CanExport => hierarchical ? SelectedKeys().Any(k => k is not (PileReportContents.Version or QuickSectionReport.Version or "indice" or "intestazione"))
         : Sections.Any(s => s.IsChecked && s.Key is not ("sle_tutte" or "dettagli" or "grafici"));
 
     public string ExportLabel => "Esporta";

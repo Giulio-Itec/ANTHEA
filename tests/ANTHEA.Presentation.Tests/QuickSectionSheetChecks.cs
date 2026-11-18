@@ -12,7 +12,7 @@ namespace Anthea.Presentation.Tests;
 /// <summary>
 /// The quick RC section (17/11/2026): the module and its document (the format of the RC section), the same engine of the RC section (the outcome of
 /// the sheet equals the headless calculation of <c>str_palo</c> on the same data), the layers of bars, the resistance model, the behaviour, the
-/// ViewModel (opening, edits, choices, read-only revision, reload, save and reopen, invalid data, no report) and the examples of the distribution.
+/// ViewModel (opening, edits, choices, read-only revision, reload, save and reopen, invalid data, reports) and the examples of the distribution.
 /// </summary>
 internal static class QuickSectionSheetChecks
 {
@@ -467,6 +467,9 @@ internal static class QuickSectionSheetChecks
         var oldService = Legacy("Metodo n", "Plastico");
         string oldServiceId = ConcreteQuickSection.Combinations(oldService)[0].S("id");
         var oldServiceResult = ConcreteQuickSection.Calculate(oldService);
+        var oldServiceReport = ConcreteQuickReportAnalysis.Create(oldService);
+        expect.That(oldServiceReport.Report.Cases.Count == 1 && oldServiceReport.Report.Cases[0].State == "SLE"
+            && oldServiceReport.Results[oldServiceId].ServiceRatio == oldServiceResult.ServiceRatio, "Relazione del foglio legacy: copia -n esclusa e verifica SLE conservata");
         expect.That(ConcreteQuickSection.Combinations(oldService)[0].S(ConcreteQuickSection.StateField) == "SLE" && oldServiceResult.ServiceState is not null && oldServiceResult.Method == "Metodo n",
             "Foglio della prima versione con il metodo n: combinazione SLE rara");
         ConcreteQuickSection.WriteCombination(oldService, oldServiceId, "nome", "Rara");
@@ -537,10 +540,13 @@ internal static class QuickSectionSheetChecks
             stateSheet.Model = "Elastica"; await stateSheet.PendingCalculation;
             expect.That(stateSheet.CombinationRows[0].State == "SLU" && stateSheet.Model == "Elastica" && stateSheet.Current?.Model == "Elastico",
                 "Modello scelto in alto su una combinazione SLE: diventa SLU con quel modello");
+            string reportInput = stateSheet.Data.ToJsonString();
+            var reportBytes = stateSheet.Report.BuildReport("Sezione", new HashSet<string> { "oggetto", "materiali", "azioni", "riepilogo", "risultati_SLU" });
+            expect.That(reportBytes.Length > 1000 && stateSheet.Data.ToJsonString() == reportInput, "Relazione dal ViewModel: Word generato senza cambiare il documento");
         }
 
-        // No report in this version.
-        expect.Throws<InvalidOperationException>(() => sheet.Report.BuildReport("Sezione", new HashSet<string>()), "Relazione non disponibile segnalata");
+        expect.That(module.Reports.ShortReport, "Relazione breve disponibile per la verifica rapida");
+        QuickSectionReportChecks.Run(expect, folder);
 
         // The examples of the distribution: valid documents that calculate without errors.
         var examples = Directory.Exists(ExampleFolder(root)) ? Directory.GetFiles(ExampleFolder(root), "*.anthea") : [];

@@ -18,8 +18,9 @@ public interface IFigureRenderer
 
 public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectReportChapterBuilder
 {
-    public static bool Supports(string module) => Actions.ClimateDocument.Supports(module) || module is Materials.RheologyDocument.Module or Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
+    public static bool Supports(string module) => Actions.ClimateDocument.Supports(module) || module is QuickSectionReport.Module or Materials.RheologyDocument.Module or Actions.SpectraDocument.Module or EmbeddedWalls.EmbeddedWallDocument.Module or Stratigraphy.StratigraphyDocument.Module or "geo_palo_verticale" or "geo_micropalo_verticale" or BridgeConcept.Module or HorizontalPileGroup.Module or Anthea.FoundationWorkspace.FoundationDocument.Module or RebarMaterial.Module or "mat_calcestruzzo" or RetainingWall.Module or BridgeSection.Module or PaloOrizzontale.Module or MicropaloOrizzontale.Module or "str_palo";
     public static HashSet<string> DefaultSections(string module) => module == BridgeSection.Module ? ReportBridge.DefaultSections()
+        : module == QuickSectionReport.Module ? QuickSectionReport.Defaults()
         : module == "str_palo" ? ReportConcrete.Sections.Where(s => s.Key is not ("dettagli" or "sle_tutte")).Select(s => s.Key).ToHashSet()
         : ReportWord.Sezioni.Where(s => s.Key != "dettagli").Select(s => s.Key).ToHashSet();
 
@@ -95,6 +96,8 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         if (module == HorizontalPileGroup.Module) ModuleSheetPreparation.ApplyPileGroupSelection(data, calculation.Values);
         if (module == BridgeSection.Module) Anthea.Application.Presentation.BridgeSheetPresentation.ApplyReportResult(data, calculation.NativeAs<BridgeResult>());
         object? context = null;
+        if (module == QuickSectionReport.Module)
+            context = await Task.Run(() => Concrete.ConcreteQuickReportAnalysis.Create(data, calculation.NativeAs<Concrete.ConcreteQuickResult>(), cancellation: cancellation), cancellation);
         if (module == RetainingWall.Module)
         {
             var wall = calculation.NativeAs<RetainingWall.Result>();
@@ -112,6 +115,8 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
     public static DocxDocument CreateDocument(ModuleReportRequest request, IReadOnlyList<ReportFigure> figures)
     {
         var c = request.Calculation;
+        if (c.ModuleId == QuickSectionReport.Module)
+            return QuickSectionReport.Create(request.Title, ((Concrete.ConcreteQuickReportAnalysis)request.Context!).Report, request.Options, figures.Select(f => f.Image()).ToArray());
         if (!request.ProjectReport && c.ModuleId is PaloOrizzontale.Module or MicropaloOrizzontale.Module && request.Options.Contains(Anthea.Reports.PileReportContents.Version))
             return Anthea.Reports.PileFamilyReport.Create(request.Title, c.ModuleId, c.Data, c.Values, request.Options, figures.Select(f => f.Image()).ToArray());
         if (c.ModuleId == Materials.RheologyDocument.Module) return RheologyReport.Create(request.Title, c.Data, c.Values);
