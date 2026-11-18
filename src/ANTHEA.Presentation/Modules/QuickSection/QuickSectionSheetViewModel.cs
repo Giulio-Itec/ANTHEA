@@ -39,6 +39,19 @@ public sealed class QuickCombinationRow : ObservableObject
     public string N { get => row.S("N"); set => Write("N", value); }
     public string Mx { get => row.S("Mx"); set => Write("Mx", value); }
     public string My { get => row.S("My"); set => Write("My", value); }
+
+    /// <summary>
+    /// The limit state of the combination (18/11/2026): «Capacità» follows the check on the top of the sheet; SLU, SLV and the SLE states set the
+    /// resistance model or the method n and the checks of that state.
+    /// </summary>
+    public string State
+    {
+        get => row.S(ConcreteQuickSection.StateField) is { Length: > 0 } state ? state : ConcreteQuickSection.Capacity;
+        set { if (value is not null && value != State && owner.SetCombinationState(Id, value)) row[ConcreteQuickSection.StateField] = value; OnPropertyChanged(); }
+    }
+
+    /// <summary>The choices of <see cref="State"/>.</summary>
+    public IReadOnlyList<ConcreteQuickLimitState> States => ConcreteQuickSection.LimitStateChoices;
     public bool IsSelected { get => owner.SelectedCombinationId == Id; set { if (value) owner.SelectCombination(Id); OnPropertyChanged(); } }
     /// <summary>The ratio of the engine for this combination, or its status when there is none.</summary>
     public string Ratio => owner.Current?.Combinations.FirstOrDefault(c => c.Id == Id) is { } c ? (c.Ratio is double r ? EngineeringFormat.Number(r) : "—") : "";
@@ -290,6 +303,9 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The field of φ, under the values of the concrete.</summary>
     public FieldViewModel CreepField => CreepForm[ConcreteQuickSection.CreepKey];
 
+    /// <summary>The exposure class (18/11/2026), under φ: the environment and the limit of the cracking of the SLE combinations.</summary>
+    public FieldViewModel ExposureField => CreepForm[ConcreteQuickSection.ExposureKey];
+
     private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, CreepForm }.Where(f => f is not null);
 
     /// <summary>The diameter of the links, with the bars.</summary>
@@ -323,7 +339,10 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public string? SelectedCombinationId => ConcreteQuickSection.SelectedCombination(Data);
 
     /// <summary>The head of the column of the ratios: η for the ultimate check, the ratio of the stresses for the method n.</summary>
-    public string RatioHeader => IsServiceMethod ? "σ/σlim" : "η";
+    public string RatioHeader => HasLimitStates ? "rapp." : IsServiceMethod ? "σ/σlim" : "η";
+
+    /// <summary>True when a combination has its own limit state (not «Capacità»): the ratios of the table are of different kinds.</summary>
+    public bool HasLimitStates => ConcreteQuickSection.Combinations(Data).Any(r => r.S(ConcreteQuickSection.StateField) != ConcreteQuickSection.Capacity);
 
     private static FieldSpec T(string key, string label, string unit, string tip) => new(key, label, unit, ToolTip: tip);
     private static FieldSpec B(string key, string tip) => new(key, "", Bool: true, ToolTip: tip);
@@ -363,12 +382,17 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                 new("classe_acciaio", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_acciaio"), ToolTip: "Classe dell'acciaio delle barre"),
                 T("fyk_mpa", "fyk", "MPa", "Tensione caratteristica di snervamento"), T("steel_modulus_mpa", "Es", "MPa", "Modulo elastico dell'acciaio"),
                 T("steel_fu_mpa", "fu", "MPa", "Tensione di rottura"), T("steel_eps_u", "εsu", "‰", "Deformazione ultima dell'acciaio")], InputEdited);
-            var creep = new JsonObject { [ConcreteQuickSection.CreepKey] = ConcreteQuickSection.Creep(Data) };
-            CreepForm = Form(creep, [T(ConcreteQuickSection.CreepKey, "φ", "", ConcreteQuickSection.CreepHelp)], _ => CreepEdited(creep));
+            var service = new JsonObject
+            {
+                [ConcreteQuickSection.CreepKey] = ConcreteQuickSection.Creep(Data), [ConcreteQuickSection.ExposureKey] = ConcreteQuickSection.Exposure(Data)
+            };
+            CreepForm = Form(service, [T(ConcreteQuickSection.CreepKey, "φ", "", ConcreteQuickSection.CreepHelp),
+                new(ConcreteQuickSection.ExposureKey, "Esp.", Choices: ConcreteQuickSection.ExposureChoices.ToArray(), ToolTip: ConcreteQuickSection.ExposureHelp)],
+                key => ServiceEdited(service, key));
             BuildCombinations();
         }
         finally { building = false; }
-        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(CreepForm), nameof(CreepField),
+        foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(CreepForm), nameof(CreepField), nameof(ExposureField),
             nameof(ConcreteFields), nameof(SteelFields),
             nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
@@ -409,7 +433,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
                 GuardedCommands.Create(Guard, () => RemoveCombination(id), () => CanEdit && CombinationRows.Count > 1),
                 GuardedCommands.Create(Guard, () => SelectCombination(id)));
         }).ToArray();
-        OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId));
+        OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId)); OnPropertyChanged(nameof(RatioHeader)); OnPropertyChanged(nameof(HasLimitStates));
     }
 
     private void AddCombination()
@@ -514,6 +538,15 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         }
     }
 
+    /// <summary>The limit state of a combination changed (<see cref="QuickCombinationRow.State"/>): an edit of the sheet; false when refused.</summary>
+    internal bool SetCombinationState(string id, string state)
+    {
+        if (building || IsDisposed) return false;
+        if (!Edit(d => ConcreteQuickSection.SetCombinationState(d, id, state))) return false;
+        OnPropertyChanged(nameof(RatioHeader)); OnPropertyChanged(nameof(HasLimitStates));
+        return true;
+    }
+
     /// <summary>A field of a combination changed (<see cref="QuickCombinationRow"/>): an edit of the sheet; false when refused.</summary>
     internal bool EditCombination(string id, string key, string value)
     {
@@ -537,11 +570,11 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
         RefreshDrawing();
     }
 
-    // φ changed: written where the RC section reads it, then the method n calculated again with the n of the library.
-    private void CreepEdited(JsonObject creep)
+    // φ or the exposure changed: written where the RC section reads it, then the serviceability checks calculated again.
+    private void ServiceEdited(JsonObject service, string key)
     {
         if (building || IsDisposed) return;
-        Edit(d => ConcreteQuickSection.WriteCreep(d, creep.S(ConcreteQuickSection.CreepKey)));
+        Edit(d => ConcreteQuickSection.WriteServiceOption(d, key, service.S(key)));
     }
 
     // ---------------------------------------------------------------- drawing
@@ -556,7 +589,7 @@ public sealed class QuickSectionSheetViewModel : SheetViewModelBase
     public string DrawingMessage => drawingMessage;
 
     /// <summary>The stresses drawn on the section: the method n, or the state at the resistant point of the ultimate check.</summary>
-    public ConcreteResults.StressState? SectionStress => Current is { } r ? (IsServiceMethod ? r.ServiceState : r.UltimateState) : null;
+    public ConcreteResults.StressState? SectionStress => Current is { } r ? (r.Method == ConcreteQuickSection.Methods[2] ? r.ServiceState : r.UltimateState) : null;
 
     private void RefreshDrawing()
     {

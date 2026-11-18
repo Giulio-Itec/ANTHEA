@@ -25,7 +25,7 @@ public static class ConcreteQuickActionsExcel
 
     /// <summary>The note of the sheet, in A2.</summary>
     public const string Note = "Una riga per combinazione, quante se ne vogliono. N negativo a compressione; My conta solo con la flessione deviata; "
-        + "una forza vuota vale 0. Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
+        + "una forza vuota vale 0. SL: Capacità (vuoto), SLU, SLV, SLE RA, SLE FR, SLE QP. Salvare (Ctrl+S) e premere «Importa da Excel» in ANTHEA.";
 
     /// <summary>The most combinations of a workbook.</summary>
     public const int MaximumRows = 10000;
@@ -36,16 +36,37 @@ public static class ConcreteQuickActionsExcel
     /// <summary>The row of the heads of the table.</summary>
     public const int HeaderRow = 4;
 
-    /// <summary>A combination of the workbook.</summary>
-    public sealed record Row(string Name, double N, double Mx, double My);
+    /// <summary>A combination of the workbook, with its limit state (<see cref="ConcreteQuickSection.LimitStates"/>; «Capacità» by default).</summary>
+    public sealed record Row(string Name, double N, double Mx, double My, string State = ConcreteQuickSection.Capacity);
+
+    /// <summary>The head of the optional column of the limit state, in E.</summary>
+    public const string StateHeader = "SL";
 
     /// <summary>The combinations of the sheet <paramref name="data"/>, as the workbook writes them.</summary>
     public static IReadOnlyList<Row> Rows(JsonObject data) => ConcreteQuickSection.Combinations(data).Select(r =>
     {
         string name = r.S("nome");
         double Value(string key) => ConcreteEditor.Number(r.S(key), name + " · " + key);
-        return new Row(name, Value("N"), Value("Mx"), Value("My"));
+        return new Row(name, Value("N"), Value("Mx"), Value("My"), r.S(ConcreteQuickSection.StateField));
     }).ToArray();
+
+    /// <summary>
+    /// The limit state of a cell of the column SL: empty is «Capacità»; the labels of the table (SLE RA, SLE FR, SLE QP), the codes of the RC section
+    /// (SLE, SLE_FREQ, SLE_QP) and the names rara, frequente, quasi permanente are read, without regard to case.
+    /// </summary>
+    public static string State(string text)
+    {
+        string t = text.Trim().ToUpperInvariant().Replace('.', ' ').Replace("  ", " ");
+        if (t.Length == 0 || t == "CAPACITÀ" || t == "CAPACITA") return ConcreteQuickSection.Capacity;
+        return t switch
+        {
+            "SLU" => "SLU", "SLV" => "SLV",
+            "SLE" or "SLE RA" or "SLE RARA" or "RARA" => "SLE",
+            "SLE_FREQ" or "SLE FR" or "SLE FREQUENTE" or "FREQUENTE" => "SLE_FREQ",
+            "SLE_QP" or "SLE QP" or "SLE QUASI PERMANENTE" or "QUASI PERMANENTE" => "SLE_QP",
+            _ => throw new ArgumentException("Stato limite non riconosciuto: «" + text.Trim() + "» (Capacità, SLU, SLV, SLE RA, SLE FR, SLE QP).")
+        };
+    }
 
     /// <summary>The workbook of the combinations of <paramref name="data"/>.</summary>
     public static byte[] Export(JsonObject data) => Write(Rows(data));
@@ -68,23 +89,25 @@ public static class ConcreteQuickActionsExcel
         var body = new XElement(ns + "sheetData",
             new XElement(ns + "row", new XAttribute("r", 1), Text("A1", Title, 1)),
             new XElement(ns + "row", new XAttribute("r", 2), Text("A2", Note, 3)),
-            new XElement(ns + "row", new XAttribute("r", HeaderRow), Headers.Select((h, i) => Text(Column(i) + HeaderRow, h, 2))));
+            new XElement(ns + "row", new XAttribute("r", HeaderRow), Headers.Append(StateHeader).Select((h, i) => Text(Column(i) + HeaderRow, h, 2))));
         for (int i = 0; i < rows.Count; i++)
         {
             int r = HeaderRow + 1 + i;
             var row = rows[i];
-            body.Add(new XElement(ns + "row", new XAttribute("r", r), Text("A" + r, row.Name, 0), Number("B" + r, row.N), Number("C" + r, row.Mx), Number("D" + r, row.My)));
+            body.Add(new XElement(ns + "row", new XAttribute("r", r), Text("A" + r, row.Name, 0), Number("B" + r, row.N), Number("C" + r, row.Mx), Number("D" + r, row.My),
+                Text("E" + r, ConcreteQuickSection.LimitStateLabel(row.State), 0)));
         }
         int last = Math.Max(HeaderRow + 1, HeaderRow + rows.Count);
         var sheet = new XDocument(new XElement(ns + "worksheet", new XAttribute("xmlns", ns.NamespaceName), new XAttribute(XNamespace.Xmlns + "r", rel.NamespaceName),
-            new XElement(ns + "dimension", new XAttribute("ref", "A1:D" + last)),
+            new XElement(ns + "dimension", new XAttribute("ref", "A1:E" + last)),
             new XElement(ns + "sheetViews", new XElement(ns + "sheetView", new XAttribute("workbookViewId", 0),
                 new XElement(ns + "pane", new XAttribute("ySplit", HeaderRow), new XAttribute("topLeftCell", "A" + (HeaderRow + 1)), new XAttribute("activePane", "bottomLeft"), new XAttribute("state", "frozen")),
                 new XElement(ns + "selection", new XAttribute("pane", "bottomLeft"), new XAttribute("activeCell", "A" + (HeaderRow + 1)), new XAttribute("sqref", "A" + (HeaderRow + 1))))),
             new XElement(ns + "sheetFormatPr", new XAttribute("defaultRowHeight", 15)),
             new XElement(ns + "cols",
                 new XElement(ns + "col", new XAttribute("min", 1), new XAttribute("max", 1), new XAttribute("width", 26), new XAttribute("customWidth", 1)),
-                new XElement(ns + "col", new XAttribute("min", 2), new XAttribute("max", 4), new XAttribute("width", 14), new XAttribute("customWidth", 1))),
+                new XElement(ns + "col", new XAttribute("min", 2), new XAttribute("max", 4), new XAttribute("width", 14), new XAttribute("customWidth", 1)),
+                new XElement(ns + "col", new XAttribute("min", 5), new XAttribute("max", 5), new XAttribute("width", 12), new XAttribute("customWidth", 1))),
             body));
         var bytes = Package(new Dictionary<string, XDocument>
         {
@@ -113,7 +136,7 @@ public static class ConcreteQuickActionsExcel
             throw new ArgumentException("Il file non è una cartella di lavoro Excel (.xlsx) valida.", error);
         }
         var rows = new List<Row>();
-        bool header = false;
+        bool header = false, state = false;
         foreach (var row in sheet.Rows)
         {
             var cells = row.Cells;
@@ -121,6 +144,7 @@ public static class ConcreteQuickActionsExcel
             if (!header)
             {
                 header = Enumerable.Range(1, Headers.Length).All(c => string.Equals(Cell(c), Headers[c - 1], StringComparison.OrdinalIgnoreCase));
+                state = header && string.Equals(Cell(Headers.Length + 1), StateHeader, StringComparison.OrdinalIgnoreCase);
                 continue;
             }
             if (Enumerable.Range(1, Headers.Length).All(c => Cell(c).Length == 0)) continue;
@@ -133,7 +157,10 @@ public static class ConcreteQuickActionsExcel
                 try { return text.Length == 0 ? 0 : ConcreteEditor.Number(text, Headers[column - 1]); }
                 catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
             }
-            rows.Add(new Row(name, Value(2), Value(3), Value(4)));
+            string limitState;
+            try { limitState = state ? State(Cell(Headers.Length + 1)) : ConcreteQuickSection.Capacity; }
+            catch (ArgumentException error) { throw new ArgumentException(context + error.Message, error); }
+            rows.Add(new Row(name, Value(2), Value(3), Value(4), limitState));
             if (rows.Count > MaximumRows) throw new ArgumentException("Massimo 10.000 combinazioni per importazione.");
         }
         if (!header) throw new ArgumentException("Intestazioni non riconosciute nel foglio " + SheetName + ": servono le colonne " + string.Join(", ", Headers) + ".");

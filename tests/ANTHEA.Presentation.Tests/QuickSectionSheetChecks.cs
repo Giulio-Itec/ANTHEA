@@ -345,6 +345,95 @@ internal static class QuickSectionSheetChecks
                 && teeSheet.Current?.UltimateCheck is not null, "Foglio salvato con la sezione a T: campi e calcolo conservati");
         }
 
+        // The limit states of the combinations (18/11/2026): «Capacità» as before, SLU plastic, SLV elastic, SLE with the method n, stresses and cracking
+        // of the RC section. Each row is stored in the set of its state as the RC section stores it; every ratio equals the calculation of the RC section.
+        var states = ConcreteQuickSection.Create();
+        Act(states, "-1000", "400");
+        string[] stateIds = [ConcreteQuickSection.Combinations(states)[0].S("id"), .. Enumerable.Range(0, 5).Select(_ => ConcreteQuickSection.AddCombination(states))];
+        (string N, string Mx, string State)[] stateRows = [("-1000", "400", "Capacità"), ("-1400", "560", "SLU"), ("-900", "620", "SLV"), ("-1000", "400", "SLE"),
+            ("-850", "330", "SLE_FREQ"), ("-800", "300", "SLE_QP")];
+        for (int i = 1; i < stateRows.Length; i++)
+        {
+            Act(states, stateRows[i].N, stateRows[i].Mx, index: i);
+            ConcreteQuickSection.SetCombinationState(states, stateIds[i], stateRows[i].State);
+        }
+        ConcreteQuickSection.WriteServiceOption(states, ConcreteQuickSection.ExposureKey, "XC3"); ConcreteQuickSection.WriteCreep(states, "1.5");
+        ModuleDirectory.ValidateData(ConcreteQuickSection.Module, states);
+        var stored = ConcreteSheetPreparation.ReadActions(states);
+        bool In(string set, string id) => stored[set].Any(r => r.S("id") == id);
+        expect.That(ConcreteQuickSection.Combinations(states).Select(r => r.S("id")).SequenceEqual(stateIds)
+            && ConcreteQuickSection.Combinations(states).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(stateRows.Select(r => r.State)),
+            "Stati limite: ordine della tabella conservato, stato di ogni combinazione");
+        expect.That(In("SLU", stateIds[0]) && In("SLE", stateIds[0] + "-n") && In("SLU", stateIds[1]) && !In("SLE", stateIds[1] + "-n") && In("SLV", stateIds[2]) && !In("SLU", stateIds[2])
+            && In("SLE", stateIds[3]) && !In("SLE", stateIds[3] + "-n") && In("SLE_FREQ", stateIds[4]) && In("SLE_QP", stateIds[5]) && stored["SLE"].Length == 2,
+            "Stati limite: righe nelle famiglie della sezione in c.a., copia SLE solo per «Capacità»");
+        var stateHeadless = ConcreteAnalysis.Calculate((JsonObject)states.DeepClone());
+        var stateQuick = ConcreteQuickSection.Calculate(states);
+        double? Domain(string set, string id) => J.Number(stateHeadless["domini"]?["3D:" + set]?[id]?["Utilization"]);
+        JsonNode? Stress(string set, string id) => stateHeadless["tensioni"]?[set]?[id];
+        var byId = stateQuick.Combinations.ToDictionary(c => c.Id);
+        expect.That(byId[stateIds[0]].Ratio == Domain("SLU", stateIds[0]) && byId[stateIds[1]].Ratio == Domain("SLU", stateIds[1]) && byId[stateIds[2]].Ratio == Domain("SLV", stateIds[2])
+            && byId[stateIds[0]].Ratio is not null && byId[stateIds[1]].Ratio is not null && byId[stateIds[2]].Ratio is not null
+            && byId.Values.Select(c => c.State).SequenceEqual(stateRows.Select(r => r.State)),
+            $"Capacità, SLU e SLV: η come la sezione in c.a. ({byId[stateIds[1]].Ratio} / {Domain("SLU", stateIds[1])}; {byId[stateIds[2]].Ratio} / {Domain("SLV", stateIds[2])})");
+        expect.That(byId[stateIds[3]].Ratio == J.Number(Stress("SLE", stateIds[3])?["Ratio"]) && byId[stateIds[3]].Ratio is not null,
+            $"SLE rara: σ/σlim come la sezione in c.a. ({byId[stateIds[3]].Ratio} / {Stress("SLE", stateIds[3])?["Ratio"]})");
+        double? Crack(string set, string id) => J.Number(Stress(set, id)?["CrackResult"]?["Ratio"]);
+        double? quasiStress = J.Number(Stress("SLE_QP", stateIds[5])?["Ratio"]);
+        expect.That(byId[stateIds[4]].Ratio is double frequent && frequent == Crack("SLE_FREQ", stateIds[4])
+            && byId[stateIds[5]].Ratio is double quasi && quasi == Math.Max(Crack("SLE_QP", stateIds[5])!.Value, quasiStress!.Value),
+            $"SLE frequente: wk/wlim; SLE quasi permanente: il maggiore fra wk/wlim e σ/σlim, come la sezione in c.a. ({byId[stateIds[4]].Ratio} / {Crack("SLE_FREQ", stateIds[4])}; {byId[stateIds[5]].Ratio} / {Crack("SLE_QP", stateIds[5])} / {quasiStress})");
+        var quasiView = (JsonObject)states.DeepClone(); ConcreteQuickSection.SelectCombination(quasiView, stateIds[5]);
+        var quasiResult = ConcreteQuickSection.Calculate(quasiView);
+        var quasiSummary = ConcreteQuickSection.Summary(quasiResult)!;
+        expect.That(quasiResult.State == "SLE_QP" && quasiResult.Crack?.Width is double width && quasiSummary.Value.StartsWith("wk = ", StringComparison.Ordinal)
+            && quasiSummary.Title.Contains("SLE quasi permanente · fessurazione e tensioni", StringComparison.Ordinal) && width == J.Number(Stress("SLE_QP", stateIds[5])?["CrackResult"]?["Width"])
+            && ConcreteQuickSection.ResultValues(quasiResult).Select(v => v.Label).Intersect(["wk", "wlim", "σc limite", "n (φ = 1,5)"]).Count() == 4,
+            "SLE quasi permanente selezionata: wk in evidenza, wlim, tensioni con i limiti, n con φ");
+        var frequentView = (JsonObject)states.DeepClone(); ConcreteQuickSection.SelectCombination(frequentView, stateIds[4]);
+        var frequentValues = ConcreteQuickSection.ResultValues(ConcreteQuickSection.Calculate(frequentView));
+        expect.That(frequentValues.Any(v => v.Label == "wk") && !frequentValues.Any(v => v.Label == "σc limite"), "SLE frequente: fessurazione, tensioni senza limiti");
+        var slvView = (JsonObject)states.DeepClone(); ConcreteQuickSection.SelectCombination(slvView, stateIds[2]);
+        var slvResult = ConcreteQuickSection.Calculate(slvView);
+        expect.That(slvResult.Model == "Elastico" && slvResult.UltimateCheck?.Utilization == byId[stateIds[2]].Ratio && ConcreteQuickSection.Summary(slvResult)!.Title.Contains("SLV · momento resistente", StringComparison.Ordinal)
+            && ConcreteQuickSection.Summary(slvResult)!.Title.Contains("verifica elastica", StringComparison.Ordinal), "SLV selezionata: verifica elastica, η della tabella");
+        var elasticCapacity = (JsonObject)states.DeepClone(); ConcreteQuickSection.WriteModel(elasticCapacity, "Elastico");
+        var elasticStates = ConcreteQuickSection.Calculate(elasticCapacity).Combinations.ToDictionary(c => c.Id);
+        expect.That(elasticStates[stateIds[1]].Ratio == byId[stateIds[1]].Ratio && elasticStates[stateIds[0]].Ratio != byId[stateIds[0]].Ratio,
+            "Modello elastico scelto in alto: cambia «Capacità», non la combinazione SLU (sempre plastica)");
+        var noExposure = (JsonObject)states.DeepClone(); ConcreteQuickSection.WriteServiceOption(noExposure, ConcreteQuickSection.ExposureKey, "Da scegliere");
+        var unexposed = ConcreteQuickSection.Calculate(noExposure).Combinations.ToDictionary(c => c.Id);
+        expect.That(unexposed[stateIds[5]].Ratio is null && unexposed[stateIds[5]].Status.Length > 0 && unexposed[stateIds[3]].Ratio == byId[stateIds[3]].Ratio,
+            "Esposizione da scegliere: fessurazione senza rapporto, con il motivo; la rara non cambia (" + unexposed[stateIds[5]].Status + ")");
+        ConcreteQuickSection.SetCombinationState(states, stateIds[3], ConcreteQuickSection.Capacity);
+        expect.That(ConcreteSheetPreparation.ReadActions(states)["SLU"].Any(r => r.S("id") == stateIds[3]) && ConcreteSheetPreparation.ReadActions(states)["SLE"].Any(r => r.S("id") == stateIds[3] + "-n")
+            && ConcreteQuickSection.Combinations(states)[3].S("id") == stateIds[3], "Ritorno a «Capacità»: riga SLU con la sua copia, stesso posto in tabella");
+        ConcreteQuickSection.RemoveCombination(states, stateIds[2]);
+        expect.That(!ConcreteSheetPreparation.ReadActions(states)["SLV"].Any() && ConcreteQuickSection.Combinations(states).Count == 5, "Combinazione SLV tolta");
+        // Excel with the column SL.
+        ConcreteQuickActionsExcel.Row[] withStates = [new("A", -1000, 400, 0), new("B", -900, 620, 0, "SLV"), new("C", -800, 300, 0, "SLE_QP")];
+        var stateBook = ConcreteQuickActionsExcel.Write(withStates);
+        expect.That(ConcreteQuickActionsExcel.Read(stateBook).SequenceEqual(withStates) && ConcreteQuickActionsExcel.State("sle fr") == "SLE_FREQ" && ConcreteQuickActionsExcel.State("") == "Capacità"
+            && ConcreteQuickActionsExcel.State("Quasi permanente") == "SLE_QP", "Excel: colonna SL scritta e riletta");
+        expect.Throws<ArgumentException>(() => ConcreteQuickActionsExcel.State("SLD"), "Excel: stato limite sconosciuto rifiutato");
+        var imported = ConcreteQuickSection.Create(); ConcreteQuickActionsExcel.Import(imported, stateBook);
+        expect.That(ConcreteQuickSection.Combinations(imported).Select(r => r.S(ConcreteQuickSection.StateField)).SequenceEqual(["Capacità", "SLV", "SLE_QP"])
+            && ConcreteSheetPreparation.ReadActions(imported)["SLV"].Length == 1, "Excel importato: combinazioni nelle loro famiglie");
+        // The sheet: the state of a row, the exposure, the head of the ratios.
+        using (var stateSheet = Open(ConcreteQuickSection.Create()))
+        {
+            await stateSheet.PendingCalculation;
+            expect.That(stateSheet.RatioHeader == "η" && !stateSheet.HasLimitStates && stateSheet.CombinationRows[0].State == "Capacità" && stateSheet.ExposureField.SelectedChoice == "Da scegliere",
+                "Foglio nuovo: combinazione «Capacità», esposizione da scegliere");
+            stateSheet.CombinationRows[0].N = "-800"; stateSheet.CombinationRows[0].Mx = "300";
+            stateSheet.CombinationRows[0].State = "SLE_QP";
+            stateSheet.CreepForm.Set(ConcreteQuickSection.ExposureKey, "XC3");
+            await stateSheet.PendingCalculation;
+            expect.That(stateSheet.RatioHeader == "rapp." && stateSheet.HasLimitStates && ConcreteQuickSection.Exposure(stateSheet.Data) == "XC3" && stateSheet.CombinationRows[0].State == "SLE_QP"
+                && stateSheet.Current?.State == "SLE_QP" && stateSheet.Summary?.Value.StartsWith("wk = ", StringComparison.Ordinal) == true && stateSheet.CombinationRows[0].Ratio.Length > 0,
+                "Foglio: SLE quasi permanente scelta nella riga, esposizione XC3, fessurazione in evidenza: " + stateSheet.Summary?.Value);
+        }
+
         // No report in this version.
         expect.Throws<InvalidOperationException>(() => sheet.Report.BuildReport("Sezione", new HashSet<string>()), "Relazione non disponibile segnalata");
 

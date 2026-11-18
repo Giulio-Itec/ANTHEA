@@ -330,12 +330,13 @@
        ToolTip="Importa da Excel: rilegge il file esportato (salvato con Ctrl+S) e sostituisce le combinazioni." HorizontalAlignment="Left"/>
      </DockPanel>
      <Grid>
-      <Grid.ColumnDefinitions><ColumnDefinition Width="22"/><ColumnDefinition Width="80"/><ColumnDefinition Width="68"/><ColumnDefinition Width="68"/><ColumnDefinition Width="62"/><ColumnDefinition Width="54"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="64"/><ColumnDefinition Width="74"/><ColumnDefinition Width="56"/><ColumnDefinition Width="56"/><ColumnDefinition Width="48"/><ColumnDefinition Width="50"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
       <TextBlock Grid.Column="1" Text="Nome" Style="{StaticResource Muted}"/>
-      <TextBlock Grid.Column="2" Text="N [kN]" Style="{StaticResource Caption}" ToolTip="Negativo a compressione"/>
-      <TextBlock Grid.Column="3" Text="Mx [kNm]" Style="{StaticResource Caption}"/>
-      <TextBlock Grid.Column="4" Text="My [kNm]" Style="{StaticResource Caption}" ToolTip="Usato solo con la flessione deviata"/>
-      <TextBlock Grid.Column="5" Text="{Binding RatioHeader}" Style="{StaticResource Caption}"/>
+      <TextBlock Grid.Column="2" Text="SL" Style="{StaticResource Caption}" ToolTip="Stato limite della combinazione: Capacità segue la verifica scelta in alto; SLU plastico, SLV elastico, SLE con il metodo n"/>
+      <TextBlock Grid.Column="3" Text="N" Style="{StaticResource Caption}" ToolTip="N [kN], negativo a compressione"/>
+      <TextBlock Grid.Column="4" Text="Mx" Style="{StaticResource Caption}" ToolTip="Mx [kNm]"/>
+      <TextBlock Grid.Column="5" Text="My" Style="{StaticResource Caption}" ToolTip="My [kNm], usato solo con la flessione deviata"/>
+      <TextBlock Grid.Column="6" Text="{Binding RatioHeader}" Style="{StaticResource Caption}" ToolTip="η (SLU, SLV), σ/σlim (SLE rara), wk/wlim o il maggiore con σ/σlim (SLE frequente e quasi permanente)"/>
      </Grid>
      <ItemsControl ItemsSource="{Binding CombinationRows}" Focusable="False">
       <ItemsControl.ItemTemplate>
@@ -348,13 +349,15 @@
           </Style>
          </Border.Style>
          <Grid>
-          <Grid.ColumnDefinitions><ColumnDefinition Width="22"/><ColumnDefinition Width="80"/><ColumnDefinition Width="68"/><ColumnDefinition Width="68"/><ColumnDefinition Width="62"/><ColumnDefinition Width="54"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="64"/><ColumnDefinition Width="74"/><ColumnDefinition Width="56"/><ColumnDefinition Width="56"/><ColumnDefinition Width="48"/><ColumnDefinition Width="50"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
           <RadioButton IsChecked="{Binding IsSelected}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Mostra i risultati di questa combinazione"
            AutomationProperties.Name="Seleziona la combinazione"/>
           <TextBox Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" TextAlignment="Left" ToolTip="Nome della combinazione"/>
-          <TextBox Grid.Column="2" Text="{Binding N}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="N (negativo a compressione)"/>
-          <TextBox Grid.Column="3" Text="{Binding Mx}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Mx"/>
-          <TextBox Grid.Column="4" Text="{Binding My}" IsReadOnly="{Binding MyReadOnly}" ToolTip="My: usato solo con la flessione deviata">
+          <ComboBox Grid.Column="2" ItemsSource="{Binding States}" SelectedValuePath="Code" SelectedValue="{Binding State}" IsEnabled="{Binding CanEdit}" Margin="1" MinHeight="21"
+           FontSize="{DynamicResource Font.Small}" ToolTip="Stato limite della combinazione" AutomationProperties.Name="Stato limite della combinazione"/>
+          <TextBox Grid.Column="3" Text="{Binding N}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="N (negativo a compressione)"/>
+          <TextBox Grid.Column="4" Text="{Binding Mx}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Mx"/>
+          <TextBox Grid.Column="5" Text="{Binding My}" IsReadOnly="{Binding MyReadOnly}" ToolTip="My: usato solo con la flessione deviata">
            <TextBox.Style>
             <Style TargetType="TextBox" BasedOn="{StaticResource RowBox}">
              <Style.Triggers><DataTrigger Binding="{Binding MyEditable}" Value="False"><Setter Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger></Style.Triggers>
@@ -362,7 +365,7 @@
            </TextBox.Style>
           </TextBox>
           <!-- The ratio of the engine as a pill: green within 1, red beyond. -->
-          <Border Grid.Column="5" CornerRadius="8" Padding="6,1" Margin="4,0,0,0" HorizontalAlignment="Center" ToolTip="{Binding RatioToolTip}">
+          <Border Grid.Column="6" CornerRadius="8" Padding="6,1" Margin="4,0,0,0" HorizontalAlignment="Center" ToolTip="{Binding RatioToolTip}">
            <Border.Style>
             <Style TargetType="Border">
              <Setter Property="Background" Value="Transparent"/>
@@ -384,14 +387,14 @@
             </TextBlock.Style>
            </TextBlock>
           </Border>
-          <Button Grid.Column="6" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli la combinazione"
+          <Button Grid.Column="7" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli la combinazione"
            AutomationProperties.Name="Togli la combinazione"/>
          </Grid>
         </Border>
        </DataTemplate>
       </ItemsControl.ItemTemplate>
      </ItemsControl>
-     <TextBlock Text="N &lt; 0 compressione · risultati della riga selezionata" Style="{StaticResource Muted}" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
+     <TextBlock Text="N [kN], M [kNm] · N &lt; 0 compressione · risultati della riga selezionata" Style="{StaticResource Muted}" Margin="0,3,0,0" TextTrimming="CharacterEllipsis"/>
     </StackPanel>
    </Border>
 
@@ -408,6 +411,7 @@
        <ItemsControl ItemsSource="{Binding ConcreteFields}" ItemTemplate="{StaticResource MaterialRow}" Focusable="False"/>
        <ItemsControl ItemsSource="{Binding ConcreteValues}" ItemTemplate="{StaticResource CalculatedRow}" Focusable="False"/>
        <ContentControl Content="{Binding CreepField}" ContentTemplate="{StaticResource MaterialRow}" Focusable="False" IsTabStop="False" Margin="0,2,0,0"/>
+       <ContentControl Content="{Binding ExposureField}" ContentTemplate="{StaticResource MaterialRow}" Focusable="False" IsTabStop="False"/>
       </StackPanel>
       <StackPanel Grid.Column="2">
        <TextBlock Text="Acciaio" Style="{StaticResource Muted}" Margin="0,0,0,2"/>
@@ -424,7 +428,9 @@
    <Border DockPanel.Dock="Top" Style="{StaticResource Card}">
     <Grid>
      <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-     <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+     <Grid.RowDefinitions><RowDefinition/><RowDefinition/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+     <TextBlock Grid.Row="2" Grid.ColumnSpan="5" Text="Modello e verifica valgono per le combinazioni «Capacità»; le altre seguono il loro stato limite." Style="{StaticResource Muted}"
+      Margin="0,3,0,0" TextWrapping="Wrap" Visibility="{Binding HasLimitStates, Converter={StaticResource Visibility}}"/>
      <TextBlock Text="Modello" Style="{StaticResource Muted}" Margin="0,0,8,4"/>
      <ListBox Grid.Column="1" Style="{StaticResource Segmented}" ItemsSource="{Binding Models}" SelectedItem="{Binding Model}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,4"
       ToolTip="Verifica SLU plastica o elastica: il modello resistente della sezione in c.a." AutomationProperties.Name="Modello"/>

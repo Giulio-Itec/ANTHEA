@@ -221,6 +221,25 @@ internal static class ShellDraftChecks
                     Check(biaxial.SteelValues.Single(v => v.InUse).Value != biaxial.SteelValues.Single(v => v.Label == "n₀").Value && biaxial.ResultValues.Any(v => v.InUse),
                         "Verifica rapida: con φ = 1,5 n cambia ed è in evidenza");
                     await Capture(quickWindow.Window, output, "08d-verifica-rapida-viscosita.png", bindings);
+                    // The limit states of the combinations (18/11/2026): one row for each state, the quasi-permanent one selected with the exposure XC3.
+                    biaxial.Method = "Momento positivo";
+                    biaxial.CombinationRows[0].My = "0"; biaxial.CombinationRows[1].Name = "SLU 1"; biaxial.CombinationRows[1].N = "-1400"; biaxial.CombinationRows[1].Mx = "560";
+                    biaxial.CombinationRows[1].State = "SLU";
+                    (string Name, string N, string Mx, string State)[] more = [("Sisma", "-900", "620", "SLV"), ("Rara", "-1000", "400", "SLE"), ("Frequente", "-850", "330", "SLE_FREQ"),
+                        ("Q. perm.", "-800", "300", "SLE_QP")];
+                    foreach (var (name, n, mx, state) in more)
+                    {
+                        biaxial.AddCombinationCommand.Execute(null);
+                        var row = biaxial.CombinationRows[^1];
+                        row.Name = name; row.N = n; row.Mx = mx; row.State = state;
+                    }
+                    biaxial.CreepForm.Set(Anthea.Application.Concrete.ConcreteQuickSection.ExposureKey, "XC3");
+                    biaxial.CombinationRows[^1].IsSelected = true;
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.HasLimitStates,
+                        "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
+                    await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
                 }
                 quickWindow.Window.Close();
                 await Idle(main);
