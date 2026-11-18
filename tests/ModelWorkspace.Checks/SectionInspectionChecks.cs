@@ -46,6 +46,22 @@ static partial class Program
         Check(vm.SelectedElementIds.SetEquals([1000])&&vm.VisibleElementIds!.SetEquals([1000]),"section window isolates precisely the associated elements");
         vm.CloseSectionDetailsCommand.Execute(null);Check(!vm.IsSectionWindowOpen,"closing section window preserves model and visibility state");
         File.WriteAllText(Path.Combine(output,"sezioni.antheamodel"),JsonSerializer.Serialize(model));
+        OpenSectionTorsionChecks();
+    }
+    /// <summary>18/11/2026 (Q2, set BA): GPC solves J of the T, C and L numerically; the window shows it with its origin instead of «—».
+    /// Independent bound: within 15% of the thin-walled sum of b·t³/3 of the plates (flanges whole, web between the flanges).</summary>
+    static void OpenSectionTorsionChecks()
+    {
+        var open=ModelSectionCatalog.Create(SectionInspectionSample.OpenSections());
+        static double Plate(double b,double t)=>b*t*t*t/3;
+        foreach(var (id,thinWalled) in new[]{(20,Plate(150,12)+Plate(200-12,8)),(21,2*Plate(75,11)+Plate(200-2*11,8)),(22,Plate(80,10)+Plate(100-10,10))})
+        {
+            var section=open.Find(id)!;var j=section.Quantities.Single(q=>q.Name=="J torsionale");var warping=section.Quantities.Single(q=>q.Name=="Iω");
+            Check(section.HasGeometry && j.Origin=="Numerica GPC" && j.Value is double value && double.IsFinite(value) && Math.Abs(value/thinWalled-1)<.15,
+                $"{section.Label}: numerical J of GPC shown ({j.Display} mm⁴, thin-walled {thinWalled:G6} mm⁴)");
+            Check(warping.Value is double w && double.IsFinite(w) && w>=0 && warping.Origin=="Approssimata GPC",$"{section.Label}: approximate Iω of GPC shown as before");
+            Check(ReferenceEquals(section.Quantities,section.Quantities),$"{section.Label}: J solved once");
+        }
     }
     static double MeshArea(ModelSectionDetail detail)
     {

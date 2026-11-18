@@ -36,7 +36,12 @@ public sealed class ModelSectionDetail
     public override string ToString() => Label;
     public SectionContour[] Contours { get; internal set; } = [];
     public SectionPartInfo[] Parts { get; internal set; } = [];
-    public SectionValue[] Quantities { get; internal set; } = [];
+    /// <summary>18/11/2026 (Q2, set BA): the torsion and warping constants that GPC solves numerically (availability Numerical, e.g. J of
+    /// the imported T, C and L) are shown too. They are solved the first time the quantities are read, when the section is shown, never
+    /// while the catalog of the model is built.</summary>
+    public SectionValue[] Quantities { get => NumericalQuantities?.Value ?? quantities; internal set => quantities=value; }
+    SectionValue[] quantities=[];
+    internal Lazy<SectionValue[]>? NumericalQuantities { get; set; }
     public SectionValue[] ReferenceValues { get; internal set; } = [];
     public SectionAttribute[] Attributes { get; internal set; } = [];
     public int[] Elements { get; internal set; } = [];
@@ -157,7 +162,9 @@ public sealed class ModelSectionCatalog
                     result.Insertion=new(centroid.Y-offset.X,centroid.Z-offset.Y);
                 if(shape.GetAvailability(ShapeProperty.MomentsOfInertia)!=PropertyAvailability.NotAvailable && double.IsFinite(shape.AngleX1))
                     result.PrincipalAngleRadians=shape.AngleX1;
-                result.Quantities=Quantities(shape,result.IsComposite);
+                result.Quantities=Quantities(shape,result.IsComposite,solve:false,out bool numerical);
+                bool composite=result.IsComposite;
+                if(numerical) result.NumericalQuantities=new(()=>Quantities(shape,composite,solve:true,out _));
                 result.ReferenceValues=[new("G · Y",result.Centroid?.Y,"mm","Geometria GPC"),new("G · Z",result.Centroid?.Z,"mm","Geometria GPC"),
                     new("O · Y",result.Insertion?.Y,"mm","Riferimento della sorgente"),new("O · Z",result.Insertion?.Z,"mm","Riferimento della sorgente"),
                     new("Asse 1 da Y",result.PrincipalAngleRadians*180/Math.PI,"°","Geometria GPC")];
@@ -180,22 +187,35 @@ public sealed class ModelSectionCatalog
             V("Ala inferiore · larghezza",h.LenghtBottomFlange),V("Ala inferiore · spessore",h.ThicknessBottomFlange)] : [];
     }
     static string MaterialLabel(MaterialKind kind)=>kind switch {MaterialKind.Steel=>"Acciaio",MaterialKind.Concrete=>"Calcestruzzo",_=>"Vedi materiale assegnato"};
-    static SectionValue[] Quantities(ISectionShape shape,bool composite)
+    /// <summary>The quantities of a GPC shape. Without <paramref name="solve"/> the values that GPC solves numerically are left empty
+    /// (<paramref name="numerical"/> says if there are any): building the catalog must not launch a torsion or warping solve for every section
+    /// of the model. With <paramref name="solve"/> they are read, once, when the section is shown (Q2 of 18/11/2026).</summary>
+    static SectionValue[] Quantities(ISectionShape shape,bool composite,bool solve,out bool numerical)
     {
         string suffix=composite ? " · fisica" : "";
+        bool deferred=false;
         SectionValue Value(string name,ShapeProperty property,Func<double> read,string unit)
         {
             var availability=shape.GetAvailability(property);
-            string origin=availability switch {PropertyAvailability.Exact=>"Calcolata GPC",PropertyAvailability.Given=>"Assegnata",PropertyAvailability.Approximate=>"Approssimata GPC",PropertyAvailability.Numerical=>"Calcolo numerico richiesto",_=>"Non disponibile"};
-            // Inspection must not launch an expensive torsion/warping solve merely by opening the window.
-            double? number=availability is PropertyAvailability.NotAvailable or PropertyAvailability.Numerical ? null : read();
+            string origin=availability switch {PropertyAvailability.Exact=>"Calcolata GPC",PropertyAvailability.Given=>"Assegnata",PropertyAvailability.Approximate=>"Approssimata GPC",PropertyAvailability.Numerical=>"Numerica GPC",_=>"Non disponibile"};
+            double? number=null;
+            if(availability==PropertyAvailability.Numerical&&!solve) deferred=true;
+            else if(availability==PropertyAvailability.Numerical)
+            {
+                try { number=read(); }
+                catch(Exception ex) when(ex is ArgumentException or InvalidOperationException or InvalidDataException or NotSupportedException or ArithmeticException)
+                { origin="Calcolo numerico non riuscito"; }
+            }
+            else if(availability!=PropertyAvailability.NotAvailable) number=read();
             if(number.HasValue&&!double.IsFinite(number.Value)) number=null;
             return new(name,number,unit,origin+suffix);
         }
-        return [Value("Area",ShapeProperty.Area,()=>shape.Area,"mm²"),Value("Iyy",ShapeProperty.MomentsOfInertia,()=>shape.Jxx,"mm⁴"),
+        SectionValue[] values=[Value("Area",ShapeProperty.Area,()=>shape.Area,"mm²"),Value("Iyy",ShapeProperty.MomentsOfInertia,()=>shape.Jxx,"mm⁴"),
             Value("Izz",ShapeProperty.MomentsOfInertia,()=>shape.Jyy,"mm⁴"),Value("Iyz",ShapeProperty.MomentsOfInertia,()=>shape.Jxy,"mm⁴"),
             Value("I₁₁",ShapeProperty.MomentsOfInertia,()=>shape.J11,"mm⁴"),Value("I₂₂",ShapeProperty.MomentsOfInertia,()=>shape.J22,"mm⁴"),
             Value("J torsionale",ShapeProperty.TorsionConstant,()=>shape.Jt,"mm⁴"),Value("Iω",ShapeProperty.WarpingConstant,()=>shape.Jw,"mm⁶")];
+        numerical=deferred;
+        return values;
     }
     static void AddContours(Shape polygon,double y,double z,int part,List<SectionContour> result)
     {
