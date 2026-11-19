@@ -155,14 +155,17 @@ internal sealed partial class ItecPileReport
 
     static XElement QSub(string value, string subscript) => new(HM + "sSub", new XElement(HM + "e", HRun(value)), new XElement(HM + "sub", HRun(subscript)));
 
+    /// <summary>The points of an inch and the resolution of the PNG of the formulas for the PDF: the size of a formula in points.</summary>
+    const double QuickPointsPerInch = 72, QuickEquationDpi = 300;
+
     void QuickEquation(string name, params object[] parts)
     {
         HEq(parts);
         using var stream = typeof(ItecPileReport).Assembly.GetManifestResourceStream("Anthea.QuickSection." + name + ".png")
             ?? throw new InvalidDataException("Rappresentazione PDF della formula assente: " + name);
         using var memory = new MemoryStream(); stream.CopyTo(memory); byte[] png = memory.ToArray();
-        double width = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(16, 4)) * 72d / 300;
-        double height = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(20, 4)) * 72d / 300;
+        double width = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(16, 4)) * QuickPointsPerInch / QuickEquationDpi;
+        double height = System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(20, 4)) * QuickPointsPerInch / QuickEquationDpi;
         string id = "quick-" + name;
         document.SetBytes("anthea/equation-" + id + ".png", png);
         var equations = document.GetXml("anthea/equations.xml");
