@@ -220,6 +220,9 @@ internal static class ShellDraftChecks
                     await Idle(main);
                     Check(biaxial.SteelValues.Single(v => v.InUse).Value != biaxial.SteelValues.Single(v => v.Label == "n₀").Value && biaxial.ResultValues.Any(v => v.InUse),
                         "Verifica rapida: con φ = 1,5 n cambia ed è in evidenza");
+                    // The stresses of the bars on the drawing (19/11/2026): the most stressed bar of each layer, with its line and σs.
+                    Check(biaxial.StressCallouts.Count == biaxial.LayerRows.Count && biaxial.StressCallouts.All(c => c.Text.StartsWith("σs = ", StringComparison.Ordinal)),
+                        "Verifica rapida, metodo n: una tensione σs per strato nel disegno");
                     await Capture(quickWindow.Window, output, "08d-verifica-rapida-viscosita.png", bindings);
                     // The limit states of the combinations (18/11/2026): one row for each state, the quasi-permanent one selected with the exposure XC3.
                     biaxial.Method = "Momento positivo";
@@ -240,6 +243,15 @@ internal static class ShellDraftChecks
                     Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.Method == "Metodo n" && biaxial.Model is null,
                         "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
                     await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
+                    // The circular section with the method n (19/11/2026): the most compressed bar and the most tensioned one, then back to the rectangle.
+                    biaxial.Shape = Anthea.Application.Concrete.ConcreteQuickSection.Circular;
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
+                    Check(biaxial.StressCallouts.Count == 2 && biaxial.StressCallouts.Count(c => c.Compression) == 1, "Verifica rapida circolare, metodo n: la barra più compressa e la più tesa");
+                    await Capture(quickWindow.Window, output, "08f-verifica-rapida-circolare-tensioni.png", bindings);
+                    biaxial.Shape = Anthea.Application.Concrete.ConcreteQuickSection.Rectangular;
+                    await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                    await Idle(main);
                 }
                 // Report commands are inside the detached window and follow its selected tab.
                 var word = (Button)quickWindow.Window.FindName("WordReport");

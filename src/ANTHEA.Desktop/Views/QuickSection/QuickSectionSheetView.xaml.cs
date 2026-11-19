@@ -47,7 +47,8 @@ public partial class QuickSectionSheetView : UserControl
 
     private void OnSheetChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.DrawingMessage))
+        if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.StressCallouts)
+            or nameof(QuickSectionSheetViewModel.DrawingMessage))
             DrawSection();
         if (e.PropertyName is nameof(QuickSectionSheetViewModel.DomainGeometry) or nameof(QuickSectionSheetViewModel.DomainActions)
             or nameof(QuickSectionSheetViewModel.CurvaturePoints) or nameof(QuickSectionSheetViewModel.ShowsDomain))
@@ -62,6 +63,7 @@ public partial class QuickSectionSheetView : UserControl
         if (sheet is null) return;
         Drawing.Section = sheet.Section;
         Drawing.Stress = sheet.SectionStress;
+        Drawing.Callouts = sheet.StressCallouts;
         Drawing.Stirrups = sheet.Stirrups;
         Drawing.Message = sheet.Section is null ? sheet.DrawingMessage : "";
         Drawing.InvalidateVisual();

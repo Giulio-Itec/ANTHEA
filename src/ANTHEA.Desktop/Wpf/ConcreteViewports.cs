@@ -60,6 +60,13 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     internal bool TendonValues { get; set; }
     internal bool ConcreteValues { get; set; }
     internal JsonObject? Stirrups { get; set; }
+    /// <summary>
+    /// The bars whose stress is called out with a line and its value (the sheet of the quick section with the method n, 19/11/2026), by their index in
+    /// <see cref="ConcreteGeometry.Bars"/>; empty elsewhere, and then the drawing does not change.
+    /// </summary>
+    internal IReadOnlyList<(int Bar, string Text, bool Compression)> Callouts { get; set; } = [];
+    // CalloutRoom: the room added on a side with callouts, beyond the ordinary margin of the drawing (about 40 px), for a label of about 100 px.
+    private const double CalloutRoom = 80, CalloutGap = 14, CalloutTail = 6, CalloutStep = 16, CalloutPad = 3, CalloutFrame = 2, CalloutMinRadius = 3;
     private ConcreteResults.StressState? rasterState;
     private string rasterContour = "";
     private BitmapSource? rasterImage;
@@ -96,8 +103,12 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         bool hasLegend = contourScale is not null;
         double plotWidth = size.Width - (hasLegend ? 105 : 0);
         bool dimensioned = Dimensions || CoverDimensions || SpacingDimensions;
-        double scale = Math.Max(.01, Math.Min((plotWidth - (dimensioned ? 160 : 85)) / (xmax - xmin), (size.Height - (dimensioned ? 180 : 105)) / (ymax - ymin))) * zoom;
-        Point P(double x, double y) => new(plotWidth / 2 + (x - (xmin + xmax) / 2) * scale + pan.X, (size.Height - 20) / 2 - (y - (ymin + ymax) / 2) * scale + pan.Y);
+        // The callouts go on the side of their bar: room is kept only on the sides that have one (none without callouts).
+        var callouts = Callouts.Where(c => c.Bar >= 0 && c.Bar < section.Bars.Count).ToArray();
+        double middle = (xmin + xmax) / 2;
+        double leftRoom = callouts.Any(c => section.Bars[c.Bar].X < middle) ? CalloutRoom : 0, rightRoom = callouts.Any(c => section.Bars[c.Bar].X >= middle) ? CalloutRoom : 0;
+        double scale = Math.Max(.01, Math.Min((plotWidth - leftRoom - rightRoom - (dimensioned ? 160 : 85)) / (xmax - xmin), (size.Height - (dimensioned ? 180 : 105)) / (ymax - ymin))) * zoom;
+        Point P(double x, double y) => new(plotWidth / 2 + (leftRoom - rightRoom) / 2 + (x - (xmin + xmax) / 2) * scale + pan.X, (size.Height - 20) / 2 - (y - (ymin + ymax) / 2) * scale + pan.Y);
         var shape = new GeometryGroup { FillRule=FillRule.EvenOdd };
         shape.Children.Add(Path(section.Outline.Select(p => P(p[0], p[1])), true));
         foreach(var hole in section.Holes)shape.Children.Add(Path(hole.Select(p=>P(p[0],p[1])),true));
@@ -191,6 +202,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         if (ShowNeutralAxis && Stress is { } state)
             NeutralAxisDisplay = NeutralAxisOverlay.Draw(dc, NeutralAxisPresentation.Concrete(state), P,
                 new Rect(P(xmin, ymax), P(xmax, ymin)), new Rect(12, 28, Math.Max(30, plotWidth - 24), Math.Max(20, size.Height - 89)), 30);
+        DrawCallouts(dc, section, callouts, P, scale, middle, P(xmin, ymin).X, P(xmax, ymin).X);
         Text(dc, $"{section.Width:0.#} × {section.Height:0.#} mm  ·  Ac = {section.AreaCls / 100:0.0} cm²  ·  As = {section.AreaSteel / 100:0.0} cm²", 12, size.Height - 46, 11, width: size.Width - 24);
         Text(dc, Stress is null ? "Assi geometrici x/y · N < 0: compressione" : Contour == "Solo geometria" ? "Nessun contouring · risultati nel riepilogo" : ratios ? "Rapporto alla resistenza · NON esito SLE" : "Rosso: compressione (−) · blu: trazione (+) · valori GPC Engine", 12, size.Height - 26, 11, width: size.Width - 24);
     }
@@ -203,6 +215,33 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         if (ratio) return UtilizationPalette.Color(value);
         Color end = value < 0 ? Color.FromRgb(197, 51, 48) : Color.FromRgb(35, 90, 183);
         return Color.FromRgb((byte)(255 + (end.R - 255) * fraction), (byte)(255 + (end.G - 255) * fraction), (byte)(255 + (end.B - 255) * fraction));
+    }
+    /// <summary>
+    /// The callouts of the stresses: a ring on the bar, a line out of the section on the side of the bar and the value, in red in compression and in
+    /// blue in tension (the colours of the contour); the labels of a side keep at least <see cref="CalloutStep"/> apart.
+    /// </summary>
+    private static void DrawCallouts(DrawingContext dc, ConcreteGeometry section, (int Bar, string Text, bool Compression)[] callouts, Func<double, double, Point> p,
+        double scale, double middle, double left, double right)
+    {
+        foreach (bool onLeft in new[] { true, false })
+        {
+            double previous = double.NegativeInfinity;
+            foreach (var callout in callouts.Where(c => section.Bars[c.Bar].X < middle == onLeft).OrderBy(c => p(section.Bars[c.Bar].X, section.Bars[c.Bar].Y).Y))
+            {
+                var bar = section.Bars[callout.Bar]; var at = p(bar.X, bar.Y); double radius = Math.Max(CalloutMinRadius, bar.Diametro * scale / 2);
+                var brush = Ui.Brush(callout.Compression ? "#B4322E" : "#235AB7"); var pen = new Pen(brush, 1.2);
+                double y = Math.Max(at.Y, previous + CalloutStep); previous = y;
+                var elbow = new Point(onLeft ? left - CalloutGap : right + CalloutGap, y);
+                var direction = elbow - at; if (direction.Length > radius) { direction.Normalize(); dc.DrawLine(pen, at + direction * (radius + 2), elbow); }
+                var end = new Point(elbow.X + (onLeft ? -CalloutTail : CalloutTail), y); dc.DrawLine(pen, elbow, end);
+                dc.DrawEllipse(null, pen, at, radius + 2, radius + 2);
+                var text = new FormattedText(callout.Text, CultureInfo.GetCultureInfo("it-IT"), FlowDirection.LeftToRight,
+                    new Typeface(new FontFamily("Segoe UI"), FontStyles.Normal, FontWeights.SemiBold, FontStretches.Normal), 10, brush, 1);
+                var origin = new Point(onLeft ? end.X - text.Width - CalloutPad : end.X + CalloutPad, y - text.Height / 2);
+                dc.DrawRoundedRectangle(new SolidColorBrush(Color.FromArgb(225, 255, 255, 255)), null, new Rect(origin.X - CalloutFrame, origin.Y, text.Width + 2 * CalloutFrame, text.Height), 2, 2);
+                dc.DrawText(text, origin);
+            }
+        }
     }
     private void ValueLabel(DrawingContext dc, Point p, string id, double stress, double strain)
     {

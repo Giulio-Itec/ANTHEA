@@ -660,6 +660,15 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The stresses drawn on the section: the method n, or the state at the resistant point of the ultimate check.</summary>
     public ConcreteResults.StressState? SectionStress => Current is { } r ? (r.Method == ConcreteQuickSection.Methods[2] ? r.ServiceState : r.UltimateState) : null;
 
+    /// <summary>
+    /// With the method n (19/11/2026): the bars whose stress the drawing calls out with a line and its value, the most stressed of each layer (the
+    /// most compressed and the most tensioned of the circular section); none for SLU and SLV.
+    /// </summary>
+    public IReadOnlyList<(int Bar, string Text, bool Compression)> StressCallouts => Current is { Method: var method, ServiceState: { } stress } && method == ConcreteQuickSection.Methods[2]
+        ? ConcreteQuickSection.StressCallouts(Data, section, stress)
+            .Select(i => (i, ConcreteQuickSection.StressCalloutText(stress.tensioni_barre[i]), stress.tensioni_barre[i] < 0)).ToArray()
+        : [];
+
     private IReadOnlyList<string> layerAreas = [];
 
     /// <summary>The area of the bars of the layer <paramref name="index"/> [cm²], from the geometry of the engine.</summary>
@@ -670,7 +679,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         (section, drawingMessage) = ConcreteQuickSection.Geometry(Data);
         layerAreas = ConcreteQuickSection.LayerAreas(Data, section);
         foreach (var row in LayerRows) row.RefreshArea();
-        OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress));
+        OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress)); OnPropertyChanged(nameof(StressCallouts));
     }
 
     // ---------------------------------------------------------------- results
@@ -707,7 +716,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     private void RefreshResults()
     {
         foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ConcreteValues), nameof(SteelValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
-            nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(Status) })
+            nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(StressCallouts), nameof(Status) })
             OnPropertyChanged(p);
         foreach (var row in CombinationRows) row.Refresh();
     }

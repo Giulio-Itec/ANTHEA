@@ -1,4 +1,4 @@
-using System.Collections.Immutable;
+﻿using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using Anthea.Application.Materials;
 using Anthea.Application.Modules;
@@ -584,7 +584,7 @@ public static class ConcreteQuickSection
     /// </summary>
     public static IReadOnlyList<string> LayerAreas(JsonObject data, ConcreteGeometry? geometry)
     {
-        var counts = Layers(data).OfType<JsonObject>().Select(l => J.Number(l["n"]) is double n && n >= 0 && n == Math.Floor(n) ? (int)n : -1).ToArray();
+        var counts = LayerCounts(data);
         if (geometry is null || counts.Any(c => c < 0) || counts.Sum() != geometry.Bars.Count) return counts.Select(_ => "—").ToArray();
         int first = 0;
         var areas = new List<string>();
@@ -595,6 +595,40 @@ public static class ConcreteQuickSection
         }
         return areas;
     }
+
+    /// <summary>
+    /// The bars whose stress is called out on the section with the method n (19/11/2026), by their index in the bars of the engine: for each layer
+    /// the bar with the largest stress in absolute value (the bars of the layers in their order, <see cref="ApplyLayers"/>); for the circular
+    /// section the most compressed bar and the most tensioned one (when there are). None without the stresses or with another number of bars.
+    /// </summary>
+    public static IReadOnlyList<int> StressCallouts(JsonObject data, ConcreteGeometry? geometry, ConcreteResults.StressState? stress)
+    {
+        if (geometry is null || stress is null || stress.tensioni_barre.Length < geometry.Bars.Count || geometry.Bars.Count == 0) return [];
+        var stresses = stress.tensioni_barre;
+        var indices = Enumerable.Range(0, geometry.Bars.Count).ToArray();
+        if (data["input"].S("shape") == Circular)
+        {
+            int compressed = indices.MinBy(i => stresses[i]), tensioned = indices.MaxBy(i => stresses[i]);
+            return new[] { stresses[compressed] < 0 ? compressed : -1, stresses[tensioned] > 0 ? tensioned : -1 }.Where(i => i >= 0).Distinct().ToArray();
+        }
+        var counts = LayerCounts(data);
+        if (counts.Any(c => c < 0) || counts.Sum() != geometry.Bars.Count) return [];
+        var callouts = new List<int>();
+        int first = 0;
+        foreach (int count in counts)
+        {
+            if (count > 0) callouts.Add(indices.Skip(first).Take(count).MaxBy(i => Math.Abs(stresses[i])));
+            first += count;
+        }
+        return callouts;
+    }
+
+    /// <summary>The number of bars of each layer, -1 for a number not valid.</summary>
+    private static int[] LayerCounts(JsonObject data) =>
+        Layers(data).OfType<JsonObject>().Select(l => J.Number(l["n"]) is double n && n >= 0 && n == Math.Floor(n) ? (int)n : -1).ToArray();
+
+    /// <summary>The label of the stress of a bar called out on the section: σs with its sign (negative in compression).</summary>
+    public static string StressCalloutText(double stress) => $"σs = {Number(stress)} MPa";
 
     private static JsonArray LayerBars(JsonObject input, JsonArray layers)
     {

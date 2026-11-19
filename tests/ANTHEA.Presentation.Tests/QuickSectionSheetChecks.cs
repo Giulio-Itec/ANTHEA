@@ -125,6 +125,26 @@ internal static class QuickSectionSheetChecks
         expect.That(service.ServiceState?.sigma_cls is double sigma && headlessSigma == sigma, $"σc come il calcolo della sezione in c.a.: {service.ServiceState?.sigma_cls} / {headlessSigma}");
         double? headlessSteel = J.Number(headlessService["tensioni"]?["SLE"]?[serviceId]?["State"]?["sigma_acciaio"]);
         expect.That(service.ServiceState?.sigma_acciaio == headlessSteel && ConcreteQuickSection.Summary(service)?.Ductile is null, "σs come il calcolo della sezione in c.a.; nessun comportamento con il metodo n");
+        // The stresses called out on the drawing (19/11/2026): for each layer the bar with the largest |σs| (bars 1–4 above, 5–10 below), with its sign.
+        var serviceStresses = service.ServiceState!.tensioni_barre;
+        var serviceCallouts = ConcreteQuickSection.StressCallouts(serviceView, ConcreteQuickSection.Geometry(serviceView).Geometry, service.ServiceState);
+        expect.That(serviceCallouts.Count == 2 && serviceCallouts[0] is >= 0 and < 4 && serviceCallouts[1] is >= 4 and < 10
+            && Math.Abs(serviceStresses[serviceCallouts[0]]) == serviceStresses.Take(4).Max(Math.Abs) && Math.Abs(serviceStresses[serviceCallouts[1]]) == serviceStresses.Skip(4).Take(6).Max(Math.Abs)
+            && serviceStresses[serviceCallouts[0]] < 0 && serviceStresses[serviceCallouts[1]] > 0,
+            $"Metodo n: la barra più sollecitata di ogni strato, compressa sopra e tesa sotto ({serviceStresses[serviceCallouts[0]]} / {serviceStresses[serviceCallouts[1]]} MPa)");
+        expect.That(ConcreteQuickSection.StressCalloutText(-77.43) == "σs = -77,43 MPa" && ConcreteQuickSection.StressCalloutText(215.6) == "σs = 215,60 MPa",
+            "Etichetta della tensione: σs con il segno, negativa in compressione: " + ConcreteQuickSection.StressCalloutText(-77.43) + " / " + ConcreteQuickSection.StressCalloutText(215.6));
+        expect.That(ConcreteQuickSection.StressCallouts(serviceView, null, service.ServiceState).Count == 0 && ConcreteQuickSection.StressCallouts(serviceView, ConcreteQuickSection.Geometry(serviceView).Geometry, null).Count == 0,
+            "Senza geometria o senza tensioni nessuna etichetta");
+        var pile = ConcreteQuickSection.Create(); var pileInput = pile["input"]!.AsObject();
+        pileInput["shape"] = ConcreteQuickSection.Circular; pileInput["diameter_mm"] = "800"; pileInput["longitudinal_bar_count"] = "14"; pileInput["longitudinal_bar_diameter_mm"] = "22";
+        ConcreteQuickSection.ApplyLayers(pile); Act(pile, "-1100", "300");
+        ConcreteQuickSection.SetCombinationState(pile, ConcreteQuickSection.Combinations(pile)[0].S("id"), "SLE");
+        var pileState = ConcreteQuickSection.Calculate(pile).ServiceState!;
+        var pileCallouts = ConcreteQuickSection.StressCallouts(pile, ConcreteQuickSection.Geometry(pile).Geometry, pileState);
+        expect.That(pileCallouts.Count == 2 && pileState.tensioni_barre[pileCallouts[0]] == pileState.tensioni_barre.Take(14).Min() && pileState.tensioni_barre[pileCallouts[1]] == pileState.tensioni_barre.Take(14).Max()
+            && pileState.tensioni_barre[pileCallouts[0]] < 0 && pileState.tensioni_barre[pileCallouts[1]] > 0,
+            $"Sezione circolare: la barra più compressa e la più tesa ({pileState.tensioni_barre[pileCallouts[0]]} / {pileState.tensioni_barre[pileCallouts[1]]} MPa)");
         // The creep (18/11/2026): φ written where the RC section reads it; the stresses as the RC section with the same φ, n = Es/Ecm (1 + φ).
         expect.That(ConcreteQuickSection.Creep(serviceView) == "0" && service.Creep == 0 && service.EffectiveRatio is double shortTerm && Math.Abs(shortTerm - service.Preview.N) < 1e-9,
             "φ = 0: n uguale a Es/Ecm");
@@ -188,6 +208,7 @@ internal static class QuickSectionSheetChecks
         await sheet.PendingCalculation;
         expect.That(sheet.HasResults && sheet.ResultValues.Any(v => v.Label == "Mx,Ed" && v.Value.StartsWith("400", StringComparison.Ordinal)) && sheet.IsDuctile == true
             && sheet.CombinationRows[0].Ratio.Length > 0 && sheet.CombinationRows[0].Passed == true, "Ricalcolo automatico dopo la modifica: η nella riga, comportamento duttile");
+        expect.That(sheet.StressCallouts.Count == 0, "SLU: nessuna tensione delle barre nel disegno");
         sheet.AddCombinationCommand.Execute(null);
         expect.That(sheet.CombinationRows.Count == 2 && sheet.CombinationRows[1].IsSelected && !sheet.CombinationRows[0].IsSelected, "«+ Aggiungi combinazione»: Combo 2 selezionata");
         sheet.CombinationRows[1].N = "-500"; sheet.CombinationRows[1].Mx = "900"; await sheet.PendingCalculation;
@@ -257,6 +278,9 @@ internal static class QuickSectionSheetChecks
         await sheet.PendingCalculation;
         sheet.Method = "Metodo n"; await sheet.PendingCalculation;
         expect.That(sheet.IsServiceMethod && sheet.ResultValues.Any(v => v.Label == "σc") && sheet.SectionStress is not null && sheet.IsDuctile is null, "Metodo n: tensioni del motore");
+        expect.That(sheet.StressCallouts.Count == sheet.LayerRows.Count && sheet.SectionStress is { } drawn
+            && sheet.StressCallouts.All(c => c.Text == ConcreteQuickSection.StressCalloutText(drawn.tensioni_barre[c.Bar]) && c.Compression == drawn.tensioni_barre[c.Bar] < 0),
+            "Metodo n: nel disegno una tensione per strato, con il valore del motore: " + string.Join(" · ", sheet.StressCallouts.Select(c => c.Text)));
         int edits = modified;
         sheet.Display = "Sezione";
         expect.That(sheet.ShowsSection && modified == edits, "Area di disegno sulla sezione: stato della vista, senza modifiche");
