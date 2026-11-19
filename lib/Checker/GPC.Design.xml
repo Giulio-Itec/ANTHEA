@@ -353,6 +353,101 @@
             layout dimensions are mm. Each factory call transfers a new, exclusive section/solver to the search.
             Geometrical ordering is PileReinforcement.Layouts; no assumption of monotone resistance is made.</summary>
         </member>
+        <member name="T:GPC.Design.Sections.ConcreteFreeBar">
+            <summary>A longitudinal bar of a free section: centre (<paramref name="X"/>, <paramref name="Y"/>) and <paramref name="Diameter"/> in mm,
+            in the coordinates of the drawing.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteFreeBar.#ctor(System.Double,System.Double,System.Double)">
+            <summary>A longitudinal bar of a free section: centre (<paramref name="X"/>, <paramref name="Y"/>) and <paramref name="Diameter"/> in mm,
+            in the coordinates of the drawing.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.ConcreteFreeSectionInput">
+            <summary>
+            A concrete section of any shape read from a drawing (DXF/DWG by the application). All lengths in mm, in the coordinates of the drawing.
+            Each polygon is a list of vertices in order, in either direction (clockwise or counterclockwise: the library normalizes it), closed by
+            the side from the last vertex to the first; the first vertex may be repeated at the end. Arcs arrive already split into segments.
+            </summary>
+            <param name="Outline">The outer boundary of the concrete: at least 3 vertices, a simple polygon.</param>
+            <param name="Holes">The holes, each strictly inside the outline and apart from the others; empty (or null) for none.</param>
+            <param name="Bars">The longitudinal bars, 1 to 2000, each wholly in the concrete.</param>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteFreeSectionInput.#ctor(System.Collections.Generic.IReadOnlyList{GPC.Geometry.Point2d},System.Collections.Generic.IReadOnlyList{System.Collections.Generic.IReadOnlyList{GPC.Geometry.Point2d}},System.Collections.Generic.IReadOnlyList{GPC.Design.Sections.ConcreteFreeBar})">
+            <summary>
+            A concrete section of any shape read from a drawing (DXF/DWG by the application). All lengths in mm, in the coordinates of the drawing.
+            Each polygon is a list of vertices in order, in either direction (clockwise or counterclockwise: the library normalizes it), closed by
+            the side from the last vertex to the first; the first vertex may be repeated at the end. Arcs arrive already split into segments.
+            </summary>
+            <param name="Outline">The outer boundary of the concrete: at least 3 vertices, a simple polygon.</param>
+            <param name="Holes">The holes, each strictly inside the outline and apart from the others; empty (or null) for none.</param>
+            <param name="Bars">The longitudinal bars, 1 to 2000, each wholly in the concrete.</param>
+        </member>
+        <member name="P:GPC.Design.Sections.ConcreteFreeSectionInput.Outline">
+            <summary>The outer boundary of the concrete: at least 3 vertices, a simple polygon.</summary>
+        </member>
+        <member name="P:GPC.Design.Sections.ConcreteFreeSectionInput.Holes">
+            <summary>The holes, each strictly inside the outline and apart from the others; empty (or null) for none.</summary>
+        </member>
+        <member name="P:GPC.Design.Sections.ConcreteFreeSectionInput.Bars">
+            <summary>The longitudinal bars, 1 to 2000, each wholly in the concrete.</summary>
+        </member>
+        <member name="T:GPC.Design.Sections.ConcreteSectionTemplates">
+            <summary>
+            Constructive layouts, not reinforcement design or certification of anchorage/bend radii.
+            New templates have their own path: established section meshes and their builders are untouched.
+            Shapes are centred on the concrete centroid; bars and transverse paths share that origin.
+            </summary>
+        </member>
+        <member name="F:GPC.Design.Sections.ConcreteSectionTemplates.FreeSectionMaximumVertices">
+            <summary>Most vertices of one polygon (outline or hole).</summary>
+        </member>
+        <member name="F:GPC.Design.Sections.ConcreteSectionTemplates.FreeSectionMaximumBars">
+            <summary>Most bars of a free section, as for the templates.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.CreateFree(GPC.Design.Sections.ConcreteFreeSectionInput)">
+            <summary>
+            The geometry of a free section, in the format of the templates (<see cref="M:GPC.Design.Sections.ConcreteSectionTemplates.Create(GPC.Design.Sections.ConcreteTemplateInput)"/>), for the same use by the application:
+            <list type="bullet">
+            <item>coordinates centred on the concrete centroid, as the templates; <see cref="P:GPC.Design.Sections.ConcreteTemplateGeometry.InputCentroid"/> is that
+            centroid in the coordinates of the drawing (returned point = input point − InputCentroid);</item>
+            <item><see cref="P:GPC.Design.Sections.ConcreteTemplateGeometry.Shape"/>: outline counterclockwise (positive area) and holes in the same direction, as
+            <see cref="T:GPC.Geometry.Shape2d"/> keeps them, each starting from its first vertex of the input; the vertices are those given, moved;</item>
+            <item>bars in the order given, with area π Ø² / 4; no links (empty list), no column bar path;</item>
+            <item>fibres: the same 48 × 48 sampling of the templates (stress maps only); the DelaunayMesh mesh for equilibrium is generated by
+            GPCModel from the shape (ReinforcedConcreteSection), as for the templates;</item>
+            <item><see cref="P:GPC.Design.Sections.ConcreteTemplateGeometry.Area"/> the net area; Width and Height those of the bounding box of the outline.</item>
+            </list>
+            Checks, with a message in Italian for the user: polygons with at least 3 vertices, finite coordinates, no side of zero length, no
+            self-intersection or self-contact, non-zero area; holes strictly inside the outline, not touching it, not overlapping or touching each
+            other; positive net area; 1 to 2000 bars with finite coordinates and positive diameter, each wholly in the concrete (neither outside the
+            outline nor in a hole nor across their sides: the rule of the application, cover ≥ −1e-8 mm) and not overlapping another bar
+            (centre distance greater than the sum of the radii). The length tolerance is <see cref="F:GPC.Geometry.GeometryBase.Tolerance"/> (1e-4 mm).
+            </summary>
+            <exception cref="T:System.ArgumentNullException">If <paramref name="input"/> is null.</exception>
+            <exception cref="T:System.ArgumentException">If a datum is not valid, with the reason in the message; no partial geometry is returned.</exception>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.FreePolygon(System.Collections.Generic.IReadOnlyList{GPC.Geometry.Point2d},System.String)">
+            <summary>The vertices copied in the order of the input, without the repeated closing vertex.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.Counterclockwise(GPC.Geometry.Point2d[],System.String)">
+            <summary>A simple polygon counterclockwise (positive area), keeping its first vertex.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.CheckFreeRegion(GPC.Geometry.Point2d[],System.Collections.Generic.IReadOnlyList{GPC.Geometry.Point2d[]})">
+            <summary>Polygon 0 is the outline, k ≥ 1 the hole k. Sides are numbered from 1: side i goes from vertex i to vertex i + 1.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.SegmentDistance(GPC.Geometry.Point2d,GPC.Geometry.Point2d,GPC.Geometry.Point2d,GPC.Geometry.Point2d)">
+            <summary>Distance between the segments AB and CD: zero when they cross.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.FreeBars(System.Collections.Generic.IReadOnlyList{GPC.Design.Sections.ConcreteFreeBar},GPC.Geometry.Shape2d,GPC.Geometry.Point2d)">
+            <summary>The bars moved to the centroid. Checked on the returned coordinates with the rules of the application on the same data.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.Centred(GPC.Geometry.Shape2d,System.Double@,GPC.Geometry.Point2d@)">
+            <summary>The shape moved to its concrete centroid (weighted polygon centroid, also for cavities): <paramref name="area"/> is the net
+            area, <paramref name="center"/> the centroid in the coordinates of <paramref name="shape"/>. Shared by templates and free sections.</summary>
+        </member>
+        <member name="M:GPC.Design.Sections.ConcreteSectionTemplates.SampleFibers(GPC.Geometry.Shape2d,System.Double@,System.Double@)">
+            <summary>Sampling for stress maps only: the centres of the 48 × 48 cells of the bounding box of the outline that fall in the concrete,
+            each with the cell area. Equilibrium and stiffness continue using the native GPC mesh. Shared by templates and free sections.</summary>
+        </member>
         <member name="T:GPC.Design.Sections.ConcreteTemplateInput">
             <summary>Lengths in mm. Cover is measured to the outside of the transverse reinforcement.
             PerimeterSpacing is an upper bound for centre spacing; radial layouts use the assigned counts.</summary>
@@ -368,12 +463,9 @@
             <summary>Closed path of bar centres for column spacing; absent for other templates.
             Curved portions follow the discretized offset contour; straight portions join their bars.</summary>
         </member>
-        <member name="T:GPC.Design.Sections.ConcreteSectionTemplates">
-            <summary>
-            Constructive layouts, not reinforcement design or certification of anchorage/bend radii.
-            New templates have their own path: established section meshes and their builders are untouched.
-            Shapes are centred on the concrete centroid; bars and transverse paths share that origin.
-            </summary>
+        <member name="P:GPC.Design.Sections.ConcreteTemplateGeometry.InputCentroid">
+            <summary>Free sections (<see cref="M:GPC.Design.Sections.ConcreteSectionTemplates.CreateFree(GPC.Design.Sections.ConcreteFreeSectionInput)"/>) only: the concrete centroid in the coordinates of the
+            input (mm), origin of every returned coordinate (returned point = input point − InputCentroid). Null for the templates.</summary>
         </member>
         <member name="T:GPC.Design.Sections.DesignActionFamily">
             <summary>Family of an action row: ultimate, seismic and shear rows are design values, the others serviceability values.</summary>

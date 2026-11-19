@@ -1,5 +1,27 @@
 # DLL Checker
 
+**Release BB — librerie della sezione in c.a. di forma libera, sul main di Giulio (19 novembre 2026).** Set ufficiale `gpc-release-20261119-bb`
+(`gpc-f6-claude/F7/sets/gpc-release-20261119-bb`, `release-set.json` SHA-256 `9ECF0A55785488AD030FB907FC58E76AE7961075F99B71EF328E866E3405E2D9`),
+prodotto da `Checker/build/Release-Set.ps1 -Previous` (set ufficiale BA, `77DAE25D…`) su Model `55c15ed5` e Checker `46960c89`, pubblicati su
+origin/master (Checker il 19/11); Geometry `6734eee1` e Utilities `e57b440b` invariati. `candidate: false`, sorgenti su origin/master, `dotnetSdk`
+9.0.321. Su main si passa direttamente da AZ a BB: il set BA è stato installato solo sul candidato 1.19.5 (`claude/1195-candidata`, non su main) e
+BB ne riprende tutte le DLL di Model, Geometry e Utilities con gli stessi byte. Rispetto ad AZ:
+- dal set BA (opzione B delle sezioni aperte, approvata dall'utente il 18/11): GPCModel **5.54.0.0** con J e centro di taglio di `SectionT`,
+  `SectionC` e `SectionL` calcolati con gli elementi finiti al primo accesso (disponibilità `Numerical`; le formule a parete sottile restano per i
+  contorni degeneri), coppie 2C e 2L come somma delle parti, centro di taglio di `SectionBuiltUp` pesato con le inerzie delle parti, C senza ali
+  oltre l'anima come il rettangolo dell'anima; J e centro di taglio non si salvano negli archivi. GPCModelData **0.4.0.0**, GPC.Converter
+  **2.27.0.1**, GPC.Model.Persistence **3.17.0.1**, GPC.Archive **1.2.0.10**. Fra net472 e net8 la J numerica dei contorni con raccordi può
+  differire di circa 1e-11 in relativo;
+- GPC.Design **0.48.0.0**: sezione in c.a. di forma libera letta da un disegno, `ConcreteSectionTemplates.CreateFree(ConcreteFreeSectionInput)`
+  con `ConcreteFreeBar` e `ConcreteTemplateGeometry.InputCentroid`, che restituisce la stessa `ConcreteTemplateGeometry` delle forme modello
+  (funzione nuova, non ancora usata da ANTHEA). Mesh DelaunayMesh e risultati delle sezioni usuali e delle forme modello identici bit per bit
+  (prova congelata `ConcreteSectionMeshIdentityChecks` di Design.Checks);
+- Concrete **0.39.0.3**, Steel **2.136.0.3**, Geotechnics **0.30.0.3**, CompositeBridge **1.31.0.11**, Masonry **0.10.0.45** ricompilate senza
+  sorgenti cambiati (ultimo componente).
+Suite del set: 14 con 0 falliti, nativi Straus7 compresi (UnitTest 2025/0/7 come BA); API: GPCModel +9 firme (BA) e GPC.Design +37, nessuna
+rimozione. Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; registrazione F4 (`tests/fixtures/f4/library-release.json`) aggiornata
+alla release BB, con `previous_manifest_sha256` invariato. Nessuna baseline, fixture numerica o cattura rigenerata.
+
 **Release AZ — librerie della 1.19.4 (18 novembre 2026).** Set ufficiale `gpc-release-20261118-az`
 (`gpc-f6-claude/F7/sets/gpc-release-20261118-az`, `release-set.json` SHA-256 `27839D25151D047512DE8F237FBEC3A181411746A00424A5618A45753D27F698`),
 prodotto da `Checker/build/Release-Set.ps1 -Previous` (set ufficiale AY) su Model `a3406225` e Checker `5723a084`, pubblicati su origin/master il
