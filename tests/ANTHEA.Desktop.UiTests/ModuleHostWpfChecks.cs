@@ -153,6 +153,7 @@ internal static class ModuleHostWpfChecks
                 Check(!sheet.ShowsSection && sheet.ShowsDomain, "Verifica rapida: l'area di disegno mostra il dominio");
                 Png("verifica-rapida-sezione-ca-dominio.png");
                 QuickSectionReportWpfChecks.Run(directory, Check);
+                ModuleIconWpfChecks.Run(directory, Check);
             }
             finally { window.Close(); }
         }

@@ -94,6 +94,8 @@ internal static class Ui
         if (module is "mat_calcestruzzo" or "geo_micropalo_orizzontale")
             return new Image { Source = Asset(module + ".png"), Width = 80, Height = 80, Stretch = Stretch.Uniform };
         if (module == "str_palo") return new SectionIcon { Width = 80, Height = 80 };
+        // 19/11/2026: the modules that showed the tile of the vertical pile have their own icon.
+        if (ModuleGlyphIcon.Supports(module)) return new ModuleGlyphIcon { Module = module, Width = 80, Height = 80 };
         var (x, y) = module switch { "geo_palo_orizzontale" => (1, 0), "geo_micropalo_verticale" => (2, 0), "geo_micropalo_orizzontale" => (0, 1), "str_micropalo" => (2, 1), _ => (0, 0) };
         return new Image { Source = new CroppedBitmap(Asset("moduli.png"), new Int32Rect(x * 160, y * 160, 160, 160)), Width = 80, Height = 80 };
     }
