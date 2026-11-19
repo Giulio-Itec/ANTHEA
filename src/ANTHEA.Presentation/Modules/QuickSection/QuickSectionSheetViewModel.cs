@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.Input;
 namespace Anthea.Presentation.Modules.QuickSection;
 
 /// <summary>A row of the table of the rings of the circular section: the switch of the second ring, number, diameter and clear distance (null when the row has none).</summary>
-public sealed record QuickBarRow(string Title, FieldViewModel? Enabled, FieldViewModel Count, FieldViewModel Diameter, FieldViewModel? Gap);
+public sealed record QuickBarRow(string Title, FieldViewModel? Enabled, FieldViewModel Count, FieldViewModel Diameter, FieldViewModel? Gap, FieldViewModel? Link = null);
 
 /// <summary>
 /// A combination of the quick section (17/11/2026): name, N, Mx, My as texts of the document, the ratio of the engine for the method chosen (η, or
@@ -376,6 +376,15 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The rings of the circular section (ring, second ring).</summary>
     public IReadOnlyList<QuickBarRow> BarRows { get; private set; } = [];
 
+    /// <summary>The help of the column of the link of the second ring (19/11/2026).</summary>
+    public string SecondRingLinkHelp => ConcreteQuickSection.SecondRingLinkHelp;
+
+    /// <summary>
+    /// The diameter of the link of the second ring drawn on the section [mm] (19/11/2026), 0 without the second ring or with a value that is not a
+    /// positive number.
+    /// </summary>
+    public double SecondRingLinkDiameter => ConcreteQuickSection.SecondRingLinkDiameter(Data);
+
     /// <summary>The layers of bars of the rectangular and flanged sections.</summary>
     public IReadOnlyList<QuickLayerRow> LayerRows { get; private set; } = [];
 
@@ -435,11 +444,12 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             BarsForm = Form(Input, shape == ConcreteQuickSection.Circular
                 ? [BarCount("longitudinal_bar_count", "Barre sull'anello"), BarDiameter("longitudinal_bar_diameter_mm", "Diametro delle barre"),
                     B("second_inner_enabled", "Secondo anello"), BarCount("second_inner_count", "Barre del secondo anello"), BarDiameter("second_inner_diameter", "Diametro del secondo anello"),
-                    T("second_inner_gap", "s", "mm", "Distanza libera fra gli anelli")]
+                    new(ConcreteQuickSection.SecondRingLinkKey, "Ø st.", "mm", ToolTip: ConcreteQuickSection.SecondRingLinkHelp, Source: ConcreteQuickSection.View(Data))]
                 : [], InputEdited);
             BarRows = shape == ConcreteQuickSection.Circular
                 ? [new("Anello", null, BarsForm["longitudinal_bar_count"], BarsForm["longitudinal_bar_diameter_mm"], null),
-                    new("2° anello", BarsForm["second_inner_enabled"], BarsForm["second_inner_count"], BarsForm["second_inner_diameter"], BarsForm["second_inner_gap"])]
+                    new("2° anello", BarsForm["second_inner_enabled"], BarsForm["second_inner_count"], BarsForm["second_inner_diameter"], null,
+                        BarsForm[ConcreteQuickSection.SecondRingLinkKey])]
                 : [];
             BuildLayers();
             MaterialsForm = Form(Input, [new("classe_cls", "Classe", Choices: ConcreteQuickSection.MaterialChoices(Data, "classe_cls"), ToolTip: "Classe del calcestruzzo"),
@@ -633,7 +643,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             foreach (string value in ConcreteQuickSection.MaterialKeys(Data, key)) MaterialsForm.Set(value, Input.S(value), true);
         }
         else if (ConcreteQuickSection.MarkCustomMaterial(Data, key) is { } classKey) MaterialsForm.Set(classKey, Input.S(classKey), true);
-        // The bars of the layers depend on the dimensions, the cover and the links.
+        // The bars of the layers depend on the dimensions, the cover and the links; the second ring on its link (19/11/2026).
         ConcreteQuickSection.ApplyLayers(Data);
         Changed();
         RefreshDrawing();
@@ -677,7 +687,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         (section, drawingMessage) = ConcreteQuickSection.Geometry(Data);
         layerAreas = ConcreteQuickSection.LayerAreas(Data, section);
         foreach (var row in LayerRows) row.RefreshArea();
-        OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress)); OnPropertyChanged(nameof(StressCallouts));
+        OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress)); OnPropertyChanged(nameof(StressCallouts)); OnPropertyChanged(nameof(SecondRingLinkDiameter));
     }
 
     // ---------------------------------------------------------------- results

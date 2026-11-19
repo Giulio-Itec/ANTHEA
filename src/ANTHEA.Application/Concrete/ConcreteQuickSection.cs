@@ -152,6 +152,36 @@ public static class ConcreteQuickSection
     /// <summary>The key of the layers of bars in the choices of the view.</summary>
     public const string LayersKey = "strati";
 
+    /// <summary>
+    /// The key of the diameter of the link of the second ring of the circular section in the choices of the view (19/11/2026): the link that holds
+    /// the second ring in place.
+    /// </summary>
+    public const string SecondRingLinkKey = "staffa_anello_2";
+
+    /// <summary>
+    /// The diameter of the link of the second ring [mm], as typed. The link rests on the inner side of the bars of the first ring and the bars of the
+    /// second ring rest inside it, so the clear distance of the rings that the RC section reads (<c>second_inner_gap</c>, s) is the diameter of the
+    /// link: r₂ = r₁ − Ø₁/2 − Ø link − Ø₂/2. A sheet saved before has no link: its s is read as the link, so that the bars do not move.
+    /// </summary>
+    public static string SecondRingLink(JsonObject data)
+    {
+        ArgumentNullException.ThrowIfNull(data);
+        return data[ViewKey]?[SecondRingLinkKey]?.ToString() is { Length: > 0 } link ? link : data["input"].S("second_inner_gap");
+    }
+
+    /// <summary>
+    /// The link of the second ring to draw, on the sheet and in the figures of the report [mm]: 0 without the second ring of a circular section or
+    /// with a value that is not a positive number.
+    /// </summary>
+    public static double SecondRingLinkDiameter(JsonObject data) =>
+        data["input"] is JsonObject input && input.S("shape") == Circular && input.B("second_inner_enabled")
+        && J.Number(JsonValue.Create(SecondRingLink(data))) is double link && link > 0 ? link : 0;
+
+    /// <summary>The help of the link of the second ring and of s.</summary>
+    public const string SecondRingLinkHelp = "Diametro della staffa del secondo anello: la staffa appoggia all'interno delle barre del primo anello e le barre del secondo anello "
+        + "appoggiano al suo interno: la distanza libera fra gli anelli è il diametro di questa staffa. Serve solo a posizionare l'anello.";
+
+
     /// <summary>The explanation of the cover, for its «?».</summary>
     public const string CoverHelpTitle = "Copriferro c";
     public const string CoverHelp = "c è il copriferro netto della staffa: la distanza dal bordo della sezione alla faccia esterna della staffa.\n\n"
@@ -184,7 +214,9 @@ public static class ConcreteQuickSection
         {
             ["titolo"] = "", ["metodo"] = Methods[0], ["flessione"] = Bendings[0], ["grafico"] = Charts[0],
             [LayersKey] = new JsonArray(Layer(LayerPositions[0], input.S("top_bar_count"), input.S("top_bar_diameter_mm")),
-                Layer(LayerPositions[1], input.S("bottom_bar_count"), input.S("bottom_bar_diameter_mm")))
+                Layer(LayerPositions[1], input.S("bottom_bar_count"), input.S("bottom_bar_diameter_mm"))),
+            // 19/11/2026: the link of the second ring, as the links of the section; s follows it.
+            [SecondRingLinkKey] = input.S("transverse_bar_diameter_mm")
         };
         View(data)[SelectedKey] = Combinations(data)[0].S("id");
         ApplyLayers(data);
@@ -223,6 +255,8 @@ public static class ConcreteQuickSection
             throw new ArgumentException("Impostazioni delle combinazioni della verifica rapida non valide.");
         if (view[OrderKey] is { } order && (order is not JsonArray ids || ids.Any(i => i is not JsonValue)))
             throw new ArgumentException("Ordine delle combinazioni della verifica rapida non valido.");
+        if (view[SecondRingLinkKey] is { } link && link is not JsonValue)
+            throw new ArgumentException("Staffa del secondo anello della verifica rapida non valida.");
     }
 
     /// <summary>The choices of the view of <paramref name="data"/>.</summary>
@@ -573,7 +607,13 @@ public static class ConcreteQuickSection
     public static string? ApplyLayers(JsonObject data)
     {
         var input = data["input"]!.AsObject();
-        if (input.S("shape") == Circular) { input.Remove("barre_manuali"); return null; }
+        if (input.S("shape") == Circular)
+        {
+            input.Remove("barre_manuali");
+            // 19/11/2026: the clear distance of the rings from the link of the second ring (SecondRingLink).
+            input["second_inner_gap"] = SecondRingLink(data);
+            return null;
+        }
         try { input["barre_manuali"] = LayerBars(input, Layers(data)); return null; }
         catch (ArgumentException failure) { input["barre_manuali"] = new JsonArray(); return failure.Message; }
     }

@@ -221,6 +221,17 @@ internal static class ShellDraftChecks
                     await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);
                     Check(quickSheet.CombinationRows.Count == 2 && quickSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Verifica rapida: due combinazioni con η");
+                    // «Centra sezione» (19/11/2026): after a zoom the section comes back as at the opening.
+                    var drawing = quickView.Drawing;
+                    byte[] before = Ui.Snapshot(drawing);
+                    for (int turn = 0; turn < 4; turn++)
+                        drawing.RaiseEvent(new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120) { RoutedEvent = UIElement.MouseWheelEvent });
+                    await Idle(main);
+                    byte[] zoomed = Ui.Snapshot(drawing);
+                    var centerButton = (Button)quickView.FindName("CenterSection");
+                    centerButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    await Idle(main);
+                    Check(centerButton.IsVisible && !before.SequenceEqual(zoomed) && Ui.Snapshot(drawing).SequenceEqual(before), "Verifica rapida: «Centra sezione» riporta la sezione al centro dopo lo zoom");
                 }
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
                 if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel biaxial)
@@ -263,10 +274,15 @@ internal static class ShellDraftChecks
                     await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
                     // The circular section with the method n (19/11/2026): the most compressed bar and the most tensioned one, then back to the rectangle.
                     biaxial.Shape = Anthea.Application.Concrete.ConcreteQuickSection.Circular;
+                    // 19/11/2026: the second ring with its link (Ø st.), s calculated and the link drawn between the rings.
+                    biaxial.BarRows[1].Enabled!.IsChecked = true;
                     await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);
+                    Check(biaxial.SecondRingLinkDiameter > 0 && biaxial.Data["input"]!["second_inner_gap"]!.ToString() == biaxial.BarRows[1].Link!.Text,
+                        "Verifica rapida circolare: secondo anello con la sua staffa, il motore la usa come distanza fra gli anelli (" + biaxial.BarRows[1].Link!.Text + " mm)");
                     Check(biaxial.StressCallouts.Count == 2 && biaxial.StressCallouts.Count(c => c.Compression) == 1, "Verifica rapida circolare, metodo n: la barra più compressa e la più tesa");
                     await Capture(quickWindow.Window, output, "08f-verifica-rapida-circolare-tensioni.png", bindings);
+                    biaxial.BarRows[1].Enabled!.IsChecked = false;
                     biaxial.Shape = Anthea.Application.Concrete.ConcreteQuickSection.Rectangular;
                     await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);

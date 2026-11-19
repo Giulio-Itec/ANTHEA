@@ -145,6 +145,24 @@ internal static class QuickSectionSheetChecks
         expect.That(pileCallouts.Count == 2 && pileState.tensioni_barre[pileCallouts[0]] == pileState.tensioni_barre.Take(14).Min() && pileState.tensioni_barre[pileCallouts[1]] == pileState.tensioni_barre.Take(14).Max()
             && pileState.tensioni_barre[pileCallouts[0]] < 0 && pileState.tensioni_barre[pileCallouts[1]] > 0,
             $"Sezione circolare: la barra più compressa e la più tesa ({pileState.tensioni_barre[pileCallouts[0]]} / {pileState.tensioni_barre[pileCallouts[1]]} MPa)");
+
+        // The link of the second ring (19/11/2026): s = Ø of the link, the second ring at r₂ = r₁ − Ø₁/2 − Ø link − Ø₂/2 (by hand: 22/2 + 12 + 16/2 = 31 mm inside).
+        var rings = (JsonObject)pile.DeepClone(); var ringsInput = rings["input"]!.AsObject();
+        ringsInput["second_inner_enabled"] = true; ringsInput["second_inner_count"] = "10"; ringsInput["second_inner_diameter"] = "16";
+        ConcreteQuickSection.View(rings)[ConcreteQuickSection.SecondRingLinkKey] = "12"; ConcreteQuickSection.ApplyLayers(rings);
+        var ringBars = ConcreteQuickSection.Geometry(rings).Geometry!.Bars.Select(b => (R: Math.Sqrt(b.X * b.X + b.Y * b.Y), b.Diametro)).ToArray();
+        double r1 = ringBars.Take(14).Average(b => b.R), r2 = ringBars.Skip(14).Average(b => b.R);
+        expect.That(ringsInput.S("second_inner_gap") == "12" && ringBars.Length == 24 && Math.Abs(r1 - r2 - 31) < 1e-6 && ConcreteQuickSection.SecondRingLinkDiameter(rings) == 12,
+            $"Staffa del secondo anello Ø12: s = 12 mm, secondo anello 31 mm più interno ({r1:0.##} − {r2:0.##} mm)");
+        var older = (JsonObject)rings.DeepClone(); ConcreteQuickSection.View(older).Remove(ConcreteQuickSection.SecondRingLinkKey); older["input"]!["second_inner_gap"] = "40";
+        ConcreteQuickSection.Validate(older); ConcreteQuickSection.ApplyLayers(older);
+        expect.That(ConcreteQuickSection.SecondRingLink(older) == "40" && older["input"].S("second_inner_gap") == "40", "Foglio salvato prima, senza staffa del secondo anello: s letta come staffa, barre ferme");
+        var ringsOff = (JsonObject)rings.DeepClone(); ringsOff["input"]!["second_inner_enabled"] = false;
+        expect.That(ConcreteQuickSection.SecondRingLinkDiameter(ringsOff) == 0 && ConcreteQuickSection.SecondRingLinkDiameter(ConcreteQuickSection.Create()) == 0,
+            "Nessuna staffa del secondo anello da disegnare senza secondo anello o nella sezione rettangolare");
+        var ringsReport = ConcreteQuickReportAnalysis.Create(rings).Report;
+        expect.That(ringsReport.Geometry.Any(v => v.Label == "Diametro staffa del secondo anello" && v.Value == "12")
+            && !ringsReport.Geometry.Any(v => v.Label.Contains("Distanza libera", StringComparison.Ordinal)), "Report: la staffa del secondo anello, senza s (19/11/2026: non serve)");
         // The creep (18/11/2026): φ written where the RC section reads it; the stresses as the RC section with the same φ, n = Es/Ecm (1 + φ).
         expect.That(ConcreteQuickSection.Creep(serviceView) == "0" && service.Creep == 0 && service.EffectiveRatio is double shortTerm && Math.Abs(shortTerm - service.Preview.N) < 1e-9,
             "φ = 0: n uguale a Es/Ecm");
@@ -290,6 +308,15 @@ internal static class QuickSectionSheetChecks
         sheet.Shape = "Circolare"; await sheet.PendingCalculation;
         expect.That(sheet.GeometryForm.Fields.Any(f => f.Key == "diameter_mm") && sheet.BarsForm.Fields.Any(f => f.Key == "longitudinal_bar_count") && sheet.LayerRows.Count == 0
             && sheet.Data["input"]!["barre_manuali"] is null && sheet.HasResults && sheet.Section?.Shape == "Circolare", "Sezione circolare: anello del motore, senza strati");
+        // The link of the second ring in the table (19/11/2026): «Ø st.» typed, s calculated and read-only.
+        expect.That(sheet.BarRows[0].Link is null && sheet.BarRows[1].Link is { Key: ConcreteQuickSection.SecondRingLinkKey } && sheet.BarRows.All(r => r.Gap is null)
+            && !sheet.BarsForm.Fields.Any(f => f.Key == "second_inner_gap") && sheet.SecondRingLinkDiameter == 0,
+            "Secondo anello: colonna «Ø st.», niente colonna s (calcolata dal motore), nessuna staffa disegnata se spento");
+        sheet.BarRows[1].Enabled!.IsChecked = true; sheet.BarsForm.Set(ConcreteQuickSection.SecondRingLinkKey, "14"); await sheet.PendingCalculation;
+        expect.That(ConcreteQuickSection.View(sheet.Data).S(ConcreteQuickSection.SecondRingLinkKey) == "14" && sheet.Data["input"].S("second_inner_gap") == "14"
+            && sheet.SecondRingLinkDiameter == 14 && sheet.HasResults && sheet.Section?.Bars.Count > 14,
+            "Ø st. = 14: s = 14 mm nel documento per il motore, staffa disegnata, sezione calcolata");
+        sheet.BarRows[1].Enabled!.IsChecked = false; await sheet.PendingCalculation;
         // The shapes (18/11/2026): rectangular, circular, DXF shown off; the flanged section no longer offered.
         expect.That(sheet.ShapeChoices.Select(c => c.Name).SequenceEqual(["Rettangolare", "Circolare", "DXF"]) && sheet.ShapeChoices.Select(c => c.Available).SequenceEqual([true, true, false])
             && sheet.ShapeChoices[2].Note.Length > 0 && sheet.ShapeChoices[2].ToString() == "DXF" && !sheet.Shapes.Contains("A T"), "Forme: Rettangolare, Circolare, DXF spento; niente sezione a T");

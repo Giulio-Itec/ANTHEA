@@ -38,6 +38,14 @@ internal static class QuickSectionReportWpfChecks
             ReportFiles.Write(path, word, "Sezione rettangolare 40 × 60 cm", maximumPages: brief ? ReportFiles.ShortReportPages : null);
             check(File.Exists(path) && File.Exists(ReportFiles.PdfPath(path)), "Relazione sezione rapida: Word e PDF " + (brief ? "breve entro due pagine" : "completi"));
         }
+        // 19/11/2026: a circular section with the second ring and its link, as the figure of the report draws it.
+        var pile = ConcreteQuickSection.Create(); var pileInput = pile["input"]!.AsObject();
+        pileInput["shape"] = ConcreteQuickSection.Circular; pileInput["diameter_mm"] = "1000"; pileInput["longitudinal_bar_count"] = "16"; pileInput["longitudinal_bar_diameter_mm"] = "24";
+        pileInput["second_inner_enabled"] = true; pileInput["second_inner_count"] = "10"; pileInput["second_inner_diameter"] = "20";
+        ConcreteQuickSection.View(pile)[ConcreteQuickSection.SecondRingLinkKey] = "12"; ConcreteQuickSection.ApplyLayers(pile);
+        var pileFigure = renderer.Render(ConcreteQuickReportAnalysis.Create(pile), new HashSet<string> { QuickSectionReport.Version, "sezione" }).Single(f => f.Category == "sezione");
+        File.WriteAllBytes(Path.Combine(folder, "circolare-secondo-anello.png"), pileFigure.Png);
+        check(pile["input"].S("second_inner_gap") == "12" && pileFigure.Png.Length > 0, "Relazione sezione rapida: sezione circolare con la staffa del secondo anello, s = 12 mm");
         var document = DocumentService.CreateDocument(ConcreteQuickSection.Module); document["dati"] = data;
         DocumentService.Save(Path.Combine(folder, "Sezione-rapida-esempio.anthea"), document);
     }

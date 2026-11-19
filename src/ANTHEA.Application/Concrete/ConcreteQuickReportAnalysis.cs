@@ -64,6 +64,9 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
             new("Altezza", N(geometry.Height), "mm"), new("Area calcestruzzo", N(geometry.AreaCls), "mm²"), new("Area armatura", N(geometry.AreaSteel), "mm²") };
         foreach (var (key, label, unit) in new[] { ("cover_mm", "Copriferro netto della staffa", "mm"), ("transverse_bar_diameter_mm", "Diametro staffa", "mm") })
             if (input[key] is not null) dimensions.Add(new(label, input.S(key), unit));
+        // 19/11/2026: the link of the second ring of the circular section, which places the second ring.
+        if (ConcreteQuickSection.SecondRingLinkDiameter(data) > 0)
+            dimensions.Add(new("Diametro staffa del secondo anello", ConcreteQuickSection.SecondRingLink(data), "mm"));
         var materials = new List<QuickReportValue>();
         foreach (var (key, label, unit) in new[] { ("classe_cls", "Calcestruzzo", ""), ("classe_acciaio", "Acciaio", ""),
             ("fck_mpa", "fck", "MPa"), ("fyk_mpa", "fyk", "MPa"), ("steel_modulus_mpa", "Es", "MPa"),

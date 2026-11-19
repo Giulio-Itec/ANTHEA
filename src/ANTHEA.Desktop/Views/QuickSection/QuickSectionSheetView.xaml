@@ -324,21 +324,21 @@
      <!-- Rings of the circular section. -->
      <StackPanel Visibility="{Binding IsCircular, Converter={StaticResource Visibility}}">
       <Grid>
-       <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="90"/><ColumnDefinition Width="24"/><ColumnDefinition Width="60"/><ColumnDefinition Width="60"/><ColumnDefinition Width="60"/></Grid.ColumnDefinitions>
        <TextBlock Grid.Column="2" Text="n" Style="{StaticResource Caption}"/>
        <TextBlock Grid.Column="3" Text="Ø [mm]" Style="{StaticResource Caption}"/>
-       <TextBlock Grid.Column="4" Text="s [mm]" Style="{StaticResource Caption}" ToolTip="Distanza libera dal primo anello"/>
+       <TextBlock Grid.Column="4" Text="Ø st. [mm]" Style="{StaticResource Caption}" ToolTip="{Binding SecondRingLinkHelp}"/>
       </Grid>
       <ItemsControl ItemsSource="{Binding BarRows}" Focusable="False">
        <ItemsControl.ItemTemplate>
         <DataTemplate>
          <Grid>
-          <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="24"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/><ColumnDefinition Width="70"/></Grid.ColumnDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="90"/><ColumnDefinition Width="24"/><ColumnDefinition Width="60"/><ColumnDefinition Width="60"/><ColumnDefinition Width="60"/></Grid.ColumnDefinitions>
           <TextBlock Text="{Binding Title}"/>
           <ContentControl Grid.Column="1" Content="{Binding Enabled}" Style="{StaticResource Editor}"/>
           <ContentControl Grid.Column="2" Content="{Binding Count}" Style="{StaticResource Editor}"/>
           <ContentControl Grid.Column="3" Content="{Binding Diameter}" Style="{StaticResource Editor}"/>
-          <ContentControl Grid.Column="4" Content="{Binding Gap}" Style="{StaticResource Editor}"/>
+          <ContentControl Grid.Column="4" Content="{Binding Link}" Style="{StaticResource Editor}"/>
          </Grid>
         </DataTemplate>
        </ItemsControl.ItemTemplate>
@@ -518,8 +518,14 @@
    <!-- The drawing area: section, domain or moment–curvature. -->
    <Border Style="{StaticResource Card}" Margin="0">
     <DockPanel>
-     <ListBox DockPanel.Dock="Top" Style="{StaticResource Segmented}" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" Margin="0,0,0,6"
-      ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x" AutomationProperties.Name="Mostra"/>
+     <!-- 19/11/2026: «Centra sezione» brings the section back to the middle of the drawing at its full size (as the double click), after zoom and drags. -->
+     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
+      <Button x:Name="CenterSection" DockPanel.Dock="Right" Content="⌖ Centra sezione" Style="{StaticResource Link}" VerticalAlignment="Center" Click="CenterSection_Click"
+       ToolTip="Riporta la sezione al centro del disegno, alla dimensione intera (come il doppio clic)" AutomationProperties.Name="Centra sezione"
+       Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
+      <ListBox Style="{StaticResource Segmented}" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" HorizontalAlignment="Left"
+       ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x" AutomationProperties.Name="Mostra"/>
+     </DockPanel>
      <Grid>
       <ContentControl x:Name="DrawingHost" Focusable="False" Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
       <ContentControl x:Name="ChartHost" Focusable="False">

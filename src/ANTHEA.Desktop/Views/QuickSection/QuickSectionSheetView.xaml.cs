@@ -37,6 +37,9 @@ public partial class QuickSectionSheetView : UserControl
         if (sender is System.Windows.FrameworkElement { DataContext: Anthea.Presentation.Forms.FieldViewModel field }) field.IsFocused = (bool)e.NewValue;
     }
 
+    /// <summary>«Centra sezione» (19/11/2026): the section in the middle of the drawing at its full size, as the double click on it.</summary>
+    private void CenterSection_Click(object sender, RoutedEventArgs e) => Drawing.ResetView();
+
     /// <summary>The most elements that Enter crosses to find the next box (menus, buttons and boxes not to be written are skipped).</summary>
     private const int EnterSteps = 200;
 
@@ -76,7 +79,7 @@ public partial class QuickSectionSheetView : UserControl
 
     private void OnSheetChanged(object? sender, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.StressCallouts)
+        if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.StressCallouts) or nameof(QuickSectionSheetViewModel.SecondRingLinkDiameter)
             or nameof(QuickSectionSheetViewModel.DrawingMessage))
             DrawSection();
         if (e.PropertyName is nameof(QuickSectionSheetViewModel.DomainGeometry) or nameof(QuickSectionSheetViewModel.DomainActions)
@@ -93,6 +96,7 @@ public partial class QuickSectionSheetView : UserControl
         Drawing.Section = sheet.Section;
         Drawing.Stress = sheet.SectionStress;
         Drawing.Callouts = sheet.StressCallouts;
+        Drawing.InnerLinkDiameter = sheet.SecondRingLinkDiameter;
         Drawing.Stirrups = sheet.Stirrups;
         Drawing.Message = sheet.Section is null ? sheet.DrawingMessage : "";
         Drawing.InvalidateVisual();

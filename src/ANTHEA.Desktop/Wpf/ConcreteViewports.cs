@@ -66,6 +66,11 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
     /// </summary>
     internal IReadOnlyList<(int Bar, string Text, bool Compression)> Callouts { get; set; } = [];
     // CalloutRoom: the room added on a side with callouts, beyond the ordinary margin of the drawing (about 40 px), for a label of about 100 px.
+    /// <summary>
+    /// The diameter of the link of the second ring of the circular section [mm] (the quick section, 19/11/2026): drawn inside the bars of the first
+    /// ring; 0 elsewhere, and then the drawing does not change.
+    /// </summary>
+    internal double InnerLinkDiameter { get; set; }
     private const double CalloutRoom = 80, CalloutGap = 14, CalloutTail = 6, CalloutStep = 16, CalloutPad = 3, CalloutFrame = 2, CalloutMinRadius = 3;
     private ConcreteResults.StressState? rasterState;
     private string rasterContour = "";
@@ -162,6 +167,7 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         }
         else ContourLegend = "";
         DrawStirrups(dc, section, P, scale);
+        DrawInnerLink(dc, section, P, P(middle, (ymin + ymax) / 2), scale);
         if(EffectiveRegion is { } region && region.Outline.Length>=3)
         {
             dc.PushClip(shape);dc.DrawGeometry(new SolidColorBrush(Color.FromArgb(75,230,150,30)),new Pen(Brushes.DarkOrange,2),Path(region.Outline.Select(v=>P(v[0],v[1])),true));dc.Pop();
@@ -216,6 +222,20 @@ internal sealed partial class ConcreteSectionViewport : DrawingView
         Color end = value < 0 ? Color.FromRgb(197, 51, 48) : Color.FromRgb(35, 90, 183);
         return Color.FromRgb((byte)(255 + (end.R - 255) * fraction), (byte)(255 + (end.G - 255) * fraction), (byte)(255 + (end.B - 255) * fraction));
     }
+    /// <summary>
+    /// The link of the second ring (<see cref="InnerLinkDiameter"/>): a circle with its diameter inside the bars of the first ring, whose axis is
+    /// the farthest from the centre, at r₁ − Ø₁/2 − Ø link/2 (the link rests on the bars; the bars of the second ring rest inside it).
+    /// </summary>
+    private void DrawInnerLink(DrawingContext dc, ConcreteGeometry section, Func<double, double, Point> p, Point centre, double scale)
+    {
+        if (InnerLinkDiameter <= 0 || section.Bars.Count == 0) return;
+        // On the screen: the bar of the first ring is the one drawn farthest from the centre.
+        var outer = section.Bars.MaxBy(b => (p(b.X, b.Y) - centre).Length)!;
+        double radius = (p(outer.X, outer.Y) - centre).Length - (outer.Diametro + InnerLinkDiameter) / 2 * scale;
+        if (radius <= 0) return;
+        dc.DrawEllipse(null, new Pen(Ui.Brush("#687C86"), InnerLinkDiameter * scale), centre, radius, radius);
+    }
+
     /// <summary>
     /// The callouts of the stresses: a ring on the bar, a line out of the section on the side of the bar and the value, in red in compression and in
     /// blue in tension (the colours of the contour); the labels of a side keep at least <see cref="CalloutStep"/> apart.
