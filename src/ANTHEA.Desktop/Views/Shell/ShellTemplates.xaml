@@ -290,8 +290,15 @@
                <Border Style="{StaticResource Shell.Card}" Height="200" Margin="0,0,0,8" Padding="12">
                 <DockPanel>
                  <!-- «Apri», «Riprendi» for the module of the last sheet, «Dettagli» in preparation (ModuleCard.Button, night of 22-23/10). -->
-                 <Button x:Name="Open" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Style="{StaticResource Shell.Primary}" Content="{Binding Button}"
-                  Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                 <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+                  <Button x:Name="Open" DockPanel.Dock="Right" Style="{StaticResource Shell.Primary}" Content="{Binding Button}"
+                   Command="{Binding DataContext.OpenCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                  <!-- 19/11/2026: the shortcut of the module, to pin on the taskbar of Windows (ModuleCatalogViewModel.Pin). -->
+                  <Button x:Name="Pin" DockPanel.Dock="Left" Style="{StaticResource Shell.Button}" Content="{x:Static nav:ModuleCatalogViewModel.PinLabel}"
+                   ToolTip="{x:Static nav:ModuleCatalogViewModel.PinToolTip}" AutomationProperties.Name="{x:Static nav:ModuleCatalogViewModel.PinTitle}"
+                   Visibility="{Binding DataContext.CanPin, RelativeSource={RelativeSource AncestorType=ScrollViewer}, Converter={StaticResource WhenTrue}}"
+                   Command="{Binding DataContext.PinCommand, RelativeSource={RelativeSource AncestorType=ScrollViewer}}" CommandParameter="{Binding}"/>
+                 </DockPanel>
                  <!-- The icon of the module (Ui.ModuleIcon, as ShowModules today; after the checkpoint of 22/10). -->
                  <Viewbox DockPanel.Dock="Left" Width="80" Height="80" Margin="0,0,12,0" VerticalAlignment="Top" Stretch="Uniform">
                   <ContentControl Focusable="False" IsTabStop="False" Content="{Binding Icon, Converter={StaticResource ModuleIcon}}"/>
@@ -308,6 +315,7 @@
                <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding IsAvailable}" Value="False">
                  <Setter TargetName="Open" Property="Style" Value="{StaticResource Shell.Button}"/>
+                 <Setter TargetName="Pin" Property="Visibility" Value="Collapsed"/>
                  <Setter TargetName="Status" Property="Foreground" Value="{DynamicResource Token.Muted}"/>
                 </DataTrigger>
                </DataTemplate.Triggers>

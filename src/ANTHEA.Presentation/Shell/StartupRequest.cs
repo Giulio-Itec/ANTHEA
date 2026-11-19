@@ -8,13 +8,16 @@ public enum StartupAction
     /// <summary>«--wiki &lt;uri&gt;»: the Wiki on that article.</summary>
     Wiki,
     /// <summary>A path: the document opens (an archive or a single file).</summary>
-    OpenFile
+    OpenFile,
+    /// <summary>«--modulo &lt;id&gt;» (19/11/2026, the shortcut of a module on the taskbar): a new sheet of the module in its own window, without the main window.</summary>
+    Module
 }
 
 /// <summary>
 /// The command line of the application as App.OnStartup reads it for MainWindow (F5.13 c, proposal 4.3), as a pure parser:
 /// <list type="bullet">
 /// <item>exactly two arguments, the first «--wiki»: the Wiki on the second;</item>
+/// <item>exactly two arguments, the first «--modulo»: the module of the second alone, in its own window (19/11/2026);</item>
 /// <item>otherwise the first argument that does not start with «--» is a document to open; «--models» anywhere then shows the page
 /// «Modelli» after the opening (only when the opening succeeds, as the lambda of MainWindow.Loaded);</item>
 /// <item>otherwise nothing (for example «--wiki» alone or «--models» without a path).</item>
@@ -32,6 +35,9 @@ public sealed record StartupRequest(StartupAction Action, string? Target, bool M
     /// <summary>The argument of the page «Modelli».</summary>
     public const string ModelsFlag = "--models";
 
+    /// <summary>The argument of a module alone (the shortcut of the module, <see cref="StartupAction.Module"/>).</summary>
+    public const string ModuleFlag = "--modulo";
+
     /// <summary>Nothing to do.</summary>
     public static StartupRequest None { get; } = new(StartupAction.None, null, false);
 
@@ -40,6 +46,7 @@ public sealed record StartupRequest(StartupAction Action, string? Target, bool M
     {
         ArgumentNullException.ThrowIfNull(args);
         if (args.Count == 2 && args[0] == WikiFlag) return new(StartupAction.Wiki, args[1], false);
+        if (args.Count == 2 && args[0] == ModuleFlag) return new(StartupAction.Module, args[1], false);
         if (args.FirstOrDefault(a => !a.StartsWith("--", StringComparison.Ordinal)) is { } path) return new(StartupAction.OpenFile, path, args.Contains(ModelsFlag));
         return None;
     }

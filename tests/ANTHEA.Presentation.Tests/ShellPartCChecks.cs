@@ -57,7 +57,52 @@ internal static class ShellPartCChecks
         Shell(expect, folder);
         Models(expect);
         PreviousCopies(expect, folder);
+        ModuleAlone(expect, folder);
         return expect.Count;
+    }
+
+    /// <summary>The shortcuts of the modules for the checks: the requests, and the path of the shortcut.</summary>
+    private sealed class RecordingShortcuts : IModuleShortcuts
+    {
+        public List<(string Module, string Name)> Created { get; } = [];
+        public string Create(string module, string name) { Created.Add((module, name)); return @"C:\Start\ANTHEA · " + name + ".lnk"; }
+    }
+
+    /// <summary>
+    /// The module alone (19/11/2026, «--modulo», the shortcut on the taskbar): a new sheet of the module in a window of its own, an unknown module
+    /// refused with its message; the button «Barra» of the cards writes the shortcut and says how to pin it.
+    /// </summary>
+    private static void ModuleAlone(Expect expect, string folder)
+    {
+        static StartupRequest P(params string[] args) => StartupRequest.Parse(args);
+        expect.That(P("--modulo", "mat_calcestruzzo") == new StartupRequest(StartupAction.Module, "mat_calcestruzzo", false) && StartupRequest.ModuleFlag == "--modulo",
+            "--modulo con il modulo: avvio del modulo da solo");
+        expect.That(P("--modulo") == StartupRequest.None && P("--modulo", "a", "b") == new StartupRequest(StartupAction.OpenFile, "a", false), "--modulo senza modulo o con tre argomenti: come prima");
+
+        var bench = new ShellBench(new ScriptedConfirmations());
+        var shortcuts = new RecordingShortcuts();
+        using var shell = new ShellViewModel(bench.Services, bench.Factory, new DocumentFiles(Path.Combine(folder, "Esempi")), new NoWindows(), new SheetFileExports(),
+            new ShellOptions(Shortcuts: shortcuts));
+        shell.Start(StartupRequest.Parse(["--modulo", "mat_calcestruzzo"]));
+        var sheet = shell.Workspace.Active;
+        expect.That(sheet?.Module == "mat_calcestruzzo" && shell.Windows.TabOf(sheet) is { IsDetached: true } tab && shell.Windows.Main.Tabs.Count == 0
+            && shell.Windows.Detached.Single().Tabs.Single() == tab, "Modulo da solo: un foglio nuovo in una finestra sua, nessuna scheda nella finestra principale");
+        shell.Start(StartupRequest.Parse(["--modulo", SheetLayout.QuickSectionModule]));
+        expect.That(shell.Workspace.Active?.Module == SheetLayout.QuickSectionModule && shell.Windows.Detached.Count == 2 && shell.Windows.Main.Tabs.Count == 0
+            && shell.Windows.Detached[1].PreferredSize == SheetLayout.OwnWindow(SheetLayout.QuickSectionModule), "Sezione rapida da sola: la sua finestra, con la sua dimensione");
+        int failures = bench.Messages.Failures.Count, sheets = shell.Workspace.Sheets.Count;
+        shell.Start(StartupRequest.Parse(["--modulo", "modulo_inesistente"]));
+        expect.That(bench.Messages.Failures.Count == failures + 1 && shell.Workspace.Sheets.Count == sheets, "Modulo sconosciuto: il messaggio, nessun foglio");
+
+        var catalogue = shell.Navigation.Modules;
+        var card = catalogue.Areas.SelectMany(a => a.Groups).SelectMany(g => g.Cards).First(c => c.Id == SheetLayout.QuickSectionModule);
+        expect.That(catalogue.CanPin && catalogue.PinCommand.CanExecute(card), "Schede dei moduli: il tastino della barra");
+        catalogue.PinCommand.Execute(card);
+        expect.That(shortcuts.Created.SequenceEqual([(SheetLayout.QuickSectionModule, ModuleDirectory.Get(SheetLayout.QuickSectionModule).Name)])
+            && bench.Messages.Shown.LastOrDefault() is { Title: ModuleCatalogViewModel.PinTitle } shown && shown.Message.Contains("Aggiungi alla barra delle applicazioni", StringComparison.Ordinal),
+            "«Barra»: il collegamento del modulo e come fissarlo sulla barra");
+        using var plain = new ShellViewModel(bench.Services, bench.Factory, new DocumentFiles(Path.Combine(folder, "Esempi")), new NoWindows(), new SheetFileExports());
+        expect.That(!plain.Navigation.Modules.CanPin && !plain.Navigation.Modules.PinCommand.CanExecute(card), "Senza collegamenti (le prove) nessun tastino");
     }
 
     /// <summary>App.OnStartup: «--wiki» with exactly one argument, otherwise the first argument without «--» opens, «--models» anywhere after it.</summary>

@@ -50,8 +50,10 @@ internal static class ShellComposition
     /// <param name="implementations">The implementation of each module; by default the choice of the Release (<see cref="ModuleImplementations.Release"/>).</param>
     /// <param name="recovery">The folder of the recovery copies (step 2e of docs/sviluppo/progetto-sistema.md): the product passes the folder of
     /// the user; the checks none, so they write no copy and are offered none.</param>
+    /// <param name="shortcuts">The shortcuts of the modules on the taskbar (19/11/2026): the product passes those of the user; the checks none.</param>
     internal static ShellParts Create(PresentationServices services, ModuleRegistry modules, CalculationLimiter limiter, string examples,
-        Func<DetachedShellWindow, IShellWindow>? detached = null, ModuleImplementations? implementations = null, Anthea.Projects.RecoveryStore? recovery = null)
+        Func<DetachedShellWindow, IShellWindow>? detached = null, ModuleImplementations? implementations = null, Anthea.Projects.RecoveryStore? recovery = null,
+        IModuleShortcuts? shortcuts = null)
     {
         ArgumentNullException.ThrowIfNull(services);
         ArgumentNullException.ThrowIfNull(modules);
@@ -62,7 +64,7 @@ internal static class ShellComposition
         var tracker = new ShellWindowTracker(host => detached(new DetachedShellWindow(host, shell!.Windows, shell)));
         shell = new ShellViewModel(services, new ReleaseSheetFactory(implementations ?? ModuleImplementations.Release, modules, services, limiter), new DocumentFiles(examples), tracker,
             new DesktopSheetExports(services.ReportTemplates),
-            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(services.ReportTemplates), new WpfNumberSeparatorService(), recovery));
+            new ShellOptions(new WpfAppearanceService(), () => ExampleCatalog.Load(examples), new DesktopSectionReports(services.ReportTemplates), new WpfNumberSeparatorService(), recovery, shortcuts));
         tracker.Attach(shell.Windows);
         (services.Wiki as ShellWikiNavigator)?.Attach(shell);
         return new ShellParts(new ShellWindow(shell, tracker), shell, tracker);

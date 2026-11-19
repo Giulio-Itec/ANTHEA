@@ -54,7 +54,8 @@ public sealed class NavigationViewModel : ViewModelBase
     private ShellPage? page = ShellPage.Home;
     private SheetSession? last;
 
-    public NavigationViewModel(WorkspaceSession workspace, IMessageService messages)
+    /// <param name="shortcuts">The shortcuts of the modules on the taskbar (19/11/2026); null: the cards offer none.</param>
+    public NavigationViewModel(WorkspaceSession workspace, IMessageService messages, IModuleShortcuts? shortcuts = null)
     {
         ArgumentNullException.ThrowIfNull(workspace);
         ArgumentNullException.ThrowIfNull(messages);
@@ -74,7 +75,7 @@ public sealed class NavigationViewModel : ViewModelBase
         ];
         OpenCardCommand = new RelayCommand<HomeCard>(card => guard.Run(() => Select(card!.Page)), card => card is not null);
         ResumeCommand = GuardedCommands.Create(guard, Resume, () => Last is not null);
-        Modules = new ModuleCatalogViewModel(workspace, guard, messages, () => Last);
+        Modules = new ModuleCatalogViewModel(workspace, guard, messages, () => Last, shortcuts);
         workspace.ActiveChanged += OnActiveChanged;
         workspace.SheetClosed += OnSheetClosed;
     }
@@ -192,11 +193,13 @@ public sealed class ModuleCatalogViewModel : ViewModelBase
     private readonly WorkspaceSession workspace;
     private readonly IMessageService messages;
     private readonly Func<SheetSession?> last;
+    private readonly IModuleShortcuts? shortcuts;
     private string discipline = "Tutti";
 
-    internal ModuleCatalogViewModel(WorkspaceSession workspace, CommandGuard guard, IMessageService messages, Func<SheetSession?> last)
+    internal ModuleCatalogViewModel(WorkspaceSession workspace, CommandGuard guard, IMessageService messages, Func<SheetSession?> last, IModuleShortcuts? shortcuts = null)
     {
-        this.workspace = workspace; this.messages = messages; this.last = last;
+        this.workspace = workspace; this.messages = messages; this.last = last; this.shortcuts = shortcuts;
+        PinCommand = new RelayCommand<ModuleCard>(card => guard.Run(() => Pin(card!)), card => card is { IsAvailable: true } && shortcuts is not null);
         SelectDisciplineCommand = new RelayCommand<string>(name => guard.Run(() => Discipline = name!), name => name is not null);
         OpenCommand = new RelayCommand<ModuleCard>(card => guard.Run(() => Open(card!)), card => card is not null);
         Areas = Build("Tutti", null);
@@ -220,6 +223,37 @@ public sealed class ModuleCatalogViewModel : ViewModelBase
     public IRelayCommand<string> SelectDisciplineCommand { get; }
 
     public IRelayCommand<ModuleCard> OpenCommand { get; }
+
+    /// <summary>Label, tooltip and title of the message of the button of a card that puts the module on the taskbar (19/11/2026).</summary>
+    public const string PinLabel = "Barra";
+    /// <inheritdoc cref="PinLabel"/>
+    public const string PinToolTip = "Crea il collegamento del modulo da fissare sulla barra delle applicazioni: si apre solo questo modulo, senza tutto ANTHEA";
+    /// <inheritdoc cref="PinLabel"/>
+    public const string PinTitle = "Modulo sulla barra delle applicazioni";
+
+    /// <summary>The cards offer the button of the taskbar (the desktop gives the shortcuts).</summary>
+    public bool CanPin => shortcuts is not null;
+
+    /// <summary>The button of the taskbar of a card: the shortcut of the module, then how to pin it.</summary>
+    public IRelayCommand<ModuleCard> PinCommand { get; }
+
+    /// <summary>The text that tells the user how to pin the shortcut <paramref name="path"/> (Windows lets no program pin itself).</summary>
+    public static string PinMessage(string path) =>
+        "Ho creato il collegamento del modulo nel menu Start e lo mostro in Esplora file:\n" + path +
+        "\n\nPer metterlo sulla barra delle applicazioni: clic destro sul collegamento → «Mostra altre opzioni» → «Aggiungi alla barra delle applicazioni» " +
+        "(oppure cercalo nel menu Start e scegli «Aggiungi alla barra delle applicazioni»). Da lì si apre solo questo modulo, in una finestra sua.";
+
+    /// <summary>
+    /// The module of <paramref name="card"/> on the taskbar (19/11/2026): the shortcut that starts ANTHEA with that module alone, named after the
+    /// description of the module; the message says how to pin it. A module in preparation has none.
+    /// </summary>
+    public void Pin(ModuleCard card)
+    {
+        ArgumentNullException.ThrowIfNull(card);
+        if (shortcuts is null || !card.IsAvailable) return;
+        string path = shortcuts.Create(card.Id, ModuleDirectory.Get(card.Id).Name);
+        messages.Inform(PinTitle, PinMessage(path));
+    }
 
     /// <summary>Label of the button of a card: «Dettagli» in preparation, «Riprendi» for the module of the last sheet, otherwise «Apri».</summary>
     public string ButtonText(ModuleCard card)

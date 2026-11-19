@@ -154,6 +154,7 @@ internal static class ModuleHostWpfChecks
                 Png("verifica-rapida-sezione-ca-dominio.png");
                 QuickSectionReportWpfChecks.Run(directory, Check);
                 ModuleIconWpfChecks.Run(directory, Check);
+                await ModuleAloneWpfChecks.Run(directory, Check);
             }
             finally { window.Close(); }
         }

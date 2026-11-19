@@ -23,8 +23,9 @@ namespace Anthea.Presentation.Shell;
 /// sezione»). Without them the menu, the page and the report of a section are absent (the checks of parts a and b). Since 3/11/2026 the folder of
 /// the recovery copies (docs/sviluppo/progetto-sistema.md, step 2e): without it no copy is written and none is offered at the start.
 /// </summary>
+/// Since 19/11/2026 the shortcuts of the modules on the taskbar: without them the cards of «Moduli singoli» offer none.
 public sealed record ShellOptions(IAppearanceService? Appearance = null, Func<ExampleCatalog>? Examples = null, ISectionReports? Reports = null,
-    INumberSeparatorService? Separators = null, Anthea.Projects.RecoveryStore? Recovery = null);
+    INumberSeparatorService? Separators = null, Anthea.Projects.RecoveryStore? Recovery = null, IModuleShortcuts? Shortcuts = null);
 
 /// <summary>
 /// The shell as one ViewModel (F5.13 b, c): the coordinator of the documents and the ViewModels of navigation, tree, catalogue of the sheets,
@@ -77,7 +78,7 @@ public sealed class ShellViewModel : ViewModelBase
         guard = new CommandGuard(services.Messages);
         Workspace = new WorkspaceSession(services, sheets, files);
         if (this.options.Recovery is { } store) recovery = new RecoveryWriter(store, Workspace, automatic: true);
-        Navigation = new NavigationViewModel(Workspace, services.Messages);
+        Navigation = new NavigationViewModel(Workspace, services.Messages, this.options.Shortcuts);
         Tree = new ProjectTreeViewModel(Workspace, services.Messages);
         Catalogue = new ProjectCatalogViewModel();
         Windows = new ShellWindowsViewModel(Workspace, windows, services.Messages);
@@ -499,7 +500,24 @@ public sealed class ShellViewModel : ViewModelBase
                     if (request.Models) Navigation.Select(ShellPage.Models);
                 });
                 break;
+            case StartupAction.Module:
+                guard.Run(() => StartModule(request.Target!));
+                break;
         }
+    }
+
+    /// <summary>
+    /// The module alone (19/11/2026, «--modulo», the shortcut of the module on the taskbar): a new single file of <paramref name="module"/> in a
+    /// window of its own (the window of the module when it has one, <see cref="SheetLayout.OwnWindow"/>, otherwise a new detached window); the
+    /// desktop keeps the main window hidden. An unknown module is refused before anything opens.
+    /// </summary>
+    public TabHostViewModel StartModule(string module)
+    {
+        ArgumentException.ThrowIfNullOrEmpty(module);
+        ModuleDirectory.Get(module);
+        var sheet = Workspace.NewCalculation(module);
+        var tab = Windows.TabOf(sheet) ?? throw new InvalidOperationException("Scheda del modulo non aperta: " + module);
+        return tab.Host is { IsMain: false } host ? host : Windows.MoveToNewWindow(tab);
     }
 
     /// <summary>

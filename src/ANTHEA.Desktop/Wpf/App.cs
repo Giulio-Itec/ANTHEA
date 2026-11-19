@@ -40,13 +40,18 @@ public partial class App : Application
     internal void StartShell(IReadOnlyList<string> args, ModuleImplementations? implementations = null)
     {
         var services = ShellComposition.WithShellWiki(Composition!.Services);
-        // 3/11/2026 (step 2e of docs/sviluppo/progetto-sistema.md): the recovery copies of the user, offered at the start after a crash.
-        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder, implementations: implementations,
-            recovery: Anthea.Projects.RecoveryStore.ForUser());
-        MainWindow = parts.Window;
         var request = Anthea.Presentation.Shell.StartupRequest.Parse(args);
-        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
+        // 19/11/2026: «--modulo» (the shortcut of a module on the taskbar) opens that module alone, with its identity for Windows, set before any window.
+        var alone = request.Action == Anthea.Presentation.Shell.StartupAction.Module ? new ModuleWindowMode(request.Target!) : null;
+        if (alone is not null) ModuleIdentity.Apply(alone.Module);
+        // 3/11/2026 (step 2e of docs/sviluppo/progetto-sistema.md): the recovery copies of the user, offered at the start after a crash.
+        var parts = ShellComposition.Create(services, Composition.Modules, Composition.Limiter, ShellComposition.ExamplesFolder,
+            detached: alone is null ? null : alone.Wrap, implementations: implementations, recovery: Anthea.Projects.RecoveryStore.ForUser(),
+            shortcuts: ModuleShortcuts.ForUser());
+        MainWindow = parts.Window;
         parts.Window.Closed += (_, _) => parts.Shell.Dispose();
+        if (alone is not null) { alone.Start(parts, request); return; }
+        parts.Window.Loaded += (_, _) => parts.Shell.Start(request);
         parts.Window.Show();
     }
 
