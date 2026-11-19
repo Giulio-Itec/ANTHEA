@@ -665,9 +665,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// most compressed and the most tensioned of the circular section); none for SLU and SLV.
     /// </summary>
     public IReadOnlyList<(int Bar, string Text, bool Compression)> StressCallouts => Current is { Method: var method, ServiceState: { } stress } && method == ConcreteQuickSection.Methods[2]
-        ? ConcreteQuickSection.StressCallouts(Data, section, stress)
-            .Select(i => (i, ConcreteQuickSection.StressCalloutText(stress.tensioni_barre[i]), stress.tensioni_barre[i] < 0)).ToArray()
-        : [];
+        ? ConcreteQuickSection.StressCalloutLabels(Data, section, stress) : [];
 
     private IReadOnlyList<string> layerAreas = [];
 

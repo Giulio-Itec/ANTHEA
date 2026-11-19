@@ -27,6 +27,11 @@ internal static class QuickSectionReportWpfChecks
             var options = brief ? new HashSet<string> { QuickSectionReport.Version, QuickSectionReport.Brief } : QuickSectionReport.Defaults();
             var images = renderer.Render(analysis, options);
             check(images.Any(i => i.Category == "sezione") && images.Any(i => i.Category == "dominio"), "Relazione sezione rapida: figure reali di sezione e dominio");
+            // The stresses of the bars with the method n (19/11/2026): the figures of the stresses of the SLE combinations have the callouts of the sheet.
+            if (!brief)
+                check(images.Any(i => i.Category == "tensioni") && analysis.Results.Values.Where(r => r.Method == ConcreteQuickSection.Methods[2])
+                    .All(r => ConcreteQuickSection.StressCalloutLabels(data, r.Preview.Geometry, r.ServiceState).Count == ConcreteQuickSection.Layers(data).Count),
+                    "Relazione sezione rapida: figure delle tensioni, con la tensione della barra più sollecitata di ogni strato per il metodo n");
             foreach (var (image, i) in images.Select((im, i) => (im, i))) File.WriteAllBytes(Path.Combine(folder, (brief ? "breve" : "completa") + "-figura-" + i + ".png"), image.Png);
             byte[] word = DocxWriter.Write(QuickSectionReport.Create("Sezione rettangolare 40 × 60 cm", analysis.Report, options, images.Select(i => i.Image()).ToArray()));
             string path = Path.Combine(folder, brief ? "Sezione-rapida-breve.docx" : "Sezione-rapida-completa.docx");

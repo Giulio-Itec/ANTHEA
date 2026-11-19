@@ -623,6 +623,13 @@ public static class ConcreteQuickSection
         return callouts;
     }
 
+    /// <summary>
+    /// The callouts drawn with the method n, on the sheet and in the figures of the report: the bars of <see cref="StressCallouts"/>, each with its
+    /// label and whether it is in compression (negative stress).
+    /// </summary>
+    public static IReadOnlyList<(int Bar, string Text, bool Compression)> StressCalloutLabels(JsonObject data, ConcreteGeometry? geometry, ConcreteResults.StressState? stress) =>
+        stress is null ? [] : StressCallouts(data, geometry, stress).Select(i => (i, StressCalloutText(stress.tensioni_barre[i]), stress.tensioni_barre[i] < 0)).ToArray();
+
     /// <summary>The number of bars of each layer, -1 for a number not valid.</summary>
     private static int[] LayerCounts(JsonObject data) =>
         Layers(data).OfType<JsonObject>().Select(l => J.Number(l["n"]) is double n && n >= 0 && n == Math.Floor(n) ? (int)n : -1).ToArray();

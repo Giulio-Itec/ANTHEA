@@ -36,6 +36,8 @@ internal sealed class QuickSectionFigureRenderer : IQuickSectionFigureRenderer
             if (!brief && options.Contains("tensioni") && (result.Method == ConcreteQuickSection.Methods[2] ? result.ServiceState : result.UltimateState) is { } stress)
             {
                 var section = Section(); section.Stress = stress;
+                // With the method n the stress of the most stressed bar of each layer, as on the sheet (19/11/2026).
+                if (result.Method == ConcreteQuickSection.Methods[2]) section.Callouts = ConcreteQuickSection.StressCalloutLabels(analysis.Data, first.Preview.Geometry, stress);
                 figures.Add(new(caption + " · tensioni nella sezione", section.ReportPng(640, 400), "tensioni"));
             }
             if (!brief && options.Contains("curvatura") && ConcreteQuickSection.CurvaturePoints(result) is { Count: > 0 } points)
