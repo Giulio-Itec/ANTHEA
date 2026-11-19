@@ -99,6 +99,11 @@ public sealed class QuickLayerRow : ObservableObject
     public string Distance { get => layer.S("d"); set => Write("d", value); }
     public string Count { get => layer.S("n"); set => Write("n", value); }
     public string Diameter { get => layer.S("phi"); set => Write("phi", value); }
+
+    /// <summary>The area of the bars of the layer [cm²] as the engine has them (19/11/2026); «—» when the section is not valid.</summary>
+    public string Area => owner.LayerArea(Index);
+
+    internal void RefreshArea() => OnPropertyChanged(nameof(Area));
     /// <summary>The distance d is used only by the layers «Da sopra» and «Da sotto».</summary>
     public bool UsesDistance => Position == ConcreteQuickSection.LayerPositions[2] || Position == ConcreteQuickSection.LayerPositions[3];
     public IRelayCommand RemoveCommand { get; }
@@ -655,9 +660,16 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The stresses drawn on the section: the method n, or the state at the resistant point of the ultimate check.</summary>
     public ConcreteResults.StressState? SectionStress => Current is { } r ? (r.Method == ConcreteQuickSection.Methods[2] ? r.ServiceState : r.UltimateState) : null;
 
+    private IReadOnlyList<string> layerAreas = [];
+
+    /// <summary>The area of the bars of the layer <paramref name="index"/> [cm²], from the geometry of the engine.</summary>
+    internal string LayerArea(int index) => layerAreas.ElementAtOrDefault(index) ?? "—";
+
     private void RefreshDrawing()
     {
         (section, drawingMessage) = ConcreteQuickSection.Geometry(Data);
+        layerAreas = ConcreteQuickSection.LayerAreas(Data, section);
+        foreach (var row in LayerRows) row.RefreshArea();
         OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress));
     }
 

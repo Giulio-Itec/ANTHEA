@@ -292,17 +292,18 @@
        <Style TargetType="StackPanel"><Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
       </StackPanel.Style>
       <Grid>
-       <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="112"/><ColumnDefinition Width="66"/><ColumnDefinition Width="56"/><ColumnDefinition Width="62"/><ColumnDefinition Width="24"/></Grid.ColumnDefinitions>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="104"/><ColumnDefinition Width="58"/><ColumnDefinition Width="46"/><ColumnDefinition Width="54"/><ColumnDefinition Width="60"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
        <TextBlock Grid.Column="1" Text="Posizione" Style="{StaticResource Muted}"/>
        <TextBlock Grid.Column="2" Text="d [mm]" Style="{StaticResource Caption}" ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
        <TextBlock Grid.Column="3" Text="n" Style="{StaticResource Caption}"/>
        <TextBlock Grid.Column="4" Text="Ø [mm]" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="5" Text="As [cm²]" Style="{StaticResource Caption}" ToolTip="Area delle barre dello strato, calcolata dal motore"/>
       </Grid>
       <ItemsControl ItemsSource="{Binding LayerRows}" Focusable="False">
        <ItemsControl.ItemTemplate>
         <DataTemplate>
          <Grid>
-          <Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="112"/><ColumnDefinition Width="66"/><ColumnDefinition Width="56"/><ColumnDefinition Width="62"/><ColumnDefinition Width="24"/></Grid.ColumnDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="104"/><ColumnDefinition Width="58"/><ColumnDefinition Width="46"/><ColumnDefinition Width="54"/><ColumnDefinition Width="60"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
           <TextBlock Text="{Binding Title}" Style="{StaticResource Muted}"/>
           <ComboBox Grid.Column="1" ItemsSource="{Binding Positions}" SelectedItem="{Binding Position}" IsEnabled="{Binding CanEdit}" Margin="1"
            ToolTip="Superiore e Inferiore: a copriferro + staffa dal bordo; Da sopra e Da sotto: alla distanza d dal bordo superiore o inferiore"/>
@@ -310,7 +311,10 @@
            ToolTip="Distanza dell'asse delle barre dal bordo superiore («Da sopra») o inferiore («Da sotto»)"/>
           <TextBox Grid.Column="3" Text="{Binding Count}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Numero delle barre dello strato"/>
           <TextBox Grid.Column="4" Text="{Binding Diameter}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Diametro delle barre dello strato"/>
-          <Button Grid.Column="5" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli lo strato"
+          <Border Grid.Column="5" Background="{DynamicResource Token.Calculated}" CornerRadius="4" Margin="2,1" Padding="4,2" ToolTip="Area delle barre dello strato, calcolata dal motore">
+           <TextBlock Text="{Binding Area}" TextAlignment="Right"/>
+          </Border>
+          <Button Grid.Column="6" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" HorizontalAlignment="Center" ToolTip="Togli lo strato"
            AutomationProperties.Name="Togli lo strato"/>
          </Grid>
         </DataTemplate>

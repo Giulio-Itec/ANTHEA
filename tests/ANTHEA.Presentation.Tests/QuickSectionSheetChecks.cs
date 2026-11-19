@@ -198,12 +198,18 @@ internal static class QuickSectionSheetChecks
             "Selezione della prima riga: i suoi risultati");
         sheet.CombinationRows[1].RemoveCommand.Execute(null); await sheet.PendingCalculation;
         expect.That(sheet.CombinationRows.Count == 1 && !sheet.CombinationRows[0].RemoveCommand.CanExecute(null), "«✕»: combinazione tolta, l'ultima non si toglie");
+        // The area of the bars of each layer (19/11/2026), from the bars of the engine: 4Ø20 = 4 π 20²/4 = 1256,6 mm²; 6Ø24 = 2714,3 mm².
+        expect.That(sheet.LayerRows[0].Area == "12,57" && sheet.LayerRows[1].Area == "27,14", $"As degli strati: {sheet.LayerRows[0].Area} / {sheet.LayerRows[1].Area} cm²");
+        sheet.LayerRows[0].Count = "5";
+        expect.That(sheet.LayerRows[0].Area == "15,71", "As dello strato aggiornata con il numero delle barre: " + sheet.LayerRows[0].Area);
+        sheet.LayerRows[0].Count = "4"; await sheet.PendingCalculation;
         sheet.AddLayerCommand.Execute(null);
         expect.That(sheet.LayerRows.Count == 3 && sheet.LayerRows[2].Position == "Da sopra" && sheet.LayerRows[2].UsesDistance, "«+»: nuovo strato «Da sopra»");
         sheet.LayerRows[2].Distance = "400"; await sheet.PendingCalculation;
         expect.That(sheet.Section?.Bars.Count == 12 && sheet.HasResults, "Strato a 400 mm dall'alto disegnato e calcolato");
         sheet.LayerRows[2].Count = "abc";
-        expect.That(sheet.Section is null && sheet.DrawingMessage.StartsWith("Strato 3", StringComparison.Ordinal), "Strato non valido: il motivo con il suo nome");
+        expect.That(sheet.Section is null && sheet.DrawingMessage.StartsWith("Strato 3", StringComparison.Ordinal) && sheet.LayerRows.All(r => r.Area == "—"),
+            "Strato non valido: il motivo con il suo nome, nessuna area");
         sheet.LayerRows[2].RemoveCommand.Execute(null); await sheet.PendingCalculation;
         expect.That(sheet.LayerRows.Count == 2 && sheet.Section?.Bars.Count == 10 && sheet.HasResults, "«✕»: strato tolto");
         sheet.MaterialsForm.Set("classe_cls", "C25/30");

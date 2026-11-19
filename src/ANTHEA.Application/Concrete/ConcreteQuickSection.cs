@@ -578,6 +578,24 @@ public static class ConcreteQuickSection
         catch (ArgumentException failure) { input["barre_manuali"] = new JsonArray(); return failure.Message; }
     }
 
+    /// <summary>
+    /// The area of the bars of each layer [cm²], as the engine has them: the bars of the geometry of the RC section are those of the layers in
+    /// their order (<see cref="ApplyLayers"/>), each with the area of the engine. «—» for every layer when the geometry has another number of bars.
+    /// </summary>
+    public static IReadOnlyList<string> LayerAreas(JsonObject data, ConcreteGeometry? geometry)
+    {
+        var counts = Layers(data).OfType<JsonObject>().Select(l => J.Number(l["n"]) is double n && n >= 0 && n == Math.Floor(n) ? (int)n : -1).ToArray();
+        if (geometry is null || counts.Any(c => c < 0) || counts.Sum() != geometry.Bars.Count) return counts.Select(_ => "—").ToArray();
+        int first = 0;
+        var areas = new List<string>();
+        foreach (int count in counts)
+        {
+            areas.Add(Number(geometry.Bars.Skip(first).Take(count).Sum(b => b.Area) / 100));
+            first += count;
+        }
+        return areas;
+    }
+
     private static JsonArray LayerBars(JsonObject input, JsonArray layers)
     {
         if (layers.Count == 0) throw new ArgumentException("Aggiungere almeno uno strato di barre.");
