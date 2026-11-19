@@ -24,12 +24,21 @@
 # Verifiche
 
 - Il runner unico è `build/ci.ps1`: profilo `quick` (build e suite rapide), `standard` (tutto tranne le prove WPF, come `supporto/Verifica.cmd`), `full` (anche le prove WPF fuori schermo, circa un'ora). Le prove WPF si eseguono con `-Stage build,ui` (con `-Only` per sceglierle); `-List` elenca e conta le suite senza eseguirle. Nessuna suite dello stadio `ui` si toglie senza la sostituta: il numero delle suite si riporta prima e dopo.
+- Livelli di verifica (decisione dell'utente del 19/11/2026): valgono per il lavoro normale, per gli aggiornamenti delle librerie e per i rilasci. La full non si esegue a ogni modifica.
+  - Livello 1, a ogni modifica: build e suite del codice toccato (`-Only`); per le librerie, le loro suite.
+  - Livello 2, prima di unire un lavoro su main e dopo ogni aggiornamento di `lib/Checker`: profilo `baseline` (`standard` più il confronto con le catture congelate, circa 20–30 minuti) e le prove WPF dei soli moduli toccati (`-Stage build,ui -Only '<moduli>'`).
+  - Livello 3, profilo `full` più lo stadio `baseline` (circa un'ora e mezza). Si esegue:
+    - una sola volta sul candidato finale di ogni rilascio, con `-Installer`;
+    - dopo una correzione al candidato, si ripetono solo le suite toccate con `-Only`; la full si ripete solo se la correzione cambia risultati o l'interfaccia di più moduli;
+    - una volta a settimana su main, se nella settimana non c'è stato un rilascio;
+    - subito, se un livello 1 o 2 dà un risultato inatteso;
+    - per modifiche estese a interfaccia, salvataggio dei file, geometria e mesh, norme o host nativi.
 - Sono ammessi solo i fallimenti elencati in `build/known-failures.json`, ognuno con motivo, fonte e fase che lo chiude. Un fallimento nuovo si aggiunge solo dopo averlo spiegato all'utente.
 - Salvare tutti i nuovi sorgenti di test in `tests/`.
 
 # Librerie GPC
 
-- `lib/Checker` si aggiorna solo con un insieme coerente di DLL della stessa build, compilato da commit pushati, con manifest (versioni, commit e SHA-256) e voce nel README. Ogni DLL con sorgente cambiato ha una versione nuova. Dopo l'aggiornamento: profilo `full` del runner e test delle librerie.
+- `lib/Checker` si aggiorna solo con un insieme coerente di DLL della stessa build, compilato da commit pushati, con manifest (versioni, commit e SHA-256) e voce nel README. Ogni DLL con sorgente cambiato ha una versione nuova. Dopo l'aggiornamento: test delle librerie e livello 2. La full è quella del candidato finale del rilascio che porta il set (livelli di verifica, sopra).
 - Il set coerente lo produce `Checker/build/Release-Set.ps1` con tutte le suite di Model e Checker (treno di rilascio in `Checker/build/RILASCIO.txt`) e si installa con `tools/libs/Update-Snapshot.ps1 -ReleaseSet <cartella>`. L'utente delega agli agenti le versioni: per i fix incrementare l'ultimo componente; negli altri casi incrementare il secondo da sinistra e azzerare i successivi (0.0.27.1 -> 0.0.27.2 per un fix; -> 0.1.0.0 negli altri casi). Motivare il numero nel commit, senza chiedere conferma; restano i controlli del set coerente e le autorizzazioni Git.
 - Le mesh DelaunayMesh delle sezioni usuali devono restare identiche bit per bit.
 - Gmsh (GMsh.Net, UnsafeEx, le DLL native gmsh-*.dll e il wrapper GMesh) va solo negli unit test: mai in `lib/Checker`, nell'installer o nelle DLL delle librerie.
