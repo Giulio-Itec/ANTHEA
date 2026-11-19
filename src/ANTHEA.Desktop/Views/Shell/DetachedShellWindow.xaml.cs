@@ -39,6 +39,15 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
     /// <summary>Report commands; the view passes the sheet selected in this window.</summary>
     public Anthea.Presentation.Shell.Commands.ShellCommandsViewModel? Commands => shell?.Commands;
 
+    /// <summary>The bar of the sheets: its command opens the articles of the Wiki («Wiki del modulo», «Approfondimenti ▾» of this window).</summary>
+    public Anthea.Presentation.Shell.Navigation.SheetBarViewModel? SheetBar => shell?.SheetBar;
+
+    /// <summary>«Approfondimenti ▾» of the module of the sheet on screen in this window.</summary>
+    private void OnTopics(object sender, RoutedEventArgs e)
+    {
+        if (SheetBar is { } bar) SheetBarView.ShowTopics(ModuleTopics, host.Topics, bar.OpenTopicCommand);
+    }
+
     /// <summary>F1 and the «?» of a historic sheet in this window (R5, WikiContextHelp): the Wiki tab of the shell, in the main window.</summary>
     void IShellWikiHost.ShowWiki(string uri) => shell?.ShowWikiFromView(uri);
 

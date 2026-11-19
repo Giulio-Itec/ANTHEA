@@ -7,6 +7,7 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:tabs="clr-namespace:Anthea.Presentation.Shell.Tabs;assembly=ANTHEA.Presentation"
+ xmlns:nav="clr-namespace:Anthea.Presentation.Shell.Navigation;assembly=ANTHEA.Presentation"
  x:Name="Root" Width="1200" Height="860" MinWidth="560" MinHeight="400"
  Style="{DynamicResource {x:Type Window}}" Background="{DynamicResource Token.Surface}">
  <Window.Resources>
@@ -28,16 +29,30 @@
     </ItemsControl>
    </ScrollViewer>
   </DockPanel>
+  <!--
+   The bar of the sheet on screen (19/11/2026, every detached window, as the bar of the main window): «Apri», «Salva», «Salva con nome» (the
+   window takes the focus at the click, so they act on its sheet), «W» and «W breve» (the quick section) on the sheet of this window, «Wiki del
+   modulo» and «Approfondimenti ▾» of its module. Hidden for a tab that is not a sheet (the Wiki, a model).
+  -->
   <Border DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}" Padding="4,3"
-   Visibility="{Binding IsQuickSectionSelected, Converter={StaticResource WhenTrue}}">
-   <StackPanel Orientation="Horizontal">
+   Visibility="{Binding SelectedSheet, Converter={StaticResource WhenPresent}}">
+   <WrapPanel>
+    <Button x:Name="OpenFile" Style="{StaticResource Shell.BarButton}" Content="📂" Width="37" Padding="2" ToolTip="Apri" AutomationProperties.Name="Apri"
+     Command="{Binding Commands.OpenCommand, ElementName=Root}"/>
+    <Button x:Name="SaveFile" Style="{StaticResource Shell.BarButton}" Content="Salva" ToolTip="Salva" Command="{Binding Commands.SaveCommand, ElementName=Root}"/>
+    <Button x:Name="SaveFileAs" Style="{StaticResource Shell.BarButton}" Content="Salva con nome" ToolTip="Salva con nome" Command="{Binding Commands.SaveAsCommand, ElementName=Root}"/>
     <Button x:Name="WordReport" Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2"
-     ToolTip="Report Word della sezione visualizzata" AutomationProperties.Name="Report Word"
+     ToolTip="Report Word del foglio visualizzato" AutomationProperties.Name="Report Word"
      Command="{Binding Commands.ReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"/>
     <Button x:Name="BriefWordReport" Style="{StaticResource Shell.BarButton}" Content="W breve" MinWidth="75" Padding="6,2"
      ToolTip="Report Word breve della sezione visualizzata" AutomationProperties.Name="Report Word breve"
-     Command="{Binding Commands.BriefReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"/>
-   </StackPanel>
+     Command="{Binding Commands.BriefReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"
+     Visibility="{Binding IsQuickSectionSelected, Converter={StaticResource WhenTrue}}"/>
+    <Button x:Name="ModuleGuide" Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.GuideLabel}" ToolTip="{x:Static nav:SheetBarViewModel.GuideToolTip}"
+     Command="{Binding SheetBar.OpenTopicCommand, ElementName=Root}" CommandParameter="{Binding GuideId}" Visibility="{Binding GuideId, Converter={StaticResource WhenPresent}}"/>
+    <Button x:Name="ModuleTopics" Style="{StaticResource Shell.BarButton}" Content="{x:Static nav:SheetBarViewModel.TopicsLabel}"
+     ToolTip="{x:Static nav:SheetBarViewModel.TopicsToolTip}" Click="OnTopics"/>
+   </WrapPanel>
   </Border>
   <Border DockPanel.Dock="Top" Height="1" Background="{DynamicResource Token.Border}"/>
   <ContentControl Content="{Binding Selected}" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>

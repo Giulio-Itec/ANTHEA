@@ -165,6 +165,11 @@ internal static class ShellDraftChecks
                 Check(detached.Count == 1, "Una finestra staccata creata (" + detached.Count + ")");
                 var window = detached[0];
                 await Capture(window.Window, output, "08-finestra-staccata.png", bindings);
+                // 19/11/2026: every detached window has the bar of its sheet (Apri, Salva, Salva con nome, W, Wiki del modulo, Approfondimenti).
+                bool Shown(string name) => window.Window.FindName(name) is Button { IsVisible: true };
+                Check(new[] { "OpenFile", "SaveFile", "SaveFileAs", "WordReport", "ModuleGuide", "ModuleTopics" }.All(Shown) && !Shown("BriefWordReport")
+                    && host.GuideId == Anthea.Wiki.WikiCatalog.ForModule(groupSheet.Module)?.Id && host.Topics.Count > 0,
+                    "Finestra staccata: la barra del foglio con Apri, Salva, Salva con nome, W, Wiki del modulo e Approfondimenti");
                 workspace.Activate(concreteSheet);
                 await Capture(main, output, "09-principale-con-staccata.png", bindings);
                 Check(tracker.Hosts.Count == 1 && ReferenceEquals(tracker.Hosts.First(), host) && ReferenceEquals(tracker.WindowOf(host), window),

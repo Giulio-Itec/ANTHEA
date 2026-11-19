@@ -138,8 +138,18 @@ public sealed class TabHostViewModel : ViewModelBase
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsQuickSectionSelected));
             OnPropertyChanged(nameof(SelectedSheet));
+            OnPropertyChanged(nameof(GuideId));
         }
     }
+
+    /// <summary>
+    /// The guide in the Wiki of the module of the sheet on screen, null without one: «Wiki del modulo» of the bar of the detached windows
+    /// (19/11/2026), which follows the tab of its window and not the sheet with the focus.
+    /// </summary>
+    public string? GuideId => SelectedSheet is { } sheet ? Anthea.Wiki.WikiCatalog.ForModule(sheet.Module)?.Id : null;
+
+    /// <summary>The menu «Approfondimenti ▾» of the module of the sheet on screen (the bar of the detached windows), read when asked.</summary>
+    public IReadOnlyList<Navigation.WikiMenuItem> Topics => SelectedSheet is { } sheet ? Navigation.WikiMenu.For(sheet.Module) : [];
 }
 
 /// <summary>Windows of the shell (proposal 3.3, IWindowService): a detached window shows a host of tabs; the main window exists already.</summary>
