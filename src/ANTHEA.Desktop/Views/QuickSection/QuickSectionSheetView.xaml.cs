@@ -1,5 +1,7 @@
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Anthea.Application.Concrete;
 using Anthea.Presentation.Modules.QuickSection;
 using X.Desktop.Themes;
@@ -33,6 +35,33 @@ public partial class QuickSectionSheetView : UserControl
     private void Editor_FocusChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
     {
         if (sender is System.Windows.FrameworkElement { DataContext: Anthea.Presentation.Forms.FieldViewModel field }) field.IsFocused = (bool)e.NewValue;
+    }
+
+    /// <summary>The most elements that Enter crosses to find the next box (menus, buttons and boxes not to be written are skipped).</summary>
+    private const int EnterSteps = 200;
+
+    /// <summary>
+    /// Enter in a box (19/11/2026): confirms the value and goes to the next box to be written, in the order of the screen; Shift+Enter to the
+    /// previous one. Menus, buttons, selections, the title and the boxes not to be written (read-only, disabled) are skipped; the focus stays in the sheet.
+    /// </summary>
+    private void Sheet_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key != Key.Enter || e.OriginalSource is not TextBox { AcceptsReturn: false } box) return;
+        e.Handled = true;
+        box.GetBindingExpression(TextBox.TextProperty)?.UpdateSource();
+        var request = new TraversalRequest(e.KeyboardDevice.Modifiers.HasFlag(ModifierKeys.Shift) ? FocusNavigationDirection.Previous : FocusNavigationDirection.Next);
+        UIElement current = box;
+        for (int step = 0; step < EnterSteps; step++)
+        {
+            if (!current.MoveFocus(request) || Keyboard.FocusedElement is not UIElement next || ReferenceEquals(next, box)) break;
+            if (next is TextBox { IsReadOnly: false, IsEnabled: true, IsVisible: true } target && !ReferenceEquals(target, TitleBox) && IsAncestorOf(target))
+            {
+                target.SelectAll();
+                return;
+            }
+            current = next;
+        }
+        box.Focus();
     }
 
     private void Attach(QuickSectionSheetViewModel? next)

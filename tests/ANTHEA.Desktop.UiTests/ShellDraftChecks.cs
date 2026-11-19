@@ -195,8 +195,21 @@ internal static class ShellDraftChecks
                 Check(quickWindow.Window.Width == size.Width && quickWindow.Window.Height == size.Height, "Verifica rapida: la finestra ha la sua dimensione (" + quickWindow.Window.Width + " × " + quickWindow.Window.Height + ")");
                 if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel quickSheet)
                 {
+                    // Enter in a box (19/11/2026): confirms the value and goes to the next box to be written, skipping My (read-only in straight bending).
+                    var quickView = Ui.Descendants<X.Desktop.Views.QuickSection.QuickSectionSheetView>(quickWindow.Window).Single();
+                    TextBox RowBox(string path) => Ui.Descendants<TextBox>(quickView).Single(t => t.DataContext == quickSheet.CombinationRows[0]
+                        && t.GetBindingExpression(TextBox.TextProperty)?.ParentBinding.Path.Path == path);
+                    void Enter(TextBox box, string text)
+                    {
+                        box.Focus(); box.Text = text;
+                        box.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(box), 0, Key.Enter) { RoutedEvent = Keyboard.PreviewKeyDownEvent });
+                    }
+                    Enter(RowBox("N"), "-1000");
+                    Check(quickSheet.CombinationRows[0].N == "-1000" && Keyboard.FocusedElement == RowBox("Mx"), "Verifica rapida: Invio conferma N e passa a Mx");
+                    Enter(RowBox("Mx"), "400");
+                    Check(quickSheet.CombinationRows[0].Mx == "400" && Keyboard.FocusedElement is TextBox { IsReadOnly: false } afterMx && afterMx != RowBox("My") && quickView.IsAncestorOf(afterMx),
+                        "Verifica rapida: Invio conferma Mx e salta My in sola lettura");
                     // Two combinations with values, the first selected, for the picture of the table.
-                    quickSheet.CombinationRows[0].N = "-1000"; quickSheet.CombinationRows[0].Mx = "400";
                     quickSheet.AddCombinationCommand.Execute(null);
                     quickSheet.CombinationRows[1].N = "-300"; quickSheet.CombinationRows[1].Mx = "-750";
                     quickSheet.CombinationRows[0].IsSelected = true;

@@ -8,7 +8,7 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation"
  xmlns:concrete="clr-namespace:X.Desktop.Views.ConcreteSection"
- Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}">
+ Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}" PreviewKeyDown="Sheet_PreviewKeyDown">
  <UserControl.Resources>
   <BooleanToVisibilityConverter x:Key="Visibility"/>
   <concrete:PresentShownConverter x:Key="Present"/>
@@ -250,7 +250,7 @@
   <Grid Grid.ColumnSpan="3" Margin="0,0,0,8">
    <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
    <TextBlock Text="Titolo" Style="{StaticResource Muted}" Margin="0,0,6,0"/>
-   <TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
+   <TextBox x:Name="TitleBox" Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
    <ListBox Grid.Column="2" Style="{StaticResource Segmented}" ItemContainerStyle="{StaticResource ShapeItem}" ItemsSource="{Binding ShapeChoices}"
     SelectedValuePath="Name" SelectedValue="{Binding Shape}" IsEnabled="{Binding CanEdit}"
     Margin="10,0,0,0" ToolTip="Forma della sezione" AutomationProperties.Name="Forma della sezione"/>
