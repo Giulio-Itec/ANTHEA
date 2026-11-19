@@ -81,7 +81,7 @@ public sealed partial class ModelViewerViewModel
                 {
                     if (!AllNodes && !b.Nodes.Any(nodes.Contains)) continue;
                     string key = string.Join(":", b.SourceRecord.Split('/').Take(2));
-                    Add(key, b.SourceRecord, b.Kind, string.Join(", ", b.Nodes), b.Element, b.Dofs);
+                    Add(key, b.SourceRecord, b.Kind, string.Join(", ", b.Nodes), b.Element, b.FreedomCase is { } freedomCase ? b.Dofs + " · " + freedomCase : b.Dofs);
                 }
                 break;
             case 5:

@@ -18,7 +18,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -107,7 +107,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -196,7 +196,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -271,7 +271,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"15","ec
 modificato 1 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato E3B1837852604184
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica non soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -286,7 +286,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -381,7 +381,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"15","ec
 modificato 1 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato E3B1837852604184
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica non soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -396,7 +396,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -491,7 +491,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"15","ec
 modificato 1 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato E3B1837852604184
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica non soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -506,7 +506,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -616,7 +616,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -706,7 +706,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -781,7 +781,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"15","ec
 modificato 0 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato E3B1837852604184
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 2\nMy = 1.374,6 kNm\nHEd / Hu = 63,1%\nVerifica non soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -796,7 +796,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"

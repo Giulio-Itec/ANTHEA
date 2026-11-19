@@ -1,3 +1,6 @@
+using System.Globalization;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 using Anthea.Calculations;
 using Anthea.Presentation.Help;
 using Anthea.Wiki;
@@ -33,7 +36,7 @@ public sealed class FieldViewModel : ObservableObject
 {
     private string text = "";
     private string? selectedChoice;
-    private bool isChecked, isFocused, isEnabled = true, isDimmed, isVisible = true;
+    private bool isChecked, isFocused, isEnabled = true, isDimmed, isVisible = true, typed;
     private bool? numberFormatting;
     private string? note, error;
 
@@ -94,7 +97,7 @@ public sealed class FieldViewModel : ObservableObject
     /// the typing of the user.</summary>
     public string EditText
     {
-        get => isFocused ? text : Display;
+        get => isFocused ? Shown : Display;
         set
         {
             // As the TextChanged handlers of InputForm: nothing when the shown text does not change; otherwise the raw text,
@@ -103,14 +106,30 @@ public sealed class FieldViewModel : ObservableObject
             if (value == EditText) return;
             // A read-only form refuses the typing: the editor shows the text of the field again.
             if (Form.Blocks(this)) { OnPropertyChanged(); return; }
+            typed = true;
             SetRaw(value);
             OnEdited();
             RefreshText();
         }
     }
 
-    /// <summary>Text shown without focus: <see cref="NumericDisplay.Format"/> when the numbers are formatted, otherwise the raw text.</summary>
-    public string Display => FormatsNumbers ? NumericDisplay.Format(text, Key) : text;
+    /// <summary>Text shown without focus: <see cref="NumericDisplay.Format"/> when the numbers are formatted, otherwise <see cref="Shown"/>.</summary>
+    public string Display => FormatsNumbers ? NumericDisplay.Format(text, Key) : Shown;
+
+    /// <summary>
+    /// The raw text as the editor shows it. Item 12h of 17/11/2026, question 5 («ok per tutte le voci»): a number saved in the document as a
+    /// JSON number (examples, proposed values, transfers: «0.6») is shown with the decimal comma when the comma is the separator of the
+    /// application, without rounding; the document keeps its value until the user types, and a text typed in the field is shown as typed
+    /// from then on (so the editor never rewrites what the user is typing). With any other
+    /// separator the text is the saved one, which the reading rule of ANTHEA (comma or point) accepts.
+    /// </summary>
+    public string Shown => Kind == FieldKind.Text && !typed && CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator == ","
+        && (Spec.Source ?? Form.Values)[Key] is JsonValue saved && saved.GetValueKind() == JsonValueKind.Number && saved.ToString() == text
+        ? text.Replace('.', ',') : text;
+
+    /// <summary>The text of the editor before question 5 (raw while focused, formatted without focus): what <see cref="FormViewModel.Set"/>
+    /// compares, so that a value set by the module is written exactly as before.</summary>
+    internal string PresentedRaw => isFocused ? text : FormatsNumbers ? NumericDisplay.Format(text, Key) : text;
 
     /// <summary>Presentation of the numbers for this field only: null follows <see cref="FormViewModel.FormatNumbers"/>.</summary>
     public bool? NumberFormatting

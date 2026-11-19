@@ -10,19 +10,20 @@ public static partial class EmbeddedWallReport
     {
         if (report.Envelope is not { } envelope) return;
         paragraph("Inviluppi delle fasi — estremi con azioni concomitanti", true); paragraph(envelope.Diagnostic, false);
-        paragraph($"Fascia {F(envelope.TributaryWidth)} m; quote {F(envelope.Top)} / {F(envelope.Bottom)} m. "
+        paragraph($"Fascia {F(envelope.TributaryWidth, "m")} m; quote {F(envelope.Top, "m")} / {F(envelope.Bottom, "m")} m. "
             + "I valori N–V–M di ciascuna riga appartengono alla stessa fase, sezione e quota del valore governante. "
             + "Non costituiscono una nuova combinazione; le verifiche sono quelle delle singole fasi. Il CSV conserva tutte le stazioni e i due lati delle discontinuità.", false);
         foreach (var history in envelope.Histories)
             paragraph("Caso " + history.CaseId + "; fasi incluse: " + string.Join(", ", history.IncludedStages)
-                + (history.Complete ? ". Storia completa." : ". Storia incompleta; fase interrotta: " + history.FailedStage + ". " + history.Diagnostic), false);
+                + (history.Complete ? ". Storia completa." : ". Storia incompleta; fase interrotta: " + history.FailedStage + ". " + history.Diagnostic)
+                + string.Concat((history.Warnings ?? []).Select(w => " Avviso: " + w)), false);
         foreach (var series in envelope.Series)
         {
             paragraph(series.Label, true);
             table(["Estremo", "Valore [" + series.Unit + "]", "Caso / fase", "Quota / lato [m]", "N [kN]", "V [kN]", "M [kNm]"],
-                new[] { ("Minimo", series.Minimum), ("Massimo", series.Maximum) }.Select(v => new[] { v.Item1, F(v.Item2.Value),
-                    v.Item2.CaseId + " / " + v.Item2.Stage, F(v.Item2.Point.Elevation) + " / " + v.Item2.Point.Side,
-                    F(v.Item2.Point.Normal), F(v.Item2.Point.Shear), F(v.Item2.Point.Moment) }));
+                new[] { ("Minimo", series.Minimum), ("Massimo", series.Maximum) }.Select(v => new[] { v.Item1, T(v.Item2.Value, series.Unit),
+                    v.Item2.CaseId + " / " + v.Item2.Stage, T(v.Item2.Point.Elevation, "m") + " / " + v.Item2.Point.Side,
+                    T(v.Item2.Point.Normal, "kN"), T(v.Item2.Point.Shear, "kN"), T(v.Item2.Point.Moment, "kNm") }));
         }
     }
     public static string EnvelopeCsv(EmbeddedWallReportData result)

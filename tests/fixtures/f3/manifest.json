@@ -2082,5 +2082,252 @@
     "record": "GUIDE-REV74-20261117",
     "decision": "Utente, 17/11/2026 16:33: «Sì, approvo» (OK alle transizioni F3 delle due pagine Wiki della Rev74, candidata ANTHEA 1.19.3).",
     "note": "Guides Rev74 (ANTHEA 1.19.3): the 248 not-admitted differences of the capture are all in the files of the Wiki pages modelli-importazione-midas and architettura-del-calcolo-e-convenzioni (.md and .txt); the search index is unchanged. 127 exact editorial transitions added (riga-aggiunta 125, testo 2) and 121 earlier transitions of the same pages superseded. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
+  },
+  "fixture_aggiunte_1194": {
+    "record": "F3-PO-BROMS-SABBIA-20261118 (ANTHEA 1.19.4, PO-BROMS-01)",
+    "date": "2026-11-18",
+    "source_commit": "f23cee0e84094ac18a0ce4378b9df18251f05985",
+    "reason": "Una fixture del palo orizzontale aggiunta con l'OK dell'utente del 18/11/2026 («Sì, i consigli», consiglio 7): un palo corto in sabbia con il metodo stratificato (D 0,6 m, L 4 m, testa libera con eccentricità 1 m, una stratigrafia granulare di 30 m con φ′ 30° e γ 18 kN/m³, senza falda, momento manuale molto grande), il foglio dell'esempio della build di prova della 1.19.4. È la sola fixture F3 dove compare il confronto con Broms dello Stratificato (PO-BROMS-01): le due fixture stratificate di F5.7 hanno verticali miste. Catturata con la vista XAML attuale: la vista storica è archiviata dal 23/10/2026. Gli attesi delle 119 fixture esistenti e le transizioni non cambiano.",
+    "generator": "tests/ANTHEA.Testing/Capture/F3Fixtures.cs (HorizontalPileBroms1194), comando fixtures-f3: solo input, mai attesi",
+    "captures": [
+      "20261118-103620-1194-p2-ra-a3042f1f",
+      "20261118-110139-1194-p2-rb-f23cee0e"
+    ],
+    "comparison": "La prima cattura, senza attesi per la fixture nuova, differisce dal riferimento solo per i file aggiunti, il numero di esito.txt e le differenze editoriali della Rev75; la seconda, con gli attesi copiati dalla prima, dà gli stessi file byte per byte e nessuna differenza fuori dalla Wiki.",
+    "inputs": 1,
+    "expected_files": 9,
+    "hash": "SHA-256 della forma conservata da git (fine riga LF)",
+    "files": {
+      "inputs/geo_palo_orizzontale--stratificato-sabbia-broms.json": "62e8f595264377beed2487069ae1f6a9b489c7f30bd0a484d85d0155cd475e91",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/calculated-data.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/exported-data.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/opened.json": "c773c46eac0a84b6dc9a0eadd6f6cdb81a343f4715f5d29a2c604c0065f90235",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/reopened.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report-structure.json": "98ea299f094729b0ecf0d14dd685968d027031c429bb0d5709081364976f5870",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report.txt": "588771584f693620d6827d2a2098e8a3940c7a9945709a7e7f53a7aa19ff0902",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/result.json": "1b33e9d0007282e3b512440f73e2fa4b15a6dd032a307e437515b7d938de1b47",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/status.json": "3d7ea763e0aa835bc0d92ca56694511521be222c9d1cb6fbc3865f53315523cc",
+      "expected/sheets/geo_palo_orizzontale/stratificato-sabbia-broms/visited.json": "29e74c2c83f5f2d206de746a770a284ada7f8e8ac0bd1b539dde7a135d2adc79"
+    },
+    "updated": [
+      {
+        "file": "expected/esito.txt",
+        "before_sha256": "d328fef09410a435f7926ffe43800b55e77a6982ca2f039051bb4ded94d39452",
+        "after_sha256": "e94d35bd815cbb10bc8d309db6f1cd8e97fc4cbe178646b545a743729a376f7f",
+        "note": "Solo il numero delle fixture, conseguenza diretta dell'aggiunta: 119 -> 120; il numero degli articoli e delle ricerche non cambia."
+      }
+    ]
+  },
+  "editorial_transitions_rev75": {
+    "capture": "supporto/artefatti/ci/20261118-110139-1194-p2-rb-f23cee0e/ui_f3-equivalence/cattura",
+    "before_sha256": "c6c567a040d57e1fa41bdcca7088967b770e806ab208718f57fe016a3f5bb1a7",
+    "after_sha256": "68c30a137f3deee1184620ba62ae03d1c0b3248f78c4dbe830afa28c6fbf60a5",
+    "counts": {
+      "previous": 3502,
+      "current": 3505,
+      "added": 494,
+      "removed": 491
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV75-20261118",
+    "decision": "Utente, 18/11/2026: «Sì, i consigli» (consiglio 3 del riepilogo delle 07:50: OK alle transizioni F3 delle tre pagine Wiki della Rev75, candidata ANTHEA 1.19.4).",
+    "note": "Guides Rev75 (ANTHEA 1.19.4): the 985 not-admitted differences of the capture are all in the files of the Wiki pages avvio-e-scelta-del-modulo, modelli-importazione-midas and sezione-in-calcestruzzo-armato (.md and .txt); the search index is unchanged. 494 exact editorial transitions added (riga-aggiunta 492, testo 2) and 491 earlier transitions of the same pages superseded. The pages of the embedded walls, of the horizontal pile and of the stratified method are added files of the F3 base, not compared line by line. Article count unchanged (94). No expected files, engineering transitions or tolerances changed."
+  },
+  "expected_updates_1194_merge": {
+    "capture": "supporto/artefatti/ci/20261118-151110-1194-p2-full-264ce17d/ui_f3-equivalence/cattura",
+    "record": "MERGE-GIULIO-RIFERIMENTI-20261118",
+    "decision": "Utente, 18/11/2026: «Sì, registratele voi» (differenze del codice di main 630028b8 registrate nella 1.19.4) e OK sull'elenco anthea-1194-merge-differenze.md.",
+    "note": "Merge di main 630028b8 (commit 8796bae8 di Giulio): peso_palo_sfavorevole predefinito 1,35, relazione ITEC del palo verticale, sintesi e relazione del palo orizzontale con la tabella della capacità. Nuovo atteso = file della cattura; le transizioni F4 sugli stessi file sono tolte (non avvengono più o hanno già il valore dopo nel file). Impronte sulla forma LF.",
+    "files": [
+      {
+        "file": "sheets/geo_micropalo_orizzontale/chs-manuale-impedita/report-structure.json",
+        "before_sha256": "91d7d028b94a471135731a980eec47e172dd0ac16f7f11a5f7272fc24f4ba456",
+        "after_sha256": "5e8a8edd585ca2b8c25c9d875571074f2def005516cfdd29bab754d28ab139d0"
+      },
+      {
+        "file": "sheets/geo_micropalo_orizzontale/chs-manuale-impedita/report.txt",
+        "before_sha256": "ba712e9d33e471883ef4044a3899a4a157eeee19762820f31657e6f5d8bf787c",
+        "after_sha256": "4bd0faa34fbb73de8f10d560c98508119ddf6ec2ec1eeb9704dae8563814a290"
+      },
+      {
+        "file": "sheets/geo_micropalo_orizzontale/single-soil-layer/report-structure.json",
+        "before_sha256": "856b88c8ab49cf1af44ce5eeb565c854d40296e9bd356eb6ec68a6d8d7a35245",
+        "after_sha256": "715548373f9ea77c5e4f4b531492239864bb563d0dc0ec9c96de71660e43ee4e"
+      },
+      {
+        "file": "sheets/geo_micropalo_orizzontale/single-soil-layer/report.txt",
+        "before_sha256": "8f9342dbbd4e5b213d675cc20b4979960afb191dc9c7fc703dedd5f46345c10b",
+        "after_sha256": "119e8c1f6d4f50cb8a4fe90fcc58c881d228fc362cb2ea85d059ac1fe543398b"
+      },
+      {
+        "file": "sheets/geo_micropalo_orizzontale/stratificato-chs-catalogo/report-structure.json",
+        "before_sha256": "7ad900ed0179202c8fb30b723dc2e39f3777de13a132d5368c8b4869b30e30e9",
+        "after_sha256": "4465113bdf7c6d53a4215ca3947c691f56183f0b855bc3a7ead8648407ced074"
+      },
+      {
+        "file": "sheets/geo_micropalo_orizzontale/stratificato-chs-catalogo/report.txt",
+        "before_sha256": "a1bd8af297acb17090fae42cbae18cd6a97c43404185f7085fbf14fa9c26cb72",
+        "after_sha256": "f2075fd0ed4bb5c9bff97d29e1746185ec7d7cc5512ac356a390656b6a8b93d1"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/calculated-data.json",
+        "before_sha256": "95ac018b58be61176b21f32d8ef6b32888c6ec85265dd673e652399ed2cd43b3",
+        "after_sha256": "9b8eeea1db3237abd822ed67532865ac9bd6a154fb90ceab3a6c671d85a8bb15"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/exported-data.json",
+        "before_sha256": "95ac018b58be61176b21f32d8ef6b32888c6ec85265dd673e652399ed2cd43b3",
+        "after_sha256": "9b8eeea1db3237abd822ed67532865ac9bd6a154fb90ceab3a6c671d85a8bb15"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/opened.json",
+        "before_sha256": "95ac018b58be61176b21f32d8ef6b32888c6ec85265dd673e652399ed2cd43b3",
+        "after_sha256": "9b8eeea1db3237abd822ed67532865ac9bd6a154fb90ceab3a6c671d85a8bb15"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/reopened.json",
+        "before_sha256": "95ac018b58be61176b21f32d8ef6b32888c6ec85265dd673e652399ed2cd43b3",
+        "after_sha256": "9b8eeea1db3237abd822ed67532865ac9bd6a154fb90ceab3a6c671d85a8bb15"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/report.txt",
+        "before_sha256": "5f33889b394d90512587ff68897299b91f32d6b97a534b10df2981102286edc1",
+        "after_sha256": "a1d9a41391dc67c4ad79f5d3b234f532bad71bd0ef902b1e9b7a654f00f6cb39"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/result.json",
+        "before_sha256": "f78781ae0f3fcf06b234494e1146b14ae2783e9437c3547ddf678fb1df1d629d",
+        "after_sha256": "27bae30cb350222ffe4f87cd676e6b2c3ee6a1b14a7c62e324fb7e98da5890ae"
+      },
+      {
+        "file": "sheets/geo_micropalo_verticale/regressione-micropalo_igu_0_nessuna-riduzione/visited.json",
+        "before_sha256": "95ac018b58be61176b21f32d8ef6b32888c6ec85265dd673e652399ed2cd43b3",
+        "after_sha256": "9b8eeea1db3237abd822ed67532865ac9bd6a154fb90ceab3a6c671d85a8bb15"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/report-structure.json",
+        "before_sha256": "aa9d9ab4886bcba8a2957babc4f1775d7f0718a1bf62e3a463fff06795f41c3c",
+        "after_sha256": "f55049cd8f6dbe9ff7d29562a30e400561561a3efe8e442ccef7b40891437d73"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/broms-coesivo-impedita/report.txt",
+        "before_sha256": "79f0773419bfc4c143bd067c6f01ff66c57a387c1968c4b879cba422e7a1db85",
+        "after_sha256": "24bbb885f00c6df98889a6dcccf24d8708fe9e4e868ef12348838f78c2d4f339"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/single-soil-layer/report-structure.json",
+        "before_sha256": "bc1f4b50c1546d16cf56a5fd09c9a2c19fdd420aa3dafa00429292c7fc510bfd",
+        "after_sha256": "16297bf90b053c58f4c221a35e70896c35b486cb641d12bc8438811fdf92e162"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/single-soil-layer/report.txt",
+        "before_sha256": "214a0371fd7436137bf2eb469230afcf427d5b008b035ba9ebefe6208e76bf94",
+        "after_sha256": "ffd9599ba13c4ff0cb2dd420c6a689913340099a4121281bb7d96a47448a4f0d"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/stratificato-misto-manuale/report-structure.json",
+        "before_sha256": "b5b8807e873ee45004ac50b300a469078cb082e6ee4aecdfce53c17d2742f42f",
+        "after_sha256": "f3b3414b063380f70555169adb667741bdcf81d542851bb0565bcf621f477724"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/stratificato-misto-manuale/report.txt",
+        "before_sha256": "836ecac5d7c51a8b18c93a2393dabcb125438506c210c3a3977debba70083709",
+        "after_sha256": "17b7f62d65202d6d0023d7fddc45f38abb1373a51a4a767c8954128b909a1308"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report-structure.json",
+        "before_sha256": "98ea299f094729b0ecf0d14dd685968d027031c429bb0d5709081364976f5870",
+        "after_sha256": "b8668bd383909b5748cea39640375597ba37071652456c05029942ae6d93ad78"
+      },
+      {
+        "file": "sheets/geo_palo_orizzontale/stratificato-sabbia-broms/report.txt",
+        "before_sha256": "588771584f693620d6827d2a2098e8a3940c7a9945709a7e7f53a7aa19ff0902",
+        "after_sha256": "e4594fdee90374a8555a0ff2ff05d577fc8aac528a1ed02d48e02ee65c62fb62"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report-structure.json",
+        "before_sha256": "dbf77e8d94832d3f2f3cc6773abb9194f9ea91e2210463b132c092e1e9a0b9a2",
+        "after_sha256": "cbf191da96ae4f73d854ff4e7876060a67bfd37d325328e9aa5eef1059d273fa"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/battuto-falda-sondaggi/report.txt",
+        "before_sha256": "b7bc31e3ef0f34ce7bc61b7bfbeb829a5d309da15ff227edde2924452042a8fb",
+        "after_sha256": "306780986f32d37ff58dc4b26081432f9bb0bd835d7795d5355727f19da96ead"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/copertura-insufficiente/report-structure.json",
+        "before_sha256": "4e21ac54480ea5d23181a74c83df73c979b8c1c9ca06b5d4aeb867e7eea98f83",
+        "after_sha256": "40358b7415589061f3edd9dc4126dd8904ef6c2fea31ea03240367c05b59520b"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/copertura-insufficiente/report.txt",
+        "before_sha256": "83dc976bd5a2fd64e0819736d7f6f520b48ccfd50c7a5ac03dbdde3c0e80192a",
+        "after_sha256": "17a12a568177f9130e593f89d920d0bd283b7e5616cf6fec05e34d30fefdbbb8"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report-structure.json",
+        "before_sha256": "5bc8777252309a473e8693eaf2881fc32cb9c2dc81fbf26a787ec6085bb71921",
+        "after_sha256": "b30b0ff1f0d3f3e7146bf3a2d0b8a88dd4e889f2a9c81861d6b96b20ff572046"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/elica-coesivo-avvisi/report.txt",
+        "before_sha256": "4d8d63a0f084d7231a31215c370af0ad02d5ca5c004cc07dcf280c0d5362fcfb",
+        "after_sha256": "1dba5d33fbe23388fb93b8c819137873356cda6546b0d1c8f334032591cb9730"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/calculated-data.json",
+        "before_sha256": "b9ed9b9ab4c1f4982879bca1dfff71a9336642739551c7f002b8f3ba09c3c4a0",
+        "after_sha256": "96b6f0f769e653d2f390ea47346fb9498350461c9df4deb676d8c9c4e57074b7"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/exported-data.json",
+        "before_sha256": "b9ed9b9ab4c1f4982879bca1dfff71a9336642739551c7f002b8f3ba09c3c4a0",
+        "after_sha256": "96b6f0f769e653d2f390ea47346fb9498350461c9df4deb676d8c9c4e57074b7"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/opened.json",
+        "before_sha256": "b9ed9b9ab4c1f4982879bca1dfff71a9336642739551c7f002b8f3ba09c3c4a0",
+        "after_sha256": "96b6f0f769e653d2f390ea47346fb9498350461c9df4deb676d8c9c4e57074b7"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/reopened.json",
+        "before_sha256": "b9ed9b9ab4c1f4982879bca1dfff71a9336642739551c7f002b8f3ba09c3c4a0",
+        "after_sha256": "96b6f0f769e653d2f390ea47346fb9498350461c9df4deb676d8c9c4e57074b7"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report-structure.json",
+        "before_sha256": "6526b657376d13882ee695c6e3cda579fb815de7067f8f27278d7f8a9b322ad1",
+        "after_sha256": "a08651d261046e94a883f3d99c7f4aa850d621498a18149d385227dcfaef83c5"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/report.txt",
+        "before_sha256": "0c2ce8595628d074b9c19aad5de2679d856644c5d8ae919a3c9b684220ee44be",
+        "after_sha256": "727b806bf21089725755effec2629ee9d07bdf9f1149cd9fbcca7a96def9b210"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/result.json",
+        "before_sha256": "77422ecd4ccaed46fe95c883a09f112e6f853824e636c4b549c542da2fd15520",
+        "after_sha256": "173660d2328554acbecb5fe2e3fde268df2ce8286fcc30017e99f87e65f27211"
+      },
+      {
+        "file": "sheets/geo_palo_verticale/regressione-palo_storico_0/visited.json",
+        "before_sha256": "b9ed9b9ab4c1f4982879bca1dfff71a9336642739551c7f002b8f3ba09c3c4a0",
+        "after_sha256": "96b6f0f769e653d2f390ea47346fb9498350461c9df4deb676d8c9c4e57074b7"
+      }
+    ],
+    "transitions": {
+      "before_sha256": "c61ffcdd8ebba8dd69acc7373fb3b9d2378fa32df71157515c51c3524c7c5e4d",
+      "after_sha256": "33fa260b5fdbb2d6367890602471b122c01160742ea3dcd178f4a81f74cdbc0e",
+      "removed": 217,
+      "removed_by_entry": {
+        "AG-PO-01": 179,
+        "BUG-PV-1": 3,
+        "BUG-PV-3": 1,
+        "F5-REL-1160-02": 6,
+        "PO-ANELLO-01": 1,
+        "REPORT-TEMPLATE-20261106": 27
+      },
+      "entries": 77972
+    }
   }
 }

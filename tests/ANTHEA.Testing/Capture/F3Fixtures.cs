@@ -86,6 +86,7 @@ public static class F3Fixtures
         ConcreteSectionF510(cases);
         BridgeSectionF511(cases);
         BridgeDesignF512(cases);
+        HorizontalPileBroms1194(cases);
         foreach (var c in cases.DistinctBy(c => c.Key))
         {
             var item = new JsonObject { ["module"] = c.Module, ["id"] = c.Id,
@@ -532,6 +533,30 @@ public static class F3Fixtures
             s["modo_chs"] = "Manuale"; s["diametro_chs_mm"] = "139.7"; s["spessore_chs_mm"] = "";
             d["stratigrafie"] = new JsonArray(new JsonArray(Layer("Granulare", "10", "18", "20", "31")));
         });
+    }
+
+    /// <summary>
+    /// ANTHEA 1.19.4 (approved 18/11/2026): a short pile in sand with the stratified method, so that the comparison with Broms of the same
+    /// homogeneous profile (PO-BROMS-01) is in the F3 reference; the two stratified fixtures of F5.7 have mixed verticals, where it does not
+    /// appear. The sheet of the example of the test build: head free with an eccentricity of 1 m, one granular survey of 30 m, no groundwater,
+    /// a manual moment so large that the pile fails as a short pile (unit coefficients of the section, as the sheet saved it), one investigated
+    /// vertical and the manual efficiency 1. Texts for the typed values (with the decimal comma, as the sheet writes them); the identifier
+    /// does not end in "default".
+    /// </summary>
+    static void HorizontalPileBroms1194(List<CaptureCase> cases)
+    {
+        var data = ModuleCatalog.CreateData(PaloOrizzontale.Module);
+        var g = data["generali"]!.AsObject(); var v = data["verifica"]!.AsObject();
+        g["diametro"] = "0,6"; g["lunghezza"] = "4"; g["eccentricita"] = "1"; g["metodo_calcolo"] = PaloOrizzontale.StratifiedMethod; g["azione_orizzontale"] = "100";
+        g["origine_momento"] = "Manuale"; g["momento_resistente"] = "1000000";
+        g["provenienza_momento"] = "Valore di prova: momento molto grande per il meccanismo del palo corto";
+        g["passo"] = "0,10"; g["tolleranza"] = "1e-10";
+        v["verticali_indagate"] = "1"; v["efficienza_metodo"] = "Manuale"; v["efficienza_eta"] = "1";
+        data["sezione"]!["coefficienti_unitari"] = true;
+        data["stratigrafie"] = new JsonArray(new JsonArray(J.Obj(("tipologia", "Granulare"), ("spessore", "30"), ("peso_specifico", "18"),
+            ("peso_specifico_saturo", "20"), ("angolo_attrito", "30"), ("coesione_non_drenata", "0"), ("coesione_efficace", "0"))));
+        cases.Add(new(PaloOrizzontale.Module, "stratificato-sabbia-broms",
+            "Fixture sintetica della 1.19.4 (confronto con Broms del metodo stratificato, PO-BROMS-01)", null, data));
     }
 
     /// <summary>

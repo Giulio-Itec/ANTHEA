@@ -58,7 +58,14 @@ public static class HorizontalPilePresentation
     /// <summary>The summary of a complete result: mechanism, governing survey, moment, ratio and model.</summary>
     public static string Summary(JsonObject result) =>
         $"{result.S("meccanismo")} · stratigrafia {result.D("sondaggio_governante")}\nMy = {result.D("momento_resistente_knm"):N1} kNm\nHEd / Hu = {100 * result.D("rapporto_meccanico"):0.0}%\n" + Anthea.Reports.HorizontalPileVerificationReport.Outcome(result) + "." +
-        (result.B("sperimentale") ? "\nModello di calcolo per terreno stratificato" : "");
+        (result.B("sperimentale") ? "\nModello di calcolo per terreno stratificato" : "") + BromsLine(result);
+
+    /// <summary>
+    /// Stratificato, option C of the sheet of 16/11/2026: Hu of Broms for the same pile and vertical and the ratio, on a new line, when the result
+    /// has them (short or intermediate pile in granular soil); empty otherwise. Additional output: Hu and the verification are the stratified ones.
+    /// </summary>
+    public static string BromsLine(JsonNode? result) => J.Number(result?["capacita_broms_kn"]) is not double broms || J.Number(result?["rapporto_broms"]) is not double ratio ? ""
+        : $"\nHu di Broms = {broms:N1} kN ({result.S("meccanismo_broms").ToLowerInvariant()}) · Stratificato / Broms = {ratio:0.000}";
 
     /// <summary>The warnings of a result, one per line.</summary>
     public static string Warnings(JsonObject result) => Anthea.Reports.HorizontalPileWording.Display(string.Join("\n", result.Array("avvisi").Select(v => v!.ToString())));
@@ -115,7 +122,8 @@ public static class HorizontalPilePresentation
         var hinges = string.Join("; ", s.Array("cerniere_m").Select(v => (J.Number(v) ?? 0).ToString("0.0")));
         string info = $"{s.S("meccanismo")} · Hu {s.D("capacita_kn"):N1} kN · |M|max {s.D("momento_massimo_knm"):N1} kNm a z={s.D("quota_momento_massimo_m"):0.0} m\n" +
             $"Residui: H {s.D("residuo_forza_kn"):0.0} kN · M {s.D("residuo_momento_knm"):0.0} kNm · {s.S("convergenza")}\n" +
-            $"Cerniere z [m]: {hinges} · " + (truncated ? "Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio." : $"F concentrata {s.D("risultante_concentrata_kn"):N1} kN a z={s.D("quota_risultante_m"):0.0} m");
+            $"Cerniere z [m]: {hinges} · " + (truncated ? "Tratto sotto cerniera mostrato tratteggiato: completamento idealizzato dell'equilibrio." : $"F concentrata {s.D("risultante_concentrata_kn"):N1} kN a z={s.D("quota_risultante_m"):0.0} m")
+            + BromsLine(s);
         return new HorizontalPileResultSurvey([
             new("Tabella terreno", ["z [m]", "Lato", "Strato", "σv [kPa]", "u [kPa]", "σ′v [kPa]", "q_lim [kPa]", "p_lim [kN/m]", "Q [kN]"], terrainRows),
             new("Tabella", ["z [m]", "Lato", "p [kN/m]", "V [kN]", "M [kNm]"], rows),

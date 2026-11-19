@@ -30,6 +30,25 @@ internal static class NumberSeparatorChecks
         expect.That(NumberSeparators.FromKey("altro") == DecimalSeparatorChoice.System && NumberSeparators.FromKey(null) == DecimalSeparatorChoice.System,
             "Una preferenza sconosciuta non è «Sistema»");
 
+        // 16/11/2026, item d: the culture of the bindings of the views follows the culture of the thread, at every use, for the numbers only.
+        var saved = CultureInfo.CurrentCulture;
+        try
+        {
+            var view = ViewNumberCulture.Instance;
+            CultureInfo.CurrentCulture = comma;
+            expect.That(1234.5.ToString("F2", view) == "1234,50" && string.Format(view, "{0:N1} m", 1234.5) == "1.234,5 m" && .6.ToString(view) == "0,6",
+                "Viste con «Virgola»: " + 1234.5.ToString("F2", view));
+            CultureInfo.CurrentCulture = point;
+            expect.That(1234.5.ToString("F2", view) == "1234.50" && string.Format(view, "{0:N1}", 1234.5) == "1,234.5", "Viste con «Punto» dopo il cambio nella sessione");
+            CultureInfo.CurrentCulture = user;
+            expect.That(1234.5.ToString("N1", view) == "1'234.5", "Viste con «Sistema»: personalizzazioni di Windows perdute");
+            var day = new DateTime(2026, 11, 16, 9, 5, 0);
+            expect.That(view.Name == "en-US" && day.ToString(view) == day.ToString(CultureInfo.GetCultureInfo("en-US")), "Date o nome della cultura delle viste cambiati");
+            CultureInfo.CurrentCulture = view;
+            expect.That(1.5.ToString(view) == "1.5", "Cultura delle viste come cultura del thread: numeri en-US, nessun ciclo");
+        }
+        finally { CultureInfo.CurrentCulture = saved; }
+
         var preference = new Preference(DecimalSeparatorChoice.System);
         var messages = new ScriptedMessages();
         var menu = new DecimalSeparatorMenuViewModel(preference, messages);

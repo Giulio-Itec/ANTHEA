@@ -51,7 +51,7 @@ internal static partial class EmbeddedWallChecks
         }
         var legacy = Example(); legacy["schema"] = 8; legacy.Remove("distributed_loads");
         string before = legacy.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "12"
+        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "13"
             && upgraded["distributed_loads"]!.AsArray().Count == 0, "Migrazione 8→9 cambia gli input o aggiunge carichi.");
         e.That(Math.Abs(service.Calculate(legacy).NativeAs<EmbeddedWallReportData>().Stages[0].Points[0].Displacement - 3.6) < 1e-7,
             "Migrazione modifica la mensola storica.");
@@ -79,7 +79,7 @@ internal static partial class EmbeddedWallChecks
         var docx = sheet.Report.BuildReport("Carichi distribuiti per fasi", new HashSet<string>()); before = sheet.Data.ToJsonString();
         ReportFiles.Write(Path.Combine(output, "paratie", "carichi-distribuiti.docx"), docx, "Carichi distribuiti per fasi");
         var xml = DocxWriter.Read(docx).GetXml("word/document.xml").ToString();
-        e.That(xml.Contains("q netto") && xml.Contains("q superiore") && xml.Contains("0,984393") && before == sheet.Data.ToJsonString(),
+        e.That(xml.Contains("q netto") && xml.Contains("q superiore") && xml.Contains(">-0,98<") && before == sheet.Data.ToJsonString(),
             "Report non rappresenta il risultato e gli input del carico distribuito.");
         string csv = EmbeddedWallReport.Csv(report); File.WriteAllText(Path.Combine(output, "paratie", "carichi-distribuiti.csv"), csv);
         File.WriteAllText(Path.Combine(output, "paratie", "carichi-distribuiti.json"), sheet.Data.ToJsonString(new() { WriteIndented = true }));

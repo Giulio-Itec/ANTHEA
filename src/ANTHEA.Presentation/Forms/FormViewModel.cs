@@ -190,7 +190,7 @@ public sealed class FormViewModel : ObservableObject, INotifyDataErrorInfo
         {
             if (field.Kind == FieldKind.Text)
             {
-                string shown = field.EditText;
+                string shown = field.PresentedRaw;
                 field.SetRaw(value);
                 if (shown != value) field.OnEdited();
                 if (!display && (field.Spec.Source ?? Values).S(key) != value) Store(field, value);

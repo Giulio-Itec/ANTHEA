@@ -18,6 +18,9 @@ public sealed partial class ModelViewerViewModel
     public IReadOnlyList<string> LengthUnits { get; } = ["m", "mm", "cm"];
     public IReadOnlyList<string> BeamLocations { get; } = ["Lungo l’asta", "Estremità I", "1/4", "Mezzeria", "3/4", "Estremità J"];
     public bool IsBeamFamily => IsForceResult && SelectedFamily > 0;
+    /// <summary>Set AZ (18/11/2026): the freedom case of the chosen case, whose restraints and springs the view draws with those without a
+    /// freedom case; null for a case without one (combinations, envelopes, other sources) or with no case chosen.</summary>
+    public string? ActiveFreedomCase => Snapshot?.Results.FirstOrDefault(r => r.Name == SelectedCase)?.FreedomCase;
     public string OverlaySummary => Snapshot == null ? "Nessun modello" : $"{Snapshot.LocalFrames?.Length ?? 0:N0} terne · {Snapshot.Boundaries?.Length ?? 0:N0} assegnazioni grafiche";
     public string Family => IsDisplacementResult ? "*" : FamilyKeys[Math.Clamp(SelectedFamily, 0, FamilyKeys.Length - 1)];
     public string Axes => IsDisplacementResult ? "GLOBAL" : SelectedAxes == 0 ? "LOCAL" : "PRINCIPAL";

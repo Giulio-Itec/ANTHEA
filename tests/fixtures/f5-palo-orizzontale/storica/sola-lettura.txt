@@ -18,7 +18,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -95,10 +95,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -110,7 +110,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -197,10 +197,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -212,7 +212,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -299,10 +299,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -314,7 +314,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -401,10 +401,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -416,7 +416,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -503,10 +503,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -518,7 +518,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -605,10 +605,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -620,7 +620,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -707,10 +707,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -722,7 +722,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -809,10 +809,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -824,7 +824,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -911,10 +911,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -926,7 +926,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1013,10 +1013,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1028,7 +1028,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1115,10 +1115,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1130,7 +1130,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1217,10 +1217,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1232,7 +1232,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1319,10 +1319,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1334,7 +1334,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1421,10 +1421,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1436,7 +1436,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1523,10 +1523,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1538,7 +1538,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1625,10 +1625,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1640,7 +1640,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1727,10 +1727,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1742,7 +1742,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1829,10 +1829,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1844,7 +1844,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -1931,10 +1931,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 1
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -1946,7 +1946,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2033,10 +2033,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -2048,7 +2048,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2135,10 +2135,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -2150,7 +2150,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2237,10 +2237,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -2252,7 +2252,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"
@@ -2339,10 +2339,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1.2","lunghezza":"16","ec
 modificato 0 · modificabile no · esportabile sì · dettagli sì · scheda 0
 risultato B61CA29E099A689A
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.500,0 kNm\nHEd / Hu = 55,6%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 2.500,0 kNm" · nota ""
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms."
 form generali
   campo diametro "Diametro palo" = "1.2"
   campo lunghezza "Lunghezza infissa" = "16"
@@ -2354,7 +2354,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "3,5"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Stratificato" voci "Broms|Stratificato"

@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione teorica del 17 novembre 2026 · revisione documentale 74 · comportamento ANTHEA 1.19.3 (set AY)
+Edizione teorica del 18 novembre 2026 · revisione documentale 75 · comportamento ANTHEA 1.19.4 (set AZ)
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -218,7 +218,7 @@ Lo stesso stato fisico si legge con lo stesso segno qualunque sia la sorgente: l
 
 Le combinazioni della sorgente sono conservate come definizioni, cioè casi e coefficienti; quelle dei file .lsa non sono lette come risultati del solutore. Per calcolarne gli effetti la libreria GPC ricostruisce il proprio modello dalla copia, con posizioni, terne, casi e valori riportati nelle unità e nei segni GPC, e combina i risultati dei casi importati con i coefficienti della definizione: nell'analisi statica lineare è la somma pesata dei casi. Una combinazione che richiama un caso non importato non è calcolabile. Le combinazioni ricostruite comprendono lo sforzo normale delle aste reticolari e dei cavi e le reazioni vincolari, come descritto sotto; le combinazioni di altre combinazioni restano con un avviso.
 
-In un modello con più insiemi di vincoli (freedom case) l'analisi statica lineare risolve ogni caso di carico sotto uno o più freedom case, e ogni caso di risultato è la soluzione di un caso di carico con i vincoli e le molle di un freedom case. La copia conserva i risultati di un caso di carico, non di ogni freedom case: un caso di risultato si associa al suo caso di carico solo quando le impostazioni dell'analisi risolvono quel caso di carico sotto quel solo freedom case, e gli altri restano esclusi con il motivo. Vincoli e molle dei freedom case restano dati della sorgente e non diventano vincoli della copia; le reazioni di ogni caso sono quelle del solutore nel suo freedom case. Una combinazione LSA con casi di carico risolti sotto freedom case diversi è la sovrapposizione dei loro casi di risultato, come la calcola il solutore; una combinazione con un caso di carico risolto sotto più freedom case, o con un fattore su un freedom case che non risolve quel caso, resta con un avviso.
+In un modello con più insiemi di vincoli (freedom case) l'analisi statica lineare risolve ogni caso di carico sotto uno o più freedom case, e ogni caso di risultato è la soluzione di un caso di carico con i vincoli e le molle di un freedom case. La copia conserva i risultati di un caso di carico, non di ogni freedom case: un caso di risultato si associa al suo caso di carico solo quando le impostazioni dell'analisi risolvono quel caso di carico sotto quel solo freedom case, e gli altri restano esclusi con il motivo. Vincoli e molle di ogni freedom case entrano nel modello GPC e nella copia con il loro freedom case, e ogni caso di carico risolto sotto un solo freedom case ne porta il riferimento: il visore disegna gli appoggi del freedom case del caso scelto. Le reazioni di ogni caso sono quelle del solutore nel suo freedom case; il controllo di equilibrio di GPC le confronta con i carichi applicati, comprese le pressioni sulle piastre quadrilatere piane entro la tolleranza delle shell (scarto dal piano medio entro il maggiore fra 10⁻⁴ mm e 10⁻⁵ della distanza massima fra due vertici). Una combinazione LSA con casi di carico risolti sotto freedom case diversi è la sovrapposizione dei loro casi di risultato, come la calcola il solutore; una combinazione con un caso di carico risolto sotto più freedom case, o con un fattore su un freedom case che non risolve quel caso, resta con un avviso.
 
 Le reazioni vincolari della copia sono la forza e il momento che il vincolo, o la molla a terra, esercita sulla struttura, in assi globali, in kN e kN·m, con lo stesso segno per tutte le sorgenti. Per ogni caso statico lineare non per fasi la copia controlla che la risultante dei carichi applicati e quella delle reazioni si annullino, in forza e in momento rispetto all'origine globale, con una tolleranza pari a $10^{-6}$ volte la somma dei moduli dei termini, che assorbe gli arrotondamenti del solutore:
 
@@ -643,6 +643,8 @@ La capacità è il minore dei candidati ammissibili. Nel terreno coesivo omogene
 
 e la capacità è il 78,0 % di quella di Broms con $e = 0$, il 67,9 % con $e = L$ e tende al 58,6 % per eccentricità molto grandi.
 
+Il foglio e la relazione mostrano questo confronto. Con lo Stratificato, quando governa un palo corto o intermedio su una verticale interamente granulare, accanto alla capacità adottata sono riportati $H_u$ di Broms per lo stesso palo e la stessa verticale, il suo meccanismo e il rapporto Stratificato / Broms. La capacità adottata e la verifica restano quelle dello Stratificato: il rapporto misura quanto pesa la chiusura distribuita rispetto alla forza concentrata al piede. Per esempio, sabbia asciutta con $\varphi' = 30$°, $D = 0{,}6$ m, $L = 4$ m e testa libera con $e = 1$ m: 153,234 kN con lo Stratificato, $0{,}5\,\gamma D L^3 K_p/(L+e) = 207{,}360$ kN con Broms, rapporto 0,739. Per i pali lunghi e le verticali coesive le due chiusure coincidono; per le verticali miste Broms non è applicabile; in questi casi il confronto non è riportato.
+
 ### Esempi verificati e limiti
 
 Per argilla con $c_u = 40$ kPa fino a 2 m su sabbia con $\varphi' = 32$°, falda a 3 m, palo di diametro 0,8 m a testa libera con $e = 0{,}5$ m e lunghezza 5 m, il palo è corto con $H_u = 350{,}09$ kN, $z_f = 2{,}386$ m e $z_r = 3{,}850$ m; con la testa impedita, lunghezza 6 m e $M_y = 1500$ kNm il meccanismo è intermedio con $H_u = 890{,}66$ kN. L'articolo riporta otto casi, calcolati con la libreria e con un programma indipendente, con scarti relativi sotto $10^{-10}$.
@@ -823,12 +825,11 @@ T_{Rd} = \min(T_{Rcd};T_{Rsd};T_{Rld})
 
 Asl,disp è l'armatura longitudinale disponibile per la torsione dopo la flessione, da assegnare consapevolmente. Taglio e torsione devono usare lo stesso cot θ. Il programma controlla anche la somma |T|/TRcd + |Vx|/VRcd,x + |Vy|/VRcd,y per il calcestruzzo e |T|/TRsd + max(|Vx|/VRsd,x; |Vy|/VRsd,y) per le staffe. L'estensione a due componenti di taglio è una combinazione conservativa del modello, non un dominio normativo generale ricostruito in ogni dettaglio.
 
-Con il profilo DS il fattore di riduzione delle bielle in torsione è quello dell'appendice danese (DK NA 5.104 NA); vale $\nu_t = \nu_v$ se le pareti sono armate su entrambe le facce. Con taglio e torsione insieme si usa la media dei due fattori pesata sulle tensioni tangenziali delle pareti; il testo indica solo una «media pesata» e i pesi sono una nostra lettura, da riscontrare sul testo. In precedenza si usava $\nu_v$ in ogni caso, a sfavore di sicurezza.
+Con il profilo DS il fattore di riduzione delle bielle in torsione è quello dell'appendice danese (DK NA:2024, 5.6.1(3)P, 5.104 NA), con il limite inferiore $2/\sqrt{f_{ck}}$ della (5.100 NA): i fattori della clausola presuppongono almeno l'armatura minima e, senza, vale $\nu = 2/\sqrt{f_{ck}}$, che resta comunque un minimo. Il limite governa sotto $f_{ck} = 24{,}46$ MPa e sopra 73,22 MPa. Vale $\nu_t = \nu_v$ se le pareti sono armate su entrambe le facce. Con taglio e torsione insieme ogni termine dell'interazione delle bielle usa il proprio fattore: la torsione $\nu_t$, il taglio $\nu_v$ della sua direzione. È la media dei due fattori pesata sui due rapporti, continua quando la torsione tende a zero e mai inferiore alla media pesata sulle tensioni tangenziali delle pareti usata fino alla 1.19.3. L'armatura minima supposta dai fattori non è verificata e il risultato lo dichiara fra le limitazioni. In precedenza si usava $\nu_v$ in ogni caso, a sfavore di sicurezza.
 
 ```math
-\nu_t = 0{,}7\,(0{,}7 - f_{ck}/200)
-\nu = \frac{\nu_v\,\tau_V + \nu_t\,\tau_T}{\tau_V + \tau_T}
-\tau_T = \frac{|T_{Ed}|}{2\,A_k\,t_{ef}}
+\nu_t = \max\left[0{,}7\,(0{,}7 - f_{ck}/200);\ 2/\sqrt{f_{ck}}\right]
+\eta_c = \frac{|T_{Ed}|}{T_{Rd,max}(\nu_t)} + \sum \frac{|V_{Ed}|}{V_{Rd,max}(\nu_v)}
 ```
 
 ### Dettagli e curva momento curvatura
@@ -4006,6 +4007,8 @@ p_0=K_0\sigma'_v
 
 La pressione interstiziale u si aggiunge una sola volta alle pressioni efficaci; l'acqua sopra il terreno contribuisce anche alla tensione verticale totale. K0 è un input positivo e documentato. Lo stato iniziale fuori dai limiti attivo/passivo è rifiutato senza correzioni silenziose.
 
+L'analisi parte dallo stato a riposo della prima fase, con la parete supposta in opera, e applica per incrementi soltanto i carichi e i sostegni di quella fase. Se le pressioni a riposo e l'acqua dei due lati della prima fase non si equilibrano, per scavo, falda, sovraccarico o terreni diversi fra i lati, lo squilibrio entra tutto al primo passo: la storia può non convergere o dare un risultato diverso da quello di una storia che raggiunge lo stesso stato per fasi. Il programma lo segnala con un avviso che riporta lo scarto massimo $|p_{0,sx} + u_{sx} - p_{0,dx} - u_{dx}|$ ai punti di integrazione dell'analisi, quattro punti di Gauss per elemento, e la sua quota; il calcolo non cambia. La tolleranza è $10^{-9}$ in termini relativi più $10^{-9}$ kPa, quindi due lati uguali non danno l'avviso.
+
 Nel caso non drenato in tensioni totali si usano $\varphi = 0$ e $c_u$ assegnato: i limiti sono $\max(0,\ \sigma_v - 2c_u)$ e $\sigma_v + 2c_u$. La pressione iniziale è K0σ′v+u; l'acqua non viene riaggiunta alla legge totale. Non si simula la generazione o dissipazione delle sovrappressioni interstiziali durante lo scavo.
 
 Con v spostamento entrante nel terreno, vp offset plastico e kh modulo di reazione assegnato, la legge di ciascun punto è:
@@ -4119,6 +4122,8 @@ Con pressioni FEM si campionano le basi dei conci e gli intervalli di peso, escl
 ### Verifiche delle sezioni e dei sostegni
 
 Concrete riceve le azioni concomitanti di ciascun taglio. Sono disponibili fasce rettangolari ordinarie e pali circolari con corona uniforme di barre; la geometria del palo usa copriferro esterno alla staffa e raggio delle barre R−c−φst−φL/2. EI usa il cerchio lordo analitico, mentre l'integrazione resistente usa un contorno poligonale dichiarato, predefinito a 64 lati. La sensibilità 64→128 è distinta dall'errore del solutore della paratia.
+
+Nella fessurazione delle fasce rettangolari il passo delle barre è quello della faccia tesa, combinazione per combinazione; fino alla 1.19.3 era quello della faccia più rada, a favore di sicurezza. Con la stessa armatura sulle due facce non cambia nulla. Le verifiche SLU di fasce, pali circolari, tubi CHS e sostegni metallici usano le azioni della storia come sono: il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti, e le verifiche si eseguono solo se l'utente conferma che la storia delle fasi è già di progetto.
 
 Il percorso circolare copre calcestruzzo ordinario C16–C50, SLU statici N–M e taglio con modello equivalente confermato, oltre agli SLE caratteristico, frequente e quasi permanente previsti dal profilo. Nel taglio le barre formano un anello continuo, come nei pali di fondazione: $d = R + 2r_s/\pi$, armatura tesa $A_s/2$ e $b_w = D$. Il copriferro di fessurazione si riferisce alle barre longitudinali. Resistenza nominale e dettagli trave/pilastro sono controlli separati; i minimi sismici dei pali di fondazione non sono applicati automaticamente alla paratia. La rigidezza globale resta elastica anche quando si verificano sezioni fessurate o resistenti.
 

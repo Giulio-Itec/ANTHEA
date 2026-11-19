@@ -18,7 +18,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -91,7 +91,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1","lunghezza":"10","ecce
 modificato 0 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 481CED1BB67B8292
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.088,0 kNm\nHEd / Hu = 16,7%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.088,0 kNm\nHEd / Hu = 16,7%\nVerifica soddisfatta."
 momento "MRd = 1.088,0 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,014 kN (tol. 1,75)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -106,7 +106,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -204,7 +204,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -277,7 +277,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"10","ec
 modificato 2 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato F91B0265C007AEF5
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 13,4%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 13,4%\nVerifica soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -292,7 +292,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -390,7 +390,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -463,7 +463,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 4 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 5BEC43F07286A86E
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 13,4%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 13,4%\nVerifica soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -478,7 +478,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -576,7 +576,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -649,7 +649,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 6 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 74804E06A852C2A7
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 16,0%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 16,0%\nVerifica soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -664,7 +664,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -762,7 +762,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -850,7 +850,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -938,7 +938,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1011,7 +1011,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 10 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato B6C953E3FF3D5DBE
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 8,5%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.374,6 kNm\nHEd / Hu = 8,5%\nVerifica soddisfatta."
 momento "MRd = 1.374,6 kNm · N = 0,0 kN\nChecker · 32 lati · residuo N = -0,0238 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -1026,7 +1026,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1124,7 +1124,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "0"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1212,7 +1212,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "300"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1285,7 +1285,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 14 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 1C0648DEDB48782D
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 19,9%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 19,9%\nVerifica soddisfatta."
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -1300,7 +1300,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "300"
   opzione presenza_falda "Presenza falda" = "no"
   campo profondita_falda "Profondità falda" = "0" · spento · attenuato
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1398,7 +1398,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "300"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "0"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1471,7 +1471,7 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 16 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato A1E6E966C46038CD
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 24,1%\nVerifica normativa incompleta."
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 24,1%\nVerifica soddisfatta."
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Omogeneo" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
 avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
@@ -1486,7 +1486,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "300"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "0"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1584,7 +1584,7 @@ form generali
   campo azione_assiale "Forza assiale (+ compressione)" = "300"
   opzione presenza_falda "Presenza falda" = "sì"
   campo profondita_falda "Profondità falda" = "2"
-  campo gamma_acqua "Peso unitario acqua" = "9.81"
+  campo gamma_acqua "Peso unitario acqua" = "9,81"
   gruppo "Dati opzionali · peso acqua" gamma_acqua
 form modello
   scelta metodo_calcolo "Metodo di calcolo" = "Broms" voci "Broms|Stratificato"
@@ -1745,10 +1745,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 20 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 159BDD928B37CCEE
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -2107,10 +2107,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 26 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 46AA264C7C910A0F
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Diagramma stratificato · terreno multistrato" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO STRATIFICATO SPERIMENTALE: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; nessuna validazione sperimentale indipendente. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMODELLO DI CALCOLO PER TERRENO STRATIFICATO: estensione anche per alternanze coesivo/granulare. Equilibrio globale con reazioni distribuite limitate da p_lim; ipotesi di equilibrio limite, senza una legge di interazione elastoplastica terreno–palo. Nei granulari corto/intermedio non coincide con la chiusura concentrata di Broms.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -2293,10 +2293,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 28 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato AF5B61798AFD77AE
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -2479,10 +2479,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 30 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 95D408CFE2044DB3
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -3105,10 +3105,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 40 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato CA8F23CFCBE1D3DC
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica non soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.\nEfficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare.\nEfficienza dal foglio SMath: schema di otto pali interferenti (quattro allineati e quattro diagonali). Verificare ulteriori interferenze nelle maglie fitte; lo schema non rappresenta una palificata arbitraria. Distanze riferite alla direzione di H."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -3379,10 +3379,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 44 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 0603B894E21436AA
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -3741,10 +3741,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 50 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 433777C966984E46
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 800,0 kNm\nHEd / Hu = 30,5%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 800,0 kNm\nHEd / Hu = 30,5%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "My adottato manualmente = 800,0 kNm" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -3927,10 +3927,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 52 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 8857C445170C8465
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.501,2 kNm\nHEd / Hu = 20,2%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.501,2 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00685 kN (tol. 2,52)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -4113,10 +4113,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 54 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 339E964DBED99467
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.478,3 kNm\nHEd / Hu = 20,4%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.478,3 kNm\nHEd / Hu = 20,4%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.478,3 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00156 kN (tol. 2,16)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -4299,10 +4299,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 56 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 78B39A9551E0D2F1
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.478,3 kNm\nHEd / Hu = 20,4%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.478,3 kNm\nHEd / Hu = 20,4%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.478,3 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -2,37E-06 kN (tol. 2,16)\nNTC 2018" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -4485,10 +4485,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 58 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato E1D22B0BE853705C
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.748,9 kNm\nHEd / Hu = 18,3%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.748,9 kNm\nHEd / Hu = 18,3%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.748,9 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -1,17E-05 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -4759,10 +4759,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 62 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 97BC7C0A25A47EB3
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.563,7 kNm\nHEd / Hu = 19,7%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.563,7 kNm\nHEd / Hu = 19,7%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.563,7 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00155 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -4945,10 +4945,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 64 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 52908DB71D6D2221
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.725,9 kNm\nHEd / Hu = 13,8%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.725,9 kNm\nHEd / Hu = 13,8%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 2.725,9 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00121 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -5131,10 +5131,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 66 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 6C16D386212F822B
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 2.162,5 kNm\nHEd / Hu = 16,0%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 2.162,5 kNm\nHEd / Hu = 16,0%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 2.162,5 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,0599 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -5317,10 +5317,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 68 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 6C7A93A4FDCB1755
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.563,7 kNm\nHEd / Hu = 19,7%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.563,7 kNm\nHEd / Hu = 19,7%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.563,7 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -0,00155 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -5591,10 +5591,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 72 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 44F5931D5A86DE25
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.716,6 kNm\nHEd / Hu = 18,6%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.716,6 kNm\nHEd / Hu = 18,6%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.716,6 kNm · N = 300,0 kN\nChecker · 32 lati · residuo N = -7,42E-05 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -5953,10 +5953,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 78 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato FCE8A1218CFF21A6
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.753,6 kNm · N = 300,0 kN\nChecker · 64 lati · residuo N = -7,1E-06 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -6315,10 +6315,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 84 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato 2F652F66BAC9A6AF
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.753,6 kNm · N = 300,0 kN\nChecker · 64 lati · residuo N = -7,1E-06 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"
@@ -6501,10 +6501,10 @@ dati {"versione_orizzontale":1,"generali":{"diametro":"1,2","lunghezza":"8","ecc
 modificato 86 · modificabile sì · esportabile sì · dettagli sì · scheda 0
 risultato CC1D49F592F5397C
 stato "Calcolo completato · diagrammi alla capacità ultima"
-sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica normativa incompleta.\nMODELLO SPERIMENTALE"
+sintesi "Lungo · stratigrafia 1\nMy = 1.753,6 kNm\nHEd / Hu = 18,3%\nVerifica soddisfatta.\nModello di calcolo per terreno stratificato"
 momento "MRd = 1.753,6 kNm · N = 300,0 kN\nChecker · 64 lati · residuo N = -7,1E-06 kN (tol. 2,16)\nNTC 2018 base · coefficienti unitari (tutti i gamma e alpha_cc = 1)" · nota "Resistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 modello "Modello automatico: Multistrato sperimentale" · nota "Scelta dalle proprietà effettive lungo il palo e dalla falda, non dal numero di righe."
-avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO SPERIMENTALE: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
+avvisi "Palo singolo, capacità ultima al primo ordine; spostamenti, gruppo, ciclicità, taglio, secondo ordine e duttilità delle cerniere non verificati.\nResistenza ridotta con ξ3, ξ4 e γR. HEd deve essere un'azione di progetto. Le altre verifiche strutturali restano escluse: nessuna conformità complessiva automatica.\nI diagrammi si riferiscono alla capacità ultima, non all'azione inserita. N rimane costante; cresce H con momento H·e.\nMULTISTRATO riadattato per terreno stratificato: estensione integrale ANTHEA, non formula originale Broms né validazione indipendente per stratificazioni reali.\nTerreno granulare: chiusura di equilibrio con risultante concentrata F indicata separatamente. Il completamento sotto la cerniera è idealizzato, non univoco.\nResistenza N–Mx da GPCChecker.Concrete, come nel modulo cemento armato. N geotecnico positivo a compressione è convertito in N negativo per Checker. Minimo fra Mx+ e Mx−; geometria, legami e coefficienti della sezione inserita. La duttilità della cerniera resta da verificare."
 form generali
   campo diametro "Diametro palo" = "1,2"
   campo lunghezza "Lunghezza infissa" = "8"

@@ -51,7 +51,11 @@ internal static class EmbeddedWallTubeChecks
         if (!analysis.IsComplete) return Array.AsReadOnly(ids.Select(id => new EmbeddedWallTubeData(analysis.CaseId, analysis.FailedStage ?? "", id, null, "",
             null, null, null, null, null, null, null, null, null, EngineeringOutcome.NotEvaluated, "Storia incompleta: resistenza delle sezioni non verificata.", code, null, [])).ToArray());
         bool classified = !string.IsNullOrWhiteSpace(Text(data, "action_basis")) && Text(data, "action_basis") != "Da definire";
-        var results = EmbeddedWallSteelTubes.Check(analysis, width, tubes.Values.ToArray(), standard, classified ? kind : EmbeddedWallSteelCheckKind.Analysis, cancellation);
+        // A2 (sheet of 16/11/2026): a ULS kind on a history not confirmed as a design history is analysed only, with the request.
+        bool unconfirmed = classified && kind is EmbeddedWallSteelCheckKind.StaticUltimate or EmbeddedWallSteelCheckKind.SeismicUltimate
+            && !EmbeddedWallDocument.DesignHistoryConfirmed(data);
+        var results = EmbeddedWallSteelTubes.Check(analysis, width, tubes.Values.ToArray(), standard,
+            classified && !unconfirmed ? kind : EmbeddedWallSteelCheckKind.Analysis, cancellation);
         return Array.AsReadOnly(results.Select(r =>
         {
             var v = r.Verification; tubes.TryGetValue(r.SectionId, out var tube);
@@ -62,7 +66,8 @@ internal static class EmbeddedWallTubeChecks
             return new EmbeddedWallTubeData(r.CaseId, r.StageId, r.SectionId, r.Elevation / SoilUnits.Metre, r.Side,
                 r.NormalForce / NewtonsPerKilonewton, r.Shear / NewtonsPerKilonewton, r.Moment / NmmPerKilonewtonMetre, r.StripToMemberFactor,
                 v?.SectionClass, v?.PartialFactor, v?.ShearReduction, v?.NeutralAxisDistance, v?.AxialEquilibriumResidual,
-                r.Outcome, diagnostics.GetValueOrDefault(r.SectionId, r.Diagnostic), code + "; " + kind, properties,
+                r.Outcome, unconfirmed ? (diagnostics.TryGetValue(r.SectionId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)
+                    : diagnostics.GetValueOrDefault(r.SectionId, r.Diagnostic), code + "; " + kind, properties,
                 Array.AsReadOnly((v?.Checks ?? []).Select(c => new EmbeddedWallTubeCheckData(c.Method, c.Reference, c.Unit == "Nmm" ? "kNm" : c.Unit == "N" ? "kN" : c.Unit,
                     c.Demand / (c.Unit == "Nmm" ? NmmPerKilonewtonMetre : NewtonsPerKilonewton),
                     c.Capacity / (c.Unit == "Nmm" ? NmmPerKilonewtonMetre : NewtonsPerKilonewton), c.Utilization, c.Outcome, c.Diagnostic)).ToArray()));

@@ -122,7 +122,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == campo-minimo gamma «23»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":null,"c":null,"cu":null,"source":"","qualification":"Non qualificato","notes":""}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":null,"c":null,"cu":null,"source":"","qualification":"Non qualificato","notes":"","gamma_sat_auto":true}}]}
 modificato 2
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
 generali
@@ -153,7 +153,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" ""
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -165,7 +165,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == campo-minimo phi «41»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":"41","c":null,"cu":null,"source":"","qualification":"Non qualificato","notes":""}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":"41","c":null,"cu":null,"source":"","qualification":"Non qualificato","notes":"","gamma_sat_auto":true}}]}
 modificato 3
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
 generali
@@ -196,7 +196,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" "41"
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -208,7 +208,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == scelta-minimo qualification «Misurato»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":"41","c":null,"cu":null,"source":"","qualification":"Misurato","notes":""}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":"41","c":null,"cu":null,"source":"","qualification":"Misurato","notes":"","gamma_sat_auto":true}}]}
 modificato 4
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
 generali
@@ -239,7 +239,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" "41"
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -251,7 +251,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == campo-minimo source «Prove»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":""}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":"","gamma_sat_auto":true}}]}
 modificato 5
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
 generali
@@ -282,7 +282,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" "41"
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -294,7 +294,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == campo-minimo notes «Minimi del substrato»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":"Minimi del substrato"}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":"Minimi del substrato","gamma_sat_auto":true}}]}
 modificato 6
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
 generali
@@ -325,7 +325,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" "41"
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -337,7 +337,7 @@ stato "Livello della falda non noto.\nTorba: γsat minore di γ; controllare i d
 profilo disegnato · selezione 2
 trasferimento "Invia / importa terreno da ANTHEA…"
 == minimi «no»
-dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":null,"phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":"Minimi del substrato"}}]}
+dati {"schema":2,"scenario":"Entrambi","id":"56b0000a0f564b00800000000000000a","name":"Profilo P2 · medi e minimi","description":"Valori medi e minimi distinti dalla relazione geotecnica","ground_elevation":null,"water_state":"Non nota","water_depth":null,"layers":[{"id":"56b0000b0f564b00800000000000000b","name":"Ghiaia sabbiosa","description":"","color":"#C9B27C","soil_type":"Ghiaia","behavior":"Granulare","thickness":2,"infinite":false,"gamma":19,"gamma_sat":21,"phi":36,"c":0,"cu":0,"source":"Tab. 5, valori medi","qualification":"Caratteristico","notes":"","minimum":{"gamma":18,"gamma_sat":20,"phi":33,"c":0,"cu":0,"source":"Tab. 5, valori minimi","qualification":"Caratteristico","notes":"Minimi da prove penetrometriche"}},{"id":"56b0000c0f564b00800000000000000c","name":"Torba","description":"Torba e limo organico","color":"#6B5B45","soil_type":"Terreno organico","behavior":"Coesivo","thickness":1.5,"infinite":false,"gamma":14,"gamma_sat":13.5,"phi":22,"c":5,"cu":25,"source":"Prove C3","qualification":"Misurato","notes":"","minimum":{"gamma":13,"gamma_sat":null,"phi":24,"c":4,"cu":null,"source":"","qualification":"Non qualificato","notes":""}},{"id":"56b0000d0f564b00800000000000000d","name":"Calcare fratturato","description":"Calcare fratturato in banchi","color":"#9A9A8E","soil_type":"Roccia","behavior":"Da definire","thickness":null,"infinite":true,"gamma":24,"gamma_sat":25,"phi":40,"c":50,"cu":null,"source":"Stima di letteratura","qualification":"Interpretato","notes":"Estensione del substrato non indagata.","minimum":{"gamma":"23","gamma_sat":"23","phi":"41","c":null,"cu":null,"source":"Prove","qualification":"Misurato","notes":"Minimi del substrato","gamma_sat_auto":true}}]}
 modificato 7
 domanda "Valori minimi" "Rimuovere i valori minimi di questo strato?" → no
 importa "Importa relazione PDF con AI…" · spento · "Importazione AI temporaneamente disattivata: configurazione e fatturazione aziendale da definire."
@@ -369,7 +369,7 @@ strato
   scelta qualification "Qualificazione dei medi" "Interpretato" · voci "Non qualificato" "Misurato" "Interpretato" "Caratteristico"
   testo source "Fonte dei medi / pagine" "Stima di letteratura"
   testo minimum.gamma "Peso naturale γ [kN/m³] · minimo" "23"
-  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" ""
+  testo minimum.gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³] · minimo" "23"
   testo minimum.phi "Angolo di resistenza efficace φ′ [°] · minimo" "41"
   testo minimum.c "Coesione efficace c′ [kPa] · minimo" ""
   testo minimum.cu "Resistenza non drenata cu [kPa] · minimo" ""
@@ -440,10 +440,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"
@@ -484,10 +484,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"
@@ -528,10 +528,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "sì"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"
@@ -573,10 +573,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"
@@ -786,10 +786,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"
@@ -823,10 +823,10 @@ strato
   testo description "Descrizione litologica" "Torba e limo organico"
   testo color "Colore del profilo [#RRGGBB]" "#6B5B45"
   opzione infinite "Ultimo strato esteso indefinitamente" "no" · spento
-  testo thickness "Spessore [m]" "1.5"
+  testo thickness "Spessore [m]" "1,5"
   opzione minimum "Gestisci anche i valori minimi (opzionali)" "no"
   testo gamma "Peso naturale γ [kN/m³]" "14"
-  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13.5"
+  testo gamma_sat "Peso dell’unità di volume saturo γsat [kN/m³]" "13,5"
   testo phi "Angolo di resistenza efficace φ′ [°]" "22"
   testo c "Coesione efficace c′ [kPa]" "5"
   testo cu "Resistenza non drenata cu [kPa]" "25"

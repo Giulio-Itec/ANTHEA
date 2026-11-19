@@ -69,7 +69,7 @@ internal static partial class EmbeddedWallChecks
         var legacy = Example(); legacy["schema"] = 9;
         foreach (string key in new[] { "embedment_reference", "embedment_minimum", "embedment_maximum", "embedment_increment", "embedment_head_limit", "embedment_source" }) legacy.Remove(key);
         string before = legacy.ToJsonString(); var upgraded = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "12" && upgraded["embedment_head_limit"] is null,
+        e.That(legacy.ToJsonString() == before && upgraded["schema"]!.ToString() == "13" && upgraded["embedment_head_limit"] is null,
             "Migrazione inventa un limite ingegneristico o modifica il sorgente.");
         e.That(Math.Abs(service.Calculate(legacy).NativeAs<EmbeddedWallReportData>().Stages[0].Points[0].Displacement - 3.6) < 1e-7,
             "Nuova migrazione altera il calcolo singolo.");
@@ -105,7 +105,7 @@ internal static partial class EmbeddedWallChecks
             checkData["mesh"] = .5; checkData["stages"] = new JsonArray(checkData["stages"]![1]!.DeepClone());
             checkData["loads"] = new JsonArray(checkData["loads"]![1]!.DeepClone()); checkData["loads"]![0]!["horizontal"] = .2;
             var sample = steel ? TubeExample() : RcPileExample(); string prefix = steel ? "tube" : "rc_pile", table = steel ? "steel_tubes" : "rc_piles";
-            foreach (string key in new[] { prefix + "_standard", prefix + "_check_kind", table, "action_basis" }) checkData[key] = sample[key]!.DeepClone();
+            foreach (string key in new[] { prefix + "_standard", prefix + "_check_kind", table, "action_basis", EmbeddedWallDocument.DesignHistoryKey }) checkData[key] = sample[key]!.DeepClone();
             var evaluated = service.SearchEmbedment(checkData).EmbedmentSearch!.Candidates.Single();
             var native = service.Calculate(JsonNode.Parse(evaluated.Result!.InputJson)!.AsObject()).NativeAs<EmbeddedWallReportData>();
             e.That(evaluated.Criteria.Any(c => c.Id == (steel ? "SteelTubes" : "RcPiles")), "Famiglia strutturale assente dai criteri.");
@@ -127,7 +127,7 @@ internal static partial class EmbeddedWallChecks
         var docx = sheet.Report.BuildReport("Ricerca infissione", new HashSet<string>());
         string xml = DocxWriter.Read(docx).GetXml("word/document.xml").ToString();
         e.That(xml.Contains("Ricerca dell'infissione") && xml.Contains(search.Diagnostic) && xml.Contains("Spostamento in testa")
-            && xml.Contains("6,5") && xml.Contains("3,203846"), "Relazione non coerente con lo snapshot.");
+            && xml.Contains("6,5") && xml.Contains(">3,20<"), "Relazione non coerente con lo snapshot.");
         ReportFiles.Write(Path.Combine(output, "paratie", "ricerca-infissione.docx"), docx, "Ricerca infissione");
         File.WriteAllText(Path.Combine(output, "paratie", "ricerca-infissione.csv"), csv);
         sheet.Embedment["embedment_head_limit"].EditText = "4"; sheet.Commit();

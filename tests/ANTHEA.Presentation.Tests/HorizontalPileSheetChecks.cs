@@ -72,6 +72,7 @@ internal static class HorizontalPileSheetChecks
                 HorizontalPileTrace.Write(Path.Combine(traces, scenario.Name + ".txt"), lines);
                 string stored = Path.Combine(HorizontalPileScenarios.Reference(root), scenario.Name + ".txt");
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 // F5-02 (O6): the historic trace with the declared difference of the new view (the choice «Acciaio» shows the class of the data).
                 var (expected, declared) = HorizontalPileTrace.WithDeclaredDifferences(HorizontalPileTrace.Read(stored));
                 expect.That(declared == 0 || scenario.Name == HorizontalPileTrace.CustomSteelScenario, "F5-02 solo nello scenario dell'acciaio personalizzato: " + scenario.Name);
@@ -81,11 +82,12 @@ internal static class HorizontalPileSheetChecks
             }
             CustomSteel(root, expect);
             var fixtures = new[] { Pile, Micro }.SelectMany(m => HorizontalPileScenarios.Fixtures(root, m).Select(id => (Module: m, Id: id))).ToArray();
-            expect.That(fixtures.Length == 21, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
+            // 1.19.4: 22 with stratificato-sabbia-broms (comparison with Broms, approved 18/11/2026).
+            expect.That(fixtures.Length == 22, "Fixture F3 dei pali orizzontali: " + fixtures.Length);
             string capture = Path.Combine(output, "palo-orizzontale-f3");
             foreach (var (module, id) in fixtures) await F3Async(root, module, id, capture, expect);
             CompareF3(root, capture, fixtures, expect);
-            foreach (var (module, id) in fixtures) await DiagramsAsync(root, module, id, expect);
+            foreach (var (module, id) in fixtures) await DiagramsAsync(root, module, id, Path.Combine(output, "palo-orizzontale-diagrammi"), expect);
             Contract(expect);
             Derivations(expect);
             await CurrentRevisionAsync(root, expect);
@@ -295,7 +297,7 @@ internal static class HorizontalPileSheetChecks
         bool enabled = f.IsEnabled && !(f.Layout == FieldLayout.EditorOnly && !f.CanChange);
         return f.Kind switch
         {
-            FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, enabled, f.IsDimmed, f.IsVisible),
+            FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.EditText, null, enabled, f.IsDimmed, f.IsVisible),
             FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, enabled, f.IsDimmed, f.IsVisible),
             _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, enabled, f.IsDimmed, f.IsVisible),
         };
@@ -346,8 +348,8 @@ internal static class HorizontalPileSheetChecks
 
     /// <summary>
     /// The capture of the ViewModel against the F3 reference of the historic view: every file byte for byte (after the line endings) for the
-    /// fixtures on the tab of the capacity, except the four with the transitions of AG-PO-01; for those on the tab of the elastic response (F5.8),
-    /// and for those four, every file as ui/f3-equivalence compares it, with the tolerances (the measured times tempi_ms are volatile) and exactly
+    /// fixtures on the tab of the capacity, except the files with F4 transitions; for those on the tab of the elastic response (F5.8),
+    /// and for those files, every file as ui/f3-equivalence compares it, with the tolerances (the measured times tempi_ms are volatile) and exactly
     /// the F4 transitions of the two modules admitted.
     /// </summary>
     private static void CompareF3(string root, string capture, IReadOnlyList<(string Module, string Id)> fixtures, Expect expect)
@@ -363,6 +365,8 @@ internal static class HorizontalPileSheetChecks
             string relative = "sheets/" + module + "/" + id;
             bool opensElastic = HorizontalPileScenarios.OpensElastic(HorizontalPileScenarios.FixtureData(root, module, id));
             if (opensElastic) elastic++;
+            expect.That(Directory.Exists(Path.Combine(expected, relative)), module + "/" + id + ": riferimento F3 assente");
+            if (!Directory.Exists(Path.Combine(expected, relative))) continue;
             var names = Directory.EnumerateFiles(Path.Combine(expected, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
             var produced = Directory.EnumerateFiles(Path.Combine(capture, relative)).Select(f => Path.GetFileName(f)).Order(StringComparer.Ordinal).ToArray();
             expect.That(names.SequenceEqual(produced), module + "/" + id + ": file della cattura diversi dal riferimento F3 (" + string.Join(", ", produced) + ")");
@@ -410,6 +414,9 @@ internal static class HorizontalPileSheetChecks
         // head and the toe of single-soil-elastic, where MRd, ratios, critical section and summaries change, and the hypotheses of the three
         // elastic fixtures say it: 428 new entries; 224 earlier entries keep their value before, with the new value after and the entry extended
         // with « / BUG-PO-5b» (210 of them were AG-PO-02, 10 extended with AG-PO-02), so they count with the response of single-soil-elastic.
+        // Merge of main 630028b8 (1.19.4, MERGE-GIULIO-RIFERIMENTI-20261118): the reports of the capacity have the table of the capacity, so
+        // their F3 files (report.txt, report-structure.json) are new expected files from the capture, without their transitions: AG-PO-01
+        // 480 -> 301 (the two result.json), F5-REL-1160-02 18 -> 12 (the six result.json), PO-ANELLO-01 2 -> 1 (elastico-tratti-anello-spirale).
         var shear = transitions.Where(t => t.Entry.StartsWith("PARATIE-19", StringComparison.Ordinal)).ToList();
         var parabola = transitions.Where(t => t.Entry is "AG-PO-01" or "AG-PO-02").ToList();
         var partial = transitions.Where(t => t.Entry == "BUG-PO-5b").ToList();
@@ -421,17 +428,17 @@ internal static class HorizontalPileSheetChecks
         // for MinimumTension of beams: 24 + 24 + 9 lines in result.json of elastico-sisma-testa-impedita, elastico-tratti-anello-spirale, single-soil-elastic.
         var references = transitions.Where(t => t.Entry == "R14").ToList();
         var others = transitions.Except(shear).Except(parabola).Except(partial).Except(ring).Except(pacini).Except(references).ToList();
-        expect.That(elastic == 11 && capacity == 12 && pacini.Count == 18 && pacini.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) || t.File.EndsWith("/report.txt", StringComparison.Ordinal))
+        expect.That(elastic == 11 && capacity == 6 && pacini.Count == 12 && pacini.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) || t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && references.Count == 57 && references.All(t => t.File.EndsWith("/result.json", StringComparison.Ordinal) && t.Path.EndsWith(".Reference", StringComparison.Ordinal))
-            && shear.Count == 3941 && others.Count == 1327 && ring.Count == 2 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
+            && shear.Count == 3941 && others.Count == 1327 && ring.Count == 1 && ring.All(t => t.File.EndsWith("/report.txt", StringComparison.Ordinal))
             && others.All(t => t.File.Contains("/single-soil-elastic/", StringComparison.Ordinal))
-            && parabola.Count(t => t.Entry == "AG-PO-01") == 480 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
+            && parabola.Count(t => t.Entry == "AG-PO-01") == 301 && parabola.Count(t => t.Entry == "AG-PO-02") == 6900
             && partial.Count == 2367 && partial.Count(t => t.Path.EndsWith(".DevelopedFraction", StringComparison.Ordinal)) == 1939
             && transitions.Count(t => t.Entry.EndsWith(" / AG-PO-02", StringComparison.Ordinal)) == 7
             && transitions.Count(t => t.Entry.EndsWith(" / BUG-PO-5b", StringComparison.Ordinal)) == 224,
             "Transizioni F4 dei pali orizzontali: " + transitions.Count + " (attese le 1327 della risposta elastica di single-soil-elastic, le 3941 di PARATIE-19, "
-            + "le 480 di AG-PO-01 su 4 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
-            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, le 2 di PO-ANELLO-01 sui report, le 18 di F5-REL-1160-02 su 12 file della capacità, "
+            + "le 301 di AG-PO-01 su 2 file della capacità, le 6900 di AG-PO-02 e le 2367 di BUG-PO-5b, 1939 delle quali sulla chiave DevelopedFraction; "
+            + "7 voci estese con AG-PO-02 e 224 con BUG-PO-5b, la 1 di PO-ANELLO-01 sul report di elastico-tratti-anello-spirale, le 12 di F5-REL-1160-02 su 6 file della capacità, "
             + "le 57 di R14 sui riferimenti dei controlli costruttivi della risposta elastica)");
         expect.That(compared > 0, "Nessun file F3 confrontato");
     }
@@ -457,8 +464,9 @@ internal static class HorizontalPileSheetChecks
 
     // ---------------------------------------------------------------- diagrams
 
-    /// <summary>The diagrams of every survey of the result after «Calcola» equal those that the historic view draws, frozen by the ui stage.</summary>
-    private static async Task DiagramsAsync(string root, string module, string id, Expect expect)
+    /// <summary>The diagrams of every survey of the result after «Calcola» equal those that the historic view draws, frozen by the ui stage.
+    /// The diagrams of the ViewModel are written in <paramref name="written"/> (1.19.4: to read a difference, or the file of a new fixture).</summary>
+    private static async Task DiagramsAsync(string root, string module, string id, string written, Expect expect)
     {
         var data = HorizontalPileScenarios.FixtureData(root, module, id);
         string file = Path.Combine(HorizontalPileScenarios.Diagrams(root), module + "--" + id + ".json");
@@ -468,6 +476,7 @@ internal static class HorizontalPileSheetChecks
         if (sheet.Result is null) { expect.That(!File.Exists(file), "Diagrammi congelati senza risultato: " + id); return; }
         var actual = HorizontalPileTrace.Diagrams(Enumerable.Range(0, sheet.Result.Array("sondaggi").Count)
             .SelectMany(i => new[] { true, false }.Select(soil => sheet.Diagram(i, soil))));
+        Directory.CreateDirectory(written); File.WriteAllText(Path.Combine(written, module + "--" + id + ".json"), actual, new UTF8Encoding(false));
         expect.That(File.Exists(file) && File.ReadAllText(file).Replace("\r\n", "\n") == actual.Replace("\r\n", "\n"),
             "Diagrammi del ViewModel diversi da quelli della vista storica: " + module + "--" + id);
     }

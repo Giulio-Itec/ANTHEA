@@ -73,6 +73,16 @@
       "match": "^XC1\\-C25\\.json/Detailing:\\ object\\ keys$",
       "output": "comparison.json",
       "sha256": "59CF36CE4F39DF2CE7BC65C9DA3D0EB82C6BE0D8BCE8421580A375857F8DB536"
+    },
+    {
+      "suite": "ui/check-contrast",
+      "tipo": "difetto noto",
+      "motivo": "Sezione c.a. rapida (QuickSectionSheetView, main 630028b8): 12 difetti (6 in Scuro, 6 in Molto scuro) di contrasto del testo nelle modalità scure, nella finestra staccata; in Chiaro nessuno. Testi delle ComboBox (Superiore, Inferiore, classe del calcestruzzo) e pastiglia «SLU» della scelta selezionata, rapporto 1,01.",
+      "fonte": "Full sul merge 20261118-151110-1194-p2-full-264ce17d (ui_check-contrast/riepilogo.md, gruppi G001 e G002); elenco anthea-1194-merge-differenze.md, A7.",
+      "data": "2026-11-18",
+      "decisione": "Utente, 18/11/2026 (riferita dal coordinatore): difetto dichiarato per la 1.19.4.",
+      "fase": "Correzione dei colori della sezione c.a. rapida nelle modalità scure (stile ComboBox con BasedOn sullo stile del tema, pastiglia della scelta), dopo la 1.19.4.",
+      "match": "^System\\.InvalidOperationException:\\ FAIL\\ contrasto:\\ Scuro\\ 6,\\ Molto\\ scuro\\ 6;\\ Chiara\\ 0\\ difetti\\ in\\ 0\\ voci\\ \\(baseline\\ 0\\)$"
     }
   ]
 }

@@ -243,7 +243,7 @@ internal static class VerticalPileSheetChecks
 
     private static List<VerticalPileFieldState> FormState(FormViewModel form) => form.Fields.Select(f => f.Kind switch
     {
-        FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.Text, null, f.IsEnabled, f.IsDimmed, f.IsVisible),
+        FieldKind.Text => new VerticalPileFieldState(f.Key, "campo", f.Label, f.EditText, null, f.IsEnabled, f.IsDimmed, f.IsVisible),
         FieldKind.Choice => new VerticalPileFieldState(f.Key, "scelta", f.Label, f.SelectedChoice ?? "", f.Choices, f.IsEnabled, f.IsDimmed, f.IsVisible),
         _ => new VerticalPileFieldState(f.Key, "opzione", f.Label, VerticalPileTrace.YesNo(f.IsChecked), null, f.IsEnabled, f.IsDimmed, f.IsVisible),
     }).ToList();
@@ -365,7 +365,10 @@ internal static class VerticalPileSheetChecks
         var report = comparer.Compare(reference, candidate);
         File.WriteAllText(Path.Combine(capture, "..", "palo-verticale-f3-confronto.json"), report.ToJsonString(J.Options));
         // Four historical transitions and 39 warning paragraphs now included in the seven vertical-pile reports (6/11/2026).
-        expect.That(transitions.Count == 43 && comparer.NotAdmitted == 0, "File con transizioni F4/report: " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
+        // Merge of main 630028b8 (1.19.4, MERGE-GIULIO-RIFERIMENTI-20261118): the files of the two regression fixtures (default weight 1,35)
+        // and the ITEC reports of the pile are new expected files from the capture, without their transitions: 12 warning paragraphs are
+        // left, in two reports of the micropile.
+        expect.That(transitions.Count == 12 && comparer.NotAdmitted == 0, "File con transizioni F4/report: " + comparer.NotAdmitted + " differenze non ammesse o transizioni assenti");
     }
 
     /// <summary>Tables, rows, cells, images and styles of the report, as F3EquivalenceCapture.CaptureReport counts them.</summary>

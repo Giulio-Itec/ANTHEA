@@ -18,9 +18,9 @@ public static partial class EmbeddedWallReport
         {
             var p = section.First().Properties!;
             table(["Sezione", "D [mm]", "Interasse [m]", "Barre / staffe [mm]", "Ec [MPa]", "EI lordo fascia [kNm²]"],
-                [new[] { section.Key, F(p.Diameter), F(p.Spacing), p.BarCount + "φ" + F(p.BarDiameter) + "; φ" + F(p.LinkDiameter) + "/" + F(p.LinkSpacing), F(p.ElasticModulus), F(p.EquivalentRigidity) }]);
-            paragraph($"Copriferro esterno staffa {F(p.Cover)} mm; raggio corona {F(p.BarRadius)} mm; contorno numerico {p.OutlineDivisions} lati. {p.Source}", false);
-            paragraph($"Profilo Italia NTC 2018, c.a. ordinario statico: γc={F(p.GammaC)}; γs={F(p.GammaS)}; αcc={F(p.AlphaCC)} per SLU. "
+                [new[] { section.Key, T(p.Diameter, "mm"), T(p.Spacing, "m"), p.BarCount + "φ" + F(p.BarDiameter, "mm") + "; φ" + F(p.LinkDiameter, "mm") + "/" + F(p.LinkSpacing, "mm"), T(p.ElasticModulus, "MPa"), T(p.EquivalentRigidity, "kNm²") }]);
+            paragraph($"Copriferro esterno staffa {F(p.Cover, "mm")} mm; raggio corona {F(p.BarRadius, "mm")} mm; contorno numerico {p.OutlineDivisions} lati. {p.Source}", false);
+            paragraph($"Profilo Italia NTC 2018, c.a. ordinario statico: γc={F(p.GammaC, "")}; γs={F(p.GammaS, "")}; αcc={F(p.AlphaCC, "")} per SLU. "
                 + "Per SLE si utilizzano i limiti del profilo per la combinazione selezionata.", false);
         }
         foreach (var group in values.GroupBy(r => (r.Stage, r.Section)))
@@ -33,18 +33,18 @@ public static partial class EmbeddedWallReport
                 .OrderByDescending(r => r.Elevation).ThenBy(r => r.Side, StringComparer.Ordinal).ToArray();
             foreach (var r in selected)
             {
-                paragraph($"z={F(r.Elevation)} m, {r.Side}: N={F(r.Normal)} kN; V={F(r.Shear)} kN; M={F(r.Moment)} kNm. Esito locale: {r.OutcomeText}.", false);
+                paragraph($"z={F(r.Elevation, "m")} m, {r.Side}: N={F(r.Normal, "kN")} kN; V={F(r.Shear, "kN")} kN; M={F(r.Moment, "kNm")} kNm. Esito locale: {r.OutcomeText}.", false);
                 if (notes.Add(r.Reference)) paragraph(r.Reference, false);
-                paragraph("Fattore fascia→palo=" + F(r.StripToMemberFactor), false);
+                paragraph("Fattore fascia→palo=" + F(r.StripToMemberFactor, ""), false);
                 table(["Controllo", "Domanda", "Capacità", "Unità", "Utilizzo", "Esito"],
-                    r.Checks.Select(c => new[] { c.Method, F(c.Demand), F(c.Capacity), c.Unit, F(c.Ratio), c.OutcomeText }));
+                    r.Checks.Select(c => new[] { c.Method, T(c.Demand, c.Unit), T(c.Capacity, c.Unit), c.Unit, T(c.Ratio, ""), c.OutcomeText }));
                 if (notes.Add(r.Diagnostic)) paragraph(r.Diagnostic, false);
                 foreach (var c in r.Checks) if (!string.IsNullOrEmpty(c.Diagnostic) && notes.Add(c.Diagnostic)) paragraph(c.Diagnostic, false);
             }
             var details = group.SelectMany(r => r.Details).Distinct().ToArray();
             if (details.Length == 0) continue;
             paragraph("Dettagli costruttivi — esiti separati", true);
-            table(["Regola", "Valore", "Limite", "Unità", "Esito"], details.Select(d => new[] { d.Label, F(d.Actual), F(d.Limit), d.Unit, d.OutcomeText }));
+            table(["Regola", "Valore", "Limite", "Unità", "Esito"], details.Select(d => new[] { d.Label, T(d.Actual, d.Unit), T(d.Limit, d.Unit), d.Unit, d.OutcomeText }));
             foreach (var d in details) if (notes.Add(d.Reference + " " + d.Diagnostic)) paragraph(d.Reference + ": " + d.Diagnostic, false);
         }
     }

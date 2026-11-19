@@ -29,6 +29,9 @@ public sealed partial class EmbeddedWallModule : IModuleService
             ? choice : throw new ArgumentException("Tipo di verifica delle sezioni non supportato.");
         if (kind.HasValue && (string.IsNullOrWhiteSpace(basis) || basis == "Da definire"))
             throw new ArgumentException("Dichiarare combinazione e provenienza delle azioni: nessun coefficiente viene applicato implicitamente.");
+        // A2 (sheet of 16/11/2026): the ULS strips need the history confirmed as a design history. Without it the analysis and the other checks
+        // run; the strips are not verified and the scope says why (review of 15/11, B2).
+        bool stripsUnconfirmed = kind == EmbeddedWallSectionCheckKind.Ultimate && !EmbeddedWallDocument.DesignHistoryConfirmed(data);
         var rc = kind.HasValue ? EmbeddedWallAdapter.ConcreteSections(data) : [];
         if (kind.HasValue && rc.Count == 0) throw new ArgumentException("Definire le sezioni in c.a. da verificare.");
         foreach (var section in rc) section.Validate();
@@ -48,7 +51,7 @@ public sealed partial class EmbeddedWallModule : IModuleService
         var analysis = EmbeddedWallAnalysis.Calculate(model, EmbeddedWallAdapter.Options(data), cancellation,
             new ProgressRelay(p => { progress?.Report(p); ProgressChanged?.Invoke(new(identifyCase ? model.CaseId + " / " + p.StageId : p.StageId, p.Fraction, p.Iterations)); }));
         capture?.Invoke(analysis);
-        var checks = analysis.IsComplete && kind.HasValue ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
+        var checks = analysis.IsComplete && kind.HasValue && !stripsUnconfirmed ? EmbeddedWallConcrete.Check(analysis, model.TributaryWidth, rc, kind.Value, cancellation) : [];
         var steel = EmbeddedWallSteelChecks.Calculate(data, analysis, cancellation);
         var anchors = EmbeddedWallAnchorChecks.Calculate(data, analysis, cancellation);
         var tubes = EmbeddedWallTubeChecks.Calculate(data, analysis, model.TributaryWidth, cancellation);
@@ -75,7 +78,8 @@ public sealed partial class EmbeddedWallModule : IModuleService
             Text(data, "hydraulic_weight_mode") == "Pressioni FEM" ? "Pesi del terreno: γsat dove la pressione FEM è positiva, γ naturale altrove; nessun peso interpolato con il grado di saturazione né frangia capillare."
                 : "Pesi del terreno distinti dalla quota di falda assegnata, anche quando le pressioni provengono dal FEM.",
             hydraulicChecks.Count == 0 ? "Verifiche idrauliche UPL/HYD non richieste." : "UPL/HYD limitate ai corpi, punti e colonne esplicitamente assegnati. Azioni caratteristiche e coefficienti del profilo normativo dichiarato; Rd aggiuntiva già di progetto. Questi controlli non verificano erosione interna o instabilità non drenata del fondo. Le azioni variabili della combinazione devono essere definite dall'utente.",
-            kind.HasValue ? "Sezioni in c.a.: verifiche NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
+            stripsUnconfirmed ? "Sezioni in c.a.: " + EmbeddedWallDocument.DesignHistoryRequest(model.CaseId)
+            : kind.HasValue ? "Sezioni in c.a.: verifiche NTC 2018 su azioni della combinazione dichiarata; rettangolo senza staffe. Nessun coefficiente parziale aggiunto dal servizio. Progetto delle armature e dettagli non eseguiti."
                 : "Verifiche di resistenza ed esercizio delle fasce rettangolari in c.a. non richieste."
         };
         if (EmbeddedWallDocument.ReducedLockOffs(EmbeddedWallDocument.LockOffs(data, null)) is { } reduced) scope.Insert(2, reduced);
@@ -88,10 +92,21 @@ public sealed partial class EmbeddedWallModule : IModuleService
                 -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, "Sezione non definita", "", 0, null, null, EngineeringOutcome.NotEvaluated, c.Diagnostic) }
                 : c.Checks.Select(v => new EmbeddedWallCheckData(c.CaseId, c.StageId, c.SectionId, c.Elevation / SoilUnits.Metre, c.Side,
                     -c.Actions.N / NewtonsPerKilonewton, c.Actions.V / NewtonsPerKilonewton, -c.Actions.M / NmmPerKilonewtonMetre, v.Method, v.Unit, v.Demand, v.Capacity, v.Ratio, v.Outcome, v.Diagnostic ?? c.Diagnostic))).ToArray()),
-            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors, tubes, rcPiles, Envelope: Envelopes(analysis, cancellation));
+            scope.AsReadOnly(), hydraulics, hydraulicChecks, globalChecks, steel, anchors, tubes, rcPiles, Envelope: Envelopes(analysis, cancellation),
+            Warnings: AnalysisWarnings(analysis.Warnings));
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(snapshot), snapshot);
     }
+    /// <summary>
+    /// A4 of the embedded-wall review (sheet of 16/11/2026, decided on 17/11/2026): the warnings of the GPC analysis of one history, today the first
+    /// stage that is not geostatic, for the sheet and the report; null without warnings, so that the snapshot stays as before. The library writes
+    /// the gap and its elevation with the invariant point: here they get the decimal comma of the report (it-IT), like every other number of the
+    /// report. Nothing else of the text changes.
+    /// </summary>
+    public static IReadOnlyList<string>? AnalysisWarnings(IReadOnlyList<string>? warnings) => warnings is { Count: > 0 }
+        ? Array.AsReadOnly(warnings.Select(w => ItalianDecimals().Replace(w, ",")).ToArray()) : null;
+    [System.Text.RegularExpressions.GeneratedRegex(@"(?<=\d)\.(?=\d+ (?:kPa|m)\b)")]
+    private static partial System.Text.RegularExpressions.Regex ItalianDecimals();
     private sealed class ProgressRelay(Action<WallAnalysisProgress> report) : IProgress<WallAnalysisProgress>
     { public void Report(WallAnalysisProgress value) => report(value); }
 }

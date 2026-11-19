@@ -60,12 +60,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
@@ -131,12 +131,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
@@ -202,12 +202,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
@@ -273,12 +273,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
@@ -344,12 +344,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4
@@ -415,12 +415,12 @@ pali 11 · modificabili no · righe nuove no · "Coordinate automatiche. Scegli 
 disposizione "Quinconce" · nota ""
   campo nx "Pali file lunghe N (corte N−1)" = "4"
   campo ny "Numero di file Ny" = "3"
-  campo sx_d "Interasse nella fila Sx / D" = "3.5"
+  campo sx_d "Interasse nella fila Sx / D" = "3,5"
   campo sy_d "Interasse fra file Sy / D" = "3"
   campo rotazione "Rotazione palificata [° da +X]" = "15"
-diametro "0.8"
+diametro "0,8"
 direzioni X=no Y=sì X-=sì Y-=sì custom=sì · angolo "30" attivo
-basamento "Rettangolare" · asse-bordo "1.25"
+basamento "Rettangolare" · asse-bordo "1,25"
 opzioni estrapolazioni no · file proiettate no
 interassi X [0] "" ""
 disegno 5/"Y-"/270 · basamento 4

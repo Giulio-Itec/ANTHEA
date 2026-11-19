@@ -41,7 +41,7 @@ internal sealed partial class ModelSceneRenderer
             "LINK" => options.ShowLinks, "RELEASE" => options.ShowReleases, _ => false
         };
         bool Selected(ModelBoundary b) => b.Nodes.Any(options.SelectedNodes.Contains) || b.Element is int id && options.Selection.Contains(id);
-        var groups = (model.Boundaries ?? []).Where(b => Enabled(b) && (nodes == null || b.Nodes.Any(nodes.Contains)) && (!options.OverlaysOnlySelection || Selected(b)))
+        var groups = (model.Boundaries ?? []).Where(b => Enabled(b) && options.Shows(b) && (nodes == null || b.Nodes.Any(nodes.Contains)) && (!options.OverlaysOnlySelection || Selected(b)))
             .GroupBy(b => (b.Kind, Node: b.Nodes[0], b.Element, b.Dofs))
             .OrderByDescending(g => g.Any(Selected)).ThenBy(g => g.Key.Kind is "RESTRAIN" or "RELEASE" ? 0 : 1)
             .ThenBy(g => g.Key.Node).ThenBy(g => g.Key.Element);

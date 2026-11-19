@@ -252,7 +252,11 @@
             Front is the right-hand face of the wall (positive displacement direction); back is the left-hand face.</summary>
         </member>
         <member name="M:GPC.Design.EmbeddedWalls.EmbeddedWallRcStrip.CreateSession">
-            <summary>Creates an independent section session. No shared mutable material, mesh or verifier between analyses.</summary>
+            <summary>
+            Creates an independent section session. No shared mutable material, mesh or verifier between analyses. The crack check of a diaphragm wall uses
+            the bar spacing of the face in tension in each combination (<see cref="F:GPC.Checkers.Concrete.Walls.WallCrackSpacing.TensionFace"/>; S3 of the embedded-wall review of October 2026,
+            scheda decisioni ANTHEA 16/11/2026), no longer the sparser face: the two differ only when the faces have different bars.
+            </summary>
         </member>
         <member name="T:GPC.Design.EmbeddedWalls.EmbeddedWallSectionResult">
             <summary>One cut, one stage and one nonlinear history. Actions are never assembled from separate extrema.</summary>

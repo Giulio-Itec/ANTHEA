@@ -177,7 +177,10 @@ internal static class HorizontalStratifiedChecks
         using var zip = new ZipArchive(stream); using var xmlStream = zip.GetEntry("word/document.xml")!.Open();
         string xml = XDocument.Load(xmlStream).ToString();
         Check(xml.Contains("Ammesse sequenze miste") && xml.Contains("Chiusura distribuita"), "Relazione descrive il modello adottato");
-        Check(!xml.Contains("sequenza mista.") && xml.Contains("ipotesi del modello") && xml.Contains("validazione sperimentale"), "Relazione distingue ipotesi e validazione");
+        // 18/11/2026 (merge of main 630028b8): the wording of 8796bae8 (HorizontalPileWording) says the closure is a hypothesis of the model
+        // and of limit equilibrium, without an elastoplastic soil–pile interaction, and no longer «sperimentale».
+        Check(!xml.Contains("sequenza mista.") && xml.Contains("ipotesi del modello") && xml.Contains("ipotesi di equilibrio limite")
+            && !xml.Contains("sperimentale", StringComparison.OrdinalIgnoreCase), "Relazione distingue ipotesi e validazione");
         Check(!xml.Contains("PileChecker"), "Relazione con denominazione aggiornata");
         Console.WriteLine($"Stratificato: {count} controlli superati.");
         return count;

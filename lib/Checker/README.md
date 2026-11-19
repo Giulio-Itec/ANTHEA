@@ -1,5 +1,20 @@
 # DLL Checker
 
+**Release AZ — librerie della 1.19.4 (18 novembre 2026).** Set ufficiale `gpc-release-20261118-az`
+(`gpc-f6-claude/F7/sets/gpc-release-20261118-az`, `release-set.json` SHA-256 `27839D25151D047512DE8F237FBEC3A181411746A00424A5618A45753D27F698`),
+prodotto da `Checker/build/Release-Set.ps1 -Previous` (set ufficiale AY) su Model `a3406225` e Checker `5723a084`, pubblicati su origin/master il
+18/11; Geometry `6734eee1` e Utilities `e57b440b` invariati. `candidate: false`, sorgenti su origin/master. Rispetto ad AY:
+- GPCModel **5.53.0.0**, GPC.Converter **2.27.0.0**, GPC.Model.Persistence **3.17.0.0** (GPCModelData 0.3.0.36 e GPC.Archive 1.2.0.9
+  ricompilate): equilibrio delle pressioni sui quadrilateri piani con la regola `ShellPlanarity`; vincoli, molle a terra e casi di carico
+  per freedom case (`NodeAssignments.RestrainsOf`, `GroundSpringsOf`, `LoadCaseBase.FreedomCase`, `SpringMatrix.FreedomCase`,
+  `FreedomCaseRecord`); al posto dell'avviso `Straus7FreedomCasesPreserved` l'informazione `Straus7FreedomCaseSupports`;
+- GPCChecker.Concrete **0.39.0.1** (R16 variante (b2) e limite ν ≥ 2/√fck, fori eccentrici e foro ad anello), Geotechnics **0.30.0.1** (Hu di
+  Broms accanto allo Stratificato, avviso della prima fase non geostatica), GPC.Design **0.47.0.1** (S3, passo della faccia tesa),
+  Steel **2.136.0.1** (12c, funzioni facoltative), ModelChecker 2.43.0.8, CompositeBridge 1.31.0.9, Masonry 0.10.0.43 ricompilate.
+Suite del set: 14 con 0 falliti, nativi Straus7 compresi; API senza rimozioni non approvate (rapporto `set-az-ufficiale-20261118.md`).
+Installato con `Update-Snapshot.ps1 -ReleaseSet ... -Install`; registrazione F4 (`tests/fixtures/f4/library-release.json`) aggiornata alla
+release AZ, con `previous_manifest_sha256` invariato. Nessuna baseline, fixture numerica o cattura rigenerata.
+
 **Release AY — librerie della 1.19.3: Straus7 con più freedom case (17 novembre 2026).** Set ufficiale
 `gpc-release-20261117-ay` (`gpc-f6-claude/F7/sets/gpc-release-20261117-ay`, `release-set.json` SHA-256
 `DA364F5161A236B223EAB334E8BEBADB4919B815E1E8238F9518D1984D409A65`), prodotto da `Checker/build/Release-Set.ps1 -Previous` (set

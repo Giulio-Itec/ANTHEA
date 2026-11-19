@@ -524,3 +524,43 @@ Decisione dell'utente dell'8/11/2026 sui riferimenti congelati: «aggiorna», se
   inefficace» del progetto resta «0,00 mm» come nel riferimento.
 - Confronto completo (`tools/qa/f3_confronto_completo.py`) della stessa cattura dopo l'aggiornamento: fuori dalla Wiki e da
   `esito.txt` (ammesse dalle transizioni editoriali del manifest) nessuna differenza non ammessa.
+
+## Fixture aggiunta nella 1.19.4 (palo orizzontale in sabbia, Stratificato con Broms)
+
+Con l'OK dell'utente del 18/11/2026 («Sì, i consigli», consiglio 7) il palo orizzontale passa da 11 a 12 fixture (120 in tutto).
+Le due fixture dello Stratificato di F5.7 hanno verticali miste, dove il confronto con Broms dello Stratificato (PO-BROMS-01)
+non compare: questa è la sola fixture F3 che lo contiene. Gli attesi delle 119 fixture esistenti e le transizioni non cambiano.
+
+| Fixture | Cosa copre |
+| --- | --- |
+| `geo_palo_orizzontale--stratificato-sabbia-broms` | palo corto in sabbia (D 0,6 m, L 4 m), testa libera con eccentricità 1 m, una stratigrafia granulare di 30 m (φ′ 30°, γ 18 kN/m³), senza falda, metodo stratificato, momento manuale molto grande (meccanismo corto), una verticale, efficienza manuale 1: Hu 153,234 kN, Hu di Broms 207,36 kN, rapporto 0,739 nel risultato, nella sintesi e nel report |
+
+- L'input viene da `fixtures-f3` (`F3Fixtures.HorizontalPileBroms1194`) ed è uguale ai dati del foglio d'esempio della build di
+  prova della 1.19.4 (`palo-corto-sabbia-broms.anthea`); delle altre 119 fixture, il generatore ne riproduce 89 byte per byte e
+  30 diverse per i default dei cataloghi (muri, calcestruzzo, Bridge Design, sezione c.a.), già note: si è copiata solo quella nuova.
+- I valori coincidono con gli attesi in forma chiusa di PO-BROMS-01 (figura 2 dell'articolo): Broms 0,5 γ D L³ Kp/(L + e) =
+  207,36 kN, Stratificato 153,234 kN, rapporto 0,738976.
+- Gli attesi (9 file) vengono dalla cattura `20261118-103620-1194-p2-ra-a3042f1f`, la prima senza attesi per la fixture: le sole differenze fuori dalla Wiki
+  erano i 9 file aggiunti e il numero di `esito.txt`. La vista storica è archiviata dal 23/10/2026: la cattura è della vista
+  XAML. La seconda cattura (`20261118-110139-1194-p2-rb-f23cee0e`) dà gli stessi file byte per byte; con queste fixture passa anche `ui/f3-report-chapters`.
+- La traccia congelata dello scenario `palo-stratificato-sabbia-broms`, i diagrammi e le 5 righe dei disegni sono in
+  `tests/fixtures/f5-palo-orizzontale` (vedi il suo README).
+- In `expected/esito.txt` è cambiato solo il numero delle fixture (119 → 120).
+- Impronte nel manifest, sezione `fixture_aggiunte_1194` (input, attesi ed `esito.txt` prima e dopo), sulla forma conservata da git
+  (fine riga LF). Voce del registro F3-PO-BROMS-SABBIA-20261118.
+
+## Merge di main 630028b8 nella 1.19.4 (18/11/2026)
+
+La candidata 1.19.4 unisce main `630028b8` (merge `2c4b4a1e`). La commit `8796bae8` cambia comportamenti già coperti da questi
+attesi: peso proprio sfavorevole predefinito del palo verticale 1,35 invece di 1,30, relazione ITEC del palo verticale, relazione
+del palo orizzontale con la tabella della capacità. Decisione dell'utente del 18/11/2026: «Sì, registratele voi», con l'OK
+sull'elenco delle differenze.
+- **Attesi rinnovati** (35 file): `report.txt` e `report-structure.json` di 4 fixture del palo verticale con risultato, di
+  3 del palo e 3 del micropalo orizzontale e di `stratificato-sabbia-broms`, più i file di `regressione-palo_storico_0` e
+  `regressione-micropalo_igu_0_nessuna-riduzione` (fogli senza la chiave del peso). Il nuovo atteso è il file della cattura
+  `supporto/artefatti/ci/20261118-151110-1194-p2-full-264ce17d/ui_f3-equivalence/cattura`.
+- **Transizioni**: le 217 transizioni elencate su quegli stessi file sono tolte (AG-PO-01 179, BUG-PV-1 3, BUG-PV-3 1, F5-REL-1160-02 6, PO-ANELLO-01 1, REPORT-TEMPLATE-20261106 27): il nuovo atteso ha già il
+  valore dopo, o la riga non c'è più. Restano 77972 voci; chiave `aggiornamento_1194_merge` dell'elenco.
+- La Wiki e ogni altra fixture non cambiano. In `stratificato-sabbia-broms` cambia solo la forma della relazione: il paragrafo del
+  confronto con Broms resta dopo la tabella della capacità e i valori (207,36 kN, rapporto 0,739) sono gli stessi.
+- Impronte prima e dopo (forma LF) nel manifest, sezione `expected_updates_1194_merge`. Voce del registro MERGE-GIULIO-RIFERIMENTI-20261118.

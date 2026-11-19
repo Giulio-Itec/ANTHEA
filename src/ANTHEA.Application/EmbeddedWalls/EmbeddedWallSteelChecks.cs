@@ -52,15 +52,19 @@ public static class EmbeddedWallSteelChecks
         }
         string basis = Text(data, "action_basis");
         bool basisMissing = string.IsNullOrWhiteSpace(basis) || basis == "Da definire";
+        // A2 (sheet of 16/11/2026): a ULS kind on a history not confirmed as a design history is analysed only, with the request.
+        bool unconfirmed = kind is EmbeddedWallSteelCheckKind.StaticUltimate or EmbeddedWallSteelCheckKind.SeismicUltimate
+            && !EmbeddedWallDocument.DesignHistoryConfirmed(data);
         if (!analysis.IsComplete)
             return Array.AsReadOnly(knownIds.OrderBy(id => id, StringComparer.Ordinal).Select(id => new EmbeddedWallSteelData(analysis.CaseId,
                 analysis.FailedStage ?? "", id, "", null, 0, false, null, EngineeringOutcome.NotEvaluated,
                 "Storia meccanica incompleta: verifiche dei sostegni non eseguite.", code, [])).ToArray());
         var results = EmbeddedWallSteel.CheckSupports(analysis, definitions, standard,
-            basisMissing ? EmbeddedWallSteelCheckKind.Analysis : kind, cancellation);
+            basisMissing || unconfirmed ? EmbeddedWallSteelCheckKind.Analysis : kind, cancellation);
         return Array.AsReadOnly(results.Select(r => new EmbeddedWallSteelData(r.CaseId, r.StageId, r.SupportId, r.Kind.ToString(),
             r.NormalForce / NewtonsPerKilonewton, r.AnalysedAxialStiffness, r.AtModelCapacity, r.Verification?.CompressionClass, r.Outcome,
             basisMissing ? "Dichiarare provenienza e coefficienti delle azioni della combinazione; nessuna verifica su azioni non classificate."
+                : unconfirmed ? (diagnostics.TryGetValue(r.SupportId, out var invalid) ? invalid + " " : "") + EmbeddedWallDocument.DesignHistoryRequest(r.CaseId)
                 : diagnostics.GetValueOrDefault(r.SupportId, r.Diagnostic),
             code + "; " + kind + (r.Verification is { } v ? "; " + v.Member.MaterialSource : ""),
             Array.AsReadOnly((r.Verification?.Checks ?? []).Select(c => new EmbeddedWallSteelCheckData(c.Method, c.Reference,

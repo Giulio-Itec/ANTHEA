@@ -18,6 +18,8 @@ public static partial class PaloOrizzontale
 {
     public const string Module = "geo_palo_orizzontale";
     const double M = 1000, KPa = 1e-3, KN3 = 1e-6, Deg = Math.PI / 180, Gw = 9.81;
+    /// <summary>N in a kN: the forces of the library are in N, those of the sheet in kN.</summary>
+    const double Kilonewton = 1000;
     static readonly StandardNTC2018Geotechnics Ntc = new();
     public static double PassivePressureCoefficient(double phiDegrees)
     {
@@ -216,7 +218,7 @@ public static partial class PaloOrizzontale
             ("u_kpa", x.PorePressure / KPa), ("sigma_eff_kpa", weights ? x.EffectiveStress / KPa : null), ("q_lim_kpa", x.LimitPressure / KPa), ("p_lim_kn_m", x.LimitReaction),
             ("q_integrale_kn", x.IntegratedReaction / 1000))).ToArray());
         bool available = weights && r.StressesAvailable;
-        return J.Obj(("capacita_kn", r.Capacity / 1000), ("meccanismo", mechanism), ("coesivo", r.Cohesive), ("misto", r.Mixed),
+        var survey = J.Obj(("capacita_kn", r.Capacity / 1000), ("meccanismo", mechanism), ("coesivo", r.Cohesive), ("misto", r.Mixed),
             ("chiusura_equilibrio", r.DistributedClosure ? "Distribuita" : "Concentrata"), ("diagramma_limite", limit), ("candidati", candidates),
             ("momento_testa_knm", r.HeadMoment / 1e6), ("momento_massimo_knm", r.MaximumMoment / 1e6), ("quota_momento_massimo_m", r.MaximumMomentDepth / M),
             ("quota_taglio_nullo_m", r.ZeroShearDepth / M), ("cerniere_m", r.Hinges.Select(h => h / M).ToArray()), ("fine_reazioni_m", r.ReactionEnd / M),
@@ -226,6 +228,22 @@ public static partial class PaloOrizzontale
                 ? "σv e σ′v da peso proprio; u idrostatica, senza suzione. q_lim=p_lim/D; q=p/D è una pressione laterale equivalente. Nessuna riduzione locale con ξ o γR."
                 : "σv e σ′v non disponibili: completare i pesi di volume. Nel profilo interamente coesivo la capacità dipende da Cu, non da questi pesi."),
             ("diagramma_terreno", ground), ("modello_adottato", r.ModelName));
+        AddBroms(survey, r.BromsCapacity, r.BromsMechanism, r.RatioToBroms);
+        return survey;
+    }
+
+    /// <summary>
+    /// Stratificato, option C of the sheet of 16/11/2026 (decided by the user on 17/11/2026, «A + C, con la Hu di Broms accanto»): where the library
+    /// gives it (Stratificato on an entirely granular vertical whose mechanism is short or intermediate, GPCChecker.Geotechnics 0.30), Hu of Broms for
+    /// the same pile and vertical, its mechanism and the ratio Stratificato/Broms. Additional output only: the capacity and the verification stay the
+    /// stratified ones. Elsewhere nothing is written, so the results of before keep their keys.
+    /// </summary>
+    static void AddBroms(JsonObject target, double? capacity, LateralMechanism? mechanism, double? ratio)
+    {
+        if (capacity is not double broms || ratio is not double r) return;
+        target["capacita_broms_kn"] = broms / Kilonewton;
+        if (mechanism is LateralMechanism m) target["meccanismo_broms"] = Mechanisms[(int)m];
+        target["rapporto_broms"] = r;
     }
 
     public static JsonObject Calculate(JsonObject data)
@@ -296,6 +314,8 @@ public static partial class PaloOrizzontale
                 ("percorso", "Incremento di H con e costante; M applicato = H·e; N costante"), ("avvisi", warnings));
             // Solo con la testa interrata: i risultati con d0 = 0 restano quelli di prima.
             if (d0 > 0) result["profondita_testa"] = d0;
+            // Stratificato C: Hu di Broms della verticale governante accanto alla capacità adottata, solo dove la libreria la dà.
+            AddBroms(result, r.BromsCapacity, r.Surveys[r.GoverningSurvey - 1].BromsMechanism, r.RatioToBroms);
             return result;
         }
         catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or FormatException or OverflowException)

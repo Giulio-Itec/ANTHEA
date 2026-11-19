@@ -440,7 +440,7 @@
                     "sicurezza_laterale_compressione": "1.15",
                     "sicurezza_laterale_trazione": "1.25",
                     "sicurezza_base": "1.35",
-                    "peso_palo_sfavorevole": "1.30",
+                    "peso_palo_sfavorevole": "1.35",
                     "peso_palo_favorevole": "1.00",
                     "metodo_nq": "Parametrizzata"
                   },

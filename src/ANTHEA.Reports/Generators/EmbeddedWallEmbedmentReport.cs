@@ -10,18 +10,18 @@ public static partial class EmbeddedWallReport
     {
         if (report.EmbedmentSearch is not { } search) return;
         paragraph("Ricerca dell'infissione", true); paragraph(search.Diagnostic, false);
-        paragraph($"Quota di riferimento {F(search.ReferenceElevation)} m; passo {F(search.Increment)} m. Candidati valutati {search.Candidates.Count}/{search.PlannedEmbedments.Count}. "
+        paragraph($"Quota di riferimento {F(search.ReferenceElevation, "m")} m; passo {F(search.Increment, "m")} m. Candidati valutati {search.Candidates.Count}/{search.PlannedEmbedments.Count}. "
             + $"Ricerca completata: {(search.Completed ? "sì" : "no")}; annullata: {(search.Cancelled ? "sì" : "no")}; minimo dimostrato sulla griglia: {(search.MinimumCertified ? "sì" : "no")}. Fonte: {search.Source}", false);
-        paragraph("Griglia completa [m]: " + string.Join("; ", search.PlannedEmbedments.Select(d => F(d))), false);
-        paragraph(search.BestToe.HasValue ? $"Candidato accettabile meno profondo: infissione {F(search.BestEmbedment)} m, quota piede {F(search.BestToe)} m. Le successive tabelle di fase e verifica si riferiscono a questo candidato. Il modello di partenza è quello riportato fra i dati assegnati."
+        paragraph("Griglia completa [m]: " + string.Join("; ", search.PlannedEmbedments.Select(d => F(d, "m"))), false);
+        paragraph(search.BestToe.HasValue ? $"Candidato accettabile meno profondo: infissione {F(search.BestEmbedment, "m")} m, quota piede {F(search.BestToe, "m")} m. Le successive tabelle di fase e verifica si riferiscono a questo candidato. Il modello di partenza è quello riportato fra i dati assegnati."
             : "Nessun candidato accettato. Non si presentano diagrammi di una soluzione verificata.", false);
-        table(["Infissione [m]", "Piede [m]", "Esito", "Diagnostica"], search.Candidates.Select(c => new[] { F(c.Embedment), F(c.ToeElevation), c.OutcomeText, c.Diagnostic }));
+        table(["Infissione [m]", "Piede [m]", "Esito", "Diagnostica"], search.Candidates.Select(c => new[] { T(c.Embedment, "m"), T(c.ToeElevation, "m"), c.OutcomeText, c.Diagnostic }));
         foreach (var c in search.Candidates)
         {
-            paragraph($"Infissione {F(c.Embedment)} m — {c.OutcomeText}", true);
+            paragraph($"Infissione {F(c.Embedment, "m")} m — {c.OutcomeText}", true);
             if (c.Result is { } result) paragraph("Analisi: " + result.Status + ". " + result.Diagnostic + "; impronta candidato: " + result.Fingerprint, false);
             table(["Criterio / fase", "Domanda", "Limite", "Unità", "Utilizzo", "Esito"], c.Criteria.Select(v => new[] {
-                v.CaseId + " / " + v.Label + " / " + (v.Stage ?? "tutta la storia"), F(v.Demand), F(v.Limit), v.Unit, F(v.Ratio), v.OutcomeText }));
+                v.CaseId + " / " + v.Label + " / " + (v.Stage ?? "tutta la storia"), T(v.Demand, v.Unit), T(v.Limit, v.Unit), v.Unit, T(v.Ratio, ""), v.OutcomeText }));
             foreach (var v in c.Criteria) paragraph(v.Label + ": " + v.Method + ". " + v.Diagnostic, false);
         }
     }

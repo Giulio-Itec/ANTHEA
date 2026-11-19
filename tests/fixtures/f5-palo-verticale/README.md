@@ -74,3 +74,8 @@ quando il risultato non c'è (pressione vuota). Il difetto è riportato in `docs
 
   Nelle 18 tracce cambiano solo queste stringhe: 83 righe `grafico "Premere Calcola"` e 257 righe `riferimento … vuoto "Premere Calcola"`. Nelle 13 figure di
   `tests/fixtures/f3-figures` cambiano 24 titoli e 19 messaggi. Nessun'altra riga cambia.
+- 18/11/2026, voce MERGE-GIULIO-RIFERIMENTI-20261118 (ANTHEA 1.19.4, merge di main 630028b8, con l'OK dell'utente): un foglio senza la chiave
+  `peso_palo_sfavorevole` si apre con il predefinito 1,35 invece di 1,30 (commit `8796bae8`). In 5 tracce
+  cambiano 598 righe: «dati», il campo `peso_palo_sfavorevole` e i risultati e le serie dei grafici che
+  dipendono dal peso proprio. Le tracce vengono dalla vista XAML (`ui/check-palo-verticale-view`, corsa `20261118-151110-1194-p2-full-264ce17d`) e sono uguali a
+  quelle del ViewModel. Le altre tracce non cambiano.

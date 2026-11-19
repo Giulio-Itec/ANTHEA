@@ -22,7 +22,9 @@ static class Strand7Sample
     static ResultState State(string name, int count) => new() { Semantics = AnalysisSemantics.LinearStatic, ConcomitantStateId = "synthetic " + name, IsCombined = false,
         IsCumulative = true, Components = Enumerable.Repeat(ComponentAvailability.Available, count).ToArray() };
 
-    public static Model Model()
+    /// <param name="freedomCases">Set AZ: two freedom cases, FC A with the restraint of node 1 and the dead load case, FC B with the restraint of
+    /// node 4, the spring of node 2 and the live load case, written as GPC.Converter 2.27 writes them.</param>
+    public static Model Model(bool freedomCases = false)
     {
         var batch = new ImportBatch { Program = "Straus7", SolverVersion = "3.1.5", ModelRevision = "synthetic", AnalysisId = "LSA synthetic", SourceHash = "SYNTHETICGEOMETRY" };
         Point3d[] points = [new(0, 0, 0), new(2000, 0, 0), new(2000, 1000, 0), new(0, 1000, 0), new(0, 0, 3000), new(2000, 0, 3000),
@@ -67,6 +69,13 @@ static class Strand7Sample
         batch.LoadCases.Add(new LoadCaseRecord { Name = Dead, Record = "LoadCase/1" }); batch.LoadCases.Add(new LoadCaseRecord { Name = Live, Record = "LoadCase/2" });
         batch.Combinations.Add(new CombinationRecord { Id = "LSA/1", Name = "ULS", Kind = CombinationKind.Linear, Source = "LSA", Status = "ACTIVE", Record = "LSA combination 1",
             Terms = [new() { Name = Dead, IsStaticCase = true, Analysis = "LSA", Factor = 1.35 }, new() { Name = Live, IsStaticCase = true, Analysis = "LSA", Factor = 1.5 }] });
+        if (freedomCases)
+        {
+            batch.FreedomCases.Add(new FreedomCaseRecord { Name = "FC A", Record = "FreedomCase/1" });
+            batch.FreedomCases.Add(new FreedomCaseRecord { Name = "FC B", Record = "FreedomCase/2" });
+            batch.NodeRestrains[0].FreedomCase = "FC A"; batch.NodeRestrains[1].FreedomCase = "FC B"; batch.NodeSprings[0].FreedomCase = "FC B";
+            batch.LoadCases[0].FreedomCase = "FC A"; batch.LoadCases[1].FreedomCase = "FC B";
+        }
         var mapped = ModelMapper.Map(batch);
         var model = mapped.Model ?? throw new InvalidDataException("Synthetic Straus7 model rejected: " + string.Join("; ", mapped.Diagnostics.Select(d => d.Code + " " + d.Message)));
 

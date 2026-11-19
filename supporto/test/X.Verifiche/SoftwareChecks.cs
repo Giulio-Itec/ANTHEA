@@ -68,7 +68,7 @@ public static class SoftwareChecks
                 Assert(tables.Any(t=>t.Titolo.Contains(micro?"aderenza":"parametri alla punta")),"Dettagli mancanti");
                 string report=Path.Combine(temp,micro?"micro.docx":"palo.docx");ReportWord.Esporta(report,"Test",micro?"geo_micropalo_verticale":"geo_palo_verticale",source,output);
                 progress?.Invoke("Report completo scritto");
-                using var archive=ZipFile.OpenRead(report);var entry=archive.GetEntry("word/document.xml");Assert(entry is not null,"Documento Word mancante");using var stream=entry!.Open();var xml=XDocument.Load(stream);Assert(xml.Descendants().Any(n=>n.Value.Contains("Dettagli ogni 0,50")),"Dettaglio Word mancante");
+                using var archive=ZipFile.OpenRead(report);var entry=archive.GetEntry("word/document.xml");Assert(entry is not null,"Documento Word mancante");using var stream=entry!.Open();var xml=XDocument.Load(stream);Assert(xml.Descendants().Any(n=>n.Value.Contains(micro?"Dettagli ogni 0,50":"Riepilogo alla quota finale")),"Dettaglio Word mancante");
                 foreach(var e in archive.Entries.Where(e=>e.FullName.EndsWith(".xml")||e.FullName.EndsWith(".rels"))){using var s=e.Open();_=XDocument.Load(s);}
                 Assert(true,"XML Word");
                 progress?.Invoke("XML verificato");
@@ -81,7 +81,9 @@ public static class SoftwareChecks
                 var outcomeResult=J.Obj(("copertura_completa",complete),("curve",J.Obj(("drenante_compressione",J.Obj(("progetto",new JsonArray(new JsonArray(1.0,100.0))))))),
                     ("azioni",J.Obj(("compressione",action<0?new JsonArray():new JsonArray(new JsonArray(1,action))))));
                 string path=Path.Combine(temp,"esito.docx");
-                ReportWord.Esporta(path,"Test esito","geo_palo_verticale",data,outcomeResult,new HashSet<string>{"risultati"});
+                // 18/11/2026 (merge of main 630028b8): with the inputs the vertical pile writes the ITEC report (8796bae8), built on every classic section,
+                // so it needs a complete result; the outcome is that of the classic results table, the source of the ITEC tables.
+                ReportWord.Esporta(path,"Test esito","geo_palo_verticale",data,outcomeResult,new HashSet<string>{"risultati"},includeInputs:false);
                 using var archive=ZipFile.OpenRead(path);using var stream=archive.GetEntry("word/document.xml")!.Open();var xml=XDocument.Load(stream);
                 XNamespace w="http://schemas.openxmlformats.org/wordprocessingml/2006/main";
                 Assert(xml.Descendants(w+"t").Any(t=>t.Value==expected),"Esito relazione: "+expected);

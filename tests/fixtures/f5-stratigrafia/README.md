@@ -58,3 +58,7 @@ del terreno (`SoilTransferDialog`, condiviso dai moduli dei terreni) è guidato 
   finché la vista storica esiste.
 - `Presentation.Tests`, nello stadio `fast`, confronta le stesse tracce con il ViewModel.
 - Le tracce non si rigenerano: una differenza della vista storica o del ViewModel si spiega e si registra.
+- 18/11/2026, voce TRACCE-VISTE-DOMANDA5-20261118 (ANTHEA 1.19.4, domanda 5 della voce 12h, con l'OK dell'utente): un numero salvato come numero JSON si mostra nel campo con la virgola. In 8 tracce sono sostituite solo le 320 righe che differiscono per il separatore decimale, prese dalla vista XAML (full `20261118-051529-1194-full-az-a3042f1f`); ogni altra riga resta. Il ViewModel scrive ora nella traccia il testo che il campo mostra (`EditText`), come la vista.
+- 18/11/2026, voce MERGE-GIULIO-RIFERIMENTI-20261118 (ANTHEA 1.19.4, merge di main 630028b8, con l'OK dell'utente): uno strato nuovo prende il
+  colore `#F4C95D` e un duplicato un colore nuovo (commit `8796bae8`); nella copia al palo verticale il peso proprio sfavorevole è
+  1,35. In 4 tracce cambiano 55 righe, prese dal ViewModel (`Presentation.Tests`, corsa `20261118-151110-1194-p2-full-264ce17d`).

@@ -1,5 +1,74 @@
 # Refactoring di ANTHEA: decisioni
 
+## 18 novembre — differenze della candidata 1.19.4 e report delle paratie
+
+L'utente il 18/11, riferito dal coordinatore: «Sì, i consigli» per gli undici consigli del rapporto della candidata (parte 1,
+`gpc-f6-claude/INT/rapporti/anthea-1194-parte1-20261118.md`, fuori dal repository) e, verso le 11:00, «Sì ai consigli per tutte e tre»
+per le domande della registrazione:
+
+- **Differenze approvate e registrate:** catture della vista delle paratie e report delle paratie (`PARATIE-RIFERIMENTI-1194-20261118`),
+  tracce congelate di palificata, fondazioni, palo orizzontale e stratigrafia con la virgola della domanda 5
+  (`TRACCE-VISTE-DOMANDA5-20261118`), transizioni F3 della Wiki Rev75 (`GUIDE-REV75-20261118`). Versione 1.19.4.
+- **Report delle paratie:** nei «Dati assegnati» la conferma A2 e ogni altra opzione si scrivono «sì» o «no», non «true» o «false»;
+  «mm2» e «mm2/m» delle librerie hanno i decimali di mm² e mm²/m, cioè nessuno.
+- **Fixture F3 di un palo corto in sabbia con lo Stratificato** (`F3-PO-BROMS-SABBIA-20261118`), perché il confronto con Broms entri nel
+  riferimento.
+- **Presentation.Tests** raccoglie tutti i fallimenti e fallisce alla fine.
+- **Passi a parte, non nella 1.19.4:** la domanda 5 nelle celle delle tabelle (con la protezione della scrittura, insieme alla domanda
+  2); il testo dell'avviso A4 scritto in it-IT o con scarto e quota come valori nella prossima Geotechnics; il freedom case delle
+  combinazioni (quello comune ai termini, quando è uno solo).
+
+## 17 novembre (sera) — scheda del 16/11 e separatore decimale, per la 1.19.4
+
+L'utente il 17/11 alle 20:50: «ok per tutte le voci» di `gpc-f6-claude/INT/decisioni-aperte-20261117.md` (fuori dal repository), con il
+dettaglio delle scelte senza consiglio nel piano di passaggio del coordinatore. Per ANTHEA valgono i blocchi D2 (voce 7, scheda delle
+decisioni del 16/11) e D3 (voce 12h, separatore decimale e report delle paratie):
+
+- **Stratificato del palo orizzontale: A + C.** Broms resta predefinito; quando lo Stratificato governa un palo corto o intermedio in
+  terreno granulare, foglio e relazione mostrano accanto Hu di Broms e il rapporto (registro `PO-BROMS-01`, GPCChecker.Geotechnics 0.30).
+- **R16, torsione nel profilo danese:** variante (b2), ogni termine con il suo fattore, e limite ν ≥ 2/√fck del DK NA:2024 (p. 30),
+  che alza la resistenza a torsione (C90 +20,5 %). GPCChecker.Concrete 0.39; nessun effetto su ANTHEA, che fa la torsione solo con NTC
+  (registro `R16`, «seguito_20261117»).
+- **R16, foro ad anello e fori eccentrici:** un foro con almeno tanti vertici quanti il contorno è un anello (i cerchi cavi di ANTHEA a
+  12 lati restano anelli, bit per bit); i fori non concentrici sono rifiutati e un foro poligonale con meno di 16 lati è «non supportato».
+  GPCChecker.Concrete 0.39; nessuna cattura di ANTHEA cambia.
+- **R17:** riscontrato sul testo il 1/11, OK.
+- **Acciaio V1:** l'esclusione automatica delle ali con c/t ≤ 14ε (criterio GPC, automatica dal 28/10) è ratificata. ANTHEA non
+  distribuisce GPCModelChecker: nessun effetto.
+- **Paratie:** A2 (conferma della storia di progetto, `PARATIE-22`), A3 (quote e falda copiate, `PARATIE-23`), A4 (avviso della prima fase
+  non geostatica, `PARATIE-24`) e S3 (passo della faccia tesa, con GPC.Design 0.47 del set AZ). Esempio 06 confermato come 04 e 05,
+  conferma dello sfilamento dei tiranti separata, provenienza degli esempi 04–06 nel catalogo (B6). S3 sui muri di sostegno più avanti.
+- **R9:** a dicembre.
+- **Voce 12h, domande 1–7:** 1, i due attesi di Presentation.Tests «-0,98» e «3,20» approvati; 3, N/mm³ come potenza di dieci (γw
+  «9,8·10⁻⁶»); 5, i numeri salvati come numeri JSON mostrati nei campi con il separatore scelto, senza arrotondare e senza cambiare il
+  dato; 6, nei «Dati assegnati» del report delle paratie tutte le cifre degli ingressi con la virgola, m/s come potenza di dieci; 7, mm² e
+  mm⁴ senza decimali. Le domande 2 (caselle del visore dei modelli) e 4 (separatore scelto nei disegni e nelle presentazioni a schermo)
+  sono passi a parte.
+- Le spunte della sezione «15 novembre» sono approvate con la scheda.
+
+## 15 novembre — Hansen chiuso e voci del piano superate (scheda del 16/11)
+
+Annotazioni preparate il 15/11 sera dalla scheda delle decisioni di lunedì 16/11 (`gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md`,
+fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Approvate dall'utente il 17/11 («ok per
+tutte le voci», sezione «17 novembre (sera)»).
+
+- **Hansen con carico inclinato** (29/10 mattina, punto 2): chiuso il 5/11. Q1 attuato in Checker `f424383b` (Geotechnics 0.28.0.0,
+  direzione di L′ solo con H_L > 0); Q2 e Q3 restano come nel manuale. Del punto 2 resta aperto solo il confronto dello Stratificato
+  con Broms (punto 7 della scheda).
+- **Spunte di `piano.md`**:
+  - full della 1.17.2, della 1.17.3, della 1.17.6 e della 1.18.0, dei Grafici senza «Premere Calcola», degli Spettri con le guide
+    Rev69 e dei rilievi bassi delle Azioni: coperte dalla full di rilascio della 1.19.0, PASS 166 su `12657b91`, che contiene `main` fino a `8ef58180`, quindi anche
+    `18e6b405` (1.17.6) e `9aa5afcf` (1.18.0). La prova sul modello MIDAS vero resta aperta;
+  - guide di spessori, calcolo in serie e pannello dello spazio: Rev70 del 4/11, ripresa nella Rev71;
+  - archivio dei risultati dei modelli grandi: «Blocchi accanto» del 2/11 (`9e46fa68`, `1a7b6018`, `1bce0729`). Resta da confermare se
+    «Copie precedenti» basta per lo storico completo delle copie;
+  - report di calcolo «dopo l'abbozzo dell'utente»: superata dalla richiesta del 6/11 (template dei soli stili). La revisione dei report
+    con la traccia del taglio NTC resta aperta finché l'utente non dice che il lavoro del 6/11 basta;
+  - R14: μφ calcolata (Concrete 0.33), nella scheda dalla 1.17.0 e nella relazione dalla 1.19.0; testo NTC da riscontrare;
+  - R17, anche nel registro: riscontrato sul testo il 1/11 (agente `ca-metodi`, UNI EN 1992-1-1:2015, prospetto E.1N). Il «ti mando la
+    norma» del 29/10 è superato.
+- Restano aperte la guida della verifica rifiutata per errori di dominio e la prova MIDAS dal vivo.
+
 ## 6 novembre — report correnti e template dei soli stili
 
 Richiesta dell'utente: «parti da main di anthea su un tuo branch», riallineare i report e permettere di scegliere un template

@@ -1,0 +1,107 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/docs/guida-pratica-anthea.md",
+    "sha256": "b94a31da9a6735ce7ce2f6748060eb5d1bfee9770f31f3b6743f206d2c316f09",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/docs/guida-teorica-anthea.md",
+    "sha256": "e43bcfcd59f998d5f2a2799e20516403ed0cbf8acd3eab04faf0a6ddace79c51",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/docs/guida-pratica-anthea.pdf",
+    "sha256": "f3df5c6fc4aa2daa3ead508af8993b6dd249cd1c7d67c8a06a34ec33e9ce1aae",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/docs/guida-teorica-anthea.pdf",
+    "sha256": "97223e7a8a36a74d7671aa6cb4ba21189dc1392dec323fb50e94718dac405322",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/README.md",
+    "sha256": "e1a464361a894f99bfd28771ab8d29ef005397525fd13ceb882c7ef9c1db121c",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/README.pdf",
+    "sha256": "e75fc85db648e193892776ea77806e23c60f9f2938aaf04d38a17f500fb76e62",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/installer/Indice-guide.md",
+    "sha256": "8b9618751445493865cbd51a4d82077bf86bc77c66b053ef06670a4f7aa5a971",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/installer/Indice-guide.pdf",
+    "sha256": "25fd0b2c68557d8273d6cd8f0c8159d0f0ea17bf7dfa3563715ff5d3ba351934",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/installer/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/installer/README.md",
+    "sha256": "830e4cb715632cd46ec7f59d43eea9d1670762b254312e11014dff7adcde3cdc",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "9ffd8553707b0ceaabfe8a270b7f633a438de92d67f4ec56888731b1ba072027",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "2e3bf9d91972af24a8a9cec5f77cd841adf795ac699ea4f847aca0e86601559a",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev74.docx",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev74.docx",
+    "sha256": "64b0ad72e9993da43b721809c20d6cbde3bb5db88e6476087c2344afefd5f34c",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev74.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev74.pdf",
+    "sha256": "f3df5c6fc4aa2daa3ead508af8993b6dd249cd1c7d67c8a06a34ec33e9ce1aae",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev74.docx",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev74.docx",
+    "sha256": "ccbd0a9441546a84db9ecb37ff1e5fda79fd2aeab50f97a42a5c994794b6da83",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev74.pdf",
+    "archivio": "supporto/SUPERATI/guide-rev75-20261118/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev74.pdf",
+    "sha256": "97223e7a8a36a74d7671aa6cb4ba21189dc1392dec323fb50e94718dac405322",
+    "motivo": "Revisione superata dalla Rev75: paratie, Broms accanto allo Stratificato, separatore decimale, torsione DS / ANTHEA 1.19.4, set AZ",
+    "sostituzione": "Guide Rev75, ramo claude/1194-candidata"
+  }
+]

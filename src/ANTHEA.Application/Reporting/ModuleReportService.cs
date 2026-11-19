@@ -48,7 +48,8 @@ public sealed class ModuleReportService(IFigureRenderer renderer) : IProjectRepo
         if (module == EmbeddedWalls.EmbeddedWallDocument.Module)
         {
             var input = sheet["dati"] as JsonObject ?? throw new ArgumentException("Dati della paratia assenti.");
-            var result = EmbeddedWalls.EmbeddedWallDocument.ReadCurrentResult(input)
+            // The current result of the migrated data, as in the sheet: a result saved before version 13 (A2) is no longer current.
+            var result = EmbeddedWalls.EmbeddedWallDocument.ReadCurrentResult(EmbeddedWalls.EmbeddedWallDocument.Snapshot(input))
                 ?? throw new ArgumentException("Risultati della paratia assenti o superati. Calcolare e salvare il foglio prima della relazione; nessun ricalcolo nascosto.");
             return new(Document: EmbeddedWallReport.Create(sheet.S("nome"), result));
         }

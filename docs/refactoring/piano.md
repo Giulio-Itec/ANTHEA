@@ -1,5 +1,28 @@
 # Refactoring di ANTHEA: piano operativo
 
+## Preparazione ANTHEA 1.19.4 - 18 novembre 2026
+
+Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pubblicata), su decisione dell'utente del 17/11 alle 20:50
+(«ok per tutte le voci», [decisioni](decisioni.md), «17 novembre (sera)»). [Note di rilascio provvisorie](note-rilascio-1.19.4.md).
+
+- [x] Voce 7: i dodici commit della scheda del 16/11 (A2, A3, documenti, esempi 04–06 con la provenienza), approvati.
+- [x] Voce 7: Hu di Broms accanto allo Stratificato (`PO-BROMS-01`), avviso A4 (`PARATIE-24`), R16 (b2) con il limite ν ≥ 2/√fck nel
+  registro e nella guida teorica; S3 arriva con GPC.Design 0.47.
+- [x] Voce 12h: ramo `claude/numeri-separatore` e domande 1, 3, 5, 6 e 7 (`NUMERI-SEPARATORE-20261116`); domande 2 e 4 a parte.
+- [x] Guide Rev75 in Markdown e Wiki rigenerata.
+- [x] Versione 1.19.4, note provvisorie e README dell'installer; README 1.19.3 conservato in SUPERATI.
+- [x] Full con le librerie candidate del set AZ (`-GpcLibDir`) e, dopo l'installazione del set ufficiale, full sul commit finale: esito e differenze nel rapporto della candidata.
+- [x] `lib/Checker` dal set ufficiale AZ (`gpc-release-20261118-az`, Model a3406225, Checker 5723a084) e registrazione F4.
+- [x] Vincoli e molle per freedom case di GPC.Model nella copia e nel visore (`MOD-FC-AZ-20261118`); equilibrio valutato anche sulle piastre piane.
+- [x] OK dell'utente alle differenze della parte 1 («Sì, i consigli», 18/11) e registrazione (parte 2): conferma A2 e tutte le opzioni dei
+  dati assegnati del report delle paratie come «sì» o «no», «mm2» e «mm2/m» come mm² e mm²/m; catture e report delle paratie
+  (`PARATIE-RIFERIMENTI-1194-20261118`); 53 tracce congelate di quattro viste con la virgola della domanda 5
+  (`TRACCE-VISTE-DOMANDA5-20261118`); fixture F3 `stratificato-sabbia-broms` con il confronto con Broms
+  (`F3-PO-BROMS-SABBIA-20261118`); transizioni F3 della Wiki Rev75 (`GUIDE-REV75-20261118`); Presentation.Tests raccoglie
+  tutti i fallimenti e fallisce alla fine.
+- [x] Edizioni Word e PDF Rev75 delle guide con la pipeline ITEC (pratica 145 pagine, teorica 214) e le quattro figure delle paratie della guida pratica ricatturate, Rev74 in `supporto/SUPERATI/guide-rev75-20261118/` con manifest; README delle guide (edizione 10), indice e README dell'installer e README di supporto alla Rev75; PDF dei README, dell'indice e delle note 1.19.4.
+- [ ] Setup locale e Audit-Installer; prova dell'utente; fetch e merge di origin/main, tag, push e copia sulla condivisione: coordinatore.
+
 ## Sezione rapida: comandi nella finestra e più schede — 18 novembre 2026
 
 Richiesta approvata dall’utente («procedi» dopo l’aggiunta delle istanze multiple). W e W breve nella finestra staccata, riferiti esplicitamente alla sezione visualizzata; «+ Nuova sezione» apre un documento e un ViewModel indipendenti nella stessa finestra. Nuove sezioni numerate, schede in alto con scorrimento orizzontale; chiusura, annullamento della chiusura e riaggancio conservano il comportamento del coordinatore. Nessun cambio ai calcoli o alle librerie. Cattura e confronto in `supporto/artefatti/sezione-rapida-schede`: shell senza WPF da PASS 718 a PASS 733, finestra WPF da PASS 81 a PASS 86, tema PASS 139, nessun errore di binding; suite UI 74 prima e dopo. Voce `UI-SEZIONE-RAPIDA-SCHEDE-20261118` nel registro. Guide invariate secondo la richiesta precedente; nessun commit o push.
@@ -20,9 +43,9 @@ Candidata nel ramo `claude/1193-candidata`, sopra main `e61e0915` (la 1.19.2 pub
 - [x] Guide Rev74: testo Straus7 della pratica e della teorica; Wiki rigenerata.
 - [x] Versione 1.19.3 e README dell'installer; README 1.19.2 conservato in SUPERATI.
 - [x] Edizioni Word e PDF Rev74 delle guide con la pipeline ITEC (pratica 143 pagine, teorica 214), Rev73 in `supporto/SUPERATI/guide-rev74-20261117/` con manifest; README delle guide (edizione 9), indice e README dell'installer e README di supporto alla Rev74; PDF dei README, dell'indice e delle note 1.19.3.
-- [ ] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente.
-- [ ] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata.
-- [ ] Fetch e merge di origin/main, tag, push in avanti veloce e copia sulla condivisione: coordinatore.
+- [x] Full sulla candidata e transizioni F3 delle due pagine Wiki cambiate, approvate dall'utente (76f76fb7).
+- [x] Setup locale e Audit-Installer; prova dell'utente sulla build della candidata: «prova OK». [Verbale](installer-1.19.3.md).
+- [x] Tag v1.19.3 su 76f76fb7, push in avanti veloce di main (38d8fbfa) e copia sulla condivisione, a cura del coordinatore.
 
 
 ## Preparazione ANTHEA 1.19.2 - 17 novembre 2026
@@ -72,6 +95,66 @@ Compiti 191 e 191b; pubblicazione dopo F8 e le decisioni dell'utente, a cura del
 - [x] Setup locale 1.19.1 costruito da `ddaf66c9`: 7z e Audit-Installer PASS; SHA e dimensione nel verbale.
 - [ ] Decisioni sui gate residui, conferma F8, tag, push e copia sulla condivisione: coordinatore.
 
+## Separatore decimale in tutte le viste e report delle paratie (voce 12h) — 17 novembre 2026
+
+Decisioni del 16/11 (punti d ed e) e del 17/11 (domande 1–7, «sì alle 7 domande»); ramo `claude/numeri-separatore` portato nella
+candidata 1.19.4; registro `NUMERI-SEPARATORE-20261116`.
+
+- [x] (d) Binding delle viste con il separatore scelto; caselle del visore dei modelli invariate.
+- [x] (e) Report delle paratie con i decimali per unità, senza esponenti né «-0»; domande 1 (attesi approvati), 3 (N/mm³), 6 (Dati
+  assegnati) e 7 (mm² e mm⁴).
+- [x] Domanda 5: numeri salvati come numeri mostrati nei campi con il separatore scelto, senza cambiare il dato.
+- [ ] Domanda 2: caselle del visore con la regola di ANTHEA (virgola o punto): passo a parte.
+- [ ] Domanda 4: separatore scelto anche nei disegni e nelle presentazioni a schermo, report sempre in it-IT: passo a parte.
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+
+## Palo orizzontale: Hu di Broms accanto allo Stratificato — 17 novembre 2026
+
+Punto 7 della scheda delle decisioni del 16/11, opzioni A + C, approvato dall'utente il 17/11; candidata 1.19.4, registro `PO-BROMS-01`.
+
+- [x] Broms resta predefinito; con lo Stratificato su un palo corto o intermedio in terreno granulare il risultato, la sintesi del
+  foglio, i dettagli della verticale e la relazione mostrano Hu di Broms e il rapporto (GPCChecker.Geotechnics 0.30, set AZ).
+- [x] Presentation (prove `HorizontalPileBromsChecks`, attesi in forma chiusa della figura 2 dell'articolo).
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+- [ ] Fixture F3 di un palo corto granulare con lo Stratificato: da aggiungere solo con l'OK dell'utente (riferimento nuovo).
+
+## Paratie: avviso della prima fase non geostatica (A4) — 17 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A4, approvato dall'utente il 17/11 («ok per tutte le voci»); candidata
+1.19.4, registro `PARATIE-24`.
+
+- [x] L'avviso della libreria (GPCChecker.Geotechnics 0.30, set AZ) sotto lo stato del foglio, negli inviluppi e nella relazione; numeri
+  con la virgola della relazione. Senza avvisi il risultato salvato non cambia.
+- [x] Presentation `--paratie` (prove `EmbeddedWallFirstStageWarningChecks`, scarto calcolato a mano).
+- [x] Guide Rev75 in Markdown e Wiki; Word e PDF nell'edizione del coordinatore.
+
+## Paratie: fase nuova con quote e falda della precedente (A3) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11; ramo `claude/scheda-20261116`, approvato dall'utente il 17/11 («ok per tutte le voci»,
+[decisioni](decisioni.md), «17 novembre (sera)») e portato nella candidata 1.19.4; registro `PARATIE-23`.
+
+- [x] «Aggiungi» delle fasi continua terreno e falda dell'ultima fase dello stesso caso; sovraccarichi, carichi e rigidezza dai valori
+  iniziali. Un solo passo dello storico del progetto, che «Annulla» toglie per intero.
+- [x] Presentation `--paratie` PASS (prove `EmbeddedWallNewStageChecks`; conteggi nel rapporto dell'agente).
+- [ ] Guide: la frase «La nuova fase parte dai valori iniziali del modulo» (`supporto/docs/guida-pratica-anthea.md`, «Definire il modello
+  e le unità») nella prossima edizione. La Wiki incorpora la guida con l'impronta SHA-256 e gli scostamenti dell'indice
+  (`src/ANTHEA.Wiki/Content/sources.props`, `build-wiki-index.py`), quindi il testo va cambiato con l'indice, Word, PDF e le transizioni
+  F3 della Wiki; testo proposto nel rapporto dell'agente.
+
+## Paratie: verifiche SLU su una storia di progetto confermata (A2) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A2; ramo `claude/scheda-20261116`, approvato dall'utente il 17/11
+(«ok per tutte le voci», [decisioni](decisioni.md), «17 novembre (sera)») e portato nella candidata 1.19.4; registro `PARATIE-22`.
+
+- [x] Conferma «Storia delle fasi già di progetto per le verifiche SLU» per la storia principale e per ogni caso: senza conferma niente
+  SLU di fasce, pali, tubi e sostegni metallici. Documento paratie alla versione 13, i file salvati aprono con la richiesta; avvertenza
+  nella relazione.
+- [x] Presentation `--paratie` PASS con A2 da solo e con A3 (conteggi nel rapporto dell'agente,
+  `gpc-f6-claude/INT/rapporti/anthea-scheda-20261116.md`); Examples.Tests PASS (95 esempi; senza il commit «DA APPROVARE» 04–06 aprono
+  con la richiesta).
+- [x] Esempi di distribuzione 04–06 confermati, 06 compreso, con la provenienza nel catalogo (B6): approvati il 17/11.
+- [ ] Suite WPF `ui/check-paratie-view` (stadio ui, non eseguita dall'agente).
+- [ ] Guide: la conferma in «Richiedere le verifiche» nella prossima edizione, con Word, PDF e transizioni della Wiki.
 
 ## ANTHEA 1.19.0 — 8 novembre 2026
 
@@ -113,7 +196,7 @@ Richiesta dell'utente: «Sì, toglilo». Ramo `refactoring/f5-palo-titolo` da 13
 - [x] `Plot` senza «Premere Calcola» come titolo e messaggio predefiniti: Spettri e «Nuovo materiale…» senza curve non lo mostrano più.
 - [x] Riferimenti congelati: 83 + 257 righe delle tracce, 24 + 19 stringhe delle figure F3; nient'altro cambia.
 - [x] Cattura prima, corsa pulita dopo la full `pubblica-dopo-full` e corsa dopo l'unione di origin/main 4f38cffb: 12 PASS ciascuna; suite UI 73.
-- [ ] Full: non eseguita.
+- [x] Full: non eseguita sul ramo; coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91` (scheda del 16/11).
 
 ## Fogli: pubblicazione in un giro successivo — 4 novembre 2026
 
@@ -153,7 +236,7 @@ Richiesta dell'utente: «correggi gli altri due punti aperti». Ramo `refactorin
 - [x] Guide Rev69 Word/PDF: calcolo automatico e «?» dei fogli Azioni, Spettri senza Calcola, reologia con ricalcolo automatico e opzioni del
   grafico non salvate; Rev68 in `supporto/SUPERATI/azioni-spettri-rev69-20261104`; indice della Wiki e transizioni F3 editoriali aggiornati.
 - [x] Cattura prima e corse mirate PASS; suite UI 73.
-- [ ] Full: stanotte, lanciata dall'utente.
+- [x] Full: coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91` (scheda del 16/11).
 - [x] Guide: pannello dello spazio, spessori e calcolo in serie del modulo Modelli nella Rev70 del 4/11 sera.
 
 ## Rilievi bassi dell'interfaccia Azioni — 4 novembre 2026
@@ -166,7 +249,7 @@ Richiesta dell'utente: correggere anche i rilievi bassi della revisione del 2/11
 - [x] Azioni: diagramma su un'unità dimensionale con l'etichetta «Unità», nomi di automazione, token `Font.*`, testi dell'assistenza e
   legenda (rilievi 13, 15 e 16).
 - [x] Cattura prima e corse mirate PASS, contrasto completo compreso; suite UI 73 prima e dopo.
-- [ ] Full: non eseguita.
+- [x] Full: non eseguita sul ramo; coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91` (scheda del 16/11).
 - [x] Guide: ricalcolo automatico e opzioni del grafico della reologia nella Rev69 (sezione precedente).
 
 ## F3 del piano comune GPC - 3 novembre 2026
@@ -187,8 +270,9 @@ pannello di gestione limite? o qualcosa del genere»). Funzione nuova: 1.17.6 �
 - [x] Suite del modulo Modelli, della shell, `Presentation.Tests` e architettura PASS, con le prove nuove del pannello.
 - [x] Versione 1.18.0 e [note di rilascio](note-rilascio-1.18.0.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
   e audit PASS; tag `v1.18.0` sul commit del setup 2efb5ab0 ([verbale](installer-1.18.0.md)).
-- [ ] Full: dopo la prova dell'utente (anche per la 1.17.6).
-- [ ] Guide: pannello dello spazio, spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
+- [x] Full: coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91`, anche per la 1.17.6 (scheda del 16/11).
+- [x] Guide: pannello dello spazio, spessori e calcolo in serie nella Rev70 del 4/11, ripresa nella Rev71 (scheda del 16/11); i fogli Azioni
+  sono nella Rev69 del 4/11.
 
 ## ANTHEA 1.17.6 — 3 novembre 2026
 
@@ -199,7 +283,8 @@ dell'utente «Sì, opzione 1»; versione chiesta senza full («se funziona prepa
   stessa taglia 61 combinazioni su 61 in 41 s; suite del modulo Modelli PASS.
 - [x] Versione 1.17.6 e [note di rilascio](note-rilascio-1.17.6.md); profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto
   e audit PASS; tag `v1.17.6` sul commit del setup a998caf7 ([verbale](installer-1.17.6.md)).
-- [ ] Full: dopo la prova dell'utente.
+- [x] Full: coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91` (scheda del 16/11); la prova sul modello MIDAS vero resta
+  aperta.
 - [ ] Prova sul modello MIDAS vero: la lettura dal vivo si è interrotta più volte per il collegamento API di MIDAS (risposte sfasate dopo
   una richiesta scaduta, «client does not exist»).
 - [ ] Lettura dal vivo: riconoscere la risposta di un'altra tabella (relè sfasato) e chiedere di ricollegare l'API.
@@ -213,7 +298,7 @@ Serie delle combinazioni più veloce (8b9289ec..cbd0522a); versione chiesta dall
   `supporto/SUPERATI/rilascio-1175-20261103`.
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.5` sul commit del setup 4b07b34a
   ([verbale](installer-1.17.5.md)).
-- [ ] Guide: spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
+- [x] Guide: spessori e calcolo in serie nella Rev70 del 4/11, ripresa nella Rev71 (scheda del 16/11); i fogli Azioni sono nella Rev69 del 4/11.
 
 ## ANTHEA 1.17.4 — 2 novembre 2026
 
@@ -224,7 +309,7 @@ Motore a matrici delle combinazioni e set AU; versione chiesta dall'utente, «ri
   `supporto/SUPERATI/rilascio-1174-20261102`.
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.4` sul commit del setup a2f90766
   ([verbale](installer-1.17.4.md)).
-- [ ] Guide: spessori, calcolo in serie nella prossima edizione (i fogli Azioni sono nella Rev69 del 4/11).
+- [x] Guide: spessori e calcolo in serie nella Rev70 del 4/11, ripresa nella Rev71 (scheda del 16/11); i fogli Azioni sono nella Rev69 del 4/11.
 
 ## Motore a matrici delle combinazioni — 2 novembre 2026
 
@@ -255,7 +340,8 @@ Correzioni dell'interfaccia dei fogli Azioni e della reologia ([revisione](azion
 - [x] Versione 1.17.3 e [note di rilascio](note-rilascio-1.17.3.md); istruzioni dell'installer e PDF, originali in `supporto/SUPERATI/rilascio-1173-20261102`.
 - [x] Profilo standard e suite dell'installer PASS 87; setup, `7z t`, estratto e audit PASS; tag `v1.17.3` sul commit del setup 4707f776
   ([verbale](installer-1.17.3.md)).
-- [ ] Full: non eseguita su questo commit, per richiesta dell'utente.
+- [x] Full: non eseguita su questo commit, per richiesta dell'utente; coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91`
+  (scheda del 16/11).
 - [x] Guide: calcolo automatico e «?» dei fogli Azioni nella Rev69 del 4/11.
 
 ## Modelli dopo le prove della 1.17.1 e 1.17.2 — 2 novembre 2026
@@ -267,8 +353,8 @@ versione scelta dall'utente («Sì, 1.17.2»).
   combinazioni (62c14ccb); 25 suite mirate del modulo Modelli PASS.
 - [x] Versione 1.17.2 e [note di rilascio](note-rilascio-1.17.2.md); profilo standard e suite dell'installer PASS; setup e controllo PASS,
   tag `v1.17.2` sul commit del setup dbacb9d6 ([verbale](installer-1.17.2.md)).
-- [ ] Guide: spessori e calcolo in serie non ancora descritti (Rev68 invariata).
-- [ ] Full: non eseguita su questo commit.
+- [x] Guide: spessori e calcolo in serie nella Rev70 del 4/11, ripresa nella Rev71 (scheda del 16/11).
+- [x] Full: non eseguita su questo commit; coperta dalla full di rilascio della 1.19.0, PASS 166 su `12657b91` (scheda del 16/11).
 - [ ] Riuso delle combinazioni già calcolate negli inviluppi: proposta in GPC, decide l'utente.
 
 ## Criterio resistente per stato limite e 1.17.1 — 2 novembre 2026
@@ -1205,11 +1291,14 @@ sono nel confronto di lunedì 2/11.
 | R8 | MC2010 senza ritiro, DIN hc,ef, EN Tab. 7.1N per XD3 | testi primari, poi voce per voce | — | corretta nella 1.16.0 (ritiro MC2010 come opzione; DIN hc,ef e XD3 dichiarati), da riscontrare |
 | R9 | EC2 6.2.2(6), nota 2 di 6.2.3(3), staffe di classe A (DK) | **26/10 sera: da correggere per la 1.14.3** («aggiungi controllo» di 6.2.2(6)) | priorità alta | corretta, librerie AJ della 1.14.2 |
 | R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.3**, con l'aggiornamento del contratto DurabilityContractTests | — | corretta, librerie AJ della 1.14.2 |
-| R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — | corretta nella 1.16.0; resta μφ con la bilineare, non calcolata (in coda) |
-| R16 | DS, torsione: νv invece di νt | testo della media pesata | — | corretta nella 1.16.0 (νt); pesi della media da riscontrare sul DK NA, lunedì 2/11 |
-| R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — | corretta nella 1.16.0 (C30/37); prospetto EN da riscontrare, lunedì 2/11 |
+| R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — | corretta nella 1.16.0; μφ calcolata (Concrete 0.33), nella scheda dalla 1.17.0 e nella relazione dalla 1.19.0; testo NTC da riscontrare |
+| R16 | DS, torsione: νv invece di νt | testo della media pesata | — | corretta nella 1.16.0 (νt); 17/11: variante (b2) e limite ν ≥ 2/√fck del DK NA:2024, decisi dall'utente (Concrete 0.39, set AZ) |
+| R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — | corretta nella 1.16.0 (C30/37); riscontrato sul testo il 1/11 |
 | R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.3**, in fondo all'elenco | priorità alta | corretta, librerie AK della 1.14.4 |
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — | corretta nella 1.16.0; As,min DS della 9.2.1.1(1) resta in sospeso |
+
+Celle di R14 e R17 aggiornate il 15/11 dalla scheda delle decisioni del 16/11, approvate dall'utente il 17/11; cella di R16 aggiornata il
+17/11 ([decisioni](decisioni.md), «15 novembre» e «17 novembre (sera)»).
 
 Altre voci dopo F5, fuori da F5.15:
 - la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c), fatta per la 1.16.0
@@ -1483,7 +1572,8 @@ le fasi del refactoring. Specifica e attività future: [modelli-visualizzatore](
 - [x] 11 ottobre: navigazione e proprietà riducibili a barra, menu contestuale e tabella degli elementi associati, terne nodali esplicite, ambito della selezione e interruttori per ogni livello; ModelWorkspace reale 78, WPF sintetico 27 e reale 49 PASS, registro MOD-04.
 - [x] 11 ottobre: predisposizione MVVM della barra di avanzamento delle verifiche, attività e conteggio, annullamento cooperativo e gestione di errore/fine; motore e assegnazioni sezioni ancora da collegare, registro MOD-05.
 - [x] Integrazione GPC e calcolo locale di combinazioni/inviluppi nel prodotto: MOD-30, set R e successivo set S; limiti prestazionali e casi ancora da confrontare nelle voci dedicate sotto.
-- [ ] Archivio dei risultati per grandi modelli e storico completo delle copie: resta da implementare.
+- [x] Archivio dei risultati per grandi modelli: fatto il 2/11, «Blocchi accanto» (`9e46fa68`, «Copie precedenti» `1a7b6018`, `1bce0729`),
+  nelle versioni dalla 1.18.0 (scheda del 16/11). Lo storico completo delle copie resta nella voce del worker Straus qui sotto.
 - [x] 11 ottobre: menu delle impostazioni vista, navigazione e viste standard/45°, Esc, palette e antialiasing; contratto e messaggi per aggiornamento interrotto con conservazione della copia valida. Registro MOD-06.
 - [x] Finestra di prova interattiva aggiornata: controllo WPF reale, scorciatoia alle impostazioni e simulazione esplicita dei cinque avvisi MIDAS, senza connessioni o modifiche ai file sorgente. Combinazioni locali e confronto revisioni restano separati dalla preview.
 - [x] Confronto revisioni collegato all’importazione delle copie: elenco e grafica, aggiunte/modifiche/cancellazioni, delta per campo su richiesta, annullamento e report con provenienza; MOD-19.
@@ -1718,8 +1808,8 @@ nuovi rami di prosecuzione locali. Pubblicazione della 1.11.0 autorizzata.
 ## Lavori del 1 novembre 2026
 
 Ordine scelto dall'utente: pulizia, combinazioni, pagine dei metodi del c.a. (7), modulo Modelli (8), norma di progetto unica (5);
-i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. Decisioni in [decisioni.md](decisioni.md), «1 novembre
-(giorno)».
+i report di calcolo restavano aperti in attesa dell'abbozzo dell'utente, superato dalla sua richiesta del 6/11 (sezione «Report e
+template di stili»). Decisioni in [decisioni.md](decisioni.md), «1 novembre (giorno)».
 
 - [x] Pulizia degli artefatti e delle cartelle non più usate: 41,1 GB, elenchi e script in
   `ANTHEA-f5-ripresa/pulizia-artefatti/20261101`.
@@ -1746,8 +1836,9 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
   le componenti principali» (COMBO-REV-01-bis, decisione del 1/11 sera).
 - [x] Guide pratica e teorica Rev65 (agente `guide-1170`, voce F5-REL-1170-01).
 - [x] ANTHEA 1.17.0: commit di rilascio, full con l'installer e setup (esiti nel tag `v1.17.0`).
-- [ ] Archivio dei risultati dei modelli grandi a blocchi binari compressi accanto al documento (decisione del 1/11 sera):
-  da progettare; restano da decidere un file o due, la soglia e le revisioni dello storico.
+- [x] Archivio dei risultati dei modelli grandi a blocchi binari compressi accanto al documento (decisione del 1/11 sera):
+  fatto il 2/11, «Blocchi accanto» (`9e46fa68`, `1a7b6018`, `1bce0729`); le scelte provvisorie (un file o due, soglia, storico) accettate
+  dall'utente con «Sì, fondi in main» (scheda del 16/11).
 - [x] Percentuale giuntata e numero di strati nei dati dei dettagli di Model, letti dal verificatore del modello per
   EN 8.7.2(4) (decisione del 1/11 sera; scelte dell'agente approvate con «Sì, integra»): `LappedPercent` e `LapLayers` in
   `ConcreteDetailingData` (GPCModel 5.36), GPCModelChecker 2.37, GPCChecker.Concrete 0.35.0.2; set ufficiale AS installato sopra AR delle azioni aggiuntive.
@@ -1755,7 +1846,8 @@ i report di calcolo restano aperti finché l'utente non porta il suo abbozzo. De
   scansioni quadratiche, rinomine e copie in memoria (GPCModel 5.37); set ufficiale AT installato per le prove sui modelli MIDAS; full PASS 161, nessun nuovo fallimento.
 - [ ] Norma di progetto unica per documento (punto 5): **in attesa** per decisione dell'utente del 1/11 («di base tante
   cose le facciamo solo con NTC2018»); nessun censimento né proposta finché l'utente non lo riapre.
-- [ ] Report di calcolo: dopo l'abbozzo dell'utente.
+- [x] Report di calcolo: superata dalla richiesta dell'utente del 6/11 (riallineamento e template dei soli stili, nella 1.19.0;
+  [verbale](report-template-20261106.md)). La revisione dei report e la traccia del taglio NTC restano aperte nella coda (scheda del 16/11).
 
 
 ## Azioni aggiuntive — incarico del 1 novembre 2026

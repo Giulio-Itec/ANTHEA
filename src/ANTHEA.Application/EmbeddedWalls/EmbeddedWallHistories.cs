@@ -12,7 +12,7 @@ public static partial class EmbeddedWallDocument
     public static IReadOnlyList<string> HistoryTables { get; } = Array.AsReadOnly(new[] {
         "stages", "activations", "loads", "distributed_loads", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions" });
     public static IReadOnlyList<string> CaseOverrideKeys { get; } = Array.AsReadOnly(new[] {
-        "action_basis", "check_kind", "steel_standard", "steel_check_kind", "anchor_standard", "anchor_situation", "anchor_a1m1",
+        "action_basis", DesignHistoryKey, "check_kind", "steel_standard", "steel_check_kind", "anchor_standard", "anchor_situation", "anchor_a1m1",
         "tube_standard", "tube_check_kind", "rc_pile_standard", "rc_pile_check_kind", "embedment_head_limit", "embedment_source" });
 
     private static JsonObject NewCase()
@@ -42,9 +42,13 @@ public static partial class EmbeddedWallDocument
         {
             var copy = data.DeepClone().AsObject(); copy["cases"] = new JsonArray(); copy["case_id"] = ids[i];
             if (i > 0)
+            {
                 foreach (string key in CaseOverrideKeys)
                     if (extra[i - 1][key] is { } value && !(key == "embedment_source" && string.IsNullOrWhiteSpace(Text(extra[i - 1], key))))
                         copy[key] = value.DeepClone();
+                // A2: each history is confirmed on its own row; an empty cell never takes the confirmation of the main history.
+                copy[DesignHistoryKey] = extra[i - 1][DesignHistoryKey]?.DeepClone() ?? false;
+            }
             foreach (string table in HistoryTables)
                 copy[table] = new JsonArray(Rows(data, table).Where(r => Owner(r) == ids[i]).Select(r => r.DeepClone()).ToArray());
             var stages = Rows(copy, "stages").Select(r => Text(r, "id")).ToArray();
@@ -88,7 +92,7 @@ public sealed partial class EmbeddedWallModule
             + "Ogni storia è ricalcolata da uno stato iniziale indipendente; nessuna somma di risultati non lineari.";
         var root = reports[0] with { Fingerprint = EmbeddedWallDocument.Fingerprint(data), InputJson = data.ToJsonString(new() { WriteIndented = true }),
             Complete = complete, Status = complete ? "HistoriesConverged" : "HistoriesIncomplete", Diagnostic = diagnostic,
-            Cases = reports.AsReadOnly(), Envelope = envelope,
+            Cases = reports.AsReadOnly(), Envelope = envelope, Warnings = null, // the warnings (A4) stay with their case
             Scope = Array.AsReadOnly(new[] { diagnostic, "Geometria, materiali, sezioni e parametri del terreno condivisi. Fasi, carichi, falde e verifiche appartengono al caso dichiarato. Le azioni sono già combinate dall'utente: nessun coefficiente è applicato implicitamente." }) };
         cancellation.ThrowIfCancellationRequested();
         return new ModuleCalculation(ModuleId, data, EmbeddedWallDocument.ResultValues(root), root);

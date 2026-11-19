@@ -19,8 +19,8 @@ public static partial class EmbeddedWallReport
         {
             var p = section.First().Properties!;
             table(["Sezione", "D / t [mm]", "Interasse [m]", "A [mm²]", "I [mm⁴]", "EI lordo fascia [kNm²]"],
-                [new[] { section.Key, F(p.Diameter) + "/" + F(p.Thickness), F(p.Spacing), F(p.Area), F(p.Inertia), F(p.EquivalentRigidity) }]);
-            paragraph($"E={F(p.ElasticModulus)} MPa; fy={F(p.YieldStrength)} MPa. {p.Source}", false);
+                [new[] { section.Key, T(p.Diameter, "mm") + "/" + T(p.Thickness, "mm"), T(p.Spacing, "m"), T(p.Area, "mm²"), T(p.Inertia, "mm⁴"), T(p.EquivalentRigidity, "kNm²") }]);
+            paragraph($"E={F(p.ElasticModulus, "MPa")} MPa; fy={F(p.YieldStrength, "MPa")} MPa. {p.Source}", false);
         }
         foreach (var group in values.GroupBy(r => (r.Stage, r.Section)))
         {
@@ -32,10 +32,10 @@ public static partial class EmbeddedWallReport
                 .OrderByDescending(r => r.Elevation).ThenBy(r => r.Side, StringComparer.Ordinal).ToArray();
             foreach (var r in selected)
             {
-                paragraph($"z={F(r.Elevation)} m, {r.Side}: N={F(r.Normal)} kN; V={F(r.Shear)} kN; M={F(r.Moment)} kNm. {r.OutcomeText}.", false);
-                paragraph($"Fattore fascia→tubo={F(r.StripToMemberFactor)}; classe={r.SectionClass?.ToString() ?? "non disponibile"}; γM0={F(r.PartialFactor)}; ρ={F(r.ShearReduction)}.", false);
+                paragraph($"z={F(r.Elevation, "m")} m, {r.Side}: N={F(r.Normal, "kN")} kN; V={F(r.Shear, "kN")} kN; M={F(r.Moment, "kNm")} kNm. {r.OutcomeText}.", false);
+                paragraph($"Fattore fascia→tubo={F(r.StripToMemberFactor, "")}; classe={r.SectionClass?.ToString() ?? "non disponibile"}; γM0={F(r.PartialFactor, "")}; ρ={F(r.ShearReduction, "")}.", false);
                 table(["Controllo", "Domanda", "Capacità", "Unità", "Utilizzo", "Esito"],
-                    r.Checks.Select(c => new[] { c.Method, F(c.Demand), F(c.Capacity), c.Unit, F(c.Ratio), c.OutcomeText }));
+                    r.Checks.Select(c => new[] { c.Method, T(c.Demand, c.Unit), T(c.Capacity, c.Unit), c.Unit, T(c.Ratio, ""), c.OutcomeText }));
                 if (notes.Add(r.Diagnostic)) paragraph(r.Diagnostic, false);
                 foreach (var c in r.Checks)
                 {

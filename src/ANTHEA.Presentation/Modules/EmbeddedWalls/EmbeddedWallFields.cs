@@ -17,6 +17,8 @@ public static class EmbeddedWallFields
     public static FieldSpec[] General() =>
     [
         new("name", "Nome", Wide: true), new("case_id", "Caso / combinazione", Wide: true), new("action_basis", "Provenienza e coefficienti delle azioni", Wide: true, Multiline: true),
+        new(EmbeddedWallDocument.DesignHistoryKey, "Storia delle fasi già di progetto per le verifiche SLU", Bool: true, Wide: true,
+            ToolTip: "Il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti. Confermare solo se la storia delle fasi contiene già i coefficienti della combinazione SLU dichiarata (per esempio A1+M1). Senza conferma le verifiche SLU di fasce, pali, tubi e sostegni metallici non vengono eseguite; le SLE non la richiedono. Ogni caso ha la propria conferma."),
         new("top", "Quota testa", "m"), new("bottom", "Quota piede", "m"), new("width", "Larghezza della fascia analizzata", "m"), new("mesh", "Lunghezza massima elemento", "m"),
         new("substeps", "Incrementi iniziali per fase"), new("check_kind", "Verifiche delle fasce rettangolari in c.a.", Choices: ["Analisi", "Ultimate", "Characteristic", "Frequent", "QuasiPermanent"],
             ToolTip: "Analisi: sole sollecitazioni. Ultimate: SLU; Characteristic, Frequent, QuasiPermanent: SLE della combinazione esplicitamente assegnata. Non sono applicati coefficienti alle azioni."),

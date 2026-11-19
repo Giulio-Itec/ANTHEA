@@ -39,7 +39,7 @@
 [T1 r18 c1] sicurezza_base
 [T1 r18 c2] 1,35
 [T1 r19 c1] peso_palo_sfavorevole
-[T1 r19 c2] 1,3
+[T1 r19 c2] 1,35
 [T1 r20 c1] peso_palo_favorevole
 [T1 r20 c2] 1
 ¶ Efficienza — dati
@@ -86,7 +86,7 @@
 [T4 r6 c1] γb
 [T4 r6 c2] 1,35
 [T4 r7 c1] γG sfavorevole
-[T4 r7 c2] 1,3
+[T4 r7 c2] 1,35
 [T4 r8 c1] γG favorevole
 [T4 r8 c2] 1
 ¶ Sondaggio 1 — strato 1
@@ -123,13 +123,18 @@
 [T7 r2 c1] compressione
 [T7 r2 c2] 10,3
 [T7 r2 c3] 2074,2
-[T7 r2 c4] 217,9
+[T7 r2 c4] 218,6
 [T7 r2 c5] Verifica soddisfatta
 [T7 r3 c1] trazione
 [T7 r3 c2] 10,3
 [T7 r3 c3] 1692,0
 [T7 r3 c4] 86,2
 [T7 r3 c5] Verifica soddisfatta
+¶ Avvisi del calcolo
+¶ Strati orizzontali; θ dalla verticale. L, sb e coordinate delle curve sono lungo l'asse; z = s cos θ. Azioni inserite assiali; peso proprio proiettato sull'asse. Verifiche trasversali non comprese.
+¶ C. Viggiani, Fondazioni, §13.1.6, pp. 392–396; eq. 13.21, tab. 13.12–13.13, fig. 13.16–13.19. Abachi digitalizzati dalla scansione: letture approssimate, senza estrapolazione.
+¶ Ipotesi progettuale autorizzata: p_l = p_i. La pressione di iniezione generale alimenta gli abachi di tutti gli strati; non è una misura Ménard del terreno.
+¶ Verificare le condizioni esecutive di p. 392 e i volumi minimi di miscela della tabella 13.12; il programma non li certifica.
 ¶ Capacità portante del micropalo
 ¶ Abachi Bustamante–Doix del sondaggio 1
 ¶ Profilo stratigrafico

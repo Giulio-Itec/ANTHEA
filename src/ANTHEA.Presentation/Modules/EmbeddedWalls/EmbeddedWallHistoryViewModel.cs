@@ -24,7 +24,7 @@ public sealed partial class EmbeddedWallSheetViewModel
             OnPropertyChanged(nameof(AnchorChecks)); SelectedAnchorCheck = AnchorChecks.FirstOrDefault();
             OnPropertyChanged(nameof(SteelTubes)); SelectedTubeCheck = SteelTubes.FirstOrDefault();
             OnPropertyChanged(nameof(RcPiles)); SelectedRcPileCheck = RcPiles.FirstOrDefault();
-            OnPropertyChanged(nameof(Scope)); OnPropertyChanged(nameof(ResultCaseStatus));
+            OnPropertyChanged(nameof(Scope)); OnPropertyChanged(nameof(ResultCaseStatus)); OnPropertyChanged(nameof(ResultStatus)); OnPropertyChanged(nameof(ResultWarnings));
             HydraulicCsvCommand.NotifyCanExecuteChanged(); HydraulicChecksCsvCommand.NotifyCanExecuteChanged();
             GlobalCsvCommand.NotifyCanExecuteChanged(); SteelCsvCommand.NotifyCanExecuteChanged(); AnchorCsvCommand.NotifyCanExecuteChanged();
             TubeCsvCommand.NotifyCanExecuteChanged(); RcPileCsvCommand.NotifyCanExecuteChanged();

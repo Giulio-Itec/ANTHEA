@@ -1,0 +1,115 @@
+# ANTHEA 1.19.4 - note di rilascio
+
+Note provvisorie del 18 novembre 2026, preparate con la candidata per la distribuzione dopo l'approvazione dell'utente. Descrivono solo
+le differenze dalla 1.19.3. Le librerie sono quelle del set ufficiale AZ.
+
+La 1.19.4 porta le decisioni del 17/11 sulla scheda del 16/11 e sul separatore decimale e il lavoro pubblicato su main fino al 18/11
+(630028b8). Comprende:
+- le paratie con la conferma della storia di progetto per le verifiche SLU, la fase nuova che riprende quote e falda, l'avviso della prima
+  fase non geostatica e il passo delle barre della faccia tesa nella fessurazione delle fasce;
+- il palo orizzontale con la Hu di Broms accanto a quella dello Stratificato;
+- il separatore decimale scelto in tutte le viste e il report delle paratie con i decimali per unità;
+- i modelli Straus7 con più freedom case con i vincoli e le molle del freedom case del caso scelto e l'equilibrio valutato in tutti i casi;
+- le librerie GPC del set AZ;
+- le guide Rev75;
+- la Sezione c.a. rapida, una verifica della sezione in c.a. in una finestra propria;
+- la stratigrafia con lo stato di addensamento degli strati e Copia in…/Copia da… delle stratigrafie;
+- la relazione ITEC dei pali, con le tabelle di Viggiani e i coefficienti del fusto per strato.
+
+Il documento delle paratie passa alla versione 13: un file salvato con la 1.19.4 non si apre con le versioni precedenti, che rifiutano le
+versioni future del documento. Non ci sono comandi nuovi né un formato nuovo dell'archivio.
+
+## Paratie
+
+- **Storia di progetto per le verifiche SLU (A2).** Campo nuovo «Storia delle fasi già di progetto per le verifiche SLU», per la storia
+  principale e per ogni caso. Il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti: senza la conferma la fascia
+  in c.a. SLU non si verifica e pali circolari, tubi CHS e sostegni metallici SLU restano «Non valutato», con il caso nel messaggio; il
+  resto del calcolo prosegue. SLE, sfilamento dei tiranti (con la sua conferma A1 e M1), UPL/HYD e stabilità globale non cambiano.
+  I file salvati prima si aprono con la conferma da dare; la relazione riporta l'avvertenza sotto le azioni di ogni storia.
+- **Fase nuova (A3).** «Aggiungi» delle fasi riprende terreno e falda, a sinistra e a destra, dall'ultima fase dello stesso caso;
+  sovraccarichi, carichi e rigidezza ripartono dai valori iniziali. Un solo passo dello storico, che «Annulla» toglie per intero.
+- **Prima fase non geostatica (A4).** Quando le spinte a riposo e l'acqua dei due lati della prima fase non si equilibrano, il foglio,
+  gli inviluppi e la relazione lo dicono con lo scarto massimo e la sua quota. Il calcolo non cambia.
+- **Fessurazione delle fasce (S3).** Il passo delle barre è quello della faccia tesa, combinazione per combinazione (GPC.Design 0.47).
+  Cambia solo con armature diverse sulle due facce.
+- **Esempi 04, 05 e 06** di distribuzione con la storia confermata, e la loro provenienza nel catalogo.
+- **Report.** Ogni numero con i decimali della sua unità, senza esponenti e senza «-0»; m/s e N/mm³ come potenze di dieci; aree e
+  momenti d'inerzia senza decimali, anche quando la libreria scrive l'unità «mm2» o «mm2/m» (verifiche delle armature dei pali
+  circolari: «As minima» 1571 mm2, non più 1570,796); «Dati assegnati» con tutte le cifre degli ingressi e la virgola, e le opzioni
+  (conferma della storia di progetto, testa e piede bloccati, suzione trascurata, conferma A1 e M1 dei tiranti) scritte «sì» o «no»
+  invece di «true» o «false». I CSV non cambiano.
+
+## Sezione c.a. rapida
+
+- **Modulo nuovo** dei moduli singoli, in una finestra propria, per una verifica veloce della sezione in c.a.: forme Rettangolare
+  e Circolare (DXF in preparazione, spento; i fogli salvati con la sezione a T si aprono e calcolano come prima), copriferro netto
+  alla staffa, armature a strati (Superiore, Inferiore, Da sopra, Da sotto) e staffe, materiali dal catalogo o modificati.
+- **Combinazioni** in tabella, ognuna con il suo stato limite (SLU di base, SLV, SLE rara, frequente e quasi permanente), il modello
+  resistente e il segno del momento; η di ogni combinazione, il risultato della combinazione selezionata in evidenza, MRd, duttilità,
+  flessione retta e deviata con i momenti resistenti; sollecitazioni scambiate con Excel.
+- **Metodo n e SLE:** viscosità φ, n usato in evidenza, tensioni con i limiti e fessurazione con la classe di esposizione.
+- Calcoli con le funzioni della sezione in c.a. e le librerie GPC, senza motore nuovo. Tre esempi di distribuzione: trave in
+  flessione retta, pilastro in flessione deviata, palo circolare con il metodo n.
+
+## Stratigrafia
+
+- **Addensamento** di ogni strato (Da definire, Sciolto, Denso), usato dal palo verticale.
+- **Copia in… e Copia da…** di una stratigrafia intera in un'altra o in una nuova; la sostituzione di una esistente chiede conferma e
+  conserva identificativo e nome della destinazione.
+- Gli strati nuovi e duplicati prendono un colore diverso dagli altri.
+
+## Relazione ITEC dei pali
+
+- Per i pali e micropali verticali e orizzontali la relazione può essere prodotta nel formato ITEC, completa o breve («W breve» nella
+  barra del foglio), con le figure dei risultati; la relazione storica resta disponibile.
+- Il report dei pali (palo e micropalo, verticale e orizzontale) si salva solo in Word.
+- Nella teoria le tabelle dei coefficienti K e μ del fusto e del coefficiente di aderenza α nella forma di Viggiani; nel modello
+  geotecnico K, μ e α di ogni strato di ogni verticale.
+
+## Palo orizzontale
+
+- **Sintesi e report.** La sintesi del foglio dice l'esito della verifica e, con lo Stratificato, «Modello di calcolo per terreno
+  stratificato»; nel report i risultati sono in una tabella della capacità.
+- **Stratificato con Broms accanto.** Broms resta il metodo predefinito. Con lo Stratificato, quando governa un palo corto o intermedio in
+  terreno granulare, la sintesi del foglio, i dettagli della verticale e il report mostrano anche Hu di Broms per lo stesso palo e il
+  rapporto fra le due capacità. La capacità adottata e la verifica restano quelle dello Stratificato.
+
+## Separatore decimale
+
+- I numeri delle viste (risultati delle paratie, tabelle e revisioni del visore dei modelli e gli altri binding) seguono il separatore
+  scelto in Aspetto; prima erano sempre con il punto.
+- Un numero salvato come numero, per esempio negli esempi, si mostra nei campi con il separatore scelto, senza arrotondamenti e senza
+  cambiare il dato.
+- Restano come prima le caselle numeriche del visore dei modelli e i disegni e i report che scrivono sempre la virgola: sono passi a parte.
+
+## Modelli Straus7 con più freedom case
+
+- **Vincoli e molle.** Entrano nella copia con il loro freedom case. Il visore disegna quelli del freedom case del caso scelto, insieme a
+  quelli senza freedom case; la tabella delle assegnazioni scrive il freedom case accanto ai gradi di libertà. Prima la copia non mostrava
+  i vincoli di questi modelli.
+- **Equilibrio.** Il controllo di GPC valuta anche le pressioni sui quadrilateri piani: sul modello di prova con due freedom case 15 casi
+  su 15 in equilibrio, prima 5 valutati e 10 «non valutato».
+- L'avviso `Straus7FreedomCasesPreserved` non compare più: al suo posto l'informazione `Straus7FreedomCaseSupports`.
+- Le copie di questi modelli hanno un'impronta nuova; quelle con un solo freedom case non cambiano.
+
+## Librerie
+
+Set ufficiale AZ (`gpc-release-20261118-az`), al posto del set ufficiale AY della 1.19.3:
+- GPCModel 5.53, GPC.Converter 2.27 e GPC.Model.Persistence 3.17: vincoli, molle e casi di carico per freedom case, equilibrio delle
+  piastre piane;
+- GPCChecker.Concrete 0.39.0.1: R16 della torsione nel profilo danese con la variante (b2) e il limite ν ≥ 2/√fck, fori eccentrici rifiutati e
+  foro ad anello; nessun effetto su ANTHEA, che fa la torsione con NTC e usa fori concentrici;
+- GPCChecker.Geotechnics 0.30.0.1: Hu di Broms accanto allo Stratificato e avviso della prima fase non geostatica;
+- GPC.Design 0.47.0.1: passo della faccia tesa nelle fasce;
+- GPCChecker.Steel 2.136.0.1: basi di colonna e giunti tubolari facoltativi e V1 ratificato, che ANTHEA non usa;
+- le altre DLL ricompilate.
+
+L'impronta dei documenti delle paratie contiene le versioni delle librerie: con il set nuovo i risultati salvati risultano superati, come
+a ogni set, e vanno ricalcolati.
+
+## Guide
+
+Guide globali Rev75, in Markdown e nella Wiki: paratie (A2, A3, A4, S3 e cifre del report), palo orizzontale (Broms accanto allo
+Stratificato), separatore decimale, torsione del profilo danese e vincoli dei modelli con più freedom case. Edizioni Word e PDF Rev75,
+con le quattro figure delle paratie della guida pratica ricatturate dalla vista attuale; le Rev74 sono conservate in
+`supporto/SUPERATI/guide-rev75-20261118/`.

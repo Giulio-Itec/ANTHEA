@@ -16,10 +16,21 @@ public static partial class EmbeddedWallDocument
     /// <summary>Choices of hydraulic_left_boundary and hydraulic_right_boundary: the head of the stage on the outer vertical boundary, or no flow
     /// across it (the axis of a symmetric excavation).</summary>
     public const string FixedHeadBoundary = "Carico imposto", NoFlowBoundary = "Flusso nullo";
+    /// <summary>Confirmation that the stage history is already a design (ULS) history (A2 of the paratie review, sheet of 16/11/2026): the
+    /// service adds no partial factor to actions or effects, so the ULS checks run only on a history the user declares already factored.
+    /// Only a JSON true confirms; false, null or a missing value keep the request open.</summary>
+    public const string DesignHistoryKey = "design_history_confirmed";
+    /// <summary>Diagnostic of a ULS check requested on a history not confirmed as a design history; it names the case, whose own row holds the
+    /// confirmation (review of 15/11, B1).</summary>
+    public static string DesignHistoryRequest(string caseId) => "Verifica SLU non eseguita nel caso «" + caseId + "»: confermare «Storia delle fasi già di progetto "
+        + "per le verifiche SLU» per questo caso. Il servizio non aggiunge coefficienti parziali né alle azioni né agli effetti: la storia deve contenerli già.";
+    public static bool DesignHistoryConfirmed(JsonObject data)
+        => data[DesignHistoryKey] is { } value && (value is JsonValue v && v.TryGetValue<bool>(out var confirmed)
+            ? confirmed : throw new ArgumentException("Scelta non valida: " + DesignHistoryKey));
     public static IReadOnlyList<string> Tables { get; } = Array.AsReadOnly(new[] { "segments", "left_soils", "right_soils", "supports", "stages", "activations", "loads", "rc_sections", "hydraulic_left", "hydraulic_right", "hydraulic_upl", "hydraulic_actions", "hydraulic_hyd", "global_checks", "global_actions", "steel_members", "anchor_checks", "anchor_layers", "anchor_tests", "steel_tubes", "rc_piles", "distributed_loads", "cases" });
     public static JsonObject Create() => Upgrade(new()
     {
-        ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire",
+        ["schema"] = 1, ["name"] = "Paratia", ["case_id"] = "Caso 1", ["action_basis"] = "Da definire", [DesignHistoryKey] = false,
         ["top"] = 0, ["bottom"] = -12, ["width"] = 1, ["mesh"] = .25,
         ["fix_top_u"] = false, ["fix_top_rotation"] = false, ["fix_bottom_u"] = false, ["fix_bottom_rotation"] = false,
         ["check_kind"] = "Analisi", ["substeps"] = 8, ["segments"] = new JsonArray(NewRow("segments")),
@@ -163,13 +174,21 @@ public static partial class EmbeddedWallDocument
             foreach (string key in new[] { "hydraulic_left_boundary", "hydraulic_right_boundary" }) if (!data.ContainsKey(key)) data[key] = FixedHeadBoundary;
             data["schema"] = 12;
         }
+        // A2 (sheet of 16/11/2026): the saved documents keep the request open. Neither the main history nor the other cases become confirmed,
+        // whatever their provenance of the actions says; a case never inherits the confirmation of the main history.
+        if (StratigraphyDocument.Number(data["schema"], "Versione paratie") == 12)
+        {
+            if (!data.ContainsKey(DesignHistoryKey)) data[DesignHistoryKey] = false;
+            foreach (var row in Rows(data, "cases")) if (!row.ContainsKey(DesignHistoryKey)) row[DesignHistoryKey] = false;
+            data["schema"] = 13;
+        }
         Validate(data);
         return data;
     }
     public static void Validate(JsonObject data)
     {
         var schema = StratigraphyDocument.Number(data["schema"], "Versione paratie");
-        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12)) throw new ArgumentException("Versione del documento paratie non supportata.");
+        if (schema is not (1 or 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11 or 12 or 13)) throw new ArgumentException("Versione del documento paratie non supportata.");
         foreach (var name in Tables)
         {
             if (schema < 11 && name == "cases") continue;

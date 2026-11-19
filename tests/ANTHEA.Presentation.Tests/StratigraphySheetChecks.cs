@@ -72,6 +72,7 @@ internal static class StratigraphySheetChecks
                 StratigraphyTrace.Write(Path.Combine(traces, scenario.File), lines);
                 string stored = Path.Combine(StratigraphyScenarios.Reference(root), scenario.File);
                 expect.That(File.Exists(stored), "Traccia della vista storica assente: " + stored);
+                if (!File.Exists(stored)) continue;
                 string? difference = StratigraphyTrace.FirstDifference(StratigraphyTrace.Read(stored), lines);
                 expect.That(difference is null, "Stratigrafia MVVM diversa dalla vista storica, scenario " + scenario.File + ", " + difference);
             }
@@ -244,7 +245,7 @@ internal static class StratigraphySheetChecks
         // «density» (state of density, 17/11/2026) is a field added after the historic view: left out of its frozen traces and checked by DensityAsync.
         private static List<StratigraphyControl> Controls(FormViewModel form, string prefix) => form.Fields.Where(field => field.Key != "density").Select(field => field.Kind == FieldKind.Choice
             ? new StratigraphyControl("scelta", prefix + field.Key, field.Label, field.SelectedChoice ?? "-", field.CanChange && field.IsEnabled, field.Choices)
-            : new StratigraphyControl("testo", prefix + field.Key, field.Label, field.Text, !field.IsInputReadOnly && field.IsEnabled)).ToList();
+            : new StratigraphyControl("testo", prefix + field.Key, field.Label, field.EditText, !field.IsInputReadOnly && field.IsEnabled)).ToList();
 
         // ------------------------------------------------ messages and questions
 
@@ -555,8 +556,9 @@ internal static class StratigraphySheetChecks
         editor.SelectedLayerIndex = 1; editor.MinimaForm!["notes"].EditText = "Nota";
         sheet.Commit();
         var layer = StratigraphyDocument.Layers(sheet.Data)[0]!.AsObject();
-        expect.That(sheet.Data.Select(p => p.Key).SequenceEqual(fixture.Select(p => p.Key)) && layer.Select(p => p.Key).Last() == "behavior"
-            && layer.Count == StratigraphyDocument.Layers(fixture)[0]!.AsObject().Count + 1, "Chiavi scritte dalla scheda");
+        // 18/11/2026 (merge of main 630028b8): γ written with an empty γsat links them («gamma_sat_auto», StratigraphyEditing).
+        expect.That(sheet.Data.Select(p => p.Key).SequenceEqual(fixture.Select(p => p.Key)) && layer.Select(p => p.Key).TakeLast(2).SequenceEqual(["behavior", "gamma_sat_auto"])
+            && layer.Count == StratigraphyDocument.Layers(fixture)[0]!.AsObject().Count + 2, "Chiavi scritte dalla scheda: " + string.Join(", ", layer.Select(p => p.Key)));
     }
 
     // ---------------------------------------------------------------- read-only

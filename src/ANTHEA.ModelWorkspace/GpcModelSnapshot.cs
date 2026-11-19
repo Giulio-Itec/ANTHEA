@@ -167,10 +167,12 @@ public static class GpcModelSnapshot
             foreach (var restraint in node.Assignments.Restrains.Where(r => r.Case == null && r.Phase == null && r.Restrain != null))
             {
                 var fixedDofs = restraint.Restrain.Restrains.Where(d => d.IsRestrained && (int)d.Dof < Dofs.Count).Select(d => (int)d.Dof).ToHashSet();
-                if (fixedDofs.Count > 0) yield return new(restraint.SourceRecord ?? "Vincolo " + id, "RESTRAIN", [id], null, Flags(Enumerable.Range(0, Dofs.Count).Select(fixedDofs.Contains)));
+                if (fixedDofs.Count > 0) yield return new(restraint.SourceRecord ?? "Vincolo " + id, "RESTRAIN", [id], null, Flags(Enumerable.Range(0, Dofs.Count).Select(fixedDofs.Contains)))
+                    { FreedomCase = restraint.FreedomCase?.Name };
             }
             foreach (var spring in node.Assignments.GroundSprings)
-                yield return new(spring.SourceRecord ?? "Molla " + id, "RESTRAIN", [id], null, "Molla elastica · " + Flags(Enumerable.Range(0, Dofs.Count).Select(i => spring[i, i] != 0)));
+                yield return new(spring.SourceRecord ?? "Molla " + id, "RESTRAIN", [id], null, "Molla elastica · " + Flags(Enumerable.Range(0, Dofs.Count).Select(i => spring[i, i] != 0)))
+                    { FreedomCase = spring.FreedomCase?.Name };
             foreach (var link in node.Assignments.Links)
             {
                 if (!ids.TryGetValue(link.OtherNodeId, out int other)) continue;
@@ -210,6 +212,7 @@ public static class GpcModelSnapshot
         var displacements = new Dictionary<string, List<ModelDisplacement>>(StringComparer.Ordinal);
         var reactions = new Dictionary<string, List<ModelReaction>>(StringComparer.Ordinal);
         var order = new List<string>(); var stages = new Dictionary<string, ModelStageResult>(StringComparer.Ordinal); var sources = new Dictionary<string, string>(StringComparer.Ordinal);
+        var freedom = new Dictionary<string, string>(StringComparer.Ordinal); // set AZ: freedom case of the static case
         bool Mine(ResultLocation s) => s.State?.DatasetId == options.DatasetId && s.Case != null;
         string Case(ResultLocation s)
         {
@@ -221,7 +224,11 @@ public static class GpcModelSnapshot
                 var context = new ModelStageResult(stage.SourceCaseName, options.StagePhase(s.State.Phase ?? ""), s.State.Step ?? "", options.Displacements ? "Accumulative" : null, revision);
                 name = context.Label; stages.TryAdd(name, context);
             }
-            else { name = options.CaseName(s.Case.Name); sources.TryAdd(name, s.Case.Name); }
+            else
+            {
+                name = options.CaseName(s.Case.Name); sources.TryAdd(name, s.Case.Name);
+                if ((s.Case as GPC.Model.LoadCases.LoadCaseBase)?.FreedomCase is { } freedomCase) freedom.TryAdd(name, freedomCase.Name);
+            }
             if (!order.Contains(name)) order.Add(name);
             return name;
         }
@@ -288,6 +295,7 @@ public static class GpcModelSnapshot
             Displacements = displacements.GetValueOrDefault(name)?.OrderBy(v => v.Node).ToArray(),
             Reactions = reactions.GetValueOrDefault(name)?.OrderBy(v => v.Node).ToArray(),
             Stage = stages.GetValueOrDefault(name),
+            FreedomCase = freedom.GetValueOrDefault(name),
             Equilibrium = sources.TryGetValue(name, out var source) ? options.Equilibrium?.Invoke(source) : null
         }).ToArray();
     }

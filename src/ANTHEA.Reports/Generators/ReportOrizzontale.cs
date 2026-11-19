@@ -10,6 +10,15 @@ namespace X.Core;
 public static class ReportOrizzontale
 {
     public sealed record Figure(int Survey, string Caption, byte[] Png, double AspectRatio, string Category = "grafici");
+    /// <summary>
+    /// Stratificato, option C of the sheet of 16/11/2026 (decided on 17/11/2026): Hu of Broms for the same pile and vertical, with its mechanism and
+    /// the ratio. The capacity adopted stays the stratified one; the ratio shows how much the distributed closure weighs against the concentrated
+    /// force of Broms.
+    /// </summary>
+    public static string BromsComparison(JsonNode values, string vertical) =>
+        $"Confronto con Broms ({vertical}): Hu di Broms = {J.Number(values["capacita_broms_kn"]):0.###} kN, meccanismo {values.S("meccanismo_broms").ToLowerInvariant()}; "
+        + $"rapporto Stratificato / Broms = {J.Number(values["rapporto_broms"]):0.000}. La capacità adottata resta quella del modello stratificato; il rapporto misura "
+        + "quanto pesa la chiusura distribuita rispetto alla forza concentrata al piede di Broms.";
     public static void Write(string path, string title, JsonObject result, bool includeInputs = true)
         => DocumentFile.Write(path, Create(title, result, includeInputs));
     public static byte[] Create(string title, JsonObject result, bool includeInputs = true, IReadOnlyList<Figure>? figures = null) => DocxWriter.Write(CreateDocument(title, result, includeInputs, figures));
@@ -133,6 +142,8 @@ public static class ReportOrizzontale
         P("Risultati", true);
         var capacityTable = HorizontalPileResistanceReport.Capacity(result);
         P(capacityTable.Titolo, true); Table(capacityTable.Colonne, capacityTable.Righe);
+        // Stratificato, option C of the sheet of 16/11/2026: Hu of Broms beside the stratified one, only where the result has it.
+        if (result["capacita_broms_kn"] is not null) P(BromsComparison(result, "verticale governante"));
         if (result["sezione"] is JsonObject section)
         {
             P(HorizontalPileResistanceReport.SectionDescription(section));
@@ -164,6 +175,7 @@ public static class ReportOrizzontale
             if (survey.S("chiusura_equilibrio") == "Distribuita")
                 P($"Chiusura distribuita: inversione a {survey.D("inversione_reazioni_m"):0.####} m; fine reazioni a {survey.D("fine_reazioni_m"):0.####} m. Risultante concentrata nulla.");
             else P($"Risultante concentrata F={survey.D("risultante_concentrata_kn"):0.###} kN a z={survey.D("quota_risultante_m"):0.###} m, positiva nel verso di H. Non è una pressione distribuita.");
+            if (survey!["capacita_broms_kn"] is not null) P(BromsComparison(survey, "stessa verticale"));
             Table(["Meccanismo", "Capacità candidata [kN]", "Stato"], survey.Array("candidati").Select(r => new[] { r.S("meccanismo"), r!["capacita_kn"] is null ? "Non attivabile" : r.D("capacita_kn").ToString("0.###"), r.S("stato") }));
             P(survey.S("nota_tensioni"));
             P("Legge locale per tratti", true);

@@ -13,6 +13,7 @@ internal static partial class EmbeddedWallChecks
     {
         var data = Example(); data["name"] = "Paratia di pali in c.a. — mensola sintetica"; data["width"] = 1.5;
         data["action_basis"] = "SLU statico, azioni di progetto sintetiche"; data["rc_pile_standard"] = "NTC 2018"; data["rc_pile_check_kind"] = "Ultimate";
+        data[EmbeddedWallDocument.DesignHistoryKey] = true;
         data["segments"]![0]!["ei_mode"] = "Da palo circolare c.a."; data["segments"]![0]!["ei"] = null;
         data["segments"]![0]!["source"] = "EI lordo della fila unica di pali"; data["loads"]![0]!["horizontal"] = 1;
         var row = EmbeddedWallDocument.NewRow("rc_piles"); row["diameter"] = 800; row["spacing"] = 1; row["cover"] = 50;
@@ -27,7 +28,7 @@ internal static partial class EmbeddedWallChecks
     {
         var legacy = Example(); legacy["schema"] = 7; legacy.Remove("rc_piles"); legacy.Remove("rc_pile_standard"); legacy.Remove("rc_pile_check_kind");
         string before = legacy.ToJsonString(); var migrated = EmbeddedWallDocument.Snapshot(legacy);
-        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "12" && migrated["rc_pile_standard"]!.ToString() == "Non richieste",
+        e.That(legacy.ToJsonString() == before && migrated["schema"]!.ToString() == "13" && migrated["rc_pile_standard"]!.ToString() == "Non richieste",
             "Migrazione 7→8 modifica il documento precedente o attiva verifiche.");
         var data = RcPileExample(); before = data.ToJsonString(); using var sheet = Open(data);
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo palo c.a. non pubblicato."); var result = sheet.Current!;

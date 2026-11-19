@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Collections.Frozen;
+using Anthea.Calculations;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Xml.Linq;
 using GPC.Model.Checking.Contracts;
@@ -11,10 +13,38 @@ namespace Anthea.Reports;
 public static partial class EmbeddedWallReport
 {
     private const int TableWidthTwips = 9638;
-    private static string F(double? value) => value?.ToString("G7", CultureInfo.GetCultureInfo("it-IT")) ?? "non disponibile";
-    private static string Compact(double value) => value != 0 && (Math.Abs(value) < .0001 || Math.Abs(value) >= 100000)
-        ? value.ToString("0.##E+0", CultureInfo.GetCultureInfo("it-IT")) : F(value);
+    private static readonly CultureInfo Italian = CultureInfo.GetCultureInfo("it-IT");
+    /// <summary>
+    /// A number of the report with the decimals of its <paramref name="unit"/> (<see cref="UnitNumberFormat"/>, rule approved by the user on 16/11/2026,
+    /// item e of the digits), in it-IT as the rest of the report: no «E» notation, no «-0», the noise of the solver below the last decimal shows 0
+    /// (before: G7 and «0.##E+0», for example 4,25419E-10). Without the final zeros in the text; <see cref="T"/> in the tables.
+    /// </summary>
+    private static string F(double? value, string? unit) => value is double v ? UnitNumberFormat.Format(v, unit, Italian) : "non disponibile";
+    /// <summary>A number of a table cell: fixed decimals of its unit with the final zeros (110,90 next to 111,09), as <see cref="F"/> otherwise.</summary>
+    private static string T(double? value, string? unit) => value is double v ? UnitNumberFormat.Format(v, unit, Italian, table: true) : "non disponibile";
+    /// <summary>The unit written in brackets in the label of a coefficient («γw [N/mm³]» → N/mm³); a coefficient without it is a pure number.</summary>
+    private static string UnitOfLabel(string key) => UnitNumberFormat.UnitOf(Labels.GetValueOrDefault(key, key));
     public static string DisplayLabel(string key) => Labels.GetValueOrDefault(key, key);
+    /// <summary>Warning of A2 (paratie review, sheet of 16/11/2026), written under the actions of every history. It concerns only the checks that
+    /// take the actions of the history as they are (strips, circular piles, CHS tubes, steel supports): tie-rod pull-out, UPL/HYD and global
+    /// stability have factors and confirmations of their own. The state follows the analysed input: whether one of those ULS checks is requested
+    /// and whether the history is confirmed (a snapshot without the field reads as not confirmed).</summary>
+    public static string PartialFactorsWarning(JsonObject input)
+    {
+        string Text(string key) => input[key]?.ToString() ?? "";
+        bool Standard(string key) => Text(key) is not ("" or "Non richieste");
+        bool requested = Text("check_kind") == "Ultimate"
+            || Standard("rc_pile_standard") && Text("rc_pile_check_kind") == "Ultimate"
+            || Standard("tube_standard") && Text("tube_check_kind") is "StaticUltimate" or "SeismicUltimate"
+            || Standard("steel_standard") && Text("steel_check_kind") is "StaticUltimate" or "SeismicUltimate";
+        bool confirmed = input["design_history_confirmed"] is JsonValue value && value.TryGetValue<bool>(out var flag) && flag;
+        return "Avvertenza: per fasce in c.a., pali circolari, tubi CHS e sostegni metallici il servizio non aggiunge coefficienti parziali né alle azioni "
+            + "né agli effetti; le loro verifiche SLU valgono solo su una storia delle fasi già di progetto. "
+            + (!requested ? "Nessuna di queste verifiche SLU è richiesta."
+                : confirmed ? "Storia delle fasi confermata come di progetto dall'utente."
+                : "Storia delle fasi non confermata come di progetto: queste verifiche SLU non sono eseguite.")
+            + " Sfilamento dei tiranti, UPL/HYD e stabilità globale hanno coefficienti e conferme propri, indicati nelle loro sezioni.";
+    }
     public static string OutcomeText(EngineeringOutcome outcome) => outcome switch
     { EngineeringOutcome.Satisfied => "Soddisfatto", EngineeringOutcome.NotSatisfied => "Non soddisfatto", EngineeringOutcome.NotEvaluated => "Non valutato", _ => outcome.ToString() };
     public static DocxDocument Create(string title, EmbeddedWallReportData result, bool allStations = false)
@@ -39,8 +69,11 @@ public static partial class EmbeddedWallReport
         {
             P(currentTitle, true);
             P(currentResult.Name + " · Caso " + currentResult.CaseId); P("Azioni: " + currentResult.ActionBasis);
+            P(PartialFactorsWarning(string.IsNullOrWhiteSpace(currentResult.InputJson) ? new JsonObject() : JsonNode.Parse(currentResult.InputJson)!.AsObject()));
             P(currentResult.Complete ? "Storia completata. La convergenza non attesta tutte le verifiche dell'opera." : "ANALISI INCOMPLETA — sono riportate soltanto le fasi concluse.", true);
             if (!currentResult.Complete) P(currentResult.Diagnostic);
+            // A4 (sheet of 16/11/2026): the warnings of the analysis, before the scope; none in the reports of before.
+            foreach (string warning in currentResult.Warnings ?? []) P("Avviso: " + warning);
             foreach (string note in currentResult.Scope) P(note);
             RenderEmbedment(currentResult, (text, heading) => P(text, heading), Table);
             RenderEnvelope(currentResult, (text, heading) => P(text, heading), Table);
@@ -48,37 +81,45 @@ public static partial class EmbeddedWallReport
             var input = JsonNode.Parse(currentResult.InputJson)!.AsObject();
             // Document keys are shown with their explicit unit contract, without recomputing derived data.
             string Label(string key) => Labels.GetValueOrDefault(key, key);
+            // Item 12h, question 6 (17/11/2026): the inputs keep every digit, with the decimal comma; m/s as a power of ten (Kxx 1·10⁻⁵).
+            // A2 (approved 18/11/2026): the confirmation of the history, of the document and of every case, reads «sì» or «no», not the JSON value;
+            // anything but true reads «no», as in PartialFactorsWarning. Every other option of the data (head and toe restraints, suction neglected,
+            // the A1 and M1 confirmation of the tie rods) reads «sì» or «no» too (approved on 18/11/2026, «Sì ai consigli per tutte e tre»).
+            string Assigned(string key, JsonNode? value) => value is null ? "non assegnato"
+                : key == "design_history_confirmed" ? (value is JsonValue flag && flag.TryGetValue<bool>(out bool confirmed) && confirmed ? "sì" : "no")
+                : value is JsonValue option && option.GetValueKind() is JsonValueKind.True or JsonValueKind.False ? (option.GetValueKind() == JsonValueKind.True ? "sì" : "no")
+                : UnitNumberFormat.Input(value.ToString(), UnitNumberFormat.UnitOf(Label(key)), Italian);
             Table(["Dato", "Valore"], input.Where(p => p.Value is not JsonArray && p.Value is not JsonObject && p.Key != "schema")
-                .Select(p => new[] { Label(p.Key), p.Value?.ToString() ?? "non assegnato" }));
+                .Select(p => new[] { Label(p.Key), Assigned(p.Key, p.Value) }));
             foreach (var entry in input.Where(p => p.Value is JsonArray))
             {
                 var rows = entry.Value!.AsArray().OfType<JsonObject>().ToArray(); if (rows.Length == 0) continue;
                 P(Label(entry.Key), true);
-                for (int i = 0; i < rows.Length; i++) P((i + 1) + ". " + string.Join("; ", rows[i].Select(p => Label(p.Key) + ": " + (p.Value?.ToString() ?? "non assegnato"))));
+                for (int i = 0; i < rows.Length; i++) P((i + 1) + ". " + string.Join("; ", rows[i].Select(p => Label(p.Key) + ": " + Assigned(p.Key, p.Value))));
             }
             foreach (var hydraulic in currentResult.Hydraulics ?? [])
             {
                 P("Filtrazione — fase " + hydraulic.Stage, true);
                 P($"Esito {hydraulic.Status}; iterazioni {hydraulic.Iterations}; nodi {hydraulic.Nodes.Count}; elementi {hydraulic.Elements.Count}. {hydraulic.Diagnostic}");
                 if (!hydraulic.Complete) continue;
-                P($"Portata entrante {F(hydraulic.InflowLitresPerSecondPerMetre)} L/s/m; uscente {F(hydraulic.OutflowLitresPerSecondPerMetre)} L/s/m; bilancio {F(hydraulic.BalanceLitresPerSecondPerMetre)} L/s/m. Residuo nodale massimo {F(hydraulic.ResidualSquareMillimetresPerSecond)} mm²/s.");
+                P($"Portata entrante {F(hydraulic.InflowLitresPerSecondPerMetre, "L/s/m")} L/s/m; uscente {F(hydraulic.OutflowLitresPerSecondPerMetre, "L/s/m")} L/s/m; bilancio {F(hydraulic.BalanceLitresPerSecondPerMetre, "L/s/m")} L/s/m. Residuo nodale massimo {F(hydraulic.ResidualSquareMillimetresPerSecond, "mm²/s")} mm²/s.");
                 P("Portate riferite a un metro ortogonale alla sezione. Il CSV idraulico conserva tutti i valori nodali e i flussi degli elementi; qui sono riportati gli estremi nodali con la loro posizione.");
                 var nodes = new[] { hydraulic.Nodes.MinBy(n => n.Head)!, hydraulic.Nodes.MaxBy(n => n.Head)!, hydraulic.Nodes.MinBy(n => n.Pressure)!, hydraulic.Nodes.MaxBy(n => n.Pressure)! }.Distinct();
-                Table(["Nodo", "x [m]", "z [m]", "h [m]", "u [kPa]"], nodes.Select(n => new[] { n.Index.ToString(), F(n.X), F(n.Z), F(n.Head), F(n.Pressure) }));
+                Table(["Nodo", "x [m]", "z [m]", "h [m]", "u [kPa]"], nodes.Select(n => new[] { n.Index.ToString(), T(n.X, "m"), T(n.Z, "m"), T(n.Head, "m"), T(n.Pressure, "kPa") }));
             }
             P("Verifiche idrauliche locali UPL / HYD", true);
             if ((currentResult.HydraulicChecks?.Count ?? 0) == 0) P("Nessuna verifica UPL/HYD richiesta.");
             foreach (var check in currentResult.HydraulicChecks ?? [])
             {
                 P($"{check.Stage} · {check.Element} · {check.Method} · {check.OutcomeText}", true);
-                P($"Domanda {F(check.Demand)}, capacità {F(check.Capacity)} {check.Unit}; utilizzo {F(check.Ratio)}. {check.Diagnostic}");
+                P($"Domanda {F(check.Demand, check.Unit)}, capacità {F(check.Capacity, check.Unit)} {check.Unit}; utilizzo {F(check.Ratio, "")}. {check.Diagnostic}");
                 P(check.Reference); P("Provenienza e applicabilità: " + check.Source);
-                if (check.Coefficients.Count > 0) P("Coefficienti e parametri: " + string.Join("; ", check.Coefficients.Select(p => Label(p.Key) + "=" + F(p.Value))));
-                if (check.Values.Count > 0) Table(["Dato utilizzato", "Valore", "Unità"], check.Values.Select(v => new[] { v.Name, F(v.Value), v.Unit }));
+                if (check.Coefficients.Count > 0) P("Coefficienti e parametri: " + string.Join("; ", check.Coefficients.Select(p => Label(p.Key) + "=" + F(p.Value, UnitOfLabel(p.Key)))));
+                if (check.Values.Count > 0) Table(["Dato utilizzato", "Valore", "Unità"], check.Values.Select(v => new[] { v.Name, T(v.Value, v.Unit), v.Unit }));
                 if (check.Actions.Count > 0)
                 {
                     P("Risultanti UPL positive verso l'alto; pesi totali negativi. La resistenza aggiuntiva Rd è già di progetto.");
-                    Table(["Azione", "Categoria", "Fk [kN]", "γ", "Fd [kN]"], check.Actions.Select(a => new[] { a.Id, a.CategoryText, F(a.CharacteristicUpwardForce), F(a.Factor), F(a.DesignUpwardForce) }));
+                    Table(["Azione", "Categoria", "Fk [kN]", "γ", "Fd [kN]"], check.Actions.Select(a => new[] { a.Id, a.CategoryText, T(a.CharacteristicUpwardForce, "kN"), T(a.Factor, ""), T(a.DesignUpwardForce, "kN") }));
                     foreach (var action in check.Actions) P(action.Id + ": " + action.Source);
                 }
             }
@@ -87,33 +128,33 @@ public static partial class EmbeddedWallReport
             foreach (var g in currentResult.GlobalChecks ?? [])
             {
                 P($"{g.Stage} · {g.Id} · {g.Combination} · {g.OutcomeText}", true);
-                P($"Domanda γR={F(g.Demand)}; capacità F={F(g.Capacity)}; utilizzo conclusivo={F(g.Ratio)}. Stato della ricerca: {g.SearchStatus}.");
+                P($"Domanda γR={F(g.Demand, "")}; capacità F={F(g.Capacity, "")}; utilizzo conclusivo={F(g.Ratio, "")}. Stato della ricerca: {g.SearchStatus}.");
                 P(g.Reference); P(g.Source); P(g.Diagnostic);
-                P($"Superfici provate {g.Tried}, ammissibili {g.Valid}, risolte {g.Solved}; fallimenti numerici {g.Failures}. Minimo al bordo: {(g.Boundary ? "sì" : "no")}; F con doppio numero di conci: {F(g.RefinedFactor)}; residuo: {F(g.Residual)}.");
-                if (g.Coefficients.Count > 0) P("Coefficienti: " + string.Join("; ", g.Coefficients.Select(c => Label(c.Key) + "=" + F(c.Value))));
+                P($"Superfici provate {g.Tried}, ammissibili {g.Valid}, risolte {g.Solved}; fallimenti numerici {g.Failures}. Minimo al bordo: {(g.Boundary ? "sì" : "no")}; F con doppio numero di conci: {F(g.RefinedFactor, "")}; residuo: {F(g.Residual, "")}.");
+                if (g.Coefficients.Count > 0) P("Coefficienti: " + string.Join("; ", g.Coefficients.Select(c => Label(c.Key) + "=" + F(c.Value, UnitOfLabel(c.Key)))));
                 if (g.Actions.Count > 0)
                 {
-                    Table(["Azione", "γ", "ψ", "γ·ψ"], g.Actions.Select(a => new[] { a.Id, F(a.PartialFactor), F(a.Psi), F(a.CombinedFactor) }));
+                    Table(["Azione", "γ", "ψ", "γ·ψ"], g.Actions.Select(a => new[] { a.Id, T(a.PartialFactor, ""), T(a.Psi, ""), T(a.CombinedFactor, "") }));
                     foreach (var a in g.Actions) P(a.Id + " · " + a.Category + " · " + (a.Unfavourable ? "sfavorevole" : "favorevole") + ": " + a.Source);
                 }
-                if (g.Circle is { } circle) P($"Cerchio critico nelle coordinate globali (valle a sinistra, quota testa zero): centro ({F(circle.X)}; {F(circle.Y)}) m, raggio {F(circle.Radius)} m; estremi x={F(circle.Left)} / {F(circle.Right)} m.");
+                if (g.Circle is { } circle) P($"Cerchio critico nelle coordinate globali (valle a sinistra, quota testa zero): centro ({F(circle.X, "m")}; {F(circle.Y, "m")}) m, raggio {F(circle.Radius, "m")} m; estremi x={F(circle.Left, "m")} / {F(circle.Right, "m")} m.");
                 if (allStations && g.Slices.Count > 0)
                     Table(["Concio", "x sx / dx [m]", "z base [m]", "u [kPa]", "N′ [kN/m]", "R / mobil. [kN/m]"],
-                        g.Slices.Select(s => new[] { s.Index.ToString(), F(s.Left) + " / " + F(s.Right), F(s.BaseY), F(s.Pressure), F(s.NormalEffective), F(s.Resistance) + " / " + F(s.Mobilized) }));
+                        g.Slices.Select(s => new[] { s.Index.ToString(), T(s.Left, "m") + " / " + T(s.Right, "m"), T(s.BaseY, "m"), T(s.Pressure, "kPa"), T(s.NormalEffective, "kN/m"), T(s.Resistance, "kN/m") + " / " + T(s.Mobilized, "kN/m") }));
             }
             foreach (var stage in currentResult.Stages)
             {
                 P("Fase " + stage.Id, true);
-                P($"Incrementi {stage.Increments}; iterazioni {stage.Iterations}. Residuo forze {F(stage.ForceResidualN)} N; residuo momenti {F(stage.MomentResidualNmm)} Nmm.", keepNext: true);
+                P($"Incrementi {stage.Increments}; iterazioni {stage.Iterations}. Residuo forze {F(stage.ForceResidualN, "N")} N; residuo momenti {F(stage.MomentResidualNmm, "Nmm")} Nmm.", keepNext: true);
                 P(allStations ? "Tutte le sezioni campionate." : "Estratto: estremi campionati e sezioni terminali. Ogni riga mantiene le azioni concomitanti; il CSV conserva tutte le sezioni.", keepNext: true);
                 IEnumerable<EmbeddedWallPointData> points = stage.Points;
                 if (!allStations && stage.Points.Count > 0) points = new[] { stage.Points.First(), stage.Points.Last(), stage.Points.MinBy(p => p.Moment)!, stage.Points.MaxBy(p => p.Moment)!,
                     stage.Points.MinBy(p => p.Shear)!, stage.Points.MaxBy(p => p.Shear)!, stage.Points.MinBy(p => p.Displacement)!, stage.Points.MaxBy(p => p.Displacement)!,
                     stage.Points.MinBy(p => p.NetDistributedLoad)!, stage.Points.MaxBy(p => p.NetDistributedLoad)! }.Distinct().OrderByDescending(p => p.Elevation);
                 Table(["z [m] / lato", "N [kN]", "V [kN]", "M [kNm]", "u [mm]", "p sx / dx [kPa]", "q netto [kN/m]"], points.Select(p =>
-                    new[] { F(p.Elevation) + " " + p.Side, Compact(p.Normal), Compact(p.Shear), Compact(p.Moment), Compact(p.Displacement), Compact(p.LeftPressure) + " / " + Compact(p.RightPressure), Compact(p.NetDistributedLoad) }));
+                    new[] { T(p.Elevation, "m") + " " + p.Side, T(p.Normal, "kN"), T(p.Shear, "kN"), T(p.Moment, "kNm"), T(p.Displacement, "mm"), T(p.LeftPressure, "kPa") + " / " + T(p.RightPressure, "kPa"), T(p.NetDistributedLoad, "kN/m") }));
                 if (stage.Supports.Count > 0) Table(["Sostegno", "Forza elemento [kN]", "Reazione fascia [kN]", "Riferimento [mm]", "Limite plastico"], stage.Supports.Select(s =>
-                    new[] { s.Id, F(s.AxialForce), F(s.HorizontalReaction), F(s.ReferenceDisplacement), s.AtCapacity ? "raggiunto" : "non raggiunto" }));
+                    new[] { s.Id, T(s.AxialForce, "kN"), T(s.HorizontalReaction, "kN"), T(s.ReferenceDisplacement, "mm"), s.AtCapacity ? "raggiunto" : "non raggiunto" }));
             }
             P("Verifiche dei sostegni metallici", true);
             if ((currentResult.SteelSupports?.Count ?? 0) == 0) P("Nessuna verifica dei sostegni metallici eseguita.");
@@ -121,12 +162,12 @@ public static partial class EmbeddedWallReport
             foreach (var s in currentResult.SteelSupports ?? [])
             {
                 P($"{s.Stage} · {s.Support} · {s.Kind} · {s.OutcomeText}", true);
-                P($"N={F(s.NormalForce)} kN, positivo a trazione, per singolo elemento. Rigidezza assiale assegnata nell'analisi: {F(s.AnalysedAxialStiffness)} kN/m. Classe a compressione: {s.CompressionClass?.ToString() ?? "non applicabile/non disponibile"}. Limite costitutivo raggiunto: {(s.AtModelCapacity ? "sì" : "no")}.");
+                P($"N={F(s.NormalForce, "kN")} kN, positivo a trazione, per singolo elemento. Rigidezza assiale assegnata nell'analisi: {F(s.AnalysedAxialStiffness, "kN/m")} kN/m. Classe a compressione: {s.CompressionClass?.ToString() ?? "non applicabile/non disponibile"}. Limite costitutivo raggiunto: {(s.AtModelCapacity ? "sì" : "no")}.");
                 P(s.Source); if (steelNotes.Add(s.Diagnostic)) P(s.Diagnostic);
                 foreach (var c in s.Checks)
                 {
-                    P($"{c.Method}: {c.OutcomeText}. Domanda {F(c.Demand)} kN, capacità {F(c.Capacity)} kN, utilizzo {F(c.Ratio)}, γM={F(c.PartialFactor)}.");
-                    if (c.CriticalForce.HasValue) P($"Ncr={F(c.CriticalForce)} kN; λbar={F(c.NormalizedSlenderness)}, snellezza geometrica={F(c.GeometricSlenderness)}; curva {c.Curve}, χ={F(c.Reduction)}.");
+                    P($"{c.Method}: {c.OutcomeText}. Domanda {F(c.Demand, "kN")} kN, capacità {F(c.Capacity, "kN")} kN, utilizzo {F(c.Ratio, "")}, γM={F(c.PartialFactor, "")}.");
+                    if (c.CriticalForce.HasValue) P($"Ncr={F(c.CriticalForce, "kN")} kN; λbar={F(c.NormalizedSlenderness, "")}, snellezza geometrica={F(c.GeometricSlenderness, "")}; curva {c.Curve}, χ={F(c.Reduction, "")}.");
                 }
                 foreach (string note in s.Checks.Select(c => c.Reference + ". " + c.Diagnostic).Distinct(StringComparer.Ordinal)) P(note);
             }
@@ -142,7 +183,7 @@ public static partial class EmbeddedWallReport
                 {
                     var governing = group.OrderByDescending(c => c.Outcome == EngineeringOutcome.NotSatisfied).ThenByDescending(c => c.Ratio).First();
                     foreach (var c in group.Where(c => c.Outcome == EngineeringOutcome.NotEvaluated).Take(1).Append(governing).Distinct())
-                        P($"{c.Stage} · {c.Section} · z={F(c.Elevation)} m ({c.Side}) · {c.Method}: {c.Outcome}; domanda {F(c.Demand)}, capacità {F(c.Capacity)} {c.Unit}; utilizzo {F(c.Ratio)}. N={F(c.Normal)} kN, V={F(c.Shear)} kN, M={F(c.Moment)} kNm. {c.Diagnostic}");
+                        P($"{c.Stage} · {c.Section} · z={F(c.Elevation, "m")} m ({c.Side}) · {c.Method}: {c.Outcome}; domanda {F(c.Demand, c.Unit)}, capacità {F(c.Capacity, c.Unit)} {c.Unit}; utilizzo {F(c.Ratio, "")}. N={F(c.Normal, "kN")} kN, V={F(c.Shear, "kN")} kN, M={F(c.Moment, "kNm")} kNm. {c.Diagnostic}");
                 }
             }
             P("Impronta della revisione: " + currentResult.Fingerprint);
@@ -232,7 +273,7 @@ public static partial class EmbeddedWallReport
     }
     private static readonly FrozenDictionary<string, string> Labels = new Dictionary<string, string>()
     {
-        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
+        ["name"]="Nome", ["case_id"]="Caso", ["action_basis"]="Origine delle azioni", ["design_history_confirmed"]="Storia delle fasi già di progetto per le verifiche SLU", ["top"]="Quota superiore [m]", ["bottom"]="Quota inferiore [m]", ["width"]="Larghezza (m generale, mm sezione c.a.)",
         ["mesh"]="Lunghezza massima elemento [m]", ["check_kind"]="Combinazione fasce rettangolari c.a.", ["substeps"]="Incrementi", ["segments"]="Tratti e rigidezze", ["left_soils"]="Terreno a sinistra", ["right_soils"]="Terreno a destra",
         ["supports"]="Sostegni", ["stages"]="Fasi", ["activations"]="Attivazioni", ["loads"]="Carichi", ["rc_sections"]="Armature", ["section"]="Sezione", ["ei"]="EI [kNm²]", ["weight"]="Peso lineare [kN/m]",
         ["source"]="Fonte", ["gamma"]="γ [kN/m³]", ["gamma_sat"]="γsat [kN/m³]", ["phi"]="φ′ [°]", ["c"]="c′ [kPa]", ["cu"]="cu [kPa]", ["k0"]="K0", ["kh"]="kh [N/mm³]", ["drainage"]="Condizione", ["stiffness_source"]="Fonte kh",
