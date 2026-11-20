@@ -13,9 +13,10 @@ public sealed record Transition(string File, string Path, string Class, string? 
     /// <summary>
     /// Articles of the Wiki in the F3 capture declared by the editorial record: 78 in Rev62, 82 in Rev63 with the
     /// four practical/theoretical chapters about climate actions, loads, combinations and traffic (AZIONI-01),
-    /// 94 in Rev66 with the twelve chapters for the six additional actions (AZIONI-EXT-DOC-20261101).
+    /// 94 in Rev66 with the twelve chapters for the six additional actions (AZIONI-EXT-DOC-20261101);
+    /// 96 in Rev77 with the practical/theoretical quick composite section chapters (GUIDE-REV77-DXF-COMPOSTA-20261119).
     /// </summary>
-    public const string EditorialArticleCount = "94";
+    public const string EditorialArticleCount = "96";
 
     /// <summary>Keep F4 engineering transitions immutable. The separate F5 editorial record replaces only the article count
     /// and adds exact Wiki differences; it cannot admit any engineering result, missing article, or numerical body change.</summary>

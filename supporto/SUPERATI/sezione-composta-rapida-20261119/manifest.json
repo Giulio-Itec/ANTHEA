@@ -1,0 +1,57 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "9094fa89c20140f33d7e3f998ff0be11d8558599570678a9280ac575b23a0939",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "ea0d1e839c0d9f0a0708d6044d66397ab42abbab76a76df6b48e4c6d31535b2f",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "63b3e8c9bf49ba64b38a92d99d719c32ddcca42921e68fbcb37561bf365d4b9b",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "d7db054b8c8f52650fef72d4e1d10a9df278faee1154b27c9686c41acb540a99",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev75.docx",
+    "sha256": "33c519a30a6e624785b5bf6bd0a42f002a376725be1908225a48018d8add9772",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev75.pdf",
+    "sha256": "ea0d1e839c0d9f0a0708d6044d66397ab42abbab76a76df6b48e4c6d31535b2f",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev75.docx",
+    "sha256": "78adf04811cdc1a542e7f3c7c7b40ca8634ab4c11c807ee09a7be4bbc2c28a7d",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev75.pdf",
+    "sha256": "d7db054b8c8f52650fef72d4e1d10a9df278faee1154b27c9686c41acb540a99",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "ee2dcb1f53144625b89c8d3b5e079cd740990d4dfa2997dac2683eedbe383ac1",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "7e7b181f3ace2f3c5ccab4e79e67df689633eadcb4aef65718ea4c59eca7a3a4",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "7f48d41054d1bfdd0bfd903225574bb89b0f982bd8f5de55a606be3c91ce0fb7",
+    "sostituzione": "Revisione 76: sezione composta verifica rapida"
+  }
+]

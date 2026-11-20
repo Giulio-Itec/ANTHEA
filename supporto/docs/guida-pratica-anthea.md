@@ -2,7 +2,7 @@
 
 Manuale operativo dei moduli disponibili
 
-Edizione 18 novembre 2026 · revisione documentale 75 · comportamento ANTHEA 1.19.4 (set AZ)
+Edizione 19 novembre 2026 · revisione documentale 77 · comportamento ANTHEA 1.19.4 (set BB)
 
 Questa guida descrive uso, interfaccia e procedure di tutti i moduli di ANTHEA. Modelli, formule, ipotesi e limiti sono descritti nella guida teorica.
 
@@ -344,6 +344,32 @@ Nel micropalo il diametro geotecnico D è in metri e governa il contatto con il 
 Il momento automatico richiede un CHS di classe 1 e una forza assiale inferiore alla resistenza assiale plastica. Il riempimento non contribuisce al momento resistente adottato. Per classi diverse il programma non attribuisce automaticamente la duttilità necessaria al meccanismo plastico; il momento manuale richiede una provenienza motivata.
 
 Il calcolo di capacità con Broms è distinto dalla [risposta elastica del palo](wiki:guida-palo-elastico). Non usare un carico limite per dedurre direttamente lo spostamento di esercizio.
+
+## Sezione composta verifica rapida
+
+Aprire Moduli singoli → Strutture → Sezione composta · verifica rapida. Il foglio si apre in una finestra dedicata; + Nuova sezione aggiunge una seconda scheda nella stessa finestra. I pulsanti W e W breve si riferiscono alla scheda selezionata in quella finestra.
+
+### Geometria e armature
+
+Il modulo rapido comprende una trave saldata a I con una soletta collaborante. Assegnare H totale della carpenteria, spessore dell’anima, larghezze e spessori delle due piattabande, larghezza collaborante e spessore della soletta. Le quote sono in mm. H comprende gli spessori delle piattabande.
+
+Per ogni fila di armatura scegliere Presente, diametro, passo e distanza dal bordo della soletta all’asse delle barre. La colonna As mostra l’area restituita dal motore, in mm². Calcestruzzo, carpenteria e armatura provengono dagli stessi cataloghi del modulo completo. Norma e coefficienti conservano i valori del documento; nel rapido non sono modificabili.
+
+### Combinazioni e scambio Excel
+
+Ogni riga contiene Nome, SL, M getto, M lungo, M breve, V e N. I momenti sono in kNm e le forze in kN. N è positivo a trazione. Le tre colonne dei momenti corrispondono alle fasi iniziali del documento: solo acciaio durante il getto, composta per i permanenti portati a lungo termine, composta per le azioni di breve durata. N e V della tabella sono applicati nella fase breve. Le azioni devono essere già combinate e coefficientate: il modulo non applica ulteriori fattori.
+
+Il menu SL comprende SLU, SLE RA e SLE QP. SLE frequente non è disponibile nel motore attuale. Il ritiro eventualmente presente nel documento resta una fase autonoma; non viene convertito in un momento della colonna M lungo. Se il documento ha azioni assiali o tagli in altre fasi, o una successione di fasi diversa, il rapido richiede l’apertura nel modulo completo e conserva i dati.
+
+Il pulsante + combinazione crea una riga a zero; la croce elimina una riga, mantenendo almeno una combinazione. Il selettore a sinistra sceglie il risultato e il disegno da visualizzare. Excel ↑ scrive e apre un file con le stesse colonne visibili e il menu SL; dopo le modifiche salvare in Excel e premere Excel ↓ per rileggere lo stesso file. L’importazione sostituisce la tabella dopo averne verificato l’intero contenuto. Un file senza colonna SL viene letto come SLU; colonne spostate sono riconosciute dall’intestazione. Se Excel impedisce di riscrivere il file, una nuova esportazione usa un altro file.
+
+### Risultati disegno e relazioni
+
+Il riquadro destro mostra tensioni, limiti e rapporti delle verifiche locali. Allo SLU indica la tensione governante fra tutte le fibre e le situazioni; agli SLE distingue soletta, piattabande e armature. Il taglio include la resistenza con instabilità dell’anima e la tensione equivalente, secondo i risultati disponibili nel motore per lo stato limite scelto. Quando un rapporto non è previsto per quello stato limite, il riquadro lo dichiara. Il rapporto della riga considera i rapporti disponibili anche nelle situazioni intermedie; non è una verifica completa dell’opera.
+
+Il disegno usa la stessa sezione del modulo completo: tensioni totali, geometria quotata e contributi delle fasi. Le etichette riportano le tensioni alle fibre principali; Centra sezione ripristina la vista dopo zoom o spostamento. Classe della sezione e momento resistente MRd non sono disponibili in questa versione: il controllo SLU del rapido è tensionale.
+
+W esporta la relazione completa con dati, fasi, verifiche di tutte le combinazioni e figure reali; W breve raccoglie geometria e casi governanti. Entrambi producono Word e PDF. Apri nel modulo completo apre una copia della combinazione selezionata, conservando nello stesso documento le altre combinazioni e le opzioni del rapido. Cassoni, predalle, seconda piattabanda, irrigidimenti, torsione, curve e scelta dei coefficienti si gestiscono nel modulo completo. Il salvataggio e la riapertura conservano la selezione; in sola lettura si possono consultare altre combinazioni senza modificare il documento.
 
 ## Sezione composta da ponte
 
@@ -1385,6 +1411,18 @@ Nell'analisi elastica con viscosità il diagramma delle deformazioni mostra le d
 Il report raccoglie input, materiali, coefficienti, azioni ed esiti scelti. Gli estremi di tensione/deformazione e i casi governanti possono provenire da combinazioni diverse. Non leggerli come un unico stato. Dati globalmente invalidi o un aggiornamento in corso impediscono l'esportazione dei risultati correnti.
 
 Prima di scegliere una norma consulta [Profili di calcolo del calcestruzzo](wiki:profili-calcestruzzo): il selettore non attesta la copertura di tutte le verifiche della norma.
+
+### Importare una sezione in c.a. da DXF
+
+Aprire Sezione in c.a. · verifica rapida e scegliere DXF nel selettore Forma. Selezionare il file, verificare l’anteprima e premere Importa sezione. Annulla lascia invariato il foglio. Per sostituire il disegno usare Importa / sostituisci DXF. Il file ANTHEA conserva contorno, fori, coordinate e diametri delle barre: dopo il salvataggio non occorre mantenere il DXF originale.
+
+Preparare il disegno nel piano XY a quota zero. Usare una polilinea 2D chiusa o un cerchio per il contorno esterno; polilinee chiuse o cerchi per i fori; cerchi con il diametro reale per le barre longitudinali. Tenere fori e barre su layer distinti. I nomi CONTORNO, FORI e BARRE vengono proposti automaticamente, ma tutte le scelte restano visibili e modificabili. I blocchi vengono letti con le loro trasformazioni. Linee separate, tratteggi, spline e geometrie fuori piano devono essere convertiti nel CAD prima dell’importazione.
+
+L’unità proposta deriva dall’intestazione DXF: controllarla anche quando il disegno appare corretto. Sono disponibili mm, cm, m, in e ft. Se manca un’unità riconosciuta, selezionarla esplicitamente. Nell’anteprima scegliere un contorno esterno, il layer dei fori oppure Nessuno e il layer delle barre. Le entità non utilizzate sono conteggiate nel riepilogo; quelle non ammesse sono segnalate. Un errore geometrico impedisce l’importazione.
+
+La tabella del foglio mostra le barre importate e le loro coordinate in mm rispetto al baricentro del calcestruzzo. Le dimensioni sono lette dal disegno. Gli strati parametrici e le staffe non vengono applicati alla sezione DXF. Per modificare singole barre aprire la copia nel modulo completo; per cambiare il contorno modificare il CAD e reimportare. Materiali, combinazioni, risultati e relazioni usano il motore della sezione in c.a. già presente in ANTHEA.
+
+Sono letti DXF 2000 e successivi, testuali o binari, fino a 20 MiB e 10000 entità. Gli archi dei contorni sono discretizzati con 96 suddivisioni per giro; le barre mantengono il diametro dei cerchi. Le staffe non sono importate e non devono essere confuse con il layer delle barre. Le relazioni riportano file di provenienza, unità originaria, fori, coordinate e armature effettive.
 
 ## Interpretazione dei risultati e controlli indipendenti
 

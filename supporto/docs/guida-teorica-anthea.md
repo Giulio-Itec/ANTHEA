@@ -2,7 +2,7 @@
 
 Modelli formule ipotesi ed esempi dei moduli disponibili
 
-Edizione teorica del 18 novembre 2026 · revisione documentale 75 · comportamento ANTHEA 1.19.4 (set AZ)
+Edizione teorica del 19 novembre 2026 · revisione documentale 77 · comportamento ANTHEA 1.19.4 (set BB)
 
 Questa guida descrive modelli, formule, ipotesi e limiti dei calcoli di tutti i moduli di ANTHEA. Procedure e interfaccia sono descritte nella guida pratica.
 
@@ -1047,6 +1047,38 @@ L'asse neutro nel c.a. è il luogo di deformazione nulla del piano affine. Con d
 Le superfici interne dei fori sono trattate con fasce di parete o anello, limitate a metà spessore; le facce sono controllate separatamente. Ogni fascia usa il k2 della propria distribuzione di deformazioni, non quello della sezione (vedi l'apertura delle fessure). Una superficie compressa non richiede apertura delle fessure. Una superficie tesa senza armatura efficace non soddisfa la verifica, perché nessuna barra ne controlla le fessure; senza interasse assegnato il controllo resta incompleto. Un superamento già accertato resta sfavorevole.
 
 I coefficienti e i campi dei diversi profili sono distinti nella [matrice del calcestruzzo](wiki:profili-calcestruzzo). La [guida operativa](wiki:guida-sezione-ca) descrive importazioni, stati del calcolo e lettura dei risultati.
+
+### Geometria libera della sezione importata da DXF
+
+L’importazione trasferisce al costruttore di sezioni libere della libreria GPC un contorno esterno, gli eventuali fori e le barre con posizione e diametro. Lettura del disegno e conversione delle unità precedono la costruzione; validazione geometrica, baricentro, proprietà e discretizzazione della sezione appartengono alla libreria. L’interfaccia non introduce un diverso modello resistente.
+
+Il contorno deve essere semplice e chiuso. I fori devono essere interamente interni al contorno, senza sovrapposizioni o contatti; le barre devono essere interamente nel calcestruzzo, esterne ai fori e senza sovrapposizioni fra loro. Sono rifiutati punti non finiti, lati nulli e contorni autointersecanti. Gli errori non vengono corretti spostando automaticamente i vertici o le barre.
+
+Le coordinate del documento sono riferite al baricentro del calcestruzzo al netto dei fori. La traslazione si applica allo stesso modo a contorni e barre; la provenienza CAD e l’origine prima della traslazione restano nel documento. La successiva riapertura ricostruisce la sezione dai dati salvati, senza rileggere il file esterno.
+
+Archi di polilinea e cerchi che delimitano il calcestruzzo vengono approssimati con poligoni, con 96 suddivisioni per giro. Questa approssimazione riguarda il contorno e quindi le proprietà geometriche; i cerchi delle armature forniscono invece posizione e diametro della barra nativa. Per contorni curvi occorre valutare l’adeguatezza della discretizzazione all’accuratezza richiesta. Le staffe non sono dedotte dal disegno: l’importazione riguarda geometria del calcestruzzo e barre longitudinali.
+
+Un controllo indipendente usa un rettangolo 600 × 800 mm con un foro 100 × 200 mm, centrato a x = 450 mm e y = 400 mm rispetto all’angolo inferiore sinistro. L’area netta è 460000 mm²; il momento statico rispetto all’asse verticale di origine è 135000000 mm³ e l’ascissa del baricentro è 135000000/460000 mm, mentre l’ordinata è 400 mm. Il disegno di prova è in centimetri e lontano dall’origine CAD. Il controllo verifica conversione, sottrazione del foro e traslazione delle barre con attesi indipendenti dal motore.
+
+## Sezione composta verifica rapida
+
+La verifica rapida usa lo stesso motore della sezione composta da ponte e il suo formato di documento. Non introduce formule di resistenza, coefficienti normativi o una diversa ripartizione delle azioni. Ogni combinazione conserva le fasi native; le fasi della riga selezionata sono riportate anche nel documento principale per l’apertura nel modulo completo.
+
+### Ambito del controllo
+
+La geometria ammessa nel rapido è una trave saldata a I con soletta e due file facoltative di armatura. Le tre colonne M indicano gli incrementi di momento delle fasi di getto, lungo termine e breve termine. N e V appartengono alla fase breve. Un eventuale ritiro conserva la propria fase e i relativi parametri; non è sommato automaticamente ai permanenti portati.
+
+Materiali, omogeneizzazione, eventuali riduzioni efficaci, limiti tensionali e resistenza a taglio sono restituiti dal motore del modulo completo. I valori iniziali coincidono con quelli di un foglio nuovo di quel modulo. Il profilo è valutato nelle situazioni intermedie oltre che nella situazione finale: il massimo rapporto mostrato nella riga può quindi derivare dal solo acciaio al getto.
+
+Lo SLU del rapido confronta le tensioni con i limiti locali del motore; non restituisce la classe della sezione né un momento resistente elastico o plastico MRd. SLE RA e SLE QP adottano i corrispondenti limiti del motore, distinguendo le fibre principali della soletta, le piattabande e le armature. SLE frequente non è disponibile. Le verifiche a taglio e di tensione equivalente mostrano domanda, resistenza e rapporto quando il motore prevede il rapporto per lo stato limite; un rapporto assente resta non determinato.
+
+Il riepilogo seleziona i rapporti nativi senza ricalcolare le resistenze. Un rapporto entro uno riguarda soltanto i controlli locali disponibili: restano pertinenti gli avvisi del motore e le verifiche dell’opera, dei collegamenti e della stabilità non comprese nel rapido. La figura delle tensioni rappresenta l’ultima situazione; i dettagli della relazione completa permettono di individuare la fase che governa il riepilogo.
+
+### Controllo indipendente di area e baricentro
+
+Un caso di prova usa la carpenteria predefinita, senza armature e senza riduzione efficace, con rapporto di omogeneizzazione assegnato n = 10. Rispetto all’intradosso della soletta, le tre parti di acciaio hanno aree 12500, 25200 e 21000 mm² e ordinate baricentriche rispettivamente −12,5, −925 e −1840 mm. L’area di acciaio vale 58700 mm² e il momento statico −62106250 mm³.
+
+La soletta 3000 × 250 mm ha area omogeneizzata 75000 mm² e baricentro a +125 mm. L’area omogeneizzata complessiva vale 133700 mm²; il suo momento statico vale −52731250 mm³ e il baricentro è −52731250/133700 mm. Questi attesi sono ottenuti dai rettangoli assegnati, indipendentemente dal risultato del motore, e restano fissi nelle prove. Altri controlli confrontano integralmente il risultato nativo del rapido con quello del modulo completo per gli stessi dati, per SLU, SLE rara e quasi permanente.
 
 ## Sezione composta da ponte
 

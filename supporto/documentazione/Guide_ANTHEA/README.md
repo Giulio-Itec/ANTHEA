@@ -1,15 +1,19 @@
 # Guide globali ANTHEA
 
-Edizione 10, 18 novembre 2026. Guide pratica e teorica Rev75, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
+Edizione 10, 19 novembre 2026. Guide pratica e teorica Rev77, con l'articolo sul palo orizzontale in terreno stratificato. Comprendono gestione dei modelli, importazione e risultati per fasi, reologia e dettaglio delle sezioni con contorni e offset condivisi tra 2D e 3D.
 
 | Guida | Word | PDF | Sorgente della Wiki |
 |---|---|---|---|
-| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev75.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev75.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
-| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev75.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev75.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
+| Pratica | [Word](ANTHEA_Guida_pratica_ITEC_Rev77.docx) | [PDF](ANTHEA_Guida_pratica_ITEC_Rev77.pdf) | [Markdown](../../docs/guida-pratica-anthea.md) |
+| Teorica | [Word](ANTHEA_Guida_teorica_ITEC_Rev77.docx) | [PDF](ANTHEA_Guida_teorica_ITEC_Rev77.pdf) | [Markdown](../../docs/guida-teorica-anthea.md) |
 
 | Articolo | Word | PDF | Sorgente |
 |---|---|---|---|
 | Capacità orizzontale del palo in terreno stratificato (metodo di G. Pacini), edizione 1 | [Word](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.docx) | [PDF](ANTHEA_Articolo_palo_stratificato_ITEC_Rev01.pdf) | [Markdown](../../docs/articolo-palo-orizzontale-stratificato.md) |
+
+La Rev77 aggiunge l’importazione DXF della sezione in c.a. con il set BB. La Rev76 è conservata con manifest in `supporto/SUPERATI/import-dxf-20261119/`.
+
+La Rev76 aggiunge il modulo Sezione composta verifica rapida, con fasi, combinazioni, taglio, scambio Excel e report. La Rev75 è conservata con manifest in `supporto/SUPERATI/sezione-composta-rapida-20261119/`.
 
 La Rev75 accompagna la 1.19.4 sul set AZ. Nella guida pratica: le paratie con la conferma della storia delle fasi già di progetto per le verifiche SLU, la fase nuova che riprende terreno e falda dall'ultima fase del caso, l'avviso di una prima fase non geostatica, le cifre del report e i dati assegnati; il palo orizzontale con Hu di Broms e il rapporto accanto al metodo stratificato; il separatore decimale anche nelle pagine delle paratie e nel visore, con i numeri salvati mostrati con il separatore scelto; i vincoli e le molle del freedom case del caso scelto nel visore dei modelli Straus7. Nella guida teorica: la torsione del profilo DS con il limite ν ≥ 2/√fck e la variante (b2), il confronto con Broms del metodo stratificato, lo stato iniziale non geostatico e il passo delle barre della faccia tesa delle paratie, i vincoli per freedom case e l'equilibrio delle piastre piane nelle copie dei modelli. Le figure delle paratie della guida pratica sono ricatturate dalla vista attuale. Le Rev74 e i loro indici sono conservati con manifest in `supporto/SUPERATI/guide-rev75-20261118/`.
 

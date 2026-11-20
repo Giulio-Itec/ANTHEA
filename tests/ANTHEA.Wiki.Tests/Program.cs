@@ -15,9 +15,11 @@ try
             "Articolo F5 perso o rinominato: " + expected.GetProperty("key").GetString());
     string[] added = ["guida-paratie", "analisi-paratie", "guida-spettri-ntc", "spettri-isolamento", "capacita-orizzontale-in-terreno-stratificato", "guida-azioni-climatiche", "azioni-climatiche", "guida-carichi-traffico", "carichi-traffico",
         "guida-idraulica", "idraulica", "guida-fasi-costruttive", "fasi-costruttive", "guida-effetti-differiti", "effetti-differiti",
-        "guida-precompressione", "precompressione", "guida-carriponte", "carriponte", "guida-incendio", "incendio"];
+        "guida-precompressione", "precompressione", "guida-carriponte", "carriponte", "guida-incendio", "incendio", "guida-sezione-composta-rapida", "sezione-composta-rapida"];
     Check(WikiCatalog.Articles.Count(a => !added.Contains(a.Key)) == historical.Length, "Censimento storico F5 modificato");
     foreach (string key in added) Check(WikiCatalog.Resolve(key) is not null, "Capitolo aggiunto mancante: " + key);
+    Check(WikiCatalog.ForModule("str_sezione_composta_rapida")?.Key == "guida-sezione-composta-rapida", "Guida composta rapida collegata");
+    Check(WikiCatalog.Search("DXF").Any(a => WikiCatalog.Body(a).Contains("Importare una sezione in c.a. da DXF")), "Importazione DXF descritta e ricercabile nella guida");
     Check(WikiCatalog.ForModule("geo_paratie")?.Key == "guida-paratie", "Guida paratie non collegata");
     Check(WikiCatalog.ForModule("act_spettri_ntc")?.Key == "guida-spettri-ntc", "Guida Spettri non collegata");
     foreach (var (module, key) in new[] { ("act_idrauliche", "guida-idraulica"), ("act_fasi_costruttive", "guida-fasi-costruttive"),

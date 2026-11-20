@@ -1,0 +1,57 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "21bc2a2e2be87b56da033a8bfc5855c21d6b885aef73b852281b3aba650e14b2",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "42162dfd825941ab3868f782fb0f761f68813d01bc869a7e04568b0b17ed967b",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.md",
+    "sha256": "278a3ec7cd7492a6c879ea61f91213e3833fc15f94c53cf557391a1507307c12",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/docs/guida-teorica-anthea.pdf",
+    "sha256": "0ea3a3aec35b8e2fc6ed0578c152ef1339fae60564883258002b2ef26fe0d3b0",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev76.docx",
+    "sha256": "f59a4c8b8d6c7474dd4e235b53e994c2f0beae59c9bd6f307f05a9cd8b42fc57",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev76.pdf",
+    "sha256": "42162dfd825941ab3868f782fb0f761f68813d01bc869a7e04568b0b17ed967b",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev76.docx",
+    "sha256": "a81b7579674c1f653c60933d9b9bea3a76b69a1cd3d18646335a97f693e2e1a2",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev76.pdf",
+    "sha256": "0ea3a3aec35b8e2fc6ed0578c152ef1339fae60564883258002b2ef26fe0d3b0",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.md",
+    "sha256": "6255a935404cb49a23684cc17947c59b0a938539f9ff4396875bf4fd2b101f47",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/installer/Indice-guide.pdf",
+    "sha256": "af61c37b80429c3b84159b6c4656089293f2123182c4af5b29b3ceed38f2a208",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "14d09cd4a49ba7854f96c41779688cee1d55dfbec491e05c0c410be862c26cb4",
+    "motivo": "Sostituita da Rev77: importazione DXF e set BB"
+  }
+]

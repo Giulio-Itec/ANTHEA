@@ -1,10 +1,10 @@
 # ANTHEA Indice delle guide globali
 
-ITEC Engineering · Revisione 75 · 18 novembre 2026
+ITEC Engineering · Revisione 77 · 19 novembre 2026
 
 ## Guida pratica ANTHEA
 
-[Word Rev75](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev75.docx) · [PDF Rev75](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev75.pdf)
+[Word Rev77](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx) · [PDF Rev77](../documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf)
 
 - Stratigrafia del terreno
 - Avvio e scelta del modulo
@@ -13,6 +13,7 @@ ITEC Engineering · Revisione 75 · 18 novembre 2026
 - Palo verticale
 - Micropalo verticale
 - Pali e micropali caricati orizzontalmente
+- Sezione composta verifica rapida
 - Sezione composta da ponte
 - Bridge Design
 - Salvataggio e report
@@ -23,7 +24,7 @@ ITEC Engineering · Revisione 75 · 18 novembre 2026
 - Efficienza orizzontale della palificata
 - Risposta elastica del palo orizzontale
 - Wiki e centro della conoscenza
-- Modulo Sezione in c.a.
+- Modulo Sezione in c.a., con importazione DXF di contorno, fori e barre
 - Interpretazione dei risultati e controlli indipendenti
 - Tutorial dal modello Beam alla verifica di sezione
 - Fondazioni superficiali
@@ -42,7 +43,7 @@ ITEC Engineering · Revisione 75 · 18 novembre 2026
 
 ## Guida teorica ANTHEA
 
-[Word Rev75](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev75.docx) · [PDF Rev75](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev75.pdf)
+[Word Rev77](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev77.docx) · [PDF Rev77](../documentazione/Guide_ANTHEA/ANTHEA_Guida_teorica_ITEC_Rev77.pdf)
 
 - Modello della stratigrafia del terreno
 - Architettura del calcolo e convenzioni
@@ -52,6 +53,7 @@ ITEC Engineering · Revisione 75 · 18 novembre 2026
 - Capacità orizzontale con Broms
 - Capacità orizzontale in terreno stratificato
 - Sezione in calcestruzzo armato
+- Sezione composta verifica rapida
 - Sezione composta da ponte
 - Taglio irrigidimenti e connessione della sezione composta
 - Bridge Design

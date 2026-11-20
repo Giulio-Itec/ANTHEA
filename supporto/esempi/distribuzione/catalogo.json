@@ -882,6 +882,24 @@
       "kind": "calcolo",
       "sha256": "be9d11f5b19d4a93ccee3a1b8c36a4c0c0c05dbaee328469db720b10f9b2e942",
       "origin": "Esempio originale ANTHEA, 17/11/2026; scritto da QuickSectionSheetChecks.WriteExamples"
+    },
+    {
+      "path": "str_sezione_composta_rapida/trave-tre-stati.anthea",
+      "module": "str_sezione_composta_rapida",
+      "title": "Trave composta a I · tre stati limite",
+      "description": "Tre momenti di fase, taglio e sforzo normale; combinazioni SLU, rara e quasi permanente.",
+      "kind": "calcolo",
+      "sha256": "9f48662df7c63a45369b5ba15ca42b3a549a138668e781f626ddee212ac81dd3",
+      "origin": "Esempio originale ANTHEA, 19/11/2026; scritto da QuickCompositeReportWpfChecks"
+    },
+    {
+      "path": "str_sezione_composta_rapida/trave-momenti-negativi.anthea",
+      "module": "str_sezione_composta_rapida",
+      "title": "Trave composta a I · momenti negativi",
+      "description": "Momenti negativi nelle fasi composta a lungo e breve termine; SLU, rara e quasi permanente, con relazione completa.",
+      "kind": "calcolo",
+      "sha256": "555b414f2d23f3028ca1f6c507986753508047303fe7146691877f5be6d91cf3",
+      "origin": "Esempio originale ANTHEA, 19/11/2026; scritto da QuickCompositeReportWpfChecks"
     }
   ]
 }

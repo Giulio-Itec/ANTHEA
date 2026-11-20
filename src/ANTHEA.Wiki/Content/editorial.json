@@ -1,4 +1,44 @@
 {
+  "guide:Sezione composta verifica rapida": {
+    "area": "Moduli singoli",
+    "id": "/wiki/guide/moduli/sezione-composta-rapida",
+    "modules": [
+      "str_sezione_composta_rapida"
+    ],
+    "related": [
+      "sezione-composta-rapida",
+      "guida-sezione-composta-da-ponte"
+    ],
+    "key": "guida-sezione-composta-rapida",
+    "chapterId": "anthea",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "title": "Sezione composta verifica rapida",
+    "order": 160,
+    "summary": "Finestra rapida, geometria, tre fasi, combinazioni SLU e SLE, Excel e relazioni."
+  },
+  "theory:Sezione composta verifica rapida": {
+    "area": "Ponti",
+    "id": "/wiki/manuale/ponti/sezione-composta-rapida",
+    "modules": [
+      "str_sezione_composta_rapida"
+    ],
+    "related": [
+      "guida-sezione-composta-rapida",
+      "sezione-composta-da-ponte"
+    ],
+    "key": "sezione-composta-rapida",
+    "chapterId": "ponti",
+    "status": "reviewed",
+    "level": "intermediate",
+    "prerequisites": [],
+    "references": [],
+    "title": "Sezione composta verifica rapida",
+    "order": 160,
+    "summary": "Motore comune, limiti del controllo tensionale e a taglio, confronto indipendente di area e baricentro."
+  },
   "guide:Avvio e scelta del modulo": {
     "area": "Primi passi",
     "id": "/wiki/guide/primi-passi/avvio-e-scelta-del-modulo",

@@ -2329,5 +2329,20 @@
       },
       "entries": 77972
     }
+  },
+  "editorial_transitions_rev77": {
+    "capture": "supporto/artefatti/import-dxf-20261119/finale-full-baseline/ui_f3-equivalence/cattura",
+    "before_sha256": "68c30a137f3deee1184620ba62ae03d1c0b3248f78c4dbe830afa28c6fbf60a5",
+    "after_sha256": "22e296dffaa479f9177a3e37769f7e63263c913e793736ef424df76d54a34496",
+    "counts": {
+      "previous": 3505,
+      "current": 3558,
+      "added": 102,
+      "removed": 49
+    },
+    "file": "tests/fixtures/f3/transitions-f5-wiki.json",
+    "record": "GUIDE-REV77-DXF-COMPOSTA-20261119",
+    "decision": "Utente, 19/11/2026: «Sì, approvo queste transizioni», in risposta alla proposta puntuale di 102 nuove e 49 superate, Wiki Rev77, articoli 94 → 96.",
+    "note": "Solo capitoli DXF/sezione composta, ricerche e conteggio articoli. Hash del testo UTF-8 con LF. Nessun atteso ingegneristico, transizione F4 o tolleranza modificato."
   }
 }
