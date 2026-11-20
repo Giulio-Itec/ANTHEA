@@ -15,8 +15,8 @@ namespace X.Desktop;
 /// number of occurrences. A key that is new or has more occurrences fails; fewer occurrences pass and are reported, so that the
 /// baseline is lowered in a commit of its own (it may only go down). With --viste only the views of the filter are compared.
 /// The measures from the pixels depend on the DPI of the windows, which is recorded in the baseline: a run at another DPI fails
-/// without comparing. The runner starts ANTHEA.exe (PerMonitorV2, app.manifest), whose windows lie outside every monitor and get
-/// 96 DPI whatever the scale of the screen; «dotnet ANTHEA.dll» runs with the DPI of the system (120 or 144 on this machine).
+/// without comparing. ContrastDpiContext prepares only --check-contrast at 96 DPI before WPF creates its windows: off-screen
+/// placement alone can inherit the nearest monitor's DPI. The actual window DPI is checked below, without changing the reference.
 /// </summary>
 internal static class ContrastBaseline
 {

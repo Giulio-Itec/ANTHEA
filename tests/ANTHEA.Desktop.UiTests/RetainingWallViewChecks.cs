@@ -953,15 +953,18 @@ internal static class RetainingWallViewChecks
             {
                 // «Distinta ferri…»: the dialog of the view and its four exports against the historic dialog on the same result.
                 Window? dialog = null;
+                Size? requestedSize = null;
                 mvvm.View.ShowWindow = window =>
                 {
+                    // Assert the requested dimensions before DisplayAdaptation fits the window to this monitor.
+                    requestedSize = new Size(window.Width, window.Height);
                     window.WindowStartupLocation = WindowStartupLocation.Manual; window.Left = -32000; window.Top = -32000; window.ShowActivated = false; window.ShowInTaskbar = false;
                     dialog = window; window.Show(); return null;
                 };
                 mvvm.View.Pages.SelectedIndex = 1; await mvvm.Settle();
                 Press(Walk(mvvm.Root).OfType<Button>().First(b => Equals(b.Content, "Distinta ferri…")), mvvm.Root);
-                Check(dialog is { Content: RetainingWallBarScheduleView } && dialog.Title == "Armature del muro · sezione e distinta ferri" && dialog.Width == 1270 && dialog.Height == 920,
-                    name + ": «Distinta ferri…» apre il dialogo della vista come la finestra storica");
+                Check(dialog is { Content: RetainingWallBarScheduleView } && dialog.Title == "Armature del muro · sezione e distinta ferri" && requestedSize == new Size(1270, 920),
+                    name + ": «Distinta ferri…» apre il dialogo della vista come la finestra storica; richiesta " + requestedSize + ", dopo adattamento al monitor " + dialog?.Width + "×" + dialog?.Height);
                 var schedule = (RetainingWallBarScheduleView)dialog!.Content;
                 // The drawing of the historic window (RetainingWallWorkspace.CreateBarDrawing) on the same result; its pages recorded.
                 var sheet = new RetainingWallBarDrawing(calculation.Input, WallModel.CalculateBarSchedule(calculation));

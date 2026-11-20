@@ -52,6 +52,8 @@ param(
     [string] $GpcLibDir,
     [string] $CompareTo,
     [string] $Only,
+    # Optional view regex for a scoped contrast rerun. The full contrast suite is unchanged when omitted.
+    [string] $ContrastViews,
     [string] $BaselineRef,
     [string] $CaptureCandidate,
     [string] $F4CaptureCandidate,
@@ -164,6 +166,9 @@ Add-Suite @{ Name = 'GuideRev72.Checks'; Stage = 'fast'; Kind = 'run'; Project =
 # 3/11/2026: the project of ANTHEA without WPF (src/ANTHEA.Projects, docs/sviluppo/progetto-sistema.md): file, archive of the results, history.
 Add-Suite @{ Name = 'Projects.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Projects.Checks\ANTHEA.Projects.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Presentation.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ConcreteDxf.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--dxf'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'QuickSection.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-rapida'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'QuickCompositeSection.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-composta-rapida'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'ConcreteMaterialEditors.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--sezione-materiali'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Spettri.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--spettri'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 Add-Suite @{ Name = 'Climate.Tests'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ANTHEA.Presentation.Tests\ANTHEA.Presentation.Tests.csproj'; Args = @('{out}', '--climate'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
@@ -445,9 +450,12 @@ Add-Suite @{ Name = 'ui/check-field-form-parity'; Stage = 'ui'; Kind = 'check'; 
 Add-Suite @{ Name = 'ui/check-theme-tokens'; Stage = 'ui'; Kind = 'check'; Args = @('--check-theme-tokens', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.15, step d (decisions of 25/10): dialogs that follow the window with the minimum of the view (DialogSizing), headers of the RC tables (V-c).
 Add-Suite @{ Name = 'ui/check-layout-decisions'; Stage = 'ui'; Kind = 'check'; Args = @('--check-layout-decisions', '{out}'); Timeout = 300; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
-# Contrast of every view, dialog and popup in the three appearances, off screen (F5.3, about 13 minutes): 0 defects in Scuro and Molto scuro,
+# Contrast of every view, dialog and popup in the three appearances, off screen (F5.3; the full catalogue can exceed 40 minutes): 0 defects in Scuro and Molto scuro,
 # Chiara within the frozen baseline, which may only go down (tests/ANTHEA.Desktop.UiTests/ContrastBaseline.cs).
-Add-Suite @{ Name = 'ui/check-contrast'; Stage = 'ui'; Kind = 'check'; Args = @('--check-contrast', '{out}', '--baseline', '{root}\tests\fixtures\f5\contrasto-chiara.json'); Timeout = 2400; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+$contrastArgs = @('--check-contrast', '{out}', '--baseline', '{root}\tests\fixtures\f5\contrasto-chiara.json')
+$contrastName = 'ui/check-contrast'
+if ($ContrastViews) { $contrastArgs += @('--viste', $ContrastViews); $contrastName += '/scoped' }
+Add-Suite @{ Name = $contrastName; Stage = 'ui'; Kind = 'check'; Args = $contrastArgs; Timeout = 3600; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 # F5.13 g3: ConcreteShort.UiChecks (the «Report short» button in the toolbar of MainWindow) is archived with MainWindow; the button of the shell is checked
 # by ANTHEA.Presentation.Tests (CommandsChecks, ShortReportVisible) and ui/check-shell-draft.
 foreach ($name in 'HorizontalPileGroup.Checks', 'ElasticPile.UiChecks') {
@@ -739,6 +747,7 @@ if ($pruned) { Say ('Corse vecchie snellite: {0}, {1:N2} GB liberati' -f @($prun
 
 $summary = [ordered]@{
     tag = $Tag; profile = $Profile; stages = $Stage; only = $Only; commit = $commit
+    contrastViews = $ContrastViews
     dirtyBefore = @($statusBefore).Count -gt 0
     gpcLibDir = $GpcLibDir
     libManifestSha256 = $(if (Test-Path -LiteralPath $manifest) { (Get-FileHash -LiteralPath $manifest -Algorithm SHA256).Hash } else { '' })
