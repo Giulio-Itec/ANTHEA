@@ -110,7 +110,7 @@ public sealed class SheetFileExports(ReportTemplateStore? templates = null) : IS
             return;
         }
         ReportFiles.Write(path, sheet.Report.BuildReport(title, options, projectReport), title,
-            maximumPages: options.Contains(QuickSectionReport.Brief) ? ReportFiles.ShortReportPages : null, template: template);
+            maximumPages: (options.Contains(QuickSectionReport.Brief) || options.Contains(BridgeQuickReport.Brief)) ? ReportFiles.ShortReportPages : null, template: template);
     }
 
     /// <summary>The short report of <paramref name="sheet"/> (MvvmSheetEditor.BuildShortReport), from a sheet that writes it (<see cref="IModuleShortReport"/>: the RC section, F5.10 S9).</summary>

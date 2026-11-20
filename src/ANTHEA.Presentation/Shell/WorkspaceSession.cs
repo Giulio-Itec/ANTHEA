@@ -219,7 +219,7 @@ public sealed class WorkspaceSession : IDisposable
     {
         ThrowIfDisposed();
         var document = CalculationDocumentSession.New(module);
-        if (module == SheetLayout.QuickSectionModule)
+        if (SheetLayout.IsQuickSection(module))
         {
             int number = 1;
             while (Sheets.Any(sheet => sheet.Module == module && sheet.Heading == "Sezione " + number)) number++;

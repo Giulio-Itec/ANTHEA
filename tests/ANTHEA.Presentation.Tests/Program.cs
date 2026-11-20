@@ -12,6 +12,18 @@ try
     var directory = new DirectoryInfo(AppContext.BaseDirectory);
     while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "ANTHEA.sln"))) directory = directory.Parent;
     string root = directory?.FullName ?? throw new DirectoryNotFoundException("ANTHEA.sln non trovato.");
+    if (args.Contains("--dxf"))
+    {
+        string target = args.First(a => a != "--dxf"); Directory.CreateDirectory(target);
+        int count = Group("ConcreteDxfChecks", () => ConcreteDxfChecks.Run(root, target));
+        return Finish(target, count, $"PASS {count} controlli importazione DXF");
+    }
+    if (args.Contains("--sezione-composta-rapida"))
+    {
+        string target = args.First(a => a != "--sezione-composta-rapida"); Directory.CreateDirectory(target);
+        int count = Group("QuickCompositeSectionChecks", () => QuickCompositeSectionChecks.Run(root, target));
+        return Finish(target, count, $"PASS {count} controlli della sezione composta rapida");
+    }
     if (args.Contains("--rheology"))
     {
         string target = args.First(a => a != "--rheology"); Directory.CreateDirectory(target);
@@ -140,6 +152,8 @@ try
     checks += Group("ElasticPileSheetChecks.Run", () => ElasticPileSheetChecks.Run(root, output));
     checks += Group("ConcreteSectionSheetChecks.Run", () => ConcreteSectionSheetChecks.Run(root, output, full: false));
     checks += Group("SectionActionsEditorChecks.Run", () => SectionActionsEditorChecks.Run());
+    checks += Group("QuickCompositeSectionChecks.Run", () => QuickCompositeSectionChecks.Run(root, output));
+    checks += Group("ConcreteDxfChecks.Run", () => ConcreteDxfChecks.Run(root, output));
     checks += Group("QuickSectionSheetChecks.Run", () => QuickSectionSheetChecks.Run(root, output));
     checks += Group("CompositeSectionSheetChecks.Run", () => CompositeSectionSheetChecks.Run(root, output));
     // F5.12 (decision Q17 a): the price editor of Bridge Design moved from ANTHEA.Application with its checks.

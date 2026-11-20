@@ -121,7 +121,7 @@ public sealed class TabHostViewModel : ViewModelBase
     public ObservableCollection<ShellTabViewModel> Tabs { get; } = [];
 
     /// <summary>The quick-section commands belong to the tab shown in this window.</summary>
-    public bool IsQuickSectionSelected => Selected is SheetTabViewModel { Module: SheetLayout.QuickSectionModule };
+    public bool IsQuickSectionSelected => Selected is SheetTabViewModel sheet && SheetLayout.IsQuickSection(sheet.Module);
 
     public SheetSession? SelectedSheet => (Selected as SheetTabViewModel)?.Session;
 
@@ -199,7 +199,7 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         {
             if (host is null || !Detached.Contains(host)) return;
             WindowActivated(host);
-            workspace.NewCalculation(SheetLayout.QuickSectionModule);
+            workspace.NewCalculation(host.SelectedSheet is { } selected && SheetLayout.IsQuickSection(selected.Module) ? selected.Module : SheetLayout.QuickSectionModule);
         }), host => host is { IsMain: false } && Detached.Contains(host));
         foreach (var sheet in workspace.Sheets) Add(sheet);
         workspace.SheetOpened += OnSheetOpened;

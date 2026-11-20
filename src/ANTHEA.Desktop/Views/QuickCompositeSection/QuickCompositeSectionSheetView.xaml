@@ -1,0 +1,294 @@
+<UserControl x:Class="X.Desktop.Views.QuickCompositeSection.QuickCompositeSectionSheetView"
+ xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+ xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation" xmlns:concrete="clr-namespace:X.Desktop.Views.ConcreteSection"
+ Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}">
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Visibility"/>
+  <concrete:PresentShownConverter x:Key="Present"/>
+  <Style TargetType="TextBlock"><Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/><Setter Property="VerticalAlignment" Value="Center"/></Style>
+  <Style x:Key="Caption" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="HorizontalAlignment" Value="Center"/>
+  </Style>
+  <Style x:Key="Muted" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}"><Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/></Style>
+  <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}"><Setter Property="MinHeight" Value="22"/></Style>
+
+  <!-- A card: light border, rounded corners. -->
+  <Style x:Key="Card" TargetType="Border">
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="BorderBrush" Value="{DynamicResource Token.Border}"/>
+   <Setter Property="BorderThickness" Value="1"/><Setter Property="CornerRadius" Value="8"/><Setter Property="Padding" Value="10,6,10,8"/><Setter Property="Margin" Value="0,0,0,8"/>
+  </Style>
+  <Style x:Key="CardTitle" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Muted}"/><Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+  <!-- A command as a link («+ strato», «?»). -->
+  <Style x:Key="Link" TargetType="Button">
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Foreground" Value="{DynamicResource Token.Accent}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border Background="Transparent" Padding="4,0"><TextBlock x:Name="T" Text="{TemplateBinding Content}" Foreground="{TemplateBinding Foreground}"/></Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="T" Property="TextDecorations" Value="Underline"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <!-- A small Excel button: the green sheet with its «X» and an arrow (the content: ↑ export, ↓ import). -->
+  <Style x:Key="ExcelButton" TargetType="Button">
+   <Setter Property="Cursor" Value="Hand"/><Setter Property="Margin" Value="2,0,0,0"/><Setter Property="Focusable" Value="False"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="Button">
+      <Border x:Name="B" Background="Transparent" CornerRadius="4" Padding="3,1">
+       <StackPanel Orientation="Horizontal">
+        <Border Width="15" Height="15" CornerRadius="2" Background="{DynamicResource Token.Status.Ok}">
+         <TextBlock Text="X" FontWeight="Bold" FontSize="10" Foreground="{DynamicResource Token.Badge.Ok}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <TextBlock Text="{TemplateBinding Content}" Margin="2,0,0,0" FontWeight="Bold" Foreground="{DynamicResource Token.Status.Ok}"/>
+       </StackPanel>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="B" Property="Opacity" Value="0.4"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <!-- Segmented buttons: a list of choices, the selected one in evidence. -->
+  <Style x:Key="SegmentedItem" TargetType="ListBoxItem">
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBoxItem">
+      <Border x:Name="B" Padding="9,2" CornerRadius="5" Background="Transparent">
+       <TextBlock x:Name="T" Text="{Binding}" Foreground="{DynamicResource Token.Muted}"/>
+      </Border>
+      <ControlTemplate.Triggers>
+       <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Hover}"/></Trigger>
+       <Trigger Property="IsSelected" Value="True">
+        <Setter TargetName="B" Property="Background" Value="{DynamicResource Token.Selection}"/>
+        <Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="T" Property="FontWeight" Value="SemiBold"/>
+       </Trigger>
+       <Trigger Property="IsEnabled" Value="False"><Setter TargetName="T" Property="Foreground" Value="{DynamicResource Token.Disabled}"/></Trigger>
+      </ControlTemplate.Triggers>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+  <Style x:Key="Segmented" TargetType="ListBox">
+   <Setter Property="BorderBrush" Value="{DynamicResource Token.Border.Strong}"/><Setter Property="BorderThickness" Value="1"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Paper}"/><Setter Property="HorizontalAlignment" Value="Left"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ListBox">
+      <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" CornerRadius="6" Padding="1">
+       <ItemsPresenter/>
+      </Border>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+   <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></Setter.Value></Setter>
+   <Setter Property="ItemContainerStyle" Value="{StaticResource SegmentedItem}"/>
+  </Style>
+  <!-- The shapes: a choice not available yet (DXF) is shown off, with its note. -->
+  <Style x:Key="ShapeItem" TargetType="ListBoxItem" BasedOn="{StaticResource SegmentedItem}">
+   <Setter Property="IsEnabled" Value="{Binding Available}"/>
+   <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Available}" Value="False"><Setter Property="ToolTip" Value="{Binding Note}"/></DataTrigger>
+   </Style.Triggers>
+  </Style>
+  <!-- The bar of the utilization: filled up to η (1 = full), green within 1, red beyond. -->
+  <Style x:Key="Meter" TargetType="ProgressBar">
+   <Setter Property="Height" Value="7"/><Setter Property="Minimum" Value="0"/><Setter Property="Maximum" Value="1"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Calculated}"/><Setter Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/>
+   <Setter Property="Template">
+    <Setter.Value>
+     <ControlTemplate TargetType="ProgressBar">
+      <Grid>
+       <Border x:Name="PART_Track" CornerRadius="3" Background="{TemplateBinding Background}"/>
+       <Border x:Name="PART_Indicator" CornerRadius="3" HorizontalAlignment="Left" Background="{TemplateBinding Foreground}"/>
+      </Grid>
+     </ControlTemplate>
+    </Setter.Value>
+   </Setter>
+  </Style>
+
+  <!-- The editors of a field: text box, choice and check box (the same bindings as FieldForm). -->
+  <DataTemplate x:Key="TextEditor" DataType="{x:Type forms:FieldViewModel}">
+   <TextBox x:Name="Box" Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" MinHeight="21" Margin="1" FontWeight="Normal"
+    Background="{DynamicResource Token.Field.Background}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" ToolTip="{Binding LabelToolTip}"
+    AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}" IsKeyboardFocusWithinChanged="Editor_FocusChanged"/>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
+   <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" Margin="1" FontWeight="Normal"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <DataTemplate x:Key="BoolEditor" DataType="{x:Type forms:FieldViewModel}">
+   <CheckBox IsChecked="{Binding IsChecked}" IsEnabled="{Binding CanChange, Mode=OneWay}" HorizontalAlignment="Center" VerticalAlignment="Center"
+    ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
+  </DataTemplate>
+  <Style x:Key="Editor" TargetType="ContentControl">
+   <Setter Property="Focusable" Value="False"/><Setter Property="IsTabStop" Value="False"/><Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="ContentTemplate" Value="{StaticResource TextEditor}"/>
+   <Style.Triggers>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Choice"><Setter Property="ContentTemplate" Value="{StaticResource ChoiceEditor}"/></DataTrigger>
+    <DataTrigger Binding="{Binding Content.Kind, RelativeSource={RelativeSource Self}}" Value="Bool"><Setter Property="ContentTemplate" Value="{StaticResource BoolEditor}"/></DataTrigger>
+    <Trigger Property="Content" Value="{x:Null}"><Setter Property="ContentTemplate" Value="{x:Null}"/></Trigger>
+   </Style.Triggers>
+  </Style>
+  <!-- A text box of a row (layers, combinations). -->
+  <Style x:Key="RowBox" TargetType="TextBox">
+   <Setter Property="TextAlignment" Value="Right"/><Setter Property="Margin" Value="1"/><Setter Property="MinHeight" Value="21"/>
+   <Setter Property="Background" Value="{DynamicResource Token.Field.Background}"/>
+  </Style>
+
+  <!-- A field as a small cell: label and unit above, editor below. -->
+  <DataTemplate x:Key="Cell" DataType="{x:Type forms:FieldViewModel}">
+   <StackPanel Width="70" Margin="0,0,4,0">
+    <StackPanel Orientation="Horizontal" ToolTip="{Binding LabelToolTip}">
+     <TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"/>
+     <TextBlock Text="{Binding Unit, StringFormat=' [{0}]'}" Style="{StaticResource Muted}" Visibility="{Binding HasUnit, Converter={StaticResource Visibility}}"/>
+    </StackPanel>
+    <ContentControl Content="{Binding}" Style="{StaticResource Editor}"/>
+   </StackPanel>
+  </DataTemplate>
+  <!-- A value of the engine: label, value, unit. -->
+  <DataTemplate x:Key="ValueRow">
+   <Grid Margin="0,0,10,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="28"/></Grid.ColumnDefinitions>
+    <TextBlock x:Name="Label" Text="{Binding Label}" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+    <TextBlock x:Name="Value" Grid.Column="1" Text="{Binding Value}" TextAlignment="Right" TextTrimming="CharacterEllipsis" MaxWidth="130" ToolTip="{Binding Value}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="3,0,0,0" Style="{StaticResource Muted}"/>
+   </Grid>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding InUse}" Value="True">
+     <Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Token.Accent}"/><Setter TargetName="Label" Property="FontWeight" Value="SemiBold"/>
+     <Setter TargetName="Value" Property="FontWeight" Value="Bold"/>
+    </DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+  <ItemsPanelTemplate x:Key="TwoColumns"><UniformGrid Columns="2"/></ItemsPanelTemplate>
+  <!-- A check of the result: its name (only when there are two), the value in evidence, the bar of the ratio and the outcome. -->
+  <DataTemplate x:Key="CheckBlock">
+   <StackPanel Margin="0,0,10,5">
+    <TextBlock Text="{Binding Heading}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Accent}" TextWrapping="Wrap"/>
+    <TextBlock Text="{Binding Value}" FontSize="16" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,1,0,2"/>
+    <ProgressBar Value="{Binding Ratio, Mode=OneWay, FallbackValue=0, TargetNullValue=0}" Height="5" Margin="0,0,0,3" Visibility="{Binding Ratio, Converter={StaticResource Present}}">
+     <ProgressBar.Style><Style TargetType="ProgressBar" BasedOn="{StaticResource Meter}"><Style.Triggers><DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers></Style></ProgressBar.Style>
+    </ProgressBar>
+    <TextBlock Text="{Binding Detail}" TextWrapping="Wrap" FontSize="10" Foreground="{DynamicResource Token.Muted}"/>
+   </StackPanel>
+  </DataTemplate>
+  <!-- A field of a material: label, editor (the class is a choice), unit. -->
+  <DataTemplate x:Key="MaterialRow" DataType="{x:Type forms:FieldViewModel}">
+   <Grid Margin="0,0,0,1">
+    <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+    <TextBlock Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding LabelToolTip}"/>
+    <ContentControl Grid.Column="1" Content="{Binding}" Style="{StaticResource Editor}"/>
+    <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="4,0,0,0" Style="{StaticResource Muted}"/>
+   </Grid>
+  </DataTemplate>
+  <!-- A value of a material calculated by the engine: read-only, on the background of the calculated fields. -->
+  <!-- The value that the calculation uses among similar ones (the n of the method n) is in evidence, with its note under it. -->
+  <DataTemplate x:Key="CalculatedRow">
+   <Border x:Name="Row" Background="Transparent" CornerRadius="4" Margin="0,0,0,1">
+    <StackPanel>
+     <Grid>
+      <Grid.ColumnDefinitions><ColumnDefinition Width="44"/><ColumnDefinition Width="*"/><ColumnDefinition Width="48"/></Grid.ColumnDefinitions>
+      <TextBlock x:Name="Label" Text="{Binding Label}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Label}"/>
+      <Border Grid.Column="1" Background="{DynamicResource Token.Calculated}" CornerRadius="4" Margin="1" Padding="4,2" ToolTip="Calcolato dal motore">
+       <TextBlock x:Name="Value" Text="{Binding Value}" TextAlignment="Right" HorizontalAlignment="Stretch"/>
+      </Border>
+      <TextBlock Grid.Column="2" Text="{Binding Unit}" Margin="4,0,0,0" Style="{StaticResource Muted}" TextTrimming="CharacterEllipsis"/>
+     </Grid>
+     <TextBlock x:Name="Note" Text="{Binding Note}" Visibility="Collapsed" Margin="4,0,4,2" FontSize="11" Foreground="{DynamicResource Token.Accent}" TextWrapping="Wrap"/>
+    </StackPanel>
+   </Border>
+   <DataTemplate.Triggers>
+    <DataTrigger Binding="{Binding InUse}" Value="True">
+     <Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+     <Setter TargetName="Label" Property="FontWeight" Value="Bold"/><Setter TargetName="Label" Property="Foreground" Value="{DynamicResource Token.Accent}"/>
+     <Setter TargetName="Value" Property="FontWeight" Value="Bold"/>
+     <Setter TargetName="Note" Property="Visibility" Value="Visible"/>
+    </DataTrigger>
+   </DataTemplate.Triggers>
+  </DataTemplate>
+ </UserControl.Resources>
+ <Grid Margin="10,8">
+  <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+  <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <TextBlock Text="Titolo" Margin="0,0,6,0"/><TextBox Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}"/>
+   <Button Grid.Column="2" Content="Apri nel modulo completo" Command="{Binding OpenCompleteCommand}" Style="{StaticResource Link}" Margin="8,0,0,0"/>
+  </Grid>
+  <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+   <Grid MinWidth="1130"><Grid.ColumnDefinitions><ColumnDefinition Width="610"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*" MinWidth="510"/></Grid.ColumnDefinitions>
+    <StackPanel>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <DockPanel Margin="0,0,0,6"><TextBlock DockPanel.Dock="Right" Text="Dimensioni in mm" Style="{StaticResource Muted}"/><TextBlock Text="1 · Geometria" Style="{StaticResource CardTitle}"/></DockPanel>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="155"/><ColumnDefinition Width="95"/><ColumnDefinition Width="85"/><ColumnDefinition Width="95"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <Grid.RowDefinitions><RowDefinition Height="30"/><RowDefinition Height="30"/><RowDefinition Height="30"/><RowDefinition Height="30"/></Grid.RowDefinitions><TextBlock Grid.Row="0" Text="Trave saldata a I"/><TextBlock Grid.Row="0" Grid.Column="1" Text="Altezza H" Style="{StaticResource Muted}"/><ContentControl Grid.Row="0" Grid.Column="2" Content="{Binding GeometryForm[h_trave]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="0" Grid.Column="3" Text="Anima t" Margin="10,0,0,0" Style="{StaticResource Muted}"/><ContentControl Grid.Row="0" Grid.Column="4" Content="{Binding GeometryForm[t_web]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="1" Text="Piattabanda superiore"/><TextBlock Grid.Row="1" Grid.Column="1" Text="b" Style="{StaticResource Muted}"/><ContentControl Grid.Row="1" Grid.Column="2" Content="{Binding GeometryForm[b_top]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="1" Grid.Column="3" Text="t" Margin="10,0,0,0" Style="{StaticResource Muted}"/><ContentControl Grid.Row="1" Grid.Column="4" Content="{Binding GeometryForm[t_top]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="2" Text="Piattabanda inferiore"/><TextBlock Grid.Row="2" Grid.Column="1" Text="b" Style="{StaticResource Muted}"/><ContentControl Grid.Row="2" Grid.Column="2" Content="{Binding GeometryForm[b_bottom]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="2" Grid.Column="3" Text="t" Margin="10,0,0,0" Style="{StaticResource Muted}"/><ContentControl Grid.Row="2" Grid.Column="4" Content="{Binding GeometryForm[t_bottom]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="3" Text="Soletta"/><TextBlock Grid.Row="3" Grid.Column="1" Text="b collaborante" Style="{StaticResource Muted}"/><ContentControl Grid.Row="3" Grid.Column="2" Content="{Binding GeometryForm[b_cls]}" Style="{StaticResource Editor}"/><TextBlock Grid.Row="3" Grid.Column="3" Text="Spessore" Margin="10,0,0,0" Style="{StaticResource Muted}"/><ContentControl Grid.Row="3" Grid.Column="4" Content="{Binding GeometryForm[h_cls]}" Style="{StaticResource Editor}"/>
+      </Grid>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="2 · Armature della soletta" Style="{StaticResource CardTitle}" Margin="0,0,0,6"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="65"/><ColumnDefinition Width="85"/><ColumnDefinition Width="100"/><ColumnDefinition Width="110"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <TextBlock Text="Fila"/><TextBlock Grid.Column="1" Text="Presente"/><TextBlock Grid.Column="2" Text="Ø [mm]" Style="{StaticResource Caption}"/><TextBlock Grid.Column="3" Text="Passo [mm]" Style="{StaticResource Caption}"/><TextBlock Grid.Column="4" Text="Distanza [mm]" Style="{StaticResource Caption}"/><TextBlock Grid.Column="5" Text="As [mm²]" Style="{StaticResource Caption}"/>
+      </Grid>
+      <ItemsControl ItemsSource="{Binding BarRows}"><ItemsControl.ItemTemplate><DataTemplate><Grid Margin="0,2">
+       <Grid.ColumnDefinitions><ColumnDefinition Width="100"/><ColumnDefinition Width="65"/><ColumnDefinition Width="85"/><ColumnDefinition Width="100"/><ColumnDefinition Width="110"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+       <TextBlock Text="{Binding Name}"/><ContentControl Grid.Column="1" Content="{Binding Present}" Style="{StaticResource Editor}"/><ContentControl Grid.Column="2" Content="{Binding Diameter}" Style="{StaticResource Editor}"/><ContentControl Grid.Column="3" Content="{Binding Pitch}" Style="{StaticResource Editor}"/><ContentControl Grid.Column="4" Content="{Binding Distance}" Style="{StaticResource Editor}"/>
+       <Border Grid.Column="5" Background="{DynamicResource Token.Calculated}" CornerRadius="4" Margin="2,1" Padding="4,2"><TextBlock Text="{Binding Area}" TextAlignment="Right"/></Border>
+      </Grid></DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      <TextBlock Text="Distanza dal bordo della soletta all’asse delle barre." Style="{StaticResource Muted}" Margin="0,5,0,0"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <DockPanel Margin="0,0,0,6"><Button DockPanel.Dock="Right" Content="+ combinazione" Command="{Binding AddCombinationCommand}" Style="{StaticResource Link}"/>
+       <StackPanel Orientation="Horizontal"><TextBlock Text="3 · Sollecitazioni" Style="{StaticResource CardTitle}"/><Button Content="↑" Style="{StaticResource ExcelButton}" Command="{Binding ExportExcelCommand}" ToolTip="Esporta e apri in Excel"/><Button Content="↓" Style="{StaticResource ExcelButton}" Command="{Binding ImportExcelCommand}" ToolTip="Reimporta lo stesso file Excel dopo Ctrl+S"/></StackPanel>
+      </DockPanel>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="90"/><ColumnDefinition Width="82"/><ColumnDefinition Width="72"/><ColumnDefinition Width="72"/><ColumnDefinition Width="72"/><ColumnDefinition Width="52"/><ColumnDefinition Width="52"/><ColumnDefinition Width="50"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions><TextBlock Grid.Column="0" Text="" Style="{StaticResource Caption}"/><TextBlock Grid.Column="1" Text="Nome" Style="{StaticResource Caption}"/><TextBlock Grid.Column="2" Text="SL" Style="{StaticResource Caption}"/><TextBlock Grid.Column="3" Text="M getto" Style="{StaticResource Caption}"/><TextBlock Grid.Column="4" Text="M lungo" Style="{StaticResource Caption}"/><TextBlock Grid.Column="5" Text="M breve" Style="{StaticResource Caption}"/><TextBlock Grid.Column="6" Text="V" Style="{StaticResource Caption}"/><TextBlock Grid.Column="7" Text="N" Style="{StaticResource Caption}"/><TextBlock Grid.Column="8" Text="η" Style="{StaticResource Caption}"/><TextBlock Grid.Column="9" Text="" Style="{StaticResource Caption}"/></Grid>
+      <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+       <ItemsControl ItemsSource="{Binding CombinationRows}"><ItemsControl.ItemTemplate><DataTemplate>
+        <Border x:Name="Row" CornerRadius="4" Padding="0,1"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="90"/><ColumnDefinition Width="82"/><ColumnDefinition Width="72"/><ColumnDefinition Width="72"/><ColumnDefinition Width="72"/><ColumnDefinition Width="52"/><ColumnDefinition Width="52"/><ColumnDefinition Width="50"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
+         <RadioButton IsChecked="{Binding IsSelected}" GroupName="CombinazioneComposta" VerticalAlignment="Center"/><TextBox Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" TextAlignment="Left"/>
+         <ComboBox Grid.Column="2" ItemsSource="{Binding States}" SelectedItem="{Binding State}" IsEnabled="{Binding CanEdit}" Margin="1"/>
+         <TextBox Grid.Column="3" Text="{Binding Casting, UpdateSourceTrigger=LostFocus}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"/><TextBox Grid.Column="4" Text="{Binding LongTerm, UpdateSourceTrigger=LostFocus}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"/><TextBox Grid.Column="5" Text="{Binding ShortTerm, UpdateSourceTrigger=LostFocus}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"/><TextBox Grid.Column="6" Text="{Binding V, UpdateSourceTrigger=LostFocus}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"/><TextBox Grid.Column="7" Text="{Binding N, UpdateSourceTrigger=LostFocus}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}"/><TextBlock x:Name="Ratio" Grid.Column="8" Text="{Binding Ratio}" ToolTip="{Binding Status}" HorizontalAlignment="Center" FontWeight="Bold"/><Button Grid.Column="9" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}"/>
+        </Grid></Border>
+        <DataTemplate.Triggers><DataTrigger Binding="{Binding IsSelected}" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Passed}" Value="True"><Setter TargetName="Ratio" Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger><DataTrigger Binding="{Binding Passed}" Value="False"><Setter TargetName="Ratio" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+        </DataTemplate.Triggers>
+       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
+      </ScrollViewer>
+      <TextBlock Text="M [kNm] · N, V [kN] · getto / lungo termine / breve termine" Style="{StaticResource Muted}" Margin="0,5,0,2"/>
+      <TextBlock Text="{Binding ActionHelp}" Style="{StaticResource Muted}" TextWrapping="Wrap"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel><TextBlock Text="4 · Materiali" Style="{StaticResource CardTitle}" Margin="0,0,0,6"/>
+      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><StackPanel Grid.Column="0" Margin="0,0,8,0"><TextBlock Text="Calcestruzzo" FontWeight="SemiBold" Margin="0,0,0,4"/><ContentControl Content="{Binding MaterialsForm[classe_cls]}" Style="{StaticResource Editor}"/><ItemsControl ItemsSource="{Binding ConcreteValues}" ItemTemplate="{StaticResource CalculatedRow}"/></StackPanel><StackPanel Grid.Column="1" Margin="0,0,8,0"><TextBlock Text="Carpenteria" FontWeight="SemiBold" Margin="0,0,0,4"/><ContentControl Content="{Binding MaterialsForm[acciaio]}" Style="{StaticResource Editor}"/><ItemsControl ItemsSource="{Binding SteelValues}" ItemTemplate="{StaticResource CalculatedRow}"/></StackPanel><StackPanel Grid.Column="2" Margin="0,0,8,0"><TextBlock Text="Armatura" FontWeight="SemiBold" Margin="0,0,0,4"/><ContentControl Content="{Binding MaterialsForm[armatura]}" Style="{StaticResource Editor}"/><ItemsControl ItemsSource="{Binding RebarValues}" ItemTemplate="{StaticResource CalculatedRow}"/></StackPanel></Grid>
+     </StackPanel></Border>
+     <TextBlock Text="{Binding Scope}" TextWrapping="Wrap" Style="{StaticResource Muted}" Margin="2,2,2,6"/>
+    </StackPanel>
+    <StackPanel Grid.Column="2">
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="{Binding ResultTitle}" FontWeight="SemiBold" Margin="0,0,0,5"/>
+      <ItemsControl ItemsSource="{Binding Checks}" ItemTemplate="{StaticResource CheckBlock}"><ItemsControl.ItemsPanel><ItemsPanelTemplate><UniformGrid Columns="2"/></ItemsPanelTemplate></ItemsControl.ItemsPanel></ItemsControl>
+      <Border Height="1" Background="{DynamicResource Token.Border}" Margin="0,6"/>
+      <ItemsControl ItemsSource="{Binding ResultValues}" ItemTemplate="{StaticResource ValueRow}" ItemsPanel="{StaticResource TwoColumns}"/>
+      <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Style="{StaticResource Muted}" Margin="0,6,0,0"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <ListBox ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" Style="{StaticResource Segmented}"/>
+      <Button x:Name="CenterSection" Content="⌖ Centra sezione" HorizontalAlignment="Right" Style="{StaticResource Link}" Click="Centre_Click" Margin="0,4"/>
+      <ContentControl x:Name="DrawingHost" Height="280" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+     </StackPanel></Border>
+     <TextBlock Text="{Binding Notice}" TextWrapping="Wrap" Foreground="{DynamicResource Token.Muted}" Margin="3,0,3,6"/>
+    </StackPanel>
+   </Grid>
+  </ScrollViewer>
+ </Grid>
+</UserControl>

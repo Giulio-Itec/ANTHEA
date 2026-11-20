@@ -63,7 +63,15 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
         var dimensions = new List<QuickReportValue> { new("Forma", geometry.Shape), new("Larghezza", N(geometry.Width), "mm"),
             new("Altezza", N(geometry.Height), "mm"), new("Area calcestruzzo", N(geometry.AreaCls), "mm²"), new("Area armatura", N(geometry.AreaSteel), "mm²") };
         foreach (var (key, label, unit) in new[] { ("cover_mm", "Copriferro netto della staffa", "mm"), ("transverse_bar_diameter_mm", "Diametro staffa", "mm") })
-            if (input[key] is not null) dimensions.Add(new(label, input.S(key), unit));
+            if (geometry.Shape != ConcreteQuickSection.Dxf && input[key] is not null) dimensions.Add(new(label, input.S(key), unit));
+        if (geometry.Shape == ConcreteQuickSection.Dxf && input[Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Key] is JsonObject dxf)
+        {
+            dimensions.Add(new("Disegno DXF", dxf.S("file")));
+            dimensions.Add(new("Unità del disegno originale", dxf.S("unita_origine")));
+            dimensions.Add(new("Fori", geometry.Holes.Count.ToString()));
+            dimensions.Add(new("Coordinate", "Riferite al baricentro del calcestruzzo; geometria e barre conservate nel documento"));
+            dimensions.Add(new("Staffe", "Non importate dal DXF"));
+        }
         // 19/11/2026: the link of the second ring of the circular section, which places the second ring.
         if (ConcreteQuickSection.SecondRingLinkDiameter(data) > 0)
             dimensions.Add(new("Diametro staffa del secondo anello", ConcreteQuickSection.SecondRingLink(data), "mm"));

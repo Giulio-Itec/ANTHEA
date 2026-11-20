@@ -74,6 +74,7 @@ internal sealed class DesktopComposition
             new ConcreteSectionSheetModule(new ConcreteSectionFigureRenderer()),
             // 17/11/2026: the quick RC section, a simplified interface on the engine of the RC section.
             new Anthea.Presentation.Modules.QuickSection.QuickSectionSheetModule(new QuickSectionFigureRenderer()),
+            new Anthea.Presentation.Modules.QuickCompositeSection.QuickCompositeSectionSheetModule(new QuickCompositeFigureRenderer()),
             new Anthea.Presentation.Modules.Spectra.SpectraSheetModule(),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.Snow),
             new Anthea.Presentation.Modules.Climate.ClimateSheetModule(Anthea.Application.Actions.ClimateDocument.BuildingWind),

@@ -11,11 +11,12 @@ public static class ConcreteTemplateAdapter
     public const string StadiumLegacy = "Radiale dal centro (precedente)";
     public static bool SeparateStadium(JsonObject input)
         => input.S("shape") == "Capsula" && input.S("wizard_stadium_layout") == StadiumSeparate;
-    public static bool CustomShape(string shape) => shape is "A I" or "A L" or "A C" or "Ellittica" or "Capsula" or "Trapezoidale" or "Poligonale regolare";
+    public static bool CustomShape(string shape) => shape is "A I" or "A L" or "A C" or "Ellittica" or "Capsula" or "Trapezoidale" or "Poligonale regolare" or ConcreteFreeSectionAdapter.Shape;
     public static bool Uses(JsonObject input) => CustomShape(input.S("shape")) ||
         input.B("foro_presente") && input.S("wizard_layout") == "Doppio contorno";
     public static ConcreteTemplateGeometry Create(JsonObject input)
     {
+        if (input.S("shape") == ConcreteFreeSectionAdapter.Shape) return ConcreteFreeSectionAdapter.Create(input);
         string shape = input.S("shape");
         bool circle = shape == "Circolare";
         var kind = shape switch {

@@ -42,7 +42,9 @@ internal sealed partial class ItecPileReport
                         break;
                     case "geometria":
                         QuickValues("Geometria", data.Geometry);
-                        Paragraph("Le coordinate delle barre sono riferite agli assi della sezione. Il copriferro è netto rispetto alla faccia esterna della staffa.");
+                        Paragraph(data.Geometry.Any(v=>v.Label=="Forma" && v.Value=="DXF")
+                            ? "Le coordinate delle barre sono riferite al baricentro del calcestruzzo. Posizioni e diametri provengono dal disegno; staffe non importate."
+                            : "Le coordinate delle barre sono riferite agli assi della sezione. Il copriferro è netto rispetto alla faccia esterna della staffa.");
                         Table("Armatura longitudinale", ["Barra", "x [mm]", "y [mm]", "Ø [mm]", "As [mm²]"], data.Reinforcement.ToList(), preservePrecision: true);
                         break;
                     case "materiali":
@@ -131,7 +133,8 @@ internal sealed partial class ItecPileReport
         var section = images.FirstOrDefault(i => i.Categoria == "sezione");
         if (section is not null) QuickFigure(section, 2000000, brief: true);
         else BriefText("Sezione quotata non disponibile.", 10);
-        BriefText("Armatura: " + string.Join("; ", data.Reinforcement.GroupBy(r => r[3]).Select(g => g.Count() + " Ø " + g.Key + " mm")) + "; staffe Ø " + Geometry("Diametro staffa") + " mm. Posizioni nella sezione quotata e nel report completo.", 10);
+        string links = Geometry("Forma") == "DXF" ? "; staffe non importate dal DXF" : "; staffe Ø " + Geometry("Diametro staffa") + " mm";
+        BriefText("Armatura: " + string.Join("; ", data.Reinforcement.GroupBy(r => r[3]).Select(g => g.Count() + " Ø " + g.Key + " mm")) + links + ". Posizioni nella sezione quotata e nel report completo.", 10);
         BriefHeading("2  Materiali e criteri");
         string Material(string label) => data.Materials.FirstOrDefault(v => v.Label == label)?.Value ?? "—";
         SmallTable(["Calcestruzzo", "fck [MPa]", "fcd [MPa]", "Ecm [MPa]", "γc", "αcc"],

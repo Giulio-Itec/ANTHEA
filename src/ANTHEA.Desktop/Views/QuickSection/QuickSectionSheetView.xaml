@@ -100,7 +100,7 @@
    <Setter Property="ItemsPanel"><Setter.Value><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></Setter.Value></Setter>
    <Setter Property="ItemContainerStyle" Value="{StaticResource SegmentedItem}"/>
   </Style>
-  <!-- The shapes: a choice not available yet (DXF) is shown off, with its note. -->
+  <!-- The shape selector; DXF opens the import draft. -->
   <Style x:Key="ShapeItem" TargetType="ListBoxItem" BasedOn="{StaticResource SegmentedItem}">
    <Setter Property="IsEnabled" Value="{Binding Available}"/>
    <Setter Property="ToolTipService.ShowOnDisabled" Value="True"/>
@@ -261,12 +261,17 @@
    <Border Style="{StaticResource Card}">
     <StackPanel>
      <DockPanel Margin="0,0,0,3">
-      <Button DockPanel.Dock="Right" Content="? copriferro" Style="{StaticResource Link}" Command="{Binding CoverHelpCommand}" ToolTip="Che cosa misura il copriferro c"/>
+      <Button DockPanel.Dock="Right" Content="? copriferro" Style="{StaticResource Link}" Command="{Binding CoverHelpCommand}" ToolTip="Che cosa misura il copriferro c" Visibility="{Binding IsParametric, Converter={StaticResource Visibility}}"/>
       <TextBlock Text="1 · Geometria" Style="{StaticResource CardTitle}"/>
      </DockPanel>
      <ItemsControl ItemsSource="{Binding GeometryForm.Fields}" ItemTemplate="{StaticResource Cell}" Focusable="False">
       <ItemsControl.ItemsPanel><ItemsPanelTemplate><WrapPanel/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
      </ItemsControl>
+     <StackPanel Visibility="{Binding IsDxf, Converter={StaticResource Visibility}}">
+      <Button Content="Importa / sostituisci DXF…" Command="{Binding ImportDxfCommand}" Style="{StaticResource Link}" HorizontalAlignment="Left"/>
+      <TextBlock Text="{Binding DxfDescription}" Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,4"/>
+      <TextBlock Text="{Binding DxfDimensions}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+     </StackPanel>
     </StackPanel>
    </Border>
 
@@ -276,20 +281,20 @@
       <Button DockPanel.Dock="Right" Content="+ strato" Command="{Binding AddLayerCommand}" ToolTip="Aggiungi uno strato di barre">
        <Button.Style>
         <Style TargetType="Button" BasedOn="{StaticResource Link}">
-         <Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
+         <Style.Triggers><DataTrigger Binding="{Binding HasLayers}" Value="False"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers>
         </Style>
        </Button.Style>
       </Button>
       <TextBlock Text="2 · Armature" Style="{StaticResource CardTitle}"/>
      </DockPanel>
-     <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+     <StackPanel Orientation="Horizontal" Margin="0,0,0,3" Visibility="{Binding IsParametric, Converter={StaticResource Visibility}}">
       <TextBlock Text="Staffe Ø [mm]" Style="{StaticResource Muted}" Margin="0,0,8,0" ToolTip="Diametro delle staffe"/>
       <ContentControl Content="{Binding StirrupField}" Style="{StaticResource Editor}" Width="60"/>
      </StackPanel>
      <!-- Layers of bars: rectangular and flanged sections. -->
      <StackPanel>
       <StackPanel.Style>
-       <Style TargetType="StackPanel"><Style.Triggers><DataTrigger Binding="{Binding IsCircular}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
+       <Style TargetType="StackPanel"><Style.Triggers><DataTrigger Binding="{Binding HasLayers}" Value="False"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style>
       </StackPanel.Style>
       <Grid>
        <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="104"/><ColumnDefinition Width="58"/><ColumnDefinition Width="46"/><ColumnDefinition Width="54"/><ColumnDefinition Width="60"/><ColumnDefinition Width="22"/></Grid.ColumnDefinitions>
@@ -320,6 +325,17 @@
         </DataTemplate>
        </ItemsControl.ItemTemplate>
       </ItemsControl>
+     </StackPanel>
+     <StackPanel Visibility="{Binding IsDxf, Converter={StaticResource Visibility}}">
+      <TextBlock Text="Barre dal DXF · coordinate dal baricentro del calcestruzzo. Staffe non importate." Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="0,0,0,4"/>
+      <DataGrid ItemsSource="{Binding DxfBars}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" HeadersVisibility="Column" MaxHeight="160" HorizontalScrollBarVisibility="Disabled">
+       <DataGrid.Columns>
+        <DataGridTextColumn Header="X [mm]" Binding="{Binding X, StringFormat={}{0:0.###}}" Width="*"/>
+        <DataGridTextColumn Header="Y [mm]" Binding="{Binding Y, StringFormat={}{0:0.###}}" Width="*"/>
+        <DataGridTextColumn Header="Ø [mm]" Binding="{Binding Diametro, StringFormat={}{0:0.###}}" Width="*"/>
+        <DataGridTextColumn Header="As [mm²]" Binding="{Binding Area, StringFormat={}{0:0.##}}" Width="*"/>
+       </DataGrid.Columns>
+      </DataGrid>
      </StackPanel>
      <!-- Rings of the circular section. -->
      <StackPanel Visibility="{Binding IsCircular, Converter={StaticResource Visibility}}">

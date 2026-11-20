@@ -225,8 +225,12 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     public bool ReinforcementShown => !templateSection;
     /// <summary>The two notes of the wizard are shown in place of the forms of the geometry and of the reinforcement.</summary>
     public bool TemplateNotesShown => templateSection;
-    public string TemplateGeometryNote => ConcreteInputPresentation.TemplateGeometryNote;
-    public string TemplateReinforcementNote => ConcreteInputPresentation.TemplateReinforcementNote;
+    public string TemplateGeometryNote => Input.S("shape") == ConcreteQuickSection.Dxf
+        ? "Geometria importata da DXF e conservata nel foglio. Per cambiare i contorni, reimportare il disegno nella verifica rapida."
+        : ConcreteInputPresentation.TemplateGeometryNote;
+    public string TemplateReinforcementNote => Input.S("shape") == ConcreteQuickSection.Dxf
+        ? "Barre importate da DXF; coordinate riferite al baricentro del calcestruzzo. La tabella permette di modificarle."
+        : ConcreteInputPresentation.TemplateReinforcementNote;
 
     // ---------------------------------------------------------------- drawing and bars
 
@@ -290,6 +294,7 @@ public sealed partial class ConcreteInputViewModel : ObservableObject
     {
         string shape = Input.S("shape");
         IsTemplateSection = ConcreteInputPresentation.TemplateSection(Input);
+        OnPropertyChanged(nameof(TemplateGeometryNote)); OnPropertyChanged(nameof(TemplateReinforcementNote));
         ReinforcementEnabled = !ConcreteInputPresentation.ManualBars(Input) && GeometryEnabled;
         ReinforcementToolTip = ConcreteInputPresentation.ReinforcementToolTip(Input, ReinforcementEnabled);
         foreach (string key in ConcreteInputPresentation.ShapeFields) Geometry.ShowField(key, ConcreteInputPresentation.GeometryFieldShown(key, shape));

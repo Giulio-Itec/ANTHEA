@@ -141,7 +141,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
     public IAsyncRelayCommand<SheetSession> ReportCommand { get; }
     public IAsyncRelayCommand<SheetSession> BriefReportCommand { get; }
     public bool BriefReportVisible => SupportsBriefReport(workspace.Active);
-    private static bool SupportsBriefReport(SheetSession? sheet) => sheet is not null && (PileFamilyReport.Supports(sheet.Module) || sheet.Module == QuickSectionReport.Module);
+    private static bool SupportsBriefReport(SheetSession? sheet) => sheet is not null && (PileFamilyReport.Supports(sheet.Module) || sheet.Module is QuickSectionReport.Module or BridgeQuickReport.Module);
     public IAsyncRelayCommand ShortReportCommand { get; }
     public IRelayCommand ResultsCommand { get; }
     public IRelayCommand ExitCommand { get; }
@@ -217,7 +217,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         }
         var sheet = workspace.Active;
         string? module = sheet?.Module;
-        if (brief && (module is null || !(PileFamilyReport.Supports(module) || module == QuickSectionReport.Module))) return;
+        if (brief && (module is null || !(PileFamilyReport.Supports(module) || module is QuickSectionReport.Module or BridgeQuickReport.Module))) return;
         if (module is "geo_stratigrafia" or "geo_fondazioni_superficiali" or "mat_calcestruzzo" or "mat_acciaio_armatura")
         {
             workspace.CommitActive();
@@ -239,7 +239,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         }
         if (brief)
         {
-            Export(sheet, "Relazione_breve.docx", module == QuickSectionReport.Module
+            Export(sheet, "Relazione_breve.docx", module == BridgeQuickReport.Module ? new HashSet<string> { BridgeQuickReport.Version, BridgeQuickReport.Brief } : module == QuickSectionReport.Module
                 ? new HashSet<string> { QuickSectionReport.Version, QuickSectionReport.Brief }
                 : new HashSet<string> { PileReportContents.Version, PileReportContents.Brief });
             return;
@@ -390,7 +390,8 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
     {
         ArgumentNullException.ThrowIfNull(data);
         bool bridge = module == "str_mista_ponte", concrete = module == "str_palo";
-        quick = module == QuickSectionReport.Module;
+        quickBridge = module == BridgeQuickReport.Module;
+        quick = module == QuickSectionReport.Module || quickBridge;
         hierarchical = PileFamilyReport.Supports(module) || quick;
         var saved = data[bridge ? "ui_mista" : "workspace_ca"]?["report_sezioni"] as JsonArray;
         IEnumerable<(string Key, string Label)> sections = bridge ? ReportBridge.Sections : concrete ? ReportConcrete.Sections : ReportWord.Sezioni;
@@ -404,7 +405,7 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
                 choice.SetChildren(content.Children.Select(Choice).ToArray());
                 return choice;
             }
-            Sections = (quick ? QuickSectionReport.Outline(Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)))
+            Sections = (quickBridge ? BridgeQuickReport.Outline() : quick ? QuickSectionReport.Outline(Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)))
                 : PileFamilyReport.Outline(module, data, result)).Select(Choice).ToArray();
         }
         Note = quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
@@ -415,10 +416,11 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
 
     private readonly bool hierarchical;
     private readonly bool quick;
+    private readonly bool quickBridge;
     private HashSet<string> SelectedKeys()
     {
         var keys = Sections.SelectMany(s => s.Descendants()).Where(s => s.Children.Count == 0 && s.IsChecked).Select(s => s.Key).ToHashSet();
-        if (hierarchical) keys.Add(quick ? QuickSectionReport.Version : PileReportContents.Version);
+        if (hierarchical) keys.Add(quickBridge ? BridgeQuickReport.Version : quick ? QuickSectionReport.Version : PileReportContents.Version);
         return keys;
     }
 
@@ -428,7 +430,7 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
     public string? Note { get; }
 
     /// <summary>A content of the report is chosen, not only options.</summary>
-    public bool CanExport => hierarchical ? SelectedKeys().Any(k => k is not (PileReportContents.Version or QuickSectionReport.Version or "indice" or "intestazione"))
+    public bool CanExport => hierarchical ? SelectedKeys().Any(k => k is not (PileReportContents.Version or QuickSectionReport.Version or BridgeQuickReport.Version or "indice" or "intestazione"))
         : Sections.Any(s => s.IsChecked && s.Key is not ("sle_tutte" or "dettagli" or "grafici"));
 
     public string ExportLabel => "Esporta";

@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using Anthea.Presentation.Shell.Navigation;
 
@@ -23,6 +24,13 @@ public partial class SheetBarView : UserControl
     internal static void ShowTopics(UIElement target, IReadOnlyList<WikiMenuItem> topics, ICommand open)
     {
         var menu = new ContextMenu { PlacementTarget = target };
+        // A popup has its own visual tree: follow the owner explicitly, including theme changes while open.
+        menu.SetBinding(Appearance.DarkProperty, new Binding
+        {
+            Source = target,
+            Path = new PropertyPath(Appearance.DarkProperty),
+            Mode = BindingMode.OneWay
+        });
         foreach (var item in topics) menu.Items.Add(Item(open, item));
         if (menu.Items.Count == 0) return;
         menu.IsOpen = true;

@@ -62,6 +62,10 @@ internal sealed class ModuleGlyphIcon : FrameworkElement
             new(null, Navy, 2, "M16 64 C30 54 46 48 68 46"),
             new(null, Gold, 3.5, "M16 62 C26 36 40 26 68 22")],
         // Sezione c.a. rapida: la sezione con le barre e il diagramma delle tensioni.
+        "str_sezione_composta_rapida" => [
+            new("#DAE2E9", Navy, 2, "M10 12 H61 V24 H10 Z"),
+            new(Navy, null, 0, "M26 24 H46 V29 H39 V61 H49 V66 H23 V61 H33 V29 H26 Z"),
+            new(Gold, null, 0, "M65 22 H76 L65 42 Z M65 42 L77 66 H65 Z")],
         "str_sezione_ca_rapida" => [
             new("#FFFFFF", Navy, 3, "M16 12 H48 V68 H16 Z"),
             new(Gold, null, 0, "M20.8 20 A3.2 3.2 0 1 0 27.2 20 A3.2 3.2 0 1 0 20.8 20 Z"),

@@ -43,14 +43,16 @@ public static class SheetLayout
     /// </summary>
     public static bool FitsWindow(string module) => module is "geo_palo_verticale" or "geo_micropalo_verticale" or "geo_palo_orizzontale"
         or "geo_micropalo_orizzontale" or "geo_muri_sostegno" or "mat_calcestruzzo" or "mat_acciaio_armatura" or "str_mista_ponte" or "str_bridge_design"
-        or QuickSectionModule;
+        or QuickSectionModule or QuickCompositeModule;
 
     /// <summary>The quick RC section (17/11/2026), a small calculation window.</summary>
     public const string QuickSectionModule = "str_sezione_ca_rapida";
+    public const string QuickCompositeModule = "str_sezione_composta_rapida";
+    public static bool IsQuickSection(string module) => module is QuickSectionModule or QuickCompositeModule;
 
     /// <summary>
     /// The size of the own window of a module whose sheets open detached, as a small calculation window (17/11/2026: the quick RC section, its
     /// compact view with the strip of the tab and the frame); null for the modules that open in a tab of the window with the focus.
     /// </summary>
-    public static (double Width, double Height)? OwnWindow(string module) => module == QuickSectionModule ? (900, 800) : null;
+    public static (double Width, double Height)? OwnWindow(string module) => module == QuickSectionModule ? (900, 800) : module == QuickCompositeModule ? (1300, 960) : null;
 }

@@ -36,7 +36,7 @@ internal static class ConcreteTemplateReportFields
             fields.Add(("wizard_stadium_straight_count", "Barre interne per rettilineo"));
             fields.Add(("wizard_stadium_straight_diameter_mm", "Ø barre rettilinei [mm]"));
         }
-        fields.Add(("cover_mm", "Copriferro netto [mm]"));
+        if (shape != Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Shape) fields.Add(("cover_mm", "Copriferro netto [mm]"));
         return fields.ToArray();
     }
 

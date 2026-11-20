@@ -34,7 +34,7 @@ internal sealed partial class ConcreteSectionViewport
         double xmin = s.Outline.Min(v => v[0]), xmax = s.Outline.Max(v => v[0]), ymin = s.Outline.Min(v => v[1]), ymax = s.Outline.Max(v => v[1]);
         if (Dimensions)
         {
-            if(s.Holes.Count>0)
+            if(s.Holes.Count>0 && s.Shape != ConcreteQuickSection.Dxf)
             {
                 if(s.Shape=="Circolare")Dimension(p(-s.Input.D("inner_diameter_mm")/2,0),p(s.Input.D("inner_diameter_mm")/2,0),$"Di {s.Input.D("inner_diameter_mm"):0.##} mm",-10);
                 else {double bi=s.Input.D("inner_width_mm"),hi=s.Input.D("inner_height_mm");Dimension(p(-bi/2,-hi/2),p(bi/2,-hi/2),$"bi {bi:0.##} mm",-15);Dimension(p(bi/2,-hi/2),p(bi/2,hi/2),$"hi {hi:0.##} mm",-15);}
@@ -53,7 +53,7 @@ internal sealed partial class ConcreteSectionViewport
                 }
             }
         }
-        if (CoverDimensions)
+        if (CoverDimensions && s.Shape != Anthea.Application.Concrete.ConcreteQuickSection.Dxf)
         {
             double c = s.Input.D("cover_mm"), y = s.Shape == "Circolare" ? 0 : s.Shape == "A T" ? ymax - s.Input.D("flange_thickness_mm") / 2 : ymax - Math.Max(c * 2, (ymax - ymin) * .15);
             Dimension(p(xmax - c, y), p(xmax, y), $"c = {EngineeringFormat.Number(c)} mm", -22);

@@ -312,6 +312,8 @@ internal static class ShellDraftChecks
                 Check(workspace.Active == quick && ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).CombinationRows.Count == 6
                     && ReferenceEquals(word.CommandParameter, quick) && ReferenceEquals(briefWord.CommandParameter, quick), "Selezionando la prima scheda ritornano i suoi dati e i suoi report");
                 await Capture(quickWindow.Window, output, "08g-verifica-rapida-prima-scheda.png", bindings);
+                await ConcreteDxfWpfChecks.Run((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel, quickWindow.Window, Check,
+                    (window,name)=>Capture(window,output,name,bindings));
                 quickWindow.Window.Close();
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");
@@ -319,6 +321,51 @@ internal static class ShellDraftChecks
                 Check(shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(secondQuick)!), "La seconda sezione resta aperta dopo la chiusura della finestra e della prima sezione");
                 workspace.CloseSheet(secondQuick);
                 await Idle(main);
+
+                // Quick composite section: its own window, all three states, existing stress drawing and detached report targets.
+                int beforeComposite = detached.Count;
+                var compositeQuick = workspace.NewCalculation(SheetLayout.QuickCompositeModule)!;
+                await ((Anthea.Presentation.Modules.QuickCompositeSection.QuickCompositeSectionSheetViewModel)compositeQuick.ViewModel).PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                var compositeWindow = detached[^1];
+                Check(detached.Count == beforeComposite + 1 && shell.Windows.TabOf(compositeQuick) is { IsDetached: true }, "Composta rapida: finestra propria");
+                var compositeModel = (Anthea.Presentation.Modules.QuickCompositeSection.QuickCompositeSectionSheetViewModel)compositeQuick.ViewModel;
+                var compositeView = Ui.Descendants<X.Desktop.Views.QuickCompositeSection.QuickCompositeSectionSheetView>(compositeWindow.Window).Single();
+                Check(compositeModel.SelectedCase?.Ratio.HasValue == true && compositeModel.Checks.Any(c => c.Heading.Contains("Taglio")), "Composta rapida: riepilogo SLU con tensioni e taglio");
+                await Capture(compositeWindow.Window, output, "08h-composta-rapida-SLU.png", bindings);
+                compositeModel.AddCombinationCommand.Execute(null);
+                compositeModel.CombinationRows[1].Name = "Rara"; compositeModel.CombinationRows[1].State = "SLE RA";
+                compositeModel.CombinationRows[1].Casting = "1500"; compositeModel.CombinationRows[1].LongTerm = "1600";
+                compositeModel.CombinationRows[1].ShortTerm = "2000"; compositeModel.CombinationRows[1].V = "350";
+                await compositeModel.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                Check(compositeModel.Checks.Any(c => c.Heading == "Piattabanda inferiore") && compositeView.Drawing.StressLabels.Count >= 4,
+                    "Composta rapida: SLE con fibre principali ed etichette delle tensioni");
+                await Capture(compositeWindow.Window, output, "08i-composta-rapida-SLE.png", bindings);
+                var compositeState = Ui.Descendants<ComboBox>(compositeView).Single(c => c.DataContext is Anthea.Presentation.Modules.QuickCompositeSection.QuickCompositeCombinationRow row && row.Id == compositeModel.SelectedId);
+                compositeState.SelectedItem = "SLE QP";
+                await compositeModel.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                bool CompositeQpVisible() => compositeModel.SelectedCase?.State == "SLE QP" && compositeState.SelectedItem as string == "SLE QP"
+                    && Ui.Descendants<TextBlock>(compositeView).Any(t => t.Text == "Rara · SLE QP");
+                await IdleUntil(compositeWindow.Window, CompositeQpVisible);
+                Check(CompositeQpVisible(), "Composta rapida: menu SL, titolo e risultati concordi dopo il cambio a QP");
+                // Let the compositor publish the changed labels before the bitmap is captured.
+                await Task.Delay(100); await Idle(compositeWindow.Window);
+                await Capture(compositeWindow.Window, output, "08j-composta-rapida-QP.png", bindings);
+                compositeModel.Display = "Geometria"; await Idle(main);
+                await Capture(compositeWindow.Window, output, "08k-composta-rapida-geometria.png", bindings);
+                compositeModel.Display = "Tensioni totali"; await Idle(main);
+                byte[] compositeBeforeZoom = Ui.Snapshot(compositeView.Drawing);
+                compositeView.Drawing.RaiseEvent(new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120) { RoutedEvent = UIElement.MouseWheelEvent }); await Idle(main);
+                byte[] compositeZoomed = Ui.Snapshot(compositeView.Drawing);
+                ((Button)compositeView.FindName("CenterSection")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle(main);
+                Check(!compositeZoomed.SequenceEqual(compositeBeforeZoom) && Ui.Snapshot(compositeView.Drawing).SequenceEqual(compositeBeforeZoom), "Composta rapida: centra sezione dopo zoom");
+                var compositeWord = (Button)compositeWindow.Window.FindName("WordReport");
+                var compositeBrief = (Button)compositeWindow.Window.FindName("BriefWordReport");
+                Check(compositeWord.IsVisible && compositeBrief.IsVisible && ReferenceEquals(compositeBrief.CommandParameter, compositeQuick), "Composta rapida: W/W breve riferiti al foglio visibile");
+                await Press((Button)compositeWindow.Window.FindName("NewQuickSection"));
+                var secondComposite = workspace.Active!; await ((Anthea.Presentation.Modules.QuickCompositeSection.QuickCompositeSectionSheetViewModel)secondComposite.ViewModel).PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                Check(secondComposite.Module == SheetLayout.QuickCompositeModule && shell.Windows.TabOf(secondComposite)?.Host == shell.Windows.TabOf(compositeQuick)?.Host
+                    && ReferenceEquals(compositeWord.CommandParameter, secondComposite), "Nuova composta nella stessa finestra, report della seconda scheda");
+                compositeWindow.Window.Close(); await Idle(main); workspace.CloseSheet(compositeQuick); workspace.CloseSheet(secondComposite); await Idle(main);
 
                 // After the checkpoint of 22/10: the menu of a sheet of the tree offers the new window and the full page.
                 var node = (DataTemplate)main.FindResource(new DataTemplateKey(typeof(ProjectNodeViewModel)));
@@ -362,9 +409,9 @@ internal static class ShellDraftChecks
                 shell.Tree.Find(project.Find(strata.S("id"))!)!.OpenInNewWindowCommand.Execute(null);
                 var strataSheet = workspace.SheetOf(project.Find(strata.S("id"))!)!;
                 var strataTab = shell.Windows.TabOf(strataSheet)!;
-                // Three windows created in all: the pile group, the quick RC section (17/11/2026), this one.
-                Check(detached.Count == 3 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
-                var fromTree = detached[2];
+                // Four windows created: pile group, quick RC section, quick composite section, this one.
+                Check(detached.Count == 4 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
+                var fromTree = detached[^1];
                 var treeHost = tracker.Hosts.Single();
                 Check(treeHost.Tabs.Count == 1 && ReferenceEquals(treeHost.Tabs[0], strataTab) && !shell.Windows.Main.Tabs.Contains(strataTab)
                     && ReferenceEquals(tracker.WindowOf(treeHost), fromTree) && fromTree.Activations == 1 && fromTree.IsActive && ReferenceEquals(workspace.Active, strataSheet),

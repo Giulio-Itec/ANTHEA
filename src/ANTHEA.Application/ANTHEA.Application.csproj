@@ -5,6 +5,7 @@
     <RootNamespace>Anthea.Application</RootNamespace><GpcLibraries>GPCModel;GPCGeometry;GPCChecker.CompositeBridge;GPCChecker.Concrete;GPCChecker.Geotechnics;GPCChecker.Steel;GPC.Design</GpcLibraries>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="netDxf" Version="2023.11.10" />
     <InternalsVisibleTo Include="ANTHEA.Application.Tests" />
     <ProjectReference Include="../ANTHEA.Reports/ANTHEA.Reports.csproj" />
     <ProjectReference Include="../../X.Calculations/X.Calculations.csproj" />

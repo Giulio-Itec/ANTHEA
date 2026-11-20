@@ -150,7 +150,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.Validate(Data);
         this.figures = figures;
         Report = new ReportSource(this);
-        AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && !IsCircular);
+        AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && HasLayers);
         AddCombinationCommand = GuardedCommands.Create(Guard, AddCombination, () => CanEdit);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
         ExportExcelCommand = GuardedCommands.Create(Guard, ExportExcel);
@@ -168,11 +168,11 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
 
     // ---------------------------------------------------------------- choices
 
-    /// <summary>The shapes that can be chosen: rectangular, circular.</summary>
+    /// <summary>The shapes that can be chosen: rectangular, circular, DXF.</summary>
     public IReadOnlyList<string> Shapes => ConcreteQuickSection.Shapes;
 
     /// <summary>
-    /// The shapes on screen, in order: rectangular, circular and DXF, the last one shown off with its note (18/11/2026). A sheet saved with the
+    /// The shapes on screen, in order: rectangular, circular and DXF. A sheet saved with the
     /// flanged section keeps it: no choice is selected and its fields stay.
     /// </summary>
     public IReadOnlyList<ConcreteQuickShape> ShapeChoices => ConcreteQuickSection.ShapeChoices;
@@ -189,8 +189,24 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         get => Input.S("shape");
         set
         {
+            if (value == ConcreteQuickSection.Dxf && value != Shape && CanEdit)
+            {
+                if (Input[Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Key] is not JsonObject)
+                { ImportDxfCommand.Execute(null); OnPropertyChanged(); return; }
+            }
             if (value is null || value == Shape || !Shapes.Contains(value)
-                || !Edit(d => { d["input"]!["shape"] = value; ConcreteQuickSection.ApplyLayers(d); })) { OnPropertyChanged(); return; }
+                || !Edit(d =>
+                {
+                    var input = d["input"]!.AsObject();
+                    if (value == ConcreteQuickSection.Dxf) { input["barre_manuali"] = input[Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Key]?["barre"]?.DeepClone(); input["staffe_presenti"] = "No"; }
+                    else if (input.S("shape") == ConcreteQuickSection.Dxf)
+                    {
+                        if (input["barre_manuali"] is JsonArray manual && input[Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Key] is JsonObject source)
+                            source["barre"] = manual.DeepClone();
+                        input["staffe_presenti"] = input[Anthea.ConcreteWorkspace.ConcreteFreeSectionAdapter.Key]?["staffe_precedenti"]?.DeepClone() ?? JsonValue.Create("Sì");
+                    }
+                    input["shape"] = value; ConcreteQuickSection.ApplyLayers(d);
+                })) { OnPropertyChanged(); return; }
             BuildForms(); RefreshDrawing(); AddLayerCommand.NotifyCanExecuteChanged(); OnPropertyChanged();
         }
     }
@@ -433,6 +449,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             var cover = T("cover_mm", "c", "mm", "Copriferro netto della staffa: dal bordo alla faccia esterna della staffa");
             GeometryForm = Form(Input, shape switch
             {
+                ConcreteQuickSection.Dxf => [],
                 "Circolare" => [T("diameter_mm", "D", "mm", "Diametro della sezione"), cover],
                 "A T" => [T("flange_width_mm", "B ala", "mm", "Larghezza dell'ala"), T("flange_thickness_mm", "s ala", "mm", "Spessore dell'ala"),
                     T("web_width_mm", "b anima", "mm", "Larghezza dell'anima"), T("height_mm", "h", "mm", "Altezza totale"), cover],
@@ -469,14 +486,14 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         finally { building = false; }
         foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(CreepForm), nameof(CreepField), nameof(ExposureField),
             nameof(ConcreteFields), nameof(SteelFields),
-            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
+            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(IsDxf), nameof(IsParametric), nameof(HasLayers), nameof(DxfDescription), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
     }
 
     private void BuildLayers()
     {
-        var layers = IsCircular ? [] : ConcreteQuickSection.Layers(Data).OfType<JsonObject>().ToArray();
+        var layers = HasLayers ? ConcreteQuickSection.Layers(Data).OfType<JsonObject>().ToArray() : [];
         LayerRows = layers.Select((layer, index) => new QuickLayerRow(this, index, layer, CanEdit,
             GuardedCommands.Create(Guard, () => RemoveLayer(index), () => CanEdit))).ToArray();
         OnPropertyChanged(nameof(LayerRows));
@@ -688,6 +705,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         layerAreas = ConcreteQuickSection.LayerAreas(Data, section);
         foreach (var row in LayerRows) row.RefreshArea();
         OnPropertyChanged(nameof(Section)); OnPropertyChanged(nameof(DrawingMessage)); OnPropertyChanged(nameof(SectionStress)); OnPropertyChanged(nameof(StressCallouts)); OnPropertyChanged(nameof(SecondRingLinkDiameter));
+        OnPropertyChanged(nameof(DxfBars)); OnPropertyChanged(nameof(DxfDimensions));
     }
 
     // ---------------------------------------------------------------- results
@@ -739,6 +757,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             if (!building && CombinationRows.Count > 0) BuildCombinations();
             AddLayerCommand?.NotifyCanExecuteChanged();
             AddCombinationCommand?.NotifyCanExecuteChanged();
+            importDxfCommand?.NotifyCanExecuteChanged();
         }
         if (e.PropertyName is nameof(Revision) or nameof(Result)) RefreshResults();
         if (e.PropertyName is nameof(CalculationState) or nameof(CalculationMessage)) OnPropertyChanged(nameof(Status));

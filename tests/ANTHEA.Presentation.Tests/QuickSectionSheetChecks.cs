@@ -317,12 +317,12 @@ internal static class QuickSectionSheetChecks
             && sheet.SecondRingLinkDiameter == 14 && sheet.HasResults && sheet.Section?.Bars.Count > 14,
             "Ø st. = 14: s = 14 mm nel documento per il motore, staffa disegnata, sezione calcolata");
         sheet.BarRows[1].Enabled!.IsChecked = false; await sheet.PendingCalculation;
-        // The shapes (18/11/2026): rectangular, circular, DXF shown off; the flanged section no longer offered.
-        expect.That(sheet.ShapeChoices.Select(c => c.Name).SequenceEqual(["Rettangolare", "Circolare", "DXF"]) && sheet.ShapeChoices.Select(c => c.Available).SequenceEqual([true, true, false])
-            && sheet.ShapeChoices[2].Note.Length > 0 && sheet.ShapeChoices[2].ToString() == "DXF" && !sheet.Shapes.Contains("A T"), "Forme: Rettangolare, Circolare, DXF spento; niente sezione a T");
+        // DXF opens the import draft; its cancellation/acceptance is tested in ConcreteDxfChecks.
+        expect.That(sheet.ShapeChoices.Select(c => c.Name).SequenceEqual(["Rettangolare", "Circolare", "DXF"]) && sheet.ShapeChoices.All(c => c.Available)
+            && sheet.ShapeChoices[2].Note.Length > 0 && sheet.ShapeChoices[2].ToString() == "DXF" && !sheet.Shapes.Contains("A T"), "Forme: Rettangolare, Circolare e importazione DXF disponibili");
         int beforeShape = modified;
-        sheet.Shape = "DXF"; sheet.Shape = "A T";
-        expect.That(sheet.Shape == "Circolare" && modified == beforeShape, "DXF e sezione a T non si scelgono");
+        sheet.Shape = "A T";
+        expect.That(sheet.Shape == "Circolare" && modified == beforeShape, "Sezione a T non selezionabile");
         sheet.Title = "Prova";
         expect.That(ConcreteQuickSection.View(sheet.Data).S("titolo") == "Prova", "Titolo nel documento");
         await sheet.PendingCalculation;

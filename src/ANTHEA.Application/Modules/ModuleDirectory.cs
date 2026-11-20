@@ -15,11 +15,12 @@ public static class ModuleDirectory
         .Append(new ModuleInfo(EmbeddedWalls.EmbeddedWallDocument.Module, "Geotecnica", "Paratie", "Analisi per fasi di paratie e sostegni", "Paratia", "Paratie", "Terreno, fasi e sostegni")).Concat(Actions.ClimateDocument.Modules)
         .Append(new ModuleInfo(Materials.RheologyDocument.Module, "Materiali", "Viscosità e maturazione", "Reologia del calcestruzzo: curve, lettura puntuale e tabella", "Reologia", "Viscosità e maturazione", "Proprietà del calcestruzzo nel tempo"))
         // 17/11/2026: the quick RC section, a simplified interface on the engine and the format of the RC section.
-        .Append(Concrete.ConcreteQuickSection.Info).ToArray());
+        .Append(Concrete.ConcreteQuickSection.Info).Append(Bridge.BridgeQuickSection.Info).ToArray());
     public static ModuleInfo Get(string id) => All.FirstOrDefault(m => m.Id == id)
         ?? throw new ArgumentException("Modulo del foglio non disponibile: " + id);
     public static JsonObject CreateData(string id)
     {
+        if (id == Bridge.BridgeQuickSection.Module) return Bridge.BridgeQuickSection.Create();
         if (id == Concrete.ConcreteQuickSection.Module) return Concrete.ConcreteQuickSection.Create();
         if (id == Materials.RheologyDocument.Module) return Materials.RheologyDocument.Create();
         if(Actions.ClimateDocument.Supports(id))return Actions.ClimateDocument.Create(id);
@@ -33,6 +34,7 @@ public static class ModuleDirectory
     {
         if (id == Materials.RheologyDocument.Module) Materials.RheologyDocument.Validate(data);
         else if (id == Concrete.ConcreteQuickSection.Module) Concrete.ConcreteQuickSection.Validate(data);
+        else if (id == Bridge.BridgeQuickSection.Module) Bridge.BridgeQuickSection.Validate(data);
         else if (Actions.ClimateDocument.Supports(id)) Actions.ClimateDocument.Validate(id,data);
         else if (id == Actions.SpectraDocument.Module) Actions.SpectraDocument.Validate(data);
         else if (id == Stratigraphy.StratigraphyDocument.Module) Stratigraphy.StratigraphyDocument.Validate(data);

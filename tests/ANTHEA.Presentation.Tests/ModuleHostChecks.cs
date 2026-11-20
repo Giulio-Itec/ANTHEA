@@ -158,13 +158,14 @@ internal static class ModuleHostChecks
     {
         var historic = new ModuleRegistry([]);
         expect.That(historic.All.Select(d => d.Info).SequenceEqual(ModuleDirectory.All)
-            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.Materials.RheologyDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module or Anthea.Application.Concrete.ConcreteQuickSection.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
+            && historic.All.Count(d => d.Info.Id is not (Anthea.Application.Materials.RheologyDocument.Module or Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module or Anthea.Application.Actions.SpectraDocument.Module or Anthea.Application.Concrete.ConcreteQuickSection.Module or Anthea.Application.Bridge.BridgeQuickSection.Module) && !Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id)) == 13
             && historic.All.Count(d => d.Info.Id == Anthea.Application.Concrete.ConcreteQuickSection.Module && d.Info.Area == "Strutture") == 1
+            && historic.All.Count(d => d.Info.Id == Anthea.Application.Bridge.BridgeQuickSection.Module && d.Info.Area == "Strutture") == 1
             && historic.All.Count(d => d.Info.Id == Anthea.Application.Materials.RheologyDocument.Module && d.Info.Area == "Materiali") == 1
             && historic.All.Count(d=>Anthea.Application.Actions.ClimateDocument.Supports(d.Info.Id))==16
             && historic.All.Count(d => d.Info.Id == Anthea.Application.EmbeddedWalls.EmbeddedWallDocument.Module) == 1
             && historic.All.Count(d => d.Info.Id == Anthea.Application.Actions.SpectraDocument.Module) == 1,
-            "Il registro deve conservare i 13 moduli precedenti, i 16 fogli Azioni, paratie e spettri senza duplicati");
+            "Il registro deve conservare i 13 moduli precedenti, i 16 fogli Azioni, paratie, spettri e le due sezioni rapide senza duplicati");
         foreach (string id in new[] { "act_idrauliche", "act_fasi_costruttive", "act_effetti_differiti",
             "act_precompressione", "act_gru_carriponte", "act_incendio" })
             expect.That(historic.All.Count(d => d.Info.Id == id) == 1, "Modulo Azioni assente o duplicato: " + id);

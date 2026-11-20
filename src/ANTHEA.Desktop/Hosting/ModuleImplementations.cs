@@ -60,6 +60,7 @@ internal sealed partial class ModuleImplementations
         ("mat_reologia", SheetImplementation.Mvvm),
         // 17/11/2026: the quick RC section, a new module without a historic view.
         ("str_sezione_ca_rapida", SheetImplementation.Mvvm),
+        ("str_sezione_composta_rapida", SheetImplementation.Mvvm),
     ];
 
     /// <summary>The implementations of the Release.</summary>

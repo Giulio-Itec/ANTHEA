@@ -18,7 +18,7 @@ internal sealed class QuickSectionFigureRenderer : IQuickSectionFigureRenderer
         if (first is null) return figures;
         ConcreteSectionViewport Section() => new() { Section = first.Preview.Geometry,
             Stirrups = analysis.Data["workspace_ca"]?["taglio"] as System.Text.Json.Nodes.JsonObject,
-            Axes = true, Labels = !brief, Dimensions = !brief, CoverDimensions = !brief, SpacingDimensions = false,
+            Axes = true, Labels = !brief, Dimensions = !brief, CoverDimensions = !brief && first.Preview.Geometry.Shape != ConcreteQuickSection.Dxf, SpacingDimensions = false,
             InnerLinkDiameter = ConcreteQuickSection.SecondRingLinkDiameter(analysis.Data) };
         if (brief || options.Contains("sezione")) figures.Add(new(brief ? "Sezione e armature · assi di riferimento" : "Sezione e armature · dimensioni in mm",
             Section().ReportPng(brief ? 370 : 520, brief ? 210 : 360), "sezione"));

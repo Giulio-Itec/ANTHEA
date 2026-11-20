@@ -12,6 +12,31 @@ internal static class QuickSectionReportWpfChecks
 {
     internal static void Run(string directory, Action<bool, string> check)
     {
+        QuickCompositeReportWpfChecks.Run(directory, check);
+        var dxfData=ConcreteDxfWpfChecks.Data();
+        dxfData["input"]!["inner_width_mm"]="123"; dxfData["input"]!["inner_height_mm"]="321";
+        var dxfAnalysis=ConcreteQuickReportAnalysis.Create(dxfData);
+        var dimensioned=new ConcreteSectionViewport {Section=dxfAnalysis.Results.Values.First().Preview.Geometry,Dimensions=true,CoverDimensions=true};
+        _=dimensioned.ReportPng();
+        check(dimensioned.DimensionLabels.Any(s=>s.StartsWith("b =")) && dimensioned.DimensionLabels.All(s=>!s.StartsWith("c =") && !s.StartsWith("bi ") && !s.StartsWith("hi ")),"DXF: quote di ingombro presenti, copriferro e foro parametrico assenti anche se richiesti");
+        string dxfFolder=Path.Combine(directory,"relazione-dxf"); Directory.CreateDirectory(dxfFolder);
+        foreach(bool brief in new[]{false,true})
+        {
+            var options=brief ? new HashSet<string>{QuickSectionReport.Version,QuickSectionReport.Brief} : QuickSectionReport.Defaults();
+            var images=new QuickSectionFigureRenderer().Render(dxfAnalysis,options);
+            string name=brief ? "DXF-breve" : "DXF-completa";
+            foreach(var (im,i) in images.Select((im,i)=>(im,i))) File.WriteAllBytes(Path.Combine(dxfFolder,name+"-"+i+".png"),im.Png);
+            byte[] word=DocxWriter.Write(QuickSectionReport.Create("Sezione forata da DXF",dxfAnalysis.Report,options,images.Select(i=>i.Image()).ToArray()));
+            if(brief)
+            {
+                using var zip=new System.IO.Compression.ZipArchive(new MemoryStream(word));
+                using var xml=zip.GetEntry("word/document.xml")!.Open();
+                check(System.Xml.Linq.XDocument.Load(xml).Root!.Value.Contains("staffe non importate dal DXF"),"DXF: relazione breve dichiara le staffe non importate");
+            }
+            string file=Path.Combine(dxfFolder,name+".docx");
+            ReportFiles.Write(file,word,"Sezione forata da DXF",maximumPages:brief ? ReportFiles.ShortReportPages : null);
+            check(File.Exists(ReportFiles.PdfPath(file)) && images.Any(i=>i.Category=="sezione"),"DXF: relazione Word/PDF e figure reali "+name);
+        }
         var folder = Path.Combine(directory, "relazione-sezione-rapida"); Directory.CreateDirectory(folder);
         var data = ConcreteQuickSection.Create();
         data["input"]!["width_mm"] = "400"; data["input"]!["height_mm"] = "600";

@@ -100,15 +100,15 @@ public static class ConcreteQuickSection
     /// </summary>
     public const string Tee = "A T";
 
-    /// <summary>The section read from a DXF file: shown and not yet available (the engine has no section from an outline).</summary>
+    /// <summary>A free section imported from a DXF drawing through GPC.Design.</summary>
     public const string Dxf = "DXF";
 
     /// <summary>The shapes that can be chosen.</summary>
-    public static ImmutableArray<string> Shapes { get; } = [Rectangular, Circular];
+    public static ImmutableArray<string> Shapes { get; } = [Rectangular, Circular, Dxf];
 
-    /// <summary>The choices of the shape on screen, in order: rectangular, circular, DXF (not available yet, with its note).</summary>
+    /// <summary>The choices of the shape on screen, in order: rectangular, circular, DXF.</summary>
     public static ImmutableArray<ConcreteQuickShape> ShapeChoices { get; } =
-        [new(Rectangular, true, ""), new(Circular, true, ""), new(Dxf, false, "Sezione da file DXF: in preparazione")];
+        [new(Rectangular, true, ""), new(Circular, true, ""), new(Dxf, true, "Importa contorno, fori e barre da un disegno DXF")];
     public static ImmutableArray<string> Methods { get; } = ["SLU+", "SLU−", "Metodo n"];
     public static ImmutableArray<string> Bendings { get; } = ["Retta", "Deviata"];
     public static ImmutableArray<string> Charts { get; } = ["Dominio", "Momento–curvatura"];
@@ -607,6 +607,7 @@ public static class ConcreteQuickSection
     public static string? ApplyLayers(JsonObject data)
     {
         var input = data["input"]!.AsObject();
+        if (input.S("shape") == Dxf) return null;
         if (input.S("shape") == Circular)
         {
             input.Remove("barre_manuali");
@@ -646,7 +647,7 @@ public static class ConcreteQuickSection
         if (geometry is null || stress is null || stress.tensioni_barre.Length < geometry.Bars.Count || geometry.Bars.Count == 0) return [];
         var stresses = stress.tensioni_barre;
         var indices = Enumerable.Range(0, geometry.Bars.Count).ToArray();
-        if (data["input"].S("shape") == Circular)
+        if (data["input"].S("shape") is Circular or Dxf)
         {
             int compressed = indices.MinBy(i => stresses[i]), tensioned = indices.MaxBy(i => stresses[i]);
             return new[] { stresses[compressed] < 0 ? compressed : -1, stresses[tensioned] > 0 ? tensioned : -1 }.Where(i => i >= 0).Distinct().ToArray();

@@ -21,7 +21,7 @@ internal static class ModuleIconWpfChecks
         var modules = ModuleDirectory.All.Select(m => m.Id).Distinct().ToArray();
         var fallback = modules.Where(m => m != "geo_palo_verticale" && Ui.ModuleIcon(m) is Image { Source: CroppedBitmap { SourceRect.X: 0, SourceRect.Y: 0 } }).ToArray();
         check(fallback.Length == 0, "Icone dei moduli: nessun modulo con l'icona del palo verticale al posto della sua" + (fallback.Length > 0 ? " (" + string.Join(", ", fallback) + ")" : ""));
-        check(modules.Count(ModuleGlyphIcon.Supports) == 21, "Icone dei moduli: le 21 icone nuove disegnate (" + modules.Count(ModuleGlyphIcon.Supports) + ")");
+        check(modules.Count(ModuleGlyphIcon.Supports) == 22, "Icone dei moduli: le 22 icone nuove disegnate (" + modules.Count(ModuleGlyphIcon.Supports) + ")");
         var board = new UniformGrid { Columns = Columns, Background = Brushes.White };
         foreach (string module in modules)
         {
