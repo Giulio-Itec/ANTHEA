@@ -1,5 +1,9 @@
 # Refactoring di ANTHEA: decisioni
 
+## 19 novembre — sezione composta verifica rapida
+
+L’utente richiede un modulo autonomo sul motore e sul documento di str_mista_ponte, secondo il rapido del c.a. Conferma tre colonne fisse dei momenti (getto, lungo, breve) e taglio incluso. Dopo l’anteprima approva «procedi», con la limitazione esplicitata: tensioni e taglio, senza classe/MRd e senza SLE frequente, non esposti dal motore attuale. Nessuna modifica alle librerie; lavoro su main, commit solo su richiesta, nessun push. Implementazione e verifiche in [sezione-composta-rapida](../sviluppo/sezione-composta-rapida.md).
+
 ## 18 novembre — differenze della candidata 1.19.4 e report delle paratie
 
 L'utente il 18/11, riferito dal coordinatore: «Sì, i consigli» per gli undici consigli del rapporto della candidata (parte 1,
@@ -2351,3 +2355,15 @@ ciò che il lavoro aveva messo in coda.
    in coda, come le viste storiche. Restano fuori i report, le esportazioni della shell e il modulo Modelli, che non sono
    fogli.
 3. **Versione.** Su main senza una versione nuova: il rilascio di ANTHEA resta una decisione dell'utente.
+
+## 19 novembre 2026 — set BB e importazione DXF
+
+L’utente chiede di aggiornare al commit di Gabriele, implementare l’importazione DXF e poi mostrare la finestra della sezione da ponte. Aggiornamento fast-forward a 7ee431c9, senza eliminare il lavoro locale e senza commit/push aggiuntivi. La API libera GPC riceve geometria già letta: il lettore DXF è un adattatore applicativo netDxf, con licenza MIT distribuita. Contorni e fori chiusi, cerchi delle barre, unità/layer espliciti e anteprima cancellabile. Staffe non dedotte dal CAD. Guide Rev77. Dettagli e verifiche in `docs/sviluppo/importazione-dxf-sezione-ca.md`.
+
+## 19 novembre 2026 — transizioni editoriali Wiki Rev77
+
+L’utente approva esplicitamente la proposta puntuale: «Sì, approvo queste transizioni». Sono 102 transizioni nuove e 49 superate, limitate ai capitoli DXF/sezione composta, alle ricerche e al conteggio 94 → 96 articoli. Applicazione secondo D2/Q15, voce GUIDE-REV77-DXF-COMPOSTA-20261119; impronte e provenienza nel manifest F3. Nessun atteso ingegneristico, transizione F4 o tolleranza modificato. La prova ui/f3-equivalence viene ripetuta sulla nuova build.
+
+## 20 novembre 2026 — commit, push e allineamento a main
+
+L’utente richiede esplicitamente: «committa e pusha allineati anche con il main». Il fetch di origin conferma main e origin/main entrambi a 7ee431c9 prima dei nuovi commit: nessun aggiornamento remoto da integrare. Il lavoro verificato del 19/11 viene registrato in commit separati per codice, infrastruttura delle prove, guide/Wiki/esempi e note di sviluppo. I dodici confronti F4 rimangono aperti per le catture originali mancanti; nessuna eccezione o tolleranza viene aggiunta. Non si tratta di un rilascio o di un aggiornamento dell’installer.

@@ -1,5 +1,13 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 19 novembre — sezione composta verifica rapida
+
+- [x] Anteprima approvata, tre fasi fisse, taglio incluso e limiti del motore esplicitati.
+- [x] Modulo MVVM, documento compatibile, Excel, disegno nativo e report completa/breve.
+- [x] Prove numeriche e documentali: uguaglianza con il completo, attesi indipendenti, sola lettura e persistenza.
+- [x] Guide globali Rev76 e Wiki; Word/PDF con audit di testo e formule.
+- [x] Verifica conclusiva shell/report e aggiornamento dell’eseguibile locale: Presentation 5685, architettura 642, rapido 50, shell WPF 100, ospite/report 82, sezione mista 124 e temi 139 controlli superati. Modulo aperto e osservato nella Release locale. Dettagli in [sezione-composta-rapida](../sviluppo/sezione-composta-rapida.md).
+
 ## Preparazione ANTHEA 1.19.4 - 18 novembre 2026
 
 Candidata nel ramo `claude/1194-candidata`, sopra main `38d8fbfa` (la 1.19.3 pubblicata), su decisione dell'utente del 17/11 alle 20:50
@@ -2027,3 +2035,21 @@ Ramo `claude/st7-freedom-cases-anthea` (dal ramo dei Modelli, provato sul set ca
 - [ ] D1–D2 della revisione (catalogo vecchio dopo un controllo fallito, casi esclusi ripetuti negli avvisi): dopo la 1.19.3.
 - [x] `lib/Checker` dal set AY ufficiale `gpc-release-20261117-ay` (Model bea29afe e Checker 69ba97c8 su origin/master, GPC.Converter 2.25.0.0) con `Update-Snapshot.ps1 -ReleaseSet … -Install` e registrazione F4; profilo `full` nella preparazione della 1.19.3.
 - [ ] Libreria: vincoli e molle per freedom case in GPC.Model; equilibrio con pressioni su piastre non piane entro la regola di planarità dell'import.
+
+## Importazione DXF della sezione in c.a. — 19 novembre 2026
+
+- [x] Fast-forward al commit di Gabriele 7ee431c9, set BB ufficiale, conservando il lavoro locale della sezione composta rapida.
+- [x] Lettura CAD e documento in Application/ConcreteWorkspace; geometria e validazione in GPC.Design CreateFree.
+- [x] Anteprima MVVM, unità e layer, importazione atomica, contorno/fori/barre salvati; DXF abilitato nel rapido e geometria riutilizzata dal completo.
+- [x] Guide globali Rev77 e archivio Rev76 con manifest; prove mirate e WPF registrate nella nota di sviluppo.
+- [x] Eseguiti full e stadio baseline; ripetute con successo le suite del codice corretto, i report, shell, esempi, Modelli, muri ed equivalenza F3. Dettagli in docs/sviluppo/importazione-dxf-sezione-ca.md.
+- [x] Contrasto mirato fondazioni/ponte: 58 catture a 96 DPI, zero difetti; guardia e riferimento originali invariati, preparazione isolata del solo processo di prova.
+- [x] Audit globale a 96 DPI concluso: 1834 catture, solo i 12 difetti già registrati del c.a. rapido; zero nuovi difetti.
+- [x] Nomi dei layer DXF distinti dalle opzioni UI e layer assenti rifiutati; prova prima con tre fallimenti riprodotti, dopo 45 controlli DXF e suite mirate PASS. Copia eseguibile finale separata, perché Windows è bloccato e l’istanza in app è aperta.
+- [ ] Completare i dodici confronti F4 dopo il recupero delle catture originali mancanti; non rigenerare gli attesi.
+
+Voce DXF-SEZIONE-CA-BB-20261119 del registro. Percorso delle forme usuali conservato e 11 figure c.a. identiche; equivalenza F4 completa ancora aperta. Nessun nuovo calcolo in UI/X.Calculations.
+
+- [x] Wiki Rev77: applicate le 102 transizioni nuove e 49 superate approvate esplicitamente dall’utente il 19/11/2026; conteggio 96 articoli, impronte nel manifest F3. Attesi ingegneristici e tolleranze invariati.
+
+- [x] 20/11/2026: registrato il lavoro verificato in commit separati, dopo la richiesta esplicita di commit e push. Fetch confermato sulla base 7ee431c9; nessuna modifica remota da integrare. I confronti F4 mancanti restano aperti come sopra.

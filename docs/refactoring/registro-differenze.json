@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-18",
+  "aggiornato": "2026-11-19",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -32,6 +32,21 @@
   "nota_chiusura_f5_15": "Chiusura di F5.15 (26/10/2026): stato nuovo «rinviato» per le voci che la revisione F5.15 non ha potuto attuare perché servono testi normativi, una decisione o un lavoro grande (R4, R5, R6, R7, R8, R9, R11, R14, R16, R17, R18, R20). Restano aperte nella coda dopo il refactoring (piano.md); ogni voce ha il campo rinvio_26_10 con ciò che serve per riprenderla. Decisione dell'utente: «Rinvia le voci ferme in una coda dopo il refactoring, dichiarate nel registro, e fai il passo f di chiusura di F5.15.» (26/10)",
   "voci": [
     {
+      "id": "SEZIONE-COMPOSTA-RAPIDA-20261119",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "modulo": "str_sezione_composta_rapida",
+      "descrizione": "Nuova interfaccia rapida MVVM sul servizio str_mista_ponte: fasi fisse, combinazioni SLU/SLE RA/SLE QP, tensioni e taglio, Excel, disegno e relazioni. Classe/MRd e SLE frequente non sono disponibili nel motore. Nessuna modifica ai calcoli o alle librerie.",
+      "decisione": "Richiesta e scelte dell’utente; anteprima approvata con procedi, dopo la precisazione dei limiti del motore.",
+      "documento": "docs/sviluppo/sezione-composta-rapida.md",
+      "test": [
+        "tests/ANTHEA.Presentation.Tests/QuickCompositeSectionChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/QuickCompositeReportWpfChecks.cs"
+      ],
+      "effetto_quantificato": "Uguaglianza integrale dei risultati nativi per gli stessi dati. Attesi manuali fissi di area e baricentro. Nuovo modulo aggiunto al catalogo; suite UI 74 prima e dopo."
+    },
+    {
       "id": "STRATIGRAFIA-ADDENSAMENTO-COPIA-20261117",
       "data": "2026-11-17",
       "titolo": "Stratigrafia: stato di addensamento dello strato e pulsanti «Copia da…» / «Copia in…»",
@@ -41,8 +56,20 @@
       "stato": "attuato",
       "descrizione": "Su richiesta dell’utente del 17/11/2026. (1) Chiave facoltativa «density» dello strato (Da definire, Sciolto, Denso), colonna «Addensamento» nella tabella degli strati; scritta solo quando scelta, quindi i documenti esistenti restano validi e invariati; un valore fuori elenco è rifiutato. Trasferita come «addensamento» al solo palo verticale (verso e da), mai agli altri moduli; se non definita lo strato del palo resta con addensamento vuoto come prima. (2) «Copia da…» e «Copia in…» accanto a «Duplica stratigrafia», con il dialogo dei pali: la destinazione esistente è sostituita dopo conferma (dati generali e strati), conserva nome e identificativo, strati con identificativi nuovi; «Nuova stratigrafia» equivale a «Duplica stratigrafia». Nessun calcolo.",
       "decisione": "Richieste dell’utente del 17/11/2026 in chat. Il campo «density» non esisteva nella vista storica: è escluso dalle tracce congelate di tests/fixtures/f5-stratigrafia/storica (filtro in StratigraphySheetChecks.Controls) e verificato a parte.",
-      "codice": ["src/ANTHEA.Application/Stratigraphy/StratigraphyDocument.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyTransfer.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyProfiles.cs", "src/ANTHEA.Application/Stratigraphy/StratigraphyPresentation.cs", "src/ANTHEA.Application/Projects/SoilProfileTransfer.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyFields.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyLayerRowViewModel.cs", "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyEditorViewModel.cs", "src/ANTHEA.Desktop/Views/Stratigraphy/StratigraphyEditorView.xaml"],
-      "test": ["tests/ANTHEA.Presentation.Tests/StratigraphySheetChecks.cs (ProfileCopyAsync, Density, Forms)"],
+      "codice": [
+        "src/ANTHEA.Application/Stratigraphy/StratigraphyDocument.cs",
+        "src/ANTHEA.Application/Stratigraphy/StratigraphyTransfer.cs",
+        "src/ANTHEA.Application/Stratigraphy/StratigraphyProfiles.cs",
+        "src/ANTHEA.Application/Stratigraphy/StratigraphyPresentation.cs",
+        "src/ANTHEA.Application/Projects/SoilProfileTransfer.cs",
+        "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyFields.cs",
+        "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyLayerRowViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/Stratigraphy/StratigraphyEditorViewModel.cs",
+        "src/ANTHEA.Desktop/Views/Stratigraphy/StratigraphyEditorView.xaml"
+      ],
+      "test": [
+        "tests/ANTHEA.Presentation.Tests/StratigraphySheetChecks.cs (ProfileCopyAsync, Density, Forms)"
+      ],
       "effetto_quantificato": "Nessun effetto sui calcoli. Tracce della vista storica confrontate prima e dopo ignorando i colori: nessuna differenza dovuta a questa modifica. Restano tre differenze preesistenti non dovute a questa voce: colore dei nuovi strati, peso proprio sfavorevole 1,35 (voce REPORT-PALO-ITEC-20261116, peso_ponti), γsat minimo collegato al γ (chiave gamma_sat_auto)."
     },
     {
@@ -63,8 +90,17 @@
       "stato": "attuato",
       "descrizione": "Su richiesta dell’utente la relazione autonoma usa il modello ITEC, formule e tabelle Word native, indice interno facoltativo, capitoli e sottocapitoli selezionabili. La successiva richiesta del 16/11 seleziona inizialmente tutti i primi cinque capitoli con sottocapitoli e tabelle; intestazione, indice, avvisi e i due capitoli di dettaglio restano esclusi. Gli sfondi delle tabelle sono grigio chiaro. I dettagli sono capitoli ordinari. Rimossi il testo esteso Nq e l’esportazione PDF di questo modulo. Corretto l’ordine Open XML e rimossi i riferimenti alle note mancanti e l’aggiornamento automatico dei campi. Figure disegnate alla scala fisica del report con testo leggibile. Nessuna modifica a calcoli, coefficienti o librerie.",
       "decisione": "Richieste dell’utente del 16/11/2026 in questa chat, compresa l’eccezione esplicita al PDF.",
-      "codice": ["src/ANTHEA.Reports/Generators/ItecPileReport.cs", "src/ANTHEA.Reports/PileReportContents.cs", "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs", "src/ANTHEA.Desktop/Wpf/Drawings.cs"],
-      "test": ["supporto/test/ItecPileReportChecks.cs", "supporto/test/DocxValidation", "tests/ANTHEA.Presentation.Tests/VerticalPileSheetChecks.cs"],
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ItecPileReport.cs",
+        "src/ANTHEA.Reports/PileReportContents.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "src/ANTHEA.Desktop/Wpf/Drawings.cs"
+      ],
+      "test": [
+        "supporto/test/ItecPileReportChecks.cs",
+        "supporto/test/DocxValidation",
+        "tests/ANTHEA.Presentation.Tests/VerticalPileSheetChecks.cs"
+      ],
       "effetto_quantificato": "485 errori Open XML nella prima prova, zero dopo le correzioni. I soli report.txt e report-structure.json del palo passano da confronto testuale F3 a controlli della struttura ITEC e delle Rd finali rispetto ai risultati catturati; gli attesi F3 originali restano intatti, come tutti i confronti di dati, risultati, esportazione e riapertura. Il micropalo conserva il confronto integrale F3. Le 74 suite UI sono conservate."
     },
     {
@@ -16552,6 +16588,125 @@
       ],
       "evidenze": [
         "supporto/artefatti/sezione-rapida-relazione"
+      ]
+    },
+    {
+      "id": "DXF-SEZIONE-CA-BB-20261119",
+      "data": "2026-11-19",
+      "famiglia": "sezione in c.a. / importazione CAD",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Main aggiornato al commit 7ee431c9 con set ufficiale BB. Scelta DXF abilitata nel rapido: lettura netDxf, anteprima di unità e layer, validazione e costruzione GPC CreateFree. Contorno, fori e barre salvati nel documento; stesso motore nel completo. Staffe non importate. Nessuna formula nuova in UI o X.Calculations.",
+      "decisione": {
+        "data": "2026-11-19",
+        "utente": "Aggiorna al commit di Gabriele, implementa import DXF, poi vediamo la finestra della sezione da ponte.",
+        "esito": "Implementato, con verifiche nel runner e guide Rev77."
+      },
+      "codice": "src/ANTHEA.Application/Concrete/ConcreteDxfImport.cs; src/ANTHEA.ConcreteWorkspace/ConcreteFreeSectionAdapter.cs; src/ANTHEA.Presentation/Modules/QuickSection/ConcreteDxfImportViewModel.cs; src/ANTHEA.Desktop/Views/QuickSection/ConcreteDxfImportView.xaml",
+      "test": [
+        "ConcreteDxf.Tests: attesi indipendenti e transazioni di importazione",
+        "QuickSection.Tests: sezioni usuali e salvataggio",
+        "ui/check-shell-draft: anteprima DXF e foglio calcolato",
+        "ui/check-module-host-offscreen: report completa/breve Word/PDF",
+        "baseline e confronti congelati dopo il set BB"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119",
+        "docs/sviluppo/importazione-dxf-sezione-ca.md"
+      ]
+    },
+    {
+      "id": "GUIDE-REV77-DXF-COMPOSTA-20261119",
+      "data": "2026-11-19",
+      "famiglia": "Wiki / guide globali Rev77",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "102 transizioni editoriali esatte aggiunte e 49 superate: capitoli DXF/sezione composta, ricerche e conteggio articoli 94 → 96. Nessun atteso ingegneristico o tolleranza modificato.",
+      "decisione": {
+        "data": "2026-11-19",
+        "utente": "Sì, approvo queste transizioni",
+        "esito": "Applicata la proposta puntuale transizioni-wiki-proposte.json secondo D2/Q15."
+      },
+      "codice": "tests/fixtures/f3/transitions-f5-wiki.json; tests/fixtures/f3/manifest.json; tests/ANTHEA.Testing/Comparison/Transitions.cs",
+      "test": [
+        "ui/f3-equivalence PASS dopo approvazione: 1210 file, zero differenze non ammesse; conclusione-f3-esempi"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119/transizioni-wiki-proposte.json",
+        "supporto/artefatti/import-dxf-20261119/approvazione-wiki-rev77.json"
+      ]
+    },
+    {
+      "id": "DXF-REPORT-ESEMPI-20261119",
+      "data": "2026-11-19",
+      "famiglia": "DXF / report / esempi sezione composta",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "I report e i disegni DXF usano contorni e barre reali, senza quote del precedente foro parametrico o copriferro; staffe non importate esplicitate. Due esempi del ponte nel catalogo con Word/PDF; quello a momenti negativi usa la relazione completa, conservando il limite delle brevi.",
+      "codice": "src/ANTHEA.Desktop/Wpf/ConcreteDimensions.cs; QuickSectionFigureRenderer.cs; src/ANTHEA.Reports/Generators; supporto/esempi/distribuzione/str_sezione_composta_rapida",
+      "test": [
+        "DXF 42, c.a. rapido 180, composta rapida 50; SLE indipendente dai campi parametrici residui",
+        "ui/check-module-host-offscreen PASS 87; Examples.Tests PASS 498; ui/check-examples PASS",
+        "37 pagine PDF native e 39 Word controllate; brevi di due pagine"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119/relazioni-e-contrasto-finali",
+        "supporto/artefatti/import-dxf-20261119/qa-relazioni-esito.json"
+      ]
+    },
+    {
+      "id": "UI-COMPOSTA-TEMA-20261119",
+      "data": "2026-11-19",
+      "famiglia": "Sezione composta rapida / temi",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Lo stile ComboBox locale inizialmente non ereditava il tema; il popup Approfondimenti poteva perdere la proprietà Dark fuori dall’albero visuale. Aggiunti BasedOn e collegamento esplicito del tema del proprietario al popup. Nessun dato o risultato di calcolo cambiato.",
+      "codice": "src/ANTHEA.Desktop/Views/QuickCompositeSection/QuickCompositeSectionSheetView.xaml; src/ANTHEA.Desktop/Views/Shell/SheetBarView.xaml.cs",
+      "test": [
+        "Shell PASS 103; contrasto mirato fondazioni/ponte: 58 catture a 96 DPI, zero difetti nei tre temi"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119/relazioni-e-contrasto-finali/ui_check-contrast_scoped",
+        "supporto/artefatti/import-dxf-20261119/contrasto-96-mirato"
+      ]
+    },
+    {
+      "id": "BANCO-BB-UI-20261119",
+      "data": "2026-11-19",
+      "famiglia": "Infrastruttura delle prove",
+      "categoria": "convenzione",
+      "stato": "attuato",
+      "descrizione": "Adeguati il filtro del catalogo storico al nuovo modulo, la firma a otto parametri della composizione del visore e la misura pre-Show della finestra muri. Il contrasto usa un contesto a 96 DPI solo nel proprio processo UiTests, prima delle finestre, con verifica del DPI effettivo e guardia congelata invariata. Rimossa la prova temporanea che ammetteva una baseline vuota a DPI diversi. Timeout contrasto 2400→3600 s e filtro facoltativo di viste, senza rimuovere suite.",
+      "codice": "tests/ANTHEA.Application.Tests/EditorContractChecks.cs; tests/ModelViewer.UiChecks/ProductComposition.cs; tests/ANTHEA.Desktop.UiTests/RetainingWallViewChecks.cs; ContrastDpiContext.cs; build/ci.ps1",
+      "test": [
+        "Application.Tests e cinque suite ModelViewer PASS; vista muri PASS; architettura PASS 643; qa/no-test-code PASS",
+        "Contrasto mirato PASS: DPI misurato 96, 58 catture, zero difetti",
+        "74 suite UI prima e dopo; nessun atteso ingegneristico o known-failures modificato",
+        "Contrasto globale: 1834 catture a 96 DPI, solo 12 difetti già noti del c.a. rapido; stato KNOWN, zero NEW-FAIL"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119/finale-full-baseline",
+        "supporto/artefatti/import-dxf-20261119/correzioni-finali",
+        "supporto/artefatti/import-dxf-20261119/contrasto-globale-finale/INTERRUZIONE.txt",
+        "supporto/artefatti/import-dxf-20261119/contrasto-96-mirato",
+        "supporto/artefatti/import-dxf-20261119/contrasto-96-globale"
+      ]
+    },
+    {
+      "id": "DXF-LAYER-OMONIMI-20261119",
+      "data": "2026-11-19",
+      "famiglia": "DXF / selezione dei layer",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Un layer CAD chiamato Nessuno veniva confuso con l’opzione senza fori, e un layer barre chiamato come il segnaposto veniva rifiutato. La UI usa etichette distinte e conserva i nomi originali nel documento; un layer fori inesistente ora produce errore esplicito. Nessuna formula o tolleranza modificata.",
+      "codice": "src/ANTHEA.Application/Concrete/ConcreteDxfImport.cs; src/ANTHEA.Presentation/Modules/QuickSection/ConcreteDxfImportViewModel.cs",
+      "test": [
+        "Prima: 42 controlli PASS e tre fallimenti riprodotti",
+        "Dopo: ConcreteDxf.Tests PASS 45; aree indipendenti 460000 e 480000 mm²; c.a. rapido, composta rapida, report, shell e ospite WPF PASS"
+      ],
+      "evidenze": [
+        "supporto/artefatti/import-dxf-20261119/layer-omonimi-prima",
+        "supporto/artefatti/import-dxf-20261119/layer-omonimi-finale"
       ]
     }
   ]
