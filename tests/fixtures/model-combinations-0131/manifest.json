@@ -1,0 +1,463 @@
+{
+  "AntheaCommit": "bce5de06fa3b3cfdf866e8ab3b504c03e3d0100b",
+  "ModelCommit": "55c15ed5ff64baf9d9282c56137c4581e5e97fd1",
+  "Runtime": ".NET 8.0.34",
+  "Assemblies": [
+    {
+      "Name": "ANTHEA.ModelWorkspace",
+      "Version": "1.0.0.0",
+      "Sha256": "B503722E2331DA9F57E0C93067570BD9240381686E542371A929E38E8CE58E42"
+    },
+    {
+      "Name": "GPC.Converter",
+      "Version": "2.27.0.1",
+      "Sha256": "0985983B362A27C9F0098D1A10821A2EE15357748210FBFF30E4F0EACE8057CB"
+    },
+    {
+      "Name": "GPCGeometry",
+      "Version": "2.3.0.0",
+      "Sha256": "7EF76EDFB4C3736AAE7B6F66B2F3CE30A8BB8DE031C492B03BD52289D6E9D29E"
+    },
+    {
+      "Name": "GPCModel",
+      "Version": "5.54.0.0",
+      "Sha256": "E020B0F90D03138286CD800DC93B0F7A7E3EE2B41FBE2973304636E74F81F54F"
+    },
+    {
+      "Name": "GPCModelData",
+      "Version": "0.4.0.0",
+      "Sha256": "C273B9E5D2421D94BCCA309A13A06EC9234CB8D05ECA8112E9B978664649FEA0"
+    },
+    {
+      "Name": "GPCUtilities",
+      "Version": "3.0.0.0",
+      "Sha256": "92031B381F9AA426A5F88B48762C72DB89724F784670FFDA8802203FC52A05E5"
+    }
+  ],
+  "Files": [
+    {
+      "File": "accidental.en-US.json",
+      "Sha256": "B0CB6F63E135FB529A71D1E4E09905DB051990F29DA9822D598F056444791F1E"
+    },
+    {
+      "File": "accidental.it-IT.json",
+      "Sha256": "B0CB6F63E135FB529A71D1E4E09905DB051990F29DA9822D598F056444791F1E"
+    },
+    {
+      "File": "blank-id.en-US.json",
+      "Sha256": "A4C0F4E06C462333983F1915096C3E6CD9DA0933FC0F8E5F915DFA3144941D36"
+    },
+    {
+      "File": "blank-id.it-IT.json",
+      "Sha256": "A4C0F4E06C462333983F1915096C3E6CD9DA0933FC0F8E5F915DFA3144941D36"
+    },
+    {
+      "File": "case-id-spaces.en-US.json",
+      "Sha256": "3366C29FDF83903FB4D20836433262FC81D83F1784EE44680A5BCA14DAB8C961"
+    },
+    {
+      "File": "case-id-spaces.it-IT.json",
+      "Sha256": "3366C29FDF83903FB4D20836433262FC81D83F1784EE44680A5BCA14DAB8C961"
+    },
+    {
+      "File": "category-A.en-US.json",
+      "Sha256": "E03EFBC551F12711DD06F89F1ED08B9702A35DD34AB79C7966FA692DD8230E54"
+    },
+    {
+      "File": "category-A.it-IT.json",
+      "Sha256": "E03EFBC551F12711DD06F89F1ED08B9702A35DD34AB79C7966FA692DD8230E54"
+    },
+    {
+      "File": "category-B.en-US.json",
+      "Sha256": "750AC1D8187315CA4C62FB0D821077E7A8BF8946D872EDFCC6D896FE0767F588"
+    },
+    {
+      "File": "category-B.it-IT.json",
+      "Sha256": "750AC1D8187315CA4C62FB0D821077E7A8BF8946D872EDFCC6D896FE0767F588"
+    },
+    {
+      "File": "category-C.en-US.json",
+      "Sha256": "8E6F72ED0D2B05487CB576570AD21A0A4133B5EDC3ACEFD3A99935EEA13C7015"
+    },
+    {
+      "File": "category-C.it-IT.json",
+      "Sha256": "8E6F72ED0D2B05487CB576570AD21A0A4133B5EDC3ACEFD3A99935EEA13C7015"
+    },
+    {
+      "File": "category-D.en-US.json",
+      "Sha256": "7DBF0FF0EE58EE34DA39B93DF54C94D2C27422B8A66AEB8906C9B0F479B1E096"
+    },
+    {
+      "File": "category-D.it-IT.json",
+      "Sha256": "7DBF0FF0EE58EE34DA39B93DF54C94D2C27422B8A66AEB8906C9B0F479B1E096"
+    },
+    {
+      "File": "category-E.en-US.json",
+      "Sha256": "23EB11152B9805A9E713C5DE0EB4AA58DAAEBF8D7003F68EEF4E7770B3A9A38D"
+    },
+    {
+      "File": "category-E.it-IT.json",
+      "Sha256": "23EB11152B9805A9E713C5DE0EB4AA58DAAEBF8D7003F68EEF4E7770B3A9A38D"
+    },
+    {
+      "File": "category-F.en-US.json",
+      "Sha256": "A18D76CC976D4EC8F7E1EC5A183862556BD011F8E1D1C133BCBFBFFD3BB2F456"
+    },
+    {
+      "File": "category-F.it-IT.json",
+      "Sha256": "A18D76CC976D4EC8F7E1EC5A183862556BD011F8E1D1C133BCBFBFFD3BB2F456"
+    },
+    {
+      "File": "category-G.en-US.json",
+      "Sha256": "13E1609A58D310EC0C1017B5F2B2573D856CCAB7AFF03B72B8201C6C4E92A6DF"
+    },
+    {
+      "File": "category-G.it-IT.json",
+      "Sha256": "13E1609A58D310EC0C1017B5F2B2573D856CCAB7AFF03B72B8201C6C4E92A6DF"
+    },
+    {
+      "File": "category-H.en-US.json",
+      "Sha256": "114781942A2A8D1DC55BFCCFFF10BFB667F455106298D82BBE62F709378AF6C5"
+    },
+    {
+      "File": "category-H.it-IT.json",
+      "Sha256": "114781942A2A8D1DC55BFCCFFF10BFB667F455106298D82BBE62F709378AF6C5"
+    },
+    {
+      "File": "category-SnowAbove1000m.en-US.json",
+      "Sha256": "CBF7AA8385AD0EBFFEB9F831B8CC6258BD8F918B90E24677DBD5E0E7E5201541"
+    },
+    {
+      "File": "category-SnowAbove1000m.it-IT.json",
+      "Sha256": "CBF7AA8385AD0EBFFEB9F831B8CC6258BD8F918B90E24677DBD5E0E7E5201541"
+    },
+    {
+      "File": "category-SnowUpTo1000m.en-US.json",
+      "Sha256": "FCCB77249EFB869B0BE6C71949B9D97BB527FBDA2E0AC1F6CA8D9AF062D59F03"
+    },
+    {
+      "File": "category-SnowUpTo1000m.it-IT.json",
+      "Sha256": "FCCB77249EFB869B0BE6C71949B9D97BB527FBDA2E0AC1F6CA8D9AF062D59F03"
+    },
+    {
+      "File": "category-Temperature.en-US.json",
+      "Sha256": "352AAC3AF5356A60F0CFD59CCD38100AF5D0F858673107603BC41D0CE33B6C26"
+    },
+    {
+      "File": "category-Temperature.it-IT.json",
+      "Sha256": "352AAC3AF5356A60F0CFD59CCD38100AF5D0F858673107603BC41D0CE33B6C26"
+    },
+    {
+      "File": "category-Wind.en-US.json",
+      "Sha256": "A149C03937CBF6FF3CA770A87D7FD8AC41B9118B32632D694D93BD943E29887F"
+    },
+    {
+      "File": "category-Wind.it-IT.json",
+      "Sha256": "A149C03937CBF6FF3CA770A87D7FD8AC41B9118B32632D694D93BD943E29887F"
+    },
+    {
+      "File": "choices.en-US.json",
+      "Sha256": "DC009CE76539A60B5B2F0FD748D2F12C5BBFA70145B38F3C462F252E6519D21B"
+    },
+    {
+      "File": "choices.it-IT.json",
+      "Sha256": "DC009CE76539A60B5B2F0FD748D2F12C5BBFA70145B38F3C462F252E6519D21B"
+    },
+    {
+      "File": "correlated-q-reversed.en-US.json",
+      "Sha256": "EDA36D5A329E9CCF54B1A5601C3545787FBBFBC1356D7375B7A8C2877A3AE921"
+    },
+    {
+      "File": "correlated-q-reversed.it-IT.json",
+      "Sha256": "EDA36D5A329E9CCF54B1A5601C3545787FBBFBC1356D7375B7A8C2877A3AE921"
+    },
+    {
+      "File": "correlated-q.en-US.json",
+      "Sha256": "60D5B377CD2A8D760E6FCF2D463F077B52879BDBE2D209C096D125FCB98AD762"
+    },
+    {
+      "File": "correlated-q.it-IT.json",
+      "Sha256": "60D5B377CD2A8D760E6FCF2D463F077B52879BDBE2D209C096D125FCB98AD762"
+    },
+    {
+      "File": "duplicate.en-US.json",
+      "Sha256": "2A9FF25EB4705C289C66516B3D48A928F0DDC75FB450B5E7A70218B0ECA2CAA3"
+    },
+    {
+      "File": "duplicate.it-IT.json",
+      "Sha256": "2A9FF25EB4705C289C66516B3D48A928F0DDC75FB450B5E7A70218B0ECA2CAA3"
+    },
+    {
+      "File": "excluded-direction.en-US.json",
+      "Sha256": "C2B9B3C3C4153007E132C1A8901B76E4CBE68E6C6350C443DE0989C894A44BC0"
+    },
+    {
+      "File": "excluded-direction.it-IT.json",
+      "Sha256": "C2B9B3C3C4153007E132C1A8901B76E4CBE68E6C6350C443DE0989C894A44BC0"
+    },
+    {
+      "File": "excluded-only.en-US.json",
+      "Sha256": "A924F3AB70051ABE70284A79BE4A110FFD7B93B1CCDDB90DFA6582B0875A201E"
+    },
+    {
+      "File": "excluded-only.it-IT.json",
+      "Sha256": "A924F3AB70051ABE70284A79BE4A110FFD7B93B1CCDDB90DFA6582B0875A201E"
+    },
+    {
+      "File": "general-g-b.en-US.json",
+      "Sha256": "F82A47029A0A15959DA3B134455028F543866872F53EB502A589F60CA5139764"
+    },
+    {
+      "File": "general-g-b.it-IT.json",
+      "Sha256": "F82A47029A0A15959DA3B134455028F543866872F53EB502A589F60CA5139764"
+    },
+    {
+      "File": "groups-default.en-US.json",
+      "Sha256": "591FB496E20000B2915DB4A4019F0CE5241923EE72DC383805C8B7EB8D25B90A"
+    },
+    {
+      "File": "groups-default.it-IT.json",
+      "Sha256": "591FB496E20000B2915DB4A4019F0CE5241923EE72DC383805C8B7EB8D25B90A"
+    },
+    {
+      "File": "groups-explicit.en-US.json",
+      "Sha256": "490A9DA2B0561A80917E9C3719A92A15F40B77275B03353520FDDF273D2DD425"
+    },
+    {
+      "File": "groups-explicit.it-IT.json",
+      "Sha256": "490A9DA2B0561A80917E9C3719A92A15F40B77275B03353520FDDF273D2DD425"
+    },
+    {
+      "File": "groups-reduce-limit.en-US.json",
+      "Sha256": "8DA4B1E902D79D139B3A1B3D341FA3DE8E1F29AAD6296DA728A293C63DC367D8"
+    },
+    {
+      "File": "groups-reduce-limit.it-IT.json",
+      "Sha256": "8DA4B1E902D79D139B3A1B3D341FA3DE8E1F29AAD6296DA728A293C63DC367D8"
+    },
+    {
+      "File": "invalid-category.en-US.json",
+      "Sha256": "87E11E62B6107E83703CC537565634059BAEC391AFA4370F49725D02B2D5603B"
+    },
+    {
+      "File": "invalid-category.it-IT.json",
+      "Sha256": "87E11E62B6107E83703CC537565634059BAEC391AFA4370F49725D02B2D5603B"
+    },
+    {
+      "File": "invalid-direction.en-US.json",
+      "Sha256": "1DC69C352D67284E035F5A51145820114585E503CAFA4399BF8F5F08967CF5EE"
+    },
+    {
+      "File": "invalid-direction.it-IT.json",
+      "Sha256": "1DC69C352D67284E035F5A51145820114585E503CAFA4399BF8F5F08967CF5EE"
+    },
+    {
+      "File": "invalid-nature.en-US.json",
+      "Sha256": "68BA0DDEDE5B0AC3BA666E738E071E645E26A93C62775A2D943610410F23C534"
+    },
+    {
+      "File": "invalid-nature.it-IT.json",
+      "Sha256": "68BA0DDEDE5B0AC3BA666E738E071E645E26A93C62775A2D943610410F23C534"
+    },
+    {
+      "File": "missing-category.en-US.json",
+      "Sha256": "EAD4776D8D56D996A569E51BE773B3362CEDF3C11BB470E5E964F36B5BF3C1DE"
+    },
+    {
+      "File": "missing-category.it-IT.json",
+      "Sha256": "EAD4776D8D56D996A569E51BE773B3362CEDF3C11BB470E5E964F36B5BF3C1DE"
+    },
+    {
+      "File": "nonseismic-direction.en-US.json",
+      "Sha256": "93D7B3A3E473D467BD8E7841225ACEE6894853E2F42A993892E2A22ECA6ABAD6"
+    },
+    {
+      "File": "nonseismic-direction.it-IT.json",
+      "Sha256": "93D7B3A3E473D467BD8E7841225ACEE6894853E2F42A993892E2A22ECA6ABAD6"
+    },
+    {
+      "File": "null-assignments.en-US.json",
+      "Sha256": "9E6C4CFDB764CEE446C0BEEBB336E9707EF12E8B61B5ED4751B322B45C460FDE"
+    },
+    {
+      "File": "null-assignments.it-IT.json",
+      "Sha256": "9E6C4CFDB764CEE446C0BEEBB336E9707EF12E8B61B5ED4751B322B45C460FDE"
+    },
+    {
+      "File": "null-entry.en-US.json",
+      "Sha256": "4E70CDC646887875F2C168584671120ECC84B897302FCE887045A5EABFECCF70"
+    },
+    {
+      "File": "null-entry.it-IT.json",
+      "Sha256": "4E70CDC646887875F2C168584671120ECC84B897302FCE887045A5EABFECCF70"
+    },
+    {
+      "File": "omitted-known.en-US.json",
+      "Sha256": "ECCA62A5AF66137AB6F39D9EBDDFCF7087E7FC660FB0B676C52DC2BDA8ED9DEF"
+    },
+    {
+      "File": "omitted-known.it-IT.json",
+      "Sha256": "ECCA62A5AF66137AB6F39D9EBDDFCF7087E7FC660FB0B676C52DC2BDA8ED9DEF"
+    },
+    {
+      "File": "pattern-groups-11.en-US.json",
+      "Sha256": "25CC37D6CF065E1C5FD5161AFE4600472A5620E67C26629FE3FB9B2906936DBE"
+    },
+    {
+      "File": "pattern-groups-11.it-IT.json",
+      "Sha256": "25CC37D6CF065E1C5FD5161AFE4600472A5620E67C26629FE3FB9B2906936DBE"
+    },
+    {
+      "File": "pattern-groups-12.en-US.json",
+      "Sha256": "2E241E546F6D784E7313F862403AD884CB69B645CE5224FCE23E18113DBDAC5B"
+    },
+    {
+      "File": "pattern-groups-12.it-IT.json",
+      "Sha256": "2E241E546F6D784E7313F862403AD884CB69B645CE5224FCE23E18113DBDAC5B"
+    },
+    {
+      "File": "pattern-groups-13.en-US.json",
+      "Sha256": "7C7C8E731BFF99AE5A5880D88068E449E4E2074AD4EDC253F41C81B01D5F6118"
+    },
+    {
+      "File": "pattern-groups-13.it-IT.json",
+      "Sha256": "7C7C8E731BFF99AE5A5880D88068E449E4E2074AD4EDC253F41C81B01D5F6118"
+    },
+    {
+      "File": "permanent-only.en-US.json",
+      "Sha256": "73D676D54F03EEB3FAFA7C16883931900E8ABFDCAF74A5CF43E2F4EE2D1E1C3F"
+    },
+    {
+      "File": "permanent-only.it-IT.json",
+      "Sha256": "73D676D54F03EEB3FAFA7C16883931900E8ABFDCAF74A5CF43E2F4EE2D1E1C3F"
+    },
+    {
+      "File": "precedence-duplicate-category.en-US.json",
+      "Sha256": "0BC3F0A6A529724B600CDEACAC319691315C3F56615F7C11597B7BBCB4516640"
+    },
+    {
+      "File": "precedence-duplicate-category.it-IT.json",
+      "Sha256": "0BC3F0A6A529724B600CDEACAC319691315C3F56615F7C11597B7BBCB4516640"
+    },
+    {
+      "File": "precedence-empty-direction.en-US.json",
+      "Sha256": "A3B57B9ACCE6328C9902EBDD5B6E31E22650021F372391DC669785BC992A38BD"
+    },
+    {
+      "File": "precedence-empty-direction.it-IT.json",
+      "Sha256": "A3B57B9ACCE6328C9902EBDD5B6E31E22650021F372391DC669785BC992A38BD"
+    },
+    {
+      "File": "precedence-unknown-category.en-US.json",
+      "Sha256": "04F81BEA9D19BAC70498575E5FB7A09320A0C1EADDF1B595B7DC88CADFD8F108"
+    },
+    {
+      "File": "precedence-unknown-category.it-IT.json",
+      "Sha256": "04F81BEA9D19BAC70498575E5FB7A09320A0C1EADDF1B595B7DC88CADFD8F108"
+    },
+    {
+      "File": "proposals.en-US.json",
+      "Sha256": "A462E1FA69447D4CED6C4ECC1AF6C12F7E0E67C96DC660C1E5291146071B980B"
+    },
+    {
+      "File": "proposals.it-IT.json",
+      "Sha256": "A462E1FA69447D4CED6C4ECC1AF6C12F7E0E67C96DC660C1E5291146071B980B"
+    },
+    {
+      "File": "results.en-US.json",
+      "Sha256": "AA706D1031401B6CCB0F45762CFB785F3734CE6C3CB797563291DD77B35BD7E8"
+    },
+    {
+      "File": "results.it-IT.json",
+      "Sha256": "AA706D1031401B6CCB0F45762CFB785F3734CE6C3CB797563291DD77B35BD7E8"
+    },
+    {
+      "File": "rows-4094.en-US.json",
+      "Sha256": "BFB5B7EE9325D437B30253564CD4F0844038671AEA1261620795471CE4FEFBB9"
+    },
+    {
+      "File": "rows-4094.it-IT.json",
+      "Sha256": "BFB5B7EE9325D437B30253564CD4F0844038671AEA1261620795471CE4FEFBB9"
+    },
+    {
+      "File": "rows-4096.en-US.json",
+      "Sha256": "CD1122D57E7EE05E68F12FEF34D5375A2A786708AE25341D12A5D713B05A9573"
+    },
+    {
+      "File": "rows-4096.it-IT.json",
+      "Sha256": "CD1122D57E7EE05E68F12FEF34D5375A2A786708AE25341D12A5D713B05A9573"
+    },
+    {
+      "File": "rows-4098.en-US.json",
+      "Sha256": "C78A1A9FDAB32ABB4773F1C5FEBB11D0CB1F1C9E2C2682BB4EE4EC91ED782606"
+    },
+    {
+      "File": "rows-4098.it-IT.json",
+      "Sha256": "C78A1A9FDAB32ABB4773F1C5FEBB11D0CB1F1C9E2C2682BB4EE4EC91ED782606"
+    },
+    {
+      "File": "seismic-none.en-US.json",
+      "Sha256": "05F0D205222D036EE19BF700DB7E219A6E1D2D113ACCA5AA353486F72D6AB893"
+    },
+    {
+      "File": "seismic-none.it-IT.json",
+      "Sha256": "05F0D205222D036EE19BF700DB7E219A6E1D2D113ACCA5AA353486F72D6AB893"
+    },
+    {
+      "File": "seismic-only.en-US.json",
+      "Sha256": "19B696F26BB20B60246EC516FCE9C61F74377912CF8CE869F1812687F1F83CEC"
+    },
+    {
+      "File": "seismic-only.it-IT.json",
+      "Sha256": "19B696F26BB20B60246EC516FCE9C61F74377912CF8CE869F1812687F1F83CEC"
+    },
+    {
+      "File": "seismic-xy.en-US.json",
+      "Sha256": "6C73A6D1F5DB1C785650C1E3BA2587181D0F871342CD1EE008C6F66BB47B8767"
+    },
+    {
+      "File": "seismic-xy.it-IT.json",
+      "Sha256": "6C73A6D1F5DB1C785650C1E3BA2587181D0F871342CD1EE008C6F66BB47B8767"
+    },
+    {
+      "File": "seismic-xyz-alternatives.en-US.json",
+      "Sha256": "E1F249BE8CDBF6DE14D30B6698606B0CDFA4A08D8F78DE97CC84DA594621DC8D"
+    },
+    {
+      "File": "seismic-xyz-alternatives.it-IT.json",
+      "Sha256": "E1F249BE8CDBF6DE14D30B6698606B0CDFA4A08D8F78DE97CC84DA594621DC8D"
+    },
+    {
+      "File": "unknown.en-US.json",
+      "Sha256": "70551963F9378E21E4F3DB70D525CE7E8A523803CB630D760410C92A18D03EDB"
+    },
+    {
+      "File": "unknown.it-IT.json",
+      "Sha256": "70551963F9378E21E4F3DB70D525CE7E8A523803CB630D760410C92A18D03EDB"
+    },
+    {
+      "File": "variable-only.en-US.json",
+      "Sha256": "479079F1FFF9F6292FA9F6EDFB024FED4CA693EC694EA1B4068275A020ACFE61"
+    },
+    {
+      "File": "variable-only.it-IT.json",
+      "Sha256": "479079F1FFF9F6292FA9F6EDFB024FED4CA693EC694EA1B4068275A020ACFE61"
+    },
+    {
+      "File": "variable-row-limit.en-US.json",
+      "Sha256": "1BAEE5CD39F58544E1C59E10DC7ACBAF153DBD723F2E1488DDB1DE67909630E0"
+    },
+    {
+      "File": "variable-row-limit.it-IT.json",
+      "Sha256": "1BAEE5CD39F58544E1C59E10DC7ACBAF153DBD723F2E1488DDB1DE67909630E0"
+    },
+    {
+      "File": "zero-dedup.en-US.json",
+      "Sha256": "60B254654F58A086AD526DE5FDD76E7A0F9A6ACA8A419B78E92CFBF34D650894"
+    },
+    {
+      "File": "zero-dedup.it-IT.json",
+      "Sha256": "60B254654F58A086AD526DE5FDD76E7A0F9A6ACA8A419B78E92CFBF34D650894"
+    }
+  ]
+}
