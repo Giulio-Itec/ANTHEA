@@ -1,3 +1,6 @@
+using ModelCombinationGenerator = ANTHEA.ModelWorkspace.ModelCombinationGenerator;
+using ModelCaseAssignment = ANTHEA.ModelWorkspace.ModelCaseAssignment;
+using ModelCaseNature = ANTHEA.ModelWorkspace.ModelCaseNature;
 using System.Diagnostics;
 using System.Globalization;
 using System.Security.Cryptography;

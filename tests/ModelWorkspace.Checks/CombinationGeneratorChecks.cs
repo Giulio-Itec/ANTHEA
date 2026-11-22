@@ -1,3 +1,6 @@
+using ModelCombinationGenerator = ANTHEA.ModelWorkspace.ModelCombinationGenerator;
+using ModelCaseAssignment = ANTHEA.ModelWorkspace.ModelCaseAssignment;
+using ModelCaseNature = ANTHEA.ModelWorkspace.ModelCaseNature;
 using System.Text.Json;
 using ANTHEA.ModelWorkspace;
 using GPC.Model.Design.Combinations;

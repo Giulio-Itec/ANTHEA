@@ -30,8 +30,7 @@ public sealed partial class GeneratorCaseEditor:ObservableObject
     partial void OnCategoryChanged(int value)=>changed();
     partial void OnGroupChanged(string value)=>changed();
     partial void OnDirectionChanged(int value)=>changed();
-    internal ModelCaseAssignment Assignment=>ModelCaseAssignment.FromIndexes(Case,(ModelCaseNature)Nature,IsVariable&&Category>0?Category-1:null,
-        string.IsNullOrWhiteSpace(Group)?null:Group.Trim(),IsSeismic?Direction:0);
+    internal ModelCaseAssignment Assignment=>ModelCaseAssignment.FromIndexes(Case,(ModelCaseNature)Nature,Category>0?Category-1:null,Group,Direction);
 }
 
 /// <summary>

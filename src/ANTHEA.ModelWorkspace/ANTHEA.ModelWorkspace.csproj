@@ -1,4 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <!-- GPC.Archive (3/11/2026, review D1): the block store of ModelResultArchive, from the snapshot like the other GPC libraries. -->
   <PropertyGroup><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCGeometry;GPCUtilities;GPCModel;GPCModelData;GPC.Converter;GPC.Archive</GpcLibraries></PropertyGroup>
+  <ItemGroup><InternalsVisibleTo Include="ModelCombination.Equivalence.Checks" /></ItemGroup>
 </Project>

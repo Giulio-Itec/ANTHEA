@@ -7,6 +7,7 @@ using GPC.Model.Design.Combinations;
 using Assignment = ANTHEA.ModelWorkspace.ModelCaseAssignment;
 using Nature = ANTHEA.ModelWorkspace.ModelCaseNature;
 using Generator = ANTHEA.ModelWorkspace.ModelCombinationGenerator;
+using Legacy = ANTHEA.Legacy.ModelCombinations.LegacyModelCombinationGenerator;
 
 static partial class Program
 {
@@ -16,6 +17,8 @@ static partial class Program
         if (args.Length != 2 || args[0] is not ("capture" or "check")) throw new ArgumentException("capture|check <fixture-directory>");
         var folder = Path.GetFullPath(args[1]);
         bool capture = args[0] == "capture";
+        if (capture && typeof(CombinationProfile).Assembly.GetType("GPC.Model.Design.Combinations.ModelCombinationRequest") != null)
+            throw new InvalidOperationException("Capture is allowed only against the pre-extraction baseline; never recapture expected output with the new engine.");
         if (capture && Directory.Exists(folder)) throw new IOException("Captures are immutable: destination already exists.");
         if (capture) Directory.CreateDirectory(folder);
         int count = 0;
@@ -26,6 +29,7 @@ static partial class Program
             foreach (var input in Inputs())
             {
                 var model = Snapshot(input);
+                if (!capture) LegacyParity(model, input.Assignments!);
                 ModelCombinationDefinition[]? rows = null;
                 string? error = null, previewError = null;
                 try { rows = Generator.Generate(model, input.Assignments!); }
@@ -49,6 +53,13 @@ static partial class Program
             File.WriteAllText(Path.Combine(folder, "manifest.json"), JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }));
         }
         Console.WriteLine($"PASS {count} immutable captures ({(capture ? "recorded before extraction" : "byte identical")}).");
+        if (!capture)
+        {
+            if (!Enum.GetValues<Nature>().Select(n => ((int)n, n.ToString())).SequenceEqual(Enum.GetValues<GPC.Model.Design.Combinations.ModelCaseNature>().Select(n => ((int)n, n.ToString()))))
+                throw new Exception("ANTHEA nature wrapper diverges from GPC.");
+            if (!CombinationRuleSet.Ntc2018GeneralStructuralV1.SupportedVariableCategories.Select(c => (int)c).SequenceEqual(Enumerable.Range(0, Assignment.CategoryCount)))
+                throw new Exception("UI category indices diverge from the GPC descriptors.");
+        }
         return 0;
 
         void Compare(string name, string text)
@@ -58,6 +69,22 @@ static partial class Program
             else if (File.ReadAllText(path) != text) throw new InvalidDataException("Capture differs: " + name);
             count++;
         }
+    }
+
+    static void LegacyParity(ModelSnapshot model, Assignment[] assignments)
+    {
+        string Observe(Func<object> action)
+        {
+            try { return JsonSerializer.Serialize(action(), Json); }
+            catch (Exception ex) { return ex.GetType().Name + ": " + ex.Message; }
+        }
+        void Equal(Func<object> before, Func<object> after)
+        { if (Observe(before) != Observe(after)) throw new Exception("Frozen legacy engine and adapter differ."); }
+        Equal(() => Legacy.Generate(model, assignments), () => Generator.Generate(model, assignments));
+        Equal(() => { var p = Legacy.Preview(model, assignments); return new { p.CanGenerate, p.Rows, p.Message }; },
+            () => { var p = Generator.Preview(model, assignments); return new { p.CanGenerate, p.Rows, p.Message }; });
+        Equal(() => Legacy.Propose(model), () => Generator.Propose(model));
+        Equal(() => Legacy.Choices(model), () => Generator.Choices(model));
     }
 
     public sealed record Input(string Name, string[] Known, Assignment[]? Assignments, string[]? Types = null, ModelGeneratorCase[]? Saved = null);

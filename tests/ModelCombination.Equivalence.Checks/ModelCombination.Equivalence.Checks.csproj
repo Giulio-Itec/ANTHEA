@@ -2,4 +2,5 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><GpcLibraries>GPCModel;GPCUtilities;GPCGeometry;DelaunayMesh</GpcLibraries></PropertyGroup>
   <ItemGroup><ProjectReference Include="../../src/ANTHEA.ModelWorkspace/ANTHEA.ModelWorkspace.csproj" /></ItemGroup>
   <ItemGroup><PackageReference Include="MathNet.Numerics" Version="5.0.0" /><PackageReference Include="System.Text.Json" Version="10.0.13" /></ItemGroup>
+  <ItemGroup><Compile Include="../ANTHEA.Legacy/ModelCombinations/LegacyModelCombinationGenerator.cs.fixture" Link="LegacyModelCombinationGenerator.cs" /></ItemGroup>
 </Project>
