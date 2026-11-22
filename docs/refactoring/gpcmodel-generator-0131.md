@@ -45,10 +45,13 @@ The candidate is staged using `tools/libs/Update-Snapshot.ps1 -ReleaseSet ...
 -AllowCandidate -Staging ... -Repos ...`; no official set, push or deployment is made.
 
 ```powershell
+$snapshot = (Resolve-Path ./supporto/artefatti/0131/snapshot).Path
 & ./build/ci.ps1 -Stage build,fast,ui `
   -Only '^(ModelWorkspace.Checks|ModelCombination.Equivalence.Checks|ModelViewer.CombinationBench.Checks|Architecture.Tests|ModelViewer.Combinations.UiChecks)$' `
-  -GpcLibDir ./supporto/artefatti/0131/snapshot -Tag 0131 -Keep -NoPrune
+  -GpcLibDir $snapshot -Tag 0131 -Keep -NoPrune
 ```
+
+The targeted run passed: ModelWorkspace 821 checks, Architecture 643, WPF combinations 32, the independent combination bench and all 106 exact captures. Its summary is `supporto/artefatti/0131/ci-targeted-absolute/summary.json`. The first invocation used a relative GpcLibDir and failed to find manifest.props; using the absolute path above fixed the invocation without source changes.
 
 The WPF catalogue stays at 74 suites. The new equivalence suite is in the fast stage.
 The coordinator runs level-2 `baseline` after integration/library installation, then
