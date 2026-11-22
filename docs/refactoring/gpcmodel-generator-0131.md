@@ -45,29 +45,33 @@ The candidate is staged using `tools/libs/Update-Snapshot.ps1 -ReleaseSet ...
 -AllowCandidate -Staging ... -Repos ...`; no official set, push or deployment is made.
 
 ```powershell
-$snapshot = (Resolve-Path ./supporto/artefatti/0131/snapshot).Path
+$snapshot = (Resolve-Path ./supporto/artefatti/0131/snapshot-compat).Path
 & ./build/ci.ps1 -Stage build,fast,ui `
   -Only '^(ModelWorkspace.Checks|ModelCombination.Equivalence.Checks|ModelViewer.CombinationBench.Checks|Architecture.Tests|ModelViewer.Combinations.UiChecks)$' `
   -GpcLibDir $snapshot -Tag 0131 -Keep -NoPrune
 ```
 
-The targeted run passed: ModelWorkspace 821 checks, Architecture 643, WPF combinations 32, the independent combination bench and all 106 exact captures. Its summary is `supporto/artefatti/0131/ci-targeted-absolute/summary.json`. The first invocation used a relative GpcLibDir and failed to find manifest.props; using the absolute path above fixed the invocation without source changes.
+The targeted run passed: ModelWorkspace 821 checks, Architecture 643, WPF combinations 32, the independent combination bench and all 106 exact captures. Its summary is `supporto/artefatti/0131/ci-targeted-compat/summary.json`. The first invocation used a relative GpcLibDir and failed to find manifest.props; using the absolute path above fixed the invocation without source changes.
 
 The WPF catalogue stays at 74 suites. The new equivalence suite is in the fast stage.
 The coordinator runs level-2 `baseline` after integration/library installation, then
 the final candidate full/baseline/installer and required native gates.
 
-## Declared new resource diagnostic
+## Explicit resource budget and compatibility
 
-The service has an explicit `CombinationGenerationLimits.MaximumWork` budget, default
-1,000,000, in addition to the compatibility limits of 12 pattern groups and 4096 unique
-rows. It bounds candidate-row factor work and directional seismic products before
-allocating the existing generator's dictionaries/variant list. Exceeding it returns
-`WorkLimitExceeded` and no rows; the Italian facade explains the count and limit.
-This is a new resource refusal for unusually large requests, including potentially
-large accidental catalogues otherwise below 4096 rows. It is not a normative change
-or an assertion of universal legacy equivalence outside that budget. An explicit
-higher budget is supported by GPC. No frozen input hits this new guard.
+The service supports an explicit `CombinationGenerationLimits.MaximumWork` budget.
+Passing `new CombinationGenerationLimits()` selects a budget of 1,000,000 work units,
+bounding candidate-row factor work and directional seismic products before allocation.
+Exceeding an explicitly selected budget returns `WorkLimitExceeded` with no partial rows.
+
+The default request uses `CombinationGenerationLimits.Compatibility`: 12 pattern groups,
+4096 unique rows and `MaximumWork = long.MaxValue`. ANTHEA uses this compatibility policy,
+so no new work refusal changes legacy acceptance or error precedence. The final review
+corrected the earlier implicit work guard. A separate live comparison with the unchanged
+compiled legacy generator covers 2000 accidental groups (2005 rows), which an implicit
+1,000,000 budget would incorrectly refuse. All 106 frozen captures remain untouched.
+Clients needing a finite work budget must choose it explicitly; this changes their
+resource acceptance policy. The road client must select and test its policy in step 3.
 
 Task evidence and final outcomes: `chatgpt-compiti/0131-resoconto.md` in the repository
 root's sibling task directory. Native/shared-host/deployment evidence and road rules

@@ -54,6 +54,13 @@ static partial class Program
         }
         if (!capture)
         {
+            // This request exceeds the optional GPC work budget but was accepted by ANTHEA.
+            // Compare with the unchanged compiled legacy source; never rewrite the frozen corpus.
+            var largeAssignments = new[] { new Assignment("G", Nature.G1) }.Concat(Enumerable.Range(0, 2000)
+                .Select(i => new Assignment("A" + i, Nature.Accidental))).ToArray();
+            var large = new Input("large-accidental-compatibility", largeAssignments.Select(a => a.Case).ToArray(), largeAssignments);
+            LegacyParity(Snapshot(large), largeAssignments);
+            Console.WriteLine("PASS optional work budget preserves legacy acceptance and preview for 2000 accidental groups.");
             if (!Enum.GetValues<Nature>().Select(n => ((int)n, n.ToString())).SequenceEqual(Enum.GetValues<GPC.Model.Design.Combinations.ModelCaseNature>().Select(n => ((int)n, n.ToString()))))
                 throw new Exception("ANTHEA nature wrapper diverges from GPC.");
             if (!CombinationRuleSet.Ntc2018GeneralStructuralV1.SupportedVariableCategories.Select(c => (int)c).SequenceEqual(Enumerable.Range(0, Assignment.CategoryCount)))
