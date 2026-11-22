@@ -14,7 +14,7 @@ static partial class Program
     static readonly JsonSerializerOptions Json = new() { WriteIndented = false, Converters = { new BitsConverter() } };
     static int Main(string[] args)
     {
-        if (args.Length != 2 || args[0] is not ("capture" or "check")) throw new ArgumentException("capture|check <fixture-directory>");
+        if (args.Length is < 2 or > 3 || args[0] is not ("capture" or "check")) throw new ArgumentException("capture|check <fixture-directory> [evidence-directory]");
         var folder = Path.GetFullPath(args[1]);
         bool capture = args[0] == "capture";
         if (capture && typeof(CombinationProfile).Assembly.GetType("GPC.Model.Design.Combinations.ModelCombinationRequest") != null)
@@ -52,7 +52,6 @@ static partial class Program
                 Files = Directory.GetFiles(folder).OrderBy(f => f, StringComparer.Ordinal).Select(f => new { File = Path.GetFileName(f), Sha256 = Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(f))) }).ToArray() };
             File.WriteAllText(Path.Combine(folder, "manifest.json"), JsonSerializer.Serialize(manifest, new JsonSerializerOptions { WriteIndented = true }));
         }
-        Console.WriteLine($"PASS {count} immutable captures ({(capture ? "recorded before extraction" : "byte identical")}).");
         if (!capture)
         {
             if (!Enum.GetValues<Nature>().Select(n => ((int)n, n.ToString())).SequenceEqual(Enum.GetValues<GPC.Model.Design.Combinations.ModelCaseNature>().Select(n => ((int)n, n.ToString()))))
@@ -60,6 +59,9 @@ static partial class Program
             if (!CombinationRuleSet.Ntc2018GeneralStructuralV1.SupportedVariableCategories.Select(c => (int)c).SequenceEqual(Enumerable.Range(0, Assignment.CategoryCount)))
                 throw new Exception("UI category indices diverge from the GPC descriptors.");
         }
+        string summary = $"PASS {count} immutable captures ({(capture ? "recorded before extraction" : "byte identical")}).";
+        Console.WriteLine(summary);
+        if (args.Length == 3) { Directory.CreateDirectory(args[2]); File.WriteAllText(Path.Combine(args[2], "esito.txt"), summary); }
         return 0;
 
         void Compare(string name, string text)
