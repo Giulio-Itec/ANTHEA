@@ -134,6 +134,18 @@
     <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
    </DataTemplate.Triggers>
   </DataTemplate>
+  <DataTemplate x:Key="ShearCotEditor" DataType="{x:Type forms:FieldViewModel}">
+   <Grid>
+    <TextBox Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" MinHeight="25" Margin="1"
+     Background="{DynamicResource Token.Field.Background}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" ToolTip="{Binding LabelToolTip}"
+     AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}" IsKeyboardFocusWithinChanged="Editor_FocusChanged"/>
+    <TextBlock Text="Auto" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,7,0" Foreground="{DynamicResource Token.Muted}">
+     <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/>
+      <Style.Triggers><DataTrigger Binding="{Binding EditText}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+     </Style></TextBlock.Style>
+    </TextBlock>
+   </Grid>
+  </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
    <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" Margin="1" FontWeight="Normal"
     ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
@@ -649,13 +661,44 @@
       <TextBlock Text="N, Vx, Vy di progetto [kN] · N &lt; 0 compressione" Style="{StaticResource Muted}" Margin="0,4,0,0"/>
      </StackPanel></Border>
      <Border Style="{StaticResource Card}" Visibility="{Binding ShearWithLinks, Converter={StaticResource Visibility}}"><StackPanel>
-      <TextBlock Text="2 · Armatura effettiva a taglio" Style="{StaticResource CardTitle}" Margin="0,0,0,4"/>
-      <CheckBox x:Name="EffectiveStirrup" Content="Staffa effettiva?" IsChecked="{Binding EffectiveStirrup}" IsEnabled="{Binding CanEdit}" Margin="0,2,0,4"
-       ToolTip="Spuntata: usa il diametro della staffa geometrica. Non spuntata: assegna un’armatura a taglio indipendente" AutomationProperties.Name="Staffa effettiva?"/>
-      <TextBlock Text="{Binding ShearGeometryDiameter}" Margin="0,0,0,4" Visibility="{Binding EffectiveStirrup, Converter={StaticResource Visibility}}"/>
+      <DockPanel Margin="0,0,0,10">
+       <Button x:Name="BalanceShear" DockPanel.Dock="Right" Content="Rottura bilanciata" Style="{StaticResource Link}" Command="{Binding BalanceShearCommand}"
+        ToolTip="Scelta automatica delle cotangenti Vx e Vy del motore. Il bilanciamento è limitato dall’intervallo ammesso dal modello di calcolo."/>
+       <TextBlock Text="2 · Armatura a taglio" Style="{StaticResource CardTitle}"/>
+      </DockPanel>
+      <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="115"/></Grid.ColumnDefinitions>
+       <StackPanel>
+        <CheckBox x:Name="EffectiveStirrup" Content="Staffa effettiva?" IsChecked="{Binding EffectiveStirrup}" IsEnabled="{Binding CanEdit}" Margin="0,0,8,3"
+         ToolTip="Spuntata: usa il diametro della staffa geometrica. Non spuntata: assegna un’armatura a taglio indipendente" AutomationProperties.Name="Staffa effettiva?"/>
+        <TextBlock Text="{Binding ShearGeometryDiameter}" Style="{StaticResource Muted}" Visibility="{Binding EffectiveStirrup, Converter={StaticResource Visibility}}"/>
+       </StackPanel>
+       <TextBlock Grid.Column="1" Text="Passo [mm]" Style="{StaticResource Muted}" Margin="0,0,8,0"/>
+       <ContentControl Grid.Column="2" Content="{Binding ShearSpacingField}" Style="{StaticResource Editor}" VerticalAlignment="Center"/>
+      </Grid>
       <ContentControl x:Name="IndependentShearDiameter" Content="{Binding ShearDiameterField}" ContentTemplate="{StaticResource ShearField}"
        Visibility="{Binding IndependentShearReinforcement, Converter={StaticResource Visibility}}"/>
-      <ItemsControl ItemsSource="{Binding ShearMainFields}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ShearField}" Focusable="False"/>
+      <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,1,0,0" Padding="0,8,0,0">
+       <StackPanel>
+        <Grid Margin="0,0,0,3"><Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+         <TextBlock Grid.Column="1" Text="Vx" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource Token.Accent}"/>
+         <TextBlock Grid.Column="2" Text="Vy" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource Token.Accent}"/>
+        </Grid>
+        <ItemsControl x:Name="ShearParameterTable" ItemsSource="{Binding ShearParameterRows}" Focusable="False">
+         <ItemsControl.ItemTemplate><DataTemplate>
+          <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+           <TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"/>
+           <ContentControl x:Name="ParameterX" Grid.Column="1" Content="{Binding X}" Style="{StaticResource Editor}" Margin="0,0,8,0"/>
+           <ContentControl x:Name="ParameterY" Grid.Column="2" Content="{Binding Y}" Style="{StaticResource Editor}" Margin="8,0,0,0"/>
+          </Grid>
+          <DataTemplate.Triggers><DataTrigger Binding="{Binding Cotangent}" Value="True">
+           <Setter TargetName="ParameterX" Property="ContentTemplate" Value="{StaticResource ShearCotEditor}"/>
+           <Setter TargetName="ParameterY" Property="ContentTemplate" Value="{StaticResource ShearCotEditor}"/>
+          </DataTrigger></DataTemplate.Triggers>
+         </DataTemplate></ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="{Binding ShearAutomaticCotangents}" Style="{StaticResource Muted}" HorizontalAlignment="Right" Margin="0,4,0,0"/>
+       </StackPanel>
+      </Border>
      </StackPanel></Border>
      <Border Style="{StaticResource Card}"><StackPanel Language="it-IT">
       <TextBlock Text="3 · Risultati a taglio" Style="{StaticResource CardTitle}" Margin="0,0,0,10"/>

@@ -24,6 +24,10 @@ internal static class QuickShearChecks
         string bending = sheet.Data["combinazioni"]!.ToJsonString(), input = sheet.Data["input"]!.ToJsonString();
         sheet.ToggleShearCommand.Execute(null);
         expect.That(sheet.ShearExpanded && sheet.ShearCombinationRows.Count == 1 && sheet.ShearCombinationRows[0].Name == "Combo 1", "Taglio: apertura con una combinazione autonoma già pronta");
+        expect.That(ConcreteQuickShear.Options(sheet.Data).S("cot_x") == "1" && ConcreteQuickShear.Options(sheet.Data).S("cot_y") == "1",
+            "Taglio: cotangenti iniziali uguali a 1 su entrambi gli assi");
+        expect.That(sheet.ShearParameterRows.Select(r => r.Label).SequenceEqual(new[] { "Braccia", "α [°]", "cot θ" }),
+            "Taglio: parametri ordinati per direzione e denominati Braccia");
         sheet.CopyShearCombinationsCommand.Execute(null);
         expect.That(sheet.ShearCombinationRows.Select(r => (r.Name, r.N)).SequenceEqual(sheet.CombinationRows.Select(r => (r.Name, r.N)))
             && !sheet.ShearCombinationRows.Select(r => r.Id).Intersect(sheet.CombinationRows.Select(r => r.Id)).Any(), "Taglio: copia nomi e N con identità separate, senza classificazione SL");
@@ -111,6 +115,23 @@ internal static class QuickShearChecks
         sheet.ShearForm.Set("rami_x", "0"); await sheet.PendingCalculation;
         expect.That(sheet.Current!.Shear!.All(r => r.Error.Length > 0), "Taglio: rami non validi producono errori, nessun risultato residuo");
         sheet.ShearForm.Set("rami_x", "2"); await sheet.PendingCalculation;
+        sheet.ShearForm.Set("cot_x", "2"); sheet.ShearForm.Set("cot_y", "1.5");
+        var manual = ConcreteQuickShear.Options(sheet.Data);
+        expect.That(manual.S("cot_x") == "2" && manual.S("cot_y") == "1.5", "Taglio: valori manuali conservati senza sostituirli con il default");
+        sheet.BalanceShearCommand.Execute(null); await sheet.PendingCalculation;
+        expect.That(ConcreteQuickShear.Options(sheet.Data).S("cot_x") == "" && ConcreteQuickShear.Options(sheet.Data).S("cot_y") == ""
+            && sheet.SelectedShearResult is { Error.Length: 0, Directions.Count: 2 } && sheet.ShearAutomaticCotangents.Contains("cot θ Vx"),
+            "Taglio: rottura bilanciata attiva il motore automatico sui due assi e mostra le cotangenti calcolate");
+        var automatic = (JsonObject)sheet.Data.DeepClone();
+        expect.That(ConcreteQuickShear.Options(automatic).S("cot_x") == "", "Taglio: un valore automatico salvato resta automatico");
+        automatic["input"]!["width_mm"] = "400"; automatic["input"]!["height_mm"] = "600";
+        ConcreteQuickShear.Write(automatic, ConcreteQuickShear.Diameter, JsonValue.Create("12"));
+        foreach (string axis in new[] { "x", "y" }) ConcreteQuickShear.Write(automatic, "rami_" + axis, JsonValue.Create("4"));
+        foreach (var row in ConcreteQuickShear.Combinations(automatic)) ConcreteQuickShear.WriteCombination(automatic, row.S("id"), "N", "0");
+        var balanced = ConcreteQuickShear.Calculate(automatic);
+        expect.That(balanced.All(r => r.Error.Length == 0 && r.Directions.All(d => d.CotTheta is >= 1 and <= 2.5
+            && Math.Abs(d.VRsd - d.VRcd) < 1e-4 * d.VRd)),
+            "Taglio: caso bilanciabile, VRsd e VRcd coincidono entro 0,01% su entrambi gli assi");
         var report = ConcreteQuickReportAnalysis.Create(sheet.Data).Report;
         expect.That(report.Shear!.Rows.Any(r => r.Name == "Solo taglio") && report.Shear.Rows.Any(r => r.Name == "Taglio A" && r.N == "-500")
             && report.Cases.All(r => r.Name != "Solo taglio"), "Taglio: report usa la tabella autonoma e le sue azioni");
@@ -138,7 +159,7 @@ internal static class QuickShearChecks
         sheet.IsReadOnly = true; string locked = sheet.Data.ToJsonString();
         sheet.CopyShearCombinationsCommand.Execute(null); sheet.AddShearCombinationCommand.Execute(null); sheet.MoveShearUpCommand.Execute(null);
         sheet.ShearCombinationRows[0].Vx = "999"; sheet.ShearCombinationRows[0].RemoveCommand.Execute(null); sheet.EffectiveStirrup = true;
-        sheet.ShearForm.Set(ConcreteQuickShear.Diameter, "20"); sheet.ToggleShearCommand.Execute(null);
+        sheet.ShearForm.Set(ConcreteQuickShear.Diameter, "20"); sheet.ToggleShearCommand.Execute(null); sheet.BalanceShearCommand.Execute(null);
         expect.That(sheet.Data.ToJsonString() == locked && !sheet.CopyShearCombinationsCommand.CanExecute(null), "Taglio: sola lettura protetta anche con invocazione diretta");
         await reopened.PendingCalculation; await copied.PendingCalculation;
     }

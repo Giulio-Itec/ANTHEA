@@ -192,6 +192,28 @@ internal static class ShellDraftChecks
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
 
+                // The complete RC module reuses the quick module's action drawing and camera.
+                var complete = workspace.NewCalculation("str_palo")!;
+                await Idle(main);
+                var completeSheet = (Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel)complete.ViewModel;
+                completeSheet.Reload(Anthea.Presentation.Tests.ConcreteSectionScenarios.FixtureData(ShellReferences.Root, "default"));
+                await Idle(main);
+                var completeView = Ui.Descendants<X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView>(main).Single();
+                var actionRow = completeSheet.Actions.Table("3D").Table.Shown[0];
+                actionRow["N"] = "-500"; actionRow["Mx"] = "120"; actionRow["My"] = "-70";
+                completeSheet.Actions.Table("3D").Table.Refresh();
+                ((System.Windows.Controls.Primitives.ToggleButton)completeView.FindName("Actions3DToggle")).IsChecked = true;
+                await Idle(main);
+                Check(completeView.ActionsDrawing.IsVisible && completeView.ActionsDrawing.Scene is { Actions.Count: 3 },
+                    "Modulo completo: Azioni 3D mostra la combinazione selezionata con N, Mx e My");
+                File.WriteAllBytes(Path.Combine(output, "azioni-3d-completo-disegno.png"), completeView.ActionsDrawing.Png(800, 600));
+                await Capture(main, output, "08b-azioni-3d-completo.png", bindings);
+                completeSheet.IsReadOnly = true;
+                completeSheet.Actions3DSource = "Taglio"; await Idle(main);
+                Check(completeView.ActionsDrawing.IsVisible && completeView.ActionsDrawing.Scene!.Actions.SequenceEqual(completeSheet.Actions3DScene.Actions),
+                    "Modulo completo: Azioni 3D disponibile anche in sola lettura");
+                completeSheet.IsReadOnly = false;
+                workspace.CloseSheet(complete); await Idle(main);
                 // 17/11/2026: a new quick RC section opens by itself in its own window, with the size of SheetLayout.OwnWindow.
                 int windowsBefore = detached.Count;
                 var quick = workspace.NewCalculation(SheetLayout.QuickSectionModule)!;
@@ -374,6 +396,9 @@ internal static class ShellDraftChecks
                     var independent = (ContentControl)shearView.FindName("IndependentShearDiameter");
                     var diameter = Descendants<TextBox>(independent).Single(); EnterShear(diameter, "8");
                     shearSheet.ShearForm.Set("passo_mm", "100");
+                    var balanceShear = (Button)shearView.FindName("BalanceShear");
+                    Check(balanceShear.IsVisible && balanceShear.IsEnabled, "Taglio rapido: pulsante Rottura bilanciata disponibile");
+                    await Press(balanceShear);
                     await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
                     Check(independent.IsVisible && shearSheet.ShearCombinationRows[0].Vx == "75" && !shearSheet.EffectiveStirrup
                         && shearSheet.Current!.Shear!.All(r => r.Error.Length == 0), "Taglio rapido: editor reali di Vx e armatura indipendente con risultati");
@@ -396,7 +421,7 @@ internal static class ShellDraftChecks
                     shearSheet.ShearModel = "Verifica con armatura a taglio";
                     await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
                     shearSheet.IsReadOnly = true; await Idle(main);
-                    Check(!copyShear.IsEnabled && !effective.IsEnabled && vx.IsReadOnly, "Taglio rapido: tutti gli editor protetti in sola lettura");
+                    Check(!copyShear.IsEnabled && !effective.IsEnabled && vx.IsReadOnly && !balanceShear.IsEnabled, "Taglio rapido: tutti gli editor e rottura bilanciata protetti in sola lettura");
                     shearSheet.IsReadOnly = false;
                     await Press(shearToggle);
                     Check(!panel.IsVisible && shearSheet.ShearCombinationRows.Count > 0 && Math.Abs(quickWindow.Window.Width - compactWidth) < 2,

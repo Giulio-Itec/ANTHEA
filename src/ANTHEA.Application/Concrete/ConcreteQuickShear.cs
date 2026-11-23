@@ -32,6 +32,7 @@ public static class ConcreteQuickShear
             var copy = (JsonObject)saved.DeepClone();
             // The quick module assumes effective longitudinal anchorage (user decision, 23/11/2026).
             copy["ancoraggio"] = "Confermato";
+            foreach (string axis in new[] { "x", "y" }) copy["cot_" + axis] ??= "1";
             return copy;
         }
         var options = data["workspace_ca"]?["taglio"] is JsonObject source ? (JsonObject)source.DeepClone() : new JsonObject();
@@ -41,7 +42,16 @@ public static class ConcreteQuickShear
         options[Spacing] = data["input"].S("transverse_spacing_mm", "200");
         options["aperto"] = false;
         options["ancoraggio"] = "Confermato";
+        foreach (string axis in new[] { "x", "y" })
+            if (string.IsNullOrWhiteSpace(options.S("cot_" + axis))) options["cot_" + axis] = "1";
         return options;
+    }
+
+    /// <summary>Use the library's automatic choice in both directions; saved manual values are otherwise preserved.</summary>
+    public static void BalanceShear(JsonObject data)
+    {
+        Write(data, "cot_x", JsonValue.Create(""));
+        Write(data, "cot_y", JsonValue.Create(""));
     }
 
     public static void Write(JsonObject data, string key, JsonNode? value)

@@ -8,6 +8,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Anthea.Presentation.Modules.QuickSection;
 
+public sealed record QuickShearParameterRow(string Label, FieldViewModel X, FieldViewModel Y, bool Cotangent = false);
+
 public sealed class QuickShearCombinationRow : ObservableObject
 {
     private readonly QuickSectionSheetViewModel owner;
@@ -72,7 +74,7 @@ public sealed partial class QuickSectionSheetViewModel
     public bool IndependentShearReinforcement => !EffectiveStirrup;
     public string ShearGeometryDiameter => "Ø staffa geometrica: " + Input.S("transverse_bar_diameter_mm") + " mm";
     public string ShearReinforcementNote => EffectiveStirrup
-        ? "Il diametro della staffa geometrica è usato anche a taglio. Passo e rami sono quelli assegnati qui."
+        ? "Il diametro della staffa geometrica è usato anche a taglio. Passo e braccia sono quelli assegnati qui."
         : "Armatura a taglio indipendente: non modifica la posizione delle barre longitudinali. La staffa geometrica non viene conteggiata a taglio.";
     public IReadOnlyList<QuickShearCombinationRow> ShearCombinationRows { get; private set; } = [];
     public string? SelectedShearCombinationId => shearSelection ?? ConcreteQuickShear.Selected(Data);
@@ -148,6 +150,20 @@ public sealed partial class QuickSectionSheetViewModel
     public FormViewModel ShearAdvancedForm { get; private set; } = null!;
     public IReadOnlyList<FieldViewModel> ShearMainFields => ShearForm?.Fields.Where(f => f.Key != ConcreteQuickShear.Diameter).ToArray() ?? [];
     public FieldViewModel? ShearDiameterField => ShearForm?.Fields.FirstOrDefault(f => f.Key == ConcreteQuickShear.Diameter);
+    public FieldViewModel? ShearSpacingField => ShearForm?.Fields.FirstOrDefault(f => f.Key == ConcreteQuickShear.Spacing);
+    public IReadOnlyList<QuickShearParameterRow> ShearParameterRows => ShearForm is null ? [] : new[] {
+        new QuickShearParameterRow("Braccia", ShearForm.Fields.Single(f => f.Key == "rami_x"), ShearForm.Fields.Single(f => f.Key == "rami_y")),
+        new QuickShearParameterRow("α [°]", ShearForm.Fields.Single(f => f.Key == "alpha_x"), ShearForm.Fields.Single(f => f.Key == "alpha_y")),
+        new QuickShearParameterRow("cot θ", ShearForm.Fields.Single(f => f.Key == "cot_x"), ShearForm.Fields.Single(f => f.Key == "cot_y"), true) };
+    private IRelayCommand? balanceShearCommand;
+    public IRelayCommand BalanceShearCommand => balanceShearCommand ??= GuardedCommands.Create(Guard, () =>
+    {
+        if (!Edit(ConcreteQuickShear.BalanceShear)) return;
+        BuildShearForms(); NotifyShear();
+    }, () => CanEdit && ShearWithLinks);
+    public string ShearAutomaticCotangents => string.Join(" · ", ShearResults
+        .Where(r => string.IsNullOrWhiteSpace(ConcreteQuickShear.Options(Data).S("cot_" + r.Axis.ToLowerInvariant())))
+        .Select(r => "cot θ V" + r.Axis.ToLowerInvariant() + " = " + EngineeringFormat.Number(r.CotTheta)));
     private IEnumerable<FormViewModel> ShearForms => new[] { ShearForm, ShearAdvancedForm }.Where(f => f is not null);
     public ConcreteQuickShearCase? SelectedShearResult => Current?.Shear?.FirstOrDefault(r => r.Id == SelectedShearCombinationId);
     public IReadOnlyList<ConcreteQuickShearDirection> ShearResults => SelectedShearResult?.Directions ?? [];
@@ -171,7 +187,7 @@ public sealed partial class QuickSectionSheetViewModel
         }
         ShearForm = Form(options, [T(ConcreteQuickShear.Diameter, "Nuovo Ø", "mm", "Diametro della nuova armatura resistente a taglio, indipendente dalla staffa geometrica"),
             T(ConcreteQuickShear.Spacing, "Passo", "mm", "Passo dell’armatura effettivamente resistente a taglio"),
-            T("rami_x", "Rami Vx", "", "Numero di rami resistenti al taglio Vx"), T("rami_y", "Rami Vy", "", "Numero di rami resistenti al taglio Vy"),
+            T("rami_x", "Braccia Vx", "", "Numero di braccia resistenti al taglio Vx"), T("rami_y", "Braccia Vy", "", "Numero di braccia resistenti al taglio Vy"),
             T("alpha_x", "α Vx", "°", "Inclinazione dell’armatura a taglio Vx"), T("alpha_y", "α Vy", "°", "Inclinazione dell’armatura a taglio Vy"),
             T("cot_x", "cot θ Vx", "", "Vuoto: scelta automatica del motore"), T("cot_y", "cot θ Vy", "", "Vuoto: scelta automatica del motore")], ChangedOption);
         foreach (var field in ShearForm.Fields.Where(f => f.Key != "modello")) ShearForm.Enable(field.Key, ShearWithLinks);
@@ -185,7 +201,7 @@ public sealed partial class QuickSectionSheetViewModel
             ShearAdvancedForm.ShowField(field, options.S("parametri") == "Manuali");
         }
         foreach (string field in new[] { "modello_circolare", "z_d" }) ShearAdvancedForm.ShowField(field, IsCircular);
-        foreach (string property in new[] { nameof(ShearForm), nameof(ShearAdvancedForm), nameof(ShearMainFields), nameof(ShearDiameterField) }) OnPropertyChanged(property);
+        foreach (string property in new[] { nameof(ShearForm), nameof(ShearAdvancedForm), nameof(ShearMainFields), nameof(ShearDiameterField), nameof(ShearSpacingField), nameof(ShearParameterRows) }) OnPropertyChanged(property);
     }
 
     private void NotifyShear()
@@ -193,9 +209,9 @@ public sealed partial class QuickSectionSheetViewModel
         NotifyActions();
         foreach (string property in new[] { nameof(ShearExpanded), nameof(ShearToggleText), nameof(SheetMinimumWidth), nameof(EffectiveStirrup), nameof(IndependentShearReinforcement),
             nameof(ShearGeometryDiameter), nameof(ShearReinforcementNote), nameof(ShearCombination), nameof(ShearModel), nameof(SelectedShearCombinationId),
-            nameof(ShearWithoutLinks), nameof(CanEditShearReinforcement),
+            nameof(ShearWithoutLinks), nameof(CanEditShearReinforcement), nameof(ShearAutomaticCotangents),
             nameof(ShearResults), nameof(ShearStatus), nameof(ShearDetail), nameof(ShearWithLinks), nameof(CanEditSelectedShear), nameof(ShearMomentX), nameof(ShearMomentY) }) OnPropertyChanged(property);
         foreach (var row in ShearCombinationRows) row.Refresh();
-        foreach (var command in new[] { copyShearCombinationsCommand, addShearCombinationCommand, moveShearUpCommand, moveShearDownCommand, resetShearConditionsCommand, exportShearExcelCommand, importShearExcelCommand }) command?.NotifyCanExecuteChanged();
+        foreach (var command in new[] { copyShearCombinationsCommand, addShearCombinationCommand, moveShearUpCommand, moveShearDownCommand, resetShearConditionsCommand, exportShearExcelCommand, importShearExcelCommand, balanceShearCommand }) command?.NotifyCanExecuteChanged();
     }
 }
