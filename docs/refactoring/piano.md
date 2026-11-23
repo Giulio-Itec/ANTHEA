@@ -1,5 +1,14 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 22 novembre — generatore Modelli in GPCModel (task 0131)
+
+- [x] Catture congelate prima delle modifiche: 106 file, coefficienti e risultati come bit IEEE-754.
+- [x] Estrazione del servizio pubblico GPCModel e adattatore ANTHEA per proposta, anteprima, generazione e scelte.
+- [x] Motore legacy conservato solo nei test; suite di equivalenza aggiunta al runner, 74 suite UI conservate.
+- [x] Esiti finali delle suite mirate e candidato (821 workspace, 643 architettura, 32 WPF, banco combinazioni, 106 catture esatte; tutte le suite Model/Checker superate): vedere [dettagli del passo](gpcmodel-generator-0131.md) e `chatgpt-compiti/0131-resoconto.md`.
+- [ ] Baseline di livello 2, set finale con task 0132, propagazione e rilascio: coordinatore, fuori dal task 0131.
+
+
 ## 19 novembre — sezione composta verifica rapida
 
 - [x] Anteprima approvata, tre fasi fisse, taglio incluso e limiti del motore esplicitati.
