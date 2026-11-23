@@ -2367,3 +2367,31 @@ L’utente approva esplicitamente la proposta puntuale: «Sì, approvo queste tr
 ## 20 novembre 2026 — commit, push e allineamento a main
 
 L’utente richiede esplicitamente: «committa e pusha allineati anche con il main». Il fetch di origin conferma main e origin/main entrambi a 7ee431c9 prima dei nuovi commit: nessun aggiornamento remoto da integrare. Il lavoro verificato del 19/11 viene registrato in commit separati per codice, infrastruttura delle prove, guide/Wiki/esempi e note di sviluppo. I dodici confronti F4 rimangono aperti per le catture originali mancanti; nessuna eccezione o tolleranza viene aggiunta. Non si tratta di un rilascio o di un aggiornamento dell’installer.
+
+## 20 novembre 2026 — transizioni editoriali Wiki per le schede trascinabili
+
+Utente, 20/11/2026: «Sì, approvo queste transizioni», in risposta alla proposta puntuale di 2 nuove e 2 superate, limitate al paragrafo Avvio e scelta del modulo sul trascinamento delle schede. Applicazione secondo D2/Q15, voce UI-TAB-RIORDINO-20261120; impronte e provenienza nel manifest F3. Nessun atteso ingegneristico, transizione F4 o tolleranza modificato. Il confronto ui/f3-equivalence viene ripetuto sulla build già collaudata.
+
+## 20 novembre 2026 — raccolta delle sezioni rapide e Wiki in attesa
+
+L’utente richiede che Salva conservi tutte le sezioni del modulo per la riapertura; non richiede la leggibilità dei file precedenti. La raccolta usa un unico documento e percorso, con ordine e selezione. Alla proposta puntuale delle 5 transizioni nuove e 4 superate nella ricerca Wiki «sezioni», risponde «Lascia in attesa le transizioni Wiki»: la proposta resta negli artefatti, senza modificare riferimenti, transizioni o tolleranze F3. Il confronto resta esplicitamente pendente per queste sole differenze editoriali.
+
+## 20 novembre 2026 — tempi delle verifiche del salvataggio
+
+Alla richiesta «possiamo velocizzare? ci stai mettendo una vita», si interrompe la corsa generale full + baseline per abbreviare la consegna: la modifica è già installata e le prove mirate sono concluse. La verifica di livello 3 resta incompleta, senza dichiararla superata. La Wiki rimane in attesa secondo la precedente decisione. Esiti parziali e limiti in `supporto/artefatti/salva-sezioni-20261120/full-baseline/interruzione.json`.
+
+## 20 novembre 2026 — trasferire le sezioni con il trascinamento
+
+L’utente chiede di unire le sezioni trascinandole sulla barra superiore e precisa «Sposta soltanto la sezione trascinata» e «Anche moduli avviati separatamente dal collegamento». Il trasferimento riguarda sezioni dello stesso modulo: prima si riceve la sezione, poi si rimuove l’origine invariata. Le altre sezioni restano nella raccolta iniziale. Il salvataggio resta esplicito e il file originale non viene cancellato. Nella stessa raccolta il gesto conserva il riordino. Verifiche mirate e guide aggiornate; transizioni Wiki precedenti ancora in attesa.
+
+## 23 novembre 2026 — taglio nella sezione rapida
+
+L’utente autorizza il pannello a libro e distingue la staffa geometrica dall’armatura resistente a taglio mediante la spunta «Staffa effettiva?». Chiede poi «Copia combinazioni» e una tabella autonoma per inserire i tagli, senza aggiungere colonne al blocco del momento. La copia riprende nomi, stati limite e N/M; una successiva ricopia conserva i tagli già inseriti e le righe autonome. Salvataggi e copie tra sezioni comprendono tutte le impostazioni. Il calcolo riusa il motore esistente, conserva le barre longitudinali della geometria effettiva e richiede parametri manuali per il DXF. Le guide globali e i PDF sono aggiornati; le transizioni Wiki precedenti restano in attesa.
+
+## 23 novembre 2026 — rimozione dei parametri geometrici nel taglio rapido
+
+Su richiesta dell’utente viene rimosso l’intero riquadro «Parametri geometrici e dettagli», compresi i campi dei momenti. Si conservano le impostazioni archiviate e i requisiti del motore: nessuna conferma di ancoraggio o scelta di modello viene presunta. Gli eventuali dati mancanti continuano a produrre un esito incompleto. Guida pratica e PDF adeguati; teoria e transizioni Wiki già in attesa restano invariati.
+
+## 23 novembre 2026 — tipologia e modello per le combinazioni a taglio
+
+L’utente richiede una combinazione già pronta all’apertura, Excel e ripristino come nella tabella del momento, tipologie con armatura a taglio / sezione non armata al posto degli stati limite e modello selezionabile in blu. Precisa che il ripristino deve riguardare esclusivamente la tipologia armata/non armata: il comando riallinea il modello alla tipologia scelta per ciascuna riga e conserva armature, azioni e altri parametri. Le azioni a taglio sono di progetto; Copia combinazioni non trasferisce la classificazione SL. Il motore esistente opera per riga e mantiene errori e conferme esplicite. Guide globali e PDF aggiornati; le precedenti transizioni Wiki restano in attesa.

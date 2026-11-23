@@ -1,5 +1,78 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 23 novembre — combinazioni e modelli del taglio rapido
+
+- [x] Prima combinazione automatica, Excel dedicato e ripristino del solo modello armato/non armato secondo la tipologia della riga. Colonna Verifica al posto di SL e selettore blu per combinazione.
+- [x] Motore esistente per ciascuna riga, errori isolati e conferma esplicita di ancoraggio; report con tipologia/modello. Build e suite mirate PASS, 74 suite UI invariate. Registro UI-CA-TAGLIO-COMBINAZIONI-20261123.
+- [x] Guide globali Word/PDF e indice aggiornati, originali conservati in `supporto/SUPERATI/combo-taglio-20261123/`; transizioni Wiki precedenti ancora in attesa. Prove e confronto in `supporto/artefatti/combo-taglio-20261123/`.
+
+## 23 novembre — semplificazione del pannello taglio rapido
+
+- [x] Rimosso il blocco Parametri geometrici e dettagli, inclusi Mx/My. Combinazioni, armatura, risultati e impostazioni salvate conservati; messaggio DXF coerente con i comandi disponibili.
+- [x] Build e suite mirate PASS; 74 suite UI invariate. Guida pratica e PDF aggiornati, precedenti archiviati; transizioni Wiki ancora in attesa. Registro UI-CA-TAGLIO-SENZA-PARAMETRI-20261123 e prove in `supporto/artefatti/taglio-senza-parametri-20261123/`.
+
+## 23 novembre — taglio nella sezione in c.a. rapida
+
+- [x] Pannello a libro e tabella combinazioni autonoma con Copia combinazioni; blocco momento invariato. Staffa effettiva? e armatura a taglio indipendente, con coordinate longitudinali e risultati a flessione conservati.
+- [x] Adattatore applicativo sul motore esistente; ricostruzione degli strati anche nel report diretto, parametri manuali per DXF e ancoraggio riferito alla geometria corrente. Nessuna formula nuova o modifica delle librerie.
+- [x] Salvataggio, copie e raccolte completi; report Word/PDF completo e breve entro due pagine. Build e suite mirate tutte PASS, 74 suite UI invariate. Voce UI-CA-RAPIDA-TAGLIO-20261123 e cattura/confronto in `supporto/artefatti/taglio-rapido-20261123/`.
+- [x] Guide globali e indici aggiornati con PDF; precedenti conservati in `supporto/SUPERATI/taglio-rapido-20261123/`. Transizioni Wiki ancora in attesa. Copia locale aggiornata con backup e confronto delle impronte.
+
+## 20 novembre — Apri sostituisce la sezione iniziale
+
+- [x] La sezione iniziale intatta, nuova e non salvata viene chiusa dopo l’apertura riuscita del file dello stesso modulo. Bozze, nomi modificati, sezioni salvate o aggiunte restano; Annulla e file invalidi conservano la situazione iniziale. Nessuna modifica a calcoli o formato dei documenti.
+- [x] Shell 805, ospite WPF 111 e architettura 643 PASS; 8 esiti mirati PASS. Prove del pulsante Apri in c.a. e composta rapida, una sola finestra e ANTHEA nascosta. 74 suite UI invariate. Registro UI-SEZIONI-APRI-INIZIALE-20261120; evidenze in `supporto/artefatti/apri-sostituisce-iniziale-20261120/`.
+- [x] Copia locale aggiornata a programma chiuso: 4 file sostituiti con backup, 122 verificati, 70 binari uguali alla Release. Guide e transizioni Wiki invariate; proposte precedenti ancora in attesa.
+
+## 20 novembre — trasferire una sezione nella raccolta di un’altra finestra
+
+- [x] Trascinamento della singola linguetta tra raccolte dello stesso modulo, anche in istanze avviate separatamente: nome, dati, combinazioni e impostazioni conservati. Nella stessa raccolta resta il riordino; origine rimossa solo dopo la ricezione, annullamento e modifiche concorrenti protetti. Finestra vuota e ultima istanza di origine chiuse; file esistenti non cancellati.
+- [x] Cattura e confronto, voce UI-SEZIONI-TRASFERIMENTO-20261120. Shell 793, ospite WPF 107, shell WPF 133, architettura 643 e Wiki 430 PASS; 13 esiti finali PASS, Application PASS nella prima corsa. Verificato anche il trasporto nativo OLE con dati completi; 74 suite UI invariate. Prove fuori schermo, senza simulazione fisica del mouse tra processi.
+- [x] Guida pratica Rev77 e indice in Markdown, Word e PDF aggiornati; precedenti conservati con manifest in `supporto/SUPERATI/unisci-sezioni-20261120/`. 147 pagine, 105 identiche pixel per pixel; tutte le 42 cambiate ispezionate. Teoria invariata. Transizioni Wiki precedenti lasciate in attesa, nessun riferimento modificato.
+- [x] Copia locale installata a programma chiuso: 9 file aggiornati e conservati, 122 verificati e 70 binari uguali alla Release. Evidenze in `supporto/artefatti/unisci-sezioni-20261120/`.
+
+## 20 novembre — Apri mostra solo il modulo
+
+- [x] Eliminato il passaggio temporaneo delle sezioni rapide dalla finestra principale: Apri dal modulo autonomo lascia ANTHEA nascosta. Riaggancia continua a mostrarla su richiesta. Nessun cambiamento a dati, calcoli o file.
+- [x] Difetto riprodotto con due controlli falliti prima e superati dopo: shell 771 → 773 PASS; ospite WPF 87 → 95 PASS, c.a. e composta rapida, apertura ripetuta, selezione e riaggancio. Otto esiti mirati PASS; 74 suite UI invariate. Confronto e registro UI-MODULO-APRI-20261120.
+- [x] Pubblicazione pronta: 70 binari identici alla Release collaudata. Guide e Wiki invariate; transizioni precedenti ancora in attesa.
+- [x] Copia locale aggiornata dopo la conferma di chiusura: 2 file sostituiti con copia precedente conservata e 122 file verificati. Evidenze in `supporto/artefatti/apri-solo-modulo-20261120/app-installata.json`.
+
+## 20 novembre — salvataggio unico delle sezioni rapide
+
+- [x] Un file per tutte le sezioni della raccolta: dati completi, nomi, combinazioni e impostazioni, ordine e selezione. Salva conferma anche le schede non attive e sovrascrive il file; Salva con nome copia tutta la raccolta. Riapertura di tutte le schede nella stessa finestra. Nessun calcolo nuovo.
+- [x] Documento delle sezioni versione 6; compatibilità precedente non richiesta dall’utente. Chiusura di una linguetta senza perdere la sezione; alla chiusura dell’ultima scheda si conferma la raccolta. Corretto il caso Annulla che riapriva le schede già chiuse.
+- [x] Verifiche mirate: shell 751 → 771, WPF 130 → 133, c.a. rapido 239, composta rapida 50, architettura 643 PASS; Application, Wiki e assenza di codice di prova PASS. 14 esiti funzionali e di build PASS, 74 suite UI prima e dopo. Voce UI-SEZIONI-SALVATAGGIO-20261120; evidenze in `supporto/artefatti/salva-sezioni-20261120/`.
+- [x] Guida pratica Rev77 e indice in Markdown, Word e PDF aggiornati; 147 pagine, 111 identiche pixel per pixel, 36 pagine cambiate ispezionate. Precedenti sei documenti conservati con manifest in `supporto/SUPERATI/salva-sezioni-20261120/`. Teoria invariata.
+- [x] Copia locale aggiornata a programma chiuso: 9 file sostituiti e conservati negli artefatti, 291 file verificati, 70 binari uguali alla Release collaudata.
+- [ ] Wiki F3: cinque transizioni nuove e quattro superate nella sola ricerca «sezioni», lasciate in attesa per decisione esplicita dell’utente. Attesi ingegneristici, transizioni e tolleranze invariati.
+- [ ] Livello 3 avviato e interrotto per abbreviare i tempi dopo la richiesta dell’utente «possiamo velocizzare? ci stai mettendo una vita»: 35 build e 72 suite PASS, inclusi regressioni numeriche, attesi indipendenti e doppia cattura F4. Dodici confronti F4 falliti per i riferimenti storici mancanti già registrati. Corsa incompleta: lo stadio UI esteso non è stato eseguito; restano valide le prove WPF mirate già concluse. Nessun esito riclassificato o atteso modificato. Evidenze: `supporto/artefatti/salva-sezioni-20261120/full-baseline/interruzione.json`.
+
+## 20 novembre — schede riordinabili con il trascinamento
+
+- [x] Titoli delle schede trascinabili nella stessa finestra, principale o staccata, incluse le sezioni rapide. Linea di inserimento, soglia standard del mouse e chiusura separata; Esc annulla il gesto. Ordine gestito dal ViewModel senza cambiare selezione, contenuti, dati, risultati, revisioni o stato di modifica; funziona anche in sola lettura.
+- [x] Cattura prima e confronto dopo: shell WPF 116 → 130 controlli; Shell.Tests 751, architettura 643 e Wiki 430 PASS. Esiti finali consolidati: 14 PASS. Suite Shell.Tests aggiunta al runner veloce; 74 suite UI prima e dopo. Prove WPF fuori schermo e ispezione delle schermate, senza simulazione fisica del mouse.
+- [x] Guida pratica Rev77 e indice aggiornati in Markdown, Word e PDF: 147 pagine, 129 identiche pixel per pixel; tutte le pagine cambiate ispezionate. Copie precedenti con manifest in `supporto/SUPERATI/schede-trascinabili-20261120/`; teoria invariata.
+- [x] Wiki: 2 transizioni editoriali nuove e 2 superate approvate esplicitamente dall’utente il 20/11; provenienza e impronte nel manifest F3. Confronto ripetuto: 1210 file, zero differenze non ammesse, 96 articoli invariati. Attesi ingegneristici e tolleranze invariati.
+- [x] Pubblicazione Release senza codice di prova; 70 binari identici alla build collaudata. Copia `app` aggiornata a programma chiuso: 5 file sostituiti e conservati negli artefatti, tutti i 291 file verificati. Voce `UI-TAB-RIORDINO-20261120`; evidenze in `supporto/artefatti/schede-trascinabili-20261120/`.
+
+## 20 novembre — copia delle sezioni rapide e ripristino delle combinazioni
+
+- [x] Copia in / Copia da tra sezioni in c.a. rapide aperte, anche nelle finestre staccate. Decisione finale dell’utente: geometria, armature, materiali, combinazioni e tutte le impostazioni; solo il nome della destinazione rimane. Copie indipendenti, Annulla, identità distinte per nomi uguali e protezione della sola lettura; risultati ricalcolati e salvataggio esplicito.
+- [x] Pulsante ↺ sopra le combo: ripristina solo modello e verifica predefiniti per stato limite. Nomi, stati limite, azioni, ordine, selezione e impostazioni generali restano invariati, come richiesto.
+- [x] QuickSection 201 → 239, DXF 45 → 47, shell WPF 109 → 116 e architettura 643 controlli PASS. Esiti finali consolidati: 15 PASS. Corretto il supporto del nuovo test (Host mancante), poi rieseguite con successo build Presentation e suite QuickSection/DXF. Produzione invariata rispetto ai collaudi WPF e F3; nessun atteso o tolleranza cambiato. Suite UI: 74 prima e dopo.
+- [x] Guida pratica Rev77 e indice aggiornati in Markdown, Word e PDF; 147 pagine della pratica, 134 identiche pixel per pixel, cinque pagine di indice. Copia precedente con manifest in `supporto/SUPERATI/copia-sezioni-ca-20261120/`. Teoria invariata. F3 PASS (120 fixture, 96 articoli e 30 ricerche); testo integrale verificato nelle catture Wiki e nei documenti. Nessuna nuova transizione editoriale necessaria.
+- [x] Pubblicazione Release senza codice di prova, 70 binari identici alla build collaudata e librerie GPC identiche al set corrente. Copia `app` aggiornata a programma chiuso: nove file sostituiti e conservati negli artefatti; tutti i 291 file verificati. Voce `UI-CA-COPIA-RIPRISTINO-20261120`; evidenze in `supporto/artefatti/copia-sezioni-ca-20261120/`.
+
+## 20 novembre — nome e ordine della sezione in c.a. rapida
+
+- [x] Pulsanti Sposta ↑ ↓ sulla combinazione selezionata, con limiti e sola lettura; ID, dati, impostazioni e risultati conservati. Ordine persistente e seguito da Excel.
+- [x] Campo Nome sezione, salvato nel documento; aggiornamento della scheda, della finestra e del titolo della relazione. Suffissi delle revisioni conservati.
+- [x] Cattura prima e confronto dopo in `supporto/artefatti/ordine-combinazioni-ca-20261120/`; voce `UI-CA-ORDINE-NOME-20261120` nel registro. QuickSection 180 → 201 e shell WPF 103 → 109 controlli PASS; Presentation 5751, architettura 643 e ospite WPF 87 PASS. Corsa finale: 15 PASS, zero NEW-FAIL. 74 suite UI prima e dopo.
+- [x] Guida pratica Rev77 aggiornata in Markdown, Word e PDF (147 pagine, 134 identiche pixel per pixel); indice in Markdown/PDF. Edizione precedente conservata con manifest in `supporto/SUPERATI/ordine-combinazioni-ca-20261120/`. Wiki rigenerata, 96 articoli invariati; teoria e formule invariate.
+- [x] Confronto F3 PASS: 1210 file, zero differenze non ammesse. Nessuna nuova transizione editoriale necessaria; riferimenti, tolleranze e known-failures invariati. Verificato anche il testo integrale del paragrafo nella cattura Wiki e nei documenti.
+- [x] Copia `app` aggiornata dopo la conferma dell’utente «Ho salvato e chiuso ANTHEA» e riaperta: 291 file verificati, 16 aggiornati, identici alla pubblicazione collaudata. File sostituiti conservati negli artefatti; impronte in `supporto/artefatti/ordine-combinazioni-ca-20261120/app-installata.json`.
+
 ## 19 novembre — sezione composta verifica rapida
 
 - [x] Anteprima approvata, tre fasi fisse, taglio incluso e limiti del motore esplicitati.
