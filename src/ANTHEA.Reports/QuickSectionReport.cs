@@ -33,7 +33,7 @@ public static class QuickSectionReport
     public static IReadOnlyList<PileReportContent> Outline(IEnumerable<string>? states = null)
     {
         var present = (states ?? ["SLU", "SLV", "SLE", "SLE_FREQ", "SLE_QP"]).ToHashSet();
-        return [new("intestazione", "Intestazione e copertina", false), new("indice", "Indice", false),
+        return [new("intestazione", "Copertina", false), new("indice", "Indice", false),
             Group("q1", "Oggetto della verifica", new PileReportContent("oggetto", "Ambito, assi e unità di misura")),
             Group("q2", "Geometria e armature", new("geometria", "Dimensioni e armature"), new("sezione", "Sezione quotata")),
             Group("q3", "Materiali e teoria di calcolo", new("materiali", "Materiali e coefficienti"), new("teoria", "Criteri di verifica")),

@@ -111,7 +111,9 @@ public static class DocxPdf
             var size = properties?.Element(W + "pgSz"); var margins = properties?.Element(W + "pgMar");
             double width = Twips(size, "w") ?? PageWidthTwips, height = Twips(size, "h") ?? PageHeightTwips;
             var setup = section.PageSetup;
-            if (document.Sections.Count == 1 && docx.Contains("anthea/cover.pdf")) setup.StartingNumber = 2;
+            if ((int?)properties?.Element(W + "pgNumType")?.Attribute(W + "start") is int start) setup.StartingNumber = start;
+            else if (document.Sections.Count == 1 && docx.Contains("anthea/layout.xml")
+                && (int?)docx.GetXml("anthea/layout.xml").Root?.Attribute("coverBlocks") > 0) setup.StartingNumber = 2;
             if (width > height) { setup.Orientation = Orientation.Landscape; setup.PageWidth = Pt(height); setup.PageHeight = Pt(width); }
             else { setup.Orientation = Orientation.Portrait; setup.PageWidth = Pt(width); setup.PageHeight = Pt(height); }
             double left = Twips(margins, "left") ?? MarginTwips, right = Twips(margins, "right") ?? MarginTwips;
@@ -211,6 +213,7 @@ public static class DocxPdf
                 { paragraph.AddPageRefField(instruction.Split(' ', StringSplitOptions.RemoveEmptyEntries)[1]); return true; }
                 if (instruction.StartsWith("PAGE", StringComparison.OrdinalIgnoreCase)) { paragraph.AddPageField(); return true; }
                 if (instruction.StartsWith("NUMPAGES", StringComparison.OrdinalIgnoreCase)) { paragraph.AddNumPagesField(); return true; }
+                if (instruction.StartsWith("SECTIONPAGES", StringComparison.OrdinalIgnoreCase)) { paragraph.AddSectionPagesField(); return true; }
                 bool any = false;
                 foreach (var r in node.Elements(W + "r")) any |= Run(container, ref paragraph, r, run, para, null);
                 return any;

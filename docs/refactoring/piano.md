@@ -2159,3 +2159,8 @@ Voce DXF-SEZIONE-CA-BB-20261119 del registro. Percorso delle forme usuali conser
 - [x] Wiki Rev77: applicate le 102 transizioni nuove e 49 superate approvate esplicitamente dall’utente il 19/11/2026; conteggio 96 articoli, impronte nel manifest F3. Attesi ingegneristici e tolleranze invariati.
 
 - [x] 20/11/2026: registrato il lavoro verificato in commit separati, dopo la richiesta esplicita di commit e push. Fetch confermato sulla base 7ee431c9; nessuna modifica remota da integrare. I confronti F4 mancanti restano aperti come sopra.
+
+## 23 novembre — report della sezione rapida con template ITEC
+
+- [x] Logo e piè di pagina sempre presenti, copertina facoltativa, stili originali per testi e titoli, nome effettivo della sezione e numerazione dinamica coerente fra Word e PDF. Contenuti e calcoli invariati.
+- [x] 11 esiti mirati PASS (545 controlli report, 320 sezioni rapide, 648 architettura e prove WPF); 74 suite UI prima e dopo. Confronto dei contenuti identico, verifica grafica in Word e PDF, brevi entro due pagine e copia locale aggiornata. Registro REPORT-CA-ITEC-20261123.

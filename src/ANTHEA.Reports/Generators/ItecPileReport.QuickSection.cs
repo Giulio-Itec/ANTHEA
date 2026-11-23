@@ -20,7 +20,7 @@ internal sealed partial class ItecPileReport
         if (!header) body.RemoveNodes();
         else body.Descendants(W + "br").Where(e => (string?)e.Attribute(W + "type") == "page").Remove();
         int cover = body.Elements().Count();
-        if (brief) { QuickBrief(title, data, images); FinishFamily(); return; }
+        if (brief) { QuickBrief(title, data, images); FinishQuickSection(title); return; }
         foreach (var chapter in QuickSectionReport.Outline(data.Cases.Select(c => c.State)).Where(c => c.Key is not ("intestazione" or "indice")))
         {
             if (!chapter.Descendants().Any(c => options.Contains(c.Key))) continue;
@@ -87,7 +87,54 @@ internal sealed partial class ItecPileReport
                 Paragraph(group.Key + " · " + string.Join("; ", group.Select(r => r.Name + " / " + r.CheckLabel + " / " + r.Axis)) + ".");
             if (shear.Rows.Count == 0) Paragraph("Nessuna combinazione assegnata per la verifica a taglio.");
         }
-        FinishFamily(cover, header, options.Contains("indice"));
+        FinishQuickSection(title, cover, options.Contains("indice"));
+    }
+
+    void FinishQuickSection(string title, int cover = 0, bool index = false)
+    {
+        // The cover is optional; the recurring ITEC furniture and typography are not.
+        // Keep compact technical tables, but let prose and headings inherit the original styles.
+        foreach (var p in body.Elements().Skip(cover).Where(e => e.Name == W + "p").ToArray())
+        {
+            if (p.Descendants(W + "drawing").Any() || p.Descendants(HM + "oMathPara").Any()) continue;
+            if (!p.Descendants(W + "t").Any(t => t.Value.Length > 0)) { p.Remove(); continue; }
+            var properties = p.Element(W + "pPr");
+            string? style = (string?)properties?.Element(W + "pStyle")?.Attribute(W + "val");
+            if (style == "Didascalia") continue;
+            properties?.Elements(W + "spacing").Remove();
+            properties?.Elements(W + "jc").Remove();
+            p.Descendants(W + "rPr").Elements().Where(e => e.Name == W + "sz" || e.Name == W + "szCs" || e.Name == W + "rFonts").Remove();
+        }
+        FinishFamily(cover, header: true, index);
+        // Replace template field caches: the old sample name and page count must never leak.
+        foreach (var relation in relations.Elements().Where(e => ((string?)e.Attribute("Type"))?.EndsWith("/footer", StringComparison.Ordinal) == true))
+        {
+            string part = "word/" + (string)relation.Attribute("Target")!;
+            var footer = document.GetXml(part);
+            foreach (var instruction in footer.Descendants(W + "instrText").ToArray())
+            {
+                string field = instruction.Value.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries)[0];
+                if (field is not ("FILENAME" or "PAGE" or "SECTIONPAGES")) continue;
+                var instructionRun = instruction.Parent!;
+                var start = instructionRun.ElementsBeforeSelf(W + "r").Last(e => e.Descendants(W + "fldChar").Any(f => (string?)f.Attribute(W + "fldCharType") == "begin"));
+                var runs = start.ElementsAfterSelf().Prepend(start).TakeWhile(e => !e.Descendants(W + "fldChar").Any(f => (string?)f.Attribute(W + "fldCharType") == "end")).ToList();
+                var end = runs.Last().NextNode as XElement;
+                var value = new XElement(W + "r", instructionRun.Element(W + "rPr") is { } format ? new XElement(format) : null,
+                    new XElement(W + "t", field == "FILENAME" ? title : "1"));
+                start.AddBeforeSelf(field == "FILENAME" ? value : new XElement(W + "fldSimple", new XAttribute(W + "instr", field), value));
+                foreach (var run in runs) run.Remove();
+                end?.Remove();
+            }
+            document.SetXml(part, footer.ToString());
+        }
+        // Number each content section from one, as in the retained ITEC body section.
+        var xml = document.GetXml("word/document.xml");
+        foreach (var section in xml.Root!.Element(W + "body")!.Elements().Skip(cover).SelectMany(e => e.DescendantsAndSelf(W + "sectPr")))
+        {
+            section.Elements(W + "pgNumType").Remove();
+            section.Element(W + "pgMar")!.AddAfterSelf(new XElement(W + "pgNumType", new XAttribute(W + "start", "1")));
+        }
+        document.SetXml("word/document.xml", xml.ToString());
     }
 
     static string QNumber(double? value) => EngineeringFormat.Number(value);
@@ -134,7 +181,7 @@ internal sealed partial class ItecPileReport
 
     void QuickBrief(string title, QuickSectionReportData data, IReadOnlyList<ImmagineReport> images)
     {
-        BriefText("SEZIONE IN CALCESTRUZZO ARMATO", 14, 100);
+        body.Add(P("SEZIONE IN CALCESTRUZZO ARMATO", "Titolo1"));
         BriefText(title + " · relazione breve", 11, 100);
         BriefText("Flessione " + (data.Straight ? "retta; My ignorato." : "deviata.") + " N e tensioni negativi a compressione. Unità: mm, kN, kNm, MPa.", 10);
         BriefHeading("1  Geometria e armature");

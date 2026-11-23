@@ -17199,6 +17199,38 @@
         "supporto/artefatti/rotazione-3d-20261123/publish-verificato.json",
         "supporto/artefatti/rotazione-3d-20261123/app-installata.json"
       ]
+    },
+    {
+      "id": "REPORT-CA-ITEC-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / report Word e PDF",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "Ripristinati logo e piè di pagina ITEC anche senza copertina. Testi e titoli ereditano font, dimensioni, allineamento e spaziature originali; tabelle tecniche, figure, formule e contenuti invariati. Titolo effettivo nel piè di pagina, campi PAGE/SECTIONPAGES dinamici e numerazione Word/PDF da uno. L’opzione Copertina riguarda soltanto la pagina iniziale.",
+      "decisione": "Richiesta dell’utente del 23/11/2026: «aggiorna il report utilizzando il template itec», seguita da «poi committa e pusha».",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Reports/Pdf/DocxPdf.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportChecks.cs"
+      ],
+      "test": [
+        "11 esiti mirati PASS; nessun file tracciato modificato dalle prove.",
+        "PASS 545 controlli report, 320 sezioni rapide, 648 architettura; prove WPF del modulo e della shell PASS. Suite UI: 74 prima e 74 dopo.",
+        "Confronto prima/dopo dei quattro documenti: testi, tabelle, stili incorporati e formule identici. Stili originali preservati byte per byte.",
+        "Logo, titolo, campi e numerazione controllati nelle varianti completa, breve e con copertina/indice. Casi brevi con e senza taglio e DXF entro due pagine.",
+        "Microsoft Word: 2 pagine per i brevi, 10 per il completo senza taglio e 12 con taglio, come i PDF dell’app. Resa grafica controllata; render_docx.py non disponibile per assenza di LibreOffice, usata esportazione Word su copie di verifica.",
+        "Copia locale aggiornata: 16 file, 122 file verificati, 98 binari identici alla Release. Nessuna modifica ai motori GPC, alle baseline ingegneristiche o alle guide: correzione del formato già previsto."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-itec-20261123/prima",
+        "supporto/artefatti/report-itec-20261123/artifact.md",
+        "supporto/artefatti/report-itec-20261123/verificato",
+        "supporto/artefatti/report-itec-20261123/confronto-contenuti.json",
+        "supporto/artefatti/report-itec-20261123/word-qa/verifica.json",
+        "supporto/artefatti/report-itec-20261123/publish-verificato.json",
+        "supporto/artefatti/report-itec-20261123/app-installata.json"
+      ]
     }
   ]
 }
