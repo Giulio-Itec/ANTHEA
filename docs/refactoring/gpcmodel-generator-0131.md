@@ -5,6 +5,26 @@ The Modelli proposal, preview, generation and saved-choice reconciliation use
 `Ntc2018GeneralStructuralV1`, with `AntheaNtc2018V1` naming. No road profile or stringer
 feature is part of this extraction.
 
+## Integration on official BC — task 0146, 23 November 2026
+
+The six original task 0131 commits were merged, in their original history, into
+`codex/0146-generatore` from fetched main `5436403e`. There were no conflicts.
+The test harness, frozen captures, runner registration and alias/friend-assembly
+declarations already imported by task 0143 are identical and remain single copies.
+Only the generator adapter and its editor call change in production.
+
+The production build now uses the official BC snapshot already committed on main,
+without `GpcLibDir` or a candidate set. `lib` remains unchanged; release manifest
+SHA-256 is `687F3ED4B0041BF76C46968D844F09C6F3C51688158FE5D2D1B80BB440DBB1F5`.
+ANTHEA stays at 1.19.5 because that version has never shipped as an installer and
+this refactoring preserves behaviour without adding a feature or replacing a DLL.
+
+L1 passed on merge `2c382bee`: six builds and seven suites, 13 PASS, no failures.
+This includes all five task 0136 section 4 suites, the 106 exact captures and live
+legacy parity, native Straus7 elements/stages and the WPF importer checks. Evidence:
+`supporto/artefatti/0146/l1-complete`. L2 and publication are recorded below when
+complete and in `chatgpt-compiti/0146-resoconto.md` in the sibling task directory.
+
 GPC owns the exact case identities, recognized choices, correlated load groups,
 validation order, coefficient enumeration, seismic alternatives, limits, state counts,
 names and IDs. The existing `GeotechnicalCombinations`, `CombinationProfile`,
@@ -37,12 +57,13 @@ components, nodal translations/rotations, principal governing alternatives,
 warnings, saved definitions/choices, document fingerprints, reopen and regeneration
 with current results retained. Existing independent hand expectations are unchanged.
 
-## Candidate-only build
+## Historical task 0131 candidate build
 
-This branch needs the isolated task 0131 snapshot via `GpcLibDir` until the coordinator
-installs the final coherent set. The committed `lib/Checker` snapshot is unchanged.
-The candidate is staged using `tools/libs/Update-Snapshot.ps1 -ReleaseSet ...
--AllowCandidate -Staging ... -Repos ...`; no official set, push or deployment is made.
+The original task 0131 branch needed its isolated snapshot via `GpcLibDir` before
+the final coherent set was installed. The following command and results document
+that historical run; current builds use official BC as described above. Task 0131
+staged its candidate using `tools/libs/Update-Snapshot.ps1 -ReleaseSet ...
+-AllowCandidate -Staging ... -Repos ...`, without an official set, push or deployment.
 
 ```powershell
 $snapshot = (Resolve-Path ./supporto/artefatti/0131/snapshot-compat).Path

@@ -1,5 +1,12 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 23 novembre — integrazione generatore sul set BC (task 0146)
+
+- [x] Merge dei sei commit 0131 da main `5436403e`, senza conflitti; test e catture gia importati dal 0143 identici, senza doppioni.
+- [x] Build sul set BC ufficiale gia presente, senza modificare `lib`; versione 1.19.5 mantenuta per il refactoring a comportamento invariato, non ancora distribuita come installer.
+- [x] L1: 13 PASS (sei build e sette suite), 106 catture identiche e parita legacy; incluse Straus7 nativo e importazione WPF. Evidenze in `supporto/artefatti/0146/l1-complete`.
+- [ ] L2 baseline e pubblicazione condizionata ai gate: resoconto `chatgpt-compiti/0146-resoconto.md`.
+
 ## 22 novembre — generatore Modelli in GPCModel (task 0131)
 
 - [x] Catture congelate prima delle modifiche: 106 file, coefficienti e risultati come bit IEEE-754.
