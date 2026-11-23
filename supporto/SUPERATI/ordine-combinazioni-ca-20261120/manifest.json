@@ -1,0 +1,38 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "4c1394f83b6eecefdc4282555ddd6d86cc5f756ba54d522c23aa6c067d9d4a7c",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "c0d1b98f47187c76b8f1115a0fc87391f5ff03d387ec8d57a4c1dc769bdbddc4",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "9be3f954cf736151e66b57d3f208975aa07b4a02e23f84d04f326b8e702071d6",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "c0d1b98f47187c76b8f1115a0fc87391f5ff03d387ec8d57a4c1dc769bdbddc4",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "651d7fe2631fc69a5341e1084403a2e163b98d9a83e798b84b8b2c1f2c241b49",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.md"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "01ee41b5900115747ce178b2a22a51d2db71d1634de4c446a7271932b401927d",
+    "motivo": "Aggiornamento operativo della Rev77 del 20/11/2026: nome della sezione c.a. rapida e ordine delle combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "b182861b822982617b9489ed9e13193dfb385463b5aded9a780db68e75119ced",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "90a2f3eaa5a5569de5e1b72a9979194f27467672afd69f9a5eb5eb427a1f390f",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "a03a9c90a5877554a909d5b045856e5d904a6d59e8c8b2a079b88aed29ddb02f",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "90a2f3eaa5a5569de5e1b72a9979194f27467672afd69f9a5eb5eb427a1f390f",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "6a2079ed40117f118d5ab7063ef2dd3e187fec7e984b84df484d685fc75e5eb6",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.md"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "591951eb6e96da5bd4e5bc866e843c2fc0f586898f1efa01c1669a17d776a1c1",
+    "motivo": "Schede riordinabili con trascinamento, aggiornamento operativo del 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+  }
+]

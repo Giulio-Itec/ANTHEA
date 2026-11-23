@@ -1,0 +1,50 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "afa89328592714d282277610db6e8d73a0e4857bae348aaf78535e9d8cd31d32",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "81940922e578adf70ae08247d5311c6880ede1d914218a87a46bc9d6b0f72504",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "e8f57ac56991dfaee01955700ea6e66aae1a9b64a690343332463b51e70b3c4b",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "81940922e578adf70ae08247d5311c6880ede1d914218a87a46bc9d6b0f72504",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "46150ccb713fc84573fdbc95dd1f67025ff7828fe8be78f7a5daca3fa83d7e92",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-teorica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "1b4004798293fcfc70e3289e7a4897dc09c5f606d8b5d1b593cc8af00ec76ca6",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-teorica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.docx",
+    "sha256": "b7aba5760ce4ce515aaba57f5ff78c76096b49bfdda168c73d233bbfe3dce6ea",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.pdf",
+    "sha256": "1b4004798293fcfc70e3289e7a4897dc09c5f606d8b5d1b593cc8af00ec76ca6",
+    "motivo": "Combinazioni a taglio con tipologia armata/non armata, Excel e ripristino del solo modello, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.pdf"
+  }
+]

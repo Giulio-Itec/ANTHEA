@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "bbe463f6fafb87581fc1bc08dd20e53e396c9d3c097c98b4c12c7e7ed23aa3ae",
+    "motivo": "Rimozione del blocco Parametri geometrici e dettagli dalla verifica rapida a taglio, su richiesta del 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "33ca0107d6aa68f51445e977940e81caddee069b8cc1aaae6567c2c8139e38ba",
+    "motivo": "Rimozione del blocco Parametri geometrici e dettagli dalla verifica rapida a taglio, su richiesta del 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "9bff3f873903aa34ef79b534381d8c7aaa64346f0d6048d684516b9733d7c730",
+    "motivo": "Rimozione del blocco Parametri geometrici e dettagli dalla verifica rapida a taglio, su richiesta del 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "33ca0107d6aa68f51445e977940e81caddee069b8cc1aaae6567c2c8139e38ba",
+    "motivo": "Rimozione del blocco Parametri geometrici e dettagli dalla verifica rapida a taglio, su richiesta del 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]
