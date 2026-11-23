@@ -22,8 +22,29 @@ this refactoring preserves behaviour without adding a feature or replacing a DLL
 L1 passed on merge `2c382bee`: six builds and seven suites, 13 PASS, no failures.
 This includes all five task 0136 section 4 suites, the 106 exact captures and live
 legacy parity, native Straus7 elements/stages and the WPF importer checks. Evidence:
-`supporto/artefatti/0146/l1-complete`. L2 and publication are recorded below when
-complete and in `chatgpt-compiti/0146-resoconto.md` in the sibling task directory.
+`supporto/artefatti/0146/l1-complete`.
+
+L2 `baseline` completed on `7bf82a98` in 1273.7 seconds: 32 passing builds and
+79 suites (72 PASS, six exact KNOWN F4 outcomes and one historical banco-ca
+outcome). The unchanged runner reports 104 PASS / 6 KNOWN / 1 NEW-FAIL overall;
+the last item is covered by task 0146's explicit 23 November user authorization,
+not by an allowlist edit. The six F4 comparison hashes match the existing list.
+
+Banco-ca has exactly the historical 2456 rows / 4677 differences in 13 files.
+A fresh diagnostic from pre-integration main `5436403e`, using the same BC and
+fixtures, reproduces every file counter and all 2000 retained difference details.
+The existing exact comparator also checks the full before/after dense corpus:
+21 files / 32564 rows, 31320 identical and 1244 differing only by declared random
+IDs; zero tolerance-admitted, classified or unclassified differences. This covers
+the rows beyond the diagnostic detail cap without changing any expected output.
+There is no new failure. Evidence: `supporto/artefatti/0146/gate-verification.json`,
+`baseline`, `banco-main-before-complete` and `before-after-dense-comparison.json`.
+
+The optional obsolete F2 reference comparisons and the full contrast run were
+not selected by this L2 profile. Their accepted historical outcomes remain
+reported separately; no new passing result is claimed for them. No installer was
+built. The publication result and remote read-back are in
+`chatgpt-compiti/0146-resoconto.md` in the sibling task directory.
 
 GPC owns the exact case identities, recognized choices, correlated load groups,
 validation order, coefficient enumeration, seismic alternatives, limits, state counts,

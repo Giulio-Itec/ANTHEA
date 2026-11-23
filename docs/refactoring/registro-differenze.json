@@ -37,7 +37,7 @@
     "descrizione": "Proposta, gruppi, validazione, nomi, anteprima, generazione e riconciliazione delle scelte passano a GPCModel. Documenti e algebra dei risultati restano invariati. Il budget di lavoro GPC e opzionale: il profilo Compatibility usato da ANTHEA conserva accettazione ed errori storici. Il controllo con 2000 gruppi eccezionali impedisce un rifiuto implicito introdotto durante lo sviluppo e corretto nella revisione finale.",
     "decisione": "Task 0131 del 22/11/2026: estrazione generale e adattatore secondo analisi 0130; protezione del lavoro sismico/eccezionale prevista nel disegno.",
     "evidenze": "tests/fixtures/model-combinations-0131; tests/ANTHEA.Legacy/ModelCombinations; docs/refactoring/gpcmodel-generator-0131.md",
-    "verifica": "Confronto byte per byte delle 106 catture immutabili, oracle legacy compilato solo nei test, suite mirate; esiti nel resoconto 0131."
+    "verifica": "Confronto byte per byte delle 106 catture immutabili, oracle legacy compilato solo nei test, suite mirate; esiti nel resoconto 0131. Integrazione 0146 sul BC ufficiale: L1 13 PASS; L2 104 PASS, sei KNOWN F4 identici e solo banco c.a. storico invariato autorizzato il 23/11. Confronto con main precedente su 32564 righe: nessuna nuova differenza, soli ID casuali dichiarati. Nessun atteso o tolleranza modificato."
   },
   "voci": [
     {

@@ -2,10 +2,10 @@
 
 ## 23 novembre — integrazione generatore sul set BC (task 0146)
 
-- [x] Merge dei sei commit 0131 da main `5436403e`, senza conflitti; test e catture gia importati dal 0143 identici, senza doppioni.
-- [x] Build sul set BC ufficiale gia presente, senza modificare `lib`; versione 1.19.5 mantenuta per il refactoring a comportamento invariato, non ancora distribuita come installer.
-- [x] L1: 13 PASS (sei build e sette suite), 106 catture identiche e parita legacy; incluse Straus7 nativo e importazione WPF. Evidenze in `supporto/artefatti/0146/l1-complete`.
-- [ ] L2 baseline e pubblicazione condizionata ai gate: resoconto `chatgpt-compiti/0146-resoconto.md`.
+- [x] Merge dei sei commit 0131 da main `5436403e`, senza conflitti; test e catture già importati dal 0143 identici, senza doppioni.
+- [x] Build sul set BC ufficiale già presente, senza modificare `lib`; versione 1.19.5 mantenuta per il refactoring a comportamento invariato, non ancora distribuita come installer.
+- [x] L1: 13 PASS (sei build e sette suite), 106 catture identiche e parità legacy; incluse Straus7 nativo e importazione WPF. Evidenze in `supporto/artefatti/0146/l1-complete`.
+- [x] L2 baseline: 104 PASS, sei KNOWN F4 con hash identici e il solo banco c.a. storico autorizzato dal task 0146 (2456 righe / 4677 differenze, invariato). Confronto completo con main precedente: 32564 righe, solo ID casuali dichiarati diversi; nessuna nuova differenza. Gate per la pubblicazione soddisfatti; esito del push nel resoconto `chatgpt-compiti/0146-resoconto.md`.
 
 ## 22 novembre — generatore Modelli in GPCModel (task 0131)
 
