@@ -99,7 +99,7 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
                 new("Rami Vx / Vy", options.S("rami_x") + " / " + options.S("rami_y")),
                 new("α Vx / Vy", options.S("alpha_x") + " / " + options.S("alpha_y"), "°"),
                 new("cot θ Vx / Vy", (options.S("cot_x") is { Length: > 0 } cx ? cx : "auto") + " / " + (options.S("cot_y") is { Length: > 0 } cy ? cy : "auto")),
-                new("Parametri geometrici", options.S("parametri")), new("Ancoraggio Asl", options.S("ancoraggio"))
+                new("Parametri geometrici", options.S("parametri")), new("Ancoraggio Asl", "Efficace (ipotesi del modulo rapido)")
             };
             if (geometry.Shape == ConcreteQuickSection.Circular) { parameters.Add(new("Modello circolare", options.S("modello_circolare"))); parameters.Add(new("z/d", options.S("z_d"))); }
             if (options.S("parametri") == "Manuali")

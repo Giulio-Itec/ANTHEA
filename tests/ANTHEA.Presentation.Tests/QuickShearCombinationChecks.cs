@@ -30,7 +30,6 @@ internal static class QuickShearCombinationChecks
         sheet.ResetShearConditionsCommand.Execute(null);
         expect.That(JsonNode.DeepEquals(sheet.Data, expected) && !sheet.ResetShearConditionsCommand.CanExecute(null) && sheet.ShearWithoutLinks,
             "Taglio: ripristino cambia soltanto il modello armato/non armato, conservando integralmente ogni altro dato");
-        sheet.ShearAnchorageConfirmed = true;
         sheet.EffectiveStirrup = false;
         await sheet.PendingCalculation;
         expect.That(sheet.Current!.Shear!.Single(r => r.Id == first).Directions.Count == 2

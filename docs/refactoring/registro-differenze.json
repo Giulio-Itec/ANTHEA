@@ -17014,6 +17014,191 @@
         "supporto/artefatti/combo-taglio-20261123/suite-ui-dopo.txt",
         "supporto/artefatti/combo-taglio-20261123/app-installata.json"
       ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-SPAZIO-SCROLL-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Margine destro di 10 DIP tra i riquadri del pannello taglio e la barra verticale. Nessuna modifica a campi, dati o calcoli.",
+      "decisione": "Utente: barra verticale troppo vicina ai riquadri da compilare.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml"
+      ],
+      "test": [
+        "4 esiti mirati PASS: build UiTests/Release, assenza di codice di prova e shell WPF. 74 suite UI invariate. Schermata controllata; nessun test nuovo necessario per il solo margine.",
+        "Compilazione con le 14 DLL BB identiche a quelle della copia locale, verificate contro il manifest originale; lib/Checker del repository e guide invariati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/spazio-scroll-taglio-20261123/QuickSectionSheetView-prima.xaml",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/confronto.patch",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/finale",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/librerie-conservate.json",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-RISULTATI-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Riepilogo X/Y compatto con VEd, VRd e utilizzo a due decimali, numeri allineati e barre di utilizzo. Rimossi dal pannello i dettagli VRsd/VRcd, gli avvisi ripetitivi sui dettagli e la nota sulla torsione. Esiti della sola resistenza e taglio nullo distinti; errori di input conservati. Calcoli, documenti e report invariati.",
+      "decisione": "Utente: aggiornare il riepilogo proposto, togliendo dettagli e torsione.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "6 esiti mirati PASS: build UiTests/Release, QuickSection.Tests (291 controlli), qa/no-test-code, shell WPF. Ulteriori 2 esiti PASS per la cattura completa del riepilogo nella suite esistente. 74 suite UI prima e dopo. Schermata verificata.",
+        "Librerie di calcolo BB della copia locale conservate mediante lo snapshot già verificato. Nessun nuovo argomento delle guide o modifica normativa."
+      ],
+      "evidenze": [
+        "supporto/artefatti/risultati-taglio-20261123/confronto.patch",
+        "supporto/artefatti/risultati-taglio-20261123/finale",
+        "supporto/artefatti/risultati-taglio-20261123/cattura-risultati",
+        "supporto/artefatti/taglio-non-armato-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-ANCORAGGIO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il modulo rapido assume le barre longitudinali efficacemente ancorate, come richiesto dall’utente. La verifica non armata parte senza conferma anche nei documenti precedenti e dopo modifiche geometriche. Rimossa la spunta di ancoraggio e le note ridondanti nel pannello. Il report esplicita che l’ancoraggio efficace è un’ipotesi. Il modulo completo, le formule GPC e gli errori di input non cambiano.",
+      "decisione": "Scelta esplicita dell’utente: «Assumi le barre longitudinali efficacemente ancorate». Richiesta di togliere le scritte sotto il pannello, inclusi dettagli e torsione.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "tests/ANTHEA.Presentation.Tests/QuickShearChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickShearCombinationChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 647 controlli di architettura",
+        "PASS 291 controlli della verifica rapida della sezione in c.a.",
+        "PASS 114 controlli dell'ospite MVVM",
+        "PASS 142 controlli della bozza della shell (F5.13 c)",
+        "9 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Confronto con il motore per il modello senza armatura, documenti preesistenti invariati in lettura, ricalcolo dopo modifiche di geometria/strati, selezione WPF non armata senza interventi aggiuntivi e report.",
+        "Prima compilazione fermata dal controllo dell’indice Wiki obsoleto dopo la modifica alle guide; rigenerato l’indice e ripetute le suite. Nessun atteso indipendente, tolleranza, baseline editoriale o libreria modificati.",
+        "Guide Markdown/Word/PDF aggiornate con indici e parti ITEC preservati; originali archiviati con manifest. Renderer LibreOffice non disponibile: usati Word e confronto raster di tutte le pagine PDF, con ispezione delle sole pagine diverse."
+      ],
+      "evidenze": [
+        "supporto/artefatti/taglio-non-armato-20261123/confronto.patch",
+        "supporto/artefatti/taglio-non-armato-20261123/finale",
+        "supporto/artefatti/taglio-non-armato-20261123/finale-2",
+        "supporto/artefatti/taglio-non-armato-20261123/guide",
+        "supporto/artefatti/taglio-non-armato-20261123/verifica-pdf.json",
+        "supporto/artefatti/taglio-non-armato-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-AZIONI-3D-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / disegno",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Quarta vista Azioni 3D con elemento inizialmente sdraiato, sezione, fori, barre e assi nella stessa proiezione. Momento legge N/Mx/My; Taglio legge N/Vx/Vy della propria tabella. My è nullo in flessione retta. Valori assoluti accanto alle frecce e verso dal segno; momenti secondo la mano destra. Rotazione, zoom, ripristino e scelta della combinazione sono navigazione e non modificano dati o risultati.",
+      "decisione": "Richiesta dell’utente: elemento sdraiato come la prima anteprima, forze nella direzione corretta, numeri sempre positivi e assi realmente proiettati in 3D; autorizzata l’implementazione nel modulo.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickActions.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Actions.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickActionsChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionSheetChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 298 controlli della verifica rapida della sezione in c.a.",
+        "PASS 150 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI prima e dopo; nessuna modifica durante la corsa.",
+        "Verificati separazione delle tabelle, valori e segni, nessuna mutazione del documento, sola lettura, dati invalidi, flessione retta, versi positivi/negativi di N/tagli/momenti, parallelismo degli assi con gli spigoli, rotazione, zoom e ripristino della cattura.",
+        "Prime corse fermate soltanto da F4 per matematica e costanti del disegno. Rotazioni espresse con Matrix3D/Quaternion WPF e dimensioni grafiche nominate; controllo finale superato senza baseline o deroghe nuove.",
+        "Guida pratica Markdown/Word/PDF aggiornata e indice Wiki rigenerato, conservati gli originali con manifest. Verificate 148 pagine PDF: 124 pixel-identiche, 24 reimpaginate e controllate. Parti ITEC e formule preservate; nessun nuovo metodo di calcolo.",
+        "Conservato il set BB della copia installata; nessuna modifica a librerie, attesi indipendenti, tolleranze o transizioni editoriali congelate."
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-3d-20261123/confronto.patch",
+        "supporto/artefatti/azioni-3d-20261123/verificato",
+        "supporto/artefatti/azioni-3d-20261123/verifica-pdf.json",
+        "supporto/artefatti/azioni-3d-20261123/guide",
+        "supporto/artefatti/azioni-3d-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-MOMENTI-3D-SEGNO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / Azioni 3D",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "Corretto il verso delle frecce Mx/My in funzione del segno. La prima implementazione applicava la mano destra intorno agli assi geometrici disegnati, mentre CheckerSection.Local definisce X e Y opposti. Sulla faccia +z visualizzata Mx positivo comprime +y e My positivo comprime -x: le coppie fisiche hanno rotazione opposta. Cambia soltanto il disegno; combinazioni, valori assoluti delle etichette, forze e calcoli restano invariati.",
+      "decisione": "Segnalazione dell’utente: «i momenti mi sembrano al contrario», precisata con «nel senso di direzione in base al segno». Correzione della rappresentazione documentata nella voce UI-CA-AZIONI-3D-20261123.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickActionsChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 302 controlli della verifica rapida della sezione in c.a.",
+        "PASS 154 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Prima build fermata da CS0136 nel nuovo test WPF (nome center già usato nell’ambito esterno); rinominata la variabile e ripetuta la corsa completa mirata.",
+        "Il primo riscontro sulle tensioni richiedeva erroneamente barre compresse per ogni flessione pura: in My la zona compressa può restare esterna alla gabbia. Verificati il piano ai vertici del calcestruzzo e il gradiente delle tensioni sulle barre su sezione simmetrica; nessun cambiamento del motore o dei suoi attesi.",
+        "Quattro casi del motore in flessione deviata SLE: Mx e My positivi/negativi, controllo delle fibre tese e compresse. Quattro controlli WPF indipendenti: verso della freccia confrontato con r×F delle due forze della coppia sulla faccia mostrata. Catture dei quattro casi controllate visivamente.",
+        "La prova grafica precedente verificava soltanto la mano destra e non la convenzione del modulo: corretta e integrata con il riscontro meccanico. Nessun atteso ingegneristico o baseline congelata modificati.",
+        "Verifiche iniziali con set BB; correzione distribuita insieme alla rotazione con il set BC già presente nella copia installata (UI-CA-ROTAZIONE-3D-20261123). La guida già descrive il verso coerente con il segno, senza dichiarare mano destra: nessun nuovo contenuto o variazione di utilizzo."
+      ],
+      "evidenze": [
+        "supporto/artefatti/verso-momenti-3d-20261123/confronto.patch",
+        "supporto/artefatti/verso-momenti-3d-20261123/momento-prima.png",
+        "supporto/artefatti/verso-momenti-3d-20261123/finale",
+        "supporto/artefatti/verso-momenti-3d-20261123/tensioni-motore.json",
+        "supporto/artefatti/verso-momenti-3d-20261123/tensioni-motore-simmetrica.json",
+        "supporto/artefatti/rotazione-3d-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-ROTAZIONE-3D-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / Azioni 3D",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "La rotazione conserva la scala e un centro tridimensionale fisso nel prisma. L’inquadratura iniziale è mantenuta durante il trascinamento e al cambio di azioni; la rotella applica uno zoom uniforme attorno allo stesso centro. Centra vista e doppio clic ripristinano orientamento e inquadratura. Un cambio effettivo di ingombro geometrico o delle dimensioni del riquadro ricalcola l’inquadratura. Nessuna variazione di dati o risultati di calcolo.",
+      "decisione": "L’utente segnala variazione di dimensione e apparente deformazione durante la rotazione, poi autorizza: «intervieni». Eliminato l’adattamento continuo agli ingombri proiettati.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 302 controlli della verifica rapida della sezione in c.a.",
+        "PASS 158 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Tre rotazioni ampie: scala costante, centro proiettato fermo e norma complessiva della base ortogonale proiettata invariata. Cambio delle azioni senza adattamento. Rotella con fattore uniforme 1,12; ripristino identico nella cattura. Prove dei versi Mx/My conservate.",
+        "Prima corsa con il precedente set BB: 6 esiti PASS. Prima della distribuzione rilevato che app contiene già il set BC, identico alle 14 DLL di lib/Checker: build e prove ripetute con il set attuale, inclusa la suite rapida che verifica i segni dei momenti. Nessun aggiornamento del set di librerie da parte di questa attività.",
+        "Modificato soltanto il disegno WPF. Le istruzioni già presenti in guida descrivono rotazione, zoom alla rotella e Centra vista: nessun nuovo argomento o modifica di comandi. Nessun atteso ingegneristico, baseline o formula modificati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/rotazione-3d-20261123/confronto.patch",
+        "supporto/artefatti/rotazione-3d-20261123/verificato",
+        "supporto/artefatti/rotazione-3d-20261123/attuale",
+        "supporto/artefatti/rotazione-3d-20261123/librerie-installate.json",
+        "supporto/artefatti/rotazione-3d-20261123/publish-verificato.json",
+        "supporto/artefatti/rotazione-3d-20261123/app-installata.json"
+      ]
     }
   ]
 }

@@ -95,13 +95,19 @@ internal static class QuickShearChecks
         expect.That(ConcreteQuickShear.Calculate(dxf).All(r => r.Error.Length == 0), "Taglio DXF: geometria importata verificabile con armatura indipendente");
         var noLinks = (JsonObject)sheet.Data.DeepClone();
         foreach (var row in ConcreteQuickShear.Combinations(noLinks)) ConcreteQuickShear.WriteCombination(noLinks, row.S("id"), ConcreteQuickShear.ConditionField, ConcreteQuickShear.WithoutLinks);
-        expect.That(ConcreteQuickShear.Calculate(noLinks).All(r => r.Error.Contains("ancoraggio")), "Taglio senza staffe: ancoraggio non presunto");
-        ConcreteQuickShear.Write(noLinks, "ancoraggio", JsonValue.Create("Confermato"));
-        expect.That(ConcreteQuickShear.Calculate(noLinks).All(r => r.Error.Length == 0), "Taglio senza staffe: conferma efficace sulla geometria corrente");
+        ConcreteQuickSection.View(noLinks)[ConcreteQuickShear.Key]!["ancoraggio"] = "Da verificare";
+        string beforeNoLinks = noLinks.ToJsonString();
+        expect.That(ConcreteQuickShear.Calculate(noLinks).All(r => r.Error.Length == 0 && r.Directions.Count == 2)
+            && noLinks.ToJsonString() == beforeNoLinks, "Taglio senza staffe: ipotesi di ancoraggio efficace anche nei file precedenti, senza modificare i dati in lettura");
+        var (noLinksInput, noLinksSettings) = ConcreteQuickShear.Prepare(noLinks);
+        var noLinksAction = ConcreteQuickShear.Combinations(noLinks).First(r => r.S("id") == ConcreteQuickShear.Selected(noLinks));
+        var noLinksNative = ConcreteShearAnalysis.Calculate(noLinksInput, noLinksSettings, noLinksSettings["taglio"]!.AsObject(), noLinksAction);
+        expect.That(ConcreteQuickShear.Calculate(noLinks).Single(r => r.Id == noLinksAction.S("id")).Directions.Select(r => (r.VRd, r.Ratio))
+            .SequenceEqual(noLinksNative.Shear.Select(r => (r.VRd, r.Ratio))), "Taglio senza staffe: risultati identici al motore con barre ancorate");
         var changedLayers = (JsonObject)noLinks.DeepClone(); ConcreteQuickSection.WriteLayer(changedLayers, 0, "n", "3");
-        expect.That(ConcreteQuickShear.Options(changedLayers).S("ancoraggio") == "Da verificare", "Taglio: modifica degli strati invalida la conferma anche prima della ricostruzione geometrica");
+        expect.That(ConcreteQuickShear.Calculate(changedLayers).All(r => r.Error.Length == 0), "Taglio: modifica degli strati ricalcola senza nuova conferma di ancoraggio");
         noLinks["input"]!["width_mm"] = "800";
-        expect.That(ConcreteQuickShear.Options(noLinks).S("ancoraggio") == "Da verificare", "Taglio: modifica della geometria invalida la conferma di ancoraggio");
+        expect.That(ConcreteQuickShear.Calculate(noLinks).All(r => r.Error.Length == 0), "Taglio: modifica della geometria ricalcola con l’ipotesi di ancoraggio del modulo rapido");
         sheet.ShearForm.Set("rami_x", "0"); await sheet.PendingCalculation;
         expect.That(sheet.Current!.Shear!.All(r => r.Error.Length > 0), "Taglio: rami non validi producono errori, nessun risultato residuo");
         sheet.ShearForm.Set("rami_x", "2"); await sheet.PendingCalculation;

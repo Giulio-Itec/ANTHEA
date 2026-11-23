@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "e26beede8444eb9fb9f0e2caec50716c0abc4a721fb32231959cd81edd84dc36",
+    "motivo": "Vista Azioni 3D della sezione in c.a. rapida, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "41e0840c1642d7cac8fa18a4619ba8fa76d8f6aab3bf20ec70104db209f69e4e",
+    "motivo": "Vista Azioni 3D della sezione in c.a. rapida, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "69a6866beaaece4856d4b18a0123e1aca4040e74d3fc8812d2dfca0019342811",
+    "motivo": "Vista Azioni 3D della sezione in c.a. rapida, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "41e0840c1642d7cac8fa18a4619ba8fa76d8f6aab3bf20ec70104db209f69e4e",
+    "motivo": "Vista Azioni 3D della sezione in c.a. rapida, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]

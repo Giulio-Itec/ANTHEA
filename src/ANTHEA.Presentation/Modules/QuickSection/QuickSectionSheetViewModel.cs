@@ -353,7 +353,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase, ISh
     }
 
     /// <summary>What the drawing area shows: the section, or the chart chosen (domain or moment–curvature).</summary>
-    public IReadOnlyList<string> Displays { get; } = ["Sezione", .. ConcreteQuickSection.Charts];
+    public IReadOnlyList<string> Displays { get; } = ["Sezione", .. ConcreteQuickSection.Charts, "Azioni 3D"];
 
     /// <summary>
     /// The content of the drawing area. «Sezione» is a state of the view (not saved, the document does not change); the domain and the
@@ -361,13 +361,15 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase, ISh
     /// </summary>
     public string Display
     {
-        get => showSection ? Displays[0] : Chart;
+        get => showActions ? "Azioni 3D" : showSection ? Displays[0] : Chart;
         set
         {
             if (value is null || !Displays.Contains(value)) { OnPropertyChanged(); return; }
-            if (value == Displays[0]) showSection = true;
-            else if (value == Chart || CanEdit) { showSection = false; Chart = value; }
+            if (value == "Azioni 3D") { showActions = true; showSection = false; NotifyActions(); }
+            else if (value == Displays[0]) { showActions = false; showSection = true; }
+            else if (value == Chart || CanEdit) { showActions = false; showSection = false; Chart = value; }
             OnPropertyChanged(); OnPropertyChanged(nameof(ShowsSection)); OnPropertyChanged(nameof(ShowsDomain));
+            OnPropertyChanged(nameof(ShowsActions)); OnPropertyChanged(nameof(ShowsChart));
         }
     }
 
@@ -682,6 +684,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase, ISh
         if (Edit(d => ConcreteQuickSection.SelectCombination(d, id)))
         {
             OnPropertyChanged(nameof(SelectedCombinationId));
+            FollowSelectedActionCombination("Momento");
             foreach (var row in CombinationRows) row.Refresh();
             NotifyCombinationSettings();
             NotifyCombinationOrder();
@@ -704,6 +707,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase, ISh
     {
         if (building || IsDisposed) return false;
         bool done = Edit(d => ConcreteQuickSection.WriteCombination(d, id, key, value));
+        if (done) NotifyActions();
         // The sign of the moment of an SLU or SLV combination may follow its Mx.
         if (done && key == "Mx" && id == SelectedCombinationId) NotifyCombinationSettings();
         return done;

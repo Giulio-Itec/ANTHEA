@@ -606,6 +606,7 @@ internal static class QuickSectionSheetChecks
         QuickSectionReportChecks.Run(expect, folder);
         await QuickCombinationOrderChecks.Run(expect, folder, data => Open(data));
         await QuickShearChecks.Run(expect, folder, data => Open(data));
+        await QuickActionsChecks.Run(expect, data => Open(data));
         await QuickSectionCopyChecks.Run(expect, folder);
 
         // The examples of the distribution: valid documents that calculate without errors.

@@ -23,9 +23,6 @@ public static class ConcreteQuickShear
     public static bool Enabled(JsonObject data) => data[ConcreteQuickSection.ViewKey]?[Key] is JsonObject;
     public static bool Expanded(JsonObject data) => data[ConcreteQuickSection.ViewKey]?[Key]?.B("aperto") == true;
     public static bool UsesGeometryLink(JsonObject data) => Options(data).B(EffectiveLink);
-    private static string GeometrySignature(JsonObject data) => data["input"]!.ToJsonString() + "\n"
-        + data[ConcreteQuickSection.ViewKey]?[ConcreteQuickSection.LayersKey]?.ToJsonString() + "\n"
-        + data[ConcreteQuickSection.ViewKey]?[ConcreteQuickSection.SecondRingLinkKey]?.ToJsonString();
 
     /// <summary>A detached editable representation; reading a closed or old sheet writes nothing.</summary>
     public static JsonObject Options(JsonObject data)
@@ -33,7 +30,8 @@ public static class ConcreteQuickShear
         if (data[ConcreteQuickSection.ViewKey]?[Key] is JsonObject saved)
         {
             var copy = (JsonObject)saved.DeepClone();
-            if (copy.S("ancoraggio") == "Confermato" && copy.S("input_ancoraggio") != GeometrySignature(data)) copy["ancoraggio"] = "Da verificare";
+            // The quick module assumes effective longitudinal anchorage (user decision, 23/11/2026).
+            copy["ancoraggio"] = "Confermato";
             return copy;
         }
         var options = data["workspace_ca"]?["taglio"] is JsonObject source ? (JsonObject)source.DeepClone() : new JsonObject();
@@ -42,7 +40,7 @@ public static class ConcreteQuickShear
         options[Diameter] = "";
         options[Spacing] = data["input"].S("transverse_spacing_mm", "200");
         options["aperto"] = false;
-        options["ancoraggio"] = "Da verificare";
+        options["ancoraggio"] = "Confermato";
         return options;
     }
 
@@ -50,7 +48,6 @@ public static class ConcreteQuickShear
     {
         var options = Options(data);
         options[key] = value?.DeepClone();
-        if (key == "ancoraggio") options["input_ancoraggio"] = GeometrySignature(data);
         ConcreteQuickSection.View(data)[Key] = options;
     }
 
@@ -164,10 +161,9 @@ public static class ConcreteQuickShear
             input["staffe_presenti"] = "Sì";
         }
         else input["staffe_presenti"] = "No";
-        // Derive on the actual longitudinal layout. Do not overwrite a user's explicit anchorage confirmation while preparing an isolated calculation.
-        string anchorage = options.S("ancoraggio");
+        // Derive on the actual longitudinal layout; effective anchorage is an assumption of this quick module.
         ConcreteSheetPreparation.UpdateAutomaticShear(input, options);
-        options["ancoraggio"] = anchorage;
+        options["ancoraggio"] = "Confermato";
         settings["taglio"] = options;
         return (input, settings);
     }
@@ -217,6 +213,13 @@ public sealed record ConcreteQuickShearDirection(string Axis, string Action, dou
     double CotTheta, string Status, string Reference, string Detail, string Width, string Depth, string SteelArea)
 {
     public bool? Passed => Ratio is double ratio ? ratio <= 1 : null;
+    public double? Demand => J.Number(JsonValue.Create(Action));
+    public string ResistanceStatus => Demand == 0 && Passed == true ? "Taglio nullo" : Passed switch
+    {
+        true => "Resistenza sufficiente",
+        false => "Resistenza insufficiente",
+        _ => "Esito non disponibile"
+    };
     public string Resistance => EngineeringFormat.Number(VRd);
     public string SteelResistance => EngineeringFormat.Number(VRsd);
     public string ConcreteResistance => EngineeringFormat.Number(VRcd);

@@ -551,22 +551,26 @@
     <DockPanel>
      <!-- 19/11/2026: «Centra sezione» brings the section back to the middle of the drawing at its full size (as the double click), after zoom and drags. -->
      <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
-      <Button x:Name="CenterSection" DockPanel.Dock="Right" Content="⌖ Centra sezione" Style="{StaticResource Link}" VerticalAlignment="Center" Click="CenterSection_Click"
+      <Button x:Name="CenterSection" DockPanel.Dock="Bottom" Content="⌖ Centra sezione" Style="{StaticResource Link}" HorizontalAlignment="Right" Margin="0,4,0,0" Click="CenterSection_Click"
        ToolTip="Riporta la sezione al centro del disegno, alla dimensione intera (come il doppio clic)" AutomationProperties.Name="Centra sezione"
        Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
       <ListBox Style="{StaticResource Segmented}" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" HorizontalAlignment="Left"
-       ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x" AutomationProperties.Name="Mostra"/>
+       ToolTip="Sezione, dominio, momento–curvatura o disposizione delle azioni in 3D" AutomationProperties.Name="Mostra"/>
      </DockPanel>
      <Grid>
       <ContentControl x:Name="DrawingHost" Focusable="False" Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
-      <ContentControl x:Name="ChartHost" Focusable="False">
-       <ContentControl.Style>
-        <Style TargetType="ContentControl">
-         <Setter Property="Visibility" Value="Collapsed"/>
-         <Style.Triggers><DataTrigger Binding="{Binding ShowsSection}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
-        </Style>
-       </ContentControl.Style>
-      </ContentControl>
+      <ContentControl x:Name="ChartHost" Focusable="False" Visibility="{Binding ShowsChart, Converter={StaticResource Visibility}}"/>
+      <Grid x:Name="ActionsPanel" Visibility="{Binding ShowsActions, Converter={StaticResource Visibility}}">
+       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+       <Grid Margin="0,2,0,6">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <ListBox x:Name="ActionsSourceSelector" Style="{StaticResource Segmented}" ItemsSource="{Binding ActionSources}" SelectedItem="{Binding ActionsSource}" AutomationProperties.Name="Tabella delle azioni 3D"/>
+        <ComboBox x:Name="ActionsCombinationSelector" Grid.Column="1" ItemsSource="{Binding ActionCombinations}" DisplayMemberPath="Name" SelectedValuePath="Id"
+         SelectedValue="{Binding ActionCombinationId}" Margin="8,0" MinWidth="65" AutomationProperties.Name="Combinazione delle azioni 3D"/>
+        <Button x:Name="CenterActions" Grid.Column="2" Content="⌖ Centra vista" Style="{StaticResource Link}" Click="CenterActions_Click" AutomationProperties.Name="Centra vista 3D"/>
+       </Grid>
+       <ContentControl x:Name="ActionsHost" Grid.Row="1" Focusable="False" MinHeight="220"/>
+      </Grid>
      </Grid>
     </DockPanel>
    </Border>
@@ -585,7 +589,7 @@
     </DataTemplate>
    </Border.Resources>
    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-    <StackPanel>
+    <StackPanel Margin="0,0,10,0">
      <Border Style="{StaticResource Card}"><StackPanel>
       <TextBlock Text="Verifica a taglio" FontSize="16" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding ShearCombination}" Foreground="{DynamicResource Token.Accent}" FontWeight="SemiBold" Margin="0,5,0,2"/>
@@ -593,10 +597,6 @@
       <ListBox x:Name="ShearModelSelector" Style="{StaticResource Segmented}" ItemsSource="{Binding ShearModels}" SelectedItem="{Binding ShearModel}" IsEnabled="{Binding CanEditSelectedShear}" AutomationProperties.Name="Modello di calcolo a taglio">
        <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="190"/></DataTemplate></ListBox.ItemTemplate>
       </ListBox>
-      <StackPanel Visibility="{Binding ShearWithoutLinks, Converter={StaticResource Visibility}}" Margin="0,5,0,0">
-       <TextBlock Text="Senza armatura a taglio; le barre longitudinali restano nella sezione." Style="{StaticResource Muted}" TextWrapping="Wrap"/>
-       <CheckBox x:Name="ShearAnchorage" Content="Armatura longitudinale efficacemente ancorata" IsChecked="{Binding ShearAnchorageConfirmed}" IsEnabled="{Binding CanEdit}" Margin="0,4,0,0"/>
-      </StackPanel>
      </StackPanel></Border>
      <Border Style="{StaticResource Card}"><StackPanel>
       <DockPanel Margin="0,0,0,4">
@@ -656,25 +656,44 @@
       <ContentControl x:Name="IndependentShearDiameter" Content="{Binding ShearDiameterField}" ContentTemplate="{StaticResource ShearField}"
        Visibility="{Binding IndependentShearReinforcement, Converter={StaticResource Visibility}}"/>
       <ItemsControl ItemsSource="{Binding ShearMainFields}" ItemsPanel="{StaticResource TwoColumns}" ItemTemplate="{StaticResource ShearField}" Focusable="False"/>
-      <TextBlock Text="{Binding ShearReinforcementNote}" Style="{StaticResource Muted}" TextWrapping="Wrap"/>
      </StackPanel></Border>
-     <Border Style="{StaticResource Card}"><StackPanel>
-      <TextBlock Text="3 · Risultati" Style="{StaticResource CardTitle}" Margin="0,0,0,4"/>
-      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="55"/></Grid.ColumnDefinitions>
-       <TextBlock Text="Dir."/><TextBlock Grid.Column="1" Text="VEd [kN]"/><TextBlock Grid.Column="2" Text="VRd [kN]"/><TextBlock Grid.Column="3" Text="η"/>
+     <Border Style="{StaticResource Card}"><StackPanel Language="it-IT">
+      <TextBlock Text="3 · Risultati a taglio" Style="{StaticResource CardTitle}" Margin="0,0,0,10"/>
+      <Grid Margin="0,0,0,4"><Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions>
+       <TextBlock Text="Dir." Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="1" Text="VEd [kN]" TextAlignment="Right" Margin="0,0,16,0" Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="2" Text="VRd [kN]" TextAlignment="Right" Margin="0,0,16,0" Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="3" Text="Utilizzo η · limite 1,00" TextAlignment="Right" Style="{StaticResource Muted}"/>
       </Grid>
-      <ItemsControl ItemsSource="{Binding ShearResults}" Focusable="False">
-       <ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,4,0,4">
-        <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="55"/></Grid.ColumnDefinitions>
-         <TextBlock Text="{Binding Axis}"/><TextBlock Grid.Column="1" Text="{Binding Action}"/><TextBlock Grid.Column="2" Text="{Binding Resistance}"/><TextBlock Grid.Column="3" Text="{Binding Utilization}"/>
-        </Grid>
-        <TextBlock Text="{Binding Status}" TextWrapping="Wrap" Style="{StaticResource Muted}"/>
-        <WrapPanel><TextBlock Text="VRsd = " Style="{StaticResource Muted}"/><TextBlock Text="{Binding SteelResistance}"/><TextBlock Text=" kN · VRcd = " Style="{StaticResource Muted}"/><TextBlock Text="{Binding ConcreteResistance}"/><TextBlock Text=" kN" Style="{StaticResource Muted}"/></WrapPanel>
-       </StackPanel></DataTemplate></ItemsControl.ItemTemplate>
+      <ItemsControl x:Name="ShearResultTable" ItemsSource="{Binding ShearResults}" Focusable="False">
+       <ItemsControl.ItemTemplate><DataTemplate>
+        <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,1,0,0" Padding="0,8,0,8">
+         <Grid>
+          <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Axis}" FontWeight="SemiBold" FontSize="14"/>
+          <TextBlock Grid.Column="1" Text="{Binding Demand, StringFormat={}{0:F2}, TargetNullValue=—}" TextAlignment="Right" Margin="0,0,16,0" FontSize="14"/>
+          <TextBlock Grid.Column="2" Text="{Binding VRd, StringFormat={}{0:F2}}" TextAlignment="Right" Margin="0,0,16,0" FontSize="14"/>
+          <TextBlock x:Name="ShearUtilization" Grid.Column="3" Text="{Binding Ratio, StringFormat={}{0:F2}, TargetNullValue=—}" TextAlignment="Right" FontWeight="SemiBold" FontSize="14"/>
+          <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding ResistanceStatus}" Style="{StaticResource Muted}" Margin="0,3,16,0"/>
+          <ProgressBar Grid.Row="1" Grid.Column="3" Value="{Binding Ratio, Mode=OneWay, TargetNullValue=0}" Margin="0,5,0,0"
+           Visibility="{Binding Ratio, Converter={StaticResource Present}}" ToolTip="{Binding Ratio, StringFormat='Utilizzo η = {0:F2} · limite 1,00'}">
+           <ProgressBar.Style><Style TargetType="ProgressBar" BasedOn="{StaticResource Meter}">
+            <Style.Triggers><DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+           </Style></ProgressBar.Style>
+          </ProgressBar>
+         </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+         <DataTrigger Binding="{Binding Passed}" Value="True"><Setter TargetName="ShearUtilization" Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Passed}" Value="False"><Setter TargetName="ShearUtilization" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+        </DataTemplate.Triggers>
+       </DataTemplate></ItemsControl.ItemTemplate>
       </ItemsControl>
-      <TextBlock Text="{Binding ShearStatus}" TextWrapping="Wrap" Margin="0,5,0,0"/>
+      <TextBlock Text="{Binding ShearStatus}" TextWrapping="Wrap" Margin="0,5,0,0">
+       <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding ShearStatus}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+      </TextBlock>
      </StackPanel></Border>
-     <TextBlock Text="Taglio · torsione esclusa. Geometria e materiali della sezione. Ancoraggi e dettagli costruttivi da verificare." Style="{StaticResource Muted}" TextWrapping="Wrap" Margin="3,0,3,5"/>
     </StackPanel>
    </ScrollViewer>
   </Border>

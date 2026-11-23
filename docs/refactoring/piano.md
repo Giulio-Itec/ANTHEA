@@ -1,5 +1,33 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 23 novembre — rotazione 3D a scala fissa
+
+- [x] Rimossi zoom e ricentratura automatici durante la rotazione; centro tridimensionale fisso, rotella per lo zoom uniforme, Centra vista per ripristinare.
+- [x] Build, architettura e prove WPF PASS; scala e centro invarianti a diverse angolazioni, cambio delle azioni stabile e ripristino identico. 74 suite UI invariate. Registro UI-CA-ROTAZIONE-3D-20261123.
+
+## 23 novembre — verso dei momenti nella vista 3D
+
+- [x] Corretto il verso delle frecce Mx/My per entrambi i segni, secondo gli assi geometrici e la faccia mostrata; valori e calcoli invariati.
+- [x] Riscontro con le tensioni del motore e con coppie fisiche indipendenti; build, architettura, suite rapide e WPF PASS, 74 suite UI invariate. Registro UI-CA-MOMENTI-3D-SEGNO-20261123.
+
+## 23 novembre — azioni 3D nel modulo rapido
+
+- [x] Quarta vista con elemento sdraiato, sezione/armature/assi coerenti in 3D, azioni firmate graficamente e valori assoluti; tabelle Momento/Taglio indipendenti. Rotazione, zoom e ripristino senza modifiche al documento.
+- [x] Build, architettura, suite del modulo e WPF PASS; 74 suite UI invariate. Guida pratica e PDF aggiornati, originali archiviati. Registro UI-CA-AZIONI-3D-20261123.
+
+## 23 novembre — verifica non armata nel modulo rapido
+
+- [x] Applicata l’ipotesi scelta dall’utente di barre longitudinali efficacemente ancorate; rimossi conferma e note superflue. Report esplicito sull’ipotesi; calcolo e modulo completo invariati.
+- [x] Build, architettura, suite del modulo e prove WPF/report PASS; 74 suite UI invariate. Guide globali e PDF aggiornati; originali conservati. Registro UI-CA-TAGLIO-ANCORAGGIO-20261123.
+
+## 23 novembre — riepilogo compatto del taglio
+
+- [x] Tabella X/Y con due decimali e barre di utilizzo; rimossi richiami ai dettagli e alla torsione. Errori di input conservati, nessuna modifica dei calcoli. Build, suite del modulo e prova WPF PASS; 74 suite UI invariate. Registro UI-CA-TAGLIO-RISULTATI-20261123.
+
+## 23 novembre — spazio della barra verticale nel taglio
+
+- [x] Margine destro di 10 DIP tra riquadri e barra; campi e risultati invariati. Build e prova WPF mirate PASS, 74 suite UI invariate; registro UI-CA-TAGLIO-SPAZIO-SCROLL-20261123. Librerie della copia locale conservate. Nessuna modifica delle guide per il solo ritocco grafico.
+
 ## 23 novembre — commit, push e integrazione con BC
 
 - [x] Codice, guide e registri committati e pubblicati su `codex/sezioni-rapide-taglio`; integrati i quattro commit di `origin/main`, set BC incluso.

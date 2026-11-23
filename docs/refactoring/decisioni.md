@@ -2395,3 +2395,7 @@ Su richiesta dell’utente viene rimosso l’intero riquadro «Parametri geometr
 ## 23 novembre 2026 — tipologia e modello per le combinazioni a taglio
 
 L’utente richiede una combinazione già pronta all’apertura, Excel e ripristino come nella tabella del momento, tipologie con armatura a taglio / sezione non armata al posto degli stati limite e modello selezionabile in blu. Precisa che il ripristino deve riguardare esclusivamente la tipologia armata/non armata: il comando riallinea il modello alla tipologia scelta per ciascuna riga e conserva armature, azioni e altri parametri. Le azioni a taglio sono di progetto; Copia combinazioni non trasferisce la classificazione SL. Il motore esistente opera per riga e mantiene errori e conferme esplicite. Guide globali e PDF aggiornati; le precedenti transizioni Wiki restano in attesa.
+
+## 23 novembre 2026 — ancoraggio nel taglio rapido
+
+L’utente sceglie esplicitamente «Assumi le barre longitudinali efficacemente ancorate» per far partire la verifica non armata senza conferme aggiuntive. Il modulo rapido applica questa ipotesi anche ai file precedenti e dopo cambiamenti della geometria; la relazione la qualifica come ipotesi, non come verifica dell’ancoraggio. Scompare la spunta di conferma dal modulo rapido. Questa decisione sostituisce la richiesta di conferma per il solo modulo rapido; il modulo completo mantiene i propri controlli. Rimossi i testi ridondanti nel pannello, compresi i richiami a dettagli e torsione.

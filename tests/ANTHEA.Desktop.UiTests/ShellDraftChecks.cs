@@ -258,6 +258,91 @@ internal static class ShellDraftChecks
                     centerButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                     await Idle(main);
                     Check(centerButton.IsVisible && !before.SequenceEqual(zoomed) && Ui.Snapshot(drawing).SequenceEqual(before), "Verifica rapida: «Centra sezione» riporta la sezione al centro dopo lo zoom");
+                    string beforeActions = quickSheet.Data.ToJsonString();
+                    quickSheet.Display = "Azioni 3D"; await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    var actions = quickView.ActionsDrawing;
+                    Check(actions.IsVisible && !quickView.Chart.IsVisible && !quickView.Drawing.IsVisible, "Azioni 3D: quarta vista esclusiva del riquadro grafico");
+                    var glyphs = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(quickSheet.ActionsScene, 800);
+                    var axial = glyphs.Single(g => g.Action.Name == "N");
+                    Check(axial.Points[^1].Z < axial.Points[0].Z && axial.Action.Label.Contains("1000"), "Azioni 3D: compressione verso la sezione con etichetta positiva");
+                    var signedScene = new Anthea.Application.Concrete.ConcreteActionScene("Segni",
+                        [new("N", 'z', false, 100), new("Vx", 'x', false, -30), new("Vy", 'y', false, 20), new("Mx", 'x', true, -40), new("My", 'y', true, 12)], "");
+                    var signedGlyphs = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(signedScene, 800);
+                    var mxGlyph = signedGlyphs.Single(g => g.Action.Name == "Mx"); var myGlyph = signedGlyphs.Single(g => g.Action.Name == "My");
+                    var mxCenter = new System.Windows.Media.Media3D.Point3D(520, 0, 0); var myCenter = new System.Windows.Media.Media3D.Point3D(0, 520, 0);
+                    Check(signedGlyphs.Single(g => g.Action.Name == "N").Points[^1].Z > 0
+                        && signedGlyphs.Single(g => g.Action.Name == "Vx").Points[^1].X < 0 && signedGlyphs.Single(g => g.Action.Name == "Vy").Points[^1].Y > 0
+                        && System.Windows.Media.Media3D.Vector3D.CrossProduct(mxGlyph.Points[0] - mxCenter, mxGlyph.Points[1] - mxCenter).X > 0
+                        && System.Windows.Media.Media3D.Vector3D.CrossProduct(myGlyph.Points[0] - myCenter, myGlyph.Points[1] - myCenter).Y < 0,
+                        "Azioni 3D: trazione, tagli e rotazioni seguono il segno nei rispettivi assi 3D");
+                    foreach (char momentAxis in "xy")
+                        foreach (int momentSign in new[] { -1, 1 })
+                        {
+                            var momentScene = new Anthea.Application.Concrete.ConcreteActionScene("Coppia",
+                                [new("M" + momentAxis, momentAxis, true, momentSign * 40)], "");
+                            var moment = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(momentScene, 800).Single();
+                            var momentCenter = momentAxis == 'x' ? mxCenter : myCenter;
+                            // Independent force couple on the displayed +z face: Mx+ compresses +y;
+                            // My+ compresses -x. Compression points into the prism (-z), tension outwards.
+                            var compressedSide = momentAxis == 'x' ? new System.Windows.Media.Media3D.Vector3D(0, momentSign, 0)
+                                : new System.Windows.Media.Media3D.Vector3D(-momentSign, 0, 0);
+                            var physicalCouple = System.Windows.Media.Media3D.Vector3D.CrossProduct(compressedSide, new(0, 0, -1))
+                                + System.Windows.Media.Media3D.Vector3D.CrossProduct(-compressedSide, new(0, 0, 1));
+                            var arrowTurn = System.Windows.Media.Media3D.Vector3D.CrossProduct(moment.Points[0] - momentCenter, moment.Points[1] - momentCenter);
+                            Check(System.Windows.Media.Media3D.Vector3D.DotProduct(arrowTurn, physicalCouple) > 0
+                                && moment.Action.Label.Contains("40") && !moment.Action.Label.Contains('-'),
+                                $"Azioni 3D: M{momentAxis} {momentSign:+0;-0}, freccia concorde con la coppia fisica e valore sempre positivo");
+                            actions.Scene = momentScene; actions.InvalidateVisual();
+                            File.WriteAllBytes(Path.Combine(output, $"azioni-3d-M{momentAxis}-{(momentSign > 0 ? "positivo" : "negativo")}.png"), actions.Png(750, 500));
+                        }
+                    actions.Scene = quickSheet.ActionsScene; actions.InvalidateVisual();
+                    var origin3 = actions.Project(new(0, 0, 0));
+                    var axisX = actions.Project(new(1, 0, 0)) - origin3; var axisY = actions.Project(new(0, 1, 0)) - origin3;
+                    var sectionEdge = actions.Project(new(300, 400, -800)) - actions.Project(new(-300, 400, -800));
+                    Check(Math.Abs(Vector.CrossProduct(axisX, axisY)) > .1 && Math.Abs(Vector.CrossProduct(axisX, sectionEdge)) < 1e-8,
+                        "Azioni 3D: x/y distinti e assi paralleli ai lati della sezione nella stessa proiezione");
+                    byte[] initialActions = Ui.Snapshot(actions);
+                    var orbitSize = new Size(actions.ActualWidth, actions.ActualHeight);
+                    var orbitBefore = actions.Projection(orbitSize);
+                    static double ProjectedBasisSize(X.Desktop.Views.QuickSection.QuickActionsViewport.Projection3D projection)
+                    {
+                        System.Windows.Media.Media3D.Vector3D[] basis = [new(100, 0, 0), new(0, 100, 0), new(0, 0, 100)];
+                        return basis.Sum(v => (projection.Screen(projection.Pivot + v) - projection.Screen(projection.Pivot)).LengthSquared);
+                    }
+                    double orbitMetric = ProjectedBasisSize(orbitBefore);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-rotazione-prima.png"), initialActions);
+                    foreach (var orbitTurn in new[] { (70d, 10d), (-130d, -40d), (200d, 45d) })
+                    {
+                        actions.Rotate(orbitTurn.Item1, orbitTurn.Item2);
+                        var orbitAfter = actions.Projection(orbitSize);
+                        Check(orbitAfter.Scale == orbitBefore.Scale && orbitAfter.Pivot == orbitBefore.Pivot
+                            && (orbitAfter.Screen(orbitBefore.Pivot) - orbitBefore.Screen(orbitBefore.Pivot)).Length < 1e-8
+                            && Math.Abs(ProjectedBasisSize(orbitAfter) / orbitMetric - 1) < 1e-8,
+                            $"Azioni 3D: rotazione {orbitTurn}, scala e centro fissi senza deformazione della proiezione");
+                    }
+                    await Idle(main);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-rotazione-dopo.png"), Ui.Snapshot(actions));
+                    var orbitScene = actions.Scene;
+                    actions.Scene = new("Altra combinazione", [new("N", 'z', false, 40), new("Vx", 'x', false, -40), new("Vy", 'y', false, -40)], "");
+                    var orbitOtherScene = actions.Projection(orbitSize);
+                    Check(orbitOtherScene.Scale == orbitBefore.Scale && orbitOtherScene.Anchor == orbitBefore.Anchor,
+                        "Azioni 3D: cambiare le azioni non riadatta scala o centratura");
+                    actions.Scene = orbitScene;
+                    actions.RaiseEvent(new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120) { RoutedEvent = UIElement.MouseWheelEvent });
+                    await Idle(main);
+                    var orbitZoomed = actions.Projection(orbitSize);
+                    Check(Math.Abs(orbitZoomed.Scale / orbitBefore.Scale - 1.12) < 1e-8
+                        && orbitZoomed.Anchor == orbitBefore.Anchor && orbitZoomed.Pivot == orbitBefore.Pivot
+                        && Math.Abs(ProjectedBasisSize(orbitZoomed) / orbitMetric - 1.12 * 1.12) < 1e-8,
+                        "Azioni 3D: solo la rotella cambia la scala, uniformemente e intorno al centro fisso");
+                    ((Button)quickView.FindName("CenterActions")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle(main);
+                    Check(Ui.Snapshot(actions).SequenceEqual(initialActions), "Azioni 3D: Centra vista ripristina l’orientamento sdraiato");
+                    await Capture(quickWindow.Window, output, "08b-azioni-3d-momento.png", bindings);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-momento-disegno.png"), actions.Png(1000, 700));
+                    ((ListBox)quickView.FindName("ActionsSourceSelector")).SelectedItem = "Taglio"; await Idle(main);
+                    Check(quickSheet.ActionsSource == "Taglio" && quickSheet.Data.ToJsonString() == beforeActions,
+                        "Azioni 3D: selettore reale delle tabelle senza creare o modificare dati");
+                    quickSheet.ActionsSource = "Momento"; quickSheet.Display = "Sezione"; await Idle(main);
                 }
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
                 if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel shearSheet)
@@ -295,6 +380,21 @@ internal static class ShellDraftChecks
                     Check(shearSheet.Data["combinazioni"]!.ToJsonString() == savedShearSheet["combinazioni"]!.ToJsonString()
                         && shearSheet.Data["input"]!.ToJsonString() == savedShearSheet["input"]!.ToJsonString(), "Taglio rapido: nessuna colonna o azione aggiunta alla tabella originale, geometria invariata");
                     await Capture(quickWindow.Window, output, "08b-taglio-indipendente.png", bindings);
+                    ((FrameworkElement)shearView.FindName("ShearResultTable")).BringIntoView();
+                    await Capture(quickWindow.Window, output, "08b-taglio-risultati.png", bindings);
+                    shearSheet.Display = "Azioni 3D"; shearSheet.ActionsSource = "Taglio";
+                    shearSheet.ActionCombinationId = shearSheet.ShearCombinationRows[0].Id; await Idle(main);
+                    Check(shearSheet.ActionsScene.Actions.Single(a => a.Name == "Vx").Value == 75 && shearView.ActionsDrawing.IsVisible,
+                        "Azioni 3D: tagli della combinazione scelta nella tabella autonoma");
+                    await Capture(quickWindow.Window, output, "08b-azioni-3d-taglio.png", bindings);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-taglio-disegno.png"), shearView.ActionsDrawing.Png(1000, 700));
+                    shearSheet.ActionsSource = "Momento"; shearSheet.Display = "Sezione";
+                    shearSheet.ShearModel = "Verifica sezione non armata";
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(shearSheet.SelectedShearResult is { Error.Length: 0, Directions.Count: 2 }, "Taglio rapido: selezione non armata calcola subito con barre longitudinali assunte ancorate");
+                    await Capture(quickWindow.Window, output, "08b-taglio-non-armato.png", bindings);
+                    shearSheet.ShearModel = "Verifica con armatura a taglio";
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
                     shearSheet.IsReadOnly = true; await Idle(main);
                     Check(!copyShear.IsEnabled && !effective.IsEnabled && vx.IsReadOnly, "Taglio rapido: tutti gli editor protetti in sola lettura");
                     shearSheet.IsReadOnly = false;

@@ -29,7 +29,7 @@ public sealed class QuickShearCombinationRow : ObservableObject
     public string RatioY => Result?.Directions.FirstOrDefault(d => d.Axis == "Y")?.Utilization ?? "—";
     public bool? Passed => Result is { Directions.Count: > 0 } result
         ? result.Directions.Any(d => d.Passed == false) ? false : result.Directions.All(d => d.Passed == true) ? true : null : null;
-    public string Status => Result is { Error.Length: > 0 } result ? result.Error : string.Join(" · ", Result?.Directions.Select(d => d.Axis + ": " + d.Status) ?? []);
+    public string Status => Result is { Error.Length: > 0 } result ? result.Error : string.Join(" · ", Result?.Directions.Select(d => d.Axis + ": " + d.ResistanceStatus) ?? []);
     public IRelayCommand RemoveCommand { get; }
     private void Write(string key, string? value, [System.Runtime.CompilerServices.CallerMemberName] string property = "")
     {
@@ -90,11 +90,6 @@ public sealed partial class QuickSectionSheetViewModel
     }
     public bool CanEditShearReinforcement => CanEdit && ShearWithLinks;
     public bool ShearWithoutLinks => !ShearWithLinks && SelectedShearRow is not null;
-    public bool ShearAnchorageConfirmed
-    {
-        get => ConcreteQuickShear.Options(Data).S("ancoraggio") == "Confermato";
-        set { if (value != ShearAnchorageConfirmed && Edit(d => ConcreteQuickShear.Write(d, "ancoraggio", JsonValue.Create(value ? "Confermato" : "Da verificare")))) NotifyShear(); }
-    }
     public bool CanEditSelectedShear => CanEdit && SelectedShearRow is not null;
     public string ShearMomentX { get => SelectedShearRow?.S("Mx", "0") ?? "0"; set => WriteShearMoment("Mx", value); }
     public string ShearMomentY { get => SelectedShearRow?.S("My", "0") ?? "0"; set => WriteShearMoment("My", value); }
@@ -145,6 +140,7 @@ public sealed partial class QuickSectionSheetViewModel
         if (IsDisposed || id == SelectedShearCombinationId) return;
         if (CanEdit) Edit(d => ConcreteQuickShear.Write(d, "selezionata", JsonValue.Create(id)));
         shearSelection = id;
+        FollowSelectedActionCombination("Taglio");
         BuildShearForms();
         NotifyShear();
     }
@@ -157,7 +153,7 @@ public sealed partial class QuickSectionSheetViewModel
     public IReadOnlyList<ConcreteQuickShearDirection> ShearResults => SelectedShearResult?.Directions ?? [];
     public string ShearStatus => ShearCombinationRows.Count == 0 ? "Copia le combinazioni del momento oppure aggiungi una combinazione e inserisci i tagli."
         : SelectedShearResult is { Error.Length: > 0 } failed ? failed.Error
-        : SelectedShearResult is { Directions.Count: > 0 } result ? string.Join(" · ", result.Directions.Select(d => d.Axis + ": " + d.Status))
+        : SelectedShearResult is { Directions.Count: > 0 } ? ""
         : "I risultati si aggiornano dopo ogni modifica. Inserire le azioni di taglio della combinazione selezionata.";
     public string ShearDetail => string.Join("\n\n", ShearResults.Select(d => "Direzione " + d.Axis + " · bw = " + d.Width + " mm · d = " + d.Depth
         + " mm · Asl = " + d.SteelArea + " mm²\n" + d.Reference + "\n" + d.Detail));
@@ -180,7 +176,6 @@ public sealed partial class QuickSectionSheetViewModel
             T("cot_x", "cot θ Vx", "", "Vuoto: scelta automatica del motore"), T("cot_y", "cot θ Vy", "", "Vuoto: scelta automatica del motore")], ChangedOption);
         foreach (var field in ShearForm.Fields.Where(f => f.Key != "modello")) ShearForm.Enable(field.Key, ShearWithLinks);
         ShearAdvancedForm = Form(options, [new("parametri", "Geometria", Choices: ["Automatici da sezione", "Manuali"]),
-            new("ancoraggio", "Asl ancorata", Choices: ["Da verificare", "Confermato"]),
             T("bw_x", "bw Vx", "mm", "Larghezza resistente per Vx"), T("d_x", "d Vx", "mm", "Altezza utile per Vx"), T("asl_x", "Asl Vx", "mm²", "Armatura longitudinale efficacemente ancorata per Vx"),
             T("bw_y", "bw Vy", "mm", "Larghezza resistente per Vy"), T("d_y", "d Vy", "mm", "Altezza utile per Vy"), T("asl_y", "Asl Vy", "mm²", "Armatura longitudinale efficacemente ancorata per Vy"),
             new("modello_circolare", "Circolare", Choices: ["Da scegliere", "Pile · NTC §7.9.5.2", "Parametri assegnati"]), T("z_d", "z/d", "", "Valore assegnato per il modello circolare")], ChangedOption);
@@ -195,11 +190,10 @@ public sealed partial class QuickSectionSheetViewModel
 
     private void NotifyShear()
     {
-        // A geometry edit invalidates the anchorage acknowledgement in the adapter; show that state immediately in the editor as well.
-        ShearAdvancedForm?.Set("ancoraggio", ConcreteQuickShear.Options(Data).S("ancoraggio"), display: true);
+        NotifyActions();
         foreach (string property in new[] { nameof(ShearExpanded), nameof(ShearToggleText), nameof(SheetMinimumWidth), nameof(EffectiveStirrup), nameof(IndependentShearReinforcement),
             nameof(ShearGeometryDiameter), nameof(ShearReinforcementNote), nameof(ShearCombination), nameof(ShearModel), nameof(SelectedShearCombinationId),
-            nameof(ShearWithoutLinks), nameof(CanEditShearReinforcement), nameof(ShearAnchorageConfirmed),
+            nameof(ShearWithoutLinks), nameof(CanEditShearReinforcement),
             nameof(ShearResults), nameof(ShearStatus), nameof(ShearDetail), nameof(ShearWithLinks), nameof(CanEditSelectedShear), nameof(ShearMomentX), nameof(ShearMomentY) }) OnPropertyChanged(property);
         foreach (var row in ShearCombinationRows) row.Refresh();
         foreach (var command in new[] { copyShearCombinationsCommand, addShearCombinationCommand, moveShearUpCommand, moveShearDownCommand, resetShearConditionsCommand, exportShearExcelCommand, importShearExcelCommand }) command?.NotifyCanExecuteChanged();
