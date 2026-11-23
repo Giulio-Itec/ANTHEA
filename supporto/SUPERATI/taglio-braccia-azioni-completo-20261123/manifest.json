@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "3eb03b1e3729518e840c80cd12a7683393d1b6274914b19288e1278562e4a78f",
+    "motivo": "Pannello braccia, cotangenti e scelta automatica; Azioni 3D del modulo completo, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "15ab32f3869d8b33d9041c83b11da46b11893a28ce116283f7d56b9f6f5cb490",
+    "motivo": "Pannello braccia, cotangenti e scelta automatica; Azioni 3D del modulo completo, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "defa51782fa6cf1294a235dd2a87d6e1acf1acff985e8bcbac0dfa7776fbe1f0",
+    "motivo": "Pannello braccia, cotangenti e scelta automatica; Azioni 3D del modulo completo, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "15ab32f3869d8b33d9041c83b11da46b11893a28ce116283f7d56b9f6f5cb490",
+    "motivo": "Pannello braccia, cotangenti e scelta automatica; Azioni 3D del modulo completo, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]

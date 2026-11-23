@@ -2169,3 +2169,26 @@ Voce DXF-SEZIONE-CA-BB-20261119 del registro. Percorso delle forme usuali conser
 
 - [x] W e W breve salvano soltanto DOCX; nessun PDF automatico e nessuna modifica ai PDF già presenti. Dicitura del salvataggio coerente. Eccezione dell’utente registrata in AGENTS.md.
 - [x] Build e suite mirate di sezioni rapide, shell e architettura PASS. Template ITEC e dati di calcolo invariati; registro REPORT-CA-SOLO-WORD-20261123.
+
+## 23 novembre — armatura a taglio e Azioni 3D nel modulo completo
+
+- [x] Colonne Vx/Vy, Braccia, cotangenti iniziali 1 e pulsante Rottura bilanciata con scelta automatica del motore esistente. Conservati i valori già salvati.
+- [x] Azioni 3D selezionabile accanto alla sezione geometrica del modulo completo, con famiglia e combinazione; navigazione disponibile in sola lettura.
+- [x] Build, suite mirate e controlli WPF; guida pratica e indice aggiornati con originali archiviati. Registro UI-CA-BRACCIA-AZIONI-COMPLETO-20261123. Nessuna modifica a GPC o agli attesi.
+
+## 23 novembre — relazione guida CLS e selezione dei contenuti
+
+- [x] Report completo con introduzione, verifiche flessione, verifiche taglio e Allegato A secondo la relazione dell’utente. Taglio suddiviso in Con armatura / Non armata, come confermato.
+- [x] Menu gerarchico coerente, selezione indipendente di flessione e taglio, combinazioni proprie del taglio e copertina corretta. Esportazione soltanto Word conservata.
+- [x] 15 esiti mirati PASS, resa Word controllata e guida pratica aggiornata con archivio. Suite UI 74 prima e dopo; nessuna modifica ai calcoli o agli attesi. Registro REPORT-CA-GUIDA-CLS-20261123.
+
+## 23 novembre — spaziatura del report e tensioni SLE
+
+- [x] Spazi fra titoli, paragrafi, tabelle e figure del report completo; caratteri ITEC e report breve conservati.
+- [x] Sezione con le tensioni per ogni combinazione SLE selezionata, anche omonima o non governante; immagini associate per ID e non ripetute in allegato.
+- [x] Build, suite mirate e resa Word verificate; guida pratica aggiornata e originali archiviati. Registro REPORT-CA-SPAZI-SLE-20261123; 74 suite UI prima e dopo.
+
+## 23 novembre — report senza allegato
+
+- [x] Rimosso Allegato A dal report completo e dal menu, comprese le vecchie opzioni. Figure delle tensioni SLE conservate nei dettagli; report breve invariato.
+- [x] Build, suite mirate, confronto dei documenti e resa Word verificati; guida aggiornata con archivio. Registro REPORT-CA-SENZA-ALLEGATO-20261123; 74 suite UI prima e dopo.
