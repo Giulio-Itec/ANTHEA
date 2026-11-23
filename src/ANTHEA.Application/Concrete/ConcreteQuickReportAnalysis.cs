@@ -96,7 +96,7 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
                 new("Modello", "Per combinazione"),
                 new("Staffa effettiva?", ConcreteQuickShear.UsesGeometryLink(data) ? "Sì: diametro della staffa geometrica" : "No: armatura a taglio indipendente; la staffa geometrica non contribuisce"),
                 new("Ø resistente", ConcreteQuickShear.LinkDiameter(data), "mm"), new("Passo resistente", options.S(ConcreteQuickShear.Spacing), "mm"),
-                new("Rami Vx / Vy", options.S("rami_x") + " / " + options.S("rami_y")),
+                new("Braccia Vx / Vy", options.S("rami_x") + " / " + options.S("rami_y")),
                 new("α Vx / Vy", options.S("alpha_x") + " / " + options.S("alpha_y"), "°"),
                 new("cot θ Vx / Vy", (options.S("cot_x") is { Length: > 0 } cx ? cx : "auto") + " / " + (options.S("cot_y") is { Length: > 0 } cy ? cy : "auto")),
                 new("Parametri geometrici", options.S("parametri")), new("Ancoraggio Asl", "Efficace (ipotesi del modulo rapido)")
@@ -108,12 +108,18 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
             foreach (var item in ConcreteQuickShear.Calculate(data, cancellation))
             {
                 var action = ConcreteQuickShear.Combinations(data).Single(r => r.S("id") == item.Id);
-                if (item.Error.Length > 0) shearRows.Add(new(item.Name, ConcreteQuickShear.ShortLabel(item.Condition), action.S("N"), action.S("Vx", "0") + " / " + action.S("Vy", "0"), "X/Y", "—", "—", "—", null, null, item.Error, ConcreteQuickShear.ShortLabel(item.Model)));
+                if (item.Error.Length > 0) shearRows.Add(new(item.Name, ConcreteQuickShear.ShortLabel(item.Condition), action.S("N"), action.S("Vx", "0") + " / " + action.S("Vy", "0"), "X/Y", "—", "—", "—", null, null, item.Error, ConcreteQuickShear.ShortLabel(item.Model), item.Id));
                 foreach (var direction in item.Directions)
                     shearRows.Add(new(item.Name, ConcreteQuickShear.ShortLabel(item.Condition), action.S("N"), direction.Action, direction.Axis, direction.SteelResistance, direction.ConcreteResistance,
-                        direction.Resistance, direction.Ratio, direction.Passed, direction.Status, ConcreteQuickShear.ShortLabel(item.Model)));
+                        direction.Resistance, direction.Ratio, direction.Passed, direction.Status, ConcreteQuickShear.ShortLabel(item.Model), item.Id, N(direction.CotTheta)));
             }
-            shear = new(parameters, shearRows, ConcreteQuickShear.UsesGeometryLink(data));
+            var shearActions = ConcreteQuickShear.Combinations(data).Select(row =>
+            {
+                string condition = ConcreteQuickShear.ShortLabel(ConcreteQuickShear.Condition(data, row)), model = ConcreteQuickShear.ShortLabel(ConcreteQuickShear.Model(data, row));
+                return new QuickShearReportAction(row.S("id"), row.S("nome"), condition == model ? condition : condition + " → " + model,
+                    row.S("N"), row.S("Vx"), row.S("Vy"));
+            }).ToArray();
+            shear = new(parameters, shearRows, ConcreteQuickShear.UsesGeometryLink(data), shearActions);
         }
         var report = new QuickSectionReportData(geometry.Shape, first.Straight, ConcreteQuickSection.Exposure(data), dimensions, materials, bars, cases, warnings.Distinct().ToArray(), shear);
         return new(data, report, results);

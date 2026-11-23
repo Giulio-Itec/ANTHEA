@@ -274,6 +274,9 @@
      </TreeView.ItemContainerStyle>
      <TreeView.ItemTemplate>
       <HierarchicalDataTemplate DataType="{x:Type cmd:ReportSectionChoice}" ItemsSource="{Binding Children}">
+       <HierarchicalDataTemplate.ItemContainerStyle>
+        <Style TargetType="TreeViewItem"><Setter Property="IsExpanded" Value="True"/></Style>
+       </HierarchicalDataTemplate.ItemContainerStyle>
        <CheckBox Content="{Binding Label}" IsChecked="{Binding Selection, Mode=OneWay}" Command="{Binding ToggleCommand}" Margin="4"/>
       </HierarchicalDataTemplate>
      </TreeView.ItemTemplate>

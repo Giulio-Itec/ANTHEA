@@ -408,10 +408,14 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
                 choice.SetChildren(content.Children.Select(Choice).ToArray());
                 return choice;
             }
-            Sections = (quickBridge ? BridgeQuickReport.Outline() : quick ? QuickSectionReport.Outline(Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)))
+            Sections = (quickBridge ? BridgeQuickReport.Outline() : quick ? QuickSectionReport.Outline(
+                Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)),
+                Anthea.Application.Concrete.ConcreteQuickShear.Enabled(data)
+                    ? Anthea.Application.Concrete.ConcreteQuickShear.Combinations(data).Select(r => Anthea.Application.Concrete.ConcreteQuickShear.ShortLabel(Anthea.Application.Concrete.ConcreteQuickShear.Model(data, r))) : [])
                 : PileFamilyReport.Outline(module, data, result)).Select(Choice).ToArray();
         }
-        Note = quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
+        Note = quick && !quickBridge ? "Contenuti del report: introduzione, verifiche a flessione e verifiche a taglio. I blocchi di flessione e taglio si selezionano indipendentemente. Ogni verifica SLE comprende la sezione con le tensioni della combinazione. Copertina e indice sono facoltativi; l’esportazione produce solo il Word."
+            : quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
         ExportCommand = new RelayCommand(() => Close(SelectedKeys()), () => CanExport);
         CancelCommand = new RelayCommand(Cancel);
         foreach (var section in Sections.SelectMany(s => s.Descendants())) section.Changed += (_, _) => ExportCommand.NotifyCanExecuteChanged();

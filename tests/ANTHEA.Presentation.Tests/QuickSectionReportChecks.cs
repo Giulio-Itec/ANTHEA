@@ -19,6 +19,7 @@ internal static class QuickSectionReportChecks
         ConcreteQuickSection.WriteCreep(data, "2"); ConcreteQuickSection.WriteServiceOption(data, ConcreteQuickSection.ExposureKey, "XC3");
         string before = data.ToJsonString();
         var analysis = ConcreteQuickReportAnalysis.Create(data);
+        QuickSectionReportGuideChecks.Run(expect, data, analysis.Report, folder);
         expect.That(data.ToJsonString() == before, "Il report non modifica input, selezione, ordine o modelli del foglio");
         var rows = ConcreteQuickSection.Combinations(data);
         expect.That(analysis.Report.Cases.Select(c => c.Id).SequenceEqual(rows.Select(r => r.S("id"))), "Ordine del report uguale al programma, anche con SL intercalati");
@@ -63,7 +64,13 @@ internal static class QuickSectionReportChecks
         CheckItec(doc, "completa");
         CheckItec(QuickSectionReport.Create("Sezione di prova", analysis.Report, new HashSet<string> { QuickSectionReport.Brief }), "breve");
         var withCover = new HashSet<string>(options) { "intestazione", "indice" };
-        CheckItec(QuickSectionReport.Create("Sezione di prova", analysis.Report, withCover), "con copertina e indice");
+        var coverReport = QuickSectionReport.Create("Sezione di prova", analysis.Report, withCover);
+        CheckItec(coverReport, "con copertina e indice");
+        string coverText = string.Join("\n", coverReport.GetXml("word/document.xml").Descendants(w + "t").Select(t => t.Value));
+        expect.That(coverText.Contains("Sezione di prova") && coverText.Contains("Verifica della sezione in calcestruzzo armato")
+            && !coverText.Contains("capacità portante verticale") && !coverText.Contains("Relazione geotecnica"),
+            "La copertina facoltativa usa il titolo della sezione e non il vecchio esempio geotecnico");
+        File.WriteAllBytes(Path.Combine(folder, "relazione-con-copertina.docx"), DocxWriter.Write(coverReport));
         void CheckItec(DocxDocument reportDoc, string kind)
         {
             XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
@@ -86,7 +93,7 @@ internal static class QuickSectionReportChecks
             int coverBlocks = (int)reportDoc.GetXml("anthea/layout.xml").Root!.Attribute("coverBlocks")!;
             var prose = reportBody.Elements().Skip(coverBlocks).Where(p => p.Name == w + "p" && p.Descendants(w + "t").Any()
                 && (string?)p.Element(w + "pPr")?.Element(w + "pStyle")?.Attribute(w + "val") != "Didascalia");
-            expect.That(prose.All(p => !p.Descendants(w + "sz").Any() && !p.Element(w + "pPr")!.Elements(w + "spacing").Any()), "Testi e titoli ereditano dimensioni e spaziature ITEC: " + kind);
+            expect.That(prose.All(p => !p.Descendants(w + "sz").Any() && !p.Descendants(w + "rFonts").Any()), "Testi e titoli ereditano caratteri e dimensioni ITEC: " + kind);
             using var template = typeof(QuickSectionReport).Assembly.GetManifestResourceStream("Anthea.ItecPile.docx")!;
             using var buffer = new MemoryStream(); template.CopyTo(buffer);
             expect.That(reportDoc.GetBytes("word/styles.xml").SequenceEqual(DocxWriter.Read(buffer.ToArray()).GetBytes("word/styles.xml")), "Stili originali del template conservati: " + kind);

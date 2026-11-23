@@ -241,7 +241,7 @@ internal sealed partial class ItecPileReport
         {
             body.Add(P("INDICE", "Titolo1"));
             foreach (var (anchor, text, level) in contents)
-            { var p = P("", level == 1 ? "Sommario1" : "Sommario2"); p.Element(W + "r")!.ReplaceWith(new XElement(W + "hyperlink", new XAttribute(W + "anchor", anchor), Run(text))); body.Add(p); }
+            { var p = P("", level switch { 1 => "Sommario1", 2 => "Sommario2", _ => "Sommario3" }); p.Element(W + "r")!.ReplaceWith(new XElement(W + "hyperlink", new XAttribute(W + "anchor", anchor), Run(text))); body.Add(p); }
         }
         var section = new XElement(document.GetXml("anthea/body-section.xml").Root!);
         section.Elements(W + "type").Remove(); section.Elements(W + "pgNumType").Remove();

@@ -18,93 +18,181 @@ internal sealed partial class ItecPileReport
     {
         bool brief = options.Contains(QuickSectionReport.Brief), header = !brief && options.Contains("intestazione");
         if (!header) body.RemoveNodes();
-        else body.Descendants(W + "br").Where(e => (string?)e.Attribute(W + "type") == "page").Remove();
-        int cover = body.Elements().Count();
-        if (brief) { QuickBrief(title, data, images); FinishQuickSection(title); return; }
-        foreach (var chapter in QuickSectionReport.Outline(data.Cases.Select(c => c.State)).Where(c => c.Key is not ("intestazione" or "indice")))
+        else
         {
-            if (!chapter.Descendants().Any(c => options.Contains(c.Key))) continue;
-            Heading(chapter.Label);
-            if (chapter.Key == "q3") body.Elements().Last().Element(W + "pPr")!.Add(new XElement(W + "pageBreakBefore"));
-            foreach (var part in chapter.Children.Count > 0 ? chapter.Children : new[] { chapter })
+            body.Descendants(W + "br").Where(e => (string?)e.Attribute(W + "type") == "page").Remove();
+            foreach (var paragraph in body.Descendants(W + "p"))
             {
-                if (!options.Contains(part.Key)) continue;
-                if (chapter.Children.Count > 0) Subheading(part.Label);
-                switch (part.Key)
+                var text = paragraph.Descendants(W + "t").ToArray();
+                string? replacement = string.Concat(text.Select(t => t.Value)) switch
                 {
-                    case "oggetto":
-                        Paragraph(title);
-                        Paragraph("Verifica della sezione in calcestruzzo armato soggetta a sforzo normale e flessione " + (data.Straight ? "retta." : "deviata.")
-                            + " Si considerano gli stati limite e le combinazioni assegnati, con i modelli resistenti indicati nelle tabelle.");
-                        Paragraph("Dimensioni in mm, aree in mm², azioni N in kN e momenti in kNm, tensioni in MPa, deformazioni in ‰. "
-                            + "N è positivo a trazione; le tensioni di compressione sono negative. x e y sono gli assi della sezione illustrata. "
-                            + (data.Straight ? "Nella flessione retta My è ignorato: il valore utilizzato nelle verifiche è zero." : "I momenti Mx e My conservano i segni delle combinazioni assegnate."));
-                        break;
-                    case "geometria":
-                        QuickValues("Geometria", data.Geometry);
-                        Paragraph(data.Geometry.Any(v=>v.Label=="Forma" && v.Value=="DXF")
-                            ? "Le coordinate delle barre sono riferite al baricentro del calcestruzzo. Posizioni e diametri provengono dal disegno; staffe non importate."
-                            : "Le coordinate delle barre sono riferite agli assi della sezione. Il copriferro è netto rispetto alla faccia esterna della staffa.");
-                        Table("Armatura longitudinale", ["Barra", "x [mm]", "y [mm]", "Ø [mm]", "As [mm²]"], data.Reinforcement.ToList(), preservePrecision: true);
-                        break;
-                    case "materiali":
-                        QuickValues("Proprietà e coefficienti adottati", data.Materials);
-                        if (data.Cases.Any(c => c.State.StartsWith("SLE"))) Paragraph("Classe di esposizione: " + data.Exposure + ". Il valore n indicato è quello effettivamente utilizzato nel metodo n, con il coefficiente di viscosità φ assegnato.");
-                        break;
-                    case "teoria": QuickTheory(data); break;
-                    case "azioni":
-                        Table("Azioni e modelli per combinazione", ["Combinazione / SL", "N [kN]", "Mx [kNm]", "My [kNm]", "Modello / verso"],
-                            data.Cases.Select(c => new[] { c.Name + " · " + QuickSectionReport.StateName(c.State), c.N, c.Mx, c.My, c.Model + (c.Sign == "—" ? "" : " · " + c.Sign) }).ToList(), [2.4, 1, 1, 1.3, 2], true);
-                        break;
-                    case "riepilogo":
-                        Table("Esiti delle combinazioni", ["Combinazione", "Stato limite", "Rapporto", "Esito complessivo"],
-                            data.Cases.Select(c => new[] { c.Name, QuickSectionReport.StateName(c.State), QNumber(c.Ratio), c.Status }).ToList(), [2, 2, 1, 3], true);
-                        break;
-                    case "avvisi":
-                        foreach (var warning in data.Warnings.Count > 0 ? data.Warnings : ["Nessun avviso restituito dal calcolo."]) Paragraph(warning);
-                        break;
-                    default:
-                        if (part.Key.StartsWith("risultati_"))
-                            foreach (var item in data.Cases.Where(c => "risultati_" + c.State == part.Key)) QuickCase(item);
-                        else
-                        {
-                            var figures = images.Where(i => i.Categoria == part.Key).ToArray();
-                            foreach (var figure in figures) QuickFigure(figure, part.Key == "sezione" ? 3400000 : 4100000);
-                            if (figures.Length == 0) Paragraph("Figura non disponibile per le combinazioni considerate.");
-                        }
-                        break;
-                }
+                    "Verifica della capacità portante verticale del palo" => title,
+                    "Relazione geotecnica" => "Verifica della sezione in calcestruzzo armato",
+                    "Compressione e trazione" => data.Shear is null ? "Pressoflessione" : "Pressoflessione e taglio",
+                    _ => null
+                };
+                if (replacement is null) continue;
+                text[0].Value = replacement;
+                foreach (var run in text.Skip(1)) run.Value = "";
             }
         }
-        if (data.Shear is { } shear && options.Overlaps(new[] { "riepilogo", "risultati_SLU", "risultati_SLV" }))
+        int cover = body.Elements().Count();
+        if (brief) { QuickBrief(title, data, images); FinishQuickSection(title); return; }
+        int thirdLevel = 0;
+        void Title(PileReportContent content, int level)
         {
-            Heading("Verifica a taglio");
-            QuickValues("Armatura resistente a taglio", shear.Parameters);
-            Paragraph("Le barre longitudinali conservano la posizione assegnata dalla geometria. Le combinazioni a taglio sono indipendenti da quelle a flessione; «Copia combinazioni» ne riprende nomi e N. Ogni riga usa il modello armato o non armato indicato; la freccia segnala un modello diverso dalla tipologia assegnata. Torsione esclusa. Ancoraggi e dettagli costruttivi restano da verificare.");
-            Table("Taglio per combinazione e direzione", ["Caso / verifica", "N [kN]", "Dir.", "VEd [kN]", "VRsd [kN]", "VRcd [kN]", "VRd [kN]", "η"],
-                shear.Rows.Select(r => new[] { r.Name + " · " + r.CheckLabel, r.N, r.Axis, r.Action, r.SteelResistance, r.ConcreteResistance, r.Resistance, QNumber(r.Ratio) }).ToList(), [2, 1, .6, 1, 1, 1, 1, .8], true);
-            foreach (var group in shear.Rows.GroupBy(r => r.Status))
-                Paragraph(group.Key + " · " + string.Join("; ", group.Select(r => r.Name + " / " + r.CheckLabel + " / " + r.Axis)) + ".");
-            if (shear.Rows.Count == 0) Paragraph("Nessuna combinazione assegnata per la verifica a taglio.");
+            if (level == 0)
+            {
+                Heading(content.Label);
+                if (chapter > 1) body.Elements().Last().Element(W + "pPr")!.Add(new XElement(W + "pageBreakBefore"));
+            }
+            else if (level == 1) { Subheading(content.Label); thirdLevel = 0; }
+            else AddHeading($"{chapter}.{subchapter}.{++thirdLevel}  {content.Label}", 3);
         }
-        FinishQuickSection(title, cover, options.Contains("indice"));
+        void Content(PileReportContent part, int level)
+        {
+            if (!part.Descendants().Any(c => c.Children.Count == 0 && options.Contains(c.Key))) return;
+            if (part.Children.Count > 0)
+            {
+                Title(part, level);
+                foreach (var child in part.Children) Content(child, level + 1);
+                return;
+            }
+            if (part.Key is not ("oggetto" or "materiali" or "teoria" or "taglio_armatura" or "geometria" or "sezione")) Title(part, level);
+            switch (part.Key)
+            {
+                case "oggetto":
+                    Paragraph(title);
+                    Paragraph("Verifica della sezione in calcestruzzo armato soggetta a sforzo normale e flessione " + (data.Straight ? "retta." : "deviata.")
+                        + " Si considerano gli stati limite e le combinazioni assegnati, con i modelli resistenti indicati nelle tabelle.");
+                    Paragraph("Dimensioni in mm, aree in mm², azioni N in kN e momenti in kNm, tensioni in MPa, deformazioni in ‰. "
+                        + "N è positivo a trazione; le tensioni di compressione sono negative. x e y sono gli assi della sezione illustrata. "
+                        + (data.Straight ? "Nella flessione retta My è ignorato: il valore utilizzato nelle verifiche è zero." : "I momenti Mx e My conservano i segni delle combinazioni assegnate."));
+                    break;
+                case "geometria":
+                    QuickValues("Geometria", data.Geometry);
+                    Paragraph(data.Geometry.Any(v=>v.Label=="Forma" && v.Value=="DXF")
+                        ? "Le coordinate delle barre sono riferite al baricentro del calcestruzzo. Posizioni e diametri provengono dal disegno; staffe non importate."
+                        : "Le coordinate delle barre sono riferite agli assi della sezione. Il copriferro è netto rispetto alla faccia esterna della staffa.");
+                    Table("Armatura longitudinale", ["Barra", "x [mm]", "y [mm]", "Ø [mm]", "As [mm²]"], data.Reinforcement.ToList(), preservePrecision: true);
+                    break;
+                case "materiali":
+                    QuickValues("Proprietà e coefficienti adottati", data.Materials);
+                    if (data.Cases.Any(c => c.State.StartsWith("SLE"))) Paragraph("Classe di esposizione: " + data.Exposure + ". Il valore n indicato è quello effettivamente utilizzato nel metodo n, con il coefficiente di viscosità φ assegnato.");
+                    break;
+                case "taglio_armatura":
+                    if (data.Shear is { } reinforcement) QuickValues("Armatura e impostazioni a taglio", reinforcement.Parameters);
+                    break;
+                case "teoria": QuickTheory(data); break;
+                case "azioni":
+                    Table("Azioni e modelli per combinazione", ["Combinazione / SL", "N [kN]", "Mx [kNm]", "My [kNm]", "Modello / verso"],
+                        data.Cases.Select(c => new[] { c.Name + " · " + QuickSectionReport.StateName(c.State), c.N, c.Mx, c.My, c.Model + (c.Sign == "—" ? "" : " · " + c.Sign) }).ToList(), [2.4, 1, 1, 1.3, 2], true);
+                    break;
+                case "azioni_taglio":
+                    Table("Combinazioni a taglio", ["Combinazione", "Tipologia / modello", "N [kN]", "Vx [kN]", "Vy [kN]"],
+                        (data.Shear?.Actions ?? []).Select(r => new[] { r.Name, r.CheckLabel, r.N, r.Vx, r.Vy }).ToList(), [2.4, 2.2, 1, 1, 1], true);
+                    break;
+                case "riepilogo":
+                    Table("Esiti delle combinazioni", ["Combinazione", "Stato limite", "Rapporto", "Esito complessivo"],
+                        data.Cases.Select(c => new[] { c.Name, QuickSectionReport.StateName(c.State), QNumber(c.Ratio), c.Status }).ToList(), [2, 2, 1, 3], true);
+                    break;
+                case "taglio_riepilogo":
+                    QuickShearSummary(data.Shear!);
+                    break;
+                case "taglio_armata":
+                case "taglio_non_armata":
+                    QuickShearDetails(data.Shear!, part.Key == "taglio_armata");
+                    break;
+                default:
+                    if (part.Key.StartsWith("risultati_"))
+                        foreach (var item in data.Cases.Where(c => "risultati_" + c.State == part.Key))
+                        {
+                            QuickCase(item);
+                            if (item.State.StartsWith("SLE"))
+                                foreach (var figure in images.Where(i => i.Categoria == QuickSectionReport.ServiceStressCategory(item.Id)))
+                                    QuickFigure(figure, 3100000);
+                        }
+                    else
+                    {
+                        var figures = images.Where(i => i.Categoria == part.Key).ToArray();
+                        foreach (var figure in figures) QuickFigure(figure, part.Key == "sezione" ? 3400000 : 4100000);
+                        if (figures.Length == 0) Paragraph("Figura non disponibile per le combinazioni considerate.");
+                    }
+                    break;
+            }
+        }
+        foreach (var item in QuickSectionReport.Outline(data.Cases.Select(c => c.State), data.Shear?.Rows.Select(r => r.EffectiveModel) ?? [])
+            .Where(c => c.Key is not ("intestazione" or "indice"))) Content(item, 0);
+        FinishQuickSection(title, cover, options.Contains("indice"), spaced: true);
     }
 
-    void FinishQuickSection(string title, int cover = 0, bool index = false)
+    static string QuickShearOutcome(QuickShearReportRow row) => row.Passed is bool passed ? passed ? "Verificata" : "Non verificata" : "Non determinata";
+
+    void QuickShearSummary(QuickShearReport shear)
+    {
+        Table("Esiti delle combinazioni a taglio", ["Combinazione / verifica", "Dir.", "VEd [kN]", "VRd [kN]", "η", "Esito"],
+            shear.Rows.Select(r => new[] { r.Name + " · " + r.CheckLabel, r.Axis, r.Action, r.Resistance, QNumber(r.Ratio), QuickShearOutcome(r) }).ToList(),
+            [2.8, .6, 1, 1, .8, 1.6], true);
+        QuickShearErrors(shear.Rows);
+    }
+
+    void QuickShearDetails(QuickShearReport shear, bool withLinks)
+    {
+        var rows = shear.Rows.Where(r => r.EffectiveModel == (withLinks ? "Con armatura" : "Non armata")).ToArray();
+        if (withLinks)
+            Table("Resistenza a taglio con armatura", ["Combinazione", "Dir.", "cot θ", "VRsd [kN]", "VRcd [kN]", "VRd [kN]", "η", "Esito"],
+                rows.Select(r => new[] { r.Name, r.Axis, r.Cotangent.Length > 0 ? r.Cotangent : "—", r.SteelResistance, r.ConcreteResistance,
+                    r.Resistance, QNumber(r.Ratio), QuickShearOutcome(r) }).ToList(), [1.9, .5, .7, 1, 1, 1, .7, 1.5], true);
+        else
+            Table("Resistenza della sezione non armata a taglio", ["Combinazione", "Dir.", "VEd [kN]", "VRd [kN]", "η", "Esito"],
+                rows.Select(r => new[] { r.Name, r.Axis, r.Action, r.Resistance, QNumber(r.Ratio), QuickShearOutcome(r) }).ToList(), [2.2, .6, 1, 1, .8, 1.6], true);
+        QuickShearErrors(rows);
+    }
+
+    void QuickShearErrors(IEnumerable<QuickShearReportRow> rows)
+    {
+        foreach (var row in rows.Where(r => r.Passed is null)) Paragraph(row.Name + " · " + row.Axis + ": " + row.Status);
+    }
+
+    void FinishQuickSection(string title, int cover = 0, bool index = false, bool spaced = false)
     {
         // The cover is optional; the recurring ITEC furniture and typography are not.
-        // Keep compact technical tables, but let prose and headings inherit the original styles.
+        // Preserve ITEC typography; the complete report has deliberate space between blocks.
         foreach (var p in body.Elements().Skip(cover).Where(e => e.Name == W + "p").ToArray())
         {
-            if (p.Descendants(W + "drawing").Any() || p.Descendants(HM + "oMathPara").Any()) continue;
+            if (p.Descendants(HM + "oMathPara").Any()) continue;
+            if (p.Descendants(W + "drawing").Any())
+            {
+                if (spaced) Spacing(p.Element(W + "pPr")!, 140, 60);
+                continue;
+            }
             if (!p.Descendants(W + "t").Any(t => t.Value.Length > 0)) { p.Remove(); continue; }
             var properties = p.Element(W + "pPr");
             string? style = (string?)properties?.Element(W + "pStyle")?.Attribute(W + "val");
-            if (style == "Didascalia") continue;
+            if (style == "Didascalia")
+            {
+                if (spaced) Spacing(properties!, Text(p).StartsWith("Tabella") ? 140 : 60, Text(p).StartsWith("Tabella") ? 80 : 140);
+                continue;
+            }
             properties?.Elements(W + "spacing").Remove();
             properties?.Elements(W + "jc").Remove();
             p.Descendants(W + "rPr").Elements().Where(e => e.Name == W + "sz" || e.Name == W + "szCs" || e.Name == W + "rFonts").Remove();
+            if (spaced)
+            {
+                var (before, after) = style switch
+                {
+                    "Titolo1" => (320, 180),
+                    "Titolo2" => (240, 140),
+                    "Titolo3" => (200, 120),
+                    _ when properties?.Element(W + "keepNext") is not null => (160, 80),
+                    _ => (p.PreviousNode is XElement previous && previous.Name == W + "tbl" ? 140 : 0, 100)
+                };
+                Spacing(properties!, before, after);
+            }
         }
+        if (spaced)
+            foreach (var margin in body.Elements().Skip(cover).SelectMany(e => e.Descendants(W + "tblCellMar")).Elements()
+                .Where(e => e.Name == W + "top" || e.Name == W + "bottom")) margin.SetAttributeValue(W + "w", 60);
         FinishFamily(cover, header: true, index);
         // Replace template field caches: the old sample name and page count must never leak.
         foreach (var relation in relations.Elements().Where(e => ((string?)e.Attribute("Type"))?.EndsWith("/footer", StringComparison.Ordinal) == true))
@@ -135,6 +223,12 @@ internal sealed partial class ItecPileReport
             section.Element(W + "pgMar")!.AddAfterSelf(new XElement(W + "pgNumType", new XAttribute(W + "start", "1")));
         }
         document.SetXml("word/document.xml", xml.ToString());
+
+        static void Spacing(XElement properties, int before, int after)
+        {
+            properties.Elements(W + "spacing").Remove();
+            properties.Add(new XElement(W + "spacing", new XAttribute(W + "before", before), new XAttribute(W + "after", after)));
+        }
     }
 
     static string QNumber(double? value) => EngineeringFormat.Number(value);
@@ -145,6 +239,7 @@ internal sealed partial class ItecPileReport
     void QuickCase(QuickReportCase item)
     {
         Paragraph(item.Name + " · " + item.Model);
+        body.Elements().Last().Element(W + "pPr")!.Add(new XElement(W + "keepNext"));
         Table("Verifiche · " + item.Name, ["Verifica", "Risultato", "Rapporto", "Esito"],
             item.Checks.Select(c => new[] { c.Kind, c.Value.Replace("\n", "; "), QNumber(c.Ratio), QOutcome(c) }).ToList(), [1.4, 3.5, 1, 1.5], true);
         foreach (var check in item.Checks) Paragraph(check.Kind + ": " + check.Detail);
@@ -158,14 +253,11 @@ internal sealed partial class ItecPileReport
         {
             Paragraph("La resistenza è valutata sul dominio della sezione, con equilibrio e compatibilità delle deformazioni e con il modello plastico o elastico assegnato a ciascuna combinazione. Il rapporto di utilizzo η è ottenuto a sforzo normale costante; il punto resistente è riferito alla direzione dell’azione.");
             QuickEquation("eta", "η ≤ 1");
-            Paragraph("Nella flessione retta si riporta il momento resistente del verso selezionato. Nella flessione deviata si riportano le componenti del punto resistente. Il comportamento è classificato sulla deformazione dell’armatura tesa al punto resistente:");
-            QuickEquation("ductility", QSub("ε", "s"), " ≥ ", QSub("ε", "yd"), "  :  comportamento duttile");
-            Paragraph("Se εs è inferiore a εyd il comportamento è fragile. In assenza delle deformazioni l’esito non è determinato.");
+            Paragraph("Nella flessione retta si riporta il momento resistente del verso selezionato. Nella flessione deviata si riportano le componenti del punto resistente.");
         }
         if (data.Cases.Any(c => c.State.StartsWith("SLE")))
         {
-            Paragraph("Le verifiche di esercizio utilizzano il metodo n, con il coefficiente di omogeneizzazione e la viscosità adottati dal calcolo. Le tensioni sono confrontate con i limiti dello stato limite considerato.");
-            QuickEquation("n", QSub("n", "0"), " = ", HFrac(QSub("E", "s"), QSub("E", "cm")));
+            Paragraph("Le verifiche di esercizio utilizzano il metodo n.");
             if (data.Cases.Any(c => c.State is "SLE" or "SLE_QP"))
             {
                 Paragraph("Per il calcestruzzo si confronta il valore assoluto della tensione di compressione con il limite adottato.");
@@ -204,7 +296,7 @@ internal sealed partial class ItecPileReport
         {
             string ShearParameter(string label) => shearParameters.Parameters.FirstOrDefault(p => p.Label == label)?.Value ?? "—";
             BriefText("Taglio: " + ShearParameter("Modello") + "; " + (shearParameters.UsesGeometryStirrup ? "staffa geometrica effettiva" : "armatura a taglio indipendente (geometrica esclusa)")
-                + ". Ø " + ShearParameter("Ø resistente") + " mm, passo " + ShearParameter("Passo resistente") + " mm; rami Vx/Vy " + ShearParameter("Rami Vx / Vy")
+                + ". Ø " + ShearParameter("Ø resistente") + " mm, passo " + ShearParameter("Passo resistente") + " mm; braccia Vx/Vy " + ShearParameter("Braccia Vx / Vy")
                 + "; α " + ShearParameter("α Vx / Vy") + "°; cot θ " + ShearParameter("cot θ Vx / Vy") + ".", 10, 0);
         }
         BriefHeading("3  Casi governanti per verifica", page: true);
