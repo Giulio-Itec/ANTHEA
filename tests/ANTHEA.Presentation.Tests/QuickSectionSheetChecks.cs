@@ -604,6 +604,9 @@ internal static class QuickSectionSheetChecks
 
         expect.That(module.Reports.ShortReport, "Relazione breve disponibile per la verifica rapida");
         QuickSectionReportChecks.Run(expect, folder);
+        await QuickCombinationOrderChecks.Run(expect, folder, data => Open(data));
+        await QuickShearChecks.Run(expect, folder, data => Open(data));
+        await QuickSectionCopyChecks.Run(expect, folder);
 
         // The examples of the distribution: valid documents that calculate without errors.
         var examples = Directory.Exists(ExampleFolder(root)) ? Directory.GetFiles(ExampleFolder(root), "*.anthea") : [];

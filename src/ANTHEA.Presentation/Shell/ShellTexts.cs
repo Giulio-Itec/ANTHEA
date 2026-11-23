@@ -40,9 +40,9 @@ public static class ShellTexts
     /// Heading of a sheet (MainWindow.SheetHeading): its name; with an archived revision on screen « · Rev. n · sola lettura»;
     /// otherwise « · Rev. n» of the nearest section above it with a revision; nothing more outside a revised section.
     /// </summary>
-    public static string SheetHeading(JsonObject sheet, int? displayedRevision)
+    public static string SheetHeading(JsonObject sheet, int? displayedRevision, string? displayName = null)
     {
-        string title = SheetName(sheet);
+        string title = string.IsNullOrWhiteSpace(displayName) ? SheetName(sheet) : displayName;
         if (displayedRevision is int selected) return title + " · Rev. " + selected + " · sola lettura";
         for (var owner = sheet.Parent?.Parent as JsonObject; owner is not null; owner = owner.Parent?.Parent as JsonObject)
             if (owner["revisione"] is JsonObject revision) return title + " · Rev. " + RevisionNumber(revision);

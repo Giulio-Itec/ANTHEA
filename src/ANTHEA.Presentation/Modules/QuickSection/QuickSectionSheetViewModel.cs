@@ -135,7 +135,7 @@ public sealed class QuickSectionSheetModule(IQuickSectionFigureRenderer? figures
 /// calculation is the service of the module (<see cref="ConcreteQuickSectionService"/>), which calls the engine of the RC section after every edit,
 /// with the delay of the other sheets. The ViewModel computes nothing: the values come from <see cref="ConcreteQuickSection"/>.
 /// </summary>
-public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
+public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase, ISheetDisplayName
 {
     /// <summary>The delay of the automatic recalculation after an edit.</summary>
     public static TimeSpan RecalculationDelay { get; } = TimeSpan.FromMilliseconds(450);
@@ -152,6 +152,9 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         Report = new ReportSource(this);
         AddLayerCommand = GuardedCommands.Create(Guard, AddLayer, () => CanEdit && HasLayers);
         AddCombinationCommand = GuardedCommands.Create(Guard, AddCombination, () => CanEdit);
+        MoveCombinationUpCommand = GuardedCommands.Create(Guard, () => MoveCombination(-1), () => CanMoveCombination(-1));
+        MoveCombinationDownCommand = GuardedCommands.Create(Guard, () => MoveCombination(1), () => CanMoveCombination(1));
+        ResetCombinationSettingsCommand = GuardedCommands.Create(Guard, ResetCombinationSettings, CanResetCombinationSettings);
         CoverHelpCommand = GuardedCommands.Create(Guard, () => Context.Services.Messages.Inform(ConcreteQuickSection.CoverHelpTitle, ConcreteQuickSection.CoverHelp));
         ExportExcelCommand = GuardedCommands.Create(Guard, ExportExcel);
         ImportExcelCommand = GuardedCommands.Create(Guard, ImportExcel, () => CanEdit);
@@ -307,6 +310,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The settings of the selected combination shown again (selection, limit state, model, sign).</summary>
     private void NotifyCombinationSettings()
     {
+        ResetCombinationSettingsCommand.NotifyCanExecuteChanged();
         foreach (string p in new[] { nameof(Model), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(IsServiceMethod), nameof(RatioHeader) })
             OnPropertyChanged(p);
     }
@@ -324,7 +328,28 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     public string Title
     {
         get => View.S("titolo");
-        set { if (value is not null && value != Title && Edit(d => ConcreteQuickSection.View(d)["titolo"] = value)) OnPropertyChanged(); }
+        set
+        {
+            if (value is not null && value != Title && Edit(d => ConcreteQuickSection.View(d)["titolo"] = value.Trim()))
+            { OnPropertyChanged(); OnPropertyChanged(nameof(DisplayName)); }
+        }
+    }
+
+    public string? DisplayName => string.IsNullOrWhiteSpace(Title) ? null : Title.Trim();
+
+    /// <summary>Copies the whole section, combinations and settings; preserves this sheet's name and recalculates its results.</summary>
+    public bool CopyFrom(JsonObject source)
+    {
+        if (!CanEdit) return false;
+        var copy = ConcreteQuickSection.CopyFor(source, Data);
+        if (!Edit(data =>
+        {
+            data.Clear();
+            foreach (var item in copy) data[item.Key] = item.Value?.DeepClone();
+        })) return false;
+        shearView = null; shearSelection = null;
+        BuildForms(); RefreshDrawing(); AddLayerCommand.NotifyCanExecuteChanged();
+        return true;
     }
 
     /// <summary>What the drawing area shows: the section, or the chart chosen (domain or moment–curvature).</summary>
@@ -384,7 +409,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
     /// <summary>The exposure class (18/11/2026), under φ: the environment and the limit of the cracking of the SLE combinations.</summary>
     public FieldViewModel ExposureField => CreepForm[ConcreteQuickSection.ExposureKey];
 
-    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, CreepForm }.Where(f => f is not null);
+    private IEnumerable<FormViewModel> Forms => new[] { GeometryForm, BarsForm, StirrupForm, MaterialsForm, CreepForm }.Where(f => f is not null).Concat(ShearForms);
 
     /// <summary>The diameter of the links, with the bars.</summary>
     public FieldViewModel StirrupField => StirrupForm["transverse_bar_diameter_mm"];
@@ -421,6 +446,11 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
 
     /// <summary>«+»: a new combination at zero, selected.</summary>
     public IRelayCommand AddCombinationCommand { get; private set; } = null!;
+
+    /// <summary>Moves the selected combination by one row without changing which combination is selected.</summary>
+    public IRelayCommand MoveCombinationUpCommand { get; }
+    public IRelayCommand MoveCombinationDownCommand { get; }
+    public IRelayCommand ResetCombinationSettingsCommand { get; }
 
     /// <summary>The identifier of the selected combination.</summary>
     public string? SelectedCombinationId => ConcreteQuickSection.SelectedCombination(Data);
@@ -482,11 +512,13 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
                 new(ConcreteQuickSection.ExposureKey, "Esp.", Choices: ConcreteQuickSection.ExposureChoices.ToArray(), ToolTip: ConcreteQuickSection.ExposureHelp)],
                 key => ServiceEdited(service, key));
             BuildCombinations();
+            BuildShearForms();
+            BuildShearCombinations();
         }
         finally { building = false; }
         foreach (string p in new[] { nameof(GeometryForm), nameof(BarsForm), nameof(StirrupForm), nameof(StirrupField), nameof(MaterialsForm), nameof(CreepForm), nameof(CreepField), nameof(ExposureField),
             nameof(ConcreteFields), nameof(SteelFields),
-            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(IsDxf), nameof(IsParametric), nameof(HasLayers), nameof(DxfDescription), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title),
+            nameof(BarRows), nameof(RatioHeader), nameof(Shape), nameof(IsCircular), nameof(IsDxf), nameof(IsParametric), nameof(HasLayers), nameof(DxfDescription), nameof(Methods), nameof(Method), nameof(StraightMethod), nameof(BiaxialMethod), nameof(Model), nameof(Bending), nameof(Chart), nameof(Title), nameof(DisplayName),
             nameof(IsStraight), nameof(IsServiceMethod), nameof(ShowsDomain) })
             OnPropertyChanged(p);
     }
@@ -526,6 +558,30 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
                 GuardedCommands.Create(Guard, () => SelectCombination(id)));
         }).ToArray();
         OnPropertyChanged(nameof(CombinationRows)); OnPropertyChanged(nameof(SelectedCombinationId)); NotifyCombinationSettings();
+        NotifyCombinationOrder();
+        NotifyShear();
+    }
+
+    private bool CanMoveCombination(int direction) => CanEdit && ConcreteQuickSection.CanMoveCombination(Data, SelectedCombinationId, direction);
+
+    private bool CanResetCombinationSettings() => CanEdit && ConcreteQuickSection.CanResetCombinationSettings(Data);
+
+    private void ResetCombinationSettings()
+    {
+        if (!CanResetCombinationSettings()) return;
+        if (Edit(ConcreteQuickSection.ResetCombinationSettings)) BuildCombinations();
+    }
+
+    private void MoveCombination(int direction)
+    {
+        if (!CanMoveCombination(direction) || SelectedCombinationId is not { } id) return;
+        if (Edit(d => ConcreteQuickSection.MoveCombination(d, id, direction))) BuildCombinations();
+    }
+
+    private void NotifyCombinationOrder()
+    {
+        MoveCombinationUpCommand.NotifyCanExecuteChanged();
+        MoveCombinationDownCommand.NotifyCanExecuteChanged();
     }
 
     private void AddCombination()
@@ -628,6 +684,8 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             OnPropertyChanged(nameof(SelectedCombinationId));
             foreach (var row in CombinationRows) row.Refresh();
             NotifyCombinationSettings();
+            NotifyCombinationOrder();
+            NotifyShear();
         }
     }
 
@@ -637,6 +695,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         if (building || IsDisposed) return false;
         if (!Edit(d => ConcreteQuickSection.SetCombinationState(d, id, state))) return false;
         NotifyCombinationSettings();
+        NotifyShear();
         return true;
     }
 
@@ -664,6 +723,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.ApplyLayers(Data);
         Changed();
         RefreshDrawing();
+        NotifyShear();
     }
 
     // φ or the exposure changed: written where the RC section reads it, then the serviceability checks calculated again.
@@ -741,6 +801,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
 
     private void RefreshResults()
     {
+        NotifyShear();
         foreach (string p in new[] { nameof(Current), nameof(Summary), nameof(IsDuctile), nameof(MaterialValues), nameof(ConcreteValues), nameof(SteelValues), nameof(ResultValues), nameof(Errors), nameof(DomainGeometry),
             nameof(DomainActions), nameof(CurvaturePoints), nameof(SectionStress), nameof(StressCallouts), nameof(Status) })
             OnPropertyChanged(p);
@@ -758,6 +819,7 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
             AddLayerCommand?.NotifyCanExecuteChanged();
             AddCombinationCommand?.NotifyCanExecuteChanged();
             importDxfCommand?.NotifyCanExecuteChanged();
+            NotifyShear();
         }
         if (e.PropertyName is nameof(Revision) or nameof(Result)) RefreshResults();
         if (e.PropertyName is nameof(CalculationState) or nameof(CalculationMessage)) OnPropertyChanged(nameof(Status));
@@ -769,6 +831,6 @@ public sealed partial class QuickSectionSheetViewModel : SheetViewModelBase
         ConcreteQuickSection.Validate(Data);
     }
 
-    protected override void OnReloaded() { BuildForms(); RefreshDrawing(); }
+    protected override void OnReloaded() { shearView = null; shearSelection = null; BuildForms(); RefreshDrawing(); NotifyShear(); }
 
 }

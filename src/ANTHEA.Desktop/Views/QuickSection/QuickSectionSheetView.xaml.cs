@@ -29,6 +29,7 @@ public partial class QuickSectionSheetView : UserControl
         DrawingHost.Content = Drawing;
         ChartHost.Content = Chart;
         DataContextChanged += (_, _) => Attach(DataContext as QuickSectionSheetViewModel);
+        Loaded += (_, _) => ResizeShearWindow();
     }
 
     /// <summary>The focus of an editor, reported to its field as FieldForm does: leaving the field confirms the text typed.</summary>
@@ -79,6 +80,7 @@ public partial class QuickSectionSheetView : UserControl
 
     private void OnSheetChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(QuickSectionSheetViewModel.ShearExpanded)) ResizeShearWindow();
         if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.StressCallouts) or nameof(QuickSectionSheetViewModel.SecondRingLinkDiameter)
             or nameof(QuickSectionSheetViewModel.DrawingMessage))
             DrawSection();
@@ -88,6 +90,27 @@ public partial class QuickSectionSheetView : UserControl
         // The area shown again is drawn with its new size.
         if (e.PropertyName == nameof(QuickSectionSheetViewModel.ShowsSection))
             _ = Dispatcher.InvokeAsync(() => { DrawSection(); DrawChart(); }, System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    private double? compactWindowWidth;
+    private double? expandedWindowWidth;
+    private const double ShearWindowFrameWidth = 20;
+    private void ResizeShearWindow()
+    {
+        // Only this module's detached window: an embedded sheet must never resize the ANTHEA main window.
+        if (sheet is null || !IsLoaded || Window.GetWindow(this) is not X.Desktop.Views.Shell.DetachedShellWindow window || window.WindowState != WindowState.Normal) return;
+        if (sheet.ShearExpanded && compactWindowWidth is null)
+        {
+            if (window.Width >= sheet.SheetMinimumWidth + ShearWindowFrameWidth) return;
+            compactWindowWidth = window.Width;
+            window.Width += 520;
+            _ = Dispatcher.InvokeAsync(() => expandedWindowWidth = window.Width, System.Windows.Threading.DispatcherPriority.Loaded);
+        }
+        else if (!sheet.ShearExpanded && compactWindowWidth is { } width)
+        {
+            if (expandedWindowWidth is { } expanded && Math.Abs(window.Width - expanded) < 2) window.Width = width;
+            compactWindowWidth = expandedWindowWidth = null;
+        }
     }
 
     private void DrawSection()

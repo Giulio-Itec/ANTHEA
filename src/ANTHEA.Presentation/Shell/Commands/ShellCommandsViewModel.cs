@@ -45,7 +45,7 @@ public sealed record ShellMenuItem(string Title, IRelayCommand? Command = null, 
 /// with the file names, the conditions and the messages of today for each module; undo and redo of the project; the requests that only the
 /// view can satisfy (examples page, rheology window, exit) as events. They act on the sheet with the focus and on its document (SH21).
 /// </summary>
-public sealed class ShellCommandsViewModel : ViewModelBase
+public sealed partial class ShellCommandsViewModel : ViewModelBase
 {
     public const string WordFilter = "Word e PDF affiancati";
     public const string ShortTitle = "Report short";
@@ -104,6 +104,8 @@ public sealed class ShellCommandsViewModel : ViewModelBase
             sheet => SupportsBriefReport(sheet ?? workspace.Active));
         ShortReportCommand = new AsyncRelayCommand(ExportShortReportAsync, () => !shortRunning);
         ResultsCommand = GuardedCommands.Create(guard, ExportResults);
+        CopySectionToCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => CopySectionAsync(sheet, true)), sheet => CanCopySection(sheet, true));
+        CopySectionFromCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => CopySectionAsync(sheet, false)), sheet => CanCopySection(sheet, false));
         ExitCommand = GuardedCommands.Create(guard, () => ExitRequested?.Invoke(this, EventArgs.Empty));
         UndoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(false), () => workspace.Project?.CanUndo == true);
         RedoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(true), () => workspace.Project?.CanRedo == true);
@@ -319,10 +321,11 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         OnPropertyChanged(nameof(ShortReportVisible));
         OnPropertyChanged(nameof(BriefReportVisible));
         BriefReportCommand.NotifyCanExecuteChanged();
+        NotifySectionCopy();
         UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints();
     }
 
-    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); }
+    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); NotifySectionCopy(); }
 
     private void NotifyHints() { OnPropertyChanged(nameof(UndoHint)); OnPropertyChanged(nameof(RedoHint)); }
 

@@ -11,7 +11,14 @@ public sealed record QuickReportCase(string Id, string Name, string State, strin
     IReadOnlyList<QuickReportValue> Values, IReadOnlyList<QuickReportCheck> Checks);
 public sealed record QuickSectionReportData(string Shape, bool Straight, string Exposure,
     IReadOnlyList<QuickReportValue> Geometry, IReadOnlyList<QuickReportValue> Materials,
-    IReadOnlyList<string[]> Reinforcement, IReadOnlyList<QuickReportCase> Cases, IReadOnlyList<string> Warnings);
+    IReadOnlyList<string[]> Reinforcement, IReadOnlyList<QuickReportCase> Cases, IReadOnlyList<string> Warnings,
+    QuickShearReport? Shear = null);
+public sealed record QuickShearReport(IReadOnlyList<QuickReportValue> Parameters, IReadOnlyList<QuickShearReportRow> Rows, bool UsesGeometryStirrup = false);
+public sealed record QuickShearReportRow(string Name, string Condition, string N, string Action, string Axis,
+    string SteelResistance, string ConcreteResistance, string Resistance, double? Ratio, bool? Passed, string Status, string Model = "")
+{
+    public string CheckLabel => Model.Length == 0 || Model == Condition ? Condition : Condition + " → " + Model;
+}
 
 public static class QuickSectionReport
 {

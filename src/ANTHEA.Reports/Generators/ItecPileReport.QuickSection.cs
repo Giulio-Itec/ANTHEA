@@ -76,6 +76,17 @@ internal sealed partial class ItecPileReport
                 }
             }
         }
+        if (data.Shear is { } shear && options.Overlaps(new[] { "riepilogo", "risultati_SLU", "risultati_SLV" }))
+        {
+            Heading("Verifica a taglio");
+            QuickValues("Armatura resistente a taglio", shear.Parameters);
+            Paragraph("Le barre longitudinali conservano la posizione assegnata dalla geometria. Le combinazioni a taglio sono indipendenti da quelle a flessione; «Copia combinazioni» ne riprende nomi e N. Ogni riga usa il modello armato o non armato indicato; la freccia segnala un modello diverso dalla tipologia assegnata. Torsione esclusa. Ancoraggi e dettagli costruttivi restano da verificare.");
+            Table("Taglio per combinazione e direzione", ["Caso / verifica", "N [kN]", "Dir.", "VEd [kN]", "VRsd [kN]", "VRcd [kN]", "VRd [kN]", "η"],
+                shear.Rows.Select(r => new[] { r.Name + " · " + r.CheckLabel, r.N, r.Axis, r.Action, r.SteelResistance, r.ConcreteResistance, r.Resistance, QNumber(r.Ratio) }).ToList(), [2, 1, .6, 1, 1, 1, 1, .8], true);
+            foreach (var group in shear.Rows.GroupBy(r => r.Status))
+                Paragraph(group.Key + " · " + string.Join("; ", group.Select(r => r.Name + " / " + r.CheckLabel + " / " + r.Axis)) + ".");
+            if (shear.Rows.Count == 0) Paragraph("Nessuna combinazione assegnata per la verifica a taglio.");
+        }
         FinishFamily(cover, header, options.Contains("indice"));
     }
 
@@ -142,18 +153,43 @@ internal sealed partial class ItecPileReport
         SmallTable(["Acciaio", "fyk [MPa]", "fyd [MPa]", "Es [MPa]", "γs", "εyd [‰]"],
             [[Material("Acciaio"), Material("fyk"), Material("fyd"), Material("Es"), Material("γs"), Material("εyd")]], [1.6, 1.2, 1.2, 1.5, .8, .8]);
         BriefText(Material("Normativa") + ". Esposizione: " + data.Exposure + ". n₀ = " + Material("n₀") + "; n = " + Material("n") + ", " + (data.Materials.FirstOrDefault(v => v.Label == "n")?.Note ?? ""), 10);
+        if (data.Shear is { } shearParameters)
+        {
+            string ShearParameter(string label) => shearParameters.Parameters.FirstOrDefault(p => p.Label == label)?.Value ?? "—";
+            BriefText("Taglio: " + ShearParameter("Modello") + "; " + (shearParameters.UsesGeometryStirrup ? "staffa geometrica effettiva" : "armatura a taglio indipendente (geometrica esclusa)")
+                + ". Ø " + ShearParameter("Ø resistente") + " mm, passo " + ShearParameter("Passo resistente") + " mm; rami Vx/Vy " + ShearParameter("Rami Vx / Vy")
+                + "; α " + ShearParameter("α Vx / Vy") + "°; cot θ " + ShearParameter("cot θ Vx / Vy") + ".", 10, 0);
+        }
         BriefHeading("3  Casi governanti per verifica", page: true);
         BriefText("Il caso con rapporto massimo è individuato separatamente per stato limite e verifica. Gli esiti non determinati restano riportati. La quasi permanente richiede tensioni e fessurazione entrambe verificate.", 10);
         var governing = QuickSectionReport.Governing(data);
-        SmallTable(["Stato / verifica", "Combinazione", "Risultato", "Rapporto / esito"], governing.Select(p => new[] {
-            QuickSectionReport.StateName(p.Case.State) + "\n" + p.Check.Kind, p.Case.Name, p.Check.Value + (p.Check.Limits.Length > 0 ? "\nLimiti: " + p.Check.Limits : ""), QNumber(p.Check.Ratio) + "\n" + QOutcome(p.Check) }).ToList(), [1.7, 1.5, 3, 1.6]);
+        if (data.Shear is null)
+            SmallTable(["Stato / verifica", "Combinazione", "Risultato", "Rapporto / esito"], governing.Select(p => new[] {
+                QuickSectionReport.StateName(p.Case.State) + "\n" + p.Check.Kind, p.Case.Name, p.Check.Value + (p.Check.Limits.Length > 0 ? "\nLimiti: " + p.Check.Limits : ""), QNumber(p.Check.Ratio) + "\n" + QOutcome(p.Check) }).ToList(), [1.7, 1.5, 3, 1.6]);
+        else
+            SmallTable(["SL / verifica", "Caso / modello", "N / Mx / My", "Risultato", "η / esito"], governing.Select(p => new[] {
+                p.Case.State + "\n" + p.Check.Kind, p.Case.Name + "\n" + p.Case.Model, p.Case.N + "\n" + p.Case.Mx + "\n" + p.Case.My,
+                p.Check.Value + (p.Check.Limits.Length > 0 ? "\nLimiti: " + p.Check.Limits : ""), QNumber(p.Check.Ratio) + "\n" + QOutcome(p.Check) }).ToList(), [1.3, 1.7, 1.2, 2.7, 1.3]);
+        if (data.Shear is null)
+        {
         BriefHeading("4  Azioni dei casi governanti");
         SmallTable(["Combinazione / SL", "N [kN]", "Mx [kNm]", "My [kNm]", "Modello"], governing.Select(p => p.Case).DistinctBy(c => c.Id)
             .Select(c => new[] { c.Name + "\n" + QuickSectionReport.StateName(c.State), c.N, c.Mx, c.My, c.Model }).ToList(), [2.5, 1, 1, 1.3, 1.8]);
+        }
+        else
+        {
+            BriefHeading("4  Taglio · casi governanti per verifica e direzione");
+            var shearRows = data.Shear.Rows.GroupBy(r => (r.Condition, r.Model, r.Axis)).SelectMany(g => g.Where(r => r.Ratio is null).Concat(g.Where(r => r.Ratio is not null).OrderByDescending(r => r.Ratio).Take(1))).ToArray();
+            SmallTable(["Caso / verifica", "N [kN]", "Dir.", "VEd [kN]", "VRd [kN]", "η / esito"], shearRows.Select(r => new[] {
+                r.Name + "\n" + r.CheckLabel, r.N, r.Axis, r.Action, r.Resistance, QNumber(r.Ratio) + "\n" + (r.Passed is bool passed ? passed ? "Verificata" : "Non verificata" : "Non determinata") }).ToList(), [2, 1, .7, 1, 1, 1.8]);
+            foreach (var row in shearRows.Where(r => r.Passed is null)) BriefText(row.Name + " " + row.Axis + ": " + row.Status, 10);
+            if (shearRows.Length == 0) BriefText("Nessuna combinazione a taglio assegnata.", 10);
+        }
         foreach (var item in governing.Where(p => p.Check.Kind == "Resistenza")) BriefText(item.Case.Name + ": " + item.Case.Behaviour, 10);
         var domain = images.FirstOrDefault(i => i.Categoria == "dominio");
-        if (domain is not null && governing.Count <= 3) QuickFigure(domain, 1900000, brief: true);
-        BriefText("Criteri: η ≤ 1; tensioni entro i limiti; wk ≤ wlim. Valori di dettaglio, ipotesi e combinazioni complete nella relazione estesa.", 10);
+        if (domain is not null && governing.Count <= 3 && data.Shear is null) QuickFigure(domain, 1900000, brief: true);
+        BriefText("Criteri: η ≤ 1; tensioni entro i limiti; wk ≤ wlim. Valori di dettaglio, ipotesi e combinazioni complete nella relazione estesa."
+            + (data.Shear is null ? "" : " Taglio con o senza armatura trasversale; torsione, ancoraggi e dettagli costruttivi esclusi."), 10);
     }
 
     static XElement QSub(string value, string subscript) => new(HM + "sSub", new XElement(HM + "e", HRun(value)), new XElement(HM + "sub", HRun(subscript)));

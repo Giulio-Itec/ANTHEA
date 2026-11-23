@@ -20,6 +20,9 @@ internal static class ShellChecks
         // P10 (16/11/2026): the notice of the Materiali of a nearer level that the check of the cover ignores.
         checks += CoverNoticeChecks.Run();
         checks += TabsChecks.Run();
+        checks += QuickSectionsFileChecks.Run(output);
+        checks += InitialSectionChecks.Run(output);
+        checks += QuickSectionTransferChecks.Run(output);
         checks += CommandsChecks.Run(output);
         checks += ShellViewModelChecks.Run();
         // F5.13 c: the pieces of the shell that do not depend on the layout.

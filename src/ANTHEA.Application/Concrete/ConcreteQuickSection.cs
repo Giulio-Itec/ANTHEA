@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Text.Json.Nodes;
 using Anthea.Application.Materials;
 using Anthea.Application.Modules;
@@ -38,7 +38,8 @@ public sealed record ConcreteQuickResult(
     double Creep = 0,
     double? EffectiveRatio = null,
     string State = "SLU",
-    ConcreteResults.CrackResult? Crack = null);
+    ConcreteResults.CrackResult? Crack = null,
+    IReadOnlyList<ConcreteQuickShearCase>? Shear = null);
 
 /// <summary>A limit state of a combination of the quick section: the code of the document and the label of the table.</summary>
 public sealed record ConcreteQuickLimitState(string Code, string Label)
@@ -262,6 +263,17 @@ public static class ConcreteQuickSection
     /// <summary>The choices of the view of <paramref name="data"/>.</summary>
     public static JsonObject View(JsonObject data) => data[ViewKey] as JsonObject ?? throw new ArgumentException("Scelte della verifica rapida mancanti.");
 
+    /// <summary>Copies the whole section, including combinations and every setting, as an independent draft.
+    /// Only the destination's name stays (user decision, 20/11/2026).</summary>
+    public static JsonObject CopyFor(JsonObject source, JsonObject destination)
+    {
+        Validate(source);
+        var copy = (JsonObject)source.DeepClone();
+        View(copy)["titolo"] = View(destination)["titolo"]?.DeepClone();
+        Validate(copy);
+        return copy;
+    }
+
     // ---------------------------------------------------------------- actions
 
     /// <summary>The first action of <paramref name="state"/> (SLU or SLE) as the RC section reads it, or null.</summary>
@@ -433,6 +445,18 @@ public static class ConcreteQuickSection
         own[key] = value;
     }
 
+    /// <summary>Whether any combination has a model override or an explicitly chosen sign.</summary>
+    public static bool CanResetCombinationSettings(JsonObject data) => Combinations(data).Any(row => Ultimate(row.S(StateField))
+        && (row.S(ModelField) != DefaultModel(row.S(StateField)) || row.S(SignField).Length > 0));
+
+    /// <summary>Restores each limit state's existing defaults and the sign from its actions.
+    /// Names, actions, limit states, order, selection and general section settings stay unchanged.</summary>
+    public static void ResetCombinationSettings(JsonObject data)
+    {
+        Normalize(data);
+        RowSettings(data).Clear();
+    }
+
     /// <summary>The selected combination: the saved one when it exists, otherwise the first; null without combinations.</summary>
     public static string? SelectedCombination(JsonObject data)
     {
@@ -443,6 +467,27 @@ public static class ConcreteQuickSection
 
     /// <summary>Selects the combination <paramref name="id"/>.</summary>
     public static void SelectCombination(JsonObject data, string id) => View(data)[SelectedKey] = id;
+
+    /// <summary>Whether the combination can exchange places with its previous (-1) or next (+1) neighbour.</summary>
+    public static bool CanMoveCombination(JsonObject data, string? id, int direction)
+    {
+        if (id is null || direction is not (-1 or 1)) return false;
+        var ids = Combinations(data).Select(r => r.S("id")).ToList();
+        int index = ids.IndexOf(id);
+        return index >= 0 && index + direction >= 0 && index + direction < ids.Count;
+    }
+
+    /// <summary>Changes only the saved display order, keeping identifiers, state settings, actions and selection.</summary>
+    public static void MoveCombination(JsonObject data, string id, int direction)
+    {
+        if (!CanMoveCombination(data, id, direction)) return;
+        string? selected = SelectedCombination(data);
+        var ids = Combinations(data).Select(r => r.S("id")).ToList();
+        int index = ids.IndexOf(id), destination = index + direction;
+        (ids[index], ids[destination]) = (ids[destination], ids[index]);
+        SaveOrder(data, ids);
+        if (selected is not null) SelectCombination(data, selected);
+    }
 
     private static JsonArray Stored(JsonObject data, string set = "SLU")
     {
@@ -943,7 +988,8 @@ public static class ConcreteQuickSection
         var chartRows = valid.Where(r => StateOf(r) == chartKey).ToArray();
         return new(selectedMethod, straight, preview, selectedForce, check, limit, resistances, selectedUltimate ? null : selectedForce, service, ratio, serviceStatus,
             ConcreteDomainChart.Geometry(chartKey, options, domain, domainError), ConcreteDomainChart.Actions(options, domain, chartRows, selectedId, checks),
-            curvature, errors, selectedModel, yieldStrain, combinations, selectedId, creep, effective, selectedState, crack);
+            curvature, errors, selectedModel, yieldStrain, combinations, selectedId, creep, effective, selectedState, crack,
+            ConcreteQuickShear.Calculate(data, token));
     }
 
     /// <summary>

@@ -63,6 +63,36 @@ internal static class QuickSectionReportWpfChecks
             ReportFiles.Write(path, word, "Sezione rettangolare 40 × 60 cm", maximumPages: brief ? ReportFiles.ShortReportPages : null);
             check(File.Exists(path) && File.Exists(ReportFiles.PdfPath(path)), "Relazione sezione rapida: Word e PDF " + (brief ? "breve entro due pagine" : "completi"));
         }
+        var shearData = (JsonObject)data.DeepClone();
+        ConcreteQuickShear.CopyCombinations(shearData);
+        ConcreteQuickShear.WriteCombination(shearData, ConcreteQuickShear.Combinations(shearData)[0].S("id"), ConcreteQuickShear.ConditionField, ConcreteQuickShear.WithoutLinks);
+        ConcreteQuickShear.Write(shearData, "ancoraggio", JsonValue.Create("Confermato"));
+        ConcreteQuickShear.Write(shearData, ConcreteQuickShear.EffectiveLink, JsonValue.Create(false));
+        ConcreteQuickShear.Write(shearData, ConcreteQuickShear.Diameter, JsonValue.Create("8"));
+        ConcreteQuickShear.Write(shearData, ConcreteQuickShear.Spacing, JsonValue.Create("100"));
+        ConcreteQuickShear.AddCombination(shearData);
+        string shearId = ConcreteQuickShear.Selected(shearData)!;
+        ConcreteQuickShear.WriteCombination(shearData, shearId, "nome", "Taglio indipendente");
+        ConcreteQuickShear.WriteCombination(shearData, shearId, ConcreteQuickShear.ConditionField, ConcreteQuickShear.WithLinks);
+        ConcreteQuickShear.WriteCombination(shearData, shearId, "Vx", "80");
+        ConcreteQuickShear.WriteCombination(shearData, shearId, "Vy", "50");
+        var shearAnalysis = ConcreteQuickReportAnalysis.Create(shearData);
+        check(shearAnalysis.Report.Shear!.Rows.Count == 12 && shearAnalysis.Report.Shear.Rows.All(r => r.Ratio is not null && r.Passed is not null),
+            "Taglio rapido: report diretto con geometria modificata, dodici risultati determinati sui due assi");
+        foreach (bool brief in new[] { false, true })
+        {
+            var options = brief ? new HashSet<string> { QuickSectionReport.Version, QuickSectionReport.Brief } : QuickSectionReport.Defaults();
+            var images = renderer.Render(shearAnalysis, options);
+            byte[] word = DocxWriter.Write(QuickSectionReport.Create("Sezione con taglio indipendente", shearAnalysis.Report, options, images.Select(i => i.Image()).ToArray()));
+            string path = Path.Combine(folder, brief ? "Sezione-taglio-breve.docx" : "Sezione-taglio-completa.docx");
+            if (brief)
+            {
+                var preview = Anthea.Reports.Pdf.DocxPdf.Render(DocxWriter.Read(word));
+                File.WriteAllBytes(Path.Combine(folder, "taglio-breve-anteprima.pdf"), preview.Bytes);
+            }
+            ReportFiles.Write(path, word, "Sezione con taglio indipendente", maximumPages: brief ? ReportFiles.ShortReportPages : null);
+            check(File.Exists(ReportFiles.PdfPath(path)), "Taglio rapido: Word e PDF " + (brief ? "breve entro due pagine" : "completo") + " con combinazioni indipendenti");
+        }
         // 19/11/2026: a circular section with the second ring and its link, as the figure of the report draws it.
         var pile = ConcreteQuickSection.Create(); var pileInput = pile["input"]!.AsObject();
         pileInput["shape"] = ConcreteQuickSection.Circular; pileInput["diameter_mm"] = "1000"; pileInput["longitudinal_bar_count"] = "16"; pileInput["longitudinal_bar_diameter_mm"] = "24";
