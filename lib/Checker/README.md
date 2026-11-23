@@ -1,6 +1,6 @@
 # DLL Checker
 
-**Release BC â€” set ufficiale combinazioni, correnti e altezza variabile (23 novembre 2026, task 0143).**
+**Release BC — set ufficiale combinazioni, correnti e altezza variabile (23 novembre 2026, task 0143).**
 Installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, senza `-AllowCandidate`, dal set
 `gpc-release-20261122-bc`. Manifest originale SHA-256
 `687F3ED4B0041BF76C46968D844F09C6F3C51688158FE5D2D1B80BB440DBB1F5`, `candidate=false`.
@@ -14,6 +14,10 @@ Le 14 suite del set registrano **13331 pass, 0 fail, 114 non eseguiti**, che non
 La registrazione F4 aggiorna solo provenienza e hash; `previous_manifest_sha256` e tutti gli attesi numerici restano invariati.
 Verifiche consumer richieste: L1 del task 0136, profilo L2 `baseline`, WPF combinazioni e Straus7 nativo con fixture esplicite.
 Esiti definitivi nel rapporto `chatgpt-compiti/0143-resoconto.md` e nelle evidenze locali `supporto/artefatti/0143`.
+ANTHEA passa da **1.19.4 a 1.19.5**: aggiornamento delle dipendenze senza nuove funzioni esposte nell'interfaccia.
+Il generatore di produzione resta quello di main. Per eseguire tutte e cinque le suite del task 0136 sono importati
+dal commit `8e5156f0` soltanto la suite di equivalenza, il riferimento legacy e le 106 catture immutabili, con byte originali.
+La migrazione del generatore di 0131 resta separata; questa verifica misura la compatibilita del consumer attuale con BC.
 
 **Release BB — librerie della sezione in c.a. di forma libera, sul main di Giulio (19 novembre 2026).** Set ufficiale `gpc-release-20261119-bb`
 (`gpc-f6-claude/F7/sets/gpc-release-20261119-bb`, `release-set.json` SHA-256 `9ECF0A55785488AD030FB907FC58E76AE7961075F99B71EF328E866E3405E2D9`),
