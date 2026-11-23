@@ -1,5 +1,10 @@
 # Refactoring di ANTHEA: piano operativo
 
+## 23 novembre — commit, push e integrazione con BC
+
+- [x] Codice, guide e registri committati e pubblicati su `codex/sezioni-rapide-taglio`; integrati i quattro commit di `origin/main`, set BC incluso.
+- [x] Eseguite le suite mirate e il profilo baseline dopo il merge; esiti e limiti in `docs/sviluppo/sezioni-rapide-push-20261123.md`. Main, allowlist e transizioni Wiki in attesa restano invariati.
+
 ## 23 novembre — combinazioni e modelli del taglio rapido
 
 - [x] Prima combinazione automatica, Excel dedicato e ripristino del solo modello armato/non armato secondo la tipologia della riga. Colonna Verifica al posto di SL e selettore blu per combinazione.
