@@ -31,8 +31,8 @@ internal static class QuickSectionSheetChecks
         var expect = new Expect();
         string folder = Path.Combine(output, "sezione-rapida"); Directory.CreateDirectory(folder);
         var messages = new ScriptedMessages();
-        QuickSectionSheetViewModel Open(JsonObject data, bool readOnly = false) =>
-            new(new(data, readOnly, new Host(), Scripted.Services(messages), ModuleServices.Get(ConcreteQuickSection.Module), new CalculationLimiter(1)));
+        QuickSectionSheetViewModel Open(JsonObject data, bool readOnly = false, IQuickSectionFigureRenderer? figures = null) =>
+            new(new(data, readOnly, new Host(), Scripted.Services(messages), ModuleServices.Get(ConcreteQuickSection.Module), new CalculationLimiter(1)), figures);
 
         // The module and its document: actions at zero, two layers of bars written as the bars by hand of the RC section, plastic model.
         var module = new QuickSectionSheetModule();
@@ -576,7 +576,7 @@ internal static class QuickSectionSheetChecks
             && ConcreteSheetPreparation.ReadActions(imported)["SLV"].Length == 1, "Excel importato: combinazioni nelle loro famiglie");
 
         // The sheet: the settings of the selected combination on the top, the state of a row, the exposure, the head of the ratios.
-        using (var stateSheet = Open(ConcreteQuickSection.Create()))
+        using (var stateSheet = Open(ConcreteQuickSection.Create(), figures: new ReportFigures()))
         {
             await stateSheet.PendingCalculation;
             expect.That(stateSheet.RatioHeader == "η" && stateSheet.CombinationRows[0].State == "SLU" && stateSheet.Model == "Plastica" && stateSheet.Method == "Momento positivo"
@@ -600,6 +600,21 @@ internal static class QuickSectionSheetChecks
             string reportInput = stateSheet.Data.ToJsonString();
             var reportBytes = stateSheet.Report.BuildReport("Sezione", new HashSet<string> { "oggetto", "materiali", "azioni", "riepilogo", "risultati_SLU" });
             expect.That(reportBytes.Length > 1000 && stateSheet.Data.ToJsonString() == reportInput, "Relazione dal ViewModel: Word generato senza cambiare il documento");
+            foreach (bool brief in new[] { false, true })
+            {
+                string reportPath = Path.Combine(folder, brief ? "export-breve.docx" : "export-completo.docx");
+                string pdfPath = Anthea.Reports.ReportFiles.PdfPath(reportPath);
+                var reportOptions = brief ? new HashSet<string> { Anthea.Reports.QuickSectionReport.Brief }
+                    : new HashSet<string> { "oggetto", "materiali", "azioni", "riepilogo", "risultati_SLU" };
+                Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(stateSheet, reportPath, "Sezione", reportOptions);
+                expect.That(File.Exists(reportPath) && !File.Exists(pdfPath), "Esportazione solo Word, senza PDF automatico: " + brief);
+                // A PDF previously edited or exported by the user must not be overwritten or removed.
+                File.WriteAllText(pdfPath, "PDF precedente da conservare");
+                Anthea.Presentation.Shell.Commands.SheetFileExports.WriteReport(stateSheet, reportPath, "Sezione aggiornata", reportOptions);
+                expect.That(File.ReadAllText(pdfPath) == "PDF precedente da conservare"
+                    && Anthea.Reports.DocxWriter.Read(File.ReadAllBytes(reportPath)).GetXml("word/document.xml").ToString().Contains("Sezione aggiornata"),
+                    "Word sovrascritto e PDF preesistente conservato: " + brief);
+            }
         }
 
         expect.That(module.Reports.ShortReport, "Relazione breve disponibile per la verifica rapida");
@@ -670,6 +685,11 @@ internal static class QuickSectionSheetChecks
             ConcreteQuickSection.SetCombinationState(d, ConcreteQuickSection.Combinations(d)[0].S("id"), "SLE");
         });
         return written;
+    }
+
+    private sealed class ReportFigures : IQuickSectionFigureRenderer
+    {
+        public IReadOnlyList<Anthea.Application.Reporting.ReportFigure> Render(ConcreteQuickReportAnalysis analysis, IReadOnlySet<string> options) => [];
     }
 
     private sealed class Host : ISheetHost

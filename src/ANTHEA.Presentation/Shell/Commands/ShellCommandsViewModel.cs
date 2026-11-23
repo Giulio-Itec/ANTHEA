@@ -266,7 +266,7 @@ public sealed partial class ShellCommandsViewModel : ViewModelBase
 
     private void Export(SheetSession sheet, string name, IReadOnlySet<string> options)
     {
-        if (services.Files.SaveFile(new SaveFileRequest([new FileFilter(PileFamilyReport.Supports(sheet.Module) ? "Documento Word" : WordFilter, "*.docx")], name)) is { } path)
+        if (services.Files.SaveFile(new SaveFileRequest([new FileFilter(SheetFileExports.WordOnlyReport(sheet.Module) ? "Documento Word" : WordFilter, "*.docx")], name)) is { } path)
             exports.ExportReport(sheet, path, sheet.Heading, options);
     }
 

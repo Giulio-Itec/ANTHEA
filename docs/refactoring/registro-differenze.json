@@ -17231,6 +17231,36 @@
         "supporto/artefatti/report-itec-20261123/publish-verificato.json",
         "supporto/artefatti/report-itec-20261123/app-installata.json"
       ]
+    },
+    {
+      "id": "REPORT-CA-SOLO-WORD-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / esportazione report",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "W e W breve salvano solo DOCX tramite WriteWord: nessuna invocazione del renderer PDF, creazione o sovrascrittura del PDF affiancato. Finestra di salvataggio Documento Word. Generatore e template ITEC invariati; eventuali PDF già presenti sono conservati.",
+      "decisione": "L’utente precisa «non lo voglio in automatico il pdf». Eccezione esplicita annotata in AGENTS.md; prevale sulla precedente prescrizione delle edizioni abbinate.",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/Commands/SheetFileExports.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionSheetChecks.cs",
+        "AGENTS.md"
+      ],
+      "test": [
+        "7 esiti mirati PASS; nessun file tracciato modificato dalle prove.",
+        "PASS 324 controlli della verifica rapida della sezione in c.a.",
+        "PASS 805 controlli della shell (F5.13) senza WPF",
+        "Prima corsa: aggiornato il controllo della vecchia dicitura Word e PDF; solo Shell.Tests ripetuta, nessuna modifica a baseline o attesi ingegneristici.",
+        "Esportazioni completa e breve: DOCX scritto senza PDF; seconda esportazione sovrascrive il Word e conserva byte per byte un PDF preesistente.",
+        "Nessuna suite UI rimossa: 74 prima e dopo. Nessuna modifica a calcoli, report generato o risultati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-solo-word-20261123/prima",
+        "supporto/artefatti/report-solo-word-20261123/verificato",
+        "supporto/artefatti/report-solo-word-20261123/app-installata.json",
+        "supporto/artefatti/report-solo-word-20261123/finale",
+        "supporto/artefatti/report-solo-word-20261123/esito-consolidato.json"
+      ]
     }
   ]
 }

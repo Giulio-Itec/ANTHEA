@@ -28,6 +28,9 @@ namespace Anthea.Presentation.Shell.Commands;
 /// </summary>
 public sealed class SheetFileExports(ReportTemplateStore? templates = null) : ISheetExports
 {
+    /// <summary>Modules whose Word commands do not generate a companion PDF.</summary>
+    public static bool WordOnlyReport(string module) => PileFamilyReport.Supports(module) || module == QuickSectionReport.Module;
+
     /// <summary>A JSON of the results asked without results or during a calculation (MvvmSheetEditor.ExportResult).</summary>
     public const string CalculateFirst = "Premere Calcola prima di esportare.";
 
@@ -90,7 +93,7 @@ public sealed class SheetFileExports(ReportTemplateStore? templates = null) : IS
         ArgumentNullException.ThrowIfNull(sheet);
         ArgumentException.ThrowIfNullOrEmpty(path);
         ArgumentNullException.ThrowIfNull(options);
-        if (Anthea.Reports.PileFamilyReport.Supports(sheet.ModuleId))
+        if (WordOnlyReport(sheet.ModuleId))
         {
             ReportFiles.WriteWord(path, sheet.Report.BuildReport(title, options, projectReport));
             return;

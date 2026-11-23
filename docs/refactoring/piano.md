@@ -2164,3 +2164,8 @@ Voce DXF-SEZIONE-CA-BB-20261119 del registro. Percorso delle forme usuali conser
 
 - [x] Logo e piè di pagina sempre presenti, copertina facoltativa, stili originali per testi e titoli, nome effettivo della sezione e numerazione dinamica coerente fra Word e PDF. Contenuti e calcoli invariati.
 - [x] 11 esiti mirati PASS (545 controlli report, 320 sezioni rapide, 648 architettura e prove WPF); 74 suite UI prima e dopo. Confronto dei contenuti identico, verifica grafica in Word e PDF, brevi entro due pagine e copia locale aggiornata. Registro REPORT-CA-ITEC-20261123.
+
+## 23 novembre — esportazione della sezione rapida solo in Word
+
+- [x] W e W breve salvano soltanto DOCX; nessun PDF automatico e nessuna modifica ai PDF già presenti. Dicitura del salvataggio coerente. Eccezione dell’utente registrata in AGENTS.md.
+- [x] Build e suite mirate di sezioni rapide, shell e architettura PASS. Template ITEC e dati di calcolo invariati; registro REPORT-CA-SOLO-WORD-20261123.
