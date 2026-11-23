@@ -1,5 +1,33 @@
 # DLL Checker
 
+**Release BC — set ufficiale combinazioni, correnti e altezza variabile (23 novembre 2026, task 0143).**
+Installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, senza `-AllowCandidate`, dal set
+`gpc-release-20261122-bc`. Manifest originale SHA-256
+`687F3ED4B0041BF76C46968D844F09C6F3C51688158FE5D2D1B80BB440DBB1F5`, `candidate=false`.
+Sorgenti pubblicati: Model `a61464e1b6386f87b49f94125c1196120ba76a21`, Checker
+`e3bfb349c37727625f9010e67c4b0ad697ff33a5`; Utilities `e57b440b` e Geometry `6734eee1` invariati.
+GPCModel **5.55.0.0** contiene il generatore comune e le politiche stradali; CompositeBridge **1.32.0.0**
+contiene correnti e altezza variabile. Le altre DLL ricompilate incrementano l'ultimo componente.
+La chiusura ANTHEA resta di 14 DLL, senza GPCModelChecker e senza Gmsh; versioni e hash completi in
+`manifest.json`, provenienza e risultati delle librerie nell'originale `release-set.json`.
+Le 14 suite del set registrano **13331 pass, 0 fail, 114 non eseguiti**, che non sono pass.
+La registrazione F4 aggiorna solo provenienza e hash; `previous_manifest_sha256` e tutti gli attesi numerici restano invariati.
+Verifiche consumer sul commit `9f9bdee2`: L1 **11 PASS** (sei build e cinque suite), incluse le 106 catture immutabili;
+Straus7 nativo **41 controlli su due modelli**, importatore WPF **17 controlli**. Il controllo SHA di build passa;
+14 DLL installate e 807 copie negli output coincidono con BC. Catalogo UI invariato: 74 suite.
+La full con baseline termina con 173 PASS e 18 NEW-FAIL. Ripristinati per hash 251 file originali ignorati da Git,
+le 14 suite Wiki/F4 ripetute danno 8 PASS e 6 KNOWN, con le impronte esatte della allowlist; nessun atteso rigenerato.
+Restano fuori allowlist il banco c.a., due confronti facoltativi con catture storiche di ottobre e il contrasto della full
+(15 difetti per tema scuro, contro i 6 ammessi). Il banco c.a. fallisce identicamente con BB: il confronto diretto BB/BC
+su 21 file e 32564 righe non trova scarti, salvo 1244 righe con soli identificativi casuali, senza usare tolleranze.
+Il contrasto circoscritto non riproduce stabilmente i difetti aggiuntivi: non sostituisce l'esito della full.
+**Gate non chiuso; nessun push del task 0143.** La allowlist non cambia. Diagnosi, conteggi, comandi e hand-off
+nel rapporto `chatgpt-compiti/0143-resoconto.md` e nelle evidenze locali `supporto/artefatti/0143`.
+ANTHEA passa da **1.19.4 a 1.19.5**: aggiornamento delle dipendenze senza nuove funzioni esposte nell'interfaccia.
+Il generatore di produzione resta quello di main. Per eseguire tutte e cinque le suite del task 0136 sono importati
+dal commit `8e5156f0` soltanto la suite di equivalenza, il riferimento legacy e le 106 catture immutabili, con byte originali.
+La migrazione del generatore di 0131 resta separata; questa verifica misura la compatibilita del consumer attuale con BC.
+
 **Release BB — librerie della sezione in c.a. di forma libera, sul main di Giulio (19 novembre 2026).** Set ufficiale `gpc-release-20261119-bb`
 (`gpc-f6-claude/F7/sets/gpc-release-20261119-bb`, `release-set.json` SHA-256 `9ECF0A55785488AD030FB907FC58E76AE7961075F99B71EF328E866E3405E2D9`),
 prodotto da `Checker/build/Release-Set.ps1 -Previous` (set ufficiale BA, `77DAE25D…`) su Model `55c15ed5` e Checker `46960c89`, pubblicati su

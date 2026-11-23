@@ -150,6 +150,7 @@ if ($Installer) {
     Add-Suite @{ Name = 'installer/examples'; Stage = 'fast'; Kind = 'powershell'; Script = 'tests\Installer\Test-Examples.ps1'; Args = @('-Output', '{out}'); Timeout = 180; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
 }
 Add-Suite @{ Name = 'ModelWorkspace.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
+Add-Suite @{ Name = 'ModelCombination.Equivalence.Checks'; Stage = 'fast'; Kind = 'run'; Project = 'tests\ModelCombination.Equivalence.Checks\ModelCombination.Equivalence.Checks.csproj'; Args = @('check', '{root}\tests\fixtures\model-combinations-0131', '{out}'); Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS 106 immutable captures' } }
 # 1.15.0: Straus7 through the real worker and API, opt-in with GPC_STRAUS7_ELEMENTS, GPC_STRAUS7_PLATES, GPC_STRAUS7_BRIDGHE, and real MIDAS
 # exports with GPC_MIDAS_TEXT_SAMPLES (a folder, read only); PASS 0 without them.
 Add-Suite @{ Name = 'Straus7Native.Checks'; Stage = 'regression'; Kind = 'run'; Project = 'tests\ModelWorkspace.Checks\ModelWorkspace.Checks.csproj'; Args = @('{out}', '--straus7-native'); Timeout = 1800; Proof = @{ File = '{out}\esito.txt'; Pattern = '^PASS ' } }
