@@ -10,7 +10,8 @@ namespace Anthea.Presentation.Shell;
 public enum DocumentKind
 {
     Calculation,
-    Project
+    Project,
+    Sections
 }
 
 /// <summary>

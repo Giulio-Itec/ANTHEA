@@ -45,7 +45,7 @@ public sealed record ShellMenuItem(string Title, IRelayCommand? Command = null, 
 /// with the file names, the conditions and the messages of today for each module; undo and redo of the project; the requests that only the
 /// view can satisfy (examples page, rheology window, exit) as events. They act on the sheet with the focus and on its document (SH21).
 /// </summary>
-public sealed class ShellCommandsViewModel : ViewModelBase
+public sealed partial class ShellCommandsViewModel : ViewModelBase
 {
     public const string WordFilter = "Word e PDF affiancati";
     public const string ShortTitle = "Report short";
@@ -104,6 +104,8 @@ public sealed class ShellCommandsViewModel : ViewModelBase
             sheet => SupportsBriefReport(sheet ?? workspace.Active));
         ShortReportCommand = new AsyncRelayCommand(ExportShortReportAsync, () => !shortRunning);
         ResultsCommand = GuardedCommands.Create(guard, ExportResults);
+        CopySectionToCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => CopySectionAsync(sheet, true)), sheet => CanCopySection(sheet, true));
+        CopySectionFromCommand = new AsyncRelayCommand<SheetSession>(sheet => guard.RunAsync(_ => CopySectionAsync(sheet, false)), sheet => CanCopySection(sheet, false));
         ExitCommand = GuardedCommands.Create(guard, () => ExitRequested?.Invoke(this, EventArgs.Empty));
         UndoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(false), () => workspace.Project?.CanUndo == true);
         RedoCommand = GuardedCommands.Create(guard, () => workspace.Project?.Restore(true), () => workspace.Project?.CanRedo == true);
@@ -264,7 +266,7 @@ public sealed class ShellCommandsViewModel : ViewModelBase
 
     private void Export(SheetSession sheet, string name, IReadOnlySet<string> options)
     {
-        if (services.Files.SaveFile(new SaveFileRequest([new FileFilter(PileFamilyReport.Supports(sheet.Module) ? "Documento Word" : WordFilter, "*.docx")], name)) is { } path)
+        if (services.Files.SaveFile(new SaveFileRequest([new FileFilter(SheetFileExports.WordOnlyReport(sheet.Module) ? "Documento Word" : WordFilter, "*.docx")], name)) is { } path)
             exports.ExportReport(sheet, path, sheet.Heading, options);
     }
 
@@ -319,10 +321,11 @@ public sealed class ShellCommandsViewModel : ViewModelBase
         OnPropertyChanged(nameof(ShortReportVisible));
         OnPropertyChanged(nameof(BriefReportVisible));
         BriefReportCommand.NotifyCanExecuteChanged();
+        NotifySectionCopy();
         UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints();
     }
 
-    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); }
+    private void OnProjectChanged(object? sender, EventArgs e) { UndoCommand.NotifyCanExecuteChanged(); RedoCommand.NotifyCanExecuteChanged(); NotifyHints(); NotifySectionCopy(); }
 
     private void NotifyHints() { OnPropertyChanged(nameof(UndoHint)); OnPropertyChanged(nameof(RedoHint)); }
 
@@ -405,10 +408,14 @@ public sealed class ReportSectionsDialogViewModel : DialogViewModel<IReadOnlySet
                 choice.SetChildren(content.Children.Select(Choice).ToArray());
                 return choice;
             }
-            Sections = (quickBridge ? BridgeQuickReport.Outline() : quick ? QuickSectionReport.Outline(Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)))
+            Sections = (quickBridge ? BridgeQuickReport.Outline() : quick ? QuickSectionReport.Outline(
+                Anthea.Application.Concrete.ConcreteQuickSection.Combinations(data).Select(r => r.S(Anthea.Application.Concrete.ConcreteQuickSection.StateField)),
+                Anthea.Application.Concrete.ConcreteQuickShear.Enabled(data)
+                    ? Anthea.Application.Concrete.ConcreteQuickShear.Combinations(data).Select(r => Anthea.Application.Concrete.ConcreteQuickShear.ShortLabel(Anthea.Application.Concrete.ConcreteQuickShear.Model(data, r))) : [])
                 : PileFamilyReport.Outline(module, data, result)).Select(Choice).ToArray();
         }
-        Note = quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
+        Note = quick && !quickBridge ? "Contenuti del report: introduzione, verifiche a flessione e verifiche a taglio. I blocchi di flessione e taglio si selezionano indipendentemente. Ogni verifica SLE comprende la sezione con le tensioni della combinazione. Copertina e indice sono facoltativi; l’esportazione produce solo il Word."
+            : quick ? "La relazione completa riporta tutte le combinazioni nell’ordine del programma. W breve individua i casi governanti per ciascuna verifica. Intestazione, indice e avvisi sono facoltativi." : bridge ? BridgeNote : concrete ? ConcreteNote : null;
         ExportCommand = new RelayCommand(() => Close(SelectedKeys()), () => CanExport);
         CancelCommand = new RelayCommand(Cancel);
         foreach (var section in Sections.SelectMany(s => s.Descendants())) section.Changed += (_, _) => ExportCommand.NotifyCanExecuteChanged();

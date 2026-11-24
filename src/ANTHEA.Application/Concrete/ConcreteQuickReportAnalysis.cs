@@ -87,7 +87,41 @@ public sealed record ConcreteQuickReportAnalysis(JsonObject Data, QuickSectionRe
         materials.AddRange(ConcreteQuickSection.MaterialValues(data, first).Select(Value));
         // Coordinates and diameters are the geometry consumed by the engine, including legacy T sections and circular rings.
         var bars = geometry.Bars.Select((b, i) => new[] { (i + 1).ToString(), N(b.X), N(b.Y), N(b.Diametro), N(b.Area) }).ToArray();
-        var report = new QuickSectionReportData(geometry.Shape, first.Straight, ConcreteQuickSection.Exposure(data), dimensions, materials, bars, cases, warnings.Distinct().ToArray());
+        QuickShearReport? shear = null;
+        if (ConcreteQuickShear.Enabled(data))
+        {
+            var options = ConcreteQuickShear.Options(data);
+            var parameters = new List<QuickReportValue>
+            {
+                new("Modello", "Per combinazione"),
+                new("Staffa effettiva?", ConcreteQuickShear.UsesGeometryLink(data) ? "Sì: diametro della staffa geometrica" : "No: armatura a taglio indipendente; la staffa geometrica non contribuisce"),
+                new("Ø resistente", ConcreteQuickShear.LinkDiameter(data), "mm"), new("Passo resistente", options.S(ConcreteQuickShear.Spacing), "mm"),
+                new("Braccia Vx / Vy", options.S("rami_x") + " / " + options.S("rami_y")),
+                new("α Vx / Vy", options.S("alpha_x") + " / " + options.S("alpha_y"), "°"),
+                new("cot θ Vx / Vy", (options.S("cot_x") is { Length: > 0 } cx ? cx : "auto") + " / " + (options.S("cot_y") is { Length: > 0 } cy ? cy : "auto")),
+                new("Parametri geometrici", options.S("parametri")), new("Ancoraggio Asl", "Efficace (ipotesi del modulo rapido)")
+            };
+            if (geometry.Shape == ConcreteQuickSection.Circular) { parameters.Add(new("Modello circolare", options.S("modello_circolare"))); parameters.Add(new("z/d", options.S("z_d"))); }
+            if (options.S("parametri") == "Manuali")
+                foreach (string axis in new[] { "x", "y" }) foreach (string field in new[] { "bw", "d", "asl" }) parameters.Add(new(field + " V" + axis, options.S(field + "_" + axis), field == "asl" ? "mm²" : "mm"));
+            var shearRows = new List<QuickShearReportRow>();
+            foreach (var item in ConcreteQuickShear.Calculate(data, cancellation))
+            {
+                var action = ConcreteQuickShear.Combinations(data).Single(r => r.S("id") == item.Id);
+                if (item.Error.Length > 0) shearRows.Add(new(item.Name, ConcreteQuickShear.ShortLabel(item.Condition), action.S("N"), action.S("Vx", "0") + " / " + action.S("Vy", "0"), "X/Y", "—", "—", "—", null, null, item.Error, ConcreteQuickShear.ShortLabel(item.Model), item.Id));
+                foreach (var direction in item.Directions)
+                    shearRows.Add(new(item.Name, ConcreteQuickShear.ShortLabel(item.Condition), action.S("N"), direction.Action, direction.Axis, direction.SteelResistance, direction.ConcreteResistance,
+                        direction.Resistance, direction.Ratio, direction.Passed, direction.Status, ConcreteQuickShear.ShortLabel(item.Model), item.Id, N(direction.CotTheta)));
+            }
+            var shearActions = ConcreteQuickShear.Combinations(data).Select(row =>
+            {
+                string condition = ConcreteQuickShear.ShortLabel(ConcreteQuickShear.Condition(data, row)), model = ConcreteQuickShear.ShortLabel(ConcreteQuickShear.Model(data, row));
+                return new QuickShearReportAction(row.S("id"), row.S("nome"), condition == model ? condition : condition + " → " + model,
+                    row.S("N"), row.S("Vx"), row.S("Vy"));
+            }).ToArray();
+            shear = new(parameters, shearRows, ConcreteQuickShear.UsesGeometryLink(data), shearActions);
+        }
+        var report = new QuickSectionReportData(geometry.Shape, first.Straight, ConcreteQuickSection.Exposure(data), dimensions, materials, bars, cases, warnings.Distinct().ToArray(), shear);
         return new(data, report, results);
     }
     static QuickReportValue Value(ConcreteQuickValue value) => new(value.Label, value.Value, value.Unit, value.Note);

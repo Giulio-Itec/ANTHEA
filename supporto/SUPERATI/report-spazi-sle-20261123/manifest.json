@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "0f23c1e9d646fc4d5262dec353189a6f91e3eda7387af536075c3c6692d3d795",
+    "motivo": "Spaziatura del report completo e figura delle tensioni per ogni combinazione SLE, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "dac706984a76e2fb386c5560a4e2f4fecb58a354f9df94219ad126bfdc597923",
+    "motivo": "Spaziatura del report completo e figura delle tensioni per ogni combinazione SLE, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "9c034acfbaefdf848e0aad8a27d9cee23f5fabb139c6387beff3a6d99b8d9c3d",
+    "motivo": "Spaziatura del report completo e figura delle tensioni per ogni combinazione SLE, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "dac706984a76e2fb386c5560a4e2f4fecb58a354f9df94219ad126bfdc597923",
+    "motivo": "Spaziatura del report completo e figura delle tensioni per ogni combinazione SLE, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]

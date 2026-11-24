@@ -14,6 +14,7 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
 {
     private readonly TabHostViewModel host;
     private readonly ShellViewModel? shell;
+    private ShellTabViewModel? titleTab;
 
     /// <param name="shell">The shell, for Ctrl+Z and Ctrl+Y of the project on the tab on screen (after the checkpoint of 22/10); null without them.</param>
     internal DetachedShellWindow(TabHostViewModel host, ShellWindowsViewModel windows, ShellViewModel? shell = null)
@@ -29,7 +30,11 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
         DisplayAdaptation.Attach(this);
         Appearance.Watch(this);
         host.PropertyChanged += OnHostChanged;
-        Closed += (_, _) => host.PropertyChanged -= OnHostChanged;
+        Closed += (_, _) =>
+        {
+            host.PropertyChanged -= OnHostChanged;
+            if (titleTab is not null) titleTab.PropertyChanged -= OnTabTitleChanged;
+        };
         UpdateTitle();
     }
 
@@ -56,5 +61,19 @@ public partial class DetachedShellWindow : Window, IShellWikiHost
         if (e.PropertyName == nameof(TabHostViewModel.Selected)) UpdateTitle();
     }
 
-    private void UpdateTitle() => Title = host.Selected is { } tab ? tab.Title + " — ANTHEA" : "ANTHEA";
+    private void OnTabTitleChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ShellTabViewModel.Title)) UpdateTitle();
+    }
+
+    private void UpdateTitle()
+    {
+        if (!ReferenceEquals(titleTab, host.Selected))
+        {
+            if (titleTab is not null) titleTab.PropertyChanged -= OnTabTitleChanged;
+            titleTab = host.Selected;
+            if (titleTab is not null) titleTab.PropertyChanged += OnTabTitleChanged;
+        }
+        Title = titleTab is { } tab ? tab.Title + " — ANTHEA" : "ANTHEA";
+    }
 }

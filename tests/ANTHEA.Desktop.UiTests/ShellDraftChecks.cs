@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Anthea.Application.Examples;
+using Anthea.Application.Documents;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Shell;
 using Anthea.Presentation.Shell.Commands;
@@ -147,6 +148,7 @@ internal static class ShellDraftChecks
                 await Capture(main, output, "04-schede.png", bindings);
                 Check(shell.Windows.Main.Tabs.Count == 4 && shell.Center is SheetTabViewModel { Session: var shown } && ReferenceEquals(shown, pileSheet)
                     && shell.SheetBar.IsVisible && shell.SheetBar.BackLabel == SheetBarViewModel.BackToProject, "Quattro schede, il foglio dei pali con la sua barra");
+                await ShellTabInputChecks.Run(main, shell.Windows.Main, Check, name => Capture(main, output, name, bindings), "04-trascina-schede");
                 workspace.Activate(steel);
                 await Capture(main, output, "05-file-singolo.png", bindings);
                 Check(shell.SheetBar.BackLabel == SheetBarViewModel.BackToHome && !shell.SheetBar.CanConfirm, "File singolo in una scheda");
@@ -190,6 +192,28 @@ internal static class ShellDraftChecks
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(groupTab) && workspace.Sheets.Contains(groupSheet), "Finestra staccata chiusa: scheda riportata nella principale");
 
+                // The complete RC module reuses the quick module's action drawing and camera.
+                var complete = workspace.NewCalculation("str_palo")!;
+                await Idle(main);
+                var completeSheet = (Anthea.Presentation.Modules.ConcreteSection.ConcreteSheetViewModel)complete.ViewModel;
+                completeSheet.Reload(Anthea.Presentation.Tests.ConcreteSectionScenarios.FixtureData(ShellReferences.Root, "default"));
+                await Idle(main);
+                var completeView = Ui.Descendants<X.Desktop.Views.ConcreteSection.ConcreteSectionSheetView>(main).Single();
+                var actionRow = completeSheet.Actions.Table("3D").Table.Shown[0];
+                actionRow["N"] = "-500"; actionRow["Mx"] = "120"; actionRow["My"] = "-70";
+                completeSheet.Actions.Table("3D").Table.Refresh();
+                ((System.Windows.Controls.Primitives.ToggleButton)completeView.FindName("Actions3DToggle")).IsChecked = true;
+                await Idle(main);
+                Check(completeView.ActionsDrawing.IsVisible && completeView.ActionsDrawing.Scene is { Actions.Count: 3 },
+                    "Modulo completo: Azioni 3D mostra la combinazione selezionata con N, Mx e My");
+                File.WriteAllBytes(Path.Combine(output, "azioni-3d-completo-disegno.png"), completeView.ActionsDrawing.Png(800, 600));
+                await Capture(main, output, "08b-azioni-3d-completo.png", bindings);
+                completeSheet.IsReadOnly = true;
+                completeSheet.Actions3DSource = "Taglio"; await Idle(main);
+                Check(completeView.ActionsDrawing.IsVisible && completeView.ActionsDrawing.Scene!.Actions.SequenceEqual(completeSheet.Actions3DScene.Actions),
+                    "Modulo completo: Azioni 3D disponibile anche in sola lettura");
+                completeSheet.IsReadOnly = false;
+                workspace.CloseSheet(complete); await Idle(main);
                 // 17/11/2026: a new quick RC section opens by itself in its own window, with the size of SheetLayout.OwnWindow.
                 int windowsBefore = detached.Count;
                 var quick = workspace.NewCalculation(SheetLayout.QuickSectionModule)!;
@@ -215,12 +239,36 @@ internal static class ShellDraftChecks
                     Check(quickSheet.CombinationRows[0].Mx == "400" && Keyboard.FocusedElement is TextBox { IsReadOnly: false } afterMx && afterMx != RowBox("My") && quickView.IsAncestorOf(afterMx),
                         "Verifica rapida: Invio conferma Mx e salta My in sola lettura");
                     // Two combinations with values, the first selected, for the picture of the table.
+                    string initialSectionName = quickSheet.Title;
+                    var sectionName = (TextBox)quickView.FindName("TitleBox");
+                    Enter(sectionName, "Pilastro P1 · base"); await Idle(main);
+                    Check(quickSheet.Title == "Pilastro P1 · base" && quick.Heading == quickSheet.Title && quickWindow.Window.Title == quickSheet.Title + " — ANTHEA",
+                        "Nome sezione: Invio aggiorna subito il nome salvato, la scheda e il titolo della finestra");
                     quickSheet.AddCombinationCommand.Execute(null);
                     quickSheet.CombinationRows[1].N = "-300"; quickSheet.CombinationRows[1].Mx = "-750";
                     quickSheet.CombinationRows[0].IsSelected = true;
                     await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
                     await Idle(main);
                     Check(quickSheet.CombinationRows.Count == 2 && quickSheet.CombinationRows.All(r => r.Ratio.Length > 0), "Verifica rapida: due combinazioni con η");
+                    var moveUp = (Button)quickView.FindName("MoveCombinationUp");
+                    var moveDown = (Button)quickView.FindName("MoveCombinationDown");
+                    string[] originalOrder = quickSheet.CombinationRows.Select(r => r.Id).ToArray();
+                    Check(moveUp.IsVisible && !moveUp.IsEnabled && moveDown.IsEnabled, "Ordine combinazioni: prima riga spostabile solo sotto");
+                    await Press(moveDown);
+                    await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(quickSheet.CombinationRows.Select(r => r.Id).SequenceEqual(originalOrder.Reverse())
+                        && quickSheet.SelectedCombinationId == originalOrder[0] && moveUp.IsEnabled && !moveDown.IsEnabled,
+                        "Ordine combinazioni: pulsante sotto scambia le righe e conserva selezione e limiti");
+                    await Capture(quickWindow.Window, output, "08b-ordine-combinazioni.png", bindings);
+                    quickSheet.IsReadOnly = true; await Idle(main);
+                    Check(!moveUp.IsEnabled && !moveDown.IsEnabled, "Ordine combinazioni: pulsanti disattivati in sola lettura");
+                    Check(sectionName.IsReadOnly, "Nome sezione: campo bloccato in sola lettura");
+                    quickSheet.IsReadOnly = false; await Idle(main);
+                    await Press(moveUp);
+                    await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(quickSheet.CombinationRows.Select(r => r.Id).SequenceEqual(originalOrder) && quickSheet.SelectedCombinationId == originalOrder[0],
+                        "Ordine combinazioni: pulsante sopra ripristina l’ordine, con la stessa combinazione selezionata");
+                    Enter(sectionName, initialSectionName); await Idle(main);
                     // «Centra sezione» (19/11/2026): after a zoom the section comes back as at the opening.
                     var drawing = quickView.Drawing;
                     byte[] before = Ui.Snapshot(drawing);
@@ -232,8 +280,155 @@ internal static class ShellDraftChecks
                     centerButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
                     await Idle(main);
                     Check(centerButton.IsVisible && !before.SequenceEqual(zoomed) && Ui.Snapshot(drawing).SequenceEqual(before), "Verifica rapida: «Centra sezione» riporta la sezione al centro dopo lo zoom");
+                    string beforeActions = quickSheet.Data.ToJsonString();
+                    quickSheet.Display = "Azioni 3D"; await quickSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    var actions = quickView.ActionsDrawing;
+                    Check(actions.IsVisible && !quickView.Chart.IsVisible && !quickView.Drawing.IsVisible, "Azioni 3D: quarta vista esclusiva del riquadro grafico");
+                    var glyphs = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(quickSheet.ActionsScene, 800);
+                    var axial = glyphs.Single(g => g.Action.Name == "N");
+                    Check(axial.Points[^1].Z < axial.Points[0].Z && axial.Action.Label.Contains("1000"), "Azioni 3D: compressione verso la sezione con etichetta positiva");
+                    var signedScene = new Anthea.Application.Concrete.ConcreteActionScene("Segni",
+                        [new("N", 'z', false, 100), new("Vx", 'x', false, -30), new("Vy", 'y', false, 20), new("Mx", 'x', true, -40), new("My", 'y', true, 12)], "");
+                    var signedGlyphs = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(signedScene, 800);
+                    var mxGlyph = signedGlyphs.Single(g => g.Action.Name == "Mx"); var myGlyph = signedGlyphs.Single(g => g.Action.Name == "My");
+                    var mxCenter = new System.Windows.Media.Media3D.Point3D(520, 0, 0); var myCenter = new System.Windows.Media.Media3D.Point3D(0, 520, 0);
+                    Check(signedGlyphs.Single(g => g.Action.Name == "N").Points[^1].Z > 0
+                        && signedGlyphs.Single(g => g.Action.Name == "Vx").Points[^1].X < 0 && signedGlyphs.Single(g => g.Action.Name == "Vy").Points[^1].Y > 0
+                        && System.Windows.Media.Media3D.Vector3D.CrossProduct(mxGlyph.Points[0] - mxCenter, mxGlyph.Points[1] - mxCenter).X > 0
+                        && System.Windows.Media.Media3D.Vector3D.CrossProduct(myGlyph.Points[0] - myCenter, myGlyph.Points[1] - myCenter).Y < 0,
+                        "Azioni 3D: trazione, tagli e rotazioni seguono il segno nei rispettivi assi 3D");
+                    foreach (char momentAxis in "xy")
+                        foreach (int momentSign in new[] { -1, 1 })
+                        {
+                            var momentScene = new Anthea.Application.Concrete.ConcreteActionScene("Coppia",
+                                [new("M" + momentAxis, momentAxis, true, momentSign * 40)], "");
+                            var moment = X.Desktop.Views.QuickSection.QuickActionsViewport.ActionGeometry(momentScene, 800).Single();
+                            var momentCenter = momentAxis == 'x' ? mxCenter : myCenter;
+                            // Independent force couple on the displayed +z face: Mx+ compresses +y;
+                            // My+ compresses -x. Compression points into the prism (-z), tension outwards.
+                            var compressedSide = momentAxis == 'x' ? new System.Windows.Media.Media3D.Vector3D(0, momentSign, 0)
+                                : new System.Windows.Media.Media3D.Vector3D(-momentSign, 0, 0);
+                            var physicalCouple = System.Windows.Media.Media3D.Vector3D.CrossProduct(compressedSide, new(0, 0, -1))
+                                + System.Windows.Media.Media3D.Vector3D.CrossProduct(-compressedSide, new(0, 0, 1));
+                            var arrowTurn = System.Windows.Media.Media3D.Vector3D.CrossProduct(moment.Points[0] - momentCenter, moment.Points[1] - momentCenter);
+                            Check(System.Windows.Media.Media3D.Vector3D.DotProduct(arrowTurn, physicalCouple) > 0
+                                && moment.Action.Label.Contains("40") && !moment.Action.Label.Contains('-'),
+                                $"Azioni 3D: M{momentAxis} {momentSign:+0;-0}, freccia concorde con la coppia fisica e valore sempre positivo");
+                            actions.Scene = momentScene; actions.InvalidateVisual();
+                            File.WriteAllBytes(Path.Combine(output, $"azioni-3d-M{momentAxis}-{(momentSign > 0 ? "positivo" : "negativo")}.png"), actions.Png(750, 500));
+                        }
+                    actions.Scene = quickSheet.ActionsScene; actions.InvalidateVisual();
+                    var origin3 = actions.Project(new(0, 0, 0));
+                    var axisX = actions.Project(new(1, 0, 0)) - origin3; var axisY = actions.Project(new(0, 1, 0)) - origin3;
+                    var sectionEdge = actions.Project(new(300, 400, -800)) - actions.Project(new(-300, 400, -800));
+                    Check(Math.Abs(Vector.CrossProduct(axisX, axisY)) > .1 && Math.Abs(Vector.CrossProduct(axisX, sectionEdge)) < 1e-8,
+                        "Azioni 3D: x/y distinti e assi paralleli ai lati della sezione nella stessa proiezione");
+                    byte[] initialActions = Ui.Snapshot(actions);
+                    var orbitSize = new Size(actions.ActualWidth, actions.ActualHeight);
+                    var orbitBefore = actions.Projection(orbitSize);
+                    static double ProjectedBasisSize(X.Desktop.Views.QuickSection.QuickActionsViewport.Projection3D projection)
+                    {
+                        System.Windows.Media.Media3D.Vector3D[] basis = [new(100, 0, 0), new(0, 100, 0), new(0, 0, 100)];
+                        return basis.Sum(v => (projection.Screen(projection.Pivot + v) - projection.Screen(projection.Pivot)).LengthSquared);
+                    }
+                    double orbitMetric = ProjectedBasisSize(orbitBefore);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-rotazione-prima.png"), initialActions);
+                    foreach (var orbitTurn in new[] { (70d, 10d), (-130d, -40d), (200d, 45d) })
+                    {
+                        actions.Rotate(orbitTurn.Item1, orbitTurn.Item2);
+                        var orbitAfter = actions.Projection(orbitSize);
+                        Check(orbitAfter.Scale == orbitBefore.Scale && orbitAfter.Pivot == orbitBefore.Pivot
+                            && (orbitAfter.Screen(orbitBefore.Pivot) - orbitBefore.Screen(orbitBefore.Pivot)).Length < 1e-8
+                            && Math.Abs(ProjectedBasisSize(orbitAfter) / orbitMetric - 1) < 1e-8,
+                            $"Azioni 3D: rotazione {orbitTurn}, scala e centro fissi senza deformazione della proiezione");
+                    }
+                    await Idle(main);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-rotazione-dopo.png"), Ui.Snapshot(actions));
+                    var orbitScene = actions.Scene;
+                    actions.Scene = new("Altra combinazione", [new("N", 'z', false, 40), new("Vx", 'x', false, -40), new("Vy", 'y', false, -40)], "");
+                    var orbitOtherScene = actions.Projection(orbitSize);
+                    Check(orbitOtherScene.Scale == orbitBefore.Scale && orbitOtherScene.Anchor == orbitBefore.Anchor,
+                        "Azioni 3D: cambiare le azioni non riadatta scala o centratura");
+                    actions.Scene = orbitScene;
+                    actions.RaiseEvent(new MouseWheelEventArgs(Mouse.PrimaryDevice, 0, 120) { RoutedEvent = UIElement.MouseWheelEvent });
+                    await Idle(main);
+                    var orbitZoomed = actions.Projection(orbitSize);
+                    Check(Math.Abs(orbitZoomed.Scale / orbitBefore.Scale - 1.12) < 1e-8
+                        && orbitZoomed.Anchor == orbitBefore.Anchor && orbitZoomed.Pivot == orbitBefore.Pivot
+                        && Math.Abs(ProjectedBasisSize(orbitZoomed) / orbitMetric - 1.12 * 1.12) < 1e-8,
+                        "Azioni 3D: solo la rotella cambia la scala, uniformemente e intorno al centro fisso");
+                    ((Button)quickView.FindName("CenterActions")).RaiseEvent(new RoutedEventArgs(Button.ClickEvent)); await Idle(main);
+                    Check(Ui.Snapshot(actions).SequenceEqual(initialActions), "Azioni 3D: Centra vista ripristina l’orientamento sdraiato");
+                    await Capture(quickWindow.Window, output, "08b-azioni-3d-momento.png", bindings);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-momento-disegno.png"), actions.Png(1000, 700));
+                    ((ListBox)quickView.FindName("ActionsSourceSelector")).SelectedItem = "Taglio"; await Idle(main);
+                    Check(quickSheet.ActionsSource == "Taglio" && quickSheet.Data.ToJsonString() == beforeActions,
+                        "Azioni 3D: selettore reale delle tabelle senza creare o modificare dati");
+                    quickSheet.ActionsSource = "Momento"; quickSheet.Display = "Sezione"; await Idle(main);
                 }
                 await Capture(quickWindow.Window, output, "08b-verifica-rapida.png", bindings);
+                if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel shearSheet)
+                {
+                    static void EnterShear(TextBox box, string text) { box.Text = text; box.GetBindingExpression(TextBox.TextProperty)!.UpdateSource(); }
+                    var savedShearSheet = (System.Text.Json.Nodes.JsonObject)shearSheet.Data.DeepClone();
+                    var shearView = Descendants<X.Desktop.Views.QuickSection.QuickSectionSheetView>(quickWindow.Window).Single();
+                    var panel = (FrameworkElement)shearView.FindName("ShearPanel");
+                    var shearToggle = (Button)shearView.FindName("ToggleShear");
+                    double compactWidth = quickWindow.Window.Width;
+                    await Press(shearToggle);
+                    var copyShear = (Button)shearView.FindName("CopyShearCombinations");
+                    Check(panel.IsVisible && copyShear.IsVisible && shearSheet.ShearCombinationRows.Count == 1,
+                        "Taglio rapido: apertura a libro con tabella autonoma e pulsante Copia combinazioni");
+                    var modelSelector = (ListBox)shearView.FindName("ShearModelSelector");
+                    var resetShear = (Button)shearView.FindName("ResetShearConditions");
+                    Check(((Button)shearView.FindName("ExportShearExcel")).IsVisible && ((Button)shearView.FindName("ImportShearExcel")).IsEnabled,
+                        "Taglio rapido: pulsanti Excel presenti sulla tabella autonoma");
+                    modelSelector.SelectedItem = "Verifica sezione non armata"; await Idle(main);
+                    Check(resetShear.IsEnabled && shearSheet.ShearWithoutLinks, "Taglio rapido: selezione blu cambia il modello della combinazione");
+                    await Press(resetShear);
+                    Check(shearSheet.ShearWithLinks && !resetShear.IsEnabled, "Taglio rapido: ripristino riallinea il modello alla tipologia della riga");
+                    await Press(copyShear);
+                    var shearTable = (ItemsControl)shearView.FindName("ShearCombinations");
+                    var vx = Descendants<TextBox>(shearTable).First(t => BindingOperations.GetBinding(t, TextBox.TextProperty)?.Path.Path == "Vx");
+                    EnterShear(vx, "75"); await Idle(main);
+                    var effective = (CheckBox)shearView.FindName("EffectiveStirrup");
+                    effective.IsChecked = false; await Idle(main);
+                    var independent = (ContentControl)shearView.FindName("IndependentShearDiameter");
+                    var diameter = Descendants<TextBox>(independent).Single(); EnterShear(diameter, "8");
+                    shearSheet.ShearForm.Set("passo_mm", "100");
+                    var balanceShear = (Button)shearView.FindName("BalanceShear");
+                    Check(balanceShear.IsVisible && balanceShear.IsEnabled, "Taglio rapido: pulsante Rottura bilanciata disponibile");
+                    await Press(balanceShear);
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(independent.IsVisible && shearSheet.ShearCombinationRows[0].Vx == "75" && !shearSheet.EffectiveStirrup
+                        && shearSheet.Current!.Shear!.All(r => r.Error.Length == 0), "Taglio rapido: editor reali di Vx e armatura indipendente con risultati");
+                    Check(shearSheet.Data["combinazioni"]!.ToJsonString() == savedShearSheet["combinazioni"]!.ToJsonString()
+                        && shearSheet.Data["input"]!.ToJsonString() == savedShearSheet["input"]!.ToJsonString(), "Taglio rapido: nessuna colonna o azione aggiunta alla tabella originale, geometria invariata");
+                    await Capture(quickWindow.Window, output, "08b-taglio-indipendente.png", bindings);
+                    ((FrameworkElement)shearView.FindName("ShearResultTable")).BringIntoView();
+                    await Capture(quickWindow.Window, output, "08b-taglio-risultati.png", bindings);
+                    shearSheet.Display = "Azioni 3D"; shearSheet.ActionsSource = "Taglio";
+                    shearSheet.ActionCombinationId = shearSheet.ShearCombinationRows[0].Id; await Idle(main);
+                    Check(shearSheet.ActionsScene.Actions.Single(a => a.Name == "Vx").Value == 75 && shearView.ActionsDrawing.IsVisible,
+                        "Azioni 3D: tagli della combinazione scelta nella tabella autonoma");
+                    await Capture(quickWindow.Window, output, "08b-azioni-3d-taglio.png", bindings);
+                    File.WriteAllBytes(Path.Combine(output, "azioni-3d-taglio-disegno.png"), shearView.ActionsDrawing.Png(1000, 700));
+                    shearSheet.ActionsSource = "Momento"; shearSheet.Display = "Sezione";
+                    shearSheet.ShearModel = "Verifica sezione non armata";
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(shearSheet.SelectedShearResult is { Error.Length: 0, Directions.Count: 2 }, "Taglio rapido: selezione non armata calcola subito con barre longitudinali assunte ancorate");
+                    await Capture(quickWindow.Window, output, "08b-taglio-non-armato.png", bindings);
+                    shearSheet.ShearModel = "Verifica con armatura a taglio";
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    shearSheet.IsReadOnly = true; await Idle(main);
+                    Check(!copyShear.IsEnabled && !effective.IsEnabled && vx.IsReadOnly && !balanceShear.IsEnabled, "Taglio rapido: tutti gli editor e rottura bilanciata protetti in sola lettura");
+                    shearSheet.IsReadOnly = false;
+                    await Press(shearToggle);
+                    Check(!panel.IsVisible && shearSheet.ShearCombinationRows.Count > 0 && Math.Abs(quickWindow.Window.Width - compactWidth) < 2,
+                        "Taglio rapido: chiusura conserva i dati e ripristina la larghezza");
+                    shearSheet.Reload(savedShearSheet);
+                    await shearSheet.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                }
                 if (quick.ViewModel is Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel biaxial)
                 {
                     // The biaxial bending: the check is «Capacità» or «Metodo n», without the sign of the moment.
@@ -272,6 +467,18 @@ internal static class ShellDraftChecks
                     Check(biaxial.CombinationRows.Count == 6 && biaxial.CombinationRows.All(r => r.Ratio.Length > 0) && biaxial.Current?.State == "SLE_QP" && biaxial.Method == "Metodo n" && biaxial.Model is null,
                         "Verifica rapida: sei combinazioni, una per stato limite, tutte con il rapporto");
                     await Capture(quickWindow.Window, output, "08e-verifica-rapida-stati-limite.png", bindings);
+                    var resetSettings = Descendants<Button>(quickWindow.Window).Single(b => b.Name == "ResetCombinationSettings");
+                    biaxial.CombinationRows[0].IsSelected = true; biaxial.Model = "Elastica"; biaxial.Method = "Momento negativo";
+                    string actionsBeforeReset = biaxial.Data["combinazioni"]!.ToJsonString();
+                    string optionsBeforeReset = biaxial.Data["workspace_ca"]!.ToJsonString();
+                    await Idle(main);
+                    Check(resetSettings.IsVisible && resetSettings.IsEnabled, "Pulsante ripristino impostazioni visibile sopra le combinazioni e abilitato dopo modifica");
+                    await Press(resetSettings); await biaxial.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(biaxial.Model == "Plastica" && biaxial.Method == "Momento positivo" && !resetSettings.IsEnabled
+                        && biaxial.Data["combinazioni"]!.ToJsonString() == actionsBeforeReset && biaxial.Data["workspace_ca"]!.ToJsonString() == optionsBeforeReset,
+                        "Ripristino da pulsante: modello e verifica predefiniti, combinazioni e impostazioni generali intatte");
+                    await Capture(quickWindow.Window, output, "08e-impostazioni-ripristinate.png", bindings);
+                    biaxial.CombinationRows[^1].IsSelected = true;
                     // The circular section with the method n (19/11/2026): the most compressed bar and the most tensioned one, then back to the rectangle.
                     biaxial.Shape = Anthea.Application.Concrete.ConcreteQuickSection.Circular;
                     // 19/11/2026: the second ring with its link (Ø st.), s calculated and the link drawn between the rings.
@@ -307,19 +514,93 @@ internal static class ShellDraftChecks
                 Check(secondQuickModel.CombinationRows.Count == 1 && quickHost.Selected!.Title == "Sezione 2"
                     && ReferenceEquals(word.CommandParameter, secondQuick) && ReferenceEquals(briefWord.CommandParameter, secondQuick), "Seconda sezione indipendente, pulsanti Word aggiornati");
                 await Capture(quickWindow.Window, output, "08f-verifica-rapida-due-schede.png", bindings);
+                await ShellTabInputChecks.Run(quickWindow.Window, quickHost, Check, name => Capture(quickWindow.Window, output, name, bindings), "08f-trascina-sezioni");
                 var firstTabButton = Descendants<Button>(quickWindow.Window).Single(b => ReferenceEquals(b.Command, shell.Windows.SelectCommand) && ReferenceEquals(b.CommandParameter, shell.Windows.TabOf(quick)));
                 await Press(firstTabButton);
                 Check(workspace.Active == quick && ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).CombinationRows.Count == 6
                     && ReferenceEquals(word.CommandParameter, quick) && ReferenceEquals(briefWord.CommandParameter, quick), "Selezionando la prima scheda ritornano i suoi dati e i suoi report");
                 await Capture(quickWindow.Window, output, "08g-verifica-rapida-prima-scheda.png", bindings);
+                var copyTo = (Button)quickWindow.Window.FindName("CopySectionTo");
+                var copyFrom = (Button)quickWindow.Window.FindName("CopySectionFrom");
+                Check(copyTo.IsVisible && copyTo.IsEnabled && copyFrom.IsVisible && copyFrom.IsEnabled
+                    && ReferenceEquals(copyTo.CommandParameter, quick) && ReferenceEquals(copyFrom.CommandParameter, quick),
+                    "Copia in e Copia da nella finestra, riferiti alla sezione visibile");
+                int copyDialogs = 0;
+                services.HandleDialog = async value =>
+                {
+                    var dialog = (QuickSectionCopyDialogViewModel)value;
+                    var window = Offscreen(new Window { Title = dialog.Title, Content = dialog, SizeToContent = SizeToContent.WidthAndHeight });
+                    window.Show();
+                    try
+                    {
+                        await Idle(window);
+                        var choice = Descendants<ComboBox>(window).Single(c => c.Name == "OtherSection");
+                        var confirm = Descendants<Button>(window).Single(b => b.Name == "ConfirmSectionCopy");
+                        Check(choice.Items.Count == 1 && confirm.IsEnabled && dialog.Selected!.Sheet == (copyDialogs == 0 ? secondQuick : quick),
+                            "Dialogo di copia: sezione corretta, scelta e comando collegati");
+                        await Capture(window, output, copyDialogs == 0 ? "08g-copia-in-dialogo.png" : "08g-copia-da-dialogo.png", bindings);
+                        await Press(confirm); copyDialogs++;
+                    }
+                    finally { window.Close(); }
+                };
+                try
+                {
+                    string originalQuickData = quick.ViewModel.Data.ToJsonString();
+                    string originalSourceActions = quick.ViewModel.Data["combinazioni"]!.ToJsonString();
+                    ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).GeometryForm.Set("width_mm", "550");
+                    originalQuickData = quick.ViewModel.Data.ToJsonString();
+                    await Press(copyTo);
+                    if (shell.Commands.CopySectionToCommand.ExecutionTask is { } copyingTo) await copyingTo;
+                    await secondQuickModel.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(secondQuickModel.Data["input"].S("width_mm") == "550" && secondQuickModel.Title == "Sezione 2" && quickHost.SelectedSheet == secondQuick
+                        && secondQuickModel.Data["combinazioni"]!.ToJsonString() == originalSourceActions
+                        && quick.ViewModel.Data.ToJsonString() == originalQuickData, "Copia in: geometria, combinazioni e impostazioni copiate, nome proprio e origine intatta");
+                    secondQuickModel.CombinationRows[0].Mx = "90";
+                    secondQuickModel.GeometryForm.Set("width_mm", "650");
+                    await Press(copyFrom);
+                    if (shell.Commands.CopySectionFromCommand.ExecutionTask is { } copyingFrom) await copyingFrom;
+                    await secondQuickModel.PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120)); await Idle(main);
+                    Check(copyDialogs == 2 && secondQuickModel.Data["input"].S("width_mm") == "550" && secondQuickModel.CombinationRows.Count == 6
+                        && secondQuickModel.Data["combinazioni"]!.ToJsonString() == originalSourceActions && secondQuickModel.Title == "Sezione 2", "Copia da: geometria e combinazioni ripristinate dalla sorgente, nome proprio");
+                    await Capture(quickWindow.Window, output, "08g-sezione-copiata.png", bindings);
+                    await Press(firstTabButton);
+                    ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).GeometryForm.Set("width_mm", "600");
+                    await ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel).PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                }
+                finally { services.HandleDialog = null; }
                 await ConcreteDxfWpfChecks.Run((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)quick.ViewModel, quickWindow.Window, Check,
                     (window,name)=>Capture(window,output,name,bindings));
+                string sectionFile = Path.Combine(output, "raccolta-sezioni.programma");
+                services.NextSavePath = sectionFile;
+                await Press((Button)quickWindow.Window.FindName("SaveFile"));
+                var savedSections = QuickSectionDocuments.Sections(DocumentService.Open(sectionFile));
+                Check(savedSections.Count == 2 && JsonNode.DeepEquals(savedSections.Single(s => s.S("id") == quick.Id)["dati"], quick.ViewModel.Data)
+                    && JsonNode.DeepEquals(savedSections.Single(s => s.S("id") == secondQuick.Id)["dati"], secondQuick.ViewModel.Data),
+                    "Salva della finestra: entrambe le sezioni, DXF, combinazioni e impostazioni nello stesso file");
+                var savedIds = savedSections.Select(s => s.S("id")).ToArray(); string selectedId = workspace.Active!.Id;
+                int saveDialogs = services.Saves.Count;
+                ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)secondQuick.ViewModel).Title = "Sezione salvata insieme";
+                await Press((Button)quickWindow.Window.FindName("SaveFile"));
+                Check(services.Saves.Count == saveDialogs && QuickSectionDocuments.Sections(DocumentService.Open(sectionFile))
+                    .Single(s => s.S("id") == secondQuick.Id)["dati"]![Anthea.Application.Concrete.ConcreteQuickSection.ViewKey].S("titolo") == "Sezione salvata insieme",
+                    "Salva della finestra: sovrascrive anche la modifica della sezione non attiva senza chiedere un nuovo file");
                 quickWindow.Window.Close();
                 await Idle(main);
                 Check(tracker.Hosts.Count == 0 && shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(quick)!), "Verifica rapida: chiusa la sua finestra, la scheda torna nella principale");
                 workspace.CloseSheet(quick);
                 Check(shell.Windows.Main.Tabs.Contains(shell.Windows.TabOf(secondQuick)!), "La seconda sezione resta aperta dopo la chiusura della finestra e della prima sezione");
                 workspace.CloseSheet(secondQuick);
+                await Idle(main);
+                var restoredSections = (QuickSectionsSession)workspace.OpenFile(sectionFile)!;
+                var restoredTabs = workspace.Sheets.Where(s => ReferenceEquals(s.Owner, restoredSections)).ToArray();
+                foreach (var restored in restoredTabs)
+                    await ((Anthea.Presentation.Modules.QuickSection.QuickSectionSheetViewModel)restored.ViewModel).PendingCalculation.WaitAsync(TimeSpan.FromSeconds(120));
+                await Idle(main);
+                Check(restoredTabs.Select(s => s.Id).SequenceEqual(savedIds) && workspace.Active!.Id == selectedId
+                    && restoredTabs.Any(s => s.Heading == "Sezione salvata insieme") && shell.Windows.TabOf(restoredTabs[0])!.Host == shell.Windows.TabOf(restoredTabs[1])!.Host,
+                    "Apri della raccolta: tutte le schede, nomi, ordine e selezione nella stessa finestra");
+                await Capture(detached[^1].Window, output, "08g-sezioni-riaperte.png", bindings);
+                foreach (var restored in restoredTabs) workspace.CloseSheet(restored);
                 await Idle(main);
 
                 // Quick composite section: its own window, all three states, existing stress drawing and detached report targets.
@@ -395,7 +676,7 @@ internal static class ShellDraftChecks
                 main.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(main), 0, Key.Escape) { RoutedEvent = Keyboard.KeyDownEvent });
                 bool EscDone() => !shell.IsFullPage && shell.IsTreeOpen && navigationBar.IsVisible && projectTree.IsVisible && toggle.Content as string == ShellViewModel.FullPageLabel;
                 await IdleUntil(main, EscDone);
-                Check(EscDone(), "Esc: navigazione e albero di nuovo, «Pagina intera» nella barra");
+                Check(EscDone(), "Esc: navigazione e albero di nuovo, «Pagina intera» nella barra (full=" + shell.IsFullPage + ", tree=" + shell.IsTreeOpen + ", modifiers=" + Keyboard.Modifiers + ", focus=" + Keyboard.FocusedElement?.GetType().Name + ")");
 
                 // The toggle of the sheet bar, pressed twice.
                 bindings.Step = "barra";
@@ -406,11 +687,11 @@ internal static class ShellDraftChecks
 
                 // «Apri in una nuova finestra» from the tree: the stratigraphy, not open yet, in a new window; then the user goes back to the piles
                 // in the main window. One image with the main window on the left and the new window on the right.
+                int windowsBeforeTree = detached.Count;
                 shell.Tree.Find(project.Find(strata.S("id"))!)!.OpenInNewWindowCommand.Execute(null);
                 var strataSheet = workspace.SheetOf(project.Find(strata.S("id"))!)!;
                 var strataTab = shell.Windows.TabOf(strataSheet)!;
-                // Four windows created: pile group, quick RC section, quick composite section, this one.
-                Check(detached.Count == 4 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
+                Check(detached.Count == windowsBeforeTree + 1 && tracker.Hosts.Count == 1, "Una nuova finestra staccata creata dall'albero (" + detached.Count + " in tutto, " + tracker.Hosts.Count + " aperte)");
                 var fromTree = detached[^1];
                 var treeHost = tracker.Hosts.Single();
                 Check(treeHost.Tabs.Count == 1 && ReferenceEquals(treeHost.Tabs[0], strataTab) && !shell.Windows.Main.Tabs.Contains(strataTab)
@@ -934,6 +1215,8 @@ internal static class ShellDraftChecks
 
         /// <summary>The names proposed by the save dialogs, answered with nothing (night of 22-23/10: the short report).</summary>
         internal List<string> Saves { get; } = [];
+        internal string? NextSavePath { get; set; }
+        internal string? NextOpenPath { get; set; }
         public bool ConfirmSharedUpdate(SharedUpdatePrompt prompt) => UpdateLinkedSheets;
 
         /// <summary>The answer to «Aggiorna tutti i fogli collegati»: «Solo questo foglio» unless a step asks otherwise (SH9, night of 22-23/10).</summary>
@@ -942,10 +1225,17 @@ internal static class ShellDraftChecks
         public bool ConfirmClose(Func<bool> saveOrDiscard) => saveOrDiscard();
         public SaveChangesAnswer AskSaveChanges() => SaveChangesAnswer.Discard;
         public bool ConfirmDelete(string title, string question) => false;
-        public string? OpenFile(OpenFileRequest request) => null;
-        public string? SaveFile(SaveFileRequest request) { Saves.Add(request.FileName); return null; }
+        public string? OpenFile(OpenFileRequest request) { var path = NextOpenPath; NextOpenPath = null; return path; }
+        public string? SaveFile(SaveFileRequest request) { Saves.Add(request.FileName); var path = NextSavePath; NextSavePath = null; return path; }
         public string? ChooseFolder(string? title = null) => null;
-        public Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog) { Dialogs.Add(dialog); return Task.FromResult<TResult?>(default); }
+        internal Func<object, Task>? HandleDialog { get; set; }
+        public async Task<TResult?> ShowDialogAsync<TResult>(IDialogViewModel<TResult> dialog)
+        {
+            Dialogs.Add(dialog);
+            if (HandleDialog is null) return default;
+            await HandleDialog(dialog);
+            return dialog.Result;
+        }
 
         /// <summary>The dialogs asked, answered with nothing (night of 22-23/10: the comparison and the summary of the revisions of the overview).</summary>
         internal List<object> Dialogs { get; } = [];

@@ -101,7 +101,42 @@ internal static class TabsChecks
         expect.That(shell.Close(wiki) && !shell.Tabs.Contains(wiki) && shell.ShowWiki(null) is { } again && !ReferenceEquals(again, wiki), "Chiusura della Wiki");
         expect.Throws<ArgumentException>(() => _ = new PageTabViewModel(ShellTabKind.Sheet, "x", null), "Pagina come foglio");
         expect.That(ShellWindowsViewModel.MoveLabel == "Sposta in una nuova finestra" && ShellWindowsViewModel.ReattachLabel == "Riaggancia", "Etichette");
-        return expect.Count + QuickSections();
+        return expect.Count + QuickSections() + Reorder();
+    }
+
+    private static int Reorder()
+    {
+        var expect = new Expect(); var bench = new ShellBench();
+        using var workspace = bench.Workspace; var windows = new RecordingWindows();
+        using var shell = new ShellWindowsViewModel(workspace, windows, bench.Messages);
+        var first = workspace.NewCalculation("mat_calcestruzzo"); var second = workspace.NewCalculation("str_palo");
+        var a = shell.TabOf(first)!; var b = shell.TabOf(second)!;
+        var wiki = shell.ShowWiki(null); var model = shell.ShowPage(new PageTabViewModel(ShellTabKind.Model, "Modello", null));
+        shell.Select(a); var instance = first.ViewModel; string data = first.ViewModel.Data.ToJsonString();
+        first.ViewModel.IsReadOnly = true;
+        bool dirty = first.Owner.IsDirty; long revision = first.ViewModel.Revision; int calls = windows.Calls.Count, changes = 0;
+        shell.Main.Tabs.CollectionChanged += (_, _) => changes++;
+        expect.That(shell.Reorder(a, wiki, true) && shell.Main.Tabs.SequenceEqual([b, wiki, a, model]), "Ordine schede: spostamento verso destra oltre una pagina Wiki");
+        expect.That(shell.Reorder(model, b, false) && shell.Main.Tabs.SequenceEqual([model, b, wiki, a]), "Ordine schede: pagina Modello verso sinistra");
+        expect.That(shell.Main.Selected == a && workspace.Active == first && a.IsActive && a.IsSelected && ReferenceEquals(first.ViewModel, instance)
+            && first.ViewModel.Data.ToJsonString() == data && first.ViewModel.Revision == revision && first.Owner.IsDirty == dirty && windows.Calls.Count == calls,
+            "Ordine schede: selezione, focus, ViewModel, dati, revisione e salvataggio invariati");
+        expect.That(!shell.Reorder(a, wiki, true) && !shell.Reorder(a, a, false) && !shell.Reorder(null, b, false) && changes == 2,
+            "Ordine schede: rilascio nella stessa posizione, sulla stessa scheda o senza origine non modifica nulla");
+        var otherHost = shell.MoveToNewWindow(b);
+        expect.That(!shell.CanReorder(a, b, true) && !shell.Reorder(a, b, true), "Ordine schede: trascinamento fra finestre diverse rifiutato");
+        var third = workspace.NewCalculation("str_palo"); var c = shell.TabOf(third)!;
+        expect.That(shell.Reorder(c, b, false) && otherHost.Tabs.SequenceEqual([c, b]) && otherHost.Selected == c && workspace.Active == third,
+            "Ordine schede: finestra staccata, selezione e focus conservati");
+        shell.WindowClosed(otherHost);
+        expect.That(shell.Main.Tabs.TakeLast(2).SequenceEqual([c, b]) && !otherHost.Tabs.Any(), "Ordine schede conservato riagganciando una finestra");
+        shell.Close(model);
+        expect.That(!shell.Reorder(model, a, false) && !shell.CanReorder(a, model, true), "Ordine schede: origine o destinazione chiusa rifiutata");
+        using var foreignShell = new ShellWindowsViewModel(workspace, new RecordingWindows(), bench.Messages);
+        expect.That(!foreignShell.Reorder(a, b, false), "Ordine schede: schede di un altro coordinatore rifiutate");
+        var before = shell.Main.Tabs.ToArray(); shell.Dispose();
+        expect.That(!shell.Reorder(a, b, false) && shell.Main.Tabs.SequenceEqual(before), "Ordine schede: coordinatore chiuso protetto");
+        return expect.Count;
     }
 
     private static int QuickSections()
@@ -128,18 +163,20 @@ internal static class TabsChecks
             "Il cambio di scheda conserva dati distinti");
         var material = workspace.NewCalculation("mat_calcestruzzo");
         expect.That(!host.IsQuickSectionSelected && host.SelectedSheet == material, "Comandi della sezione rapida nascosti su un altro modulo");
+        shell.Select(shell.TabOf(second)!);
         var third = workspace.NewCalculation(SheetLayout.QuickSectionModule);
         expect.That(shell.Detached.Single() == host && third.Heading == "Sezione 3" && host.SelectedSheet == third, "Ulteriore sezione nella stessa finestra");
         var wiki = shell.ShowWiki(null);
         expect.That(!host.IsQuickSectionSelected && host.SelectedSheet is null, "Wiki senza destinazione per i report della sezione");
         shell.Close(wiki);
         expect.That(host.IsQuickSectionSelected && host.SelectedSheet == third, "Comandi ripristinati tornando alla sezione");
+        expect.That(shell.Close(shell.TabOf(first)!) && host.Tabs.Count == 3 && !second.IsDisposed
+            && ((QuickSectionsSession)second.Owner).Sections.Count == 3, "Chiudere una scheda conserva tutte le sezioni nel documento");
+        expect.That(shell.Close(shell.TabOf(second)!) && host.Tabs.Count == 2, "La raccolta resta aperta con l’ultima scheda");
         bench.Confirmations.Then(SaveChangesAnswer.Cancel);
-        expect.That(!shell.Close(shell.TabOf(first)!) && host.Tabs.Count == 4, "Annulla la chiusura conserva la sezione modificata");
-        bench.Confirmations.Then(SaveChangesAnswer.Discard);
-        expect.That(shell.Close(shell.TabOf(first)!) && host.Tabs.Count == 3 && !second.IsDisposed, "Chiudere una sezione lascia intatte le altre");
+        expect.That(!shell.Close(shell.TabOf(third)!) && host.Tabs.Count == 2, "Annulla la chiusura dell’ultima scheda conserva la raccolta modificata");
         shell.WindowClosed(host);
-        expect.That(shell.Detached.Count == 0 && shell.Main.Tabs.Count == 3 && !second.IsDisposed && !third.IsDisposed, "Chiudere la finestra riaggancia tutte le sezioni");
+        expect.That(shell.Detached.Count == 0 && shell.Main.Tabs.Count == 2 && !third.IsDisposed, "Chiudere la finestra riaggancia tutte le schede aperte");
         expect.That(!shell.NewQuickSectionCommand.CanExecute(host), "Nessuna nuova sezione in una finestra chiusa");
         return expect.Count;
     }

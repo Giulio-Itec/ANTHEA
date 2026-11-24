@@ -795,6 +795,10 @@ Il termine vicino vale (102 + 136)/1,7 = 140 mm. La soglia di interasse è 190 m
 
 Senza armatura trasversale, e nel campo ammesso, il motore confronta il termine proporzionale alla radice cubica di 100ρfck con il minimo basato su $\sqrt{f_{ck}}$. k è limitato a 2, ρ a 0,02 e la compressione media a 0,2fcd. La compressione media è positiva benché N nel foglio sia negativo a compressione.
 
+Il pannello Taglio della sezione in c.a. rapida usa il motore della sezione completa, con la stessa normativa e gli stessi materiali. Ogni combinazione autonoma contiene N, Vx e Vy di progetto e la tipologia con armatura a taglio oppure sezione non armata a taglio, senza classificazione SL nella tabella. Il modello è assegnato per combinazione; il ripristino lo riallinea alla tipologia senza cambiare gli altri dati. Copia combinazioni trasferisce nomi, N e momenti dalla flessione: resta da controllare che siano azioni di progetto pertinenti. La torsione è esclusa.
+
+La staffa geometrica e l’armatura resistente a taglio hanno funzioni distinte. Con Staffa effettiva? attiva, il diametro geometrico entra nel modello con armatura, insieme a passo, rami e inclinazioni del pannello. Senza la spunta si usa l’armatura trasversale indipendente, conservando coordinate e diametri delle barre longitudinali. Il modello non armato esclude l’armatura a taglio, non le barre longitudinali. Il modulo rapido assume l’ancoraggio efficace di Asl: è un’ipotesi di calcolo riportata nella relazione, non una verifica dell’ancoraggio. L’adattamento usa i modelli esistenti senza cambiare formule, coefficienti o verifiche a flessione. Restano le scelte esplicite per il modello circolare. Gli errori sono isolati per combinazione.
+
 ```math
 k = \min\left[2;1+\sqrt{\frac{200}{d}}\right]
 \rho = \min\left[0{,}02;\frac{A_{sl}}{b_w d}\right]

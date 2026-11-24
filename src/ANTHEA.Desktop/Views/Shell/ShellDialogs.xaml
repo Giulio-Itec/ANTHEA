@@ -17,6 +17,21 @@
 
  <BooleanToVisibilityConverter x:Key="ShellDialog.Visible"/>
 
+ <DataTemplate DataType="{x:Type cmd:QuickSectionCopyDialogViewModel}">
+  <StackPanel Width="470" Margin="22" Background="{DynamicResource Token.Surface}">
+   <TextBlock Text="{Binding Current}" TextWrapping="Wrap" Foreground="{DynamicResource Token.Ink}" FontWeight="SemiBold" Margin="0,0,0,16"/>
+   <TextBlock Text="{Binding ChoiceLabel}" Foreground="{DynamicResource Token.Ink}" Margin="0,0,0,6"/>
+   <ComboBox x:Name="OtherSection" ItemsSource="{Binding Choices}" DisplayMemberPath="Label" SelectedItem="{Binding Selected}"
+    MinHeight="30" AutomationProperties.Name="{Binding ChoiceLabel}"/>
+   <TextBlock Text="{Binding Direction}" TextWrapping="Wrap" Foreground="{DynamicResource Token.Ink}" Margin="0,16,0,8"/>
+   <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Foreground="{DynamicResource Token.Muted}"/>
+   <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+    <Button x:Name="CancelSectionCopy" Content="Annulla" Command="{Binding CancelCommand}" IsCancel="True" MinWidth="88" Margin="0,0,8,0"/>
+    <Button x:Name="ConfirmSectionCopy" Content="Copia" Command="{Binding CopyCommand}" IsDefault="True" MinWidth="88"/>
+   </StackPanel>
+  </StackPanel>
+ </DataTemplate>
+
  <Style x:Key="ShellDialog.Text" TargetType="TextBlock">
   <Setter Property="FontSize" Value="{DynamicResource Font.Body}"/>
   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
@@ -259,6 +274,9 @@
      </TreeView.ItemContainerStyle>
      <TreeView.ItemTemplate>
       <HierarchicalDataTemplate DataType="{x:Type cmd:ReportSectionChoice}" ItemsSource="{Binding Children}">
+       <HierarchicalDataTemplate.ItemContainerStyle>
+        <Style TargetType="TreeViewItem"><Setter Property="IsExpanded" Value="True"/></Style>
+       </HierarchicalDataTemplate.ItemContainerStyle>
        <CheckBox Content="{Binding Label}" IsChecked="{Binding Selection, Mode=OneWay}" Command="{Binding ToggleCommand}" Margin="4"/>
       </HierarchicalDataTemplate>
      </TreeView.ItemTemplate>

@@ -54,7 +54,7 @@ public sealed class SheetsReloadedEventArgs(SheetSession? source, IReadOnlyList<
 /// </list>
 /// The questions and messages are those of MainWindow, through the services of the presentation layer.
 /// </summary>
-public sealed class WorkspaceSession : IDisposable
+public sealed partial class WorkspaceSession : IDisposable
 {
     /// <summary>Filter of the documents of ANTHEA in the save dialog (MainWindow.Save).</summary>
     public static IReadOnlyList<FileFilter> SaveFilters { get; } = [new FileFilter("File ANTHEA", "*.programma")];
@@ -162,7 +162,7 @@ public sealed class WorkspaceSession : IDisposable
     public SheetSession? Active { get; private set; }
 
     /// <summary>The open documents: the project first, then the single files.</summary>
-    public IEnumerable<DocumentSession> Documents => Project is null ? calculations.ToArray() : new DocumentSession[] { Project }.Concat(calculations).ToArray();
+    public IEnumerable<DocumentSession> Documents => (Project is null ? calculations.Cast<DocumentSession>() : new DocumentSession[] { Project }.Concat(calculations)).Concat(sectionDocuments).ToArray();
 
     /// <summary>The document of the window title: of the active sheet, otherwise the project.</summary>
     public DocumentSession? CurrentDocument => Active?.Owner ?? Project;
@@ -218,13 +218,8 @@ public sealed class WorkspaceSession : IDisposable
     public SheetSession NewCalculation(string module)
     {
         ThrowIfDisposed();
+        if (SheetLayout.IsQuickSection(module)) return NewQuickSection(module);
         var document = CalculationDocumentSession.New(module);
-        if (SheetLayout.IsQuickSection(module))
-        {
-            int number = 1;
-            while (Sheets.Any(sheet => sheet.Module == module && sheet.Heading == "Sezione " + number)) number++;
-            document.Sheet["nome"] = "Sezione " + number;
-        }
         return AddCalculation(document);
     }
 
@@ -254,7 +249,10 @@ public sealed class WorkspaceSession : IDisposable
         if (files.IsInExamples(path) && files.OpenExampleCopy(path) is { } example) return OpenDocument(example, null, true);
         if (Documents.FirstOrDefault(d => d.IsFile(path)) is { } open)
         {
+            CommitActive();
+            var initial = InitialSectionToReplace();
             ActivateDocument(open);
+            ReplaceInitialSection(initial, open);
             return open;
         }
         var acquired = DocumentLock.Acquire(path);
@@ -349,8 +347,10 @@ public sealed class WorkspaceSession : IDisposable
     {
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(document);
+        if (document.S("tipo") == QuickSectionDocuments.Kind) return OpenSections(document, path, dirty);
         if (document.S("tipo") == "calcolo")
         {
+            if (SheetLayout.IsQuickSection(document.S("modulo_id"))) return OpenSections(QuickSectionDocuments.FromSingle(document), path, dirty);
             var calculation = new CalculationDocumentSession(document, path, dirty);
             AddCalculation(calculation);
             return calculation;
@@ -362,6 +362,7 @@ public sealed class WorkspaceSession : IDisposable
     public void ActivateDocument(DocumentSession document)
     {
         ArgumentNullException.ThrowIfNull(document);
+        if (document is QuickSectionsSession sections) { ActivateSections(sections); return; }
         if (sheets.LastOrDefault(s => ReferenceEquals(s.Owner, document)) is { } sheet) Activate(sheet);
     }
 
@@ -397,6 +398,7 @@ public sealed class WorkspaceSession : IDisposable
         ArgumentNullException.ThrowIfNull(document);
         WaitForSave(document);
         CommitActive();
+        CommitSections(document);
         SaveJob? job = null;
         try
         {
@@ -593,8 +595,13 @@ public sealed class WorkspaceSession : IDisposable
         ArgumentNullException.ThrowIfNull(document);
         WaitForSave(document);
         CommitActive();
+        CommitSections(document);
         if (!document.IsDirty) return true;
-        if (Active?.Owner != document) ActivateDocument(document);
+        if (Active?.Owner != document)
+        {
+            if (document is QuickSectionsSession && sheets.LastOrDefault(s => ReferenceEquals(s.Owner, document)) is { } open) Activate(open);
+            else ActivateDocument(document);
+        }
         var answer = services.Confirmations.AskSaveChanges();
         return answer != SaveChangesAnswer.Cancel && (answer != SaveChangesAnswer.Save || Save(document, false));
     }
@@ -623,6 +630,7 @@ public sealed class WorkspaceSession : IDisposable
         ThrowIfDisposed();
         ArgumentNullException.ThrowIfNull(sheet);
         if (!sheets.Contains(sheet)) return true;
+        if (sheet.Owner is QuickSectionsSession sections) return CloseSection(sheet, sections);
         if (sheet.Owner is CalculationDocumentSession calculation)
         {
             if (!ConfirmDiscard(calculation)) return false;
@@ -765,6 +773,7 @@ public sealed class WorkspaceSession : IDisposable
     {
         if (ReferenceEquals(Active, sheet)) return;
         Active = sheet;
+        if (sheet?.Owner is QuickSectionsSession sections) sections.Select(sheet.Id);
         ActiveChanged?.Invoke(this, EventArgs.Empty);
     }
 

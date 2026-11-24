@@ -19,7 +19,13 @@ public static class DocumentService
     public static JsonObject Open(string path, List<DocumentProblem>? problems)
     {
         var doc=JsonNode.Parse(File.ReadAllText(path,Encoding.UTF8)) as JsonObject??throw new ArgumentException("Contenuto non riconosciuto.");
+        return Decode(doc, problems);
+    }
+
+    internal static JsonObject Decode(JsonObject doc, List<DocumentProblem>? problems)
+    {
         if(doc.S("formato")==Encoding.ASCII.GetString(Convert.FromHexString("414E54484541")))doc["formato"]="X";
+        if (QuickSectionDocuments.Unpack(doc)) return doc;
         // 1.19: the layer of the compact sections (version 5) is the outer one and belongs to the file, so it refuses the document, never a sheet.
         CompactSectionDocumentPersistence.Unpack(doc); ResultArchiveDocumentPersistence.Unpack(doc); ConcreteDocumentPersistence.Unpack(doc, problems); ProjectRevisions.Unpack(doc, problems); Validate(doc, problems); ProjectRevisions.Validate(doc, problems); return doc;
     }
@@ -30,6 +36,7 @@ public static class DocumentService
     public static void Validate(JsonObject doc, List<DocumentProblem>? problems)
     {
         if(doc.S("formato")!="X"||doc.D("versione")!=1)throw new ArgumentException("Formato o versione del file non supportati.");
+        if (doc.S("tipo") == QuickSectionDocuments.Kind) { QuickSectionDocuments.Validate(doc); return; }
         void Sheet(JsonNode? sheet,bool allowEmpty)
         {
             if(DocumentQuarantine.IsQuarantined(sheet))return;
@@ -76,13 +83,17 @@ public static class DocumentService
         }
     }
     public static void Save(string path,JsonObject document)
+        => Anthea.Reports.DocumentFile.Write(path,Encoding.UTF8.GetBytes(Encode(document).ToJsonString(J.Options)));
+
+    internal static JsonObject Encode(JsonObject document)
     {
         Validate(document); ProjectRevisions.Validate(document);
+        if (document.S("tipo") == QuickSectionDocuments.Kind) return QuickSectionDocuments.Pack(document);
         // 1.19: the compact sections put the wire version 5 over the other layers (CompactSectionDocumentPersistence).
         var packed=CompactSectionDocumentPersistence.Pack(ResultArchiveDocumentPersistence.Pack(ConcreteDocumentPersistence.Pack(document,out bool compact)),compact);
         // Step 2b: the marks of the sheets not readable stay in memory; the file keeps them as they were, and the next opening finds them again.
         DocumentQuarantine.Strip(packed);
-        Anthea.Reports.DocumentFile.Write(path,Encoding.UTF8.GetBytes(packed.ToJsonString(J.Options)));
+        return packed;
     }
     public static JsonObject CreateSheet(string module) => Anthea.Application.Modules.ModuleDirectory.CreateData(module);
     public static JsonObject CreateMicropileLayer() => CalculationDefaults.NuovoStratoMicropalo();

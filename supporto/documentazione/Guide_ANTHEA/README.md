@@ -97,3 +97,11 @@ La Rev48, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERA
 La Rev49, i sorgenti e gli indici sostituiti sono conservati in `supporto/SUPERATI/paratie-rev50-20261019/`, con origine e SHA-256.
 
 Il foglio **Materiali → Viscosità e maturazione** si apre da **Moduli singoli**, salva parametri e opzioni grafiche e dispone di due esempi nel catalogo centrale. Il precedente richiamo globale nel menu Strumenti è rimosso. La guida pratica descrive salvataggio, revisioni in sola lettura ed esportazione della relazione.
+
+Aggiornamento 20/11/2026, pratica Rev77: nome sezione, ordine combo, copia completa, ripristino impostazioni combo e schede trascinabili. Edizioni precedenti con manifest in `supporto/SUPERATI/ordine-combinazioni-ca-20261120/`, `copia-sezioni-ca-20261120/` e `schede-trascinabili-20261120/`. Teoria invariata.
+
+Aggiornamento 20/11/2026, salvataggio delle sezioni rapide: un unico file conserva tutte le sezioni, nomi, combinazioni, impostazioni, ordine e selezione. Guida pratica Rev77 aggiornata; edizione precedente in `supporto/SUPERATI/salva-sezioni-20261120/`. Teoria invariata.
+
+Aggiornamento 20/11/2026, unione delle sezioni rapide: trascinare una singola scheda nella raccolta di destinazione, anche tra moduli avviati separatamente. Guida pratica Rev77 aggiornata; edizione precedente in `supporto/SUPERATI/unisci-sezioni-20261120/`. Teoria invariata.
+
+Aggiornamento 23/11/2026: pannello Taglio della sezione in c.a. rapida, tabella autonoma con Copia combinazioni e distinzione Staffa effettiva? / armatura indipendente. Guide pratica e teorica Rev77 aggiornate; precedenti conservate in `supporto/SUPERATI/taglio-rapido-20261123/`.

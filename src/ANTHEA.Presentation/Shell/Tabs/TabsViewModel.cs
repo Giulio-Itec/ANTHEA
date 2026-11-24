@@ -122,6 +122,7 @@ public sealed class TabHostViewModel : ViewModelBase
 
     /// <summary>The quick-section commands belong to the tab shown in this window.</summary>
     public bool IsQuickSectionSelected => Selected is SheetTabViewModel sheet && SheetLayout.IsQuickSection(sheet.Module);
+    public bool IsConcreteQuickSectionSelected => SelectedSheet?.Module == SheetLayout.QuickSectionModule;
 
     public SheetSession? SelectedSheet => (Selected as SheetTabViewModel)?.Session;
 
@@ -137,6 +138,7 @@ public sealed class TabHostViewModel : ViewModelBase
             if (value is not null) value.IsSelected = true;
             OnPropertyChanged();
             OnPropertyChanged(nameof(IsQuickSectionSelected));
+            OnPropertyChanged(nameof(IsConcreteQuickSectionSelected));
             OnPropertyChanged(nameof(SelectedSheet));
             OnPropertyChanged(nameof(GuideId));
         }
@@ -165,6 +167,15 @@ public interface IWindowService
     void Activate(TabHostViewModel host);
 }
 
+/// <summary>A live pointer gesture belongs to one workspace; only its random token is placed in the native data object.</summary>
+public sealed class TabDragSession(ShellTabViewModel tab, string? payload)
+{
+    public string Token { get; } = Guid.NewGuid().ToString("N");
+    public ShellTabViewModel Tab { get; } = tab;
+    public string? Payload { get; } = payload;
+    public bool CompletedLocally { get; internal set; }
+}
+
 /// <summary>
 /// The windows and tabs of the shell (F5.13 b, proposal 4.1 and 4.4, Q10 a): every open sheet of the coordinator has a tab in one window;
 /// the selection of a tab or of a window gives the focus to its sheet, which confirms the previous one (Q9 a, also across windows); «Sposta
@@ -179,9 +190,11 @@ public sealed class ShellWindowsViewModel : ViewModelBase
 
     private readonly WorkspaceSession workspace;
     private readonly IWindowService windows;
+    private readonly CommandGuard guard;
     private readonly Dictionary<SheetSession, SheetTabViewModel> sheets = [];
     private TabHostViewModel activeHost;
     private PageTabViewModel? wiki;
+    private TabDragSession? drag;
 
     public ShellWindowsViewModel(WorkspaceSession workspace, IWindowService windows, IMessageService messages)
     {
@@ -190,7 +203,7 @@ public sealed class ShellWindowsViewModel : ViewModelBase
         ArgumentNullException.ThrowIfNull(messages);
         this.workspace = workspace; this.windows = windows;
         Main = activeHost = new TabHostViewModel(true);
-        var guard = new CommandGuard(messages);
+        guard = new CommandGuard(messages);
         SelectCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => Select(tab!)), tab => tab is not null);
         CloseCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => Close(tab!)), tab => tab is not null);
         MoveToNewWindowCommand = new RelayCommand<ShellTabViewModel>(tab => guard.Run(() => MoveToNewWindow(tab!)), tab => tab is not null);
@@ -228,6 +241,123 @@ public sealed class ShellWindowsViewModel : ViewModelBase
 
     /// <summary>All the tabs, main window first.</summary>
     public IEnumerable<ShellTabViewModel> Tabs => new[] { Main }.Concat(Detached).SelectMany(h => h.Tabs);
+
+    /// <summary>Whether a tab can move before/after another tab in the same open window.</summary>
+    public bool CanReorder(ShellTabViewModel? moving, ShellTabViewModel? target, bool after) => ReorderIndex(moving, target, after) is not null;
+
+    public bool CanReceiveSection(string module, ShellTabViewModel? target) => !IsDisposed
+        && target is SheetTabViewModel { IsDisposed: false } sheet && ReferenceEquals(TabOf(sheet.Session), sheet)
+        && workspace.CanImportSection(module, sheet.Session);
+
+    public bool CanDropTab(ShellTabViewModel? moving, ShellTabViewModel? target, bool after)
+    {
+        if (moving is SheetTabViewModel { IsDisposed: false } source && target is SheetTabViewModel destination
+            && source.Session.Owner is QuickSectionsSession && destination.Session.Owner is QuickSectionsSession
+            && (!ReferenceEquals(source.Host, destination.Host) || !ReferenceEquals(source.Session.Owner, destination.Session.Owner)))
+            return ReferenceEquals(TabOf(source.Session), source) && workspace.CanExportSection(source.Session)
+                && CanReceiveSection(source.Module, destination);
+        return CanReorder(moving, target, after);
+    }
+
+    public string? PrepareSectionDrag(ShellTabViewModel tab)
+    {
+        string? payload = null;
+        if (tab is SheetTabViewModel sheet && ReferenceEquals(TabOf(sheet.Session), sheet) && workspace.CanExportSection(sheet.Session))
+            guard.Run(() => payload = workspace.ExportSection(sheet.Session));
+        return payload;
+    }
+
+    public TabDragSession BeginTabDrag(ShellTabViewModel tab) => drag = new(tab, PrepareSectionDrag(tab));
+    public TabDragSession? FindTabDrag(string? token) => drag is not null && token == drag.Token ? drag : null;
+    public void MarkTabDragCompleted(TabDragSession session) { if (ReferenceEquals(drag, session)) session.CompletedLocally = true; }
+    public void EndTabDrag(TabDragSession session) { if (ReferenceEquals(drag, session)) drag = null; }
+
+    public void CompleteSectionDrag(ShellTabViewModel tab, string payload) => guard.Run(() =>
+    {
+        if (tab is SheetTabViewModel sheet && !workspace.CompleteSectionExport(sheet.Session, payload))
+            throw new InvalidOperationException("La sezione è stata ricevuta dalla destinazione, ma l’originale è rimasta aperta perché i suoi dati sono cambiati durante il trasferimento.");
+    });
+
+    public bool DropTab(ShellTabViewModel? moving, ShellTabViewModel? target, bool after)
+    {
+        if (!CanDropTab(moving, target, after)) return false;
+        bool done = false;
+        guard.Run(() =>
+        {
+            if (moving is SheetTabViewModel source && target is SheetTabViewModel destination
+                && source.Session.Owner is QuickSectionsSession group && destination.Session.Owner is QuickSectionsSession)
+            {
+                if (!ReferenceEquals(group, destination.Session.Owner))
+                {
+                    string payload = workspace.ExportSection(source.Session);
+                    var imported = ImportSection(payload, destination, after);
+                    CompleteSectionDrag(source, payload);
+                    Select(imported);
+                    done = true;
+                    return;
+                }
+                if (!ReferenceEquals(source.Host, destination.Host))
+                {
+                    group.Reorder(source.Session.Id, destination.Session.Id, after);
+                    Place(source, destination, after);
+                    Select(source); done = true;
+                    return;
+                }
+            }
+            done = Reorder(moving, target, after);
+        });
+        return done;
+    }
+
+    public bool DropExternalSection(string payload, ShellTabViewModel target, bool after)
+    {
+        bool done = false;
+        guard.Run(() =>
+        {
+            if (target is not SheetTabViewModel destination || !CanReceiveSection(destination.Module, destination)) return;
+            var imported = ImportSection(payload, destination, after);
+            Select(imported); done = true;
+        });
+        return done;
+    }
+
+    private SheetTabViewModel ImportSection(string payload, SheetTabViewModel target, bool after)
+    {
+        var imported = workspace.ImportSection(payload, target.Session, after);
+        var tab = sheets[imported];
+        Place(tab, target, after);
+        return tab;
+    }
+
+    private void Place(ShellTabViewModel tab, ShellTabViewModel target, bool after)
+    {
+        if (!ReferenceEquals(tab.Host, target.Host)) Move(tab, target.Host!);
+        if (ReorderIndex(tab, target, after) is { } index) tab.Host!.Tabs.Move(tab.Host.Tabs.IndexOf(tab), index);
+    }
+
+    /// <summary>Reorders only the headers of one window. Selection, focus, documents and their ViewModels stay unchanged.</summary>
+    public bool Reorder(ShellTabViewModel? moving, ShellTabViewModel? target, bool after)
+    {
+        if (ReorderIndex(moving, target, after) is not { } index) return false;
+        var tabs = moving!.Host!.Tabs;
+        tabs.Move(tabs.IndexOf(moving), index);
+        if (moving is SheetTabViewModel source && target is SheetTabViewModel destination
+            && source.Session.Owner is QuickSectionsSession group && ReferenceEquals(group, destination.Session.Owner))
+            group.Reorder(source.Session.Id, destination.Session.Id, after);
+        return true;
+    }
+
+    private int? ReorderIndex(ShellTabViewModel? moving, ShellTabViewModel? target, bool after)
+    {
+        if (IsDisposed || moving is null || target is null || moving.IsDisposed || target.IsDisposed || ReferenceEquals(moving, target)
+            || moving.Host is not { IsDisposed: false } host || !ReferenceEquals(target.Host, host)
+            || !ReferenceEquals(host, Main) && !Detached.Contains(host)) return null;
+        int source = host.Tabs.IndexOf(moving), destination = host.Tabs.IndexOf(target);
+        if (source < 0 || destination < 0) return null;
+        if (after) destination++;
+        if (source < destination) destination--;
+        return source == destination ? null : destination;
+    }
 
     /// <summary>Selects a tab: a sheet takes the focus (the active one is confirmed first); a page leaves the sheets without focus.</summary>
     public void Select(ShellTabViewModel tab)
@@ -408,6 +538,15 @@ public sealed class ShellWindowsViewModel : ViewModelBase
     // The first quick section opens detached; further sections in that window become independent tabs.
     private void OnSheetOpened(object? sender, SheetSession sheet)
     {
+        if (sheet.Owner is QuickSectionsSession)
+        {
+            var host = Tabs.OfType<SheetTabViewModel>().FirstOrDefault(t => ReferenceEquals(t.Session.Owner, sheet.Owner))?.Host;
+            // A temporary tab in Main would reveal the hidden shell when a module runs alone.
+            var tab = new SheetTabViewModel(sheet); sheets.Add(sheet, tab);
+            if (host is null) MoveToNewWindow(tab, SheetLayout.OwnWindow(sheet.Module));
+            else Add(tab, host);
+            return;
+        }
         bool reuseWindow = !activeHost.IsMain && activeHost.Tabs.OfType<SheetTabViewModel>().Any(tab => tab.Module == sheet.Module);
         Add(sheet);
         if (!reuseWindow && SheetLayout.OwnWindow(sheet.Module) is { } size) MoveToNewWindow(sheets[sheet], size);

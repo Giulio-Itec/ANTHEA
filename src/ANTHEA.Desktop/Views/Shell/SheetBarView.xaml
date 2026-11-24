@@ -33,6 +33,12 @@
    <Button Style="{StaticResource Shell.BarButton}" Content="Salva con nome" ToolTip="Salva con nome"
     Command="{Binding DataContext.Commands.SaveAsCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
    <StackPanel Orientation="Horizontal">
+    <StackPanel Orientation="Horizontal" Visibility="{Binding DataContext.Commands.SectionCopyVisible, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource WhenTrue}}">
+     <Button x:Name="CopySectionTo" Style="{StaticResource Shell.BarButton}" Content="Copia in…" ToolTip="Copia questa sezione in un’altra sezione c.a. rapida aperta"
+      Command="{Binding DataContext.Commands.CopySectionToCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+     <Button x:Name="CopySectionFrom" Style="{StaticResource Shell.BarButton}" Content="Copia da…" ToolTip="Copia da un’altra sezione c.a. rapida aperta in questa sezione"
+      Command="{Binding DataContext.Commands.CopySectionFromCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
+    </StackPanel>
     <Button Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2" ToolTip="Report Word" AutomationProperties.Name="Report Word"
      Command="{Binding DataContext.Commands.ReportCommand, RelativeSource={RelativeSource AncestorType=Window}}"/>
     <Button Style="{StaticResource Shell.BarButton}" Content="W breve" MinWidth="75" Padding="6,2" ToolTip="Report Word breve — esportazione diretta" AutomationProperties.Name="Report Word breve"

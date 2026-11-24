@@ -19,6 +19,7 @@ internal static class QuickSectionReportChecks
         ConcreteQuickSection.WriteCreep(data, "2"); ConcreteQuickSection.WriteServiceOption(data, ConcreteQuickSection.ExposureKey, "XC3");
         string before = data.ToJsonString();
         var analysis = ConcreteQuickReportAnalysis.Create(data);
+        QuickSectionReportGuideChecks.Run(expect, data, analysis.Report, folder);
         expect.That(data.ToJsonString() == before, "Il report non modifica input, selezione, ordine o modelli del foglio");
         var rows = ConcreteQuickSection.Combinations(data);
         expect.That(analysis.Report.Cases.Select(c => c.Id).SequenceEqual(rows.Select(r => r.S("id"))), "Ordine del report uguale al programma, anche con SL intercalati");
@@ -60,6 +61,45 @@ internal static class QuickSectionReportChecks
         expect.That(!xml.Descendants(w + "fldChar").Any() && !doc.GetXml("word/settings.xml").Descendants(w + "updateFields").Any(), "Word senza aggiornamento automatico di campi esterni");
         expect.That(xml.Descendants(w + "shd").Any(e => (string?)e.Attribute(w + "fill") == "E7E6E6"), "Tabelle grigio chiaro del modello ITEC");
         File.WriteAllBytes(Path.Combine(folder, "relazione-senza-figure.docx"), DocxWriter.Write(doc));
+        CheckItec(doc, "completa");
+        CheckItec(QuickSectionReport.Create("Sezione di prova", analysis.Report, new HashSet<string> { QuickSectionReport.Brief }), "breve");
+        var withCover = new HashSet<string>(options) { "intestazione", "indice" };
+        var coverReport = QuickSectionReport.Create("Sezione di prova", analysis.Report, withCover);
+        CheckItec(coverReport, "con copertina e indice");
+        string coverText = string.Join("\n", coverReport.GetXml("word/document.xml").Descendants(w + "t").Select(t => t.Value));
+        expect.That(coverText.Contains("Sezione di prova") && coverText.Contains("Verifica della sezione in calcestruzzo armato")
+            && !coverText.Contains("capacità portante verticale") && !coverText.Contains("Relazione geotecnica"),
+            "La copertina facoltativa usa il titolo della sezione e non il vecchio esempio geotecnico");
+        File.WriteAllBytes(Path.Combine(folder, "relazione-con-copertina.docx"), DocxWriter.Write(coverReport));
+        void CheckItec(DocxDocument reportDoc, string kind)
+        {
+            XNamespace rel = "http://schemas.openxmlformats.org/package/2006/relationships";
+            XNamespace r = "http://schemas.openxmlformats.org/officeDocument/2006/relationships";
+            var reportBody = reportDoc.GetXml("word/document.xml").Root!.Element(w + "body")!;
+            var section = reportBody.Element(w + "sectPr")!;
+            var relationships = reportDoc.GetXml("word/_rels/document.xml.rels");
+            XElement Part(string reference)
+            {
+                string id = (string?)section.Element(w + reference)?.Attribute(r + "id") ?? "";
+                string target = (string)relationships.Descendants(rel + "Relationship").Single(e => (string?)e.Attribute("Id") == id).Attribute("Target")!;
+                return reportDoc.GetXml("word/" + target).Root!;
+            }
+            expect.That(Part("headerReference").Descendants(w + "drawing").Any(), "Logo ITEC presente nella relazione " + kind);
+            var footer = Part("footerReference");
+            expect.That(footer.Descendants(w + "t").Any(t => t.Value == "Sezione di prova")
+                && !footer.Descendants(w + "t").Any(t => t.Value.Contains("Report palo")), "Piè di pagina con titolo effettivo: " + kind);
+            expect.That(footer.Descendants(w + "fldSimple").Select(f => (string?)f.Attribute(w + "instr")).SequenceEqual(new[] { "PAGE", "SECTIONPAGES" })
+                && !footer.Descendants(w + "instrText").Any(), "Numeri di pagina dinamici senza cache del documento campione: " + kind);
+            int coverBlocks = (int)reportDoc.GetXml("anthea/layout.xml").Root!.Attribute("coverBlocks")!;
+            var prose = reportBody.Elements().Skip(coverBlocks).Where(p => p.Name == w + "p" && p.Descendants(w + "t").Any()
+                && (string?)p.Element(w + "pPr")?.Element(w + "pStyle")?.Attribute(w + "val") != "Didascalia");
+            expect.That(prose.All(p => !p.Descendants(w + "sz").Any() && !p.Descendants(w + "rFonts").Any()), "Testi e titoli ereditano caratteri e dimensioni ITEC: " + kind);
+            using var template = typeof(QuickSectionReport).Assembly.GetManifestResourceStream("Anthea.ItecPile.docx")!;
+            using var buffer = new MemoryStream(); template.CopyTo(buffer);
+            expect.That(reportDoc.GetBytes("word/styles.xml").SequenceEqual(DocxWriter.Read(buffer.ToArray()).GetBytes("word/styles.xml")), "Stili originali del template conservati: " + kind);
+            expect.That((int?)section.Element(w + "pgNumType")?.Attribute(w + "start") == 1
+                && Anthea.Reports.Pdf.DocxPdf.Translate(reportDoc).LastSection.PageSetup.StartingNumber == 1, "Numerazione coerente Word/PDF: " + kind);
+        }
         File.WriteAllText(Path.Combine(folder, "relazione-dati.json"), System.Text.Json.JsonSerializer.Serialize(analysis.Report, new System.Text.Json.JsonSerializerOptions { WriteIndented = true }));
         // Distinct governors for the two QP checks and an incomplete case must all survive the short report.
         var qp = analysis.Report.Cases.First(c => c.State == "SLE_QP");
