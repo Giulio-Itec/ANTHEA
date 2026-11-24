@@ -4,4 +4,18 @@
  xmlns:vm="clr-namespace:Anthea.Presentation.Modules.EmbeddedWalls;assembly=ANTHEA.Presentation">
  <DataTemplate DataType="{x:Type vm:EmbeddedWallSheetViewModel}"><views:EmbeddedWallSheetView/></DataTemplate>
  <DataTemplate DataType="{x:Type vm:EmbeddedWallTable}"><views:EmbeddedWallTableView/></DataTemplate>
+ <!-- «Rinomina la fase» of the menu Fase (organizzazione del modulo paratie, progetto del 16/11, step 2), shown by WpfDialogService. -->
+ <DataTemplate DataType="{x:Type vm:EmbeddedWallStageNameDialogViewModel}">
+  <Border Width="420" Background="{DynamicResource Token.Paper}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Padding="12"
+   FocusManager.FocusedElement="{Binding ElementName=StageName}">
+   <StackPanel>
+    <TextBlock Text="{Binding Prompt}" TextWrapping="Wrap" FontSize="{DynamicResource Font.Body}" Foreground="{DynamicResource Token.Ink}" Margin="0,0,0,8"/>
+    <TextBox x:Name="StageName" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" AutomationProperties.Name="Identificativo della fase" Margin="0,0,0,10"/>
+    <WrapPanel HorizontalAlignment="Right">
+     <Button Content="Rinomina" IsDefault="True" Command="{Binding ConfirmCommand}" Background="{DynamicResource Token.Selected}" Foreground="{DynamicResource Token.OnCommandBar}"/>
+     <Button Content="Annulla" IsCancel="True" Command="{Binding CancelCommand}" Background="{DynamicResource Token.Paper}" Foreground="{DynamicResource Token.Ink}"/>
+    </WrapPanel>
+   </StackPanel>
+  </Border>
+ </DataTemplate>
 </ResourceDictionary>

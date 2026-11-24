@@ -32,7 +32,7 @@ internal static class EmbeddedWallGlobalChecks
         {
             cancellation.ThrowIfCancellationRequested();
             string id = Text(row, "id"), stage = Text(row, "stage");
-            progress(new("Stabilità globale · " + stage + " · " + id, null, 0));
+            progress(new("Stabilità globale · " + stage + " · " + id, null, 0) { StageId = stage });
             cancellation.ThrowIfCancellationRequested();
             try
             {

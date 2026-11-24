@@ -191,6 +191,33 @@ Ramo `claude/1192-candidata`, pubblicato il 17/11/2026 dopo la prova e l'approva
 - [x] Setup locale (74.831.765 byte, C081CF35…), Audit-Installer e collaudi PASS; prova dell'utente sulla build della candidata: «Prova OK». [Verbale](installer-1.19.2.md).
 - [x] origin/main ancora a323af43: tag v1.19.2 su a27bee25, push in avanti veloce e copia sulla condivisione a cura del coordinatore.
 
+## Paratie: fase nuova con quote e falda della precedente (A3) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente di lunedì 16/11**;
+registro `PARATIE-23`.
+
+- [x] «Aggiungi» delle fasi continua terreno e falda dell'ultima fase dello stesso caso; sovraccarichi, carichi e rigidezza dai valori
+  iniziali. Un solo passo dello storico del progetto, che «Annulla» toglie per intero.
+- [x] Presentation `--paratie` PASS (prove `EmbeddedWallNewStageChecks`; conteggi nel rapporto dell'agente).
+- [ ] Guide: la frase «La nuova fase parte dai valori iniziali del modulo» (`supporto/docs/guida-pratica-anthea.md`, «Definire il modello
+  e le unità») nella prossima edizione. La Wiki incorpora la guida con l'impronta SHA-256 e gli scostamenti dell'indice
+  (`src/ANTHEA.Wiki/Content/sources.props`, `build-wiki-index.py`), quindi il testo va cambiato con l'indice, Word, PDF e le transizioni
+  F3 della Wiki; testo proposto nel rapporto dell'agente.
+
+## Paratie: verifiche SLU su una storia di progetto confermata (A2) — 15 novembre 2026
+
+Punto 12 della scheda delle decisioni del 16/11, opzione (a) di A2; ramo `claude/scheda-20261116`, **in attesa della scelta dell'utente
+di lunedì 16/11**; registro `PARATIE-22`.
+
+- [x] Conferma «Storia delle fasi già di progetto per le verifiche SLU» per la storia principale e per ogni caso: senza conferma niente
+  SLU di fasce, pali, tubi e sostegni metallici. Documento paratie alla versione 13, i file salvati aprono con la richiesta; avvertenza
+  nella relazione.
+- [x] Presentation `--paratie` PASS con A2 da solo e con A3 (conteggi nel rapporto dell'agente,
+  `gpc-f6-claude/INT/rapporti/anthea-scheda-20261116.md`); Examples.Tests PASS (95 esempi; senza il commit «DA APPROVARE» 04–06 aprono
+  con la richiesta).
+- [ ] Esempi di distribuzione 04–06 confermati: commit «DA APPROVARE».
+- [ ] Suite WPF `ui/check-paratie-view` (stadio ui, non eseguita dall'agente).
+- [ ] Guide: la conferma in «Richiedere le verifiche» nella prossima edizione, con Word, PDF e transizioni della Wiki.
 
 ## Guide Rev72 — compito 207, 16 novembre 2026
 
@@ -1422,12 +1449,15 @@ sono nel confronto di lunedì 2/11.
 | R11 | Copriferro NTC, Cmin di default | **26/10 sera: da correggere per la 1.14.3**, con l'aggiornamento del contratto DurabilityContractTests | — | corretta, librerie AJ della 1.14.2 |
 | R14 | Dettagli e M–χ: regola dei 15Ø, citazioni | riscontro | — | corretta nella 1.16.0; μφ calcolata (Concrete 0.33), nella scheda dalla 1.17.0 e nella relazione dalla 1.19.0; testo NTC da riscontrare |
 | R16 | DS, torsione: νv invece di νt | testo della media pesata | — | corretta nella 1.16.0 (νt); 17/11: variante (b2) e limite ν ≥ 2/√fck del DK NA:2024, decisi dall'utente (Concrete 0.39, set AZ) |
+| R16 | DS, torsione: νv invece di νt | testo della media pesata | — | corretta nella 1.16.0 (νt); pesi della media da riscontrare sul DK NA, lunedì 2/11 |
 | R17 | Classe indicativa di XC3 nei profili EN e UNI | impaginazione del prospetto E.1N | — | corretta nella 1.16.0 (C30/37); riscontrato sul testo il 1/11 |
 | R18 | Acciaio incrudente riferito a fyk invece che a fyd | **26/10 sera: da correggere per la 1.14.3**, in fondo all'elenco | priorità alta | corretta, librerie AK della 1.14.4 |
 | R20 | DS, travi: ρw,min nazionale | quando serve il DS delle travi | — | corretta nella 1.16.0; As,min DS della 9.2.1.1(1) resta in sospeso |
 
 Celle di R14 e R17 aggiornate il 15/11 dalla scheda delle decisioni del 16/11, approvate dall'utente il 17/11; cella di R16 aggiornata il
 17/11 ([decisioni](decisioni.md), «15 novembre» e «17 novembre (sera)»).
+Celle di R14 e R17 aggiornate il 15/11 dalla scheda delle decisioni del 16/11, in attesa dell'ok dell'utente ([decisioni](decisioni.md),
+«15 novembre»).
 
 Altre voci dopo F5, fuori da F5.15:
 - la voce di infrastruttura dei calcoli dal limitatore (D-2, D-5) e del taglio sullo sfondo (C2/S5-c), fatta per la 1.16.0

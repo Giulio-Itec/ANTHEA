@@ -194,7 +194,7 @@ internal static partial class EmbeddedWallChecks
         const string U = "C10 riga aggiunta dall'editor in F3";
         e.That(added["stage"] == "F3" && added["prestress"] == "" && !sheet.SketchStatus.Contains("ridotta"), "Riga aggiunta nell'editor: fase o pretensione vuota errate.");
         log.Check(U, "pretensione mostrata nel disegno", "kN", 50, sheet.Sketch.Supports.Single().Prestress);
-        e.That(WorkNodes(sheet.WorkTree).Any(n => ReferenceEquals(n.Row, added) && n.Title == "T1 · pretensione mantenuta"), "Albero: pretensione mantenuta non indicata.");
+        e.That(WorkNodes(sheet.WorkTree).Any(n => ReferenceEquals(n.Row, added) && n.Title == "F3 · T1 · pretensione mantenuta"), "Albero: pretensione mantenuta non indicata.");
         e.That(await Expect.Within(sheet.CalculateAsync()), "Calcolo dall'editor non pubblicato.");
         log.Check(U, "F3 forza nel tirante", "kN", 10.869565217391305, Tie(sheet.Current!.Stages[2]), 1e-9);
         added["prestress"] = "0";

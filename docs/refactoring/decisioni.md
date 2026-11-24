@@ -55,6 +55,11 @@ decisioni del 16/11) e D3 (voce 12h, separatore decimale e report delle paratie)
 Annotazioni preparate il 15/11 sera dalla scheda delle decisioni di lunedì 16/11 (`gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md`,
 fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Approvate dall'utente il 17/11 («ok per
 tutte le voci», sezione «17 novembre (sera)»).
+## 15 novembre — Hansen chiuso e voci del piano superate (scheda del 16/11)
+
+Annotazioni preparate il 15/11 sera dalla scheda delle decisioni di lunedì 16/11 (`gpc-f6-claude/INT/rapporti/scheda-decisioni-anthea-20261116.md`,
+fuori dal repository, tabella «Voci superate da spuntare»), sul ramo `claude/scheda-20261116`. Sono **in attesa dell'ok dell'utente**:
+se lunedì una voce non va bene, la spunta si toglie.
 
 - **Hansen con carico inclinato** (29/10 mattina, punto 2): chiuso il 5/11. Q1 attuato in Checker `f424383b` (Geotechnics 0.28.0.0,
   direzione di L′ solo con H_L > 0); Q2 e Q3 restano come nel manuale. Del punto 2 resta aperto solo il confronto dello Stratificato

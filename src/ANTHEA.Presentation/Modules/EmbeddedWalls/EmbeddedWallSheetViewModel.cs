@@ -39,7 +39,11 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     private string progress = "";
     public EmbeddedWallSheetViewModel(SheetContext context) : base(EmbeddedWallDocument.Module, context)
     {
-        Rebuild(); InitializeSketch(); InitializeWorkTree(); Report = new SheetReport(this);
+        Documents = new(Guard);
+        Messages = new(Guard, OpenMessage);
+        StageLevels = new(() => CanEdit, () => Context.Host.ConfirmEdit(),
+            () => { Tables.Single(t => t.Key == "stages").Synchronize(); Context.Host.ConfirmEdit(); });
+        Rebuild(); InitializeSketch(); InitializeStages(); InitializeWorkTree(); Report = new SheetReport(this);
         RunCommand = GuardedCommands.CreateAsync(Guard, async c => { await CalculateAsync(c); }, Lifetime, () => !IsBusy);
         CancelCommand = GuardedCommands.Create(Guard, () => { searchCancellation?.Cancel(); CancelCalculation(); }, () => IsBusy);
         SearchEmbedmentCommand = GuardedCommands.CreateAsync(Guard, async c => { await SearchEmbedmentAsync(c); }, Lifetime, () => !IsBusy);
@@ -117,7 +121,7 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
     public EmbeddedWallStageData? SelectedStage
     {
         get => selectedStage;
-        set { if (SetProperty(ref selectedStage, value)) { OnPropertyChanged(nameof(Points)); OnPropertyChanged(nameof(Checks)); OnPropertyChanged(nameof(Supports)); } }
+        set { if (SetProperty(ref selectedStage, value)) { OnPropertyChanged(nameof(Points)); OnPropertyChanged(nameof(Checks)); OnPropertyChanged(nameof(Supports)); FollowResultStage(value); } }
     }
     public EmbeddedWallStageData? ComparisonStage { get => comparisonStage; set => SetProperty(ref comparisonStage, value); }
     public IReadOnlyList<EmbeddedWallPointData> Points => selectedStage?.Points ?? [];
@@ -166,15 +170,32 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         Commit(); long started = Revision; var ui = SynchronizationContext.Current;
         void Show(EmbeddedWallProgress p)
         {
-            void Apply() { if (!IsDisposed && Revision == started && IsBusy) Progress = p.Fraction.HasValue
-                ? $"Fase {p.Stage} · {p.Fraction:P0} · {p.Iterations} iterazioni" : $"{p.Stage} · {p.Iterations} iterazioni"; }
+            void Apply()
+            {
+                if (IsDisposed || Revision != started || !IsBusy) return;
+                // Step 11: the case and the phase of the line of the panel come from the fields of the progress, not from its text.
+                progressTarget = p.CaseId is null && p.StageId is null ? null : new(p.CaseId, p.StageId, null, null);
+                Progress = p.Fraction.HasValue ? $"Fase {p.Stage} · {p.Fraction:P0} · {p.Iterations} iterazioni" : $"{p.Stage} · {p.Iterations} iterazioni";
+            }
             if (ui is null) return; ui.Post(_ => Apply(), null);
         }
         var service = Context.Calculation as EmbeddedWallModule;
         if (service is not null) service.ProgressChanged += Show;
         Progress = "Preparazione del modello";
-        try { return await base.CalculateAsync(cancellation); }
-        finally { if (service is not null) service.ProgressChanged -= Show; Progress = ""; }
+        StartRequest(started, $"Calcolo in corso sulla revisione {started}.");
+        bool published = false;
+        try { return published = await base.CalculateAsync(cancellation); }
+        finally
+        {
+            if (service is not null) service.ProgressChanged -= Show; Progress = "";
+            // C5: the request is distinct from the results it may have published.
+            if (!IsDisposed)
+                SetRequest(published ? EmbeddedWallMessageLevel.Information : EmbeddedWallMessageLevel.Warning, started,
+                    published ? $"Calcolo terminato sulla revisione {started}."
+                    : Revision != started ? $"Calcolo della revisione {started} superato da una modifica dei dati."
+                    : $"Calcolo della revisione {started} annullato o concluso senza risultati.",
+                    published || Revision != started || string.IsNullOrWhiteSpace(CalculationMessage) ? "" : " " + CalculationMessage);
+        }
     }
     protected override void OnReloaded() => Rebuild();
     protected override void OnCommit() { General.Commit(); Hydraulics.Commit(); Embedment.Commit(); foreach (var table in Tables) table.Editor?.Commit(); EmbeddedWallDocument.Validate(Data); }
@@ -187,26 +208,28 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
             storingResult = true;
             try { ChangedKeepingResults(); } finally { storingResult = false; }
         }
-        SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
+        SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
     }
     protected override void OnPropertyChanged(PropertyChangedEventArgs e)
     {
         base.OnPropertyChanged(e);
-        if (e.PropertyName == nameof(Revision) && !storingResult) { searchCancellation?.Cancel(); RestoreResult(); RefreshSketch(); RefreshWorkTree(); }
+        // Step 11 (R06): a change of the data supersedes the request; its lines leave the panel Messaggi.
+        if (e.PropertyName == nameof(Revision) && !storingResult) { requestSuperseded = true; searchCancellation?.Cancel(); RestoreResult(); RefreshSketch(); RefreshWorkTree(); }
+        if (e.PropertyName is nameof(CalculationMessage) or nameof(CalculationState) or nameof(Warnings) or nameof(Progress) or nameof(IsBusy)) RefreshMessages();
         if (e.PropertyName == nameof(CanEdit))
         {
             if (General is not null) General.IsReadOnly = !CanEdit;
             if (Hydraulics is not null) Hydraulics.IsReadOnly = !CanEdit;
             if (Embedment is not null) Embedment.IsReadOnly = !CanEdit;
-            foreach (var table in Tables) table.RefreshAccess(); ImportSoilCommand?.NotifyCanExecuteChanged();
+            foreach (var table in Tables) table.RefreshAccess(); ImportSoilCommand?.NotifyCanExecuteChanged(); NotifyStageCommands(); StageLevels?.Show(InputStage);
         }
         if (e.PropertyName == nameof(IsBusy)) { RunCommand?.NotifyCanExecuteChanged(); CancelCommand?.NotifyCanExecuteChanged(); SearchEmbedmentCommand?.NotifyCanExecuteChanged(); }
     }
     private void NotifyResult()
     {
-        selectedResultCase = ResultCases.FirstOrDefault();
+        selectedResultCase = ResultCases.FirstOrDefault(r => r.CaseId == inputCase);
         OnPropertyChanged(nameof(ResultCases)); OnPropertyChanged(nameof(SelectedResultCase)); OnPropertyChanged(nameof(ResultCaseStatus));
-        SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault();
+        SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault();
         OnPropertyChanged(nameof(Current)); OnPropertyChanged(nameof(Result)); OnPropertyChanged(nameof(HasResults)); OnPropertyChanged(nameof(Stages));
         OnPropertyChanged(nameof(HydraulicStages)); OnPropertyChanged(nameof(HydraulicChecks)); SelectedHydraulicCheck = HydraulicChecks.FirstOrDefault();
         OnPropertyChanged(nameof(GlobalChecks)); SelectedGlobalCheck = GlobalChecks.FirstOrDefault(); GlobalCsvCommand?.NotifyCanExecuteChanged();
@@ -219,10 +242,10 @@ public sealed partial class EmbeddedWallSheetViewModel : SheetViewModelBase
         OnPropertyChanged(nameof(EmbedmentCandidates)); OnPropertyChanged(nameof(EmbedmentStatus));
         SelectedEmbedment = EmbedmentCandidates.FirstOrDefault(c => c.Embedment == current?.EmbedmentSearch?.BestEmbedment) ?? EmbedmentCandidates.FirstOrDefault();
         EmbedmentCsvCommand?.NotifyCanExecuteChanged();
-        NotifyEnvelope();
+        NotifyEnvelope(); RefreshAnalysis(); RefreshMessages();
     }
     private void RestoreResult()
-    { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }
+    { current = EmbeddedWallDocument.ReadCurrentResult(Data); SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult(); }
     private EmbeddedWallReportData RequireCurrent()
     {
         Commit();
