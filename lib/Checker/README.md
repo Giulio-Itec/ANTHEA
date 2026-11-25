@@ -14,8 +14,16 @@ The ANTHEA closure stays at 14 DLLs, without GPCModelChecker and without Gmsh; i
 The 14 suites of the set record **13374 passed, 0 failed, 114 not executed**; the 114 are not passes.
 The F4 record changes only provenance and hashes; `previous_manifest_sha256` and every numerical expectation stay unchanged.
 ANTHEA stays **1.19.5**: that version has never shipped as an installer and BD exposes no new library feature in ANTHEA.
-Consumer checks required: L1 (build, combination, bridge and Straus7 native suites, 106 frozen captures) and the L2
-`baseline` profile; evidence in `supporto/artefatti/bd`.
+Consumer checks on commit `3202019d`, evidence in `supporto/artefatti/bd` (`gate-verification-all.json`):
+- L1 **30 PASS** (11 builds, 19 suites): the seven combination/native suites of 0146, including the **106 frozen captures
+  byte-identical**, Straus7 native **41 checks on two models** (`GPC_STRAUS7_ELEMENTS/STAGES=versioned`) and the WPF importer
+  **17 checks**, plus the CompositeBridge consumers: Application.Tests, verifiche/bridge, BridgeDesign.Checks/IndependentChecks,
+  the six bridge smokes, ui/check-bridge-design-view and ui/check-sezione-mista-view.
+- L2 `baseline`: **104 PASS, 6 KNOWN, 1 historical** = 32 builds + 79 suites, the same outcome as 0146 on BC. The six KNOWN
+  are the F4 entries with their pinned comparison hashes; banco-ca keeps the historical 2,456 rows / 4,677 differences with
+  the same per-file counters and the same 2,000 retained details as BC, and the exact `pre-m4` comparison of the BC (0146)
+  and BD captures finds 21 files / 32,564 rows with no difference beyond 1,244 declared random ids.
+- 14 installed DLLs and 714 copies in the build outputs match the BD manifest. No full and no installer, as decided by the user.
 
 **Release BC — set ufficiale combinazioni, correnti e altezza variabile (23 novembre 2026, task 0143).**
 Installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, senza `-AllowCandidate`, dal set
