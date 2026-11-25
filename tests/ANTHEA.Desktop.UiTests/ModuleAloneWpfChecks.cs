@@ -1,7 +1,11 @@
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Automation.Peers;
+using System.Windows.Automation.Provider;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Anthea.Application.Documents;
 using Anthea.Application.Modules;
 using Anthea.Presentation.Calculation;
 using Anthea.Presentation.Shell;
@@ -51,6 +55,10 @@ internal static class ModuleAloneWpfChecks
         await Idle(window!);
         check(mainClosed && window is { IsLoaded: false } && parts.Tracker.Hosts.Count == 0, "Modulo da solo: chiusa la sua finestra si chiude ANTHEA (principale chiusa " + mainClosed + ", finestra caricata " + window?.IsLoaded + ")");
 
+        await OpenSections(directory, SheetLayout.QuickSectionModule, check);
+        await OpenSections(directory, SheetLayout.QuickCompositeModule, check);
+        await QuickSectionTransferWpfChecks.Run(directory, check);
+
         // «Riaggancia»: the tab goes to the main window, which shows itself.
         var (others, otherMode) = Compose("mat_calcestruzzo");
         otherMode.Start(others, StartupRequest.Parse(["--modulo", "mat_calcestruzzo"]));
@@ -63,15 +71,67 @@ internal static class ModuleAloneWpfChecks
         await Idle(others.Window);
     }
 
-    private static (ShellParts Parts, ModuleWindowMode Mode) Compose(string module)
+    private static async Task OpenSections(string directory, string module, Action<bool, string> check)
+    {
+        string path = Path.Combine(directory, module + "-raccolta.programma");
+        var document = QuickSectionDocuments.Create(module);
+        QuickSectionDocuments.Add(document, "Sezione A");
+        QuickSectionDocuments.Add(document, "Sezione B");
+        DocumentService.Save(path, document);
+        var services = new ShellDraftChecks.DraftServices();
+        var (parts, mode) = Compose(module, services);
+        mode.Start(parts, StartupRequest.Parse(["--modulo", module]));
+        await Idle(parts.Window);
+        bool mainShown = parts.Window.IsVisible;
+        parts.Window.IsVisibleChanged += (_, _) => mainShown |= parts.Window.IsVisible;
+        var initialHost = parts.Tracker.Hosts.Single();
+        var initialWindow = Application.Current.Windows.OfType<DetachedShellWindow>().Single(w => ReferenceEquals(w.DataContext, initialHost));
+        try
+        {
+            Press((Button)initialWindow.FindName("OpenFile"));
+            await Idle(parts.Window);
+            check(parts.Tracker.Hosts.Single() == initialHost && initialHost.Tabs.Count == 1 && initialWindow.IsVisible,
+                module + ": Apri annullato conserva la sezione iniziale");
+            services.NextOpenPath = path;
+            Press((Button)initialWindow.FindName("OpenFile"));
+            await Idle(parts.Window);
+            var opened = parts.Tracker.Hosts.Single(h => !ReferenceEquals(h, initialHost));
+            check(parts.Tracker.Hosts.Count == 1 && !initialWindow.IsLoaded && parts.Shell.Workspace.Sheets.Count == 2,
+                module + ": Apri sostituisce la sezione iniziale intatta e chiude la sua finestra");
+            check(!mainShown && !parts.Window.IsVisible && parts.Shell.Windows.Main.Tabs.Count == 0,
+                module + ": Apri conserva ANTHEA nascosta, senza mostrarla neppure temporaneamente");
+            check(opened.Tabs.Count == 2 && opened.SelectedSheet?.Heading == "Sezione B" && services.Failures.Count == 0,
+                module + ": Apri ripristina tutte le sezioni e la selezione nella finestra del modulo");
+            var openedWindow = Application.Current.Windows.OfType<DetachedShellWindow>().Single(w => ReferenceEquals(w.DataContext, opened));
+            services.NextOpenPath = path;
+            Press((Button)openedWindow.FindName("OpenFile"));
+            await Idle(parts.Window);
+            check(!mainShown && parts.Tracker.Hosts.Count == 1 && opened.Tabs.Count == 2,
+                module + ": riaprire lo stesso file non mostra ANTHEA e non duplica le finestre");
+            parts.Shell.Windows.ReattachCommand.Execute(opened.Selected);
+            await Idle(parts.Window);
+            check(parts.Window.IsVisible && parts.Shell.Windows.Main.Tabs.Count == 1,
+                module + ": Riaggancia continua a mostrare ANTHEA solo su richiesta");
+        }
+        finally
+        {
+            parts.Window.Close();
+            parts.Shell.Dispose();
+            await Idle(parts.Window);
+        }
+    }
+
+    internal static (ShellParts Parts, ModuleWindowMode Mode) Compose(string module, ShellDraftChecks.DraftServices? services = null)
     {
         var mode = new ModuleWindowMode(module);
-        var services = new ShellDraftChecks.DraftServices();
+        services ??= new ShellDraftChecks.DraftServices();
         var parts = ShellComposition.Create(ShellComposition.WithShellWiki(services.Create()), DesktopComposition.CreateModules(), new CalculationLimiter(CalculationLimiter.DefaultMaximum),
             ShellComposition.ExamplesFolder, window => mode.Wrap(ShellDraftChecks.Offscreen(window)));
         ShellDraftChecks.Offscreen(parts.Window);
         return (parts, mode);
     }
+
+    private static void Press(Button button) => ((IInvokeProvider)new ButtonAutomationPeer(button).GetPattern(PatternInterface.Invoke)).Invoke();
 
     private static async Task Idle(Window window)
     {

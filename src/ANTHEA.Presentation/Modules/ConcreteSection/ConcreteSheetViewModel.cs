@@ -134,7 +134,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
     }
 
     /// <summary>Signals a change of the user that the results already reflect, or of interface state saved in the data (Modified only).</summary>
-    internal void RaiseModified() { if (!IsDisposed) ChangedKeepingResults(); }
+    internal void RaiseModified() { if (!IsDisposed) { NotifyActions3D(); ChangedKeepingResults(); } }
 
     internal void RequestRheology(double strength) => RheologyRequested?.Invoke(this, strength);
 
@@ -192,7 +192,7 @@ public sealed partial class ConcreteSheetViewModel : SheetViewModelBase, IConcre
         tab = ConcreteSheetPresentation.InitialTab(Settings);
         OnPropertyChanged(nameof(SelectedTab)); OnPropertyChanged(nameof(Inputs)); OnPropertyChanged(nameof(Calculation)); OnPropertyChanged(nameof(Actions));
         OnPropertyChanged(nameof(Domain3D)); OnPropertyChanged(nameof(Domain2D));
-        initializing = false; RefreshPreview(); RefreshSummary();
+        initializing = false; RefreshPreview(); RefreshSummary(); NotifyActions3D();
         // The view shown and loaded: the panel of the tab and the calculation of the opening (IsVisibleChanged and Loaded of the historic view).
         ViewLoaded();
     }

@@ -37,8 +37,8 @@ public sealed partial class EmbeddedWallSheetViewModel
         + string.Concat((current?.Envelope?.Histories ?? []).Where(h => h.Warnings is { Count: > 0 })
             .Select(h => Environment.NewLine + "Avviso, caso " + h.CaseId + ": " + string.Join(" ", h.Warnings!)));
     public string EnvelopeExtrema => envelopeSeries is not { } s ? "" :
-        $"Minimo globale: {s.Minimum.Value:G7} {s.Unit}, {s.Minimum.CaseId} / {s.Minimum.Stage}, z={s.Minimum.Point.Elevation:G7} m. "
-        + $"Massimo globale: {s.Maximum.Value:G7} {s.Unit}, {s.Maximum.CaseId} / {s.Maximum.Stage}, z={s.Maximum.Point.Elevation:G7} m.";
+        $"Minimo globale: {EmbeddedWallDisplay.Number(s.Minimum.Value, s.Unit)} {s.Unit}, {s.Minimum.CaseId} / {s.Minimum.Stage}, z={EmbeddedWallDisplay.Number(s.Minimum.Point.Elevation, "m")} m. "
+        + $"Massimo globale: {EmbeddedWallDisplay.Number(s.Maximum.Value, s.Unit)} {s.Unit}, {s.Maximum.CaseId} / {s.Maximum.Stage}, z={EmbeddedWallDisplay.Number(s.Maximum.Point.Elevation, "m")} m.";
     private void NotifyEnvelope()
     {
         OnPropertyChanged(nameof(EnvelopeSeries)); OnPropertyChanged(nameof(EnvelopeStatus));

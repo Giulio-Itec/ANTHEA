@@ -1,0 +1,38 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "5602c85dcd3d3d234619d6ca4a09f8b63d2fadddad086546968dbae8a8cf8ddf",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "43c5f796f7fa9c4a762b7abe15ba6b633e3634f22bbb3a79d16e1a2d552f5788",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "0a3272b54f67c98f7c2dd2c39e9166d1627ad105c6d2f644cb244008940791f2",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "43c5f796f7fa9c4a762b7abe15ba6b633e3634f22bbb3a79d16e1a2d552f5788",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "bbe9522ea6a8494385578f3932498217f1d53b9ed2360f02a3b87fbce6a94c6d",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.md"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "76f44720d9a16130045b4cb595a24cc09187901ff828b14bb79ea034a44ee9e2",
+    "motivo": "Trasferimento delle sezioni rapide tra finestre e istanze, 20/11/2026.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+  }
+]

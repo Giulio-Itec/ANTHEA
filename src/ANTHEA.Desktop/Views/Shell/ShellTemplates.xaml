@@ -134,7 +134,7 @@
  </ContextMenu>
  <!-- The headers find the commands of the windows in the DataContext of the strip (ShellWindowsViewModel). -->
  <DataTemplate x:Key="Shell.SheetTabHeader" DataType="{x:Type tabs:SheetTabViewModel}">
-  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}">
+  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}" views:ShellTabInput.IsEnabled="True">
    <StackPanel Orientation="Horizontal">
     <Button Style="{StaticResource Shell.TabButton}" Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
      AutomationProperties.Name="{Binding Title}" ToolTip="{Binding Title}">
@@ -150,7 +150,7 @@
   </Border>
  </DataTemplate>
  <DataTemplate x:Key="Shell.PageTabHeader" DataType="{x:Type tabs:PageTabViewModel}">
-  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}">
+  <Border Style="{StaticResource Shell.TabFrame}" Tag="{Binding DataContext, RelativeSource={RelativeSource AncestorType=ItemsControl}}" ContextMenu="{StaticResource Shell.TabMenu}" views:ShellTabInput.IsEnabled="True">
    <StackPanel Orientation="Horizontal">
     <Button Style="{StaticResource Shell.TabButton}" Command="{Binding DataContext.SelectCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
      AutomationProperties.Name="{Binding Title}" ToolTip="{Binding Title}">

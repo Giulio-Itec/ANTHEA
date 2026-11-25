@@ -8,6 +8,7 @@
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
  xmlns:forms="clr-namespace:Anthea.Presentation.Forms;assembly=ANTHEA.Presentation"
  xmlns:concrete="clr-namespace:X.Desktop.Views.ConcreteSection"
+ xmlns:shell="clr-namespace:X.Desktop.Views.Shell"
  Background="{DynamicResource Token.Surface}" FontSize="{DynamicResource Font.Small}" PreviewKeyDown="Sheet_PreviewKeyDown">
  <UserControl.Resources>
   <BooleanToVisibilityConverter x:Key="Visibility"/>
@@ -133,6 +134,18 @@
     <DataTrigger Binding="{Binding IsReadOnly}" Value="True"><Setter TargetName="Box" Property="Background" Value="{DynamicResource Token.Calculated}"/></DataTrigger>
    </DataTemplate.Triggers>
   </DataTemplate>
+  <DataTemplate x:Key="ShearCotEditor" DataType="{x:Type forms:FieldViewModel}">
+   <Grid>
+    <TextBox Text="{Binding EditText, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Right" MinHeight="25" Margin="1"
+     Background="{DynamicResource Token.Field.Background}" IsReadOnly="{Binding IsInputReadOnly, Mode=OneWay}" ToolTip="{Binding LabelToolTip}"
+     AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}" IsKeyboardFocusWithinChanged="Editor_FocusChanged"/>
+    <TextBlock Text="Auto" IsHitTestVisible="False" HorizontalAlignment="Right" Margin="0,0,7,0" Foreground="{DynamicResource Token.Muted}">
+     <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed"/>
+      <Style.Triggers><DataTrigger Binding="{Binding EditText}" Value=""><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
+     </Style></TextBlock.Style>
+    </TextBlock>
+   </Grid>
+  </DataTemplate>
   <DataTemplate x:Key="ChoiceEditor" DataType="{x:Type forms:FieldViewModel}">
    <ComboBox ItemsSource="{Binding Choices}" SelectedItem="{Binding SelectedChoice}" IsEnabled="{Binding CanChange, Mode=OneWay}" Margin="1" FontWeight="Normal"
     ToolTip="{Binding LabelToolTip}" AutomationProperties.Name="{Binding LabelToolTip, Mode=OneWay}"/>
@@ -242,15 +255,19 @@
   </DataTemplate>
  </UserControl.Resources>
 
+ <shell:MinimumSizeViewport MinimumContentWidth="{Binding SheetMinimumWidth}" MinimumContentHeight="650">
  <Grid Margin="10,8,10,8">
   <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-  <Grid.ColumnDefinitions><ColumnDefinition Width="410"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*" MinWidth="420"/></Grid.ColumnDefinitions>
+  <Grid.ColumnDefinitions><ColumnDefinition Width="410"/><ColumnDefinition Width="10"/><ColumnDefinition Width="*" MinWidth="420"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
 
   <!-- Title and shape. -->
-  <Grid Grid.ColumnSpan="3" Margin="0,0,0,8">
-   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
-   <TextBlock Text="Titolo" Style="{StaticResource Muted}" Margin="0,0,6,0"/>
-   <TextBox x:Name="TitleBox" Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22" ToolTip="Titolo della verifica"/>
+  <Grid Grid.ColumnSpan="4" Margin="0,0,0,8">
+   <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+   <Button x:Name="ToggleShear" Grid.Column="3" Content="{Binding ShearToggleText}" Command="{Binding ToggleShearCommand}" Margin="10,0,0,0" Padding="10,2"
+    ToolTip="Apri o richiudi il pannello taglio: i dati vengono conservati anche a pannello chiuso" AutomationProperties.Name="Apri o chiudi verifica a taglio"/>
+   <TextBlock Text="Nome sezione" Style="{StaticResource Muted}" Margin="0,0,6,0"/>
+   <TextBox x:Name="TitleBox" Grid.Column="1" Text="{Binding Title}" IsReadOnly="{Binding IsReadOnly}" MinHeight="22"
+    ToolTip="Nome della sezione, salvato nel documento e mostrato nella scheda, nella finestra e nelle relazioni" AutomationProperties.Name="Nome della sezione"/>
    <ListBox Grid.Column="2" Style="{StaticResource Segmented}" ItemContainerStyle="{StaticResource ShapeItem}" ItemsSource="{Binding ShapeChoices}"
     SelectedValuePath="Name" SelectedValue="{Binding Shape}" IsEnabled="{Binding CanEdit}"
     Margin="10,0,0,0" ToolTip="Forma della sezione" AutomationProperties.Name="Forma della sezione"/>
@@ -366,7 +383,17 @@
    <Border Style="{StaticResource Card}">
     <StackPanel>
      <DockPanel Margin="0,0,0,3">
-      <Button DockPanel.Dock="Right" Content="+ combinazione" Style="{StaticResource Link}" Command="{Binding AddCombinationCommand}" ToolTip="Aggiungi una combinazione"/>
+      <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+       <Button x:Name="ResetCombinationSettings" Content="↺" Width="26" Padding="0" Style="{StaticResource Link}" Command="{Binding ResetCombinationSettingsCommand}"
+        ToolTip="Ripristina le impostazioni di tutte le combinazioni: SLU plastico, SLV elastico, SLE metodo n; segno del momento dalle sollecitazioni. Conserva nomi, stati limite, sollecitazioni, ordine e impostazioni generali."
+        AutomationProperties.Name="Ripristina impostazioni delle combinazioni"/>
+       <TextBlock Text="Sposta" Style="{StaticResource Muted}" VerticalAlignment="Center" Margin="6,0,2,0"/>
+       <Button x:Name="MoveCombinationUp" Content="↑" Width="24" Padding="0" Style="{StaticResource Link}" Command="{Binding MoveCombinationUpCommand}"
+        ToolTip="Sposta la combinazione selezionata una posizione sopra" AutomationProperties.Name="Sposta la combinazione sopra"/>
+       <Button x:Name="MoveCombinationDown" Content="↓" Width="24" Padding="0" Style="{StaticResource Link}" Command="{Binding MoveCombinationDownCommand}"
+        ToolTip="Sposta la combinazione selezionata una posizione sotto" AutomationProperties.Name="Sposta la combinazione sotto"/>
+       <Button Content="+ combinazione" Style="{StaticResource Link}" Command="{Binding AddCombinationCommand}" ToolTip="Aggiungi una combinazione"/>
+      </StackPanel>
       <TextBlock Text="3 · Sollecitazioni" Style="{StaticResource CardTitle}"/>
       <Button Content="↑" Style="{StaticResource ExcelButton}" Margin="8,0,0,0" Command="{Binding ExportExcelCommand}" AutomationProperties.Name="Esporta in Excel"
        ToolTip="Esporta in Excel: apre in Excel le combinazioni da compilare, una riga per combinazione. Dopo Ctrl+S in Excel premere «Importa da Excel»."/>
@@ -536,25 +563,183 @@
     <DockPanel>
      <!-- 19/11/2026: «Centra sezione» brings the section back to the middle of the drawing at its full size (as the double click), after zoom and drags. -->
      <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
-      <Button x:Name="CenterSection" DockPanel.Dock="Right" Content="⌖ Centra sezione" Style="{StaticResource Link}" VerticalAlignment="Center" Click="CenterSection_Click"
+      <Button x:Name="CenterSection" DockPanel.Dock="Bottom" Content="⌖ Centra sezione" Style="{StaticResource Link}" HorizontalAlignment="Right" Margin="0,4,0,0" Click="CenterSection_Click"
        ToolTip="Riporta la sezione al centro del disegno, alla dimensione intera (come il doppio clic)" AutomationProperties.Name="Centra sezione"
        Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
       <ListBox Style="{StaticResource Segmented}" ItemsSource="{Binding Displays}" SelectedItem="{Binding Display}" HorizontalAlignment="Left"
-       ToolTip="Sezione, dominio (N–M in retta, Mx–My a NEd in deviata) o momento–curvatura a NEd attorno a x" AutomationProperties.Name="Mostra"/>
+       ToolTip="Sezione, dominio, momento–curvatura o disposizione delle azioni in 3D" AutomationProperties.Name="Mostra"/>
      </DockPanel>
      <Grid>
       <ContentControl x:Name="DrawingHost" Focusable="False" Visibility="{Binding ShowsSection, Converter={StaticResource Visibility}}"/>
-      <ContentControl x:Name="ChartHost" Focusable="False">
-       <ContentControl.Style>
-        <Style TargetType="ContentControl">
-         <Setter Property="Visibility" Value="Collapsed"/>
-         <Style.Triggers><DataTrigger Binding="{Binding ShowsSection}" Value="False"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers>
-        </Style>
-       </ContentControl.Style>
-      </ContentControl>
+      <ContentControl x:Name="ChartHost" Focusable="False" Visibility="{Binding ShowsChart, Converter={StaticResource Visibility}}"/>
+      <Grid x:Name="ActionsPanel" Visibility="{Binding ShowsActions, Converter={StaticResource Visibility}}">
+       <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition/></Grid.RowDefinitions>
+       <Grid Margin="0,2,0,6">
+        <Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+        <ListBox x:Name="ActionsSourceSelector" Style="{StaticResource Segmented}" ItemsSource="{Binding ActionSources}" SelectedItem="{Binding ActionsSource}" AutomationProperties.Name="Tabella delle azioni 3D"/>
+        <ComboBox x:Name="ActionsCombinationSelector" Grid.Column="1" ItemsSource="{Binding ActionCombinations}" DisplayMemberPath="Name" SelectedValuePath="Id"
+         SelectedValue="{Binding ActionCombinationId}" Margin="8,0" MinWidth="65" AutomationProperties.Name="Combinazione delle azioni 3D"/>
+        <Button x:Name="CenterActions" Grid.Column="2" Content="⌖ Centra vista" Style="{StaticResource Link}" Click="CenterActions_Click" AutomationProperties.Name="Centra vista 3D"/>
+       </Grid>
+       <ContentControl x:Name="ActionsHost" Grid.Row="1" Focusable="False" MinHeight="220"/>
+      </Grid>
      </Grid>
     </DockPanel>
    </Border>
   </DockPanel>
+  <Border x:Name="ShearPanel" Grid.Row="1" Grid.Column="3" Width="510" Margin="10,0,0,0" BorderThickness="1,0,0,0" Padding="10,0,0,0"
+   BorderBrush="{DynamicResource Token.Border.Strong}" Visibility="{Binding ShearExpanded, Converter={StaticResource Visibility}}">
+   <Border.Resources>
+    <DataTemplate x:Key="ShearField" DataType="{x:Type forms:FieldViewModel}">
+     <Grid Margin="0,0,8,4" Visibility="{Binding IsVisible, Converter={StaticResource Visibility}}">
+      <Grid.ColumnDefinitions><ColumnDefinition Width="94"/><ColumnDefinition/></Grid.ColumnDefinitions>
+      <StackPanel Orientation="Horizontal"><TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"/>
+       <TextBlock Text="{Binding Unit, StringFormat=' [{0}]'}" Style="{StaticResource Muted}" Visibility="{Binding HasUnit, Converter={StaticResource Visibility}}"/>
+      </StackPanel>
+      <ContentControl Grid.Column="1" Content="{Binding}" Style="{StaticResource Editor}"/>
+     </Grid>
+    </DataTemplate>
+   </Border.Resources>
+   <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="0,0,10,0">
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <TextBlock Text="Verifica a taglio" FontSize="16" FontWeight="SemiBold"/>
+      <TextBlock Text="{Binding ShearCombination}" Foreground="{DynamicResource Token.Accent}" FontWeight="SemiBold" Margin="0,5,0,2"/>
+      <TextBlock Text="Modello della combinazione selezionata" Style="{StaticResource Muted}" Margin="0,4,0,3"/>
+      <ListBox x:Name="ShearModelSelector" Style="{StaticResource Segmented}" ItemsSource="{Binding ShearModels}" SelectedItem="{Binding ShearModel}" IsEnabled="{Binding CanEditSelectedShear}" AutomationProperties.Name="Modello di calcolo a taglio">
+       <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding}" TextWrapping="Wrap" MaxWidth="190"/></DataTemplate></ListBox.ItemTemplate>
+      </ListBox>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel>
+      <DockPanel Margin="0,0,0,4">
+       <Button x:Name="ResetShearConditions" DockPanel.Dock="Right" Content="↺" Width="26" Padding="0" Style="{StaticResource Link}" Command="{Binding ResetShearConditionsCommand}" ToolTip="Ripristina soltanto il modello armato/non armato di tutte le combinazioni secondo la tipologia scelta nella tabella. Conserva sollecitazioni, armatura e altri parametri." AutomationProperties.Name="Ripristino condizioni a taglio"/>
+       <TextBlock Text="1 · Combinazioni a taglio" Style="{StaticResource CardTitle}"/>
+       <Button x:Name="ExportShearExcel" Content="↑" Style="{StaticResource ExcelButton}" Margin="8,0,0,0" Command="{Binding ExportShearExcelCommand}" ToolTip="Esporta in Excel le combinazioni a taglio" AutomationProperties.Name="Esporta taglio in Excel"/>
+       <Button x:Name="ImportShearExcel" Content="↓" Style="{StaticResource ExcelButton}" Command="{Binding ImportShearExcelCommand}" ToolTip="Importa da Excel: rilegge il file esportato dopo Ctrl+S e sostituisce soltanto le combinazioni a taglio" AutomationProperties.Name="Importa taglio da Excel" HorizontalAlignment="Left"/>
+      </DockPanel>
+      <DockPanel Margin="0,0,0,5">
+       <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+        <Button Content="↑" Style="{StaticResource Link}" Command="{Binding MoveShearUpCommand}" ToolTip="Sposta sopra la combinazione a taglio"/>
+        <Button Content="↓" Style="{StaticResource Link}" Command="{Binding MoveShearDownCommand}" ToolTip="Sposta sotto la combinazione a taglio"/>
+        <Button Content="+ combo" Style="{StaticResource Link}" Command="{Binding AddShearCombinationCommand}"/>
+       </StackPanel>
+       <Button x:Name="CopyShearCombinations" Content="Copia combinazioni" Command="{Binding CopyShearCombinationsCommand}" HorizontalAlignment="Left" Padding="7,2"
+        ToolTip="Copia nomi e N dal momento. Aggiorna le righe già copiate conservando Vx, Vy e tipologia di verifica; mantiene le righe aggiunte qui. I momenti copiati sono usati solo dai modelli che li richiedono."/>
+      </DockPanel>
+      <Grid>
+       <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="80"/><ColumnDefinition Width="120"/><ColumnDefinition Width="50"/><ColumnDefinition Width="50"/><ColumnDefinition Width="50"/><ColumnDefinition Width="30"/><ColumnDefinition Width="30"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
+       <TextBlock Grid.Column="1" Text="Nome" Style="{StaticResource Muted}"/><TextBlock Grid.Column="2" Text="Verifica" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="3" Text="N" Style="{StaticResource Caption}"/><TextBlock Grid.Column="4" Text="Vx" Style="{StaticResource Caption}"/><TextBlock Grid.Column="5" Text="Vy" Style="{StaticResource Caption}"/>
+       <TextBlock Grid.Column="6" Text="ηx" Style="{StaticResource Caption}"/><TextBlock Grid.Column="7" Text="ηy" Style="{StaticResource Caption}"/>
+      </Grid>
+      <ItemsControl x:Name="ShearCombinations" ItemsSource="{Binding ShearCombinationRows}" Focusable="False">
+       <ItemsControl.ItemTemplate><DataTemplate>
+        <Border CornerRadius="5" Padding="0,1">
+         <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/>
+          <Style.Triggers><DataTrigger Binding="{Binding IsSelected}" Value="True"><Setter Property="Background" Value="{DynamicResource Token.Selection}"/></DataTrigger></Style.Triggers>
+         </Style></Border.Style>
+         <Grid>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="18"/><ColumnDefinition Width="80"/><ColumnDefinition Width="120"/><ColumnDefinition Width="50"/><ColumnDefinition Width="50"/><ColumnDefinition Width="50"/><ColumnDefinition Width="30"/><ColumnDefinition Width="30"/><ColumnDefinition Width="18"/></Grid.ColumnDefinitions>
+          <RadioButton IsChecked="{Binding IsSelected}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Mostra i risultati a taglio di questa combinazione"/>
+          <TextBox Grid.Column="1" Text="{Binding Name}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" TextAlignment="Left" ToolTip="Nome della combinazione a taglio"/>
+          <ComboBox Grid.Column="2" ItemsSource="{Binding Conditions}" DisplayMemberPath="ShortLabel" SelectedValuePath="Code" SelectedValue="{Binding Condition}" IsEnabled="{Binding CanEdit}" Margin="1" MinHeight="21" FontSize="{DynamicResource Font.Small}" ToolTip="{Binding SelectedItem.Label, RelativeSource={RelativeSource Self}}" AutomationProperties.Name="Tipologia di verifica a taglio"/>
+          <TextBox Grid.Column="3" Text="{Binding N}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="N [kN], negativo a compressione"/>
+          <TextBox Grid.Column="4" Text="{Binding Vx}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Vx [kN]" AutomationProperties.Name="Taglio Vx in kN"/>
+          <TextBox Grid.Column="5" Text="{Binding Vy}" IsReadOnly="{Binding IsReadOnly}" Style="{StaticResource RowBox}" ToolTip="Vy [kN]" AutomationProperties.Name="Taglio Vy in kN"/>
+          <StackPanel Grid.Column="6" Grid.ColumnSpan="2" Orientation="Horizontal" ToolTip="{Binding Status}">
+           <StackPanel.Style><Style TargetType="StackPanel"><Style.Triggers>
+            <DataTrigger Binding="{Binding Passed}" Value="True"><Setter Property="TextElement.Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+            <DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="TextElement.Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+           </Style.Triggers></Style></StackPanel.Style>
+           <TextBlock Text="{Binding RatioX}" Width="30" TextAlignment="Center"/><TextBlock Text="{Binding RatioY}" Width="30" TextAlignment="Center"/>
+          </StackPanel>
+          <Button Grid.Column="8" Content="✕" Style="{StaticResource Link}" Command="{Binding RemoveCommand}" ToolTip="Togli la combinazione a taglio"/>
+         </Grid>
+        </Border>
+       </DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Text="N, Vx, Vy di progetto [kN] · N &lt; 0 compressione" Style="{StaticResource Muted}" Margin="0,4,0,0"/>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}" Visibility="{Binding ShearWithLinks, Converter={StaticResource Visibility}}"><StackPanel>
+      <DockPanel Margin="0,0,0,10">
+       <Button x:Name="BalanceShear" DockPanel.Dock="Right" Content="Rottura bilanciata" Style="{StaticResource Link}" Command="{Binding BalanceShearCommand}"
+        ToolTip="Scelta automatica delle cotangenti Vx e Vy del motore. Il bilanciamento è limitato dall’intervallo ammesso dal modello di calcolo."/>
+       <TextBlock Text="2 · Armatura a taglio" Style="{StaticResource CardTitle}"/>
+      </DockPanel>
+      <Grid Margin="0,0,0,8"><Grid.ColumnDefinitions><ColumnDefinition/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="115"/></Grid.ColumnDefinitions>
+       <StackPanel>
+        <CheckBox x:Name="EffectiveStirrup" Content="Staffa effettiva?" IsChecked="{Binding EffectiveStirrup}" IsEnabled="{Binding CanEdit}" Margin="0,0,8,3"
+         ToolTip="Spuntata: usa il diametro della staffa geometrica. Non spuntata: assegna un’armatura a taglio indipendente" AutomationProperties.Name="Staffa effettiva?"/>
+        <TextBlock Text="{Binding ShearGeometryDiameter}" Style="{StaticResource Muted}" Visibility="{Binding EffectiveStirrup, Converter={StaticResource Visibility}}"/>
+       </StackPanel>
+       <TextBlock Grid.Column="1" Text="Passo [mm]" Style="{StaticResource Muted}" Margin="0,0,8,0"/>
+       <ContentControl Grid.Column="2" Content="{Binding ShearSpacingField}" Style="{StaticResource Editor}" VerticalAlignment="Center"/>
+      </Grid>
+      <ContentControl x:Name="IndependentShearDiameter" Content="{Binding ShearDiameterField}" ContentTemplate="{StaticResource ShearField}"
+       Visibility="{Binding IndependentShearReinforcement, Converter={StaticResource Visibility}}"/>
+      <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,1,0,0" Padding="0,8,0,0">
+       <StackPanel>
+        <Grid Margin="0,0,0,3"><Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+         <TextBlock Grid.Column="1" Text="Vx" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource Token.Accent}"/>
+         <TextBlock Grid.Column="2" Text="Vy" HorizontalAlignment="Center" FontWeight="SemiBold" Foreground="{DynamicResource Token.Accent}"/>
+        </Grid>
+        <ItemsControl x:Name="ShearParameterTable" ItemsSource="{Binding ShearParameterRows}" Focusable="False">
+         <ItemsControl.ItemTemplate><DataTemplate>
+          <Grid Margin="0,3"><Grid.ColumnDefinitions><ColumnDefinition Width="120"/><ColumnDefinition/><ColumnDefinition/></Grid.ColumnDefinitions>
+           <TextBlock Text="{Binding Label}" Style="{StaticResource Muted}"/>
+           <ContentControl x:Name="ParameterX" Grid.Column="1" Content="{Binding X}" Style="{StaticResource Editor}" Margin="0,0,8,0"/>
+           <ContentControl x:Name="ParameterY" Grid.Column="2" Content="{Binding Y}" Style="{StaticResource Editor}" Margin="8,0,0,0"/>
+          </Grid>
+          <DataTemplate.Triggers><DataTrigger Binding="{Binding Cotangent}" Value="True">
+           <Setter TargetName="ParameterX" Property="ContentTemplate" Value="{StaticResource ShearCotEditor}"/>
+           <Setter TargetName="ParameterY" Property="ContentTemplate" Value="{StaticResource ShearCotEditor}"/>
+          </DataTrigger></DataTemplate.Triggers>
+         </DataTemplate></ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <TextBlock Text="{Binding ShearAutomaticCotangents}" Style="{StaticResource Muted}" HorizontalAlignment="Right" Margin="0,4,0,0"/>
+       </StackPanel>
+      </Border>
+     </StackPanel></Border>
+     <Border Style="{StaticResource Card}"><StackPanel Language="it-IT">
+      <TextBlock Text="3 · Risultati a taglio" Style="{StaticResource CardTitle}" Margin="0,0,0,10"/>
+      <Grid Margin="0,0,0,4"><Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions>
+       <TextBlock Text="Dir." Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="1" Text="VEd [kN]" TextAlignment="Right" Margin="0,0,16,0" Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="2" Text="VRd [kN]" TextAlignment="Right" Margin="0,0,16,0" Style="{StaticResource Muted}"/>
+       <TextBlock Grid.Column="3" Text="Utilizzo η · limite 1,00" TextAlignment="Right" Style="{StaticResource Muted}"/>
+      </Grid>
+      <ItemsControl x:Name="ShearResultTable" ItemsSource="{Binding ShearResults}" Focusable="False">
+       <ItemsControl.ItemTemplate><DataTemplate>
+        <Border BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,1,0,0" Padding="0,8,0,8">
+         <Grid>
+          <Grid.RowDefinitions><RowDefinition/><RowDefinition/></Grid.RowDefinitions>
+          <Grid.ColumnDefinitions><ColumnDefinition Width="35"/><ColumnDefinition/><ColumnDefinition/><ColumnDefinition Width="120"/></Grid.ColumnDefinitions>
+          <TextBlock Text="{Binding Axis}" FontWeight="SemiBold" FontSize="14"/>
+          <TextBlock Grid.Column="1" Text="{Binding Demand, StringFormat={}{0:F2}, TargetNullValue=—}" TextAlignment="Right" Margin="0,0,16,0" FontSize="14"/>
+          <TextBlock Grid.Column="2" Text="{Binding VRd, StringFormat={}{0:F2}}" TextAlignment="Right" Margin="0,0,16,0" FontSize="14"/>
+          <TextBlock x:Name="ShearUtilization" Grid.Column="3" Text="{Binding Ratio, StringFormat={}{0:F2}, TargetNullValue=—}" TextAlignment="Right" FontWeight="SemiBold" FontSize="14"/>
+          <TextBlock Grid.Row="1" Grid.ColumnSpan="3" Text="{Binding ResistanceStatus}" Style="{StaticResource Muted}" Margin="0,3,16,0"/>
+          <ProgressBar Grid.Row="1" Grid.Column="3" Value="{Binding Ratio, Mode=OneWay, TargetNullValue=0}" Margin="0,5,0,0"
+           Visibility="{Binding Ratio, Converter={StaticResource Present}}" ToolTip="{Binding Ratio, StringFormat='Utilizzo η = {0:F2} · limite 1,00'}">
+           <ProgressBar.Style><Style TargetType="ProgressBar" BasedOn="{StaticResource Meter}">
+            <Style.Triggers><DataTrigger Binding="{Binding Passed}" Value="False"><Setter Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger></Style.Triggers>
+           </Style></ProgressBar.Style>
+          </ProgressBar>
+         </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+         <DataTrigger Binding="{Binding Passed}" Value="True"><Setter TargetName="ShearUtilization" Property="Foreground" Value="{DynamicResource Token.Status.Ok}"/></DataTrigger>
+         <DataTrigger Binding="{Binding Passed}" Value="False"><Setter TargetName="ShearUtilization" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+        </DataTemplate.Triggers>
+       </DataTemplate></ItemsControl.ItemTemplate>
+      </ItemsControl>
+      <TextBlock Text="{Binding ShearStatus}" TextWrapping="Wrap" Margin="0,5,0,0">
+       <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding ShearStatus}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+      </TextBlock>
+     </StackPanel></Border>
+    </StackPanel>
+   </ScrollViewer>
+  </Border>
  </Grid>
+ </shell:MinimumSizeViewport>
 </UserControl>

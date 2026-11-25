@@ -1,0 +1,50 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "4ca64ffaac5529449640febc9eab7264895cc123e1323b3bafb2c9334e00bbb7",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "9d4e7644efde077d14546d078b08550c393f2cc06338bc0f92603db0c0aa8559",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "13b9a147e26847f6a2bffe0e2f6fdc5b9c9593bf55369f5302a2e7ab0bb0e9af",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "9d4e7644efde077d14546d078b08550c393f2cc06338bc0f92603db0c0aa8559",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.md",
+    "sha256": "ee65a735e480224078104b571f218027c0e07457a8b21bf00873a69b12c984ca",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-teorica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-teorica-anthea.pdf",
+    "sha256": "ddbd91163bffb6ae81952a64831d9241eb8a81e98f22e50ec6cf78fdb33febf0",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-teorica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.docx",
+    "sha256": "690e78ddcf1be8e0e332bc5d41012d68cfa68920c260a323c7a99737b22e1efc",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.pdf",
+    "sha256": "ddbd91163bffb6ae81952a64831d9241eb8a81e98f22e50ec6cf78fdb33febf0",
+    "motivo": "Ipotesi di ancoraggio efficace scelta dall’utente per il modulo rapido e riepilogo compatto, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_teorica_ITEC_Rev77.pdf"
+  }
+]

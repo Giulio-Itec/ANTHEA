@@ -58,7 +58,7 @@ public sealed class SheetSession : IDisposable
     public string? Unreadable => DocumentQuarantine.Reason(Sheet);
 
     /// <summary>Heading of the tab and of the sheet bar (<see cref="ShellTexts.SheetHeading"/>).</summary>
-    public string Heading => ShellTexts.SheetHeading(Sheet, Owner.DisplayedRevision);
+    public string Heading => ShellTexts.SheetHeading(Sheet, Owner.DisplayedRevision, (ViewModel as ISheetDisplayName)?.DisplayName);
 
     /// <summary>
     /// The confirmed data differ from those at the opening or at the last save (proposal 3.6, second level: the «•» of the tab and of the
@@ -185,6 +185,8 @@ public sealed class SheetSession : IDisposable
     /// </summary>
     private void OnResults(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
+        if (ReferenceEquals(sender, ViewModel) && e.PropertyName == nameof(ISheetDisplayName.DisplayName))
+            StateChanged?.Invoke(this, EventArgs.Empty);
         if (e.PropertyName is not (nameof(ISheetViewModel.Result) or nameof(ISheetViewModel.HasResults)) || !ReferenceEquals(sender, ViewModel)
             || Project is not { } project || IsReadOnly) return;
         if (ViewModel.HasResults) project.Calculations.Record(Id, ViewModel.Data, (ViewModel as ISheetOutcome)?.Passed);

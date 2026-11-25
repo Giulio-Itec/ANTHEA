@@ -20,6 +20,7 @@ namespace X.Desktop.Services;
 internal sealed class ModuleWindowMode(string module)
 {
     private ShellWindow? main;
+    private ShellParts? parts;
     private bool closing;
 
     /// <summary>The module of the window.</summary>
@@ -31,6 +32,11 @@ internal sealed class ModuleWindowMode(string module)
         ArgumentNullException.ThrowIfNull(window);
         window.Icon = ModuleIdentity.WindowIcon(Module);
         window.Closing += OnClosing;
+        window.Closed += (_, _) => main?.Dispatcher.BeginInvoke(() =>
+        {
+            // Moving the last section out closes its empty window through the tracker.
+            if (!closing && main is { IsVisible: false } && parts?.Tracker.Hosts.Count == 0) main.Close();
+        });
         return new DetachedWindowHandle(window);
     }
 
@@ -38,6 +44,7 @@ internal sealed class ModuleWindowMode(string module)
     internal void Start(ShellParts parts, StartupRequest request)
     {
         ArgumentNullException.ThrowIfNull(parts);
+        this.parts = parts;
         main = parts.Window;
         main.Closing += (_, e) => closing = !e.Cancel;
         parts.Shell.Start(request);

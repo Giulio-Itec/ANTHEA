@@ -26,7 +26,7 @@ public sealed partial class EmbeddedWallSheetViewModel
     public IReadOnlyList<EmbeddedWallEmbedmentCriterion> EmbedmentCriteria => selectedEmbedment?.Criteria ?? [];
     public string EmbedmentCandidateDiagnostic => selectedEmbedment is null ? "" : selectedEmbedment.Diagnostic + Environment.NewLine + selectedEmbedment.Result?.Diagnostic;
     public string EmbedmentStatus => current?.EmbedmentSearch is not { } s ? "Ricerca non eseguita sui dati correnti."
-        : s.Diagnostic + (s.BestToe.HasValue ? $" Candidato accettabile: infissione {s.BestEmbedment:G6} m; quota piede {s.BestToe:G6} m. Diagrammi e verifiche principali riferiti a questa quota." : " Nessun candidato accettato.");
+        : s.Diagnostic + (s.BestToe.HasValue ? $" Candidato accettabile: infissione {EmbeddedWallDisplay.Number(s.BestEmbedment, "m")} m; quota piede {EmbeddedWallDisplay.Number(s.BestToe, "m")} m. Diagrammi e verifiche principali riferiti a questa quota." : " Nessun candidato accettato.");
 
     public async Task<bool> SearchEmbedmentAsync(CancellationToken cancellation = default)
     {
@@ -34,6 +34,7 @@ public sealed partial class EmbeddedWallSheetViewModel
         Commit(); long started = Revision; var input = EmbeddedWallDocument.Snapshot(Data);
         using var linked = CancellationTokenSource.CreateLinkedTokenSource(cancellation, Lifetime);
         searchCancellation = linked; searching = true; OnPropertyChanged(nameof(IsBusy)); Progress = "Preparazione della ricerca";
+        StartRequest(started, $"Ricerca dell'infissione in corso sulla revisione {started}.");
         var uiProgress = new Progress<EmbeddedWallEmbedmentProgress>(p =>
         {
             if (!IsDisposed && started == Revision && searching) Progress = $"Candidati valutati: {p.Evaluated}/{p.Planned}";
@@ -50,13 +51,19 @@ public sealed partial class EmbeddedWallSheetViewModel
                 EmbeddedWallDocument.StoreResult(Data, result); storingResult = true;
                 try { ChangedKeepingResults(); } finally { storingResult = false; }
             }
-            SelectedStage = Stages.LastOrDefault(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
+            SelectedStage = KeyedResultStage(); ComparisonStage = null; SelectedHydraulicStage = HydraulicStages.LastOrDefault(); NotifyResult();
+            SetRequest(EmbeddedWallMessageLevel.Information, started, $"Ricerca dell'infissione terminata sulla revisione {started}.");
             return true;
         }
-        catch (OperationCanceledException) when (linked.IsCancellationRequested) { return false; }
+        catch (OperationCanceledException) when (linked.IsCancellationRequested)
+        {
+            if (!IsDisposed) SetRequest(EmbeddedWallMessageLevel.Warning, started, $"Ricerca dell'infissione della revisione {started} annullata.");
+            return false;
+        }
         finally
         {
             searchCancellation = null; searching = false;
+            if (!IsDisposed && RequestStatus.Contains("in corso")) SetRequest(EmbeddedWallMessageLevel.Warning, started, $"Ricerca dell'infissione della revisione {started} superata da una modifica dei dati o senza risultato.");
             if (!IsDisposed) { Progress = ""; OnPropertyChanged(nameof(IsBusy)); }
         }
     }

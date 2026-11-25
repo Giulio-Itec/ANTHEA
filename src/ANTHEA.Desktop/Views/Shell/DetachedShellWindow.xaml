@@ -41,6 +41,12 @@
      Command="{Binding Commands.OpenCommand, ElementName=Root}"/>
     <Button x:Name="SaveFile" Style="{StaticResource Shell.BarButton}" Content="Salva" ToolTip="Salva" Command="{Binding Commands.SaveCommand, ElementName=Root}"/>
     <Button x:Name="SaveFileAs" Style="{StaticResource Shell.BarButton}" Content="Salva con nome" ToolTip="Salva con nome" Command="{Binding Commands.SaveAsCommand, ElementName=Root}"/>
+    <Button x:Name="CopySectionTo" Style="{StaticResource Shell.BarButton}" Content="Copia in…" ToolTip="Copia questa sezione in un’altra sezione c.a. rapida aperta"
+     Command="{Binding Commands.CopySectionToCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"
+     Visibility="{Binding IsConcreteQuickSectionSelected, Converter={StaticResource WhenTrue}}"/>
+    <Button x:Name="CopySectionFrom" Style="{StaticResource Shell.BarButton}" Content="Copia da…" ToolTip="Copia da un’altra sezione c.a. rapida aperta in questa sezione"
+     Command="{Binding Commands.CopySectionFromCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"
+     Visibility="{Binding IsConcreteQuickSectionSelected, Converter={StaticResource WhenTrue}}"/>
     <Button x:Name="WordReport" Style="{StaticResource Shell.BarButton}" Content="W" Width="37" Padding="2"
      ToolTip="Report Word del foglio visualizzato" AutomationProperties.Name="Report Word"
      Command="{Binding Commands.ReportCommand, ElementName=Root}" CommandParameter="{Binding SelectedSheet}"/>

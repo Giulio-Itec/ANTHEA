@@ -25,11 +25,11 @@ internal static partial class EmbeddedWallViewChecks
             "Selezione WPF dell'albero non apre la riga.");
         var selected = (EmbeddedWallWorkNode)item.DataContext;
         check(selected.IsSelected && ReferenceEquals(tree.SelectedItem, selected), "Selezione WPF e ViewModel disallineati.");
-        sheet.WorkspaceTab = 3; await settle();
+        sheet.Documents.Show(EmbeddedWallDocuments.Diagrams); await settle();
         item.RaiseEvent(new MouseButtonEventArgs(Mouse.PrimaryDevice, 0, MouseButton.Left)
             { RoutedEvent = Mouse.PreviewMouseUpEvent, Source = item });
         await settle();
-        check(sheet.WorkspaceTab == 0 && sheet.InspectorTable?.Selected == soil,
+        check(sheet.Documents.Active == EmbeddedWallDocuments.Section && sheet.InspectorTable?.Selected == soil,
             "Un nuovo clic sulla voce già selezionata non torna dai risultati all'editor.");
         capture("albero-modello");
         var soils = sheet.WorkTree.Single(n => n.Title == "Terreni");

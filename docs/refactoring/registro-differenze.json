@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "descrizione": "Registro unico delle differenze e degli scostamenti del refactoring di ANTHEA (piano.md, regola 3). Ogni voce ha id, famiglia, categoria, stato, descrizione, riferimento normativo, codice (percorso:righe), segno, effetto quantificato, opzioni, raccomandazione, decisione con data, test che la fissano e riquadro Wiki. Le schede estese sono in scostamenti.md.",
-  "aggiornato": "2026-11-19",
+  "aggiornato": "2026-11-23",
   "riferimenti_codice": {
     "ANTHEA": "2673b55 (branch refactoring/f0-scostamenti); percorsi senza prefisso. Allineamento del 15/10/2026 (decisione E4) su main 2257e991: i percorsi spostati da D3 (tests/ANTHEA.Legacy), da F1.3 (supporto/test), da F3 (src/ANTHEA.Application, src/ANTHEA.Reports, X.Desktop/Wpf/Materials) e da F4 (GPC.Design in Checker) indicano la posizione attuale, con le righe riscontrate sul contenuto, e fra parentesi il percorso precedente; gli altri numeri di riga restano quelli della data della voce; voci BUG-* (analisi dei bug del 15/10) sul ramo refactoring/integrazione-1016 (94acc474), che unisce refactoring/bug-1015, refactoring/bug-1015-geo, refactoring/f2-chiusura e codex/modulo-stratigrafia",
     "Checker": "5cc315f2 (develop) per le voci D7; b994e188 (develop, locale) per le voci R1-R14 della revisione dei metodi; 0d7ba50b (develop, pushato) per le voci R16-R21, con sorgenti di GPCChecker.Concrete e GPCChecker.Test.Concrete identici in develop e41a803a (locale, pagine dei metodi); percorsi con prefisso Checker/; Checker master 6f15f185 per i percorsi di GPC.Design e di ModelChecker.Tests allineati il 15/10; voci BUG-* e seguiti del 16/10 sul ramo di integrazione anthea-bug-1015 (d40bcc04), con le catture congelate rigenerate, da distribuire con il rilascio Z",
@@ -16716,6 +16716,718 @@
       "evidenze": [
         "supporto/artefatti/import-dxf-20261119/layer-omonimi-prima",
         "supporto/artefatti/import-dxf-20261119/layer-omonimi-finale"
+      ]
+    },
+    {
+      "id": "UI-CA-ORDINE-NOME-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Sezione in c.a. rapida / shell",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Sposta sopra/sotto cambia l’ordine visibile della combinazione selezionata conservando ID, azioni, stato limite, modello, segno e risultati; ordine salvato nel documento e seguito da Excel. Nome sezione salva il titolo esistente del modulo e lo espone a scheda, finestra staccata e relazione, mantenendo i suffissi di revisione. Nessun cambio a formule, librerie o struttura delle azioni.",
+      "codice": "src/ANTHEA.Application/Concrete/ConcreteQuickSection.cs; src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.cs; src/ANTHEA.Presentation/Modules/ISheetDisplayName.cs; src/ANTHEA.Presentation/Shell; src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml; src/ANTHEA.Desktop/Views/Shell/DetachedShellWindow.xaml.cs",
+      "test": [
+        "Prima: QuickSection 180 e shell WPF 103 controlli PASS.",
+        "Dopo: QuickSection 201, Presentation 5751, architettura 643 e ospite WPF 87 controlli PASS; shell WPF 109. Corsa finale: 15 PASS, zero NEW-FAIL e nessun file tracciato modificato dalle suite.",
+        "F3 PASS: 1210 file confrontati, zero differenze non ammesse; nessuna nuova transizione editoriale necessaria. Testo integrale del paragrafo verificato nella cattura Wiki e nei documenti.",
+        "74 suite UI prima e dopo; nessun atteso ingegneristico, tolleranza o known-failures modificato."
+      ],
+      "evidenze": [
+        "supporto/artefatti/ordine-combinazioni-ca-20261120/prima",
+        "supporto/artefatti/ordine-combinazioni-ca-20261120/finale",
+        "supporto/artefatti/ordine-combinazioni-ca-20261120/pdf-verificato/esito.json",
+        "supporto/artefatti/ordine-combinazioni-ca-20261120/publish-verificato.json"
+      ]
+    },
+    {
+      "id": "UI-CA-COPIA-RIPRISTINO-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Sezione in c.a. rapida / shell",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Copia in e Copia da fra sezioni rapide aperte trasferiscono l’intero modello: geometria, armature, materiali, combinazioni, ordine e tutte le impostazioni. Decisione finale esplicita dell’utente: resta solo il nome della destinazione. Copie indipendenti, risultati invalidati e ricalcolati, sola lettura protetta e scelta per identità del foglio. Pulsante ↺ sopra le combinazioni: ripristina solo modello e segno secondo i predefiniti esistenti dello stato limite; nomi, stati limite, azioni, ordine, selezione e impostazioni generali invariati. Nessuna formula, libreria o atteso ingegneristico modificato.",
+      "codice": "src/ANTHEA.Application/Concrete/ConcreteQuickSection.cs; src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.cs; src/ANTHEA.Presentation/Shell/Commands/QuickSectionCopy.cs; src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml; src/ANTHEA.Desktop/Views/Shell",
+      "test": [
+        "Prima: QuickSection 201, DXF 45 e shell WPF 109 controlli PASS.",
+        "Dopo: QuickSection 239, DXF 47, shell WPF 116 e architettura 643 controlli PASS. Esiti finali consolidati: 15 PASS, nessun controllo pendente. Corretto un riferimento Host mancante nel solo nuovo test e rieseguite build Presentation, QuickSection e DXF; nessun codice di produzione cambiato per la correzione.",
+        "Copie in entrambe le direzioni, dati indipendenti, nomi omonimi, Annulla, sola lettura, chiusura durante scelta, cambio forma, DXF e persistenza. Ripristino di SLU/SLV/SLE e segni, risultati uguali ai predefiniti originali, sollecitazioni e impostazioni generali intatte.",
+        "F3 PASS: 120 fixture, 96 articoli e 30 ricerche, zero differenze non ammesse; testo integrale del paragrafo controllato anche in Wiki, Word e PDF. 74 suite UI prima e dopo; riferimenti, tolleranze e known-failures invariati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/copia-sezioni-ca-20261120/prima-riferimento.json",
+        "supporto/artefatti/copia-sezioni-ca-20261120/finale-completa",
+        "supporto/artefatti/copia-sezioni-ca-20261120/finale-test",
+        "supporto/artefatti/copia-sezioni-ca-20261120/verifica-finale.json",
+        "supporto/artefatti/copia-sezioni-ca-20261120/pdf-verificato",
+        "supporto/artefatti/copia-sezioni-ca-20261120/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-TAB-RIORDINO-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Shell / schede aperte",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Trascinamento del titolo per riordinare le schede nella stessa finestra, principale o staccata, incluse le sezioni rapide, la Wiki e i Modelli. Linea di inserimento secondo il tema; soglia di movimento standard e pulsante di chiusura escluso. Il ViewModel valida la destinazione e sposta la raccolta; la vista gestisce soltanto il gesto. Selezione, contenuto, dati, risultati, revisioni e stato di modifica restano invariati. Riordino anche in sola lettura; nessun salvataggio automatico dell’ordine della sessione. Nessun calcolo o libreria modificato.",
+      "codice": "src/ANTHEA.Presentation/Shell/Tabs/TabsViewModel.cs; src/ANTHEA.Desktop/Views/Shell/ShellTabInput.cs; src/ANTHEA.Desktop/Views/Shell/ShellTemplates.xaml; build/ci.ps1",
+      "test": [
+        "Prima: shell WPF 116 controlli; cattura dei sorgenti interessati e della finestra delle sezioni rapide.",
+        "Dopo: Shell.Tests 751, shell WPF 130, architettura 643 e Wiki 430 controlli PASS. Esiti finali consolidati: 14 PASS. Riordino prima/dopo, estremi, no-op, riferimenti null/disposti, finestre diverse, coordinatore estraneo, sola lettura e riaggancio; selezione e documenti invariati.",
+        "Prove WPF fuori schermo della linea e del rilascio nella shell e nella finestra rapida; schermate chiare/scure e riordinate. Nessuna simulazione fisica del mouse.",
+        "F3: le sole quattro differenze iniziali erano editoriali; 2 transizioni nuove e 2 superate approvate esplicitamente dall’utente. Dopo l’approvazione, 1210 file confrontati e zero differenze non ammesse. Paragrafo integrale verificato in Markdown, Word e catture Wiki; istruzione nuova integra nel PDF.",
+        "Aggiunta Shell.Tests al runner veloce; 74 suite UI prima e dopo. Nessun atteso ingegneristico, tolleranza o known-failures modificato.",
+        "Pubblicazione Release senza codice di prova: 70 binari identici alla build collaudata; app aggiornata a programma chiuso, 5 file sostituiti con copia precedente conservata, 291 file verificati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/schede-trascinabili-20261120/prima-riferimento.json",
+        "supporto/artefatti/schede-trascinabili-20261120/prima",
+        "supporto/artefatti/schede-trascinabili-20261120/finale",
+        "supporto/artefatti/schede-trascinabili-20261120/finale-wiki",
+        "supporto/artefatti/schede-trascinabili-20261120/verifica-finale.json",
+        "supporto/artefatti/schede-trascinabili-20261120/pdf-verificato",
+        "supporto/artefatti/schede-trascinabili-20261120/approvazione-wiki.json",
+        "supporto/artefatti/schede-trascinabili-20261120/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-SEZIONI-SALVATAGGIO-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Sezioni rapide / documenti e shell",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Salva e Salva con nome conservano tutte le sezioni della raccolta, con nomi, geometria, armature, materiali, combinazioni, impostazioni, ordine e selezione. Un unico documento e percorso condiviso; conferma anche le bozze delle schede non attive. Nuovo involucro versione 6 con documenti di sezione indipendenti; i lettori precedenti lo rifiutano. Chiusura di una scheda senza rimuovere la sezione dal file; conferma dell’intera raccolta alla chiusura dell’ultima scheda. Riapertura atomica di tutte le schede nella stessa finestra. Nessun calcolo, coefficiente, libreria o tolleranza modificato.",
+      "decisione": "Utente, 20/11/2026: salvare tutte le sezioni per ritrovarle alla riapertura; compatibilità con i vecchi file non richiesta. Transizioni Wiki: «Lascia in attesa le transizioni Wiki».",
+      "codice": "src/ANTHEA.Application/Documents/QuickSectionDocuments.cs; DocumentService.cs; src/ANTHEA.Presentation/Shell/QuickSectionsSession.cs; WorkspaceSections.cs; WorkspaceSession.cs; DocumentSession.cs; Tabs/TabsViewModel.cs",
+      "test": [
+        "Prima: shell 751, WPF 130; sorgenti interessati e riepilogo della precedente verifica conservati negli artefatti.",
+        "Dopo: shell 771, WPF 133, c.a. rapido 239, composta rapida 50, architettura 643 PASS; Application.Tests, Wiki.Tests e qa/no-test-code PASS. 14 esiti di build e funzionali PASS.",
+        "Prove del pulsante Salva: due sezioni, DXF, nomi, combinazioni e impostazioni; modifica della sezione non selezionata, sovrascrittura senza nuovo dialogo, riapertura di tutte le schede. Prove senza WPF: Salva con nome e Annulla, ordine e selezione, identità duplicate/modulo estraneo rifiutati senza sovrascrivere, schede chiuse conservate e riaperte, nuova sezione aggiunta allo stesso file.",
+        "Corrette prima della versione finale: import della classe JSON; uso esplicito di J.Number richiesto dalla guardia F4; Annulla sulla chiusura dell’ultima scheda non riapre le schede chiuse; conteggio delle finestre nel test aggiornato per la nuova prova di riapertura. Baseline architetturali invariate.",
+        "F3: 1210 file; sole nove differenze editoriali in wiki/search.json, ricerca sezioni. Cinque nuove e quattro superate proposte, NON applicate su richiesta dell’utente. Nessuna differenza ingegneristica non ammessa.",
+        "74 suite UI prima e dopo. Livello 3 avviato e interrotto per abbreviare i tempi dopo la richiesta dell’utente «possiamo velocizzare? ci stai mettendo una vita»: 35 build e 72 suite PASS, inclusi regressioni numeriche, attesi indipendenti e doppia cattura F4. Dodici confronti F4 falliti per i riferimenti storici mancanti già registrati. Corsa incompleta: lo stadio UI esteso non è stato eseguito; restano valide le prove WPF mirate già concluse. Nessun esito riclassificato o atteso modificato."
+      ],
+      "evidenze": [
+        "supporto/artefatti/salva-sezioni-20261120/prima",
+        "supporto/artefatti/salva-sezioni-20261120/finale",
+        "supporto/artefatti/salva-sezioni-20261120/verifica-finale.json",
+        "supporto/artefatti/salva-sezioni-20261120/transizioni-wiki-proposte.json",
+        "supporto/artefatti/salva-sezioni-20261120/app-installata.json",
+        "supporto/artefatti/salva-sezioni-20261120/full-baseline/interruzione.json"
+      ]
+    },
+    {
+      "id": "UI-MODULO-APRI-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Shell / sezioni rapide",
+      "categoria": "regressione",
+      "stato": "corretto",
+      "descrizione": "Apri dal modulo autonomo rendeva visibile ANTHEA perché la prima scheda della raccolta veniva aggiunta temporaneamente a Main. La nuova scheda viene ora inserita direttamente nella propria finestra. C.a. rapido e composta rapida, ordine e selezione conservati; Riaggancia continua a mostrare la principale su richiesta.",
+      "origine": "UI-SEZIONI-SALVATAGGIO-20261120, passaggio temporaneo da Main in OnSheetOpened.",
+      "decisione": "Utente, 20/11/2026: voglio che non si apra antea ma solo il modulo. Verifiche mirate, secondo la richiesta di abbreviare i tempi; nessuna full ripetuta per questa correzione circoscritta.",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/Tabs/TabsViewModel.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionsFileChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ModuleAloneWpfChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "Cattura precedente conservata. Prima della correzione: due fallimenti riprodotti, nuove sezioni e Apri passano da Main; 771 controlli precedenti PASS.",
+        "Dopo: shell 773 PASS; ospite WPF 87 → 95 PASS. Pulsante Apri tramite automation peer: principale mai visibile, tutte le sezioni e selezione ripristinate, riapertura senza duplicati, Riaggancia esplicito. Entrambi i moduli rapidi.",
+        "8 esiti PASS: 4 build, architettura, shell, WPF e assenza di codice di prova. 74 suite UI prima e dopo. 70 binari pubblicati identici alla Release.",
+        "Nessun dato, calcolo, formato di file, guida, atteso o tolleranza modificato. Transizioni Wiki precedenti in attesa, impronta invariata."
+      ],
+      "evidenze": [
+        "supporto/artefatti/apri-solo-modulo-20261120/prima-prova",
+        "supporto/artefatti/apri-solo-modulo-20261120/finale",
+        "supporto/artefatti/apri-solo-modulo-20261120/confronto.patch",
+        "supporto/artefatti/apri-solo-modulo-20261120/publish-verificato.json",
+        "supporto/artefatti/apri-solo-modulo-20261120/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-SEZIONI-TRASFERIMENTO-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Sezioni rapide / raccolte e trascinamento",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Una linguetta trascinata su una sezione dello stesso modulo in un’altra raccolta trasferisce solo quella sezione, conservando nome e dati completi. Funziona tra finestre della stessa sessione e tra moduli avviati separatamente. Nella stessa raccolta rimane il riordino. La destinazione riceve prima della rimozione dell’origine; dati cambiati nel frattempo impediscono la rimozione. Si chiude la finestra vuota e, se è l’ultima, la sola istanza di origine. I file sul disco restano fino a un salvataggio esplicito e non vengono cancellati.",
+      "decisione": "Utente, 20/11/2026: Sposta soltanto la sezione trascinata; Anche moduli avviati separatamente dal collegamento. Stesso tipo di modulo e nessun cambiamento al formato dei documenti o ai calcoli.",
+      "codice": [
+        "src/ANTHEA.Application/Documents/QuickSectionDocuments.cs",
+        "src/ANTHEA.Application/Documents/QuickSectionTransfer.cs",
+        "src/ANTHEA.Presentation/Shell/WorkspaceSections.cs",
+        "src/ANTHEA.Presentation/Shell/Tabs/TabsViewModel.cs",
+        "src/ANTHEA.Desktop/Views/Shell/ShellTabInput.cs",
+        "src/ANTHEA.Desktop/Services/ModuleWindowMode.cs"
+      ],
+      "test": [
+        "Shell 773 → 793 PASS: dati e bozze, ordine, raccolte indipendenti, salvataggio, rifiuto di payload/moduli incompatibili, annullamento, collisioni di ID, schede nascoste, ultima sezione, file originale, modifica durante il gesto e token per istanza.",
+        "WPF ospite 95 → 107 PASS: due shell indipendenti, dati attraverso IDataObject COM/HGLOBAL senza appunti né serializzazione CLR, UTF-8 e letture ripetute; titolo destinatario, dati degli editor reali identici, ANTHEA nascosta, chiusura della sola origine, salvataggio. C.a. e composta rapida. Nessuna simulazione fisica del mouse tra due processi.",
+        "Shell WPF 133 PASS, architettura 643 PASS, Wiki 430 PASS, indice/manuale Wiki PASS, assenza di codice di prova PASS. Finale 13 esiti PASS; Application.Tests PASS nella prima corsa, codice applicativo poi invariato. 74 suite UI prima e dopo. Verifiche mirate; full non ripetuta.",
+        "Guida pratica Rev77 e indice aggiornati in Word/Markdown/PDF: 147 pagine, 105 identiche pixel per pixel; 42 pagine cambiate ispezionate, 1436 frammenti e 9 formule preservati, 62 parti ITEC identiche. Sei documenti precedenti conservati con manifest. Teoria invariata.",
+        "Transizioni Wiki invariate e precedenti proposte ancora in attesa. F3 non ripetuta in questa attività; nessun atteso o tolleranza modificato.",
+        "Copia locale installata a programma chiuso: 9 file aggiornati con backup, 122 verificati; 70 binari uguali alla Release collaudata."
+      ],
+      "evidenze": [
+        "supporto/artefatti/unisci-sezioni-20261120/prima",
+        "supporto/artefatti/unisci-sezioni-20261120/mirata",
+        "supporto/artefatti/unisci-sezioni-20261120/finale",
+        "supporto/artefatti/unisci-sezioni-20261120/confronto.patch",
+        "supporto/artefatti/unisci-sezioni-20261120/verifica-documenti.json",
+        "supporto/artefatti/unisci-sezioni-20261120/pdf-verificato",
+        "supporto/artefatti/unisci-sezioni-20261120/publish-verificato.json",
+        "supporto/artefatti/unisci-sezioni-20261120/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-SEZIONI-APRI-INIZIALE-20261120",
+      "data": "2026-11-20",
+      "famiglia": "Sezioni rapide / Apri",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Apri sostituisce la sola sezione iniziale intatta, nuova e mai salvata, dello stesso modulo. La raccolta iniziale viene chiusa soltanto dopo l’apertura riuscita del file. Dati e bozze modificati, nome assegnato, raccolte con più sezioni e file già aperti o salvati restano. Annulla e file invalidi non chiudono nulla. Si attiva anche un file già aperto senza lasciare la nuova sezione iniziale. ANTHEA resta nascosta.",
+      "decisione": "Utente, 20/11/2026: quando apro un file già fatto però, quello iniziale non deve rimanere aperto. La conservazione delle sezioni modificate è stata esplicitata prima della modifica.",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/QuickSectionsSession.cs",
+        "src/ANTHEA.Presentation/Shell/WorkspaceSections.cs",
+        "src/ANTHEA.Presentation/Shell/WorkspaceSession.cs"
+      ],
+      "test": [
+        "Snapshot precedente e confronto conservati. Shell 793 → 805 PASS: iniziale intatta, bozza, nome, salvata, più sezioni, documenti caricati, errore e riattivazione di file già aperto.",
+        "Ospite WPF 107 → 111 PASS: Apri annullato e iniziale sostituita tramite pulsante reale, una sola finestra e tutte le sezioni del file, c.a. e composta rapida; restano le prove del trasferimento tra istanze.",
+        "8 esiti PASS, architettura 643 e assenza di codice di prova PASS. 74 suite UI prima e dopo. Nessun calcolo, formato di file, atteso o tolleranza modificato. Guide invariate; transizioni Wiki precedenti ancora in attesa.",
+        "Copia locale installata a programma chiuso: 4 file aggiornati con backup, 122 verificati; 70 binari uguali alla Release."
+      ],
+      "evidenze": [
+        "supporto/artefatti/apri-sostituisce-iniziale-20261120/prima",
+        "supporto/artefatti/apri-sostituisce-iniziale-20261120/finale",
+        "supporto/artefatti/apri-sostituisce-iniziale-20261120/confronto.patch",
+        "supporto/artefatti/apri-sostituisce-iniziale-20261120/publish-verificato.json",
+        "supporto/artefatti/apri-sostituisce-iniziale-20261120/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-RAPIDA-TAGLIO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Pannello a libro con combinazioni a taglio indipendenti e pulsante Copia combinazioni. Nessuna colonna aggiunta al momento. La ricopia aggiorna nomi, SL e N/M preservando Vx/Vy e le righe autonome. Staffa effettiva? collega il diametro geometrico oppure richiede armatura indipendente; passo, rami, angoli e modello propri del taglio. Barre longitudinali congelate sulla geometria effettiva ricostruita dagli strati: risultati a flessione invariati. Stesso motore GPC, nessuna formula nuova. Taglio SLU/SLV; torsione esclusa. DXF con parametri geometrici manuali espliciti. Salvataggio, raccolte e Copia in/da conservano il pannello completo; relazioni completa e breve includono il taglio.",
+      "decisione": "Utente: procedi; staffa geometrica principalmente per posizionare le barre, spunta Staffa effettiva? e nuova armatura a taglio se non spuntata; tabella tagli autonoma e tastino Copia combinazioni senza nuove colonne nel blocco originario.",
+      "codice": [
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickSection.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickShearChecks.cs"
+      ],
+      "test": [
+        "PASS 272 controlli della verifica rapida della sezione in c.a.",
+        "PASS 646 controlli di architettura",
+        "PASS 138 controlli della bozza della shell (F5.13 c)",
+        "13 esiti finali PASS; dopo il raggruppamento degli esiti uguali nel report, altri 6 esiti mirati PASS. Nessun file modificato durante le corse; 74 suite UI prima e dopo. Build UiTests e Release, architettura, QuickSection, Wiki, indice/manuale, qa/no-test-code, shell WPF e ospite staccato.",
+        "Prove nuove: risultati identici al motore, flessione invariata, barre identiche su rettangolo/circolare/T/DXF, geometria aggiornata anche per report diretti, ancoraggio invalidato con input o strati cambiati, errori senza esiti residui, combinazioni indipendenti, ricopia, ordine, sola lettura, salvataggio di raccolte e copie tra sezioni.",
+        "Report breve verificato entro due pagine con risultati numerici di taglio nelle due direzioni; report completo e controlli visivi. I casi incompleti restano espliciti. Nessun atteso indipendente o tolleranza modificato.",
+        "Guide pratica e teorica Rev77 aggiornate in Markdown, Word e PDF: 148 e 217 pagine; 1440 e 2579 frammenti, 9 e 1592 formule conservati, 62 e 48 parti del modello ITEC identiche. Dieci originali archiviati con manifest. Pagine modificate ispezionate; indice aggiornato. Transizioni editoriali F3 precedenti ancora in attesa.",
+        "Nello sviluppo: corretti helper delle nuove prove, dimensione grafica esplicitata per F4, fixture valida per le barre, requisito manuale DXF, impaginazione breve e ricostruzione degli strati nel report diretto. Un esito Esc fuori schermo non riprodotto nelle tre corse successive, senza modificare il codice di Esc o le baseline.",
+        "Installazione locale con backup: 17 file aggiornati, 122 verificati; binari confrontati con la Release. Nessun aggiornamento delle librerie né push."
+      ],
+      "evidenze": [
+        "supporto/artefatti/taglio-rapido-20261123/prima",
+        "supporto/artefatti/taglio-rapido-20261123/sorgenti-prima",
+        "supporto/artefatti/taglio-rapido-20261123/verifica-definitiva",
+        "supporto/artefatti/taglio-rapido-20261123/report-finale",
+        "supporto/artefatti/taglio-rapido-20261123/confronto.patch",
+        "supporto/artefatti/taglio-rapido-20261123/guide",
+        "supporto/artefatti/taglio-rapido-20261123/pdf-verificato",
+        "supporto/artefatti/taglio-rapido-20261123/report-verificato",
+        "supporto/artefatti/taglio-rapido-20261123/app-installata.json",
+        "supporto/artefatti/taglio-rapido-20261123/publish-verificato.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-SENZA-PARAMETRI-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Rimosso il riquadro Parametri geometrici e dettagli, inclusi i campi Mx/My. Restano combinazioni indipendenti, armatura e risultati. Dati avanzati salvati e motore conservati; il messaggio DXF non rimanda più al riquadro eliminato. La verifica resta incompleta se mancano parametri o conferme richiesti.",
+      "decisione": "Utente: togli il blocco dei parametri geometrici nella verifica a taglio, non serve.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml"
+      ],
+      "test": [
+        "PASS 646 controlli di architettura",
+        "PASS 272 controlli della verifica rapida della sezione in c.a.",
+        "PASS 138 controlli della bozza della shell (F5.13 c)",
+        "PASS 430 controlli Wiki senza WPF",
+        "12 esiti PASS; nessuna modifica durante la corsa. 74 suite UI prima e dopo. Nessuna formula, atteso o tolleranza modificati.",
+        "Guida pratica Rev77 aggiornata in Markdown, Word e PDF; 148 pagine, 1440 frammenti e 9 formule conservati, 62 parti ITEC identiche. Pagina modificata ispezionata; quattro originali archiviati. Teoria invariata e transizioni editoriali Wiki precedenti ancora in attesa."
+      ],
+      "evidenze": [
+        "supporto/artefatti/taglio-senza-parametri-20261123/sorgenti-prima",
+        "supporto/artefatti/taglio-senza-parametri-20261123/confronto.patch",
+        "supporto/artefatti/taglio-senza-parametri-20261123/finale",
+        "supporto/artefatti/taglio-senza-parametri-20261123/guide",
+        "supporto/artefatti/taglio-senza-parametri-20261123/guida-pagina-79.png",
+        "supporto/artefatti/taglio-senza-parametri-20261123/suite-ui-prima.txt",
+        "supporto/artefatti/taglio-senza-parametri-20261123/suite-ui-dopo.txt"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-COMBINAZIONI-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Prima combinazione automatica all’apertura del pannello, ultima riga non eliminabile. Excel autonomo con tipologia, N e Vx/Vy. La colonna SL è sostituita dalla verifica con armatura a taglio / sezione non armata. Il modello blu è per combinazione; ripristino riallinea esclusivamente il modello alla tipologia senza modificare gli altri dati. Nessun filtro SL nel taglio: le azioni sono assegnate come azioni di progetto. Errori isolati per riga e conferma esplicita dell’ancoraggio longitudinale per il modello senza armatura. Report completi e brevi riportano tipologia e modello effettivo. Formule e coefficienti invariati.",
+      "decisione": "Utente: combo iniziale, stessi tasti Excel e ripristino, tipologia armata/non armata al posto degli SL, selezione blu del modello. Chiarimento: il ripristino riguarda esclusivamente la tipologia armata/non armata.",
+      "codice": [
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "tests/ANTHEA.Desktop.UiTests/QuickSectionReportWpfChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickShearChecks.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShearExcel.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.ShearExcel.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickShearCombinationChecks.cs"
+      ],
+      "test": [
+        "PASS 647 controlli di architettura",
+        "PASS 291 controlli della verifica rapida della sezione in c.a.",
+        "PASS 114 controlli dell'ospite MVVM",
+        "PASS 141 controlli della bozza della shell (F5.13 c)",
+        "PASS 430 controlli Wiki senza WPF",
+        "13 esiti finali PASS; nessuna modifica durante la corsa; 74 suite UI prima e dopo.",
+        "Confronto per riga con il motore, due modelli nello stesso documento, ripristino con confronto JSON completo, errore isolato, Excel con andata/ritorno e separazione dal momento, file errato senza mutazioni, sola lettura, file e report. Nessun atteso indipendente o tolleranza modificati.",
+        "Nella prima corsa: corretti il nome dell’API di sola lettura nella nuova prova e due costanti di formato Excel esplicitate per F4. Nessuna baseline o libreria modificata.",
+        "Guide pratica e teorica Rev77 aggiornate in Markdown, Word e PDF, 148 e 217 pagine; contenuti e parti ITEC verificati. Otto originali archiviati con manifest. Transizioni editoriali Wiki precedenti ancora in attesa."
+      ],
+      "evidenze": [
+        "supporto/artefatti/combo-taglio-20261123/sorgenti-prima",
+        "supporto/artefatti/combo-taglio-20261123/confronto.patch",
+        "supporto/artefatti/combo-taglio-20261123/prova",
+        "supporto/artefatti/combo-taglio-20261123/finale",
+        "supporto/artefatti/combo-taglio-20261123/guide",
+        "supporto/artefatti/combo-taglio-20261123/suite-ui-prima.txt",
+        "supporto/artefatti/combo-taglio-20261123/suite-ui-dopo.txt",
+        "supporto/artefatti/combo-taglio-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-SPAZIO-SCROLL-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Margine destro di 10 DIP tra i riquadri del pannello taglio e la barra verticale. Nessuna modifica a campi, dati o calcoli.",
+      "decisione": "Utente: barra verticale troppo vicina ai riquadri da compilare.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml"
+      ],
+      "test": [
+        "4 esiti mirati PASS: build UiTests/Release, assenza di codice di prova e shell WPF. 74 suite UI invariate. Schermata controllata; nessun test nuovo necessario per il solo margine.",
+        "Compilazione con le 14 DLL BB identiche a quelle della copia locale, verificate contro il manifest originale; lib/Checker del repository e guide invariati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/spazio-scroll-taglio-20261123/QuickSectionSheetView-prima.xaml",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/confronto.patch",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/finale",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/librerie-conservate.json",
+        "supporto/artefatti/spazio-scroll-taglio-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-RISULTATI-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Riepilogo X/Y compatto con VEd, VRd e utilizzo a due decimali, numeri allineati e barre di utilizzo. Rimossi dal pannello i dettagli VRsd/VRcd, gli avvisi ripetitivi sui dettagli e la nota sulla torsione. Esiti della sola resistenza e taglio nullo distinti; errori di input conservati. Calcoli, documenti e report invariati.",
+      "decisione": "Utente: aggiornare il riepilogo proposto, togliendo dettagli e torsione.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "6 esiti mirati PASS: build UiTests/Release, QuickSection.Tests (291 controlli), qa/no-test-code, shell WPF. Ulteriori 2 esiti PASS per la cattura completa del riepilogo nella suite esistente. 74 suite UI prima e dopo. Schermata verificata.",
+        "Librerie di calcolo BB della copia locale conservate mediante lo snapshot già verificato. Nessun nuovo argomento delle guide o modifica normativa."
+      ],
+      "evidenze": [
+        "supporto/artefatti/risultati-taglio-20261123/confronto.patch",
+        "supporto/artefatti/risultati-taglio-20261123/finale",
+        "supporto/artefatti/risultati-taglio-20261123/cattura-risultati",
+        "supporto/artefatti/taglio-non-armato-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-TAGLIO-ANCORAGGIO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / taglio",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Il modulo rapido assume le barre longitudinali efficacemente ancorate, come richiesto dall’utente. La verifica non armata parte senza conferma anche nei documenti precedenti e dopo modifiche geometriche. Rimossa la spunta di ancoraggio e le note ridondanti nel pannello. Il report esplicita che l’ancoraggio efficace è un’ipotesi. Il modulo completo, le formule GPC e gli errori di input non cambiano.",
+      "decisione": "Scelta esplicita dell’utente: «Assumi le barre longitudinali efficacemente ancorate». Richiesta di togliere le scritte sotto il pannello, inclusi dettagli e torsione.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "tests/ANTHEA.Presentation.Tests/QuickShearChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickShearCombinationChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 647 controlli di architettura",
+        "PASS 291 controlli della verifica rapida della sezione in c.a.",
+        "PASS 114 controlli dell'ospite MVVM",
+        "PASS 142 controlli della bozza della shell (F5.13 c)",
+        "9 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Confronto con il motore per il modello senza armatura, documenti preesistenti invariati in lettura, ricalcolo dopo modifiche di geometria/strati, selezione WPF non armata senza interventi aggiuntivi e report.",
+        "Prima compilazione fermata dal controllo dell’indice Wiki obsoleto dopo la modifica alle guide; rigenerato l’indice e ripetute le suite. Nessun atteso indipendente, tolleranza, baseline editoriale o libreria modificati.",
+        "Guide Markdown/Word/PDF aggiornate con indici e parti ITEC preservati; originali archiviati con manifest. Renderer LibreOffice non disponibile: usati Word e confronto raster di tutte le pagine PDF, con ispezione delle sole pagine diverse."
+      ],
+      "evidenze": [
+        "supporto/artefatti/taglio-non-armato-20261123/confronto.patch",
+        "supporto/artefatti/taglio-non-armato-20261123/finale",
+        "supporto/artefatti/taglio-non-armato-20261123/finale-2",
+        "supporto/artefatti/taglio-non-armato-20261123/guide",
+        "supporto/artefatti/taglio-non-armato-20261123/verifica-pdf.json",
+        "supporto/artefatti/taglio-non-armato-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-AZIONI-3D-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / disegno",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Quarta vista Azioni 3D con elemento inizialmente sdraiato, sezione, fori, barre e assi nella stessa proiezione. Momento legge N/Mx/My; Taglio legge N/Vx/Vy della propria tabella. My è nullo in flessione retta. Valori assoluti accanto alle frecce e verso dal segno; momenti secondo la mano destra. Rotazione, zoom, ripristino e scelta della combinazione sono navigazione e non modificano dati o risultati.",
+      "decisione": "Richiesta dell’utente: elemento sdraiato come la prima anteprima, forze nella direzione corretta, numeri sempre positivi e assi realmente proiettati in 3D; autorizzata l’implementazione nel modulo.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickActions.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Actions.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickActionsChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionSheetChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 298 controlli della verifica rapida della sezione in c.a.",
+        "PASS 150 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI prima e dopo; nessuna modifica durante la corsa.",
+        "Verificati separazione delle tabelle, valori e segni, nessuna mutazione del documento, sola lettura, dati invalidi, flessione retta, versi positivi/negativi di N/tagli/momenti, parallelismo degli assi con gli spigoli, rotazione, zoom e ripristino della cattura.",
+        "Prime corse fermate soltanto da F4 per matematica e costanti del disegno. Rotazioni espresse con Matrix3D/Quaternion WPF e dimensioni grafiche nominate; controllo finale superato senza baseline o deroghe nuove.",
+        "Guida pratica Markdown/Word/PDF aggiornata e indice Wiki rigenerato, conservati gli originali con manifest. Verificate 148 pagine PDF: 124 pixel-identiche, 24 reimpaginate e controllate. Parti ITEC e formule preservate; nessun nuovo metodo di calcolo.",
+        "Conservato il set BB della copia installata; nessuna modifica a librerie, attesi indipendenti, tolleranze o transizioni editoriali congelate."
+      ],
+      "evidenze": [
+        "supporto/artefatti/azioni-3d-20261123/confronto.patch",
+        "supporto/artefatti/azioni-3d-20261123/verificato",
+        "supporto/artefatti/azioni-3d-20261123/verifica-pdf.json",
+        "supporto/artefatti/azioni-3d-20261123/guide",
+        "supporto/artefatti/azioni-3d-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-MOMENTI-3D-SEGNO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / Azioni 3D",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "Corretto il verso delle frecce Mx/My in funzione del segno. La prima implementazione applicava la mano destra intorno agli assi geometrici disegnati, mentre CheckerSection.Local definisce X e Y opposti. Sulla faccia +z visualizzata Mx positivo comprime +y e My positivo comprime -x: le coppie fisiche hanno rotazione opposta. Cambia soltanto il disegno; combinazioni, valori assoluti delle etichette, forze e calcoli restano invariati.",
+      "decisione": "Segnalazione dell’utente: «i momenti mi sembrano al contrario», precisata con «nel senso di direzione in base al segno». Correzione della rappresentazione documentata nella voce UI-CA-AZIONI-3D-20261123.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickActionsChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 302 controlli della verifica rapida della sezione in c.a.",
+        "PASS 154 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Prima build fermata da CS0136 nel nuovo test WPF (nome center già usato nell’ambito esterno); rinominata la variabile e ripetuta la corsa completa mirata.",
+        "Il primo riscontro sulle tensioni richiedeva erroneamente barre compresse per ogni flessione pura: in My la zona compressa può restare esterna alla gabbia. Verificati il piano ai vertici del calcestruzzo e il gradiente delle tensioni sulle barre su sezione simmetrica; nessun cambiamento del motore o dei suoi attesi.",
+        "Quattro casi del motore in flessione deviata SLE: Mx e My positivi/negativi, controllo delle fibre tese e compresse. Quattro controlli WPF indipendenti: verso della freccia confrontato con r×F delle due forze della coppia sulla faccia mostrata. Catture dei quattro casi controllate visivamente.",
+        "La prova grafica precedente verificava soltanto la mano destra e non la convenzione del modulo: corretta e integrata con il riscontro meccanico. Nessun atteso ingegneristico o baseline congelata modificati.",
+        "Verifiche iniziali con set BB; correzione distribuita insieme alla rotazione con il set BC già presente nella copia installata (UI-CA-ROTAZIONE-3D-20261123). La guida già descrive il verso coerente con il segno, senza dichiarare mano destra: nessun nuovo contenuto o variazione di utilizzo."
+      ],
+      "evidenze": [
+        "supporto/artefatti/verso-momenti-3d-20261123/confronto.patch",
+        "supporto/artefatti/verso-momenti-3d-20261123/momento-prima.png",
+        "supporto/artefatti/verso-momenti-3d-20261123/finale",
+        "supporto/artefatti/verso-momenti-3d-20261123/tensioni-motore.json",
+        "supporto/artefatti/verso-momenti-3d-20261123/tensioni-motore-simmetrica.json",
+        "supporto/artefatti/rotazione-3d-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "UI-CA-ROTAZIONE-3D-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / Azioni 3D",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "La rotazione conserva la scala e un centro tridimensionale fisso nel prisma. L’inquadratura iniziale è mantenuta durante il trascinamento e al cambio di azioni; la rotella applica uno zoom uniforme attorno allo stesso centro. Centra vista e doppio clic ripristinano orientamento e inquadratura. Un cambio effettivo di ingombro geometrico o delle dimensioni del riquadro ricalcola l’inquadratura. Nessuna variazione di dati o risultati di calcolo.",
+      "decisione": "L’utente segnala variazione di dimensione e apparente deformazione durante la rotazione, poi autorizza: «intervieni». Eliminato l’adattamento continuo agli ingombri proiettati.",
+      "codice": [
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickActionsViewport.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 648 controlli di architettura",
+        "PASS 302 controlli della verifica rapida della sezione in c.a.",
+        "PASS 158 controlli della bozza della shell (F5.13 c)",
+        "8 esiti mirati PASS; 74 suite UI invariate; nessuna modifica durante la corsa.",
+        "Tre rotazioni ampie: scala costante, centro proiettato fermo e norma complessiva della base ortogonale proiettata invariata. Cambio delle azioni senza adattamento. Rotella con fattore uniforme 1,12; ripristino identico nella cattura. Prove dei versi Mx/My conservate.",
+        "Prima corsa con il precedente set BB: 6 esiti PASS. Prima della distribuzione rilevato che app contiene già il set BC, identico alle 14 DLL di lib/Checker: build e prove ripetute con il set attuale, inclusa la suite rapida che verifica i segni dei momenti. Nessun aggiornamento del set di librerie da parte di questa attività.",
+        "Modificato soltanto il disegno WPF. Le istruzioni già presenti in guida descrivono rotazione, zoom alla rotella e Centra vista: nessun nuovo argomento o modifica di comandi. Nessun atteso ingegneristico, baseline o formula modificati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/rotazione-3d-20261123/confronto.patch",
+        "supporto/artefatti/rotazione-3d-20261123/verificato",
+        "supporto/artefatti/rotazione-3d-20261123/attuale",
+        "supporto/artefatti/rotazione-3d-20261123/librerie-installate.json",
+        "supporto/artefatti/rotazione-3d-20261123/publish-verificato.json",
+        "supporto/artefatti/rotazione-3d-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "REPORT-CA-ITEC-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / report Word e PDF",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "Ripristinati logo e piè di pagina ITEC anche senza copertina. Testi e titoli ereditano font, dimensioni, allineamento e spaziature originali; tabelle tecniche, figure, formule e contenuti invariati. Titolo effettivo nel piè di pagina, campi PAGE/SECTIONPAGES dinamici e numerazione Word/PDF da uno. L’opzione Copertina riguarda soltanto la pagina iniziale.",
+      "decisione": "Richiesta dell’utente del 23/11/2026: «aggiorna il report utilizzando il template itec», seguita da «poi committa e pusha».",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Reports/Pdf/DocxPdf.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportChecks.cs"
+      ],
+      "test": [
+        "11 esiti mirati PASS; nessun file tracciato modificato dalle prove.",
+        "PASS 545 controlli report, 320 sezioni rapide, 648 architettura; prove WPF del modulo e della shell PASS. Suite UI: 74 prima e 74 dopo.",
+        "Confronto prima/dopo dei quattro documenti: testi, tabelle, stili incorporati e formule identici. Stili originali preservati byte per byte.",
+        "Logo, titolo, campi e numerazione controllati nelle varianti completa, breve e con copertina/indice. Casi brevi con e senza taglio e DXF entro due pagine.",
+        "Microsoft Word: 2 pagine per i brevi, 10 per il completo senza taglio e 12 con taglio, come i PDF dell’app. Resa grafica controllata; render_docx.py non disponibile per assenza di LibreOffice, usata esportazione Word su copie di verifica.",
+        "Copia locale aggiornata: 16 file, 122 file verificati, 98 binari identici alla Release. Nessuna modifica ai motori GPC, alle baseline ingegneristiche o alle guide: correzione del formato già previsto."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-itec-20261123/prima",
+        "supporto/artefatti/report-itec-20261123/artifact.md",
+        "supporto/artefatti/report-itec-20261123/verificato",
+        "supporto/artefatti/report-itec-20261123/confronto-contenuti.json",
+        "supporto/artefatti/report-itec-20261123/word-qa/verifica.json",
+        "supporto/artefatti/report-itec-20261123/publish-verificato.json",
+        "supporto/artefatti/report-itec-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "REPORT-CA-SOLO-WORD-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / esportazione report",
+      "categoria": "correzione",
+      "stato": "attuato",
+      "descrizione": "W e W breve salvano solo DOCX tramite WriteWord: nessuna invocazione del renderer PDF, creazione o sovrascrittura del PDF affiancato. Finestra di salvataggio Documento Word. Generatore e template ITEC invariati; eventuali PDF già presenti sono conservati.",
+      "decisione": "L’utente precisa «non lo voglio in automatico il pdf». Eccezione esplicita annotata in AGENTS.md; prevale sulla precedente prescrizione delle edizioni abbinate.",
+      "codice": [
+        "src/ANTHEA.Presentation/Shell/Commands/SheetFileExports.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionSheetChecks.cs",
+        "AGENTS.md"
+      ],
+      "test": [
+        "7 esiti mirati PASS; nessun file tracciato modificato dalle prove.",
+        "PASS 324 controlli della verifica rapida della sezione in c.a.",
+        "PASS 805 controlli della shell (F5.13) senza WPF",
+        "Prima corsa: aggiornato il controllo della vecchia dicitura Word e PDF; solo Shell.Tests ripetuta, nessuna modifica a baseline o attesi ingegneristici.",
+        "Esportazioni completa e breve: DOCX scritto senza PDF; seconda esportazione sovrascrive il Word e conserva byte per byte un PDF preesistente.",
+        "Nessuna suite UI rimossa: 74 prima e dopo. Nessuna modifica a calcoli, report generato o risultati."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-solo-word-20261123/prima",
+        "supporto/artefatti/report-solo-word-20261123/verificato",
+        "supporto/artefatti/report-solo-word-20261123/app-installata.json",
+        "supporto/artefatti/report-solo-word-20261123/finale",
+        "supporto/artefatti/report-solo-word-20261123/esito-consolidato.json"
+      ]
+    },
+    {
+      "id": "UI-CA-BRACCIA-AZIONI-COMPLETO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida e completa",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Pannello dell’armatura a taglio con colonne Vx/Vy, Braccia al posto di Rami e cotangenti iniziali 1. Rottura bilanciata abilita la scelta automatica già implementata dalla libreria su entrambi gli assi, entro i suoi limiti; campi Auto e valori effettivi per combinazione. Valori manuali o automatici salvati conservati. Vista Azioni 3D nel modulo completo: famiglie e combinazioni selezionabili, stesso disegno della sezione rapida con segni e scala di rotazione già verificati. Nessuna modifica ai calcoli GPC; report ancora Word senza PDF automatico.",
+      "decisione": "Richiesta dell’utente del 23/11: pannello più ordinato, braccia, cotangenti 1, pulsante per rottura bilanciata e vista 3D anche nel modulo grosso.",
+      "codice": [
+        "src/ANTHEA.Application/Concrete/ConcreteQuickShear.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteActions3D.cs",
+        "src/ANTHEA.Presentation/Modules/QuickSection/QuickSectionSheetViewModel.Shear.cs",
+        "src/ANTHEA.Presentation/Modules/ConcreteSection/ConcreteSheetViewModel.Actions3D.cs",
+        "src/ANTHEA.Desktop/Views/QuickSection/QuickSectionSheetView.xaml",
+        "src/ANTHEA.Desktop/Views/ConcreteSection/ConcreteSectionSheetView.xaml",
+        "tests/ANTHEA.Presentation.Tests/QuickShearChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/ConcreteSectionSheetChecks.Actions3D.cs",
+        "tests/ANTHEA.Desktop.UiTests/ShellDraftChecks.cs"
+      ],
+      "test": [
+        "PASS 649 controlli di architettura",
+        "PASS 5951 controlli di Presentation senza WPF",
+        "PASS 330 controlli della verifica rapida della sezione in c.a.",
+        "PASS 545 controlli Reports",
+        "15 esiti mirati PASS. Suite UI 74 prima e dopo; nessuna rimozione. Attesi indipendenti, tolleranze e transizioni editoriali congelate invariati.",
+        "Prima prova WPF interrotta nella preparazione: un modulo appena creato non conteneva combinazioni. Test corretto usando la fixture della sezione completa esistente; nessuna modifica al codice di prodotto per questo esito. Ripetizione WPF PASS.",
+        "Guida pratica: 149 pagine, 1440 frammenti, 9 formule e 62 parti ITEC conservati; 26 pagine reimpaginate ispezionate, 48 corpi identici rinumerati, 71 pagine modificate nel solo piede, 4 identiche."
+      ],
+      "evidenze": [
+        "supporto/artefatti/taglio-braccia-azioni-completo-20261123/prima",
+        "supporto/artefatti/taglio-braccia-azioni-completo-20261123/confronto.patch",
+        "supporto/artefatti/taglio-braccia-azioni-completo-20261123/esito-consolidato.json",
+        "supporto/artefatti/taglio-braccia-azioni-completo-20261123/verifica-pdf.json"
+      ]
+    },
+    {
+      "id": "REPORT-CA-GUIDA-CLS-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / relazione e menu esportazione",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Relazione completa organizzata secondo Rezione guida CLS.docx: Introduzione con assunzioni, materiali, geometria e combinazioni; verifiche flessione con sommario, SLU/SLV/SLE; verifiche taglio con sommario e dettagli armati/non armati; Allegato A per diagrammi selezionati. Menu con la stessa gerarchia e caselle indipendenti. Azioni a taglio lette dalla propria tabella, senza accorpamenti per nome; cotangenti effettive del motore nel dettaglio armato. Copertina facoltativa con titolo della sezione e oggetto corretto; nomi delle combinazioni mantenuti insieme alle tabelle. Stili, logo e piede ITEC conservati; W e W breve producono solo Word.",
+      "decisione": "L’utente richiede di seguire la relazione guida fornita e aggiornare il menu; conferma espressamente Con armatura / Non armata per i dettagli del taglio, coerentemente con il modulo.",
+      "codice": [
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.Family.cs",
+        "src/ANTHEA.Application/Concrete/ConcreteQuickReportAnalysis.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "src/ANTHEA.Desktop/Views/Shell/ShellDialogs.xaml",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportGuideChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/QuickSectionReportWpfChecks.cs"
+      ],
+      "test": [
+        "PASS 649 controlli di architettura",
+        "PASS 545 controlli Reports",
+        "PASS 805 controlli della shell (F5.13) senza WPF",
+        "PASS 344 controlli della verifica rapida della sezione in c.a.",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Calculations.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Application.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Reports.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Wiki.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Serialization.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.FoundationWorkspace.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.ModelWorkspace.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.ModelReports.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.ModelViewer.Presentation.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.ModelViewer.Wpf.dll senza marcatori di prova",
+        "PASS: src\\ANTHEA.Desktop\\bin\\Release\\net8.0-windows\\ANTHEA.Presentation.dll senza marcatori di prova",
+        "PASS 430 controlli Wiki senza WPF",
+        "15 esiti mirati PASS; nessun file tracciato modificato dalle prove. Suite UI 74 prima e dopo, nessuna rimozione.",
+        "Prove su selezione indipendente dei sommari, dettagli armati/non armati, modelli effettivi, nomi duplicati e casi incompleti; nessun falso esito verificato. Numeri confrontati con il calcolo del foglio e del modulo completo.",
+        "Resa Word: completi senza/con taglio 9/11 pagine, brevi 2 pagine. Copertina e indice facoltativi controllati; stili originali ITEC identici. Corretto un titolo isolato a fondo pagina e ripetute le sole suite toccate.",
+        "Guida pratica: 149 pagine, 1440 frammenti, 9 formule e 62 parti ITEC conservati. Tredici pagine modificate ispezionate, 136 identiche; Word e PDF aggiornati, quattro originali archiviati. Wiki: 96 capitoli, indice e manuale verificati.",
+        "Nessuna modifica a GPC, formule, attesi indipendenti, tolleranze o transizioni editoriali congelate. PDF dei report creati esclusivamente come evidenze interne di resa grafica, non nell’esportazione dell’app."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-guida-cls-20261123/prima",
+        "supporto/artefatti/report-guida-cls-20261123/confronto.patch",
+        "supporto/artefatti/report-guida-cls-20261123/riferimento/artifact.md",
+        "supporto/artefatti/report-guida-cls-20261123/esito-consolidato.json",
+        "supporto/artefatti/report-guida-cls-20261123/qa-word/verifica.json",
+        "supporto/artefatti/report-guida-cls-20261123/verifica-pdf.json",
+        "supporto/artefatti/report-guida-cls-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "REPORT-CA-SPAZI-SLE-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / report Word",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Spaziatura esplicita fra titoli, paragrafi, didascalie, tabelle e figure nel report completo, con maggiore margine verticale nelle celle e caratteri ITEC conservati. Ogni combinazione SLE selezionata mostra sotto i risultati la sezione con le proprie tensioni, anche per casi non governanti. Associazione per ID e non per nome. Le stesse figure non sono ripetute in allegato; resta possibile esportare solo l’allegato delle tensioni. Report breve e calcoli invariati.",
+      "decisione": "L’utente chiede più spazio fra titoli, paragrafi e tabelle e l’immagine della sezione con le tensioni per le verifiche SLE.",
+      "codice": [
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Desktop/Wpf/QuickSectionFigureRenderer.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "tests/ANTHEA.Desktop.UiTests/QuickSectionReportWpfChecks.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportChecks.cs"
+      ],
+      "test": [
+        "PASS 649 controlli di architettura",
+        "PASS 430 controlli Wiki senza WPF",
+        "PASS 805 controlli della shell (F5.13) senza WPF",
+        "PASS 344 controlli della verifica rapida della sezione in c.a.",
+        "13 esiti mirati PASS; nessun file tracciato modificato dalle prove. Suite UI 74 prima e dopo.",
+        "Prova WPF con due combinazioni SLE omonime e risultati differenti: entrambe le figure presenti e distinte, anche per il caso non governante; corrispondenza esatta fra PNG e ID della combinazione nel Word. Esclusa la famiglia non selezionata; allegato autonomo verificato.",
+        "Report completi e SLE verificati in Microsoft Word e ispezionati graficamente. Le parti dei due report brevi coincidono byte per byte con quelle della versione precedente.",
+        "Guida pratica: 149 pagine; 1440 frammenti, 9 formule e 62 parti ITEC conservati. Tre pagine modificate ispezionate, 146 identiche. Quattro originali archiviati; indice Wiki e manuale verificati.",
+        "Nessuna modifica ai motori GPC, attesi indipendenti, tolleranze o transizioni editoriali congelate. W e W breve restano Word senza PDF automatico."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-spazi-sle-20261123/prima",
+        "supporto/artefatti/report-spazi-sle-20261123/confronto.patch",
+        "supporto/artefatti/report-spazi-sle-20261123/esito-consolidato.json",
+        "supporto/artefatti/report-spazi-sle-20261123/confronto-brevi.json",
+        "supporto/artefatti/report-spazi-sle-20261123/qa-word/verifica.json",
+        "supporto/artefatti/report-spazi-sle-20261123/verifica-pdf.json",
+        "supporto/artefatti/report-spazi-sle-20261123/app-installata.json"
+      ]
+    },
+    {
+      "id": "REPORT-CA-SENZA-ALLEGATO-20261123",
+      "data": "2026-11-23",
+      "famiglia": "Sezione in c.a. rapida / report Word",
+      "categoria": "intenzionale",
+      "stato": "attuato",
+      "descrizione": "Rimosso Allegato A dal report completo e dal menu. Il renderer non genera più le immagini dell’allegato, neppure con vecchie opzioni salvate. Conservati i capitoli introduttivi, le verifiche a flessione e taglio e le figure delle tensioni per ogni combinazione SLE. Report breve invariato.",
+      "decisione": "Richiesta esplicita dell’utente: togli l’annesso.",
+      "codice": [
+        "src/ANTHEA.Reports/QuickSectionReport.cs",
+        "src/ANTHEA.Reports/Generators/ItecPileReport.QuickSection.cs",
+        "src/ANTHEA.Desktop/Wpf/QuickSectionFigureRenderer.cs",
+        "src/ANTHEA.Presentation/Shell/Commands/ShellCommandsViewModel.cs",
+        "tests/ANTHEA.Presentation.Tests/QuickSectionReportGuideChecks.cs",
+        "tests/ANTHEA.Desktop.UiTests/QuickSectionReportWpfChecks.cs"
+      ],
+      "test": [
+        "11 esiti mirati PASS. Suite UI 74 prima e dopo; nessun file tracciato modificato dalle prove.",
+        "Confronto XML dei due report completi: tutti i blocchi che precedevano l’allegato sono identici. Due brevi e report delle combinazioni SLE omonime identici parte per parte.",
+        "Menu e vecchie opzioni verificati: allegato assente e nessuna figura inutilizzata; figure SLE preservate e associate per ID. Resa Word e ultima pagina controllate.",
+        "Guida pratica di 149 pagine aggiornata: 1 pagine modificate ispezionate, 148 identiche. Originali archiviati; indice Wiki e manuale verificati.",
+        "Nessuna modifica a GPC, dati di calcolo, attesi indipendenti o tolleranze. Nessuna modifica alle transizioni editoriali congelate. Esportazione soltanto Word conservata."
+      ],
+      "evidenze": [
+        "supporto/artefatti/report-senza-allegato-20261123/prima",
+        "supporto/artefatti/report-senza-allegato-20261123/confronto.patch",
+        "supporto/artefatti/report-senza-allegato-20261123/esito-consolidato.json",
+        "supporto/artefatti/report-senza-allegato-20261123/confronto-report.json",
+        "supporto/artefatti/report-senza-allegato-20261123/qa-word/verifica.json",
+        "supporto/artefatti/report-senza-allegato-20261123/verifica-pdf.json",
+        "supporto/artefatti/report-senza-allegato-20261123/app-installata.json"
       ]
     }
   ]

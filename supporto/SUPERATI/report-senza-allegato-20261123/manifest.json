@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "2adb27bafeeeb9b8c055d3fb42d4f8ee4d49e7a58ee794f42c65144024713acb",
+    "motivo": "Rimozione dell’allegato dal report e dal menu; figure SLE conservate nei dettagli, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "edae89dd00ce5137b72d8e9d794c5b26bd666a1a832d9c32c6c7fc29b151836f",
+    "motivo": "Rimozione dell’allegato dal report e dal menu; figure SLE conservate nei dettagli, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "55e04cd7a3ec2cf1e8943ead2a23cbb3ff54d69d51ceca4173e1b547e814182f",
+    "motivo": "Rimozione dell’allegato dal report e dal menu; figure SLE conservate nei dettagli, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "edae89dd00ce5137b72d8e9d794c5b26bd666a1a832d9c32c6c7fc29b151836f",
+    "motivo": "Rimozione dell’allegato dal report e dal menu; figure SLE conservate nei dettagli, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]

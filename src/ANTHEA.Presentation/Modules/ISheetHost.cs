@@ -22,6 +22,15 @@ public interface ISheetHost
 
     /// <summary>Asks the window to export the report of this sheet (the «Report Word» command of the window).</summary>
     void RequestReport();
+
+    /// <summary>
+    /// Closes one editing operation of the sheet as one step of the history of its document (organizzazione del modulo paratie, progetto del
+    /// 16/11, contract R01 of the review G-208): the shell confirms the sheet as when it loses the focus (drafts of the fields, shared data,
+    /// history), so that two commands give two steps and one command never gives more than one. A sheet calls it before a command, to close
+    /// what was typed before, and after it. Without changes nothing is recorded. Hosts without a history of their own (the window of a single
+    /// module, the checks) do nothing: additive member.
+    /// </summary>
+    void ConfirmEdit() { }
 }
 
 /// <summary>A sheet of the project that can give or receive the soil: label shown, module, data and identifier of the sheet.</summary>

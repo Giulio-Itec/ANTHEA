@@ -22,13 +22,16 @@ public partial class QuickSectionSheetView : UserControl
 
     /// <summary>The chart of the domain or of the moment–curvature.</summary>
     internal Plot Chart { get; } = ConcreteSectionDrawings.DomainPlot();
+    internal QuickActionsViewport ActionsDrawing { get; } = new();
 
     public QuickSectionSheetView()
     {
         InitializeComponent();
         DrawingHost.Content = Drawing;
         ChartHost.Content = Chart;
+        ActionsHost.Content = ActionsDrawing;
         DataContextChanged += (_, _) => Attach(DataContext as QuickSectionSheetViewModel);
+        Loaded += (_, _) => ResizeShearWindow();
     }
 
     /// <summary>The focus of an editor, reported to its field as FieldForm does: leaving the field confirms the text typed.</summary>
@@ -39,6 +42,7 @@ public partial class QuickSectionSheetView : UserControl
 
     /// <summary>«Centra sezione» (19/11/2026): the section in the middle of the drawing at its full size, as the double click on it.</summary>
     private void CenterSection_Click(object sender, RoutedEventArgs e) => Drawing.ResetView();
+    private void CenterActions_Click(object sender, RoutedEventArgs e) => ActionsDrawing.ResetView();
 
     /// <summary>The most elements that Enter crosses to find the next box (menus, buttons and boxes not to be written are skipped).</summary>
     private const int EnterSteps = 200;
@@ -74,11 +78,13 @@ public partial class QuickSectionSheetView : UserControl
         sheet = next;
         if (sheet is null) return;
         sheet.PropertyChanged += OnSheetChanged;
-        DrawSection(); DrawChart();
+        DrawSection(); DrawChart(); DrawActions();
     }
 
     private void OnSheetChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(QuickSectionSheetViewModel.ShearExpanded)) ResizeShearWindow();
+        if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.ActionsScene) or nameof(QuickSectionSheetViewModel.ShowsActions)) DrawActions();
         if (e.PropertyName is nameof(QuickSectionSheetViewModel.Section) or nameof(QuickSectionSheetViewModel.SectionStress) or nameof(QuickSectionSheetViewModel.StressCallouts) or nameof(QuickSectionSheetViewModel.SecondRingLinkDiameter)
             or nameof(QuickSectionSheetViewModel.DrawingMessage))
             DrawSection();
@@ -88,6 +94,27 @@ public partial class QuickSectionSheetView : UserControl
         // The area shown again is drawn with its new size.
         if (e.PropertyName == nameof(QuickSectionSheetViewModel.ShowsSection))
             _ = Dispatcher.InvokeAsync(() => { DrawSection(); DrawChart(); }, System.Windows.Threading.DispatcherPriority.Loaded);
+    }
+
+    private double? compactWindowWidth;
+    private double? expandedWindowWidth;
+    private const double ShearWindowFrameWidth = 20;
+    private void ResizeShearWindow()
+    {
+        // Only this module's detached window: an embedded sheet must never resize the ANTHEA main window.
+        if (sheet is null || !IsLoaded || Window.GetWindow(this) is not X.Desktop.Views.Shell.DetachedShellWindow window || window.WindowState != WindowState.Normal) return;
+        if (sheet.ShearExpanded && compactWindowWidth is null)
+        {
+            if (window.Width >= sheet.SheetMinimumWidth + ShearWindowFrameWidth) return;
+            compactWindowWidth = window.Width;
+            window.Width += 520;
+            _ = Dispatcher.InvokeAsync(() => expandedWindowWidth = window.Width, System.Windows.Threading.DispatcherPriority.Loaded);
+        }
+        else if (!sheet.ShearExpanded && compactWindowWidth is { } width)
+        {
+            if (expandedWindowWidth is { } expanded && Math.Abs(window.Width - expanded) < 2) window.Width = width;
+            compactWindowWidth = expandedWindowWidth = null;
+        }
     }
 
     private void DrawSection()
@@ -122,5 +149,13 @@ public partial class QuickSectionSheetView : UserControl
                 Chart.Series = [new(ConcreteCurvaturePresentation.SeriesName, [.. sheet.CurvaturePoints], ThemeTokens.Brush("Series.Blue"))];
         }
         Chart.ResetView();
+    }
+
+    private void DrawActions()
+    {
+        if (sheet is null) return;
+        ActionsDrawing.Section = sheet.Section;
+        ActionsDrawing.Scene = sheet.ActionsScene;
+        ActionsDrawing.InvalidateVisual();
     }
 }

@@ -135,7 +135,7 @@ internal static class CommandsChecks
         await quick.ViewModel.CalculateAsync();
         files.Then(Path.Combine(folder, "Rapida_breve.docx"));
         await commands.BriefReportCommand.ExecuteAsync(null);
-        expect.That(exports.Calls.Last().Contains("sezione_rapida_breve") && FileFilter.Join(((SaveFileRequest)files.Requests.Last()).Filters) == "Word e PDF affiancati|*.docx", "W breve della verifica rapida esporta Word e PDF");
+        expect.That(exports.Calls.Last().Contains("sezione_rapida_breve") && FileFilter.Join(((SaveFileRequest)files.Requests.Last()).Filters) == "Documento Word|*.docx", "W breve della verifica rapida esporta solo Word");
         dialogs.Then(d =>
         {
             var choice = (ReportSectionsDialogViewModel)d;
@@ -144,7 +144,8 @@ internal static class CommandsChecks
         });
         files.Then(Path.Combine(folder, "Rapida.docx"));
         await commands.ReportCommand.ExecuteAsync(null);
-        expect.That(exports.Calls.Last().Contains("sezione_rapida_contenuti_v1") && !exports.Calls.Last().Contains("sezione_rapida_breve"), "W completa: selettore gerarchico della sezione rapida");
+        expect.That(exports.Calls.Last().Contains("sezione_rapida_contenuti_v1") && !exports.Calls.Last().Contains("sezione_rapida_breve")
+            && FileFilter.Join(((SaveFileRequest)files.Requests.Last()).Filters) == "Documento Word|*.docx", "W completa: selettore gerarchico della sezione rapida e salvataggio solo Word");
         var secondQuick = workspace.NewCalculation(Anthea.Reports.QuickSectionReport.Module);
         await secondQuick.ViewModel.CalculateAsync();
         workspace.Activate(null);

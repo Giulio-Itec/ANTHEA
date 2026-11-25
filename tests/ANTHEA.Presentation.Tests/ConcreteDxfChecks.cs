@@ -72,6 +72,16 @@ internal static class ConcreteDxfChecks
         e.Throws<ArgumentException>(() => ConcreteDxfImport.Prepare(source["input"]!.AsObject(), drawing, selected with { HolesLayer = "ASSENTE" }),
             "DXF: layer dei fori inesistente rifiutato, senza perdere silenziosamente la geometria");
         var quasi=(JsonObject)source.DeepClone(); quasi["input"]=prepared.Input.DeepClone();
+        var receiving = ConcreteQuickSection.Create(); string copiedActions = quasi["combinazioni"]!.ToJsonString();
+        var copied = ConcreteQuickSection.CopyFor(quasi, receiving);
+        var copiedGeometry = ConcreteQuickSection.Calculate(copied).Preview.Geometry;
+        e.That(Math.Abs(copiedGeometry.AreaCls - 460000) < 1e-6 && copiedGeometry.Holes.Count == 1 && copiedGeometry.Bars.Count == 4
+            && copiedGeometry.Bars.All(b => b.Diametro == 20) && copied["combinazioni"]!.ToJsonString() == copiedActions,
+            "Copia DXF: contorno, foro e barre reali con area indipendente 460000 mm²; combinazioni della sorgente trasferite");
+        var parametric = ConcreteQuickSection.CopyFor(receiving, copied);
+        var parametricGeometry = ConcreteQuickSection.Calculate(parametric).Preview.Geometry;
+        e.That(parametric["input"]!["sezione_dxf"] is null && parametricGeometry.Holes.Count == 0 && parametricGeometry.AreaCls == 480000,
+            "Copia parametrica su DXF: nessun contorno o foro residuo, area indipendente 600 × 800 mm²");
         ConcreteQuickSection.ReplaceCombinations(quasi,[new("QP da DXF",0,100,0,"SLE_QP")]);
         ConcreteQuickSection.WriteServiceOption(quasi,ConcreteQuickSection.ExposureKey,"XC3");
         var quasiResult=ConcreteQuickSection.Calculate(quasi);

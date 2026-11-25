@@ -20,4 +20,18 @@ internal static class SectionInspectionSample
             ["OFFS"]=JsonSerializer.SerializeToElement(new Dictionary<string,object>{["12"]=new{TYPE="ELEMENT",EZ=.1}})
         };return model;
     }
+
+    /// <summary>18/11/2026 (Q2, set BA): imported T, C and L of the DB/User page (vSIZE in m: T and L H,B,tw,tf; C H,B1,tw,tf1,B2,tf2).</summary>
+    internal static ModelSnapshot OpenSections()
+    {
+        static object Property(string shape,double[] size)=>new {SECTTYPE="DBUSER",SECT_NAME=shape,SECT_BEFORE=new {SHAPE=shape,DATATYPE=2,OFFSET_PT="CC",OFFSET_CENTER=0,HORZ_OFFSET_OPT=0,VERT_OFFSET_OPT=0,USERDEF_OFFSET_ZI=0d,SECT_I=new {vSIZE=size}}};
+        var model=Sample.Model();model.Source="MIDAS synthetic open sections";
+        model.Sections=[new(20,"T 200x150","T",.15,.2,true),new(21,"C 200x75","C",.075,.2,true),new(22,"L 100x80","L",.08,.1,true)];
+        model.Elements=[..model.Elements.Where(e=>e.Type=="PLATE"),new(20,"BEAM",20,[1,4]),new(21,"BEAM",21,[2,3]),new(22,"BEAM",22,[5,6])];
+        model.SourceTables=new() {
+            ["UNIT"]=JsonSerializer.SerializeToElement(new Dictionary<string,object>{["1"]=new {FORCE="KN",DIST="M",TEMPER="C"}}),
+            ["SECT"]=JsonSerializer.SerializeToElement(new Dictionary<string,object>{
+                ["20"]=Property("T",[.2,.15,.008,.012]),["21"]=Property("C",[.2,.075,.008,.011,.075,.011]),["22"]=Property("L",[.1,.08,.01,.01])})
+        };return model;
+    }
 }

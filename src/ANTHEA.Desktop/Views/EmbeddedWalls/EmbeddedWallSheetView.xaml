@@ -1,28 +1,306 @@
 <UserControl x:Class="X.Desktop.Views.EmbeddedWalls.EmbeddedWallSheetView"
  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:common="clr-namespace:X.Desktop.Views.Common"
- xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}">
- <DockPanel Margin="12">
-  <StackPanel DockPanel.Dock="Top">
-   <WrapPanel>
-    <Button Content="Calcola tutti i casi" Command="{Binding RunCommand}" Margin="0,0,8,4"/>
-    <Button Content="Annulla" Command="{Binding CancelCommand}" Margin="0,0,8,4"/>
-    <Button Content="Esporta tutti i casi CSV" Command="{Binding CsvCommand}" Margin="0,0,8,4"/>
-   </WrapPanel>
-   <WrapPanel Margin="0,4">
-    <WrapPanel.Style><Style TargetType="WrapPanel"><Style.Triggers><DataTrigger Binding="{Binding ResultCases.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></WrapPanel.Style>
-    <TextBlock Text="Caso nei diagrammi e nelle verifiche" VerticalAlignment="Center" Margin="0,0,8,0"/>
-    <ComboBox ItemsSource="{Binding ResultCases}" SelectedItem="{Binding SelectedResultCase}" DisplayMemberPath="CaseId" MinWidth="180" Margin="0,0,12,0"/>
-    <TextBlock Text="{Binding ResultCaseStatus}" VerticalAlignment="Center" TextWrapping="Wrap"/>
-   </WrapPanel>
+ xmlns:local="clr-namespace:X.Desktop.Views.EmbeddedWalls" Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}"
+ common:FieldForm.ChoiceLabels="{Binding ChoiceLabels}">
+ <!--
+  Organizzazione del modulo paratie (progetto del 16/11, step 1): a Navy command bar with pages of commands grouped by subject above the work
+  area, and the documents opened in the centre (the section of the phase always open; tables, results and checks opened on request and closed
+  from their tab). Only commands the sheet already has: no button without a function. Colours are theme tokens only (P7).
+ -->
+ <UserControl.Resources>
+  <BooleanToVisibilityConverter x:Key="Shown"/>
+  <!-- Cifre significative (16/11): numbers with the decimals of their unit in the culture of ANTHEA, English terms of the results in Italian. -->
+  <local:EmbeddedWallNumberConverter x:Key="Number"/>
+  <local:EmbeddedWallTermConverter x:Key="Term"/>
+  <!-- Tables of the results (approved 16/11): fixed decimals with the final zeros, numbers and their headers aligned on the right. -->
+  <local:EmbeddedWallNumberConverter x:Key="TableNumber" Table="True"/>
+  <Style x:Key="NumberCell" TargetType="TextBlock"><Setter Property="TextAlignment" Value="Right"/><Setter Property="HorizontalAlignment" Value="Stretch"/><Setter Property="Padding" Value="4,0"/></Style>
+  <Style x:Key="NumberHeader" TargetType="DataGridColumnHeader" BasedOn="{StaticResource {x:Type DataGridColumnHeader}}"><Setter Property="HorizontalContentAlignment" Value="Right"/></Style>
+  <!-- Commands on the bar: the colours of Shell.BarButton (ShellTemplates.xaml, not merged in a module view), a little lower. -->
+  <Style x:Key="BarButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+   <Setter Property="Background" Value="{DynamicResource Token.CommandBar}"/>
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="BorderBrush" Value="Transparent"/>
+   <Setter Property="Padding" Value="9,2"/>
+   <Setter Property="Margin" Value="1,2"/>
+   <Setter Property="MinHeight" Value="28"/>
+   <Style.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter Property="Background" Value="{DynamicResource Token.CommandBar.Hover}"/></Trigger></Style.Triggers>
+  </Style>
+  <!-- A group of commands: the buttons, its name below, a divider on the right. -->
+  <Style x:Key="BarGroup" TargetType="HeaderedContentControl">
+   <Setter Property="Focusable" Value="False"/>
+   <Setter Property="Margin" Value="0,0,6,0"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="HeaderedContentControl">
+    <Border BorderBrush="{DynamicResource Token.CommandBar.Hover}" BorderThickness="0,0,1,0" Padding="2,0,8,0">
+     <DockPanel>
+      <TextBlock DockPanel.Dock="Bottom" Text="{TemplateBinding Header}" FontSize="{DynamicResource Font.Small}" Foreground="{DynamicResource Token.OnCommandBar.Muted}"
+       HorizontalAlignment="Center" Margin="0,0,0,2"/>
+      <ContentPresenter/>
+     </DockPanel>
+    </Border>
+   </ControlTemplate></Setter.Value></Setter>
+  </Style>
+  <!-- Header of a document: its title and, except for the section, the button that closes it. -->
+  <DataTemplate x:Key="DocumentHeader">
+   <StackPanel Orientation="Horizontal">
+    <TextBlock Text="{Binding Title}" VerticalAlignment="Center"/>
+    <Button Content="×" Command="{Binding CloseCommand}" Visibility="{Binding CanClose, Converter={StaticResource Shown}}" Focusable="False"
+     Background="Transparent" BorderBrush="Transparent" Foreground="{DynamicResource Token.Muted}" Padding="3,0" Margin="6,0,0,0" MinHeight="0"
+     ToolTip="Chiudi il documento" AutomationProperties.Name="{Binding Title, StringFormat=Chiudi {0}}"/>
+   </StackPanel>
+  </DataTemplate>
+  <!-- The menu Fase (step 2): on the page Modello of the bar and on the tabs of the phases; one instance per use. -->
+  <ContextMenu x:Key="StageMenu" x:Shared="False">
+   <MenuItem Header="Aggiungi fase" Command="{Binding AddStageCommand}" InputGestureText="Ins"/>
+   <MenuItem Header="Inserisci fase prima della corrente" Command="{Binding InsertStageCommand}"/>
+   <Separator/>
+   <MenuItem Header="Rinomina la fase corrente…" Command="{Binding RenameStageCommand}" InputGestureText="F2"/>
+   <MenuItem Header="Rinomina tutte le fasi (F1…Fn)" Command="{Binding RenameAllStagesCommand}"/>
+   <Separator/>
+   <MenuItem Header="Elimina la fase corrente" Command="{Binding DeleteStageCommand}" InputGestureText="Canc"/>
+  </ContextMenu>
+  <!-- Boxes of the command bar (step 3): written when the box loses the focus or with Invio (BarBoxKeyDown), read-only without a phase. -->
+  <Style x:Key="BarBox" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+   <Setter Property="Width" Value="58"/>
+   <Setter Property="Margin" Value="2,3"/>
+   <Setter Property="TextAlignment" Value="Right"/>
+   <Setter Property="IsReadOnly" Value="{Binding StageLevels.IsReadOnly}"/>
+   <EventSetter Event="KeyDown" Handler="BarBoxKeyDown"/>
+  </Style>
+  <Style x:Key="BarLabel" TargetType="TextBlock">
+   <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/>
+   <Setter Property="VerticalAlignment" Value="Center"/>
+   <Setter Property="Margin" Value="6,0,2,0"/>
+  </Style>
+  <!-- A line of the panel Messaggi (step 11): a flat button that opens the element of the message; the same look enabled or not. -->
+  <Style x:Key="MessageRow" TargetType="Button">
+   <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+   <Setter Property="Background" Value="Transparent"/>
+   <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+   <Setter Property="Cursor" Value="Hand"/>
+   <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+    <Border x:Name="Row" Background="{TemplateBinding Background}" BorderBrush="Transparent" BorderThickness="3,0,0,0" Padding="6,2">
+     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+    </Border>
+    <ControlTemplate.Triggers>
+     <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+     <Trigger Property="IsKeyboardFocused" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/>
+      <Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/></Trigger>
+    </ControlTemplate.Triggers>
+   </ControlTemplate></Setter.Value></Setter>
+   <Style.Triggers><DataTrigger Binding="{Binding CanOpen}" Value="False"><Setter Property="Cursor" Value="Arrow"/></DataTrigger></Style.Triggers>
+  </Style>
+ </UserControl.Resources>
+ <DockPanel>
+  <Grid DockPanel.Dock="Top" Background="{DynamicResource Token.CommandBar}">
+   <TabControl x:Name="CommandPages" SelectedValuePath="Tag" SelectedValue="{Binding CommandPage}" Background="{DynamicResource Token.CommandBar}"
+    BorderThickness="0" Padding="0" AutomationProperties.Name="Barra dei comandi della paratia">
+    <TabControl.Template><ControlTemplate TargetType="TabControl">
+     <DockPanel Background="{TemplateBinding Background}">
+      <TabPanel DockPanel.Dock="Top" IsItemsHost="True" Margin="8,3,8,0"/>
+      <Border BorderBrush="{DynamicResource Token.CommandBar.Hover}" BorderThickness="0,1,0,0" Padding="8,4,8,2">
+       <ContentPresenter ContentSource="SelectedContent"/>
+      </Border>
+     </DockPanel>
+    </ControlTemplate></TabControl.Template>
+    <TabControl.Resources>
+     <Style TargetType="TabItem">
+      <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar.Muted}"/>
+      <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TabItem">
+       <Border x:Name="Page" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,3" Padding="12,4,12,3" Cursor="Hand">
+        <ContentPresenter ContentSource="Header" TextElement.Foreground="{TemplateBinding Foreground}"/>
+       </Border>
+       <ControlTemplate.Triggers>
+        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Page" Property="Background" Value="{DynamicResource Token.CommandBar.Hover}"/></Trigger>
+        <Trigger Property="IsSelected" Value="True">
+         <Setter Property="Foreground" Value="{DynamicResource Token.OnCommandBar}"/><Setter Property="FontWeight" Value="SemiBold"/>
+         <Setter TargetName="Page" Property="Background" Value="{DynamicResource Token.CommandBar.Hover}"/>
+         <Setter TargetName="Page" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+        </Trigger>
+       </ControlTemplate.Triggers>
+      </ControlTemplate></Setter.Value></Setter>
+     </Style>
+    </TabControl.Resources>
+    <TabItem Header="Generale" Tag="generale">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Paratia"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Paratia e impostazioni" Command="{Binding EditModelCommand}" CommandParameter="general"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Casi"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Altri casi / combinazioni" Command="{Binding EditModelCommand}" CommandParameter="cases"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Tabelle"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Apri tutte le tabelle" Command="{Binding OpenDataCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Sezioni" Tag="sezioni">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Parete"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Tratti e rigidezze" Command="{Binding EditModelCommand}" CommandParameter="segments"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Sezioni"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Fasce in c.a." Command="{Binding EditModelCommand}" CommandParameter="rc_sections"/>
+       <Button Style="{StaticResource BarButton}" Content="Tubi CHS" Command="{Binding EditModelCommand}" CommandParameter="steel_tubes"/>
+       <Button Style="{StaticResource BarButton}" Content="Pali in c.a." Command="{Binding EditModelCommand}" CommandParameter="rc_piles"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Modello" Tag="modello">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Fasi"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Fase ▾" ContextMenu="{StaticResource StageMenu}" Click="OpenMenu"
+        ToolTip="Aggiungi, inserisci, rinomina o elimina le fasi del caso" AutomationProperties.Name="Menu Fase"/>
+       <Button Style="{StaticResource BarButton}" Content="Fasi e falda" Command="{Binding EditModelCommand}" CommandParameter="stages"/>
+      </WrapPanel></HeaderedContentControl>
+      <!-- Step 3: the levels of the phase chosen in the tabs, written in its row of «Fasi costruttive» (empty water: none). -->
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Scavo [m]"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftGround}" ToolTip="Quota del terreno a sinistra nella fase scelta [m]" AutomationProperties.Name="Scavo a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightGround}" ToolTip="Quota del terreno a destra nella fase scelta [m]" AutomationProperties.Name="Scavo a destra della fase"/>
+      </StackPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Falda [m] · vuoto: assente"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftWater}" ToolTip="Quota della falda a sinistra nella fase scelta [m]; vuoto: assente" AutomationProperties.Name="Falda a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightWater}" ToolTip="Quota della falda a destra nella fase scelta [m]; vuoto: assente" AutomationProperties.Name="Falda a destra della fase"/>
+      </StackPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Sovraccarico [kPa] · parete [kN/m]"><StackPanel Orientation="Horizontal">
+       <TextBlock Style="{StaticResource BarLabel}" Text="Sx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.LeftSurcharge}" ToolTip="Sovraccarico a sinistra nella fase scelta [kPa]" AutomationProperties.Name="Sovraccarico a sinistra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Dx"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.RightSurcharge}" ToolTip="Sovraccarico a destra nella fase scelta [kPa]" AutomationProperties.Name="Sovraccarico a destra della fase"/>
+       <TextBlock Style="{StaticResource BarLabel}" Text="Parete"/>
+       <TextBox Style="{StaticResource BarBox}" Text="{Binding StageLevels.WallLoad}" ToolTip="Carico uniforme sull'intera fascia nella fase scelta [kN/m], positivo verso destra" AutomationProperties.Name="Carico uniforme sulla parete della fase"/>
+      </StackPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Terreni"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Terreno sx" Command="{Binding EditModelCommand}" CommandParameter="left_soils"/>
+       <Button Style="{StaticResource BarButton}" Content="Terreno dx" Command="{Binding EditModelCommand}" CommandParameter="right_soils"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Elementi strutturali"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Tiranti e puntoni" Command="{Binding EditModelCommand}" CommandParameter="supports"/>
+       <Button Style="{StaticResource BarButton}" Content="Presenza nelle fasi" Command="{Binding EditModelCommand}" CommandParameter="activations"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Carichi"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Concentrati" Command="{Binding EditModelCommand}" CommandParameter="loads"/>
+       <Button Style="{StaticResource BarButton}" Content="Distribuiti" Command="{Binding EditModelCommand}" CommandParameter="distributed_loads"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Tabelle"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Input tabellare" Command="{Binding OpenDataCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Filtrazione" Tag="filtrazione">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Filtrazione"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Parametri e campo idraulico" Command="{Binding Documents.ShowCommand}" CommandParameter="filtrazione"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Permeabilità"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Sinistra" Command="{Binding EditModelCommand}" CommandParameter="hydraulic_left"/>
+       <Button Style="{StaticResource BarButton}" Content="Destra" Command="{Binding EditModelCommand}" CommandParameter="hydraulic_right"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="UPL / HYD"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Corpi UPL" Command="{Binding EditModelCommand}" CommandParameter="hydraulic_upl"/>
+       <Button Style="{StaticResource BarButton}" Content="Azioni UPL" Command="{Binding EditModelCommand}" CommandParameter="hydraulic_actions"/>
+       <Button Style="{StaticResource BarButton}" Content="Punti HYD" Command="{Binding EditModelCommand}" CommandParameter="hydraulic_hyd"/>
+       <Button Style="{StaticResource BarButton}" Content="Verifiche UPL / HYD" Command="{Binding Documents.ShowCommand}" CommandParameter="upl-hyd"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Esporta"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Idraulica CSV" Command="{Binding HydraulicCsvCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Verifiche idrauliche CSV" Command="{Binding HydraulicChecksCsvCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Stabilità" Tag="stabilita">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Dati"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Verifiche globali" Command="{Binding EditModelCommand}" CommandParameter="global_checks"/>
+       <Button Style="{StaticResource BarButton}" Content="Combinazioni globali" Command="{Binding EditModelCommand}" CommandParameter="global_actions"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Esiti"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Stabilità globale" Command="{Binding Documents.ShowCommand}" CommandParameter="stabilita"/>
+       <Button Style="{StaticResource BarButton}" Content="Esporta CSV" Command="{Binding GlobalCsvCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Analisi" Tag="analisi">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Calcolo"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Calcola tutti i casi" Command="{Binding RunCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Annulla" Command="{Binding CancelCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Infissione"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Ricerca dell'infissione" Command="{Binding Documents.ShowCommand}" CommandParameter="infissione"/>
+       <Button Style="{StaticResource BarButton}" Content="Cerca infissione" Command="{Binding SearchEmbedmentCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Verifiche" Tag="verifiche">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Norme"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Verifiche e combinazioni" Command="{Binding EditModelCommand}" CommandParameter="general"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Dati dei sostegni"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Acciaio dei sostegni" Command="{Binding EditModelCommand}" CommandParameter="steel_members"/>
+       <Button Style="{StaticResource BarButton}" Content="Sfilamento dei tiranti" Command="{Binding EditModelCommand}" CommandParameter="anchor_checks"/>
+       <Button Style="{StaticResource BarButton}" Content="Indagini dei bulbi" Command="{Binding EditModelCommand}" CommandParameter="anchor_layers"/>
+       <Button Style="{StaticResource BarButton}" Content="Prove preliminari" Command="{Binding EditModelCommand}" CommandParameter="anchor_tests"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Esiti"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="C.a. e sostegni" Command="{Binding Documents.ShowCommand}" CommandParameter="verifiche-ca"/>
+       <Button Style="{StaticResource BarButton}" Content="Acciaio sostegni" Command="{Binding Documents.ShowCommand}" CommandParameter="acciaio"/>
+       <Button Style="{StaticResource BarButton}" Content="Sfilamento tiranti" Command="{Binding Documents.ShowCommand}" CommandParameter="sfilamento"/>
+       <Button Style="{StaticResource BarButton}" Content="Sezioni acciaio" Command="{Binding Documents.ShowCommand}" CommandParameter="tubolari"/>
+       <Button Style="{StaticResource BarButton}" Content="Pali in c.a." Command="{Binding Documents.ShowCommand}" CommandParameter="pali-ca"/>
+       <Button Style="{StaticResource BarButton}" Content="UPL / HYD" Command="{Binding Documents.ShowCommand}" CommandParameter="upl-hyd"/>
+       <Button Style="{StaticResource BarButton}" Content="Stabilità globale" Command="{Binding Documents.ShowCommand}" CommandParameter="stabilita"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Risultati" Tag="risultati">
+     <WrapPanel>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Diagrammi"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Diagrammi e risultati" Command="{Binding OpenResultsCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Inviluppi" Command="{Binding Documents.ShowCommand}" CommandParameter="inviluppi"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Esporta"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Tutti i casi CSV" Command="{Binding CsvCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Inviluppi CSV" Command="{Binding EnvelopeCsvCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+    <TabItem Header="Vista" Tag="vista">
+     <WrapPanel>
+      <!-- Step 5: magnification and legend of the section (state of the view, not saved). -->
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Sezione"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Adatta" Command="{Binding FitSketchCommand}" ToolTip="Mostra tutta la sezione"/>
+       <Button Style="{StaticResource BarButton}" Content="Ingrandisci" Command="{Binding ZoomInSketchCommand}" ToolTip="Ingrandisci la sezione (anche con la rotellina)"/>
+       <Button Style="{StaticResource BarButton}" Content="Riduci" Command="{Binding ZoomOutSketchCommand}" ToolTip="Riduci la sezione (anche con la rotellina)"/>
+       <Button Style="{StaticResource BarButton}" Content="{Binding SoilLegendCommandText}" Command="{Binding ToggleSoilLegendCommand}" ToolTip="Legenda dei terreni nel disegno"
+        AutomationProperties.Name="Legenda dei terreni"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Pannelli"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Albero di lavoro" Command="{Binding ToggleWorkTreeCommand}"/>
+       <Button Style="{StaticResource BarButton}" Content="Pannello messaggi" Command="{Binding Messages.ToggleCommand}" ToolTip="Mostra o nasconde l'elenco dei messaggi"/>
+      </WrapPanel></HeaderedContentControl>
+      <HeaderedContentControl Style="{StaticResource BarGroup}" Header="Documenti"><WrapPanel>
+       <Button Style="{StaticResource BarButton}" Content="Chiudi tutti i documenti" Command="{Binding Documents.CloseAllCommand}"/>
+      </WrapPanel></HeaderedContentControl>
+     </WrapPanel>
+    </TabItem>
+   </TabControl>
+   <!-- The calculation stays at hand on every page, at the right of the names of the pages. -->
+   <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,8,0">
+    <Button Style="{StaticResource BarButton}" Content="Calcola tutti i casi" Command="{Binding RunCommand}"/>
+    <Button Style="{StaticResource BarButton}" Content="Annulla" Command="{Binding CancelCommand}"/>
+   </StackPanel>
+  </Grid>
+  <StackPanel DockPanel.Dock="Top" Margin="12,6,12,0">
+   <!-- Step 11: the error and the progress of the calculation are lines of the panel Messaggi at the bottom of the documents. -->
    <TextBlock Text="{Binding ResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,4"/>
-   <TextBlock Text="{Binding CalculationMessage}" TextWrapping="Wrap" Margin="0,2,0,8">
-    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding CalculationMessage}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger><DataTrigger Binding="{Binding CalculationMessage}" Value="{x:Null}"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-   </TextBlock>
-   <TextBlock Text="{Binding Progress}" Margin="0,0,0,6">
-    <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding Progress}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
-   </TextBlock>
   </StackPanel>
-  <Grid>
+  <Grid Margin="12,0,12,12">
    <Grid.ColumnDefinitions>
     <ColumnDefinition>
      <ColumnDefinition.Style>
@@ -40,54 +318,100 @@
     <Border.Style><Style TargetType="Border"><Style.Triggers>
      <DataTrigger Binding="{Binding IsWorkTreeCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
     </Style.Triggers></Style></Border.Style>
+    <!-- Step 4 of the project of 16/11: the box Caso (one choice of the case for input and results, D3) above the tabs Albero and Analisi. -->
     <DockPanel>
-     <StackPanel DockPanel.Dock="Top" Margin="6,4,8,10">
+     <StackPanel DockPanel.Dock="Top" Margin="6,4,8,6">
       <DockPanel>
        <Button Content="‹" Command="{Binding ToggleWorkTreeCommand}" DockPanel.Dock="Right" Padding="9,1" MinHeight="26"
-        ToolTip="Richiudi l'albero di lavoro" AutomationProperties.Name="Richiudi albero di lavoro"/>
-       <TextBlock Text="ALBERO DI LAVORO" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+        ToolTip="Richiudi il pannello" AutomationProperties.Name="Richiudi albero di lavoro"/>
+       <TextBlock Text="CASO" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
       </DockPanel>
-      <TextBlock Text="{Binding WorkTreeSummary}" FontSize="11" Opacity="0.75" TextWrapping="Wrap" Margin="0,6,0,0"/>
+      <ComboBox x:Name="CaseSelector" ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" Margin="0,4,0,3"
+       ToolTip="Caso mostrato nel disegno, nell'albero e nei risultati" AutomationProperties.Name="Caso dell'anteprima e dei risultati"/>
+      <TextBlock Text="{Binding ResultCaseStatus}" FontSize="11" Opacity="0.75" TextWrapping="Wrap"/>
      </StackPanel>
-     <TreeView x:Name="WorkTreeView" ItemsSource="{Binding WorkTree}" SelectedItemChanged="WorkTreeSelectionChanged"
-      PreviewMouseUp="WorkTreeItemClicked" PreviewKeyDown="WorkTreeKeyDown"
-      Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" BorderThickness="0"
-      ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Albero di lavoro della paratia">
-      <TreeView.ItemContainerStyle>
-       <Style TargetType="TreeViewItem" BasedOn="{StaticResource ProjectTreeItem}">
-        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
-        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-        <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
-        <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TreeViewItem">
-         <Grid>
-          <Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-          <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-          <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-           BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" MinHeight="30">
-           <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
-            <ToggleButton x:Name="Expander" Style="{StaticResource ProjectChevron}"
-             IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
-            <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="3,3,5,3" VerticalAlignment="Center"/>
-           </Grid>
-          </Border>
-          <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,0,0"/>
-          <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
-         </Grid>
-         <ControlTemplate.Triggers>
-          <Trigger Property="HasItems" Value="False"><Setter TargetName="Expander" Property="Visibility" Value="Hidden"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
-          <Trigger Property="IsExpanded" Value="False"><Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
-          <Trigger SourceName="Row" Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
-          <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/><Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/></Trigger>
-         </ControlTemplate.Triggers>
-        </ControlTemplate></Setter.Value></Setter>
-       </Style>
-      </TreeView.ItemContainerStyle>
-      <TreeView.ItemTemplate>
-       <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-        <TextBlock Text="{Binding Title}" ToolTip="{Binding Detail}" TextWrapping="Wrap" FontSize="12"/>
-       </HierarchicalDataTemplate>
-      </TreeView.ItemTemplate>
-     </TreeView>
+     <TabControl x:Name="LeftPanelTabs" TabStripPlacement="Bottom" Padding="0" BorderThickness="0,1,0,1" Background="{DynamicResource Token.Surface}"
+      BorderBrush="{DynamicResource Token.Border}" AutomationProperties.Name="Pannello del modello">
+      <TabItem Header="Albero">
+       <DockPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="6,6,8,8">
+         <TextBlock Text="ALBERO DEL MODELLO" FontSize="11" FontWeight="SemiBold"/>
+         <TextBlock Text="{Binding WorkTreeSummary}" FontSize="11" Opacity="0.75" TextWrapping="Wrap" Margin="0,4,0,0"/>
+        </StackPanel>
+        <TreeView x:Name="WorkTreeView" ItemsSource="{Binding WorkTree}" SelectedItemChanged="WorkTreeSelectionChanged"
+         PreviewMouseUp="WorkTreeItemClicked" PreviewKeyDown="WorkTreeKeyDown"
+         Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" BorderThickness="0"
+         ScrollViewer.HorizontalScrollBarVisibility="Disabled" AutomationProperties.Name="Albero di lavoro della paratia">
+         <TreeView.ItemContainerStyle>
+          <Style TargetType="TreeViewItem" BasedOn="{StaticResource ProjectTreeItem}">
+           <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+           <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+           <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+           <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="TreeViewItem">
+            <Grid>
+             <Grid.ColumnDefinitions><ColumnDefinition Width="16"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+             <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+             <Border x:Name="Row" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+              BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" MinHeight="30">
+              <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="20"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+               <ToggleButton x:Name="Expander" Style="{StaticResource ProjectChevron}"
+                IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"/>
+               <ContentPresenter x:Name="PART_Header" Grid.Column="1" ContentSource="Header" Margin="3,3,5,3" VerticalAlignment="Center"/>
+              </Grid>
+             </Border>
+             <Border x:Name="Guide" Grid.Row="1" Margin="9,0,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,0,0"/>
+             <ItemsPresenter x:Name="ItemsHost" Grid.Row="1" Grid.Column="1"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+             <Trigger Property="HasItems" Value="False"><Setter TargetName="Expander" Property="Visibility" Value="Hidden"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
+             <Trigger Property="IsExpanded" Value="False"><Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/><Setter TargetName="Guide" Property="Visibility" Value="Collapsed"/></Trigger>
+             <Trigger SourceName="Row" Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+             <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/><Setter TargetName="Row" Property="BorderThickness" Value="3,0,0,0"/></Trigger>
+            </ControlTemplate.Triggers>
+           </ControlTemplate></Setter.Value></Setter>
+          </Style>
+         </TreeView.ItemContainerStyle>
+         <TreeView.ItemTemplate>
+          <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+           <TextBlock Text="{Binding Title}" ToolTip="{Binding Detail}" TextWrapping="Wrap" FontSize="12">
+           <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding IsCurrent}" Value="True"><Setter Property="FontWeight" Value="SemiBold"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+          </TextBlock>
+          </HierarchicalDataTemplate>
+         </TreeView.ItemTemplate>
+        </TreeView>
+       </DockPanel>
+      </TabItem>
+      <TabItem Header="Analisi">
+       <DockPanel>
+        <!-- Contract C5: the request and the snapshot are two states; the state of the sheet in the project is in the tree of the project. -->
+        <StackPanel DockPanel.Dock="Top" Margin="6,6,8,8">
+         <TextBlock Text="{Binding RequestStatus}" TextWrapping="Wrap" FontSize="11"/>
+         <TextBlock Text="{Binding SnapshotStatus}" TextWrapping="Wrap" FontSize="11" Margin="0,4,0,0"/>
+        </StackPanel>
+        <ListBox x:Name="AnalysisList" ItemsSource="{Binding AnalysisEntries}" SelectedItem="{Binding SelectedAnalysisEntry}" BorderThickness="0"
+         Background="{DynamicResource Token.Surface}" Foreground="{DynamicResource Token.Ink}" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+         AutomationProperties.Name="Stato del calcolo per caso e fase">
+         <ListBox.ItemContainerStyle><Style TargetType="ListBoxItem">
+          <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+          <Setter Property="ToolTip" Value="{Binding Detail}"/>
+          <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+           <Border x:Name="Row" Background="Transparent" BorderBrush="Transparent" BorderThickness="3,0,0,0" CornerRadius="3" Padding="6,3"><ContentPresenter/></Border>
+           <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+            <Trigger Property="IsSelected" Value="True"><Setter TargetName="Row" Property="Background" Value="{DynamicResource Token.Selection}"/><Setter TargetName="Row" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/></Trigger>
+           </ControlTemplate.Triggers>
+          </ControlTemplate></Setter.Value></Setter>
+         </Style></ListBox.ItemContainerStyle>
+         <ListBox.ItemTemplate><DataTemplate>
+          <TextBlock x:Name="Title" Text="{Binding Title}" TextWrapping="Wrap" FontSize="12" Margin="14,0,0,0"/>
+          <DataTemplate.Triggers><DataTrigger Binding="{Binding IsCase}" Value="True">
+           <Setter TargetName="Title" Property="FontWeight" Value="SemiBold"/><Setter TargetName="Title" Property="Margin" Value="0,4,0,0"/>
+          </DataTrigger></DataTemplate.Triggers>
+         </DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+       </DockPanel>
+      </TabItem>
+     </TabControl>
     </DockPanel>
    </Border>
    <Border x:Name="WorkTreeRail" BorderBrush="{DynamicResource Token.Border}" BorderThickness="0,0,1,0">
@@ -108,42 +432,113 @@
      <DataTrigger Binding="{Binding IsWorkTreeCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
     </Style.Triggers></Style></GridSplitter.Style>
    </GridSplitter>
-  <TabControl Grid.Column="2" SelectedIndex="{Binding WorkspaceTab}">
-   <TabItem Header="Modello">
+  <!-- The documents: the tab of a closed document is collapsed; the active one follows Documents.Active (its key is the Tag). -->
+  <!-- Step 11 (S16): the panel Messaggi at the bottom of the documents. Its lines are the notices and errors already produced by ANTHEA and GPC
+       (data drawn, request, engine, results), with time, level in words, origin and element; a line with an element opens it. Filter,
+       «Pulisci» and «Nascondi» are state of the view. -->
+  <DockPanel Grid.Column="2">
+   <Border x:Name="MessagesPanel" DockPanel.Dock="Bottom" Margin="0,6,0,0" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1"
+    Background="{DynamicResource Token.Paper}" AutomationProperties.Name="Messaggi della paratia">
+    <DockPanel>
+     <DockPanel DockPanel.Dock="Top" Margin="8,3,4,3">
+      <Button DockPanel.Dock="Right" Content="{Binding Messages.ToggleText}" Command="{Binding Messages.ToggleCommand}" Padding="8,0" MinHeight="24" Margin="4,0,0,0"
+       ToolTip="Mostra o nasconde l'elenco dei messaggi" AutomationProperties.Name="Mostra o nascondi i messaggi"/>
+      <Button DockPanel.Dock="Right" Content="Pulisci" Command="{Binding Messages.ClearCommand}" Padding="8,0" MinHeight="24" Margin="4,0,0,0"
+       ToolTip="Toglie dalla vista i messaggi presenti; ricompaiono se vengono prodotti di nuovo" AutomationProperties.Name="Pulisci i messaggi"/>
+      <ComboBox x:Name="MessageFilter" DockPanel.Dock="Right" ItemsSource="{Binding Messages.Filters}" SelectedItem="{Binding Messages.Filter}" Width="140" Margin="4,0,0,0"
+       ToolTip="Livelli dei messaggi mostrati" AutomationProperties.Name="Livello dei messaggi mostrati"/>
+      <TextBlock Text="MESSAGGI" FontSize="11" FontWeight="SemiBold" VerticalAlignment="Center"/>
+      <TextBlock Text="{Binding Messages.Summary}" FontSize="11" Margin="10,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource Token.Muted}" TextTrimming="CharacterEllipsis"/>
+     </DockPanel>
+     <!-- 96 px (about four lines) instead of the 110 of the project: at 1100×760 the drawing keeps more than 200 px (R10). -->
+     <ScrollViewer x:Name="MessageScroll" Height="96" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+      <ScrollViewer.Style><Style TargetType="ScrollViewer"><Style.Triggers>
+       <DataTrigger Binding="{Binding Messages.IsCollapsed}" Value="True"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+      </Style.Triggers></Style></ScrollViewer.Style>
+      <StackPanel>
+       <TextBlock Text="Nessun messaggio." Margin="9,4" Foreground="{DynamicResource Token.Muted}" Visibility="{Binding Messages.IsEmpty, Converter={StaticResource Shown}}"/>
+       <ItemsControl x:Name="MessageList" ItemsSource="{Binding Messages.Items}" Focusable="False" AutomationProperties.Name="Elenco dei messaggi">
+        <ItemsControl.ItemTemplate><DataTemplate>
+         <Button Command="{Binding DataContext.Messages.OpenCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}"
+          Style="{StaticResource MessageRow}" ToolTip="{Binding Hint}" AutomationProperties.Name="{Binding Text}">
+          <Grid>
+           <Grid.ColumnDefinitions><ColumnDefinition Width="62"/><ColumnDefinition Width="54"/><ColumnDefinition Width="52"/><ColumnDefinition Width="Auto" MaxWidth="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+           <TextBlock Text="{Binding TimeText}" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock x:Name="Level" Grid.Column="1" Text="{Binding LevelText}" FontWeight="SemiBold" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock Grid.Column="2" Text="{Binding Origin}" Foreground="{DynamicResource Token.Muted}"/>
+           <TextBlock Grid.Column="3" Text="{Binding Place}" Margin="0,0,10,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource Token.Accent}"/>
+           <TextBlock Grid.Column="4" Text="{Binding Text}" TextWrapping="Wrap"/>
+          </Grid>
+         </Button>
+         <DataTemplate.Triggers>
+          <DataTrigger Binding="{Binding IsError}" Value="True"><Setter TargetName="Level" Property="Foreground" Value="{DynamicResource Token.Status.Fail}"/></DataTrigger>
+          <DataTrigger Binding="{Binding IsWarning}" Value="True"><Setter TargetName="Level" Property="Foreground" Value="{DynamicResource Token.Warning.Foreground}"/></DataTrigger>
+         </DataTemplate.Triggers>
+        </DataTemplate></ItemsControl.ItemTemplate>
+       </ItemsControl>
+      </StackPanel>
+     </ScrollViewer>
+    </DockPanel>
+   </Border>
+  <TabControl x:Name="Documents" SelectedValuePath="Tag" SelectedValue="{Binding Documents.Active}" AutomationProperties.Name="Documenti aperti della paratia">
+   <TabItem Tag="sezione" Header="{Binding Documents[sezione]}" HeaderTemplate="{StaticResource DocumentHeader}">
     <DockPanel Margin="8">
-     <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
-      <Button Content="1  Geometria" Command="{Binding EditModelCommand}" CommandParameter="general" Margin="0,0,6,4"/>
-      <Button Content="Tratti / EI" Command="{Binding EditModelCommand}" CommandParameter="segments" Margin="0,0,12,4"/>
-      <Button Content="2  Terreno sx" Command="{Binding EditModelCommand}" CommandParameter="left_soils" Margin="0,0,6,4"/>
-      <Button Content="Terreno dx" Command="{Binding EditModelCommand}" CommandParameter="right_soils" Margin="0,0,12,4"/>
-      <Button Content="3  Fasi e falda" Command="{Binding EditModelCommand}" CommandParameter="stages" Margin="0,0,12,4"/>
-      <Button Content="4  Sostegni" Command="{Binding EditModelCommand}" CommandParameter="supports" Margin="0,0,6,4"/>
-      <Button Content="Presenza nelle fasi" Command="{Binding EditModelCommand}" CommandParameter="activations" Margin="0,0,12,4"/>
-      <Button Content="5  Carichi" Command="{Binding EditModelCommand}" CommandParameter="loads" Margin="0,0,12,4"/>
-      <Button Content="6  Risultati" Command="{Binding OpenResultsCommand}" Margin="0,0,6,4"/>
-     </WrapPanel>
      <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="8"/><ColumnDefinition Width="380" MinWidth="320" MaxWidth="520"/></Grid.ColumnDefinitions>
-      <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-       <StackPanel Margin="0,0,8,8">
-        <TextBlock Text="Sezione della fase" FontSize="18" FontWeight="SemiBold"/>
-        <TextBlock Text="Anteprima degli input · seleziona un elemento per modificarlo" TextWrapping="Wrap" Margin="0,2,0,8"/>
-        <WrapPanel>
-         <TextBlock Text="Caso" VerticalAlignment="Center" Margin="0,0,6,0"/>
-         <ComboBox ItemsSource="{Binding InputCases}" SelectedItem="{Binding InputCase}" MinWidth="110" MaxWidth="220" Margin="0,0,12,4" AutomationProperties.Name="Caso dell'anteprima"/>
-         <Button Content="‹" Command="{Binding PreviousInputStageCommand}" ToolTip="Fase precedente" Margin="0,0,4,4"/>
-         <ComboBox x:Name="InputStageSelector" ItemsSource="{Binding InputStages}" SelectedIndex="{Binding InputStagePosition}" DisplayMemberPath="Label" MinWidth="180" MaxWidth="300" Margin="0,0,4,4" AutomationProperties.Name="Fase dell'anteprima"/>
-         <Button Content="›" Command="{Binding NextInputStageCommand}" ToolTip="Fase successiva" Margin="0,0,0,4"/>
-        </WrapPanel>
-        <TextBlock Text="{Binding PhaseSummary}" TextWrapping="Wrap"/>
-       </StackPanel>
+      <Grid Grid.Column="0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+       <Grid.InputBindings>
+        <KeyBinding Key="PageUp" Command="{Binding PreviousInputStageCommand}"/>
+        <KeyBinding Key="PageDown" Command="{Binding NextInputStageCommand}"/>
+       </Grid.InputBindings>
+       <!-- Step 5: wall, case and phase are the header inside the drawing; above it one line with the summary of the phase (step 11: the
+            panel Messaggi takes room at the bottom, R10: the drawing stays usable at 1100×760). -->
+       <TextBlock Margin="0,0,8,4" TextTrimming="CharacterEllipsis" ToolTip="Clic su un elemento: modifica · rotellina: ingrandisci · trascinamento: sposta il disegno ingrandito">
+        <Run Text="{Binding PhaseSummary, Mode=OneWay}"/><Run Text="  ·  clic: modifica · rotellina: ingrandisci"/>
+       </TextBlock>
        <Border Grid.Row="1" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1" Margin="0,0,8,0">
-        <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
+        <local:EmbeddedWallModelSketch Model="{Binding Sketch}" PickCommand="{Binding PickModelCommand}" Zoom="{Binding SketchZoom}" ShowLegend="{Binding ShowSoilLegend}"
+         Selected="{Binding SketchSelection, Mode=OneWay}" ClipToBounds="True" AutomationProperties.Name="Sezione grafica degli input della paratia"/>
        </Border>
-       <StackPanel Grid.Row="2" Margin="0,6,8,0">
-        <TextBlock Text="Quote in scala · spessore parete, lunghezze sostegni e frecce schematici" TextWrapping="Wrap" FontSize="11"/>
-        <TextBlock Text="{Binding Sketch.WaterLabel, StringFormat=Linea blu tratteggiata: {0}}" TextWrapping="Wrap" FontSize="11"/>
-        <ScrollViewer MaxHeight="90" VerticalScrollBarVisibility="Auto"><TextBlock Text="{Binding SketchStatus}" TextWrapping="Wrap" Margin="0,4" Foreground="{DynamicResource Token.Series.Orange}"/></ScrollViewer>
-       </StackPanel>
+       <!-- Organizzazione del modulo paratie (progetto del 16/11), step 2: one tab per phase of the case along the lower edge of the drawing, «+» adds
+            one; the right button opens the menu Fase. Ins adds, F2 renames, Canc deletes the current phase. -->
+       <DockPanel Grid.Row="2" Margin="0,0,8,0">
+        <Button DockPanel.Dock="Right" Content="+" Command="{Binding AddStageCommand}" Padding="10,0" MinHeight="26" Margin="4,0,0,0"
+         ToolTip="Aggiungi fase (Ins)" AutomationProperties.Name="Aggiungi fase"/>
+        <ListBox x:Name="StageTabs" ItemsSource="{Binding InputStages}" SelectedItem="{Binding InputStage}" ContextMenu="{StaticResource StageMenu}"
+         Background="Transparent" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+         AutomationProperties.Name="Fasi del caso">
+         <ListBox.InputBindings>
+          <KeyBinding Key="Insert" Command="{Binding AddStageCommand}"/>
+          <KeyBinding Key="F2" Command="{Binding RenameStageCommand}"/>
+          <KeyBinding Key="Delete" Command="{Binding DeleteStageCommand}"/>
+         </ListBox.InputBindings>
+         <ListBox.ItemsPanel><ItemsPanelTemplate><StackPanel Orientation="Horizontal"/></ItemsPanelTemplate></ListBox.ItemsPanel>
+         <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem">
+           <Setter Property="Foreground" Value="{DynamicResource Token.Ink}"/>
+           <Setter Property="ToolTip" Value="{Binding Label}"/>
+           <Setter Property="AutomationProperties.Name" Value="{Binding Label, StringFormat=Fase {0}}"/>
+           <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+            <Border x:Name="Tab" Background="{DynamicResource Token.Surface}" BorderBrush="{DynamicResource Token.Border}" BorderThickness="1,0,1,1"
+             CornerRadius="0,0,3,3" Padding="12,3,12,2" Margin="0,0,2,0" MinWidth="40" Cursor="Hand">
+             <ContentPresenter HorizontalAlignment="Center"/>
+            </Border>
+            <ControlTemplate.Triggers>
+             <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Tab" Property="Background" Value="{DynamicResource Token.Hover.Row}"/></Trigger>
+             <Trigger Property="IsSelected" Value="True">
+              <Setter TargetName="Tab" Property="Background" Value="{DynamicResource Token.Paper}"/>
+              <Setter TargetName="Tab" Property="BorderBrush" Value="{DynamicResource Token.Selection.Border}"/>
+              <Setter TargetName="Tab" Property="BorderThickness" Value="1,0,1,3"/>
+              <Setter Property="FontWeight" Value="SemiBold"/>
+             </Trigger>
+            </ControlTemplate.Triggers>
+           </ControlTemplate></Setter.Value></Setter>
+          </Style>
+         </ListBox.ItemContainerStyle>
+         <ListBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding [id]}"/></DataTemplate></ListBox.ItemTemplate>
+        </ListBox>
+       </DockPanel>
+       <TextBlock Grid.Row="3" Margin="0,4,8,0" TextWrapping="Wrap" FontSize="11"
+        Text="{Binding Sketch.WaterLabel, StringFormat=Quote in scala; spessori\, puntoni e frecce schematici; tiranti in scala con i tratti di «Sfilamento dei tiranti»\, altrimenti tratteggiati. Blu tratteggiato: {0}; contorno tratteggiato: terreno scavato.}"/>
       </Grid>
       <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Center" VerticalAlignment="Stretch"/>
       <DockPanel Grid.Column="2" Margin="10,0,0,0">
@@ -200,7 +595,7 @@
      </Grid>
     </DockPanel>
    </TabItem>
-   <TabItem Header="Dati e fasi">
+   <TabItem Tag="tabelle" Header="{Binding Documents[tabelle]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[tabelle].IsOpen, Converter={StaticResource Shown}}">
     <TabControl common:TabMemory.Key="tabelle" ItemsSource="{Binding Tables}" TabStripPlacement="Left" Margin="8">
      <TabControl.Template><ControlTemplate TargetType="TabControl">
       <Grid><Grid.ColumnDefinitions><ColumnDefinition Width="240"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
@@ -213,7 +608,7 @@
      <TabControl.ItemTemplate><DataTemplate><TextBlock Text="{Binding Title}" Padding="8"/></DataTemplate></TabControl.ItemTemplate>
     </TabControl>
    </TabItem>
-   <TabItem Header="Ricerca infissione">
+   <TabItem Tag="infissione" Header="{Binding Documents[infissione]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[infissione].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="350"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
      <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
       <TextBlock Text="Ricerca per tutti i casi assegnati" FontWeight="SemiBold" FontSize="18" TextWrapping="Wrap" Margin="0,0,0,12"/>
@@ -226,22 +621,26 @@
      <Grid Grid.Column="1" Margin="20,0,0,0"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
       <TextBlock Text="{Binding EmbedmentStatus}" TextWrapping="Wrap" Margin="0,0,0,12"/>
       <DataGrid Grid.Row="1" ItemsSource="{Binding EmbedmentCandidates}" SelectedItem="{Binding SelectedEmbedment}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, StringFormat=G6}"/>
-        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, StringFormat=G6}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Infissione [m]" Binding="{Binding Embedment, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Piede [m]" Binding="{Binding ToeElevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Grid.Row="2" Text="{Binding EmbedmentCandidateDiagnostic}" TextWrapping="Wrap" Margin="0,12"/>
       <DataGrid Grid.Row="3" ItemsSource="{Binding EmbedmentCriteria}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
        <DataGrid.Columns><DataGridTextColumn Header="Criterio" Binding="{Binding Label}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/>
-        <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G6}"/>
-        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
+        <DataGridTextColumn Header="Domanda" SortMemberPath="Demand" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Limite" SortMemberPath="Limit" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Limit"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Metodo / fonte" Binding="{Binding Method}"/></DataGrid.Columns>
       </DataGrid>
      </Grid>
     </Grid>
    </TabItem>
-   <TabItem Header="Diagrammi e risultati">
+   <TabItem Tag="diagrammi" Header="{Binding Documents[diagrammi]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[diagrammi].IsOpen, Converter={StaticResource Shown}}">
     <DockPanel Margin="8">
+     <!-- Contract C2: results of the case and phase on screen only; otherwise this notice, never another case or phase. -->
+     <TextBlock DockPanel.Dock="Top" Text="{Binding StageResultStatus}" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,6">
+      <TextBlock.Style><Style TargetType="TextBlock"><Style.Triggers><DataTrigger Binding="{Binding StageResultStatus}" Value=""><Setter Property="Visibility" Value="Collapsed"/></DataTrigger></Style.Triggers></Style></TextBlock.Style>
+     </TextBlock>
      <WrapPanel DockPanel.Dock="Top" Margin="0,0,0,8">
       <TextBlock Text="Fase" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding SelectedStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
       <TextBlock Text="Confronta" VerticalAlignment="Center"/><ComboBox ItemsSource="{Binding Stages}" SelectedItem="{Binding ComparisonStage}" DisplayMemberPath="Id" Width="150" Margin="8,0,16,0"/>
@@ -251,37 +650,37 @@
       <local:EmbeddedWallDiagram Points="{Binding Points}" Comparison="{Binding ComparisonStage.Points}" Quantity="{Binding Diagram}" MinHeight="240"/>
       <DataGrid Grid.Row="1" ItemsSource="{Binding Points}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
        <DataGrid.Columns>
-        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side}"/>
-        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, StringFormat=G6}"/>
-        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G6}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G6}"/>
-        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G6}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, StringFormat=G6}"/>
-        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, StringFormat=G6}"/>
-        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, StringFormat=G6}"/>
+        <DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Lato nodo" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+        <DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Displacement, Converter={StaticResource TableNumber}, ConverterParameter=mm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource TableNumber}, ConverterParameter=kNm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="p sx [kPa]" Binding="{Binding LeftPressure, Converter={StaticResource TableNumber}, ConverterParameter=kPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="p dx [kPa]" Binding="{Binding RightPressure, Converter={StaticResource TableNumber}, ConverterParameter=kPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="q netto [kN/m]" Binding="{Binding NetDistributedLoad, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
        </DataGrid.Columns>
       </DataGrid>
      </Grid>
     </DockPanel>
    </TabItem>
-   <TabItem Header="C.a. e sostegni">
+   <TabItem Tag="verifiche-ca" Header="{Binding Documents[verifiche-ca]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[verifiche-ca].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="170"/></Grid.RowDefinitions>
      <TextBlock Text="Le verifiche si riferiscono alla fase selezionata nei risultati. N, V e M della stessa riga sono concomitanti. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
      <DataGrid Grid.Row="1" ItemsSource="{Binding Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns>
        <DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G5}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
-       <DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G6}"/><DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F3}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/>
+       <DataGridTextColumn Header="Domanda" SortMemberPath="Demand" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Capacità" SortMemberPath="Capacity" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+       <DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/>
       </DataGrid.Columns>
      </DataGrid>
      <DataGrid Grid.Row="2" ItemsSource="{Binding Supports}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,12,0,0">
-      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, StringFormat=G6}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, StringFormat=G6}"/>
+      <DataGrid.Columns><DataGridTextColumn Header="Sostegno" Binding="{Binding Id}"/><DataGridTextColumn Header="Forza elemento [kN]" Binding="{Binding AxialForce, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="Reazione fascia [kN]" Binding="{Binding HorizontalReaction, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Riferimento [mm]" Binding="{Binding ReferenceDisplacement, Converter={StaticResource TableNumber}, ConverterParameter=mm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
        <DataGridCheckBoxColumn Header="Capacità raggiunta" Binding="{Binding AtCapacity}"/></DataGrid.Columns>
      </DataGrid>
     </Grid>
    </TabItem>
-   <TabItem Header="Filtrazione">
+   <TabItem Tag="filtrazione" Header="{Binding Documents[filtrazione]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[filtrazione].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="8"><Grid.ColumnDefinitions><ColumnDefinition Width="320"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
      <ScrollViewer VerticalScrollBarVisibility="Auto"><StackPanel>
       <ContentControl Content="{Binding Hydraulics}"/>
@@ -293,32 +692,32 @@
       <StackPanel DockPanel.Dock="Top">
        <WrapPanel><ComboBox ItemsSource="{Binding HydraulicStages}" SelectedItem="{Binding SelectedHydraulicStage}" DisplayMemberPath="Stage" Width="140" Margin="0,0,8,0"/>
         <ComboBox ItemsSource="{Binding HydraulicDiagrams}" SelectedItem="{Binding HydraulicDiagram}" Width="235"/></WrapPanel>
-       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status}" FontWeight="SemiBold" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, StringFormat='Entrante {0:G5} L/s/m'}" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, StringFormat='Uscente {0:G5} L/s/m'}" Margin="0,0,12,0"/>
-        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, StringFormat='Bilancio {0:G3} L/s/m'}"/></WrapPanel>
+       <WrapPanel Margin="0,6"><TextBlock Text="{Binding SelectedHydraulicStage.Status, Converter={StaticResource Term}, ConverterParameter=seepage}" FontWeight="SemiBold" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.InflowLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Entrante {0} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.OutflowLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Uscente {0} L/s/m'}" Margin="0,0,12,0"/>
+        <TextBlock Text="{Binding SelectedHydraulicStage.BalanceLitresPerSecondPerMetre, Converter={StaticResource Number}, ConverterParameter=L/s/m, StringFormat='Bilancio {0} L/s/m'}"/></WrapPanel>
        <TextBlock Text="{Binding SelectedHydraulicStage.Diagnostic}" TextWrapping="Wrap"/>
       </StackPanel>
       <Grid><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="190"/></Grid.RowDefinitions>
        <local:SeepageDiagram Field="{Binding SelectedHydraulicStage}" Quantity="{Binding HydraulicDiagram}" MinHeight="240"/>
        <TabControl common:TabMemory.Key="filtrazione" Grid.Row="1">
         <TabItem Header="Nodi"><DataGrid ItemsSource="{Binding HydraulicNodes}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
-         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, StringFormat=G5}"/>
-          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, StringFormat=G5}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, StringFormat=G6}"/>
-          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
+         <DataGrid.Columns><DataGridTextColumn Header="Nodo" Binding="{Binding Index}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="x [m]" Binding="{Binding X, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+          <DataGridTextColumn Header="z [m]" Binding="{Binding Z, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="h [m]" Binding="{Binding Head, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+          <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, Converter={StaticResource TableNumber}, ConverterParameter=kPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridCheckBoxColumn Header="Drenante" Binding="{Binding Draining}"/></DataGrid.Columns>
         </DataGrid></TabItem>
         <TabItem Header="Flussi"><DataGrid ItemsSource="{Binding HydraulicElements}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" EnableRowVirtualization="True">
-         <DataGrid.Columns><DataGridTextColumn Header="A" Binding="{Binding A}"/><DataGridTextColumn Header="B" Binding="{Binding B}"/><DataGridTextColumn Header="C" Binding="{Binding C}"/>
-          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, StringFormat=G6}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, StringFormat=G6}"/>
-          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, StringFormat=G6}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, StringFormat=G6}"/>
-          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, StringFormat=G5}"/></DataGrid.Columns>
+         <DataGrid.Columns><DataGridTextColumn Header="A" Binding="{Binding A}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="B" Binding="{Binding B}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="C" Binding="{Binding C}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+          <DataGridTextColumn Header="∂h/∂x" Binding="{Binding GradientX, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="∂h/∂z" Binding="{Binding GradientZ, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+          <DataGridTextColumn Header="qx [m/s]" Binding="{Binding FluxX, Converter={StaticResource TableNumber}, ConverterParameter=m/s}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="qz [m/s]" Binding="{Binding FluxZ, Converter={StaticResource TableNumber}, ConverterParameter=m/s}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+          <DataGridTextColumn Header="k relativa" Binding="{Binding RelativeConductivity, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/></DataGrid.Columns>
         </DataGrid></TabItem>
        </TabControl>
       </Grid>
      </DockPanel>
     </Grid>
    </TabItem>
-   <TabItem Header="UPL / HYD">
+   <TabItem Tag="upl-hyd" Header="{Binding Documents[upl-hyd]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[upl-hyd].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="2*"/><RowDefinition Height="3*"/></Grid.RowDefinitions>
      <StackPanel>
       <TextBlock Text="Definire corpi UPL, azioni caratteristiche e punti o colonne HYD in Dati e fasi. Norma e situazione sono nella scheda Filtrazione. I controlli sono locali e non sostituiscono la stabilità geotecnica del fondo. Non valutato non equivale a soddisfatto." TextWrapping="Wrap" Margin="0,0,0,8"/>
@@ -327,9 +726,9 @@
      <DataGrid Grid.Row="1" ItemsSource="{Binding HydraulicChecks}" SelectedItem="{Binding SelectedHydraulicCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns>
        <DataGridTextColumn Header="Caso" Binding="{Binding CaseId}"/><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Corpo / punto" Binding="{Binding Element}"/>
-       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-       <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+       <DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+       <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
       </DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" Margin="0,12,0,0"><StackPanel>
@@ -337,21 +736,21 @@
       <TextBlock Text="{Binding SelectedHydraulicCheck.Source}" TextWrapping="Wrap" Margin="0,6"/>
       <TextBlock Text="{Binding SelectedHydraulicCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
       <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Values}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
-       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" Binding="{Binding Value, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Dato utilizzato" Binding="{Binding Name}"/><DataGridTextColumn Header="Valore" SortMemberPath="Value" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Value"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Text="Azioni UPL positive in alto; pesi totali negativi. Rd è già di progetto." TextWrapping="Wrap" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SelectedHydraulicCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="180">
        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding CategoryText}"/>
-        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, StringFormat=G4}"/>
-        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, StringFormat=G7}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+        <DataGridTextColumn Header="Fk [kN]" Binding="{Binding CharacteristicUpwardForce, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="γ" Binding="{Binding Factor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Fd [kN]" Binding="{Binding DesignUpwardForce, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding HydraulicCoefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
-       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+       <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, Converter={StaticResource Number}, ConverterParameter=-}"/></WrapPanel>
       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
-   <TabItem Header="Stabilità globale">
+   <TabItem Tag="stabilita" Header="{Binding Documents[stabilita]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[stabilita].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="8"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <StackPanel>
       <TextBlock Text="Definire geometria e combinazioni nelle due tabelle globali di Dati e fasi. Coordinate di ricerca: valle a sinistra, testa a quota zero. La ricerca usa le azioni caratteristiche dichiarate; non somma le reazioni locali della paratia." TextWrapping="Wrap" Margin="0,0,0,8"/>
@@ -359,9 +758,9 @@
      </StackPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding GlobalChecks}" SelectedItem="{Binding SelectedGlobalCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Verifica" Binding="{Binding Id}"/>
-       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus}"/>
-       <DataGridTextColumn Header="γR" Binding="{Binding Demand, StringFormat=G5}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
+       <DataGridTextColumn Header="Combinazione" Binding="{Binding Combination}"/><DataGridTextColumn Header="Ricerca" Binding="{Binding SearchStatus, Converter={StaticResource Term}, ConverterParameter=search}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding Demand, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="F" Binding="{Binding Capacity, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="Utilizzo conclusivo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/>
       </DataGrid.Columns>
      </DataGrid>
      <TabControl common:TabMemory.Key="stabilita" Grid.Row="2" Margin="0,8,0,0">
@@ -372,44 +771,44 @@
        <TextBlock Text="{Binding SelectedGlobalCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
        <WrapPanel><TextBlock Text="Superfici provate / risolte / fallimenti: " /><TextBlock Text="{Binding SelectedGlobalCheck.Tried}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Solved}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedGlobalCheck.Failures}"/></WrapPanel>
        <ItemsControl ItemsSource="{Binding SelectedGlobalCheck.Coefficients}" Margin="0,8"><ItemsControl.ItemTemplate><DataTemplate>
-        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, StringFormat=G7}"/></WrapPanel>
+        <WrapPanel><TextBlock Text="{Binding Key}" Margin="0,0,8,0"/><TextBlock Text="{Binding Value, Converter={StaticResource Number}, ConverterParameter=-}"/></WrapPanel>
        </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
        <DataGrid ItemsSource="{Binding SelectedGlobalCheck.Actions}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200">
-        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category}"/>
-         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor}"/>
-         <DataGridTextColumn Header="ψ" Binding="{Binding Psi}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
+        <DataGrid.Columns><DataGridTextColumn Header="Azione" Binding="{Binding Id}"/><DataGridTextColumn Header="Categoria" Binding="{Binding Category, Converter={StaticResource Term}, ConverterParameter=category}"/>
+         <DataGridCheckBoxColumn Header="Sfavorevole" Binding="{Binding Unfavourable}"/><DataGridTextColumn Header="γ" Binding="{Binding PartialFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+         <DataGridTextColumn Header="ψ" Binding="{Binding Psi, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="γ·ψ" Binding="{Binding CombinedFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/></DataGrid.Columns>
        </DataGrid>
       </StackPanel></ScrollViewer></TabItem>
       <TabItem Header="Conci"><DataGrid ItemsSource="{Binding SelectedGlobalCheck.Slices}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, StringFormat=G6}"/>
-        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, StringFormat=G6}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, StringFormat=G6}"/>
-        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, StringFormat=G6}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, StringFormat=G6}"/>
-        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, StringFormat=G6}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, StringFormat=G6}"/>
-        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, StringFormat=G6}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, StringFormat=G6}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Concio" Binding="{Binding Index}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="x sx [m]" Binding="{Binding Left, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="x dx [m]" Binding="{Binding Right, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="z base [m]" Binding="{Binding BaseY, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="u [kPa]" Binding="{Binding Pressure, Converter={StaticResource TableNumber}, ConverterParameter=kPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="W terreno [kN/m]" Binding="{Binding SoilWeight, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="W parete [kN/m]" Binding="{Binding BodyWeight, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="N′ [kN/m]" Binding="{Binding NormalEffective, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="R [kN/m]" Binding="{Binding Resistance, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Mobilitata [kN/m]" Binding="{Binding Mobilized, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/></DataGrid.Columns>
       </DataGrid></TabItem>
      </TabControl>
     </Grid>
    </TabItem>
-   <TabItem Header="Acciaio sostegni">
+   <TabItem Tag="acciaio" Header="{Binding Documents[acciaio]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[acciaio].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV acciaio" Command="{Binding SteelCsvCommand}" DockPanel.Dock="Right"/>
       <TextBlock Text="Forze per singolo elemento, N positivo a trazione. Verifiche delle aste: collegamenti, ancoraggi e bulbi sono distinti." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding SteelSupports}" SelectedItem="{Binding SelectedSteelSupport}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sostegno" Binding="{Binding Support}"/>
-       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, StringFormat=G7}"/>
-       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, StringFormat=G7}"/>
-       <DataGridTextColumn Header="Classe" Binding="{Binding CompressionClass}"/><DataGridTextColumn Header="Esito asta" Binding="{Binding OutcomeText}"/>
+       <DataGridTextColumn Header="Tipo" Binding="{Binding Kind, Converter={StaticResource Term}, ConverterParameter=kind}"/><DataGridTextColumn Header="N [kN]" Binding="{Binding NormalForce, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="EA/L assegnato [kN/m]" Binding="{Binding AnalysedAxialStiffness, Converter={StaticResource TableNumber}, ConverterParameter=kN/m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding CompressionClass}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito asta" Binding="{Binding OutcomeText}"/>
        <DataGridCheckBoxColumn Header="Limite costitutivo" Binding="{Binding AtModelCapacity}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedSteelSupport.Source}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding SelectedSteelSupport.Diagnostic}" TextWrapping="Wrap" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SteelChecks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="230">
-       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
-        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor}"/>
-        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, StringFormat=G7}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, StringFormat=F4}"/>
-        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, StringFormat=F2}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, StringFormat=F4}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda [kN]" Binding="{Binding Demand, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Capacità [kN]" Binding="{Binding Capacity, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="γM" Binding="{Binding PartialFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Ncr [kN]" Binding="{Binding CriticalForce, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="λbar" Binding="{Binding NormalizedSlenderness, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Snellezza" Binding="{Binding GeometricSlenderness, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="χ" Binding="{Binding Reduction, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
         <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SteelChecks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,8">
@@ -418,64 +817,64 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
-   <TabItem Header="Sfilamento tiranti">
+   <TabItem Tag="sfilamento" Header="{Binding Documents[sfilamento]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[sfilamento].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="160"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV sfilamento" Command="{Binding AnchorCsvCommand}" DockPanel.Dock="Right"/>
       <TextBlock Text="Capacità del singolo bulbo. pl è la pressione limite pressiometrica; pi è la pressione d'iniezione. La predizione empirica richiede conferma in sito." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding AnchorChecks}" SelectedItem="{Binding SelectedAnchorCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Tirante" Binding="{Binding Support}"/>
-       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, StringFormat=G7}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, StringFormat=G7}"/>
-       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/>
-       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor}"/>
-       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGridTextColumn Header="Ed [kN]" Binding="{Binding Demand, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Rak [kN]" Binding="{Binding Characteristic, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="Rad [kN]" Binding="{Binding Capacity, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="ξ media" Binding="{Binding MeanFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="ξ minimo" Binding="{Binding MinimumFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="γR" Binding="{Binding ResistanceFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito sfilamento" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedAnchorCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock Text="{Binding SelectedAnchorCheck.Source}" TextWrapping="Wrap" Margin="0,8"/>
       <TextBlock Text="{Binding SelectedAnchorCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
       <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Samples}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="150">
-       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Profilo / prova" Binding="{Binding Id}"/><DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
         <DataGridCheckBoxColumn Header="Campo applicabile" Binding="{Binding Applicable}"/><DataGridTextColumn Header="Fonte" Binding="{Binding Source}"/>
         <DataGridTextColumn Header="Diagnostica" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <DataGrid ItemsSource="{Binding SelectedAnchorCheck.Segments}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8,0,0">
-       <DataGrid.Columns><DataGridTextColumn Header="Indagine" Binding="{Binding Profile}"/><DataGridTextColumn Header="Strato" Binding="{Binding Layer}"/>
-        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End}"/>
-        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure}"/>
-        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter}"/>
-        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance}"/>
-        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, StringFormat=G7}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Indagine" Binding="{Binding Profile}"/><DataGridTextColumn Header="Strato" Binding="{Binding Layer}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Da [m]" Binding="{Binding Start, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="A [m]" Binding="{Binding End, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="pl [MPa]" Binding="{Binding LimitPressure, Converter={StaticResource TableNumber}, ConverterParameter=MPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="pi [MPa]" Binding="{Binding InjectionPressure, Converter={StaticResource TableNumber}, ConverterParameter=MPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="α" Binding="{Binding DiameterFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Ds [mm]" Binding="{Binding BulbDiameter, Converter={StaticResource TableNumber}, ConverterParameter=mm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Curva" Binding="{Binding Curve}"/><DataGridTextColumn Header="qs [MPa]" Binding="{Binding UnitResistance, Converter={StaticResource TableNumber}, ConverterParameter=MPa}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+        <DataGridTextColumn Header="Ra [kN]" Binding="{Binding Resistance, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/></DataGrid.Columns>
       </DataGrid>
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
-   <TabItem Header="Sezioni acciaio">
+   <TabItem Tag="tubolari" Header="{Binding Documents[tubolari]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[tubolari].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="12"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="220"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <DockPanel Margin="0,0,0,8"><Button Content="Esporta CSV N–M–V" Command="{Binding TubeCsvCommand}" DockPanel.Dock="Right"/>
       <TextBlock Text="Resistenza locale CHS classe 1–2. Azioni concomitanti per singolo tubo; N positivo a trazione. Stabilità della membratura e del terreno separate." TextWrapping="Wrap"/></DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding SteelTubes}" SelectedItem="{Binding SelectedTubeCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G6}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
-       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, StringFormat=G6}"/>
-       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor}"/>
-       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, StringFormat=G6}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource TableNumber}, ConverterParameter=kNm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Fattore fascia→tubo" Binding="{Binding StripToMemberFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="Classe" Binding="{Binding SectionClass}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="γM0" Binding="{Binding PartialFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="ρ" Binding="{Binding ShearReduction, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedTubeCheck.Reference}" TextWrapping="Wrap" FontWeight="SemiBold"/>
       <TextBlock TextWrapping="Wrap" Margin="0,5"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedTubeCheck.Stage}"/>
-       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, StringFormat=G6}"/>
-       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, StringFormat=G7}"/>
-       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, StringFormat=G7}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+       <Run Text=" · "/><Run Text="{Binding SelectedTubeCheck.Section}"/><Run Text=" · z="/><Run Text="{Binding SelectedTubeCheck.Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/>
+       <Run Text=" m, "/><Run Text="{Binding SelectedTubeCheck.Side}"/><Run Text=" · N="/><Run Text="{Binding SelectedTubeCheck.Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <Run Text=" kN, V="/><Run Text="{Binding SelectedTubeCheck.Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/><Run Text=" kN, M="/><Run Text="{Binding SelectedTubeCheck.Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><Run Text=" kNm"/></TextBlock>
       <TextBlock Text="{Binding SelectedTubeCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
       <TextBlock Text="{Binding SelectedTubeCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,0,0,8"/>
-      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, StringFormat=G7}"/>
-       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness}"/>
-       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing}"/></WrapPanel>
+      <WrapPanel><TextBlock Text="EI lordo della fascia [kNm²]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.EquivalentRigidity, Converter={StaticResource Number}, ConverterParameter=kNm²}"/>
+       <TextBlock Text="    D / t [mm]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Diameter, Converter={StaticResource Number}, ConverterParameter=mm}"/><TextBlock Text=" / "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Thickness, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <TextBlock Text="    interasse [m]: "/><TextBlock Text="{Binding SelectedTubeCheck.Properties.Spacing, Converter={StaticResource Number}, ConverterParameter=m}"/></WrapPanel>
       <DataGrid ItemsSource="{Binding SelectedTubeCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False" MaxHeight="200" Margin="0,8">
-       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Metodo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SelectedTubeCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate><StackPanel Margin="0,5">
        <TextBlock Text="{Binding Reference}" TextWrapping="Wrap"/><TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap"/>
@@ -483,50 +882,50 @@
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
-   <TabItem Header="Pali in c.a.">
+   <TabItem Tag="pali-ca" Header="{Binding Documents[pali-ca]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[pali-ca].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="180"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <DockPanel Margin="0,0,0,8"><Button DockPanel.Dock="Right" Content="Esporta CSV sezioni e dettagli" Command="{Binding RcPileCsvCommand}"/>
       <TextBlock Text="Azioni per singolo palo, N positivo a trazione. Resistenza/SLE e dettagli costruttivi hanno esiti separati." TextWrapping="Wrap"/>
      </DockPanel>
      <DataGrid Grid.Row="1" ItemsSource="{Binding RcPiles}" SelectedItem="{Binding SelectedRcPileCheck}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
       <DataGrid.Columns><DataGridTextColumn Header="Fase" Binding="{Binding Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Section}"/>
-       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, StringFormat=G7}"/>
-       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, StringFormat=G7}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, StringFormat=G7}"/>
+       <DataGridTextColumn Header="z [m]" Binding="{Binding Elevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+       <DataGridTextColumn Header="N [kN]" Binding="{Binding Normal, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Shear, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+       <DataGridTextColumn Header="M [kNm]" Binding="{Binding Moment, Converter={StaticResource TableNumber}, ConverterParameter=kNm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Fattore fascia→palo" Binding="{Binding StripToMemberFactor, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
        <DataGridTextColumn Header="Esito locale" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
      </DataGrid>
      <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto"><StackPanel Margin="0,8,0,0">
       <TextBlock Text="{Binding SelectedRcPileCheck.Reference}" FontWeight="SemiBold"/>
       <TextBlock Margin="0,5" TextWrapping="Wrap"><Run Text="Taglio selezionato: "/><Run Text="{Binding SelectedRcPileCheck.Stage}"/><Run Text=" · "/><Run Text="{Binding SelectedRcPileCheck.Section}"/>
-       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, StringFormat=G7}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
-       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, StringFormat=G7}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, StringFormat=G7}"/>
-       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, StringFormat=G7}"/><Run Text=" kNm"/></TextBlock>
+       <Run Text=" · z="/><Run Text="{Binding SelectedRcPileCheck.Elevation, Converter={StaticResource Number}, ConverterParameter=m}"/><Run Text=" m, "/><Run Text="{Binding SelectedRcPileCheck.Side}"/>
+       <Run Text=" · N="/><Run Text="{Binding SelectedRcPileCheck.Normal, Converter={StaticResource Number}, ConverterParameter=kN}"/><Run Text=" kN; V="/><Run Text="{Binding SelectedRcPileCheck.Shear, Converter={StaticResource Number}, ConverterParameter=kN}"/>
+       <Run Text=" kN; M="/><Run Text="{Binding SelectedRcPileCheck.Moment, Converter={StaticResource Number}, ConverterParameter=kNm}"/><Run Text=" kNm"/></TextBlock>
       <TextBlock Text="{Binding SelectedRcPileCheck.Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
-      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter}"/>
-       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter}"/>
-       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing}"/>
-       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, StringFormat=G7}"/></TextBlock>
-      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC}"/>
-       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="D [mm]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.Diameter, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text="; barre: "/><Run Text="{Binding SelectedRcPileCheck.Properties.BarCount}"/><Run Text="φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.BarDiameter, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text="; staffe φ"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkDiameter, Converter={StaticResource Number}, ConverterParameter=mm}"/><Run Text="/"/><Run Text="{Binding SelectedRcPileCheck.Properties.LinkSpacing, Converter={StaticResource Number}, ConverterParameter=mm}"/>
+       <Run Text=" mm; EI lordo fascia [kNm²]: "/><Run Text="{Binding SelectedRcPileCheck.Properties.EquivalentRigidity, Converter={StaticResource Number}, ConverterParameter=kNm²}"/></TextBlock>
+      <TextBlock TextWrapping="Wrap" Margin="0,4"><Run Text="Coefficienti SLU del profilo: γc="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaC, Converter={StaticResource Number}, ConverterParameter=-}"/>
+       <Run Text="; γs="/><Run Text="{Binding SelectedRcPileCheck.Properties.GammaS, Converter={StaticResource Number}, ConverterParameter=-}"/><Run Text="; αcc="/><Run Text="{Binding SelectedRcPileCheck.Properties.AlphaCC, Converter={StaticResource Number}, ConverterParameter=-}"/></TextBlock>
       <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Checks}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" Binding="{Binding Demand, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Capacità" Binding="{Binding Capacity, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
-        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, StringFormat=F4}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
+       <DataGrid.Columns><DataGridTextColumn Header="Controllo" Binding="{Binding Method}"/><DataGridTextColumn Header="Domanda" SortMemberPath="Demand" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Demand"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Capacità" SortMemberPath="Capacity" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Capacity"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+        <DataGridTextColumn Header="Utilizzo" Binding="{Binding Ratio, Converter={StaticResource TableNumber}, ConverterParameter=-}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/></DataGrid.Columns>
       </DataGrid>
       <ItemsControl ItemsSource="{Binding SelectedRcPileCheck.Checks}"><ItemsControl.ItemTemplate><DataTemplate>
        <TextBlock Text="{Binding Diagnostic}" TextWrapping="Wrap" Margin="0,4"/>
       </DataTemplate></ItemsControl.ItemTemplate></ItemsControl>
       <TextBlock Text="Dettagli costruttivi — esiti separati" FontWeight="SemiBold" Margin="0,8"/>
       <DataGrid ItemsSource="{Binding SelectedRcPileCheck.Details}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" Binding="{Binding Actual, StringFormat=G7}"/>
-        <DataGridTextColumn Header="Limite" Binding="{Binding Limit, StringFormat=G7}"/><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
+       <DataGrid.Columns><DataGridTextColumn Header="Regola" Binding="{Binding Label}"/><DataGridTextColumn Header="Valore" SortMemberPath="Actual" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Actual"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
+        <DataGridTextColumn Header="Limite" SortMemberPath="Limit" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Limit"/><Binding Path="Unit"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Unità" Binding="{Binding Unit}"/>
         <DataGridTextColumn Header="Esito" Binding="{Binding OutcomeText}"/><DataGridTextColumn Header="Criterio" Binding="{Binding Diagnostic}"/></DataGrid.Columns>
       </DataGrid>
       <TextBlock Text="{Binding SelectedRcPileCheck.Properties.Source}" TextWrapping="Wrap" Margin="0,8"/>
      </StackPanel></ScrollViewer>
     </Grid>
    </TabItem>
-   <TabItem Header="Inviluppi">
+   <TabItem Tag="inviluppi" Header="{Binding Documents[inviluppi]}" HeaderTemplate="{StaticResource DocumentHeader}" Visibility="{Binding Documents[inviluppi].IsOpen, Converter={StaticResource Shown}}">
     <Grid Margin="10"><Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
      <DockPanel><Button DockPanel.Dock="Right" Content="Esporta CSV inviluppi" Command="{Binding EnvelopeCsvCommand}"/>
       <StackPanel Orientation="Horizontal"><TextBlock Text="Grandezza" VerticalAlignment="Center"/>
@@ -540,24 +939,25 @@
       <local:EmbeddedWallDiagram Points="{Binding EnvelopeMinimum}" Comparison="{Binding EnvelopeMaximum}" Quantity="{Binding SelectedEnvelopeSeries.Diagram, TargetNullValue='Spostamento [mm]'}" PrimaryLabel="minimo" ComparisonLabel="massimo"/>
       <Grid Grid.Column="1" Margin="10,0,0,0"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/><RowDefinition Height="210"/></Grid.RowDefinitions>
        <DataGrid ItemsSource="{Binding EnvelopeStations}" SelectedItem="{Binding SelectedEnvelopeStation}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
-        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, StringFormat=G7}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side}"/>
-         <DataGridTextColumn Header="Minimo" Binding="{Binding Minimum.Value, StringFormat=G7}"/><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
-         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" Binding="{Binding Maximum.Value, StringFormat=G7}"/>
+        <DataGrid.Columns><DataGridTextColumn Header="Quota [m]" Binding="{Binding Elevation, Converter={StaticResource TableNumber}, ConverterParameter=m}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="Lato" Binding="{Binding Side, Converter={StaticResource Term}, ConverterParameter=side}"/>
+         <DataGridTextColumn Header="Minimo" SortMemberPath="Minimum.Value" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Minimum.Value"/><Binding Path="DataContext.SelectedEnvelopeSeries.Unit" RelativeSource="{RelativeSource AncestorType=DataGrid}"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn><DataGridTextColumn Header="Caso min" Binding="{Binding Minimum.CaseId}"/>
+         <DataGridTextColumn Header="Fase min" Binding="{Binding Minimum.Stage}"/><DataGridTextColumn Header="Massimo" SortMemberPath="Maximum.Value" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"><DataGridTextColumn.Binding><MultiBinding Converter="{StaticResource TableNumber}"><Binding Path="Maximum.Value"/><Binding Path="DataContext.SelectedEnvelopeSeries.Unit" RelativeSource="{RelativeSource AncestorType=DataGrid}"/></MultiBinding></DataGridTextColumn.Binding></DataGridTextColumn>
          <DataGridTextColumn Header="Caso max" Binding="{Binding Maximum.CaseId}"/><DataGridTextColumn Header="Fase max" Binding="{Binding Maximum.Stage}"/></DataGrid.Columns>
        </DataGrid>
        <TextBlock Grid.Row="1" Text="Osservazioni concomitanti alla quota selezionata — azioni dell'intera fascia" TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,8"/>
        <DataGrid Grid.Row="2" ItemsSource="{Binding EnvelopeConcomitant}" IsReadOnly="True" AutoGenerateColumns="False" CanUserAddRows="False">
         <DataGrid.Columns><DataGridTextColumn Header="Estremo" Binding="{Binding Key}"/><DataGridTextColumn Header="Caso" Binding="{Binding Value.CaseId}"/>
          <DataGridTextColumn Header="Fase" Binding="{Binding Value.Stage}"/><DataGridTextColumn Header="Sezione" Binding="{Binding Value.Point.Section}"/>
-         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, StringFormat=G7}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, StringFormat=G7}"/>
-         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, StringFormat=G7}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, StringFormat=G7}"/>
-         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, StringFormat=G7}"/></DataGrid.Columns>
+         <DataGridTextColumn Header="N [kN]" Binding="{Binding Value.Point.Normal, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="V [kN]" Binding="{Binding Value.Point.Shear, Converter={StaticResource TableNumber}, ConverterParameter=kN}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+         <DataGridTextColumn Header="M [kNm]" Binding="{Binding Value.Point.Moment, Converter={StaticResource TableNumber}, ConverterParameter=kNm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/><DataGridTextColumn Header="u [mm]" Binding="{Binding Value.Point.Displacement, Converter={StaticResource TableNumber}, ConverterParameter=mm}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/>
+         <DataGridTextColumn Header="Rotazione [rad]" Binding="{Binding Value.Point.Rotation, Converter={StaticResource TableNumber}, ConverterParameter=rad}" ElementStyle="{StaticResource NumberCell}" HeaderStyle="{StaticResource NumberHeader}"/></DataGrid.Columns>
        </DataGrid>
       </Grid>
      </Grid>
     </Grid>
    </TabItem>
   </TabControl>
+  </DockPanel>
   </Grid>
  </DockPanel>
 </UserControl>

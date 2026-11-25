@@ -167,8 +167,12 @@
         <Border Style="{StaticResource Frame}">
          <DockPanel>
           <StackPanel DockPanel.Dock="Top" Margin="2,0,2,6">
-           <TextBlock Style="{StaticResource T14Bold}" Text="Sezione geometrica"/>
-           <WrapPanel x:Name="PreviewToolbar">
+           <DockPanel>
+            <ToggleButton x:Name="Actions3DToggle" DockPanel.Dock="Right" Content="Azioni 3D" IsChecked="{Binding ShowsActions3D}" Padding="10,3" Margin="8,0,0,4"
+             Foreground="{DynamicResource Token.Accent}" ToolTip="Mostra la disposizione tridimensionale delle azioni della combinazione"/>
+            <TextBlock Style="{StaticResource T14Bold}" Text="Sezione geometrica"/>
+           </DockPanel>
+           <WrapPanel x:Name="PreviewToolbar" Visibility="{Binding ShowsActions3D, Converter={StaticResource Hidden}}">
             <Button Style="{StaticResource Command}" Content="Proprietà / report…" Command="{Binding Inputs.OpenPropertiesCommand}"/>
             <!-- The five check boxes of the drawing are blocked in a read-only revision, as RevisionInspection blocks them in the historic view. -->
             <CheckBox Style="{StaticResource Switch}" Content="Assi" IsChecked="{Binding Inputs.ShowAxes}" IsEnabled="{Binding Inputs.CanEditTables}"/>
@@ -180,8 +184,21 @@
             <CheckBox Style="{StaticResource Switch}" Content="Copriferro" IsChecked="{Binding Inputs.ShowCoverDimensions}" IsEnabled="{Binding Inputs.CanEditTables}"/>
             <CheckBox Style="{StaticResource Switch}" Content="Interferro min." IsChecked="{Binding Inputs.ShowSpacingDimensions}" IsEnabled="{Binding Inputs.CanEditTables}"/>
            </WrapPanel>
+           <Grid Visibility="{Binding ShowsActions3D, Converter={StaticResource Visible}}" Margin="0,2,0,0">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="145"/><ColumnDefinition/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <ComboBox Style="{StaticResource Choice}" ItemsSource="{Binding Actions3DSources}" DisplayMemberPath="Name" SelectedValuePath="Id"
+             SelectedValue="{Binding Actions3DSource}" AutomationProperties.Name="Famiglia delle azioni 3D" Margin="0,0,8,0"/>
+            <ComboBox Grid.Column="1" Style="{StaticResource Choice}" ItemsSource="{Binding Actions3DCombinations}" DisplayMemberPath="Name" SelectedValuePath="Id"
+             SelectedValue="{Binding Actions3DCombinationId}" AutomationProperties.Name="Combinazione delle azioni 3D"/>
+            <Button Grid.Column="2" Style="{StaticResource Command}" Content="Centra vista" Click="ResetActions3D_Click"/>
+           </Grid>
           </StackPanel>
-          <ContentControl x:Name="PreviewHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+          <Grid>
+           <ContentControl x:Name="PreviewHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+            Visibility="{Binding ShowsActions3D, Converter={StaticResource Hidden}}"/>
+           <ContentControl x:Name="Actions3DHost" Focusable="False" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+            Visibility="{Binding ShowsActions3D, Converter={StaticResource Visible}}"/>
+          </Grid>
          </DockPanel>
         </Border>
         <GridSplitter Style="{StaticResource RowSplitter}"/>

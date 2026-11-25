@@ -29,6 +29,7 @@ public partial class ConcreteSectionSheetView : UserControl
 
     /// <summary>The drawing of the section of the control panel (the preview of the historic view).</summary>
     internal ConcreteSectionViewport Preview { get; } = new();
+    internal X.Desktop.Views.QuickSection.QuickActionsViewport ActionsDrawing { get; } = new();
 
     /// <summary>Shows a dialog of the view («Espandi»): modal, as the historic one; the checks show it off screen without waiting.</summary>
     internal Func<Window, bool?> ShowWindow { get; set; } = window => window.ShowDialog();
@@ -45,6 +46,7 @@ public partial class ConcreteSectionSheetView : UserControl
         // As the historic view: the numbers of the forms and of the tables with the numeric presentation, the forms committed on focus loss.
         SetValue(NumericPresentation.EnabledProperty, true);
         PreviewHost.Content = Preview;
+        Actions3DHost.Content = ActionsDrawing;
         ReadDividers();
         Preview.BarSelected += index => inputs?.Drawing.ClickBar(index);
         Scroll.SizeChanged += (_, _) => Resize();
@@ -81,6 +83,7 @@ public partial class ConcreteSectionSheetView : UserControl
     private void OnSheetChanged(object? sender, PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(ConcreteSheetViewModel.Inputs) && sheet is not null) AttachInputs(sheet.Inputs);
+        if (e.PropertyName is nameof(ConcreteSheetViewModel.Actions3DScene) or nameof(ConcreteSheetViewModel.ShowsActions3D)) DrawActions3D();
     }
 
     private void OnPreviewChanged(object? sender, EventArgs e) => DrawPreview();
@@ -89,7 +92,16 @@ public partial class ConcreteSectionSheetView : UserControl
     {
         if (inputs is null) return;
         ConcreteSectionDrawings.Apply(Preview, inputs.Drawing);
+        DrawActions3D();
     }
+
+    private void DrawActions3D()
+    {
+        ActionsDrawing.Section = inputs?.Drawing.Section;
+        ActionsDrawing.Scene = sheet?.Actions3DScene;
+        ActionsDrawing.InvalidateVisual();
+    }
+    private void ResetActions3D_Click(object sender, RoutedEventArgs e) => ActionsDrawing.ResetView();
 
     // ---------------------------------------------------------------- splitters (ConcreteLayout.cs of the historic view)
 

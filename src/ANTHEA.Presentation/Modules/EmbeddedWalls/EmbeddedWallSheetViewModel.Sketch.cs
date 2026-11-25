@@ -10,6 +10,8 @@ public sealed partial class EmbeddedWallSheetViewModel
     private EmbeddedWallRow? inputStage;
     private EmbeddedWallTable? inspectorTable;
     private bool refreshingSketch;
+    private double sketchZoom = EmbeddedWallSketchZoom.Minimum;
+    private bool showSoilLegend = true;
     public IReadOnlyList<string> InputCases { get; private set; } = [];
     public IReadOnlyList<EmbeddedWallRow> InputStages { get; private set; } = [];
     public EmbeddedWallSketch? Sketch { get; private set; }
@@ -19,8 +21,30 @@ public sealed partial class EmbeddedWallSheetViewModel
     public IRelayCommand NextInputStageCommand { get; private set; } = null!;
     public IRelayCommand OpenDataCommand { get; private set; } = null!;
     public IRelayCommand OpenResultsCommand { get; private set; } = null!;
-    private int workspaceTab;
-    public int WorkspaceTab { get => workspaceTab; set => SetProperty(ref workspaceTab, value); }
+    public IRelayCommand ZoomInSketchCommand { get; private set; } = null!;
+    public IRelayCommand ZoomOutSketchCommand { get; private set; } = null!;
+    public IRelayCommand FitSketchCommand { get; private set; } = null!;
+    public IRelayCommand ToggleSoilLegendCommand { get; private set; } = null!;
+
+    /// <summary>Step 5: magnification of the section, 1 (fit) to 8. State of the view, kept in memory only: no edit, no new revision.</summary>
+    public double SketchZoom
+    {
+        get => sketchZoom;
+        set
+        {
+            if (!SetProperty(ref sketchZoom, EmbeddedWallSketchZoom.Clamp(value))) return;
+            ZoomInSketchCommand?.NotifyCanExecuteChanged(); ZoomOutSketchCommand?.NotifyCanExecuteChanged(); FitSketchCommand?.NotifyCanExecuteChanged();
+        }
+    }
+    /// <summary>Step 5: the legend of the soils in the drawing, shown or hidden from the page Vista (state of the view, not saved).</summary>
+    public bool ShowSoilLegend
+    {
+        get => showSoilLegend;
+        set { if (SetProperty(ref showSoilLegend, value)) OnPropertyChanged(nameof(SoilLegendCommandText)); }
+    }
+    public string SoilLegendCommandText => ShowSoilLegend ? "Nascondi legenda" : "Mostra legenda";
+    /// <summary>Step 5: the row open in the editor, highlighted in the drawing when an element is drawn from it.</summary>
+    public EmbeddedWallRow? SketchSelection => InspectorTable?.Selected;
     public string InputCase
     {
         get => inputCase;
@@ -49,6 +73,7 @@ public sealed partial class EmbeddedWallSheetViewModel
             if (!SetProperty(ref inspectorTable, value)) return;
             if (value?.Key == "stages" && inputStage is not null) value.Selected = inputStage;
             OnPropertyChanged(nameof(ShowGeneral)); OnPropertyChanged(nameof(InspectorTitle)); OnPropertyChanged(nameof(InspectorHint));
+            OnPropertyChanged(nameof(SketchSelection));
             SyncWorkTreeSelection();
         }
     }
@@ -62,18 +87,18 @@ public sealed partial class EmbeddedWallSheetViewModel
         "supports" => "Definisci il sostegno, poi inseriscilo in «Sostegni presenti nelle fasi». Non è attivo per la sola presenza in questo elenco.",
         "activations" => "Elenco completo per ogni fase: un sostegno omesso viene rimosso. La pretensione appartiene al singolo elemento; lasciata vuota mantiene quella della fase precedente.",
         "loads" or "distributed_loads" => "Assegna caso e fase. Le forze si riferiscono alla fascia analizzata; le azioni devono essere già combinate.",
-        null => "Inizia dalle quote di testa e piede. Poi definisci tratti, terreni e fasi con i pulsanti sopra il disegno.",
+        null => "Inizia dalle quote di testa e piede. Poi definisci tratti, terreni e fasi con i comandi della barra in alto (Sezioni, Modello).",
         _ => "Seleziona una riga per modificarne i dati. I valori sono condivisi con la vista tabellare."
     };
     public string SketchStatus => Sketch is null ? "" : string.Join(Environment.NewLine, Sketch.Notices);
     public string PhaseSummary => Sketch is null ? "" :
-        $"Terreno sx {EmbeddedWallSketch.Format(Sketch.LeftGround)} m  ·  dx {EmbeddedWallSketch.Format(Sketch.RightGround)} m  ·  {Sketch.Supports.Count} sostegni presenti";
+        $"Terreno sx {EmbeddedWallSketch.Format(Sketch.LeftGround, "m")} m  ·  dx {EmbeddedWallSketch.Format(Sketch.RightGround, "m")} m  ·  {Sketch.Supports.Count} sostegni presenti";
 
     private void InitializeSketch()
     {
         EditModelCommand = new RelayCommand<string>(key => Guard.Run(() =>
         {
-            WorkspaceTab = 0;
+            Documents.Show(EmbeddedWallDocuments.Section);
             InspectorTable = Tables.FirstOrDefault(t => t.Key == key);
         }));
         PickModelCommand = new RelayCommand<WallSketchPick>(pick => Guard.Run(() =>
@@ -84,15 +109,19 @@ public sealed partial class EmbeddedWallSheetViewModel
         }));
         PreviousInputStageCommand = GuardedCommands.Create(Guard, () => MoveInputStage(-1), () => InputStageIndex > 0);
         NextInputStageCommand = GuardedCommands.Create(Guard, () => MoveInputStage(1), () => InputStageIndex >= 0 && InputStageIndex < InputStages.Count - 1);
-        OpenDataCommand = GuardedCommands.Create(Guard, () => WorkspaceTab = 1);
-        OpenResultsCommand = GuardedCommands.Create(Guard, () => WorkspaceTab = 3);
+        OpenDataCommand = GuardedCommands.Create(Guard, () => Documents.Show(EmbeddedWallDocuments.Tables));
+        OpenResultsCommand = GuardedCommands.Create(Guard, () => Documents.Show(EmbeddedWallDocuments.Diagrams));
+        ZoomInSketchCommand = GuardedCommands.Create(Guard, () => SketchZoom *= EmbeddedWallSketchZoom.Step, () => SketchZoom < EmbeddedWallSketchZoom.Maximum);
+        ZoomOutSketchCommand = GuardedCommands.Create(Guard, () => SketchZoom /= EmbeddedWallSketchZoom.Step, () => SketchZoom > EmbeddedWallSketchZoom.Minimum);
+        FitSketchCommand = GuardedCommands.Create(Guard, () => SketchZoom = EmbeddedWallSketchZoom.Minimum, () => SketchZoom > EmbeddedWallSketchZoom.Minimum);
+        ToggleSoilLegendCommand = GuardedCommands.Create(Guard, () => ShowSoilLegend = !ShowSoilLegend);
         RefreshSketch();
     }
     private int InputStageIndex => inputStage is null ? -1 : InputStages.ToList().IndexOf(inputStage);
     private void MoveInputStage(int delta) => InputStage = InputStages.ElementAtOrDefault(InputStageIndex + delta);
     private void OnSketchTableSelection(object? sender, PropertyChangedEventArgs e)
     {
-        if (ReferenceEquals(sender, InspectorTable) && e.PropertyName == nameof(EmbeddedWallTable.Selected)) SyncWorkTreeSelection();
+        if (ReferenceEquals(sender, InspectorTable) && e.PropertyName == nameof(EmbeddedWallTable.Selected)) { OnPropertyChanged(nameof(SketchSelection)); SyncWorkTreeSelection(); }
         if (refreshingSketch || sender is not EmbeddedWallTable { Key: "stages", Selected: { } row } || e.PropertyName != nameof(EmbeddedWallTable.Selected)) return;
         string principal = Data["case_id"]?.ToString() ?? "";
         inputCase = string.IsNullOrWhiteSpace(row["case"]) ? principal : row["case"];
@@ -129,8 +158,12 @@ public sealed partial class EmbeddedWallSheetViewModel
             OnPropertyChanged(nameof(InputCase));
             OnPropertyChanged(nameof(InputStage)); OnPropertyChanged(nameof(InputStagePosition));
             OnPropertyChanged(nameof(Sketch)); OnPropertyChanged(nameof(SketchStatus)); OnPropertyChanged(nameof(PhaseSummary));
-            PreviousInputStageCommand?.NotifyCanExecuteChanged(); NextInputStageCommand?.NotifyCanExecuteChanged();
+            PreviousInputStageCommand?.NotifyCanExecuteChanged(); NextInputStageCommand?.NotifyCanExecuteChanged(); NotifyStageCommands();
+            StageLevels?.Show(inputStage);
         }
         finally { refreshingSketch = false; }
+        // Step 4: the tree shows the case on screen and marks its phase; the results follow the pair (case, phase) (C2).
+        if (workTreeCase != inputCase) { workTreeCase = inputCase; RefreshWorkTree(); } else MarkCurrentStage();
+        SelectResultCase(); SelectResultStage(); RefreshMessages();
     }
 }

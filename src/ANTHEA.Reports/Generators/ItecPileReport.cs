@@ -299,7 +299,7 @@ internal sealed partial class ItecPileReport
     void AddHeading(string text, int level)
     {
         string anchor = "itec" + contents.Count;
-        var p = P(text, level == 1 ? "Titolo1" : "Titolo2");
+        var p = P(text, level switch { 1 => "Titolo1", 2 => "Titolo2", _ => "Titolo3" });
         p.Element(W + "pPr")!.Add(new XElement(W + "keepNext"), new XElement(W + "keepLines"));
         p.Element(W + "pPr")!.Add(new XElement(W + "spacing", new XAttribute(W + "before", level == 1 ? 360 : 300), new XAttribute(W + "after", 180)));
         p.Element(W + "pPr")!.AddAfterSelf(new XElement(W + "bookmarkStart", new XAttribute(W + "id", BookmarkIdStart + contents.Count), new XAttribute(W + "name", anchor)));

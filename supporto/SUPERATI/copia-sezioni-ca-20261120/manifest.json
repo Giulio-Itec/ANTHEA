@@ -1,0 +1,38 @@
+[
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.md",
+    "sha256": "ca7a981ac027e547079df4010f08f87a9dcea03b2fe5044cbcd74e7c12f3e767",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto/docs/guida-pratica-anthea.pdf",
+    "sha256": "30b8466cc84aff983a4a5035586d637f0cdc43706d7a110132bd6e24a91bcbef",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/docs/guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "24d778205c57e93480574e0c68091d72ece974e5c550a2e394ab0b7bdf0f01a0",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "30b8466cc84aff983a4a5035586d637f0cdc43706d7a110132bd6e24a91bcbef",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.md",
+    "sha256": "5ca4115315a298f34bc6a6eaaeb7c15c758a2854e8400002711f6d73b54ae794",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.md"
+  },
+  {
+    "origine": "supporto/documentazione/Guide_ANTHEA/README.pdf",
+    "sha256": "5b32b858cd33e323bc443804d90aabe62f8596ce58f60b6ff813823f237c2716",
+    "motivo": "Aggiornamento operativo Rev77 del 20/11/2026: copia completa delle sezioni rapide e ripristino impostazioni combinazioni.",
+    "revisione_sostitutiva": "supporto/documentazione/Guide_ANTHEA/README.pdf"
+  }
+]

@@ -54,10 +54,34 @@ public sealed class EmbeddedWallTable : ObservableObject
         set
         {
             if (!SetProperty(ref selected, value)) return;
-            editor = value is null ? null : new(value.Data, Columns, _ => { value.Refresh(); changed(); }, wikiModule: EmbeddedWallDocument.Module)
-                { IsReadOnly = IsReadOnly, WikiNavigator = wikiNavigator };
-            OnPropertyChanged(nameof(Editor));
+            CreateEditor();
         }
+    }
+    private void CreateEditor()
+    {
+        editor = selected is not { } row ? null : new(row.Data, Columns, _ => { row.Refresh(); changed(); }, wikiModule: EmbeddedWallDocument.Module)
+            { IsReadOnly = IsReadOnly, WikiNavigator = wikiNavigator };
+        OnPropertyChanged(nameof(Editor));
+    }
+    /// <summary>
+    /// After a rule of ANTHEA.Application changed the array in place (the menu Fase and the boxes of the command bar, organizzazione del modulo
+    /// paratie, progetto del 16/11): the rows follow the array, keeping the object of every row still present (the work tree keeps its nodes);
+    /// labels and editor show the values again. A selected row that is gone leaves no selection. Nothing is written.
+    /// </summary>
+    internal void Synchronize()
+    {
+        var current = data.OfType<JsonObject>().ToArray();
+        for (int i = Rows.Count - 1; i >= 0; i--) if (!current.Any(r => ReferenceEquals(r, Rows[i].Data))) Rows.RemoveAt(i);
+        for (int i = 0; i < current.Length; i++)
+        {
+            int old = -1;
+            for (int j = i; j < Rows.Count && old < 0; j++) if (ReferenceEquals(Rows[j].Data, current[i])) old = j;
+            if (old < 0) Rows.Insert(i, Wrap(current[i]));
+            else if (old != i) Rows.Move(old, i);
+        }
+        foreach (var row in Rows) row.Refresh();
+        if (selected is not null && !Rows.Contains(selected)) Selected = null;
+        else CreateEditor();
     }
     public FormViewModel? Editor => editor;
     public IRelayCommand AddCommand { get; }

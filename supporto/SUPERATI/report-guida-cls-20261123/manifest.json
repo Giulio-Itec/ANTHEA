@@ -1,0 +1,26 @@
+[
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.md",
+    "sha256": "3cb61c8659a9373613566a98a4a905c2b4ba2d689c4e3584fdcb4a3947f2aa32",
+    "motivo": "Report Word allineato alla relazione guida CLS e selezione indipendente di flessione e taglio, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.md"
+  },
+  {
+    "origine": "supporto\\docs\\guida-pratica-anthea.pdf",
+    "sha256": "670d7b052a1ed5588a97892c25329a5538f5147ba27a1186162afb11cba29d35",
+    "motivo": "Report Word allineato alla relazione guida CLS e selezione indipendente di flessione e taglio, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\docs\\guida-pratica-anthea.pdf"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx",
+    "sha256": "f614da12e24527ce2f0a8d1936973773eeb6dae3ae2e53d5f847e0c54766a726",
+    "motivo": "Report Word allineato alla relazione guida CLS e selezione indipendente di flessione e taglio, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.docx"
+  },
+  {
+    "origine": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf",
+    "sha256": "670d7b052a1ed5588a97892c25329a5538f5147ba27a1186162afb11cba29d35",
+    "motivo": "Report Word allineato alla relazione guida CLS e selezione indipendente di flessione e taglio, 23/11/2026.",
+    "revisione_sostitutiva": "supporto\\documentazione\\Guide_ANTHEA\\ANTHEA_Guida_pratica_ITEC_Rev77.pdf"
+  }
+]
