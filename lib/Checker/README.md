@@ -1,5 +1,22 @@
 # DLL Checker
 
+**Release BD — official set with bridge fatigue, traffic and overall depth (25 November 2026).**
+Installed with `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, without `-AllowCandidate`, from the set
+`gpc-release-20261125-bd`. Original manifest SHA-256
+`FBC89745EC5ADCE0997BF30586F531C3A7E62EC920CEB32187D6CDEECF431A78`, `candidate=false`.
+Published sources: Model `d6101faf588f8f4d499ac6cd8b000c41a6319898`, Checker
+`d380c1ae228a5e39f80253accd50adfa82f05f4a`, both on origin/master; Utilities `e57b440b` and Geometry `6734eee1` unchanged.
+GPCModel **5.56.0.0** adds the bridge traffic set and the fatigue contracts; CompositeBridge **1.33.0.0** adds fatigue
+phase 1 and the overall-depth binding. Both are additive, with no behaviour change for existing paths. GPCModelData,
+Persistence, Archive, Converter, Concrete, Steel, Geotechnics, Masonry and Design are rebuilt and increment their last component.
+The ANTHEA closure stays at 14 DLLs, without GPCModelChecker and without Gmsh; installed `manifest.json` SHA-256
+`9E75284AAD405F0345A3EB5AB3FBF4C0F58CEE3C90CAA095EEC98C7F90A19224`.
+The 14 suites of the set record **13374 passed, 0 failed, 114 not executed**; the 114 are not passes.
+The F4 record changes only provenance and hashes; `previous_manifest_sha256` and every numerical expectation stay unchanged.
+ANTHEA stays **1.19.5**: that version has never shipped as an installer and BD exposes no new library feature in ANTHEA.
+Consumer checks required: L1 (build, combination, bridge and Straus7 native suites, 106 frozen captures) and the L2
+`baseline` profile; evidence in `supporto/artefatti/bd`.
+
 **Release BC — set ufficiale combinazioni, correnti e altezza variabile (23 novembre 2026, task 0143).**
 Installato con `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, senza `-AllowCandidate`, dal set
 `gpc-release-20261122-bc`. Manifest originale SHA-256
