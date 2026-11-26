@@ -1,5 +1,22 @@
 # DLL Checker
 
+**Release BE — official set with the limit state of a combination and the frequent and seismic bridge states (26 November 2026).**
+Installed with `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, without `-AllowCandidate`, from the set
+`gpc-release-20261126-be`. Original manifest SHA-256
+`09926F8CDD17F5733D13E47394D67F8B59D7332BF049ADE05E11E5476F99FBC2`, `candidate=false`.
+Published sources: Model `4a1c29fd563ae7861fcf004e6fd97a7f487f3c6b`, Checker
+`391cccf7a12004bf48e442b7503ae44292c155c0`, both on origin/master; Utilities `e57b440b` and Geometry `6734eee1` unchanged.
+GPCModel **5.57.0.0** adds the limit state as data of a combination (`Combination.Category`), written to archives and
+fingerprints only when declared, so existing combinations keep their bytes; GPC.Converter **2.28.0.0** adds the optional
+Straus7 `ComputeSectionGeometry` and `Straus7Runtime.Hold()`, with the defaults of BD; CompositeBridge **1.34.0.0** adds the
+frequent serviceability and seismic SLV states of the composite bridge checker. ANTHEA uses none of them yet. GPCModelData,
+Persistence, Archive, Concrete, Steel, Geotechnics, Masonry and Design are rebuilt and increment their last component.
+The ANTHEA closure stays at 14 DLLs, without GPCModelChecker and without Gmsh; installed `manifest.json` SHA-256
+`A6BDC96AE29170B0B738522B0A078092B41F588B29F9712834774074AA237D73`.
+The 14 suites of the set record **13442 passed, 0 failed, 114 not executed**; the 114 are not passes.
+The F4 record changes only provenance and hashes; `previous_manifest_sha256` and every numerical expectation stay unchanged.
+ANTHEA stays **1.19.5**: that version has never shipped as an installer and BE exposes no new library feature in ANTHEA.
+
 **Release BD — official set with bridge fatigue, traffic and overall depth (25 November 2026).**
 Installed with `tools/libs/Update-Snapshot.ps1 -ReleaseSet ... -Install`, without `-AllowCandidate`, from the set
 `gpc-release-20261125-bd`. Original manifest SHA-256
